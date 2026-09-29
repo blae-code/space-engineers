@@ -1,0 +1,25 @@
+FleetMiner Core: modular drone fleet script (miners, haulers, carriers) over IGC.
+
+SETUP
+  1. Load the script into a Programmable Block, then edit its Custom Data.
+     Recompile once to write every key with its default value.
+       [FleetMiner]
+       Role=Miner          ; Miner | Hauler | Carrier
+       Channel=FLEETMINER  ; must match across the whole fleet
+  2. Drones need: a Remote Control (or tag a controller [FM Ref]), gyros,
+     thrusters on all six sides, and one connector (tag [FM Dock] to choose).
+  3. The carrier offers every connector tagged [FM Dock] (or all of them) as a dock.
+     Give a moving carrier a ship controller so it can report its velocity.
+  4. Tag any LCD with [FM LCD] for a status display.
+
+DRONE COMMANDS (PB argument)
+  setsite    Record the current pose as the work site (aim at the rock face).
+  start      Begin the automatic mine -> dock -> unload -> launch cycle.
+  return     Fly home and dock. The cycle stops once docked.
+  stop       Halt in place; dampeners on.
+  resetsite  Restart the shaft spiral at shaft 0.
+  forget     Forget the home carrier (next dock request is broadcast).
+
+CARRIER COMMANDS
+  launch | recall | halt   Broadcast to every drone on the channel.
+  reset                    Clear all dock reservations.
