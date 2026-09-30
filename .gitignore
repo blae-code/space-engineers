@@ -1,0 +1,6 @@
+bin/
+obj/
+*.user
+.vs/
+# machine-specific MDK paths (Proton prefix, Bin64)
+mdk.local.ini
