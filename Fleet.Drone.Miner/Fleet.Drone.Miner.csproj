@@ -26,4 +26,6 @@
     <AdditionalFiles Include="Instructions.readme" />
     <AdditionalFiles Include="thumb.png" />
   </ItemGroup>
+  <Import Project="../Fleet.Engine/Fleet.Engine.projitems" Label="Shared" />
+  <Import Project="../Fleet.Flight/Fleet.Flight.projitems" Label="Shared" />
 </Project>
