@@ -60,18 +60,21 @@ Failure modes the spec implies that are easy to miss; each is pinned by a test i
 1. `code ~/Documents/Code/space-engineers` (repo root — never the vault).
 2. Make sure the coder gear is resident (architect mode / `~/bin/sl-deepwork-terminal.fish`).
 3. Open Continue in **Agent** mode, model *Coder (qwen3-coder-30b-A3B)*. Start a **new chat per card**
-   (context is 32k — never reuse a chat across cards).
-4. Attach the card and the files it lists under **Attach**, then send:
+   (context is 65,536 tokens, but never reuse a chat across cards — a chat that has seen earlier cards
+   or an older repo layout will freelance from memory instead of following the card).
+4. Type `/card` (`.continue/prompts/card.md`), attach the card and the files it lists under **Attach**,
+   and send. Constraints load automatically from `.continue/rules/fleet-mdk.md`.
+5. The model finishes by running `python3 tools/card-check.py <Cxx>` and does **not** commit. Only a
+   `RESULT: PASS` counts. Read any WARN lines (allocation tokens: fine in constructors/commands/config,
+   a defect in `Update*`/`Main` paths). Then review `git diff` and commit with the card's commit command.
+6. If the model fails twice on the same step, stop. Bring Claude Code **only** the card id and the
+   `card-check` output — not the chat transcript.
+7. At a milestone end, run `python3 tools/checkpoint.py <A|B|C|D>` and bring its output with
+   "run checkpoint X".
 
-   > Execute this card exactly. Create/modify only the files it lists. Follow the steps in order, run
-   > each command, and stop and report if a command's result differs from "Expected".
-
-5. When the card's final test run passes, review the diff yourself (`git diff`), then commit with the
-   card's commit command.
-6. If the model fails twice on the same step, stop and bring the card to Claude Code.
-
-**Prerequisite (one-time):** git has no identity on this machine. Set it for this repo:
-`git config user.name Blae; git config user.email blae@katrasoluta.com` (repo-local, not global).
+`card-check` FAILs on: failing tests · the card's verbatim test file edited · any file outside the
+card's `## Files` · a banned namespace · a token the card's "Done when" forbids. Proven against a
+reference C01 and five mutations on 2026-09-30 (see Checkpoint log).
 
 **Useful commands** (fish-safe):
 - One card's tests: `dotnet test Fleet.Tests --filter "FullyQualifiedName~<ClassName>Tests" 2>&1 | tail -n 25`
@@ -388,3 +391,12 @@ docked to it. Each item passes only when observed in-game.
   by the adapter cards compiled against the real `Bin64`. Twelve ambiguities it reported were folded into
   C01, C04, C06, C12, C16, C23, C25, C26, C28, C29 (one new test case in C01); size finding → `minify=lite`
   in P0.1.
+- **2026-09-30 — Phase 0 done (Claude).** P0.1–P0.4 as written, plus: `SpaceEngineersBinCopyLocal` in
+  `Fleet.Tests.csproj` (from MDK's own tests template — game DLLs at test runtime); unique GUIDs per mixin
+  (`mdk2mixin` stamps a fixed one). Release build 0 warnings; `SettingsDefaultsTests` 2/2 on Mono; mixin
+  inclusion proven by a probe type reaching `script.cs` (without a reference, `minify=lite`'s trim drops
+  unused types — expected). New gates `tools/card-check.py`, `tools/checkpoint.py`, `/card` prompt.
+  card-check proven on a reference C01 (26/26, PASS) and five mutations, each FAIL on the right row:
+  `ToString(` in impl · test edited to agree with a broken impl · broken impl · `System.Linq` · extra file.
+  **Incident:** a pre-Phase-0 Continue chat freelanced HoleGrid/DrillLogic/ReturnTriggers/Reconciler into
+  the old `FleetMiner_Core/Mining/` (no tests, LINQ); archived out of the repo. Hence rule 3's wording.
