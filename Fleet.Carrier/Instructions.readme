@@ -1,0 +1,7 @@
+Fleet Carrier - bay beacon for Fleet Miner drones on a MOVING carrier.
+SETUP: PB + antenna on the carrier. Name the drone docking connectors with
+the tag ([FM]); each is a bay. Optional: a cockpit/remote control on the
+carrier gives exact velocities (otherwise they are estimated).
+Custom Data [Carrier] Channel must match the drones' [Fleet] Channel.
+Fly the carrier however you like (player or autopilot); drones follow it.
+LCD: name an LCD with the tag to see bays and docked drones. Arg: RESCAN.

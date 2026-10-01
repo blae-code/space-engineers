@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fleet.Tests", "Fleet.Tests\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fleet.Console", "Fleet.Console\Fleet.Console.csproj", "{B455F790-CDF2-4D4D-8355-8B14C7279E7F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fleet.Carrier", "Fleet.Carrier\Fleet.Carrier.csproj", "{2322B825-1B14-4FAA-ACFD-6CB9A8707733}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,6 +57,18 @@ Global
 		{B455F790-CDF2-4D4D-8355-8B14C7279E7F}.Release|x64.Build.0 = Release|x64
 		{B455F790-CDF2-4D4D-8355-8B14C7279E7F}.Release|x86.ActiveCfg = Release|x64
 		{B455F790-CDF2-4D4D-8355-8B14C7279E7F}.Release|x86.Build.0 = Release|x64
+		{2322B825-1B14-4FAA-ACFD-6CB9A8707733}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{2322B825-1B14-4FAA-ACFD-6CB9A8707733}.Debug|Any CPU.Build.0 = Debug|x64
+		{2322B825-1B14-4FAA-ACFD-6CB9A8707733}.Debug|x64.ActiveCfg = Debug|x64
+		{2322B825-1B14-4FAA-ACFD-6CB9A8707733}.Debug|x64.Build.0 = Debug|x64
+		{2322B825-1B14-4FAA-ACFD-6CB9A8707733}.Debug|x86.ActiveCfg = Debug|x64
+		{2322B825-1B14-4FAA-ACFD-6CB9A8707733}.Debug|x86.Build.0 = Debug|x64
+		{2322B825-1B14-4FAA-ACFD-6CB9A8707733}.Release|Any CPU.ActiveCfg = Release|x64
+		{2322B825-1B14-4FAA-ACFD-6CB9A8707733}.Release|Any CPU.Build.0 = Release|x64
+		{2322B825-1B14-4FAA-ACFD-6CB9A8707733}.Release|x64.ActiveCfg = Release|x64
+		{2322B825-1B14-4FAA-ACFD-6CB9A8707733}.Release|x64.Build.0 = Release|x64
+		{2322B825-1B14-4FAA-ACFD-6CB9A8707733}.Release|x86.ActiveCfg = Release|x64
+		{2322B825-1B14-4FAA-ACFD-6CB9A8707733}.Release|x86.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

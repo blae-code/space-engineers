@@ -3,7 +3,7 @@
 # FAIL (exit 1) at >= 100000, WARN at >= 90000. Run after a Release build.
 set -l root (status dirname)/..
 set -l failed 0
-for proj in Fleet.Drone.Miner Fleet.Console
+for proj in Fleet.Drone.Miner Fleet.Console Fleet.Carrier
     set -l ini $root/$proj/mdk.local.ini
     if not test -f $ini
         echo "SKIP  $proj: no mdk.local.ini"
