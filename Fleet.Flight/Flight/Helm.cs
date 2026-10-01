@@ -1,3 +1,4 @@
+using System;
 using VRageMath;
 
 namespace IngameScript
@@ -16,6 +17,7 @@ namespace IngameScript
             public double RotationGain = 2.0;     // rad/s per rad of error
             public double MaxRotationRate = 1.5;  // rad/s
             public double BrakeMargin = 0.8;
+            public double PositionGain = 1.5;     // 1/s: approach speed cap per metre of distance near the target
             public readonly PidVec VelocityPid = new PidVec(2.0, 0.2, 0.0, 2.0);
 
             public bool Active { get; private set; }
@@ -69,7 +71,10 @@ namespace IngameScript
                 double aBrake = ThrustAllocator.MaxForceAlong(brakeLocal, _maxThrust) / mass + Vector3D.Dot(g, -dir);
                 if (aBrake < 0) aBrake = 0;
                 double speed = BrakingCurve.SafeSpeed(brakeDist, aBrake, _target.SpeedCap, BrakeMargin);
-                Vector3D desiredVel = dir * speed;
+                // sqrt(2ad) has unbounded gain as d -> 0, which limit-cycles at 6 Hz; go linear close in.
+                speed = Math.Min(speed, PositionGain * brakeDist);
+                // Feed-forward: match the target frame's own velocity, approach relative to it (slice 2).
+                Vector3D desiredVel = _target.Velocity + dir * speed;
                 Vector3D accel = VelocityPid.Update(desiredVel - _io.LinearVelocity, dt);
                 Vector3D force = (accel - g) * mass;  // cancel gravity
                 ThrustAllocator.Allocate(Vector3D.TransformNormal(force, shipT), _maxThrust, _ratios);
