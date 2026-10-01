@@ -79,7 +79,9 @@ namespace IngameScript
                 }
                 
                 ReadBool(ini, "Miner", "Loop", ref s.Loop, warnings);
-                ReadEnum<DamagePolicy>(ini, "Miner", "OnDamage", ref s.OnDamage, warnings);
+                int choice = (int)s.OnDamage;
+                ReadChoice(ini, "Miner", "OnDamage", SettingsSchema.OnDamage, ref choice, warnings);
+                s.OnDamage = (DamagePolicy)choice;
 
                 // Load Flight section
                 ReadDouble(ini, "Flight", "MaxSpeed", ref s.MaxSpeed, 1, 500, warnings);
@@ -94,7 +96,9 @@ namespace IngameScript
                 ReadDouble(ini, "Energy", "MinUranium", ref s.MinUranium, 0, 1000, warnings);
 
                 // Load Reload section
-                ReadEnum<ReloadPolicy>(ini, "Reload", "OnReload", ref s.OnReload, warnings);
+                choice = (int)s.OnReload;
+                ReadChoice(ini, "Reload", "OnReload", SettingsSchema.OnReload, ref choice, warnings);
+                s.OnReload = (ReloadPolicy)choice;
 
                 return true;
             }
@@ -125,7 +129,7 @@ namespace IngameScript
                 ini.Set("Miner", "MinLiftMargin", s.MinLiftMargin);
                 ini.Set("Miner", "Eject", string.Join(",", s.Eject));
                 ini.Set("Miner", "Loop", s.Loop);
-                ini.Set("Miner", "OnDamage", s.OnDamage.ToString());
+                ini.Set("Miner", "OnDamage", SettingsSchema.Fields[SettingsSchema.OnDamage].Choices[(int)s.OnDamage]);
 
                 // Flight section
                 ini.Set("Flight", "MaxSpeed", s.MaxSpeed);
@@ -140,7 +144,7 @@ namespace IngameScript
                 ini.Set("Energy", "MinUranium", s.MinUranium);
 
                 // Reload section
-                ini.Set("Reload", "OnReload", s.OnReload.ToString());
+                ini.Set("Reload", "OnReload", SettingsSchema.Fields[SettingsSchema.OnReload].Choices[(int)s.OnReload]);
 
                 return ini.ToString();
             }
@@ -219,26 +223,16 @@ namespace IngameScript
                 }
             }
 
-            private static void ReadEnum<T>(MyIni ini, string section, string key, ref T field, List<string> warnings) where T : struct
+            // Enum settings are matched against SettingsSchema's literal choice names, never Enum.ToString():
+            // minify=full renames enum members, so their identifiers do not survive deployment.
+            private static void ReadChoice(MyIni ini, string section, string key, int field, ref int value, List<string> warnings)
             {
-                if (ini.ContainsKey(section, key))
-                {
-                    var value = ini.Get(section, key);
-                    var raw = value.ToString("");
-                    var trimmed = raw.Trim();
-                    
-                    // Try to match the enum value case-insensitively
-                    foreach (var enumValue in Enum.GetValues(typeof(T)))
-                    {
-                        if (string.Equals(enumValue.ToString(), trimmed, StringComparison.OrdinalIgnoreCase))
-                        {
-                            field = (T)enumValue;
-                            return;
-                        }
-                    }
-                    
-                    warnings.Add($"{section}.{key}: unknown value '{raw}'");
-                }
+                if (!ini.ContainsKey(section, key)) return;
+                var raw = ini.Get(section, key).ToString("");
+                var choices = SettingsSchema.Fields[field].Choices;
+                for (int i = 0; i < choices.Length; i++)
+                    if (string.Equals(choices[i], raw.Trim(), StringComparison.OrdinalIgnoreCase)) { value = i; return; }
+                warnings.Add($"{section}.{key}: unknown value '{raw}'");
             }
         }
     }
