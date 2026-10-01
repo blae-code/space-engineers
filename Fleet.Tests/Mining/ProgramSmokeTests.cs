@@ -171,6 +171,34 @@ namespace Fleet.Tests.Mining
             Assert.That(_lastScreen, Does.Contain("carrier beacon LOST"));
         }
 
+        // A reload of a drone whose home was beacon-tracked: lost until a fresh beacon, then tracked again,
+        // with the beacon picked up on the IGC callback alone (no Update10 needed).
+        [Test]
+        public void Reload_TrackedHome_IsLostUntilBeacon_IgcCallback()
+        {
+            var beacons = new System.Collections.Generic.Queue<MyIGCMessage>();
+            var p = Build("[Miner]\nv=3\nhomeId=42\nstate=0\ntracked=true\n", igc =>
+            {
+                var bays = A.Fake<IMyBroadcastListener>();
+                A.CallTo(() => bays.HasPendingMessage).ReturnsLazily(() => beacons.Count > 0);
+                A.CallTo(() => bays.AcceptMessage()).ReturnsLazily(() => beacons.Dequeue());
+                A.CallTo(() => igc.RegisterBroadcastListener("FLEET/FM/bay")).Returns(bays);
+            });
+            A.CallTo(() => _runtime.TimeSinceLastRun).Returns(System.TimeSpan.FromSeconds(0.1));
+            p.Main("", UpdateType.Update10 | UpdateType.Update100);
+            Assert.That(_lastScreen, Does.Contain("carrier beacon LOST"));
+            var bay = new IngameScript.Program.BayPose
+            {
+                BayId = 42, Forward = new VRageMath.Vector3D(0, 0, -1), Up = new VRageMath.Vector3D(0, 1, 0),
+                Velocity = new VRageMath.Vector3D(0, 0, 3)
+            };
+            beacons.Enqueue(new MyIGCMessage(IngameScript.Program.Beacon.Pack(ref bay), "FLEET/FM/bay", 900));
+            p.Main("", UpdateType.IGC);
+            Assert.That(beacons.Count, Is.EqualTo(0), "consumed on the IGC callback");
+            p.Main("", UpdateType.Update10 | UpdateType.Update100);
+            Assert.That(_lastScreen, Does.Contain("carrier tracked  3.0 m/s"));
+        }
+
         // Slice 2: version-2 storage kept the job local to the home connector; it is migrated to world space.
         [Test]
         public void StorageV2_JobMigratesToWorld()

@@ -13,7 +13,10 @@ namespace IngameScript
     // not this script's job (player or vanilla autopilot).
     public partial class Program : MyGridProgram
     {
-        string _channel = "FM", _tag = "[FM]", _configText, _bayTag;
+        // Bays use the fleet tag; the carrier's own LCD has a separate tag so it never fights the console's.
+        string _channel = "FM", _tag = "[FM]", _displayTag = "[FM Bays]", _configText, _bayTag;
+        Vector3D _estVel;                 // carrier-wide velocity estimate when there is no controller
+        bool _skipDiff = true;
         readonly List<IMyShipConnector> _bays = new List<IMyShipConnector>();
         readonly List<IMyShipController> _ctrls = new List<IMyShipController>();
         readonly List<IMyTerminalBlock> _blocks = new List<IMyTerminalBlock>();
@@ -23,6 +26,7 @@ namespace IngameScript
         readonly StringBuilder _sb = new StringBuilder(1024);
         IMyShipController _ctrl;
         double _time, _lastBeaconTime = -1, _speed;
+        string _error = "";
         int _update100s, _sent;
 
         public Program()
@@ -43,10 +47,13 @@ namespace IngameScript
                 if (ch.Length > 0 && ch.IndexOf('/') < 0) _channel = ch;
                 var tag = _ini.Get("Carrier", "Tag").ToString(_tag).Trim();
                 if (tag.Length > 0) _tag = tag;
-                if (!_ini.ContainsKey("Carrier", "Channel"))
+                var dtag = _ini.Get("Carrier", "DisplayTag").ToString(_displayTag).Trim();
+                if (dtag.Length > 0) _displayTag = dtag;
+                if (!_ini.ContainsKey("Carrier", "DisplayTag"))
                 {
                     _ini.Set("Carrier", "Channel", _channel);
                     _ini.Set("Carrier", "Tag", _tag);
+                    _ini.Set("Carrier", "DisplayTag", _displayTag);
                     Me.CustomData = _ini.ToString();
                 }
             }
@@ -61,10 +68,10 @@ namespace IngameScript
             GridTerminalSystem.GetBlocksOfType(_ctrls, b => b.CubeGrid == grid);
             GridTerminalSystem.GetBlocksOfType(_blocks, b => b.CubeGrid == grid);
             _ctrl = _ctrls.Count > 0 ? _ctrls[0] : null;
-            _displays.Refresh(_blocks, _tag);
+            _displays.Refresh(_blocks, _displayTag);
             _lastPos.Clear();
             for (int i = 0; i < _bays.Count; i++) _lastPos.Add(_bays[i].GetPosition());
-            _lastBeaconTime = -1;
+            _skipDiff = true;   // positions just re-read: reuse the last estimate for one beacon, never send 0
         }
 
         public void Main(string argument, UpdateType src)
@@ -73,7 +80,12 @@ namespace IngameScript
             if ((src & (UpdateType.Terminal | UpdateType.Trigger | UpdateType.Script)) != 0
                 && argument.Trim().Equals("RESCAN", StringComparison.OrdinalIgnoreCase))
                 Scan();
-            if ((src & UpdateType.Update10) != 0) Broadcast();
+            if ((src & UpdateType.Update10) != 0)
+            {
+                // A carrier PB that dies strands every drone (they hold "beacon lost"): never let it throw.
+                try { Broadcast(); _error = ""; }
+                catch (Exception e) { _error = e.Message; _ctrl = null; }
+            }
             if ((src & UpdateType.Update100) != 0)
             {
                 if (Me.CustomData != _configText) { LoadConfig(); Scan(); }
@@ -87,7 +99,11 @@ namespace IngameScript
             double dt = _lastBeaconTime < 0 ? 0 : _time - _lastBeaconTime;
             _lastBeaconTime = _time;
             MyShipVelocities v = new MyShipVelocities();
+            if (_ctrl != null && (_ctrl.Closed || !_ctrl.IsFunctional)) _ctrl = null;   // damaged: estimate instead
             if (_ctrl != null) v = _ctrl.GetShipVelocities();
+            bool diff = _ctrl == null && !_skipDiff && dt > 1e-3;
+            if (diff && _bays.Count > 0 && !_bays[0].Closed) _estVel = (_bays[0].GetPosition() - _lastPos[0]) / dt;
+            _skipDiff = false;
             _speed = 0;
             for (int i = 0; i < _bays.Count; i++)
             {
@@ -100,8 +116,7 @@ namespace IngameScript
                     p.Velocity = Beacon.PointVelocity(v.LinearVelocity, v.AngularVelocity, _ctrl.CenterOfMass, m.Translation);
                     p.AngularVelocity = v.AngularVelocity;
                 }
-                else if (dt > 1e-3)
-                    p.Velocity = (m.Translation - _lastPos[i]) / dt;   // no controller: estimate, no rotation
+                else p.Velocity = _estVel;   // no controller: one carrier-wide estimate, no rotation
                 _lastPos[i] = m.Translation;
                 _speed = Math.Max(_speed, p.Velocity.Length());
                 IGC.SendBroadcastMessage(_bayTag, Beacon.Pack(ref p));
@@ -128,6 +143,7 @@ namespace IngameScript
                 sb.Append('\n');
             }
             SbFormat.AppendInt(sb.Append("beacons sent "), _sent).Append('\n');
+            if (_error.Length > 0) sb.Append("!! ").Append(_error).Append('\n');
             _displays.Write(sb);
             Me.GetSurface(0).WriteText(sb);
         }

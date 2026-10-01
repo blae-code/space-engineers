@@ -4,4 +4,5 @@ the tag ([FM]); each is a bay. Optional: a cockpit/remote control on the
 carrier gives exact velocities (otherwise they are estimated).
 Custom Data [Carrier] Channel must match the drones' [Fleet] Channel.
 Fly the carrier however you like (player or autopilot); drones follow it.
-LCD: name an LCD with the tag to see bays and docked drones. Arg: RESCAN.
+LCD: name an LCD [FM Bays] ([Carrier] DisplayTag) for bays + docked drones. RESCAN.
+Limit: at most ~20 bays per channel (IGC queues 25 messages per listener).

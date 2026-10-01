@@ -45,12 +45,13 @@ namespace IngameScript
                 _ackTag = FleetLink.Tag(_channel, FleetLink.Ack);
                 if (_bays != null) _igc.DisableBroadcastListener(_bays);
                 _bays = _igc.RegisterBroadcastListener(FleetLink.Tag(_channel, Beacon.Kind));
+                _bays.SetMessageCallback("");   // Main runs with UpdateType.IGC on arrival: beacon age ~1 tick
             }
 
             public void Update10() { Poll(); PollBays(); }
 
             // Carrier bay beacons (slice 2): only the home bay's is kept. Struct payload, no allocation.
-            void PollBays()
+            public void PollBays()
             {
                 while (_bays.HasPendingMessage)
                 {

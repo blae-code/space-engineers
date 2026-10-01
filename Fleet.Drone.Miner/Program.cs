@@ -82,6 +82,8 @@ namespace IngameScript
                 && !string.IsNullOrWhiteSpace(argument))
                 RunCommand(argument);
 
+            if ((updateSource & UpdateType.IGC) != 0) _remote.PollBays();   // stamp beacons on arrival
+
             bool slow = (updateSource & UpdateType.Update100) != 0;
             if (slow && ++_update100s % 10 == 0 && !_kernel.IsSafe) _r.Rescan();
 
