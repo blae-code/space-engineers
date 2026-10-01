@@ -1,0 +1,42 @@
+#!/usr/bin/env python3
+"""Refuse any commit of task-card files that card-check does not PASS.
+
+Installed with `git config core.hooksPath tools/hooks` (repo-local). Rules:
+  - staged files that belong to no card (docs, tools, new non-card code) -> allowed, no check;
+  - files from more than one card in one commit -> refused (one card per commit);
+  - a staged card file with further unstaged edits -> refused (the check must see what is committed);
+  - otherwise `card-check <card> --staged` must print RESULT: PASS.
+"""
+import re
+import subprocess
+import sys
+from pathlib import Path
+
+ROOT = Path(subprocess.run(["git", "rev-parse", "--show-toplevel"], capture_output=True, text=True).stdout.strip())
+CARDS = ROOT / "docs/superpowers/plans/slice1-cards"
+
+
+def git(*args):
+    return subprocess.run(["git"] + list(args), cwd=ROOT, capture_output=True, text=True).stdout.split()
+
+
+owner = {}
+for card in sorted(CARDS.glob("C*.md")):
+    m = re.search(r"^## Files(.*?)(?=^## )", card.read_text(), re.S | re.M)
+    for f in re.findall(r"`([^`]+/[^`]+)`", m.group(1) if m else ""):
+        owner[f] = card.stem.split("-")[0]
+
+staged = git("diff", "--cached", "--name-only", "--diff-filter=ACMR")
+cards = sorted({owner[f] for f in staged if f in owner})
+if not cards:
+    sys.exit(0)
+if len(cards) > 1:
+    print("pre-commit: refused — files from " + ", ".join(cards) + " in one commit. One card per commit.")
+    sys.exit(1)
+dirty = sorted(set(git("diff", "--name-only")) & {f for f in staged if f in owner})
+if dirty:
+    print("pre-commit: refused — staged card files also have unstaged edits: " + ", ".join(dirty))
+    print("            git add them (or revert the edits) so the check sees what is committed.")
+    sys.exit(1)
+print("pre-commit: running card-check " + cards[0] + " --staged ...")
+sys.exit(subprocess.run(["python3", str(ROOT / "tools/card-check.py"), cards[0], "--staged"], cwd=ROOT).returncode)

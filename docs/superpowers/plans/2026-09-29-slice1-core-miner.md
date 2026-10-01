@@ -72,6 +72,18 @@ Failure modes the spec implies that are easy to miss; each is pinned by a test i
 7. At a milestone end, run `python3 tools/checkpoint.py <A|B|C|D>` and bring its output with
    "run checkpoint X".
 
+**Which card next:** `python3 tools/next-card.py` prints every card's status (DONE/BROKEN/todo) and the
+next card whose dependencies are done. Hand the model exactly that one card.
+
+**Enforcement, not instructions (added 2026-09-30 after the C01–C16 run).** A local run claimed 16 cards
+done; measured: 9 passed, 6 failed (one committed red, one not compiling), 1 never written, and it
+freelanced C30 into `Program.cs`, breaking the build for every card. So the gate no longer depends on
+the model: `git config core.hooksPath tools/hooks` installs a **pre-commit hook** that refuses a commit
+mixing two cards' files, and any card commit whose `card-check --staged` is not PASS. Commits touching
+no card files (docs, tools) pass through. The `/card` prompt now forbids touching any other card or
+`Program.cs` and requires the final message to quote card-check's output verbatim. Bypass
+(`--no-verify`) is for Claude's integration commits only.
+
 `card-check` FAILs on: failing tests · the card's verbatim test file edited · any file outside the
 card's `## Files` · a banned namespace · a token the card's "Done when" forbids. Proven against a
 reference C01 and five mutations on 2026-09-30 (see Checkpoint log).

@@ -4,6 +4,7 @@
     python3 tools/card-check.py C01              # working tree: card's tests + static checks + scope
     python3 tools/card-check.py C01 --committed  # card already committed: scope read from its commit
     python3 tools/card-check.py C01 --no-test    # skip dotnet test (checkpoint runs the suite once)
+    python3 tools/card-check.py C01 --staged     # scope = the git index (used by the pre-commit hook)
 
 FAIL (exit 1): tests fail · the card's verbatim test file was edited · a file outside the card's
 `## Files` list changed · a banned namespace in script code · a token the card's "Done when" forbids.
@@ -72,7 +73,7 @@ def main():
     if not args or args[0].startswith("-"):
         sys.exit(__doc__)
     card_file = card_path(args[0])
-    committed, no_test = "--committed" in args, "--no-test" in args
+    committed, no_test, staged = "--committed" in args, "--no-test" in args, "--staged" in args
     md = card_file.read_text()
     files = [f for f in re.findall(r"`([^`]+)`", section(md, "Files")) if "/" in f]
     scripts = [f for f in files if not f.startswith("Fleet.Tests/")]
@@ -112,6 +113,8 @@ def main():
         shas = log.stdout.split()
         changed = run(["git", "show", "--name-only", "--format=", shas[-1]]).stdout.split() if shas else None
         where = "commit " + shas[-1][:8] if shas else ""
+    elif staged:
+        changed, where = run(["git", "diff", "--cached", "--name-only"]).stdout.split(), "staged"
     else:
         st = run(["git", "status", "--porcelain", "-uall"]).stdout.splitlines()
         changed, where = [l[3:].split(" -> ")[-1] for l in st], "working tree"
