@@ -15,6 +15,7 @@ namespace Fleet.Tests.Engine
             {
                 Assert.That(s.Name, Is.EqualTo("Miner-01"));
                 Assert.That(s.Tag, Is.EqualTo("[FM]"));
+                Assert.That(s.Channel, Is.EqualTo("FM"));
                 Assert.That(s.Width, Is.EqualTo(5));
                 Assert.That(s.Height, Is.EqualTo(5));
                 Assert.That(s.Depth, Is.EqualTo(30));

@@ -9,6 +9,7 @@ namespace IngameScript
             // [Fleet]
             public string Name = "Miner-01";
             public string Tag = "[FM]";
+            public string Channel = "FM";   // IGC channel shared with the remote console (spec §10.2)
             // [Miner]
             public int Width = 5;
             public int Height = 5;
