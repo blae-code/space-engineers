@@ -266,5 +266,62 @@ Displays are chosen by tag: `[FM]` for an LCD, `[FM:n]` for cockpit surface *n*.
    - Damage a drill; drain the battery; overload in gravity (lift-margin return).
 
 ## 9. Out of scope for slice 1
-Moving-carrier docking, carrier and mothership scripts, IGC protocol, multi-drone coordination,
-ore-aware hole weighting, obstacle avoidance, sprite UI, Grinder/Shuttle modes, probes.
+Moving-carrier docking, the carrier script, fleet orchestration (job/hole allocation, connector
+queuing, multi-drone coordination), ore-aware hole weighting, obstacle avoidance, sprite UI,
+Grinder/Shuttle modes, probes. (The remote console and its IGC link were pulled into slice 1 — §10.)
+
+## 10. Addendum 2026-09-30 — remote console (pulled forward from slice 3)
+
+**Decision (Blae):** drones are set up and commanded remotely from the mothership/carrier. Chosen
+options: a remote console **now**; drones are **commanded, not piloted** (the console says where to go
+and what to do, the drone flies itself; manual stick flight stays the vanilla Remote Control block);
+the drone **keeps its own menu as a fallback**. Slice 3 keeps job allocation, queuing and coordination.
+
+### 10.1 Pieces
+| Piece | Where | What |
+|---|---|---|
+| `Menu` + `SettingsSchema` | `Fleet.Engine/Ui/` | one menu engine for both PBs (replaces C24's `MenuModel`) |
+| `FleetLink` | `Fleet.Engine/Net/` | protocol: tags, status codec, command envelope (pure, tested) |
+| `RemoteSubsystem` | `Fleet.Drone.Miner/Subsystems/` | drone side: status broadcast, command/config listener |
+| `Fleet.Console` | new PB project | mothership/carrier console: roster, per-drone menu, commands |
+
+### 10.2 Protocol (IGC)
+- Channel `FLEET/<Channel>/…`, `Channel` a new `[Fleet]` key (default `FM`). The channel name is the
+  only access control vanilla IGC offers: anyone in antenna range who knows it can command the drone.
+- **status** — drone → broadcast, every `Update100`: one versioned `|`-separated line (name, state,
+  return reason, hole n/total, cargo, battery, H2, lift, flags, note). The sender address *is* the drone
+  id. This is the one bounded allocation in the drone's loop (one short string per ~1.7 s); IGC boxes
+  payloads anyway, so a struct payload would not avoid it.
+- **cmd** — console → drone **unicast only** (no broadcast command can start the whole fleet by
+  accident): exactly the text of a PB run argument (`START`, `HOME`, `GOTO GPS:…`), plus `SET <section>
+  <key> <value>` and `GETCFG`. The drone runs it through the same path as a terminal argument.
+- **cfg** — drone → console unicast: the drone's Custom Data, sent on `GETCFG` and after every applied
+  `SET`; it doubles as the acknowledgement. A rejected `SET` replies `ERR <reason>` on **ack**.
+- The drone never depends on the link: a lost console changes nothing about a running job.
+
+### 10.3 Menu (enhanced PAM-style; UP / DOWN / APPLY / BACK, PAM-compatible run arguments)
+Beyond PAM's job page: **every** Custom Data setting is editable, grouped into Job / Flight / Energy /
+Behaviour pages; typed fields (number with min/max/step, toggle, choice cycling for enums); a number's
+step **accelerates** on repeated presses in one direction; destructive commands (Stop, Reset, Home
+from a running job) ask for **confirmation**; long pages **scroll** in a fixed window with ▲/▼ markers
+so small LCDs and cockpit screens work; a breadcrumb title and a live status header on every page.
+Render is allocation-free. Edits are returned as actions, never applied by the menu: the drone writes
+them to its Custom Data; the console sends them as `SET` and shows them as *pending* until the drone's
+`cfg` echo arrives.
+
+### 10.4 Console
+- **Roster:** up to 16 drones from status broadcasts; *stale* after 10 s, dropped after 60 s.
+- **Pages:** Fleet (one line per drone: name, state, cargo, battery) → a drone: live status, Commands,
+  Job / Flight / Energy / Behaviour settings (from that drone's `cfg`), **Send to target** (GPS entries
+  in the console's own Custom Data `[Targets]` section → `GOTO`).
+- **Run arguments:** `UP` `DOWN` `APPLY` `BACK`; `SEND <drone> <command…>`; `ALL <command…>` (fleet-wide,
+  sent as one unicast per known drone).
+- Displays by the same tag rules as the drone (`[FM]` LCD, `[FM:n]` cockpit surface).
+
+### 10.5 Testing additions
+Unit: status codec round-trip and version rejection, command envelope parsing, menu navigation /
+editing / acceleration / confirmation / scrolling, schema get/set round-trip for every key, roster
+staleness. In-game: **R1** console lists the drone; **R2** editing Width on the console changes the
+drone's Custom Data; **R3** START / HOME / STOP from the console; **R4** Send to target → GPS job;
+**R5** console destroyed mid-job → the drone carries on; **R6** a second console on another channel
+sees nothing.
