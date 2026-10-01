@@ -1,4 +1,4 @@
-# Space Engineers MDK Project: Fleet (slice 1 — FleetMiner + remote console)
+# Space Engineers MDK Project: Fleet (slices 1–2 — FleetMiner, remote console, moving carrier)
 
 ## Project Overview
 This repository contains modular C# Ingame Scripts for Space Engineers, built with **MDK2**
@@ -13,6 +13,8 @@ when a milestone is called, never on routine commits.
 - Spec: `docs/superpowers/specs/2026-09-29-slice1-core-miner-design.md`
 - Plan + card index + checkpoint log: `docs/superpowers/plans/2026-09-29-slice1-core-miner.md`
 - Task cards: `docs/superpowers/plans/slice1-cards/C01…C30`
+- Slice 2 (moving carrier): spec `docs/superpowers/specs/2026-09-30-slice2-moving-carrier-design.md`,
+  plan + in-game checklist `docs/superpowers/plans/2026-09-30-slice2-moving-carrier.md`
 
 ## Division of labour (Claude Code ↔ local model)
 Work is split to save Claude credits. The **local model** (qwen3-coder-30b in Continue, Agent mode)
@@ -38,6 +40,7 @@ Studio — MDK2 builds and deploys through the .NET SDK; tests run on Mono.
 ```
 dotnet build Fleet.Drone.Miner -c Release   # compile vs Bin64, minify, DEPLOY to the game
 dotnet build Fleet.Console -c Release       # the mothership console script
+dotnet build Fleet.Carrier -c Release       # the carrier bay beacon (slice 2)
 fish tools/check-size.fish                  # every deployed script.cs < 100,000 chars (warn >= 90,000)
 dotnet test Fleet.Tests                     # NUnit on Mono (net48)
 dotnet test Fleet.Tests --filter "FullyQualifiedName~SbFormatTests"   # one class
@@ -77,6 +80,7 @@ dotnet test Fleet.Tests --filter "FullyQualifiedName~SbFormatTests"   # one clas
 | `Fleet.Flight/` | MDK2 mixin (shared) | `Flight/` pure flight math (braking, thrust, gyro, paths, docking, helm) · `Io/IShipIO` |
 | `Fleet.Drone.Miner/` | PB script project | `Program.cs`, `Mining/`, `Io/` adapters, `Subsystems/` (Sense, Miner, Ui, Remote) |
 | `Fleet.Console/` | PB script project | mothership remote console: roster, per-drone menu, commands |
+| `Fleet.Carrier/` | PB script project | carrier bay beacon: tagged connectors' pose + velocity every Update10 |
 | `Fleet.Tests/` | NUnit, net48 (Mono) | `Engine/`, `Flight/`, `Mining/` fixtures |
 
 Mixins compile into the PB project through `<Import … .projitems>` with a `**/*.cs` wildcard — a new
@@ -100,8 +104,12 @@ unused engine types out of the drone script.
    reuse. Numbers → `SbFormat`; enum names → `Names.State[]`/`Names.Reason[]`. Rare user-driven paths
    (commands, config edits, save at FSM transitions, load) may allocate.
 5. **Grid scoping:** always filter block queries with `b => b.CubeGrid == Me.CubeGrid`.
-6. **Moving docking:** approaches use relative matrix transforms (`Vector3D.TransformNormal`,
-   `WorldMatrix`), never static GPS coordinates.
+6. **Frames (slice 2):** the **dock path** is stored local to the home connector (it belongs to the
+   carrier); the **job and job route** are stored in **world** space (asteroids don't move, carriers
+   do). Undocked, the home pose comes from the carrier's beacon (`HomeTracker`, extrapolated); never
+   heard a beacon = static carrier (slice 1); heard then silent = home LOST → homeward states Hold.
+   Home-relative targets carry `PoseTarget.Velocity` = the carrier's point velocity; job targets carry
+   zero. Never fly at a guessed connector.
 
 7. **Remote console (spec §10):** the drone broadcasts one status line per `Update100` on
    `FLEET/<Channel>/status` and accepts commands only by **unicast** on `FLEET/<Channel>/cmd` (the same
