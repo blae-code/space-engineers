@@ -368,8 +368,8 @@ checklist below with Blae.
 
 ## In-game checklist (spec §8.3)
 
-Test world: one planet, one asteroid, a large-grid stand-in carrier with a connector, and the drone
-docked to it. Each item passes only when observed in-game.
+Test world: one planet, one asteroid, a **static** large-grid stand-in carrier with a connector and an
+antenna, and the drone (with an antenna) docked to it. Each item passes only when observed in-game.
 
 - [ ] **G1 GYROTEST** — drone hovering, undocked: `GYROTEST` runs pitch, yaw and roll for 2 s each and
   prints one verdict per axis (OK / SIGN FLIPPED / UNITS: RPM? / UNEXPECTED). Fix the matching
@@ -421,6 +421,20 @@ same channel:
   (~61k), which forced ConfigLoader off `Enum.ToString()` because `full` renames enum members.
   Result: 333 tests, 0 build warnings, drone ~61.7k / console ~21.5k chars. Nothing has flown yet —
   G1 first.
+- **2026-09-30 — adversarial review of the hand-written integration (independent agent, report-only).**
+  It also compiled both *minified* scripts against Bin64. 12 will-break findings, all fixed in `0575b0e`
+  + `79814de`, pinned where unit-testable (`MinerFsmExtraTests`, smoke tests): stale `AtHole` (the worst:
+  every hole after the first was drilled diagonally), Retract reference, hole advanced on STOP-in-Retract,
+  console null listener on bad Custom Data, commands executed while SAFE, CONT bypassing readiness,
+  ResumeState/PendingReason not persisted, NEXT/PREV mid-hole, redo-hole double drilling, charging left
+  on at undock, endless unload-timeout loop, HOME during Retract/Dock/Charge dropped. Hardening applied
+  from the "verify in-game" list: per-tick references from the controller block (CoM drift), route
+  standoff, dock-path attitude hold + standoff hand-over, docking roll, rock clearance before lateral
+  moves, charge timeout, honest acks, antenna warning, grid-derived default name.
+  **Still to watch in-game (not fixable blind):** the stand-in carrier must be **static** — undocked, the
+  drone cannot see the carrier's connector and keeps its last pose (slice 2 adds a beacon); instruction
+  peak with long recorded paths (G11); whether dampeners fight the helm's tiny overrides; DrillLogic's
+  stall thresholds against real ore.
 - **2026-09-29 — plan validation.** An independent agent implemented C01–C29 from the card text alone (C30
   excluded) in a scratch copy: **266/266 tests passed, no test edited**; Release build with MDK analyzers
   0 warnings / 0 errors (analyzer enforcement proven with a banned-namespace probe); every game API named
