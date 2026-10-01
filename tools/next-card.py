@@ -31,7 +31,7 @@ for card in sorted(CARDS.glob("C*.md")):
     ready = all(status.get(d) == "DONE" for d in deps.get(cid, []) if d.startswith("C"))
     who = executor.get(cid, "?")
     print(cid.ljust(4) + "  " + status[cid].ljust(6) + "  " + who.ljust(13) + "  " + card.stem)
-    if nxt is None and status[cid] != "DONE" and ready and who != "Claude":
+    if nxt is None and status[cid] != "DONE" and ready and who not in ("Claude", "superseded"):
         nxt = card
 print()
 print("next: " + (str(nxt.relative_to(ROOT)) if nxt else "none for the local model — bring it to Claude Code"))

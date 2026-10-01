@@ -343,7 +343,7 @@ Claude reviews closely; **Claude** = game-API/integration work where a local mod
 | C21 | `Fleet.Drone.Miner/Mining/ReturnTriggers.cs` | — | local |
 | C22 | `Fleet.Drone.Miner/Mining/Reconciler.cs` | — | local |
 | C23 | `Fleet.Drone.Miner/Mining/MinerFsm.cs` | — | local+review |
-| C24 | `Fleet.Drone.Miner/Ui/MenuModel.cs` | C01 | local |
+| C24 | `Fleet.Drone.Miner/Ui/MenuModel.cs` | C01 | superseded |
 | **Checkpoint C** (Claude) | | | |
 | **Milestone D — Game adapters + integration** | | | |
 | C25 | `Fleet.Flight/Io/ShipIO.cs` | C12 | Claude |
@@ -371,8 +371,10 @@ checklist below with Blae.
 Test world: one planet, one asteroid, a large-grid stand-in carrier with a connector, and the drone
 docked to it. Each item passes only when observed in-game.
 
-- [ ] **G1 GYROTEST** — drone hovering: `GYROTEST` reports sign and scale per axis; fix
-  `GyroMath` sign constants / `ShipIO.GyroScale` if reported. **Must pass before any autonomous flight.**
+- [ ] **G1 GYROTEST** — drone hovering, undocked: `GYROTEST` runs pitch, yaw and roll for 2 s each and
+  prints one verdict per axis (OK / SIGN FLIPPED / UNITS: RPM? / UNEXPECTED). Fix the matching
+  `GyroMath.*Sign` constant or `ShipIO.GyroScale`. Pitch is the least certain sign. **All three must say
+  OK before any autonomous flight.**
 - [ ] G2 Setup diagnostics — remove the gyros: the LCD names the missing block; restore: clears.
 - [ ] G3 `RECORD DOCK` out of the bay, `STOPREC`; `RECORD JOB` to an asteroid, `STOPREC`; `SETJOB`.
 - [ ] G4 `START` → 3×3 asteroid job: undock, dock path, route, drill, fill, return, dock, unload, relaunch.
@@ -383,7 +385,17 @@ docked to it. Each item passes only when observed in-game.
 - [ ] G9 Damage a drill: `OnDamage=Home` returns home.
 - [ ] G10 Drain battery below MinBattery: returns and recharges.
 - [ ] G11 Instruction average and peak shown; peak < 30 % of the limit during flight.
-- [ ] G12 `tools/check-size.fish` < 90,000 chars.
+- [ ] G12 `tools/check-size.fish` < 90,000 chars for both scripts.
+
+**Remote console (spec §10.5)** — console PB + antenna on the stand-in carrier, drone antenna in range,
+same channel:
+- [ ] R1 The console lists the drone (name, state, cargo, battery) within ~2 s of both scripts running.
+- [ ] R2 Console → drone → Job settings → Width: edit and APPLY; it shows `*` until the drone's Custom
+  Data has the new value, then the `*` clears.
+- [ ] R3 START / HOME / STOP from the console's Commands page (Home and Stop ask for confirmation).
+- [ ] R4 A `[Targets]` GPS entry in the console's Custom Data → Send to target → the drone takes a GPS job.
+- [ ] R5 Grind the console mid-job: the drone carries on and returns on its own.
+- [ ] R6 A second console on another `Channel` sees nothing; `SEND Miner-01 HOME` from a timer works.
 
 ## Self-review record
 - Spec coverage: §2 → P0.1; §3.1 → C06/C30; §3.2 → P0.2; §3.3 → C04/C30; §3.4 → C06/C30; §3.5 → C01/C02/
@@ -397,6 +409,18 @@ docked to it. Each item passes only when observed in-game.
   (zero-GC display); constructor injection instead of `Initialize(...)`.
 
 ## Checkpoint log
+- **2026-09-30 — slice built end to end (Claude + subagents), awaiting in-game checklist.** After the
+  local C01–C16 run (9/16 real), the remaining cards were executed by isolated-worktree subagents, each
+  commit gated by the pre-commit hook and re-verified with `card-check --committed` on merge: every card
+  PASS. Changes beyond the cards: **spec §10 remote console** (Blae: console now, commanded not piloted,
+  drone keeps a local menu) — `SettingsSchema`, the enhanced `Menu` engine (**supersedes C24**),
+  `FleetLink` + `Roster`, `RemoteSubsystem`, new PB `Fleet.Console`; **C25** GYROTEST extended to three
+  axes and `Mass` never 0 (from the C12 agent's review); **C30** keeps the LCD, status broadcast and
+  remote inbox alive while SAFE. Found by tests during integration: `[Fleet] Channel` was never
+  read/written by ConfigLoader; the integrated drone was **100,260 chars** at `minify=lite` → `full`
+  (~61k), which forced ConfigLoader off `Enum.ToString()` because `full` renames enum members.
+  Result: 333 tests, 0 build warnings, drone ~61.7k / console ~21.5k chars. Nothing has flown yet —
+  G1 first.
 - **2026-09-29 — plan validation.** An independent agent implemented C01–C29 from the card text alone (C30
   excluded) in a scratch copy: **266/266 tests passed, no test edited**; Release build with MDK analyzers
   0 warnings / 0 errors (analyzer enforcement proven with a banned-namespace probe); every game API named

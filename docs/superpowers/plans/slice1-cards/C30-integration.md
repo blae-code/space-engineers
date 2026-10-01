@@ -13,6 +13,7 @@ Custom Data reloads.
 - Create: `Fleet.Drone.Miner/Subsystems/SenseSubsystem.cs` — `ISubsystem` "Sense"
 - Create: `Fleet.Drone.Miner/Subsystems/MinerSubsystem.cs` — `ISubsystem` "Miner"
 - Create: `Fleet.Drone.Miner/Subsystems/UiSubsystem.cs` — `ISubsystem` "Ui"
+- Create: `Fleet.Drone.Miner/Subsystems/RemoteSubsystem.cs` — `ISubsystem` "Remote" (added 2026-09-30 by spec §10, remote console)
 - Modify: `Fleet.Drone.Miner/Program.cs`
 - Create: `Fleet.Tests/Mining/ProgramSmokeTests.cs`
 
