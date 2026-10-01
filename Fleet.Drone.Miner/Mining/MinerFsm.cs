@@ -40,6 +40,14 @@ namespace IngameScript
             public ReturnReason PendingReason { get; private set; } // why the drone is heading home
             public string Note { get; private set; }                // last note (null when none)
 
+            // Reload support: put back what Storage remembered, so CONT and an interrupted return home
+            // still work after a world reload.
+            public void Restore(MinerState resume, ReturnReason pending)
+            {
+                ResumeState = resume;
+                PendingReason = pending;
+            }
+
             public void Force(MinerState s, string note)
             {
                 State = s;
@@ -102,11 +110,18 @@ namespace IngameScript
                         switch (State)
                         {
                             case MinerState.Drill: return GoHome(MinerState.Retract);
+                            case MinerState.Retract:
+                                // Finish pulling out of the hole, then RouteBack (Retract honours PendingReason).
+                                PendingReason = ReturnReason.Manual;
+                                return false;
                             case MinerState.Undock:
                             case MinerState.DockPathOut: return GoHome(MinerState.DockPathIn);
                             case MinerState.RouteOut:
                             case MinerState.Position: return GoHome(MinerState.RouteBack);
                             case MinerState.Hold:
+                                // Held inside a hole: retract first, never route home through rock.
+                                if (ResumeState == MinerState.Drill || ResumeState == MinerState.Retract)
+                                    return GoHome(MinerState.Retract);
                                 return GoHome(IsDockArea(ResumeState) ? MinerState.DockPathIn : MinerState.RouteBack);
                         }
                         return false;
