@@ -86,6 +86,19 @@ namespace Fleet.Tests.Engine
         }
 
         [Test]
+        public void Channel_RoundTripsAndRejectsSlash()
+        {
+            var s = new Settings();
+            var w = new List<string>();
+            ConfigLoader.Load("[Fleet]\nChannel=Alpha\n", s, w);
+            Assert.That(s.Channel, Is.EqualTo("Alpha"));
+            Assert.That(ConfigLoader.Write("", s), Does.Contain("Channel=Alpha"));
+            ConfigLoader.Load("[Fleet]\nChannel=a/b\n", s, w);
+            Assert.That(s.Channel, Is.EqualTo("Alpha"));
+            Assert.That(w, Is.Not.Empty);
+        }
+
+        [Test]
         public void Find_IsCaseInsensitive()
         {
             Assert.That(SettingsSchema.Find("miner", "width"), Is.EqualTo(SettingsSchema.Width));
