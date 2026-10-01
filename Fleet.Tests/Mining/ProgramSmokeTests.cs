@@ -98,6 +98,32 @@ namespace Fleet.Tests.Mining
             Assert.That(_lastScreen, Does.Contain("> Width           9"));
         }
 
+        // Spec §10 R2 at unit level: the console's SET and GETCFG, delivered by unicast on the channel,
+        // change the drone's Custom Data and are answered with the new config on the cfg tag.
+        [Test]
+        public void RemoteSetAndGetCfg_AnswerWithConfig()
+        {
+            var p = Build();
+            var inbox = new System.Collections.Generic.Queue<MyIGCMessage>();
+            var listener = A.Fake<IMyUnicastListener>();
+            A.CallTo(() => listener.HasPendingMessage).ReturnsLazily(() => inbox.Count > 0);
+            A.CallTo(() => listener.AcceptMessage()).ReturnsLazily(() => inbox.Dequeue());
+            A.CallTo(() => _igc.UnicastListener).Returns(listener);
+            var replies = new System.Collections.Generic.List<string>();
+            A.CallTo(_igc).Where(c => c.Method.Name == "SendUnicastMessage")
+                .Invokes(c => replies.Add(c.Arguments[1] + " " + c.Arguments[2]));
+
+            inbox.Enqueue(new MyIGCMessage("SET Miner Depth 45", "FLEET/FM/cmd", 777));
+            inbox.Enqueue(new MyIGCMessage("SET Miner Width 99", "FLEET/FM/cmd", 777));
+            inbox.Enqueue(new MyIGCMessage("START", "FLEET/OTHER/cmd", 777));   // wrong channel: ignored
+            p.Main("", UpdateType.Update10);
+
+            Assert.That(_me.CustomData, Does.Contain("Depth=45"));
+            Assert.That(replies[0], Does.StartWith("FLEET/FM/cfg ").And.Contain("Depth=45"));
+            Assert.That(replies[1], Does.StartWith("FLEET/FM/ack ERR").And.Contain("out of range"));
+            Assert.That(replies.Count, Is.EqualTo(2));
+        }
+
         [Test]
         public void Storage_RoundTripsThroughSaveAndReload()
         {
