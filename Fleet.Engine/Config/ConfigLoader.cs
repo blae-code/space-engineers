@@ -49,6 +49,10 @@ namespace IngameScript
                     s.Tag = tagValue;
                 }
 
+                var channelValue = ini.Get("Fleet", "Channel").ToString("").Trim();
+                if (channelValue.Length > 0 && channelValue.IndexOf('/') < 0) s.Channel = channelValue;
+                else if (ini.ContainsKey("Fleet", "Channel")) warnings.Add("Fleet.Channel: must be non-empty, no '/'");
+
                 // Load Miner section
                 ReadInt(ini, "Miner", "Width", ref s.Width, 1, 50, warnings);
                 ReadInt(ini, "Miner", "Height", ref s.Height, 1, 50, warnings);
@@ -117,6 +121,7 @@ namespace IngameScript
                 // Fleet section
                 ini.Set("Fleet", "Name", s.Name);
                 ini.Set("Fleet", "Tag", s.Tag);
+                ini.Set("Fleet", "Channel", s.Channel);
 
                 // Miner section
                 ini.Set("Miner", "Width", s.Width);
