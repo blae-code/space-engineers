@@ -1,0 +1,8 @@
+Fleet Console - mothership / carrier remote for Fleet Miner drones.
+SETUP: PB + antenna on the mothership; LCD named with [FM] (Custom Data
+[Console] Tag). Drones must use the same [Console] Channel as their
+[Fleet] Channel, and have an antenna in range.
+TARGETS: add lines under [Targets] in Custom Data: Name=GPS:Name:X:Y:Z:
+MENU: UP / DOWN / APPLY / BACK. Pick a drone, then Commands, Send to target
+or its settings pages. Edits marked * until the drone confirms them.
+ARGS: SEND <drone> <command> (e.g. SEND Miner-01 HOME), ALL <command>, REFRESH.

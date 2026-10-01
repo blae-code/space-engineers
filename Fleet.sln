@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fleet.Drone.Miner", "Fleet.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fleet.Tests", "Fleet.Tests\Fleet.Tests.csproj", "{A39ADC47-0E0C-4852-AF7D-C72844BF3DB7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fleet.Console", "Fleet.Console\Fleet.Console.csproj", "{B455F790-CDF2-4D4D-8355-8B14C7279E7F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +43,18 @@ Global
 		{A39ADC47-0E0C-4852-AF7D-C72844BF3DB7}.Release|x64.Build.0 = Release|x64
 		{A39ADC47-0E0C-4852-AF7D-C72844BF3DB7}.Release|x86.ActiveCfg = Release|x64
 		{A39ADC47-0E0C-4852-AF7D-C72844BF3DB7}.Release|x86.Build.0 = Release|x64
+		{B455F790-CDF2-4D4D-8355-8B14C7279E7F}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{B455F790-CDF2-4D4D-8355-8B14C7279E7F}.Debug|Any CPU.Build.0 = Debug|x64
+		{B455F790-CDF2-4D4D-8355-8B14C7279E7F}.Debug|x64.ActiveCfg = Debug|x64
+		{B455F790-CDF2-4D4D-8355-8B14C7279E7F}.Debug|x64.Build.0 = Debug|x64
+		{B455F790-CDF2-4D4D-8355-8B14C7279E7F}.Debug|x86.ActiveCfg = Debug|x64
+		{B455F790-CDF2-4D4D-8355-8B14C7279E7F}.Debug|x86.Build.0 = Debug|x64
+		{B455F790-CDF2-4D4D-8355-8B14C7279E7F}.Release|Any CPU.ActiveCfg = Release|x64
+		{B455F790-CDF2-4D4D-8355-8B14C7279E7F}.Release|Any CPU.Build.0 = Release|x64
+		{B455F790-CDF2-4D4D-8355-8B14C7279E7F}.Release|x64.ActiveCfg = Release|x64
+		{B455F790-CDF2-4D4D-8355-8B14C7279E7F}.Release|x64.Build.0 = Release|x64
+		{B455F790-CDF2-4D4D-8355-8B14C7279E7F}.Release|x86.ActiveCfg = Release|x64
+		{B455F790-CDF2-4D4D-8355-8B14C7279E7F}.Release|x86.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
