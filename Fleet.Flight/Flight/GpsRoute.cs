@@ -105,6 +105,12 @@ namespace IngameScript
             public double Remaining { get { return _remaining; } }
             public Vector3D Target { get { return _target; } }
 
+            // Slice 2: move the end point (a moving carrier) without restarting climb / cruise / descend.
+            public void Retarget(Vector3D targetWorld)
+            {
+                _target = targetWorld;
+            }
+
             public void Start(Vector3D targetWorld, bool inGravity)
             {
                 _target = targetWorld;
