@@ -20,6 +20,8 @@ namespace IngameScript
             public bool Damaged;
             public bool HasHome; public long HomeConnectorId; public MatrixD HomeMatrix = MatrixD.Identity;
             public bool Connected, Connectable;
+            public Vector3D HomeVelocity;       // world m/s of the home bay (moving carrier, slice 2)
+            public bool HomeTracked, HomeLost;  // pose from a fresh carrier beacon / beacon heard, now stale
             public double ShipSize = 5;         // metres, bounding-box diagonal / 2
         }
     }

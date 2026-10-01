@@ -17,6 +17,7 @@ namespace IngameScript
             readonly IMyIntergridCommunicationSystem _igc;
             readonly StringBuilder _sb = new StringBuilder(160);
             string _channel, _statusTag, _cmdTag, _cfgTag, _ackTag;
+            IMyBroadcastListener _bays;
             DroneStatus _status;
 
             public RemoteSubsystem(Rig r, MinerSubsystem miner, UiSubsystem ui, IMyIntergridCommunicationSystem igc)
@@ -42,9 +43,22 @@ namespace IngameScript
                 _cmdTag = FleetLink.Tag(_channel, FleetLink.Command);
                 _cfgTag = FleetLink.Tag(_channel, FleetLink.Cfg);
                 _ackTag = FleetLink.Tag(_channel, FleetLink.Ack);
+                if (_bays != null) _igc.DisableBroadcastListener(_bays);
+                _bays = _igc.RegisterBroadcastListener(FleetLink.Tag(_channel, Beacon.Kind));
             }
 
-            public void Update10() { Poll(); }
+            public void Update10() { Poll(); PollBays(); }
+
+            // Carrier bay beacons (slice 2): only the home bay's is kept. Struct payload, no allocation.
+            void PollBays()
+            {
+                while (_bays.HasPendingMessage)
+                {
+                    var msg = _bays.AcceptMessage();
+                    BayPose p;
+                    if (Beacon.TryUnpack(msg.Data, out p)) _r.Home.Offer(ref p, _r.Bb.Time);
+                }
+            }
 
             public void Update100() { Broadcast(); }
 

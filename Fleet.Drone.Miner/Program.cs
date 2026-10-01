@@ -41,7 +41,8 @@ namespace IngameScript
             _ui = new UiSubsystem(_r, _miner);
             _remote = new RemoteSubsystem(_r, _miner, _ui, IGC);
             _ui.OnConfigReloaded = _remote.Retag;
-            _subs.Add(sense); _subs.Add(_miner); _subs.Add(_ui); _subs.Add(_remote);
+            // Remote before Miner: beacons and remote commands are applied in the same tick they arrive.
+            _subs.Add(sense); _subs.Add(_remote); _subs.Add(_miner); _subs.Add(_ui);
 
             StorageStore.Load(Storage, _subs, _ini, _dropped);
             for (int i = 0; i < _dropped.Count; i++) Note("storage dropped: " + _dropped[i]);

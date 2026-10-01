@@ -141,6 +141,11 @@ namespace IngameScript
                 if (bb.HasReactor) SbFormat.AppendFixed(sb.Append("  U "), bb.UraniumKg, 1).Append("kg");
                 sb.Append('\n');
 
+                if (!bb.Connected && bb.HasHome)
+                {
+                    if (bb.HomeTracked) SbFormat.AppendFixed(sb.Append("carrier tracked  "), bb.HomeVelocity.Length(), 1).Append(" m/s\n");
+                    else if (bb.HomeLost) sb.Append("!! carrier beacon LOST\n");
+                }
                 if (_r.Profiler != null && _r.Runtime != null)
                 {
                     SbFormat.AppendInt(sb.Append("instr avg "), (long)_r.Profiler.Average);

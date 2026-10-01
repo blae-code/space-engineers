@@ -38,7 +38,8 @@ namespace IngameScript
             readonly List<IMyCargoContainer> _containers = new List<IMyCargoContainer>();
             StuckDetector _stuck;
 
-            // Job, all local to the home connector frame (Frames).
+            // Job in WORLD space (slice 2: a moving carrier must not drag the dig site along). The dock
+            // path stays local to the home connector (it belongs to the carrier); the job route is world.
             bool _hasJob, _jobIsGps;
             Vector3D _jobOrigin, _jobFwd, _jobUp, _jobRight;
             double _spacing;
@@ -53,7 +54,7 @@ namespace IngameScript
             ReturnReason _savedPending = ReturnReason.None;
             int _stuckRetries;
             double _backoffUntil = -1, _stateStart;
-            Vector3D _backoffTarget, _holdFwd, _holdUp;
+            Vector3D _backoffTarget, _holdFwd, _holdUp, _frameVel;
             bool _timedOut;
             MinerInput _obs;                        // observations gathered by this tick's state action
             PoseTarget _t;
@@ -68,7 +69,7 @@ namespace IngameScript
             }
 
             public string Name { get { return "Miner"; } }
-            public int StorageVersion { get { return 2; } }
+            public int StorageVersion { get { return 3; } }
             public bool HasJob { get { return _hasJob; } }
             public void HandleMessage(MyIGCMessage msg) { }
             public void Status(StringBuilder sb) { }
@@ -103,6 +104,7 @@ namespace IngameScript
             public void Update1()
             {
                 if (!WantsUpdate1 || Fsm.State != MinerState.Dock) return;
+                ResolveHome();                                   // carrier pose extrapolated at 60 Hz
                 Helm.SetReference(RefInShip(_refKind));
                 DockTick();
                 Helm.Update(Dt1);
@@ -159,18 +161,43 @@ namespace IngameScript
 
             // ---------- home + reload ----------
 
+            // Docked: the real connector. Undocked: the carrier's beacon, extrapolated (slice 2). Never heard a
+            // beacon: last known pose (slice 1, static carrier). Heard one, now stale: home LOST.
             void ResolveHome()
             {
                 var c = _r.Scan.Connector;
+                Bb.HomeTracked = false;
+                Bb.HomeLost = false;
                 if (c != null && c.Status == MyShipConnectorStatus.Connected && c.OtherConnector != null)
                 {
                     _homeId = c.OtherConnector.EntityId;
                     Bb.HomeMatrix = c.OtherConnector.WorldMatrix;
                     Bb.HomeConnectorId = _homeId;
+                    Bb.HomeVelocity = Bb.Velocity;
                 }
-                // Undocked: the carrier's blocks are not on this grid's terminal system, so the last known
-                // home pose is kept. Slice 1 requires a STATIONARY carrier (moving carriers are slice 2).
+                else if (_r.Home.Fresh(Bb.Time))
+                {
+                    MatrixD pose; Vector3D vel;
+                    _r.Home.Predict(Bb.Time, out pose, out vel);
+                    Bb.HomeMatrix = pose;
+                    Bb.HomeVelocity = vel;
+                    Bb.HomeTracked = true;
+                }
+                else
+                {
+                    Bb.HomeVelocity = Vector3D.Zero;
+                    Bb.HomeLost = _r.Home.Lost(Bb.Time);
+                }
+                _r.Home.SetHome(_homeId);
                 Bb.HasHome = _homeId != 0;
+            }
+
+            bool HomeMoving { get { return Bb.HomeVelocity.LengthSquared() > 0.25; } }
+
+            static bool IsHomeward(MinerState s)
+            {
+                return s == MinerState.Undock || s == MinerState.DockPathOut || s == MinerState.DockPathIn
+                    || s == MinerState.Dock || s == MinerState.RouteBack;
             }
 
             void Reconcile()
@@ -178,7 +205,7 @@ namespace IngameScript
                 _pendingReconcile = false;
                 var ri = new ReconcileInput
                 {
-                    Saved = _savedState, HomeFound = Bb.HasHome, Connected = Bb.Connected, HasJob = _hasJob,
+                    Saved = _savedState, HomeFound = Bb.HasHome && !Bb.HomeLost, Connected = Bb.Connected, HasJob = _hasJob,
                     CargoFill = Bb.CargoFill, ShipSize = Bb.ShipSize,
                     DistToHoleEntrance = _hasJob && HoleIndex < _holes.Count ? Vector3D.Distance(DrillFace, Entrance()) : 0
                 };
@@ -235,7 +262,7 @@ namespace IngameScript
                     case MinerState.Safe:
                         Helm.Release(); _r.DrillsOn(false); break;
                     case MinerState.Recording:
-                        Helm.Release(); _recorder.Begin(Local(ShipPos)); break;
+                        Helm.Release(); _recorder.Begin(RecPos()); break;
                     case MinerState.Undock:
                         _r.Energy.SetCharging(false);   // never leave with batteries on Recharge / tanks on Stockpile
                         _refKind = RefConn;
@@ -251,9 +278,11 @@ namespace IngameScript
                     case MinerState.RouteBack:
                         _refKind = RefShip;
                         bool back = to == MinerState.RouteBack;
-                        _useGps = _jobIsGps || _jobPath.Count < 2;
+                        // A recorded job route assumes the carrier is where it was: with a moving carrier the
+                        // way home is a direct route to the (moving) dock approach point.
+                        _useGps = _jobIsGps || _jobPath.Count < 2 || (back && (HomeMoving || Bb.HomeTracked));
                         if (_useGps) _gps.Start(back ? DockApproachPoint() : JobApproachPoint(), Bb.InGravity);
-                        else _follower.StartNearest(_jobPath, back, Local(ShipPos));
+                        else _follower.StartNearest(_jobPath, back, ShipPos);
                         break;
                     case MinerState.Position:
                         _refKind = RefDrill; break;
@@ -292,8 +321,8 @@ namespace IngameScript
             // so the drill face arrives in front of the rock, not the centre of mass inside it.
             Vector3D JobApproachPoint()
             {
-                if (_holes.Count == 0) return World(_jobOrigin);
-                return Entrance() - WorldDir(_jobFwd) * (Standoff + Clearance);
+                if (_holes.Count == 0) return _jobOrigin;
+                return Entrance() - _jobFwd * (Standoff + Clearance);
             }
 
             // Where a GPS route home ends: the dock path's outer end, else the dock standoff.
@@ -321,21 +350,30 @@ namespace IngameScript
             Vector3D Entrance()
             {
                 var cell = _holes[Math.Min(HoleIndex, _holes.Count - 1)];
-                return HoleGrid.HoleEntrance(World(_jobOrigin), WorldDir(_jobRight), WorldDir(_jobUp), cell, _spacing)
-                    + WorldDir(_jobFwd) * S.StartDepth;
+                return HoleGrid.HoleEntrance(_jobOrigin, _jobRight, _jobUp, cell, _spacing) + _jobFwd * S.StartDepth;
             }
 
             // Clear of the rock in front of the current hole: Position flies here, Retract returns here.
-            Vector3D HoleApproach() { return Entrance() - WorldDir(_jobFwd) * Clearance; }
+            Vector3D HoleApproach() { return Entrance() - _jobFwd * Clearance; }
 
             void StateTick()
             {
                 var now = Bb.Time;
                 var refW = RefWorld(_refKind);
+                var st = Fsm.State;
+                if (Bb.HomeLost && IsHomeward(st))
+                {
+                    var pending = Fsm.PendingReason;
+                    Force(MinerState.Hold, "carrier beacon lost: CONT once it is back");
+                    Fsm.Restore(st, pending);
+                    return;
+                }
+                // Home-relative targets move with the carrier; job targets are fixed in the world.
+                _frameVel = IsHomeward(st) ? Bb.HomeVelocity : Vector3D.Zero;
                 switch (Fsm.State)
                 {
                     case MinerState.Recording:
-                        if (!_recorder.Update(Local(ShipPos), Bb.Velocity.Length()) && _recorder.IsFull)
+                        if (!_recorder.Update(RecPos(), (Bb.Velocity - Bb.HomeVelocity).Length()) && _recorder.IsFull)
                             _r.Note("path recorder full");
                         break;
 
@@ -368,6 +406,7 @@ namespace IngameScript
                     case MinerState.RouteBack:
                         if (_useGps)
                         {
+                            if (Fsm.State == MinerState.RouteBack) _gps.Retarget(DockApproachPoint());
                             var carrot = _gps.Update(ShipPos, Bb.Gravity, Bb.HasElevation ? Bb.Elevation : 1e9, S.SafeAltitude, ReachDist);
                             Vector3D f, u;
                             TravelAxes(carrot, out f, out u);
@@ -377,7 +416,7 @@ namespace IngameScript
                         else
                         {
                             double cap, remaining;
-                            var carrot = World(_follower.Update(Local(ShipPos), ReachDist, S.MaxSpeed, out cap, out remaining));
+                            var carrot = _follower.Update(ShipPos, ReachDist, S.MaxSpeed, out cap, out remaining);
                             Vector3D f, u;
                             TravelAxes(carrot, out f, out u);
                             Fly(carrot, f, u, Math.Min(S.MaxSpeed, cap), remaining);
@@ -389,8 +428,8 @@ namespace IngameScript
                     {
                         if (HoleIndex >= _holes.Count) break;
                         var target = HoleApproach();
-                        var fwd = WorldDir(_jobFwd);
-                        Fly(target, fwd, WorldDir(_jobUp), S.ApproachSpeed, -1);
+                        var fwd = _jobFwd;
+                        Fly(target, fwd, _jobUp, S.ApproachSpeed, -1);
                         // Fresh geometry, never last tick's helm state.
                         _obs.AtHole = Vector3D.Distance(refW.Translation, target) < 0.5
                             && GyroMath.AngleBetween(refW.Forward, fwd) < 0.035;
@@ -401,19 +440,19 @@ namespace IngameScript
                     case MinerState.Retract:
                     {
                         var entrance = Entrance();
-                        var fwd = WorldDir(_jobFwd);
+                        var fwd = _jobFwd;
                         Depth = Vector3D.Dot(refW.Translation - entrance, fwd);
                         var phase = _drill.Update(now, Depth, Vector3D.Dot(Bb.Velocity, fwd));
                         _r.Cargo.EjectStep(S);
                         if (Fsm.State == MinerState.Drill)
                         {
                             double full = S.Depth - S.StartDepth;
-                            Engage(entrance + fwd * full, fwd, WorldDir(_jobUp), _drill.Feed, Math.Max(0, full - Depth));
+                            Engage(entrance + fwd * full, fwd, _jobUp, _drill.Feed, Math.Max(0, full - Depth));
                             if (phase != DrillLogic.Phase.Advance) { _holeDone = true; _obs.DrillFinished = true; }
                         }
                         else
                         {
-                            Fly(entrance - fwd * Clearance, fwd, WorldDir(_jobUp), S.RetractSpeed, -1);
+                            Fly(entrance - fwd * Clearance, fwd, _jobUp, S.RetractSpeed, -1);
                             // Done only once the face is clear of the rock (DrillLogic stops counting at 0.5 m).
                             _obs.RetractDone = phase == DrillLogic.Phase.Done && Depth <= -0.5 * Clearance;
                             _obs.JobComplete = HoleIndex + (_holeDone ? 1 : 0) >= _holes.Count;
@@ -466,6 +505,7 @@ namespace IngameScript
                     Standoff, S.ApproachSpeed, S.DockSpeed);
                 // Connectors mate at any roll: keep the drone's current roll instead of the home block's Up.
                 _t.Up = GyroMath.PerpendicularUp(_t.Forward, cw.Up, cw.Forward);
+                _t.Velocity = Bb.HomeVelocity;
                 Helm.Engage(_t);
                 WantsUpdate1 = _t.Precision;
                 if (_docking.Current == DockingPlanner.Phase.Connect && Bb.Connectable) conn.Connect();
@@ -500,7 +540,7 @@ namespace IngameScript
                 Engage(pos, fwd, up, cap, brake);
                 var toTarget = pos - refPos;
                 double dist = toTarget.Length();
-                double progress = dist > 1e-6 ? Vector3D.Dot(Bb.Velocity, toTarget / dist) : 0;
+                double progress = dist > 1e-6 ? Vector3D.Dot(Bb.Velocity - _frameVel, toTarget / dist) : 0;
                 if (!_stuck.Update(Bb.Time, progress, dist > 1.0)) return;
                 if (_stuckRetries < 2)
                 {
@@ -515,6 +555,7 @@ namespace IngameScript
             void Engage(Vector3D pos, Vector3D fwd, Vector3D up, double cap, double brake)
             {
                 _t.Position = pos; _t.Forward = fwd; _t.Up = up; _t.SpeedCap = cap; _t.BrakeDist = brake; _t.Precision = false;
+                _t.Velocity = _frameVel;
                 Helm.Engage(_t);
             }
 
@@ -567,7 +608,7 @@ namespace IngameScript
             // Leaving Recording (STOPREC, STOP, RESET): close the path and keep it as the dock path or job route.
             void KeepRecording()
             {
-                _recorder.End(Local(ShipPos));
+                _recorder.End(RecPos());
                 if (_recording == 0) return;
                 var path = _recording == 1 ? _dockPath : _jobPath;
                 path.Clear();
@@ -575,6 +616,8 @@ namespace IngameScript
                 _r.Note(_recording == 1 ? "dock path saved" : "job route saved");
                 _recording = 0;
             }
+
+            Vector3D RecPos() { return _recording == 2 ? ShipPos : Local(ShipPos); }
 
             bool CanRedefineJob()
             {
@@ -588,7 +631,7 @@ namespace IngameScript
                 if (!CanRedefineJob()) return;
                 if (!Bb.HasHome) { _r.Note("SETJOB needs a home: dock once first"); return; }
                 var m = RefWorld(RefDrill);
-                DefineJob(Local(m.Translation), m.Forward, m.Up, false);
+                DefineJob(m.Translation, m.Forward, m.Up, false);
                 _r.Note("job set here");
             }
 
@@ -600,17 +643,16 @@ namespace IngameScript
                 if (!Bb.HasHome) { _r.Note("GOTO needs a home: dock once first"); return; }
                 Vector3D fwd = Bb.InGravity ? Vector3D.Normalize(Bb.Gravity) : Vector3D.Normalize(target - Bb.HomeMatrix.Translation);
                 var up = GyroMath.PerpendicularUp(fwd, Bb.ShipMatrix.Up, Bb.ShipMatrix.Forward);
-                DefineJob(Local(target), fwd, up, true);
+                DefineJob(target, fwd, up, true);
                 _r.Note("GPS job set");
             }
 
-            void DefineJob(Vector3D originLocal, Vector3D fwdWorld, Vector3D upWorld, bool gps)
+            void DefineJob(Vector3D origin, Vector3D fwd, Vector3D up, bool gps)
             {
-                var h = Bb.HomeMatrix;
-                _jobOrigin = originLocal;
-                _jobFwd = Frames.ToLocalDir(h, fwdWorld);
-                _jobUp = Frames.ToLocalDir(h, upWorld);
-                _jobRight = Frames.ToLocalDir(h, Vector3D.Cross(fwdWorld, upWorld));
+                _jobOrigin = origin;
+                _jobFwd = fwd;
+                _jobUp = up;
+                _jobRight = Vector3D.Cross(fwd, up);
                 _spacing = HoleGrid.SpacingFromDrills(_r.Scan.DrillLocal);
                 _jobW = S.Width; _jobH = S.Height;
                 HoleGrid.Spiral(_jobW, _jobH, _holes);
@@ -647,7 +689,7 @@ namespace IngameScript
 
             public bool Load(MyIni ini, int savedVersion)
             {
-                if (savedVersion != StorageVersion) return false;
+                if (savedVersion != StorageVersion && savedVersion != 2) return false;
                 var n = Name;
                 _savedState = (MinerState)ini.Get(n, "state").ToInt32(0);
                 _savedResume = (MinerState)ini.Get(n, "resume").ToInt32(0);
@@ -662,6 +704,7 @@ namespace IngameScript
                 _jobW = ini.Get(n, "width").ToInt32(1);
                 _jobH = ini.Get(n, "height").ToInt32(1);
                 _homeId = ini.Get(n, "homeId").ToInt64(0);
+                _r.Home.SetHome(_homeId);       // accept the home bay's beacon from the first tick
                 var hp = GetVec(ini, n, "hp"); var hf = GetVec(ini, n, "hf"); var hu = GetVec(ini, n, "hu");
                 if (hf.LengthSquared() > 0.5 && hu.LengthSquared() > 0.5) Bb.HomeMatrix = MatrixD.CreateWorld(hp, hf, hu);
                 Bb.HasHome = _homeId != 0;
@@ -669,7 +712,19 @@ namespace IngameScript
                 if (HoleIndex > _holes.Count) HoleIndex = _holes.Count;
                 PathCodec.Load(ini, "Miner.DockPath", _dockPath);
                 PathCodec.Load(ini, "Miner.JobPath", _jobPath);
+                if (savedVersion == 2) MigrateJobToWorld(Bb.HomeMatrix);
                 return true;
+            }
+
+            // Version 2 stored the job and job route local to the home connector; version 3 stores them in
+            // world space. Converted with the home pose saved alongside them (spec §4: migrate, don't drop).
+            void MigrateJobToWorld(MatrixD home)
+            {
+                _jobOrigin = Frames.ToWorldPoint(home, _jobOrigin);
+                _jobFwd = Frames.ToWorldDir(home, _jobFwd);
+                _jobUp = Frames.ToWorldDir(home, _jobUp);
+                _jobRight = Frames.ToWorldDir(home, _jobRight);
+                for (int i = 0; i < _jobPath.Count; i++) _jobPath[i] = Frames.ToWorldPoint(home, _jobPath[i]);
             }
 
             static void SetVec(MyIni ini, string sec, string k, Vector3D v)

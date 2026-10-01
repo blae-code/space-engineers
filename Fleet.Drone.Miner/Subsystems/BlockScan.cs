@@ -128,6 +128,7 @@ namespace IngameScript
             public readonly DamageScanner Damage = new DamageScanner();
             public readonly Displays Displays = new Displays();
             public readonly EventLog Events = new EventLog(8);
+            public readonly HomeTracker Home = new HomeTracker();
             public readonly List<string> ConfigWarnings = new List<string>();
             public IMyGridTerminalSystem Gts;
             public IMyProgrammableBlock Me;

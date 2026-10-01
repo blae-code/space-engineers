@@ -17,7 +17,9 @@ namespace Fleet.Tests.Mining
         string _lastScreen = "";
         string _broadcast;
 
-        IngameScript.Program Build(string storage = "")
+        IMyGridProgramRuntimeInfo _runtime;
+
+        IngameScript.Program Build(string storage = "", System.Action<IMyIntergridCommunicationSystem> igcSetup = null)
         {
             _me = A.Fake<IMyProgrammableBlock>();
             A.CallTo(() => _me.CubeGrid).Returns(A.Fake<IMyCubeGrid>());
@@ -28,12 +30,14 @@ namespace Fleet.Tests.Mining
             A.CallTo(() => _me.GetSurface(0)).Returns(surface);
 
             _igc = A.Fake<IMyIntergridCommunicationSystem>();
+            if (igcSetup != null) igcSetup(_igc);
             A.CallTo(_igc).Where(c => c.Method.Name == "SendBroadcastMessage")
                 .Invokes(c => _broadcast = c.Arguments[1] as string);
 
             var program = FormatterServices.GetUninitializedObject(typeof(IngameScript.Program));
             var backend = (Sandbox.ModAPI.IMyGridProgram)program;
-            backend.Runtime = A.Fake<IMyGridProgramRuntimeInfo>();
+            _runtime = A.Fake<IMyGridProgramRuntimeInfo>();
+            backend.Runtime = _runtime;
             backend.Echo = s => { };
             backend.Me = _me;
             backend.Storage = storage;
@@ -140,6 +144,48 @@ namespace Fleet.Tests.Mining
             inbox.Enqueue(new MyIGCMessage("CONT", "FLEET/FM/cmd", 777));
             p.Main("", UpdateType.Update10);
             Assert.That(ack, Does.StartWith("CONT: not ready").And.Contain("No cockpit"));
+        }
+
+        // Slice 2: undocked, the home pose comes from the carrier's bay beacon; silence means LOST.
+        [Test]
+        public void CarrierBeacon_TrackedThenLost()
+        {
+            var beacons = new System.Collections.Generic.Queue<MyIGCMessage>();
+            var p = Build("[Miner]\nv=3\nhomeId=42\nstate=0\n", igc =>
+            {
+                var bays = A.Fake<IMyBroadcastListener>();
+                A.CallTo(() => bays.HasPendingMessage).ReturnsLazily(() => beacons.Count > 0);
+                A.CallTo(() => bays.AcceptMessage()).ReturnsLazily(() => beacons.Dequeue());
+                A.CallTo(() => igc.RegisterBroadcastListener("FLEET/FM/bay")).Returns(bays);
+            });
+            A.CallTo(() => _runtime.TimeSinceLastRun).Returns(System.TimeSpan.FromSeconds(0.5));
+            var bay = new IngameScript.Program.BayPose
+            {
+                BayId = 42, Position = new VRageMath.Vector3D(0, 0, 0), Forward = new VRageMath.Vector3D(0, 0, -1),
+                Up = new VRageMath.Vector3D(0, 1, 0), Velocity = new VRageMath.Vector3D(5, 0, 0)
+            };
+            beacons.Enqueue(new MyIGCMessage(IngameScript.Program.Beacon.Pack(ref bay), "FLEET/FM/bay", 900));
+            p.Main("", UpdateType.Update10 | UpdateType.Update100);
+            Assert.That(_lastScreen, Does.Contain("carrier tracked  5.0 m/s"));
+            for (int i = 0; i < 5; i++) p.Main("", UpdateType.Update10 | UpdateType.Update100);   // 2.5 s of silence
+            Assert.That(_lastScreen, Does.Contain("carrier beacon LOST"));
+        }
+
+        // Slice 2: version-2 storage kept the job local to the home connector; it is migrated to world space.
+        [Test]
+        public void StorageV2_JobMigratesToWorld()
+        {
+            var v2 = "[Miner]\nv=2\nhomeId=42\nhasJob=true\nwidth=1\nheight=1\nspacing=3\n"
+                + "ox=0\noy=0\noz=-10\nfx=0\nfy=0\nfz=-1\nux=0\nuy=1\nuz=0\nrx=1\nry=0\nrz=0\n"
+                + "hpx=100\nhpy=0\nhpz=0\nhfx=1\nhfy=0\nhfz=0\nhux=0\nhuy=1\nhuz=0\n";
+            var p = Build(v2);
+            p.Save();
+            var v3 = ((Sandbox.ModAPI.IMyGridProgram)p).Storage;
+            Assert.That(v3, Does.Contain("v=3"));
+            // Home at (100,0,0) facing +X: local forward (0,0,-1) is world +X, so local (0,0,-10) is (110,0,0).
+            Assert.That(v3, Does.Contain("ox=110"));
+            Assert.That(v3, Does.Contain("fx=1"));
+            Assert.That(v3, Does.Not.Contain("storage dropped"));
         }
 
         [Test]
