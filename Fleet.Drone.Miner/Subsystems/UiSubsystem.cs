@@ -150,7 +150,9 @@ namespace IngameScript
 
                 for (int i = 0; i < _r.Scan.Diagnostics.Count; i++) sb.Append("!! ").Append(_r.Scan.Diagnostics[i]).Append('\n');
                 for (int i = 0; i < _r.ConfigWarnings.Count; i++) sb.Append("!! ").Append(_r.ConfigWarnings[i]).Append('\n');
-                if (_gyroReport.Length > 0) sb.Append(_gyroReport);
+                if (!_r.Scan.HasAntenna) sb.Append("!! No antenna: console out of reach once undocked\n");
+                // No StringBuilder.Append(StringBuilder) on .NET Framework: copy chars, don't box.
+                for (int i = 0; i < _gyroReport.Length; i++) sb.Append(_gyroReport[i]);
                 if (_r.LastNote.Length > 0 && bb.Time - _r.LastNoteTime < 30) sb.Append(">> ").Append(_r.LastNote).Append('\n');
 
                 sb.Append('\n');

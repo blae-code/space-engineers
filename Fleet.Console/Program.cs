@@ -66,7 +66,13 @@ namespace IngameScript
         {
             MyIniParseResult res;
             _ini.Clear();
-            if (!_ini.TryParse(Me.CustomData, out res)) { Ack("Custom Data is not valid INI"); _configText = Me.CustomData; return; }
+            if (!_ini.TryParse(Me.CustomData, out res))
+            {
+                Ack("Custom Data is not valid INI (line " + res.LineNo + ")");
+                _configText = Me.CustomData;
+                if (_status == null) Retag(_channel);   // keep listening on the last good channel
+                return;
+            }
             var ch = _ini.Get("Console", "Channel").ToString(_channel).Trim();
             _tag = _ini.Get("Console", "Tag").ToString(_tag).Trim();
             if (ch.Length == 0 || ch.IndexOf('/') >= 0) ch = "FM";

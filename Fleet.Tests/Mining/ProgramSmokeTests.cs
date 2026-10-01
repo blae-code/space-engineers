@@ -124,6 +124,24 @@ namespace Fleet.Tests.Mining
             Assert.That(replies.Count, Is.EqualTo(2));
         }
 
+        // A refused remote command must say why, not "OK" (review finding 21).
+        [Test]
+        public void RemoteRefusedCommand_AcksTheReason()
+        {
+            var p = Build();
+            var inbox = new System.Collections.Generic.Queue<MyIGCMessage>();
+            var listener = A.Fake<IMyUnicastListener>();
+            A.CallTo(() => listener.HasPendingMessage).ReturnsLazily(() => inbox.Count > 0);
+            A.CallTo(() => listener.AcceptMessage()).ReturnsLazily(() => inbox.Dequeue());
+            A.CallTo(() => _igc.UnicastListener).Returns(listener);
+            string ack = null;
+            A.CallTo(_igc).Where(c => c.Method.Name == "SendUnicastMessage").Invokes(c => ack = c.Arguments[2] as string);
+            p.Main("", UpdateType.Update10 | UpdateType.Update100);
+            inbox.Enqueue(new MyIGCMessage("CONT", "FLEET/FM/cmd", 777));
+            p.Main("", UpdateType.Update10);
+            Assert.That(ack, Does.StartWith("CONT: not ready").And.Contain("No cockpit"));
+        }
+
         [Test]
         public void Storage_RoundTripsThroughSaveAndReload()
         {

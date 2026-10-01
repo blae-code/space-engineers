@@ -77,9 +77,11 @@ namespace IngameScript
                     else _igc.SendUnicastMessage(from, _ackTag, "ERR " + (error ?? "Custom Data is not valid INI"));
                     return;
                 }
-                _r.Note("remote: " + text);
+                // Report what actually happened: a refused command leaves a note, which goes back instead.
+                var before = _r.LastNote;
                 _r.RunCommand(text);
-                _igc.SendUnicastMessage(from, _ackTag, "OK " + text);
+                bool noted = !ReferenceEquals(before, _r.LastNote);
+                _igc.SendUnicastMessage(from, _ackTag, noted ? text + ": " + _r.LastNote : "OK " + text);
             }
 
             void SendCfg(long to) { _igc.SendUnicastMessage(to, _cfgTag, _r.Me.CustomData); }

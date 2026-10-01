@@ -24,7 +24,10 @@ namespace IngameScript
             public readonly List<IMyTerminalBlock> All = new List<IMyTerminalBlock>();
             public readonly List<Vector3D> DrillLocal = new List<Vector3D>();
             public readonly List<string> Diagnostics = new List<string>();
-            public MatrixD RefConnInShip = MatrixD.Identity, RefDrillInShip = MatrixD.Identity;
+            // Connector and drill-face poses in the CONTROLLER BLOCK's frame. The helm works in a centre-of-mass
+            // frame, and the CoM moves as ore loads, so these are converted per tick (MinerSubsystem.CurrentRef).
+            public MatrixD RefConnInCtrl = MatrixD.Identity, RefDrillInCtrl = MatrixD.Identity;
+            public bool HasAntenna;
             public double ShipSize = 5;
             public bool Ready { get { return Diagnostics.Count == 0; } }
 
@@ -56,7 +59,12 @@ namespace IngameScript
                 gts.GetBlocksOfType(Tanks, _mine);
                 gts.GetBlocksOfType(Reactors, _mine);
                 Inventories.Clear();
-                for (int i = 0; i < All.Count; i++) if (All[i].HasInventory) Inventories.Add(All[i]);
+                HasAntenna = false;
+                for (int i = 0; i < All.Count; i++)
+                {
+                    if (All[i].HasInventory) Inventories.Add(All[i]);
+                    if (All[i] is IMyRadioAntenna || All[i] is IMyLaserAntenna) HasAntenna = true;
+                }
 
                 Controller = null;
                 for (int i = 0; i < _ctrls.Count && Controller == null; i++)
@@ -89,10 +97,8 @@ namespace IngameScript
                 var ext = (Vector3D)(grid.Max - grid.Min + Vector3I.One) * grid.GridSize;
                 ShipSize = Math.Max(1, ext.Length() / 2);
                 if (Controller == null) return;
-                var ship = Controller.WorldMatrix;
-                ship.Translation = Controller.CenterOfMass;
-                var inv = MatrixD.Invert(ship);
-                if (Connector != null) RefConnInShip = Connector.WorldMatrix * inv;
+                var inv = MatrixD.Invert(Controller.WorldMatrix);
+                if (Connector != null) RefConnInCtrl = Connector.WorldMatrix * inv;
 
                 DrillLocal.Clear();
                 if (Drills.Count == 0) return;
@@ -104,9 +110,9 @@ namespace IngameScript
                     mean += p;
                 }
                 mean /= Drills.Count;
-                // Drill face: mean drill position pushed 1.5 m along ship-forward, ship orientation.
-                RefDrillInShip = MatrixD.Identity;
-                RefDrillInShip.Translation = mean + Vector3D.Forward * 1.5;
+                // Drill face: mean drill position pushed 1.5 m along controller-forward, controller orientation.
+                RefDrillInCtrl = MatrixD.Identity;
+                RefDrillInCtrl.Translation = mean + Vector3D.Forward * 1.5;
             }
         }
 
@@ -130,7 +136,6 @@ namespace IngameScript
             public Profiler Profiler;
             public string LastNote = "";           // latest operator-facing note (not a state transition)
             public double LastNoteTime;
-            public Action RequestSave;
             public Action<string> RunCommand;      // the one entry point for terminal, menu and remote commands
             public Action<string> Note;            // a line for the event log / LCD
 

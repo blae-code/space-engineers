@@ -26,11 +26,12 @@ namespace IngameScript
             _r.Me = Me;
             _r.Runtime = Runtime;
             _r.Profiler = _profiler;
-            _r.RequestSave = Save;
             _r.RunCommand = RunCommand;
             _r.Note = Note;
 
             ConfigLoader.Load(Me.CustomData, _r.Settings, _r.ConfigWarnings);
+            if (Me.CustomData.IndexOf("Name=", StringComparison.Ordinal) < 0 && !string.IsNullOrWhiteSpace(Me.CubeGrid.CustomName))
+                _r.Settings.Name = Me.CubeGrid.CustomName.Trim().Replace(' ', '-');   // unique, SEND-addressable
             var full = ConfigLoader.Write(Me.CustomData, _r.Settings);
             if (full != Me.CustomData && _r.ConfigWarnings.Count == 0) Me.CustomData = full;
 
@@ -115,6 +116,11 @@ namespace IngameScript
                 }
                 string rest;
                 var cmd = CommandParser.Parse(text, out rest);
+                if (_kernel.IsSafe && cmd != Cmd.Reset && cmd != Cmd.Up && cmd != Cmd.Down && cmd != Cmd.Apply && cmd != Cmd.Back)
+                {
+                    Note("SAFE: only RESET is accepted");
+                    return;
+                }
                 switch (cmd)
                 {
                     case Cmd.None: return;
