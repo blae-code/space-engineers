@@ -47,6 +47,7 @@ namespace IngameScript
         public class HomeTracker
         {
             public const double StaleAfter = 2.0;   // s without a beacon -> the pose is no longer trusted
+            public const double DeadReckon = 6.0;   // s after going stale the pose is still extrapolated (evade, not dock)
             public long HomeId { get; private set; }
             public bool Heard { get; private set; }
             BayPose _last;
@@ -69,6 +70,23 @@ namespace IngameScript
             }
 
             public bool Fresh(double now) { return Heard && now - _rxTime < StaleAfter; }
+
+            // Stale but recent: good enough to steer AWAY from the carrier, never to dock onto it.
+            public bool CanDeadReckon(double now) { return Heard && now - _rxTime < StaleAfter + DeadReckon; }
+
+            public Vector3D AngularVelocity { get { return _last.AngularVelocity; } }
+
+            // After a reload: this home WAS tracked (a carrier script exists), so until a fresh beacon arrives
+            // it is lost — not a static slice-1 home at its saved pose.
+            public void AssumeLost(long homeId)
+            {
+                HomeId = homeId;
+                Heard = homeId != 0;
+                _rxTime = double.NegativeInfinity;
+            }
+
+            // RESET: the carrier script is gone for good; fall back to slice-1 static-home behaviour.
+            public void Forget() { Heard = false; }
 
             // The carrier script was heard but has gone quiet: never fly at a guessed connector.
             public bool Lost(double now) { return Heard && now - _rxTime >= StaleAfter; }

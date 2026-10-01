@@ -88,6 +88,23 @@ namespace Fleet.Tests.Engine
         }
 
         [Test]
+        public void Tracker_DeadReckonWindow_AndReloadAssumesLost()
+        {
+            var t = new HomeTracker(); t.SetHome(42);
+            var b = Bay(); t.Offer(ref b, 0);
+            Assert.That(t.CanDeadReckon(5), Is.True);
+            Assert.That(t.Lost(5), Is.True);
+            Assert.That(t.CanDeadReckon(8.5), Is.False);
+            t.AssumeLost(42);
+            Assert.That(t.Lost(100), Is.True, "after a reload a tracked home is lost until a beacon");
+            Assert.That(t.CanDeadReckon(100), Is.False);
+            t.Offer(ref b, 101);
+            Assert.That(t.Fresh(101.5), Is.True);
+            t.Forget();
+            Assert.That(t.Lost(200), Is.False, "RESET falls back to a static home");
+        }
+
+        [Test]
         public void Tracker_GoesStale_ThenRecovers()
         {
             var t = new HomeTracker(); t.SetHome(42);
