@@ -30,6 +30,17 @@ Breaking any rule below either fails the build or breaks the script in-game.
 - **Test files given in a card are created verbatim and never edited to make a test pass.** If a test
   fails, the implementation is wrong — fix the implementation or stop and report.
 
+## No card, no code
+- **Never create or edit script code (`Fleet.Engine/`, `Fleet.Flight/`, `Fleet.Drone.Miner/`,
+  `Fleet.Console/`, `Fleet.Carrier/`) without an attached task card.** The pre-commit hook refuses
+  uncarded script code, so that work is thrown away.
+- Asked for ideas, a roadmap or "what could we add"? Append **one line per idea** to `docs/ideas.md`
+  and stop. Do not write plans, size estimates or code sketches into new files.
+- Never estimate script size. Measure it: `fish tools/check-size.fish` (after a Release build).
+- Never make backup copies (`*.backup`, `*.original`); git is the backup.
+- Space Engineers facts you are not certain of (block APIs, game mechanics) are questions for Claude
+  Code, not guesses. Vanilla SE has no weather, radiation or component wear.
+
 ## Working a card
 - Create or modify **only** the files the card lists under `## Files`.
 - Run each command in the card; if a result differs from its "Expected", stop and report — do not

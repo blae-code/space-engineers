@@ -17,25 +17,44 @@ when a milestone is called, never on routine commits.
   plan + in-game checklist `docs/superpowers/plans/2026-09-30-slice2-moving-carrier.md`
 - In-game build specs (parts + manual setup per ship type): `docs/build-specs/` — `mining-drone.md`,
   plus `mining-drone.script.cs`, the paste-ready PB script. It is a **snapshot** of the deployed
-  `script.cs`: after any drone build that changes the script, re-copy it from the Proton prefix
-  (`…/IngameScripts/local/Fleet.Drone.Miner/script.cs`) or it goes stale.
+  `script.cs`: after any drone build that changes the script, run `fish tools/snapshot.fish`
+  (`checkpoint.py` FAILs while it is stale).
 
 ## Division of labour (Claude Code ↔ local model)
-Work is split to save Claude credits. The **local model** (qwen3-coder-30b in Continue, Agent mode)
-executes task cards: pure logic with verbatim tests. **Claude Code** owns framing (spec, plan, cards),
-checkpoints A–D, escalations, and the game-API cards (C25 ShipIO, C30 integration).
-- A card is gated by `python3 tools/card-check.py <Cxx>` (tests, verbatim-test tamper check, scope,
-  banned namespaces, the card's own "Done when" tokens). Blae reviews `git diff` and commits.
+Work is split to save Claude credits. **Claude writes the contract; the local model writes the code.**
+The **local model** (qwen3-coder-30b-a3b in Continue, Agent mode, 64k ctx) executes task cards and
+answers read-only codebase questions (`/ask`). **Claude Code** owns specs, plans, cards (interface +
+tests/case tables), game-API adapters, the gates in `tools/`, checkpoints, escalations and in-game
+debugging. Evidence for the split: carded work went 28/28 (C01–C30). Uncarded work on 2026-10-02 broke
+zero-GC in a render path and produced speculative roadmaps, so it was reverted.
+- **Cards** live in any `docs/superpowers/plans/*-cards/` deck, numbered across decks (C31 onward
+  after slice 1). Each card has `Kind:` on its header line:
+  `logic` = new file to an interface, verbatim tests ·
+  `wire` = edits existing files at named anchors, verbatim test (usually on the real `Program`) ·
+  `cases` = Claude gives a `| K1 | … |` table, the local model writes the tests ·
+  `doc` = docs from bullets. `## Hot paths` lists per-tick methods, and any allocation token inside
+  them FAILs. Aim for ≥75 % of a deck to be local cards. Prefer `cases` and `wire` over Claude writing
+  the code: a table or an anchor costs fewer tokens than code.
+- A card is gated by `python3 tools/card-check.py <Cxx>` (tests, verbatim-test tamper check, case ids,
+  scope, banned namespaces, hot paths, the card's own "Done when" tokens). Blae reviews `git diff` and
+  commits. **Claude reads gate output, not diffs, unless a gate says WARN or FAIL.**
 - **The gate is enforced by git, not by the model's report:** `git config core.hooksPath tools/hooks`
-  (repo-local, already set here) installs a pre-commit hook that refuses multi-card commits and any card
-  commit whose `card-check --staged` is not PASS. `python3 tools/next-card.py` prints every card's status
-  and the next one to hand out. `--no-verify` is for Claude's integration commits only, with the
-  card-check output quoted in the commit message.
-- A checkpoint starts from `python3 tools/checkpoint.py <A|B|C|D>` output — do not re-run what it ran.
-- On escalation expect only the card id + card-check output. Fix small defects directly, or re-issue a
-  corrected card; record the outcome in the plan's "Checkpoint log".
+  (repo-local, already set here). The pre-commit hook refuses script code that no card covers, banned
+  namespaces anywhere, multi-card commits, and any card commit whose `card-check --staged` is not
+  PASS. The commit-msg hook stamps a `Card: Cxx` trailer, which `--committed` uses to find `wire`
+  cards. `python3 tools/next-card.py` prints every card's status and the next one to hand out.
+  `--no-verify` is for Claude's own commits only, with the card-check/test output quoted in the
+  commit message.
+- A checkpoint starts from `python3 tools/checkpoint.py <A|B|C|D|Cnn-Cmm>` output — do not re-run what
+  it ran. It also FAILs a stale `docs/build-specs/mining-drone.script.cs` (fix: `fish tools/snapshot.fish`).
+- **Escalation contract:** Blae brings only the card id, the card-check output and, for FAILs, the
+  failing test names. For a fix of ~10 lines or fewer, Claude fixes it. Above that, Claude re-issues
+  the card with a failing test and a one-line hint rather than writing the fix. Record the outcome in
+  the plan's "Checkpoint log".
+- Ideas from anyone go to `docs/ideas.md`, one line each, until Claude turns them into a spec or card.
 - Continue config in-repo: `.continue/rules/fleet-mdk.md` (auto-applied constraints),
-  `.continue/prompts/card.md` (the `/card` command). Keep them in sync with the rules below.
+  `.continue/prompts/card.md` (`/card`), `.continue/prompts/ask.md` (`/ask`). Keep them in sync with
+  the rules below.
 
 ## Build, test & deploy (Linux / Proton — MDK2)
 The dev box is CachyOS Linux; the game runs under Proton via **Flatpak Steam**. There is no Visual

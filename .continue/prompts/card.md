@@ -13,8 +13,20 @@ Hard limits:
   card's files, `tools/`, `docs/`, or project files. If the card seems to need another file, STOP and say so.
 - Never claim a result you did not see in a command's output in THIS chat.
 
+The card's header names its `Kind`:
+- `logic`: create a new file to a given interface. The tests are verbatim.
+- `wire`: edit existing files at the anchors the card names, and change nothing else in them. The
+  tests are verbatim.
+- `cases`: YOU write the test file. Write one `[TestCase]` (or `[Test]`) per row of the card's
+  `## Cases` table, with the row id (`K1`, `K2`, …) in its `TestName` or a comment on its line.
+  Every row becomes a test, with exactly the expected value in the table.
+- `doc`: edit only the listed docs, as the bullets say. There are no tests; run card-check.
+- `## Hot paths` lists methods that run every tick. Inside them, `card-check` FAILs any `ToString(`,
+  `$"`, string `+` or `string.Format`. Use `SbFormat` and preallocated fields.
+
 Steps:
-1. Create the test file byte-for-byte from the card's `## Tests` block. Never edit it afterwards.
+1. Create the test file byte-for-byte from the card's `## Tests` block (kind `cases`: from the table).
+   Never edit a verbatim test file afterwards.
 2. Follow the card's steps in order, running every command exactly as written.
 3. If a command's result differs from the card's "Expected", STOP and report the command and its output.
    Do not change the interface, the tests, or the build to get round it.

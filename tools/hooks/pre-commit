@@ -15,7 +15,9 @@ import subprocess
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+# The repo being committed (a worktree too: core.hooksPath may point at another checkout's hooks).
+TOP = subprocess.run(["git", "rev-parse", "--show-toplevel"], capture_output=True, text=True).stdout.strip()
+sys.path.insert(0, str(Path(TOP) / "tools"))
 from cards import ROOT, SCRIPT, owners  # noqa: E402
 
 BANNED = re.compile(r"\bSystem\.(Linq|Threading|IO|Reflection|Net|Globalization)\b")
