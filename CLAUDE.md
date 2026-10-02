@@ -35,6 +35,12 @@ zero-GC in a render path and produced speculative roadmaps, so it was reverted.
   `doc` = docs from bullets. `## Hot paths` lists per-tick methods, and any allocation token inside
   them FAILs. Aim for ≥75 % of a deck to be local cards. Prefer `cases` and `wire` over Claude writing
   the code: a table or an anchor costs fewer tokens than code.
+- **Proving a card costs tokens, so keep it proportional.** Cards are proven by their tests, and a
+  `cases` table needs only its expected column checked. Never write a full reference implementation
+  to prove a card. If the code had to be written to know the tests are right, commit that code
+  (Claude commit, `--no-verify`, test output quoted) and do not card it. (2026-10-02: the slice-3
+  pure layer went this way, and every test expectation held on the first run.) Wire cards are
+  written only when their gate opens, so their anchors are current.
 - A card is gated by `python3 tools/card-check.py <Cxx>` (tests, verbatim-test tamper check, case ids,
   scope, banned namespaces, hot paths, the card's own "Done when" tokens). Blae reviews `git diff` and
   commits. **Claude reads gate output, not diffs, unless a gate says WARN or FAIL.**

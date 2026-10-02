@@ -389,161 +389,162 @@ get{return ь.ʀ;}}public void Ζ(long ѳ){ѱ=ѳ;ʉ=ѳ!=0;Ѳ=double.NegativeInfi
 û){return ʉ&&û-Ѳ>=ѯ;}public void ʄ(double û,out MatrixD ʂ,out Vector3D Ѵ){double ѵ=Math.Max(0,û-Ѳ);var ʹ=ь.ˊ;var ę=ь.Ǘ;
 double Ѷ=ь.ʀ.Length();if(Ѷ*ѵ>1e-9){var ѷ=MatrixD.CreateFromAxisAngle(ь.ʀ/Ѷ,Ѷ*ѵ);ʹ=Vector3D.TransformNormal(ʹ,ѷ);ę=Vector3D.
 TransformNormal(ę,ѷ);}ʂ=MatrixD.CreateWorld(ь.š+ь.ɾ*ѵ,Vector3D.Normalize(ʹ),Vector3D.Normalize(ę));Ѵ=ь.ɾ;}}public struct Ϊ{public
-string ƫ,ń;public int Ŀ,ο,ρ,π,ȇ,σ,τ,υ,φ;}public static class ǐ{public const int Ѹ=1,χ=1,ψ=2,ω=4,ϊ=8,ϋ=16;public static string
-ȍ(string ѹ,string ɦ){return"FLEET/"+ѹ+"/"+ɦ;}public const string ɗ="status",ģ="cmd",ΰ="cfg",α="ack";public static
-StringBuilder ύ(StringBuilder ɖ,ref Ϊ a){ϻ.ϼ(ɖ,Ѹ).Append('|');Ѻ(ɖ,a.ƫ).Append('|');ϻ.ϼ(ɖ,a.Ŀ).Append('|');ϻ.ϼ(ɖ,a.ο).Append('|');ϻ.ϼ(
+string ƫ,ń;public int Ŀ,ο,ρ,π,ȇ,σ,τ,υ,φ,Ѹ,ѹ,Ѻ;}public static class ǐ{public const int ѻ=2,χ=1,ψ=2,ω=4,ϊ=8,ϋ=16;public static
+string ȍ(string Ѽ,string ɦ){return"FLEET/"+Ѽ+"/"+ɦ;}public const string ɗ="status",ģ="cmd",ΰ="cfg",α="ack";public static
+StringBuilder ύ(StringBuilder ɖ,ref Ϊ a){ϻ.ϼ(ɖ,ѻ).Append('|');ѽ(ɖ,a.ƫ).Append('|');ϻ.ϼ(ɖ,a.Ŀ).Append('|');ϻ.ϼ(ɖ,a.ο).Append('|');ϻ.ϼ(
 ɖ,a.ρ).Append('|');ϻ.ϼ(ɖ,a.π).Append('|');ϻ.ϼ(ɖ,a.ȇ).Append('|');ϻ.ϼ(ɖ,a.σ).Append('|');ϻ.ϼ(ɖ,a.τ).Append('|');ϻ.ϼ(ɖ,a.υ)
-.Append('|');ϻ.ϼ(ɖ,a.φ).Append('|');return Ѻ(ɖ,a.ń);}static StringBuilder Ѻ(StringBuilder ɖ,string ǌ){if(ǌ==null)return ɖ
-;for(int L=0;L<ǌ.Length;L++){char M=ǌ[L];ɖ.Append(M=='|'?'/':M=='\n'||M=='\r'?' ':M);}return ɖ;}public static bool Ǒ(
-string ǌ,out int Ǎ,out double ǎ,out string Ǐ){Ǎ=-1;ǎ=0;Ǐ=null;var ѻ=(ǌ??"").Trim().Split(new[]{' '},System.StringSplitOptions.
-RemoveEmptyEntries);int N=ѻ.Length>0&&string.Equals(ѻ[0],"SET",System.StringComparison.OrdinalIgnoreCase)?1:0;if(ѻ.Length-N!=3){Ǐ=
-"usage: SET <section> <key> <value>";return false;}Ǎ=ϰ.Ш(ѻ[N],ѻ[N+1]);if(Ǎ<0){Ǐ="unknown setting "+ѻ[N]+"."+ѻ[N+1];return false;}var p=ϰ.ϱ[Ǎ];if(!ϰ.Ί(Ǎ,ѻ[N+
-2],out ǎ)){Ǐ="bad value for "+p.ϴ;return false;}if(ǎ<p.Й-1e-9||ǎ>p.К+1e-9){Ǐ=p.ϴ+" out of range";return false;}return
-true;}}public class ȉ{List<IMyTextSurface>Ѽ=new List<IMyTextSurface>();public ȉ(){}public void S(List<IMyTerminalBlock>Á,
-string Ȁ){Ѽ.Clear();if(string.IsNullOrEmpty(Ȁ))return;for(int L=0;L<Á.Count;L++){IMyTerminalBlock O=Á[L];string ѽ=O.CustomName
-;IMyTextPanel Ѿ=O as IMyTextPanel;if(Ѿ!=null){if(ѽ.Contains(Ȁ))ʑ(Ѿ);continue;}IMyTextSurfaceProvider ѿ=O as
-IMyTextSurfaceProvider;if(ѿ==null)continue;int ҁ=Ҁ(ѽ,Ȁ);if(ҁ<0||ҁ>=ѿ.SurfaceCount)continue;ʑ(ѿ.GetSurface(ҁ));}}void ʑ(IMyTextSurface a){if(a
-==null)return;a.ContentType=ContentType.TEXT_AND_IMAGE;a.Font="Monospace";a.FontSize=0.8f;Ѽ.Add(a);}public void Ƭ(
-StringBuilder ǌ){for(int L=0;L<Ѽ.Count;L++)Ѽ[L].WriteText(ǌ);}public static int Ҁ(string ѽ,string Ȁ){if(ѽ==null||Ȁ==null||Ȁ.Length<3)
-return-1;string Ҋ="["+Ȁ.Substring(1,Ȁ.Length-2)+":";int ҋ=ѽ.IndexOf(Ҋ,StringComparison.Ordinal);if(ҋ<0)return-1;int ğ=ҋ+Ҋ.
-Length;int ǎ=0,Ҍ=0;while(ğ<ѽ.Length&&ѽ[ğ]>='0'&&ѽ[ğ]<='9'&&Ҍ<6){ǎ=ǎ*10+(ѽ[ğ]-'0');Ҍ++;ğ++;}if(Ҍ==0||ğ>=ѽ.Length||ѽ[ğ]!=']')
-return-1;return ǎ;}}public enum Ϭ:byte{Ń,ҍ,ģ,ϭ,Ҏ}public struct Ґ{public Ϭ γ;public string ģ;public int Ϯ,ҏ;public double ϯ;}
-public interface ғ{bool ґ(int Ǎ,out double ǎ);bool Ғ(int Ǎ);}public interface Җ{int Ҕ{get;}void ҕ(StringBuilder ɖ,int ҁ);}
-public enum ҙ:byte{җ,Ҙ,ģ}public class Ҟ{public string Ϸ,ģ,Қ;public readonly ҙ γ;public ϝ қ;public readonly int Ϯ;public Ҟ(
-string Н,ҙ ɦ,ϝ ʪ,int Ǎ,string Ҝ,string ҝ){Ϸ=Н;γ=ɦ;қ=ʪ;Ϯ=Ǎ;ģ=Ҝ;Қ=ҝ;}}public class ϝ{public string Ϲ;public ϝ ҟ;public Җ Ҡ;
-public List<Ҟ>ҡ=new List<Ҟ>();public int Ң,ң;public ϝ(string Ҥ){Ϲ=Ҥ;}public int Ҕ{get{return Ҡ!=null?Ҡ.Ҕ:ҡ.Count;}}public ϝ ϣ(
-string Н,ϝ ʪ){ʪ.ҟ=this;ҡ.Add(new Ҟ(Н,ҙ.җ,ʪ,-1,null,null));return this;}public ϝ ҥ(int Ǎ){ҡ.Add(new Ҟ(ϰ.ϱ[Ǎ].Ϸ,ҙ.Ҙ,null,Ǎ,null,
-null));return this;}public ϝ ϡ(string Н,string Ҝ,string ҝ=null){ҡ.Add(new Ҟ(Н,ҙ.ģ,null,-1,Ҝ,ҝ));return this;}public ϝ Ϥ(){
-for(int ƻ=0;ƻ<ϰ.У.Length;ƻ++){var Ҧ=new ϝ(ϰ.У[ƻ]);for(int L=0;L<ϰ.ϱ.Length;L++)if(ϰ.ϱ[L].И==ϰ.У[ƻ])Ҧ.ҥ(L);ϣ(ϰ.У[ƻ]+
-" settings",Ҧ);}return this;}}public class Ϝ{public const int ҧ=15;public ϝ Ҩ{get;private set;}public ϝ ó{get;private set;}public ғ
-ҩ;public bool Ҫ{get;private set;}public bool ҫ{get;private set;}public double Ҭ{get;private set;}public int ҭ{get;private
-set;}int Ү,ү;public Ϝ(ϝ Ұ,ғ ұ){Ҩ=Ұ;ó=Ұ;ҩ=ұ;ҭ=1;}public void Ҳ(ϝ Ҧ){ó=Ҧ;Ҧ.Ң=0;Ҧ.ң=0;Ҫ=false;ҫ=false;}Ҟ ҳ{get{var ğ=ó;return
-ğ.Ҡ==null&&ğ.Ң>=0&&ğ.Ң<ğ.ҡ.Count?ğ.ҡ[ğ.Ң]:null;}}public Ґ Ϫ(Ģ M){var ϫ=new Ґ();if(ҫ){ҫ=false;if(M==Ģ.Ǚ){ϫ.γ=Ϭ.ģ;ϫ.ģ=ҳ.ģ;
-return ϫ;}ϫ.γ=Ϭ.ҍ;return ϫ;}if(Ҫ)return Ҵ(M);var ğ=ó;switch(M){case Ģ.Ǘ:case Ģ.ǘ:int b=ğ.Ҕ;if(b==0)return ϫ;ğ.Ң=(ğ.Ң+(M==Ģ.Ǘ?b
--1:1))%b;ϫ.γ=Ϭ.ҍ;return ϫ;case Ģ.ǚ:if(ğ.ҟ==null)return ϫ;ó=ğ.ҟ;ϫ.γ=Ϭ.ҍ;return ϫ;case Ģ.Ǚ:if(ğ.Ҡ!=null){if(ğ.Ң>=ğ.Ҡ.Ҕ)
-return ϫ;ϫ.γ=Ϭ.Ҏ;ϫ.ҏ=ğ.Ң;return ϫ;}var Ј=ҳ;if(Ј==null)return ϫ;if(Ј.γ==ҙ.җ){Ҳ(Ј.қ);ϫ.γ=Ϭ.ҍ;return ϫ;}if(Ј.γ==ҙ.ģ){if(Ј.Қ!=null
-){ҫ=true;ϫ.γ=Ϭ.ҍ;return ϫ;}ϫ.γ=Ϭ.ģ;ϫ.ģ=Ј.ģ;return ϫ;}double Π;if(ҩ==null||!ҩ.ґ(Ј.Ϯ,out Π))return ϫ;if(ϰ.ϱ[Ј.Ϯ].γ==З.Е){ϫ.
-γ=Ϭ.ϭ;ϫ.Ϯ=Ј.Ϯ;ϫ.ϯ=Π>0.5?0:1;return ϫ;}Ҫ=true;Ҭ=Π;Ү=0;ү=0;ҭ=1;ϫ.γ=Ϭ.ҍ;return ϫ;}return ϫ;}Ґ Ҵ(Ģ M){var ϫ=new Ґ();var Ј=ҳ;
-var p=ϰ.ϱ[Ј.Ϯ];if(M==Ģ.ǚ){Ҫ=false;ϫ.γ=Ϭ.ҍ;return ϫ;}if(M==Ģ.Ǚ){Ҫ=false;ϫ.γ=Ϭ.ϭ;ϫ.Ϯ=Ј.Ϯ;ϫ.ϯ=Ҭ;return ϫ;}if(M!=Ģ.Ǘ&&M!=Ģ.ǘ)
-return ϫ;int ē=M==Ģ.Ǘ?1:-1;if(p.γ==З.Ж){int Ì=p.Ѝ.Length;Ҭ=((int)Ҭ+ē+Ì)%Ì;}else{if(ē==Ү)ү++;else{Ү=ē;ү=1;}ҭ=ү<=3?1:ү<=6?5:10;
-double Π=Ҭ+ē*p.È*ҭ;Π=Math.Max(p.Й,Math.Min(p.К,Π));Ҭ=p.γ==З.Г?Math.Round(Π):Math.Round(Π,Math.Max(p.Л,2));}ϫ.γ=Ϭ.ҍ;return ϫ;}
-public void ǉ(StringBuilder ɖ,int й){ҵ(ɖ,ó);ɖ.Append('\n');var ğ=ó;if(ҫ){ɖ.Append("  ").Append(ҳ.Қ).Append('\n');ɖ.Append(
-"  APPLY = yes   BACK = no\n");return;}int b=ğ.Ҕ,я=Math.Max(1,й-1);if(b==0){ɖ.Append("  (none)\n");return;}if(ğ.Ң>=b)ğ.Ң=b-1;bool Ҷ=b>я;if(Ҷ)я=Math.
-Max(1,я-2);if(ğ.Ң<ğ.ң)ğ.ң=ğ.Ң;if(ğ.Ң>=ğ.ң+я)ğ.ң=ğ.Ң-я+1;if(ğ.ң>b-я)ğ.ң=Math.Max(0,b-я);int Æ=Math.Min(b,ğ.ң+я);if(Ҷ){if(ğ.ң
->0)ϻ.ϼ(ɖ.Append("  ^ "),ğ.ң).Append(" more\n");else ɖ.Append('\n');}for(int L=ğ.ң;L<Æ;L++){ɖ.Append(L==ğ.Ң?"> ":"  ");if(
-ğ.Ҡ!=null)ğ.Ҡ.ҕ(ɖ,L);else ҷ(ɖ,ğ.ҡ[L],L==ğ.Ң);ɖ.Append('\n');}if(Ҷ){if(Æ<b)ϻ.ϼ(ɖ.Append("  v "),b-Æ).Append(" more\n");
-else ɖ.Append('\n');}}void ҷ(StringBuilder ɖ,Ҟ Ј,bool Ҹ){if(Ј.γ==ҙ.җ){ɖ.Append(Ј.Ϸ).Append(" >");return;}if(Ј.γ==ҙ.ģ){ɖ.
-Append(Ј.Ϸ);return;}ɖ.Append(Ј.Ϸ);for(int N=Ј.Ϸ.Length;N<ҧ;N++)ɖ.Append(' ');ɖ.Append(' ');if(Ҹ&&Ҫ){ϰ.Ы(ɖ.Append('['),Ј.Ϯ,Ҭ).
-Append(']');if(ҭ>1)ϻ.ϼ(ɖ.Append(" x"),ҭ);return;}double Π;if(ҩ==null||!ҩ.ґ(Ј.Ϯ,out Π)){ɖ.Append("--");return;}ϰ.Ы(ɖ,Ј.Ϯ,Π);if(
-ҩ.Ғ(Ј.Ϯ))ɖ.Append(" *");}static void ҵ(StringBuilder ɖ,ϝ ğ){if(ğ.ҟ!=null){ҵ(ɖ,ğ.ҟ);ɖ.Append(" > ");}ɖ.Append(ğ.Ϲ);}}
-public class ϥ:ғ{public Z Z;public ϥ(Z a){Z=a;}public bool ґ(int Ǎ,out double ǎ){ǎ=ϰ.Ч(Z,Ǎ);return Ǎ>=0&&Ǎ<ϰ.ϱ.Length;}public
-bool Ғ(int Ǎ){return false;}}public static class ϻ{static char[]ҹ=new char[20];public static StringBuilder ϼ(StringBuilder ɖ
-,long ǎ){if(ǎ==0){ɖ.Append('0');return ɖ;}bool Һ=ǎ<0;if(Һ)ǎ=-ǎ;int ˎ=20;while(ǎ>0){ҹ[--ˎ]=(char)('0'+(ǎ%10));ǎ/=10;}if(Һ)
-ҹ[--ˎ]='-';ɖ.Append(ҹ,ˎ,20-ˎ);return ɖ;}public static StringBuilder Ͻ(StringBuilder ɖ,double ǎ,int П){if(ǎ==0.0){ɖ.Append
-('0');if(П>0){ɖ.Append('.');for(int L=0;L<П;L++)ɖ.Append('0');}return ɖ;}double һ=ǎ*Math.Pow(10,П);long Ҽ=(long)Math.
-Round(һ,MidpointRounding.AwayFromZero);bool Һ=Ҽ<0;if(Һ)Ҽ=-Ҽ;if(Һ)ɖ.Append('-');ϼ(ɖ,Ҽ/(long)Math.Pow(10,П));if(П>0){ɖ.Append(
-'.');long ҽ=Ҽ%(long)Math.Pow(10,П);int ˎ=20;for(int L=0;L<П;L++){ҹ[--ˎ]=(char)('0'+(ҽ%10));ҽ/=10;}ɖ.Append(ҹ,ˎ,20-ˎ);}
-return ɖ;}public static StringBuilder Ҿ(StringBuilder ɖ,int ǎ){if(ǎ<10)ɖ.Append('0');ϼ(ɖ,ǎ);return ɖ;}public static
-StringBuilder Ͼ(StringBuilder ɖ,double ҿ){long Ӏ=(long)Math.Round(ҿ*100,MidpointRounding.AwayFromZero);ϼ(ɖ,Ӏ);ɖ.Append('%');return ɖ;
-}public static StringBuilder л(StringBuilder ɖ,double Ӂ){long ĉ=(long)Math.Floor(Ӂ);long ӂ=ĉ/60;long Ӄ=ĉ%60;Ҿ(ɖ,(int)ӂ);ɖ
-.Append(':');Ҿ(ɖ,(int)Ӄ);return ɖ;}}public static class ӈ{public static double Ӈ(double ˠ,double ӄ,double ʬ,double Ӆ){if(
-ˠ<=0||ӄ<=0||ʬ<=0){return 0;}double ӆ=Math.Sqrt(2*ӄ*ˠ)*Ӆ;return Math.Min(ʬ,ӆ);}}public class Ȥ{public enum ê{Ӊ,ӊ,Ӌ,ˌ,é,ʿ}
-public const double ӌ=0.5,Ӎ=0.0349,ӎ=5,ӏ=30;ê Ӑ=ê.é;double ӑ;public ê ó{get{return Ӑ;}}public void ù(double û){Ӑ=ê.Ӊ;ӑ=û;}
-public ɏ Ā(double û,MatrixD Ӓ,Vector3D ӓ,Vector3D Ӕ,bool ӕ,bool Ӗ,double ӗ,double Ә,double ә){Vector3D Ӛ=Ӓ.Translation;
-Vector3D ӛ=Ӓ.Forward;Vector3D Ӝ=Ӓ.Up;Vector3D ʯ=Ӛ+ӛ*ӗ;Vector3D ӝ=-ӛ;if(Ӑ!=ê.é&&Ӗ){Ӑ=ê.é;}else if(Ӑ==ê.Ӊ){if(Vector3D.Distance(ӓ,
-ʯ)<=ӌ)Ӑ=ê.ӊ;}else if(Ӑ==ê.ӊ){double Ӟ=Vector3D.Dot(Ӕ,ӝ);if(Ӟ>1)Ӟ=1;else if(Ӟ<-1)Ӟ=-1;if(Math.Acos(Ӟ)<=Ӎ){Ӑ=ê.Ӌ;ӑ=û;}}else
-if(Ӑ==ê.Ӌ){if(ӕ)Ӑ=ê.ˌ;else if(û-ӑ>ӏ)Ӑ=ê.ʿ;}ɏ i=new ɏ();i.ˊ=ӝ;i.Ǘ=Ӝ;i.ˣ=-1;switch(Ӑ){case ê.Ӊ:case ê.ӊ:i.š=ʯ;i.ˢ=Ә;i.ˋ=
-false;break;case ê.Ӌ:i.š=Ӛ;i.ˢ=ә;i.ˋ=Vector3D.Distance(ӓ,Ӛ)<ӎ;break;case ê.ˌ:i.š=ӓ;i.ˢ=0;i.ˋ=true;break;default:i.š=ӓ;i.ˢ=0;i
-.ˋ=false;break;}return i;}public static Vector3D ʡ(MatrixD Ӓ,double ӟ){return Ӓ.Translation+Ӓ.Forward*ӟ;}}public static
-class Ή{public static bool Ъ(string a,out double ǎ){ǎ=0;if(string.IsNullOrEmpty(a))return false;int L=0;int b=a.Length;bool Ӡ
-=false;if(a[L]=='+'||a[L]=='-'){Ӡ=a[L]=='-';L++;}double ӡ=0;int Ҍ=0;int Ӣ=0;while(L<b&&a[L]>='0'&&a[L]<='9'){ӡ=ӡ*10+(a[L]
--'0');Ҍ++;L++;}if(L<b&&a[L]=='.'){L++;while(L<b&&a[L]>='0'&&a[L]<='9'){ӡ=ӡ*10+(a[L]-'0');Ҍ++;Ӣ++;L++;}}if(Ҍ==0)return
-false;int ӣ=0;if(L<b&&(a[L]=='e'||a[L]=='E')){L++;bool Ӥ=false;if(L<b&&(a[L]=='+'||a[L]=='-')){Ӥ=a[L]=='-';L++;}int ӥ=0;while
-(L<b&&a[L]>='0'&&a[L]<='9'){if(ӣ<10000)ӣ=ӣ*10+(a[L]-'0');ӥ++;L++;}if(ӥ==0)return false;if(Ӥ)ӣ=-ӣ;}if(L!=b)return false;
-int Ӧ=ӣ-Ӣ;double Π=ӡ;if(Ӧ>0)Π=ӡ*Math.Pow(10,Ӧ);else if(Ӧ<0)Π=ӡ/Math.Pow(10,-Ӧ);ǎ=Ӡ?-Π:Π;return true;}public static bool Ί(
+.Append('|');ϻ.ϼ(ɖ,a.φ).Append('|');ϻ.ϼ(ɖ,a.Ѹ).Append('|');ϻ.ϼ(ɖ,a.ѹ).Append('|');ϻ.ϼ(ɖ,a.Ѻ).Append('|');return ѽ(ɖ,a.ń);
+}static StringBuilder ѽ(StringBuilder ɖ,string ǌ){if(ǌ==null)return ɖ;for(int L=0;L<ǌ.Length;L++){char M=ǌ[L];ɖ.Append(M
+=='|'?'/':M=='\n'||M=='\r'?' ':M);}return ɖ;}public static bool Ǒ(string ǌ,out int Ǎ,out double ǎ,out string Ǐ){Ǎ=-1;ǎ=0;Ǐ
+=null;var Ѿ=(ǌ??"").Trim().Split(new[]{' '},System.StringSplitOptions.RemoveEmptyEntries);int N=Ѿ.Length>0&&string.Equals
+(Ѿ[0],"SET",System.StringComparison.OrdinalIgnoreCase)?1:0;if(Ѿ.Length-N!=3){Ǐ="usage: SET <section> <key> <value>";
+return false;}Ǎ=ϰ.Ш(Ѿ[N],Ѿ[N+1]);if(Ǎ<0){Ǐ="unknown setting "+Ѿ[N]+"."+Ѿ[N+1];return false;}var p=ϰ.ϱ[Ǎ];if(!ϰ.Ί(Ǎ,Ѿ[N+2],out
+ǎ)){Ǐ="bad value for "+p.ϴ;return false;}if(ǎ<p.Й-1e-9||ǎ>p.К+1e-9){Ǐ=p.ϴ+" out of range";return false;}return true;}}
+public class ȉ{List<IMyTextSurface>ѿ=new List<IMyTextSurface>();public ȉ(){}public void S(List<IMyTerminalBlock>Á,string Ȁ){ѿ.
+Clear();if(string.IsNullOrEmpty(Ȁ))return;for(int L=0;L<Á.Count;L++){IMyTerminalBlock O=Á[L];string Ҁ=O.CustomName;
+IMyTextPanel ҁ=O as IMyTextPanel;if(ҁ!=null){if(Ҁ.Contains(Ȁ))ʑ(ҁ);continue;}IMyTextSurfaceProvider Ҋ=O as IMyTextSurfaceProvider;if
+(Ҋ==null)continue;int Ҍ=ҋ(Ҁ,Ȁ);if(Ҍ<0||Ҍ>=Ҋ.SurfaceCount)continue;ʑ(Ҋ.GetSurface(Ҍ));}}void ʑ(IMyTextSurface a){if(a==
+null)return;a.ContentType=ContentType.TEXT_AND_IMAGE;a.Font="Monospace";a.FontSize=0.8f;ѿ.Add(a);}public void Ƭ(
+StringBuilder ǌ){for(int L=0;L<ѿ.Count;L++)ѿ[L].WriteText(ǌ);}public static int ҋ(string Ҁ,string Ȁ){if(Ҁ==null||Ȁ==null||Ȁ.Length<3)
+return-1;string ҍ="["+Ȁ.Substring(1,Ȁ.Length-2)+":";int Ҏ=Ҁ.IndexOf(ҍ,StringComparison.Ordinal);if(Ҏ<0)return-1;int ğ=Ҏ+ҍ.
+Length;int ǎ=0,ҏ=0;while(ğ<Ҁ.Length&&Ҁ[ğ]>='0'&&Ҁ[ğ]<='9'&&ҏ<6){ǎ=ǎ*10+(Ҁ[ğ]-'0');ҏ++;ğ++;}if(ҏ==0||ğ>=Ҁ.Length||Ҁ[ğ]!=']')
+return-1;return ǎ;}}public enum Ϭ:byte{Ń,Ґ,ģ,ϭ,ґ}public struct ғ{public Ϭ γ;public string ģ;public int Ϯ,Ғ;public double ϯ;}
+public interface Җ{bool Ҕ(int Ǎ,out double ǎ);bool ҕ(int Ǎ);}public interface ҙ{int җ{get;}void Ҙ(StringBuilder ɖ,int Ҍ);}
+public enum Ҝ:byte{Қ,қ,ģ}public class ҡ{public string Ϸ,ģ,ҝ;public readonly Ҝ γ;public ϝ Ҟ;public readonly int Ϯ;public ҡ(
+string Н,Ҝ ɦ,ϝ ʪ,int Ǎ,string ҟ,string Ҡ){Ϸ=Н;γ=ɦ;Ҟ=ʪ;Ϯ=Ǎ;ģ=ҟ;ҝ=Ҡ;}}public class ϝ{public string Ϲ;public ϝ Ң;public ҙ ң;
+public List<ҡ>Ҥ=new List<ҡ>();public int ҥ,Ҧ;public ϝ(string ҧ){Ϲ=ҧ;}public int җ{get{return ң!=null?ң.җ:Ҥ.Count;}}public ϝ ϣ(
+string Н,ϝ ʪ){ʪ.Ң=this;Ҥ.Add(new ҡ(Н,Ҝ.Қ,ʪ,-1,null,null));return this;}public ϝ Ҩ(int Ǎ){Ҥ.Add(new ҡ(ϰ.ϱ[Ǎ].Ϸ,Ҝ.қ,null,Ǎ,null,
+null));return this;}public ϝ ϡ(string Н,string ҟ,string Ҡ=null){Ҥ.Add(new ҡ(Н,Ҝ.ģ,null,-1,ҟ,Ҡ));return this;}public ϝ Ϥ(){
+for(int ƻ=0;ƻ<ϰ.У.Length;ƻ++){var ҩ=new ϝ(ϰ.У[ƻ]);for(int L=0;L<ϰ.ϱ.Length;L++)if(ϰ.ϱ[L].И==ϰ.У[ƻ])ҩ.Ҩ(L);ϣ(ϰ.У[ƻ]+
+" settings",ҩ);}return this;}}public class Ϝ{public const int Ҫ=15;public ϝ ҫ{get;private set;}public ϝ ó{get;private set;}public Җ
+Ҭ;public bool ҭ{get;private set;}public bool Ү{get;private set;}public double ү{get;private set;}public int Ұ{get;private
+set;}int ұ,Ҳ;public Ϝ(ϝ ҳ,Җ Ҵ){ҫ=ҳ;ó=ҳ;Ҭ=Ҵ;Ұ=1;}public void ҵ(ϝ ҩ){ó=ҩ;ҩ.ҥ=0;ҩ.Ҧ=0;ҭ=false;Ү=false;}ҡ Ҷ{get{var ğ=ó;return
+ğ.ң==null&&ğ.ҥ>=0&&ğ.ҥ<ğ.Ҥ.Count?ğ.Ҥ[ğ.ҥ]:null;}}public ғ Ϫ(Ģ M){var ϫ=new ғ();if(Ү){Ү=false;if(M==Ģ.Ǚ){ϫ.γ=Ϭ.ģ;ϫ.ģ=Ҷ.ģ;
+return ϫ;}ϫ.γ=Ϭ.Ґ;return ϫ;}if(ҭ)return ҷ(M);var ğ=ó;switch(M){case Ģ.Ǘ:case Ģ.ǘ:int b=ğ.җ;if(b==0)return ϫ;ğ.ҥ=(ğ.ҥ+(M==Ģ.Ǘ?b
+-1:1))%b;ϫ.γ=Ϭ.Ґ;return ϫ;case Ģ.ǚ:if(ğ.Ң==null)return ϫ;ó=ğ.Ң;ϫ.γ=Ϭ.Ґ;return ϫ;case Ģ.Ǚ:if(ğ.ң!=null){if(ğ.ҥ>=ğ.ң.җ)
+return ϫ;ϫ.γ=Ϭ.ґ;ϫ.Ғ=ğ.ҥ;return ϫ;}var Ј=Ҷ;if(Ј==null)return ϫ;if(Ј.γ==Ҝ.Қ){ҵ(Ј.Ҟ);ϫ.γ=Ϭ.Ґ;return ϫ;}if(Ј.γ==Ҝ.ģ){if(Ј.ҝ!=null
+){Ү=true;ϫ.γ=Ϭ.Ґ;return ϫ;}ϫ.γ=Ϭ.ģ;ϫ.ģ=Ј.ģ;return ϫ;}double Π;if(Ҭ==null||!Ҭ.Ҕ(Ј.Ϯ,out Π))return ϫ;if(ϰ.ϱ[Ј.Ϯ].γ==З.Е){ϫ.
+γ=Ϭ.ϭ;ϫ.Ϯ=Ј.Ϯ;ϫ.ϯ=Π>0.5?0:1;return ϫ;}ҭ=true;ү=Π;ұ=0;Ҳ=0;Ұ=1;ϫ.γ=Ϭ.Ґ;return ϫ;}return ϫ;}ғ ҷ(Ģ M){var ϫ=new ғ();var Ј=Ҷ;
+var p=ϰ.ϱ[Ј.Ϯ];if(M==Ģ.ǚ){ҭ=false;ϫ.γ=Ϭ.Ґ;return ϫ;}if(M==Ģ.Ǚ){ҭ=false;ϫ.γ=Ϭ.ϭ;ϫ.Ϯ=Ј.Ϯ;ϫ.ϯ=ү;return ϫ;}if(M!=Ģ.Ǘ&&M!=Ģ.ǘ)
+return ϫ;int ē=M==Ģ.Ǘ?1:-1;if(p.γ==З.Ж){int Ì=p.Ѝ.Length;ү=((int)ү+ē+Ì)%Ì;}else{if(ē==ұ)Ҳ++;else{ұ=ē;Ҳ=1;}Ұ=Ҳ<=3?1:Ҳ<=6?5:10;
+double Π=ү+ē*p.È*Ұ;Π=Math.Max(p.Й,Math.Min(p.К,Π));ү=p.γ==З.Г?Math.Round(Π):Math.Round(Π,Math.Max(p.Л,2));}ϫ.γ=Ϭ.Ґ;return ϫ;}
+public void ǉ(StringBuilder ɖ,int й){Ҹ(ɖ,ó);ɖ.Append('\n');var ğ=ó;if(Ү){ɖ.Append("  ").Append(Ҷ.ҝ).Append('\n');ɖ.Append(
+"  APPLY = yes   BACK = no\n");return;}int b=ğ.җ,я=Math.Max(1,й-1);if(b==0){ɖ.Append("  (none)\n");return;}if(ğ.ҥ>=b)ğ.ҥ=b-1;bool ҹ=b>я;if(ҹ)я=Math.
+Max(1,я-2);if(ğ.ҥ<ğ.Ҧ)ğ.Ҧ=ğ.ҥ;if(ğ.ҥ>=ğ.Ҧ+я)ğ.Ҧ=ğ.ҥ-я+1;if(ğ.Ҧ>b-я)ğ.Ҧ=Math.Max(0,b-я);int Æ=Math.Min(b,ğ.Ҧ+я);if(ҹ){if(ğ.Ҧ
+>0)ϻ.ϼ(ɖ.Append("  ^ "),ğ.Ҧ).Append(" more\n");else ɖ.Append('\n');}for(int L=ğ.Ҧ;L<Æ;L++){ɖ.Append(L==ğ.ҥ?"> ":"  ");if(
+ğ.ң!=null)ğ.ң.Ҙ(ɖ,L);else Һ(ɖ,ğ.Ҥ[L],L==ğ.ҥ);ɖ.Append('\n');}if(ҹ){if(Æ<b)ϻ.ϼ(ɖ.Append("  v "),b-Æ).Append(" more\n");
+else ɖ.Append('\n');}}void Һ(StringBuilder ɖ,ҡ Ј,bool һ){if(Ј.γ==Ҝ.Қ){ɖ.Append(Ј.Ϸ).Append(" >");return;}if(Ј.γ==Ҝ.ģ){ɖ.
+Append(Ј.Ϸ);return;}ɖ.Append(Ј.Ϸ);for(int N=Ј.Ϸ.Length;N<Ҫ;N++)ɖ.Append(' ');ɖ.Append(' ');if(һ&&ҭ){ϰ.Ы(ɖ.Append('['),Ј.Ϯ,ү).
+Append(']');if(Ұ>1)ϻ.ϼ(ɖ.Append(" x"),Ұ);return;}double Π;if(Ҭ==null||!Ҭ.Ҕ(Ј.Ϯ,out Π)){ɖ.Append("--");return;}ϰ.Ы(ɖ,Ј.Ϯ,Π);if(
+Ҭ.ҕ(Ј.Ϯ))ɖ.Append(" *");}static void Ҹ(StringBuilder ɖ,ϝ ğ){if(ğ.Ң!=null){Ҹ(ɖ,ğ.Ң);ɖ.Append(" > ");}ɖ.Append(ğ.Ϲ);}}
+public class ϥ:Җ{public Z Z;public ϥ(Z a){Z=a;}public bool Ҕ(int Ǎ,out double ǎ){ǎ=ϰ.Ч(Z,Ǎ);return Ǎ>=0&&Ǎ<ϰ.ϱ.Length;}public
+bool ҕ(int Ǎ){return false;}}public static class ϻ{static char[]Ҽ=new char[20];public static StringBuilder ϼ(StringBuilder ɖ
+,long ǎ){if(ǎ==0){ɖ.Append('0');return ɖ;}bool ҽ=ǎ<0;if(ҽ)ǎ=-ǎ;int ˎ=20;while(ǎ>0){Ҽ[--ˎ]=(char)('0'+(ǎ%10));ǎ/=10;}if(ҽ)
+Ҽ[--ˎ]='-';ɖ.Append(Ҽ,ˎ,20-ˎ);return ɖ;}public static StringBuilder Ͻ(StringBuilder ɖ,double ǎ,int П){if(ǎ==0.0){ɖ.Append
+('0');if(П>0){ɖ.Append('.');for(int L=0;L<П;L++)ɖ.Append('0');}return ɖ;}double Ҿ=ǎ*Math.Pow(10,П);long ҿ=(long)Math.
+Round(Ҿ,MidpointRounding.AwayFromZero);bool ҽ=ҿ<0;if(ҽ)ҿ=-ҿ;if(ҽ)ɖ.Append('-');ϼ(ɖ,ҿ/(long)Math.Pow(10,П));if(П>0){ɖ.Append(
+'.');long Ӏ=ҿ%(long)Math.Pow(10,П);int ˎ=20;for(int L=0;L<П;L++){Ҽ[--ˎ]=(char)('0'+(Ӏ%10));Ӏ/=10;}ɖ.Append(Ҽ,ˎ,20-ˎ);}
+return ɖ;}public static StringBuilder Ӂ(StringBuilder ɖ,int ǎ){if(ǎ<10)ɖ.Append('0');ϼ(ɖ,ǎ);return ɖ;}public static
+StringBuilder Ͼ(StringBuilder ɖ,double ӂ){long Ӄ=(long)Math.Round(ӂ*100,MidpointRounding.AwayFromZero);ϼ(ɖ,Ӄ);ɖ.Append('%');return ɖ;
+}public static StringBuilder л(StringBuilder ɖ,double ӄ){long ĉ=(long)Math.Floor(ӄ);long Ӆ=ĉ/60;long ӆ=ĉ%60;Ӂ(ɖ,(int)Ӆ);ɖ
+.Append(':');Ӂ(ɖ,(int)ӆ);return ɖ;}}public static class Ӌ{public static double ӊ(double ˠ,double Ӈ,double ʬ,double ӈ){if(
+ˠ<=0||Ӈ<=0||ʬ<=0){return 0;}double Ӊ=Math.Sqrt(2*Ӈ*ˠ)*ӈ;return Math.Min(ʬ,Ӊ);}}public class Ȥ{public enum ê{ӌ,Ӎ,ӎ,ˌ,é,ʿ}
+public const double ӏ=0.5,Ӑ=0.0349,ӑ=5,Ӓ=30;ê ӓ=ê.é;double Ӕ;public ê ó{get{return ӓ;}}public void ù(double û){ӓ=ê.ӌ;Ӕ=û;}
+public ɏ Ā(double û,MatrixD ӕ,Vector3D Ӗ,Vector3D ӗ,bool Ә,bool ә,double Ӛ,double ӛ,double Ӝ){Vector3D ӝ=ӕ.Translation;
+Vector3D Ӟ=ӕ.Forward;Vector3D ӟ=ӕ.Up;Vector3D ʯ=ӝ+Ӟ*Ӛ;Vector3D Ӡ=-Ӟ;if(ӓ!=ê.é&&ә){ӓ=ê.é;}else if(ӓ==ê.ӌ){if(Vector3D.Distance(Ӗ,
+ʯ)<=ӏ)ӓ=ê.Ӎ;}else if(ӓ==ê.Ӎ){double ӡ=Vector3D.Dot(ӗ,Ӡ);if(ӡ>1)ӡ=1;else if(ӡ<-1)ӡ=-1;if(Math.Acos(ӡ)<=Ӑ){ӓ=ê.ӎ;Ӕ=û;}}else
+if(ӓ==ê.ӎ){if(Ә)ӓ=ê.ˌ;else if(û-Ӕ>Ӓ)ӓ=ê.ʿ;}ɏ i=new ɏ();i.ˊ=Ӡ;i.Ǘ=ӟ;i.ˣ=-1;switch(ӓ){case ê.ӌ:case ê.Ӎ:i.š=ʯ;i.ˢ=ӛ;i.ˋ=
+false;break;case ê.ӎ:i.š=ӝ;i.ˢ=Ӝ;i.ˋ=Vector3D.Distance(Ӗ,ӝ)<ӑ;break;case ê.ˌ:i.š=Ӗ;i.ˢ=0;i.ˋ=true;break;default:i.š=Ӗ;i.ˢ=0;i
+.ˋ=false;break;}return i;}public static Vector3D ʡ(MatrixD ӕ,double Ӣ){return ӕ.Translation+ӕ.Forward*Ӣ;}}public static
+class Ή{public static bool Ъ(string a,out double ǎ){ǎ=0;if(string.IsNullOrEmpty(a))return false;int L=0;int b=a.Length;bool ӣ
+=false;if(a[L]=='+'||a[L]=='-'){ӣ=a[L]=='-';L++;}double Ӥ=0;int ҏ=0;int ӥ=0;while(L<b&&a[L]>='0'&&a[L]<='9'){Ӥ=Ӥ*10+(a[L]
+-'0');ҏ++;L++;}if(L<b&&a[L]=='.'){L++;while(L<b&&a[L]>='0'&&a[L]<='9'){Ӥ=Ӥ*10+(a[L]-'0');ҏ++;ӥ++;L++;}}if(ҏ==0)return
+false;int Ӧ=0;if(L<b&&(a[L]=='e'||a[L]=='E')){L++;bool ӧ=false;if(L<b&&(a[L]=='+'||a[L]=='-')){ӧ=a[L]=='-';L++;}int Ө=0;while
+(L<b&&a[L]>='0'&&a[L]<='9'){if(Ӧ<10000)Ӧ=Ӧ*10+(a[L]-'0');Ө++;L++;}if(Ө==0)return false;if(ӧ)Ӧ=-Ӧ;}if(L!=b)return false;
+int ө=Ӧ-ӥ;double Π=Ӥ;if(ө>0)Π=Ӥ*Math.Pow(10,ө);else if(ө<0)Π=Ӥ/Math.Pow(10,-ө);ǎ=ӣ?-Π:Π;return true;}public static bool Ί(
 string a,out Vector3D ˎ){ˎ=Vector3D.Zero;if(a==null)return false;a=a.Trim();if(!a.StartsWith("GPS:",StringComparison.Ordinal))
-return false;string[]ѻ=a.Split(':');if(ѻ.Length<5)return false;double Ď,ď,ѫ;if(!Ъ(ѻ[2],out Ď))return false;if(!Ъ(ѻ[3],out ď))
-return false;if(!Ъ(ѻ[4],out ѫ))return false;ˎ=new Vector3D(Ď,ď,ѫ);return true;}}public class Ȣ{public enum ê{ӧ,Ө,ө,Ӫ,é}public
-const double ӫ=100,Ӭ=20;ê Ӑ=ê.é;Vector3D ӭ;double Ӯ;public ê ó{get{return Ӑ;}}public double ʸ{get{return Ӯ;}}public void ʰ(
-Vector3D ӯ){ӭ=ӯ;}public void ù(Vector3D ӯ,bool Ӱ){ӭ=ӯ;Ӑ=Ӱ?ê.Ө:ê.ӧ;Ӯ=0;}public Vector3D Ā(Vector3D ˎ,Vector3D ӱ,double Ӳ,double ӳ
-,double Ӵ){bool ӵ=ӱ.LengthSquared()>=1e-6;Vector3D ę=Vector3D.Zero;if(ӵ)ę=-Vector3D.Normalize(ӱ);Vector3D ˑ=ӭ-ˎ;double Ӷ=
-ˑ.Length();if((Ӑ==ê.Ө||Ӑ==ê.ө)&&!ӵ){Ӑ=ê.ӧ;}else{switch(Ӑ){case ê.ӧ:if(Ӷ<=Ӵ)Ӑ=ê.é;break;case ê.Ө:if(Ӳ>=0.95*ӳ)Ӑ=ê.ө;break;
-case ê.ө:{Vector3D ӷ=ˑ-ę*Vector3D.Dot(ˑ,ę);if(ӷ.Length()<=Ӭ)Ӑ=ê.Ӫ;}break;case ê.Ӫ:if(Ӷ<=Ӵ)Ӑ=ê.é;break;}}if(Ӑ==ê.Ө||Ӑ==ê.ө){
-double Ӹ=Vector3D.Dot(ˑ,ę);Vector3D ӹ=ˑ-ę*Ӹ;double Β=ӹ.Length();Ӯ=Β+Math.Abs(Ӹ);if(Ӑ==ê.Ө)return ˎ+ę*(ӳ-Ӳ+5);Vector3D ē=Β>1e-9
-?ӹ/Β:Vector3D.Zero;return ˎ+ē*Math.Min(ӫ,Β)+ę*(ӳ-Ӳ);}Ӯ=Ӷ;return ӭ;}}public static class ʺ{public const double Ӻ=1,ӻ=-1,Ӽ=
+return false;string[]Ѿ=a.Split(':');if(Ѿ.Length<5)return false;double Ď,ď,ѫ;if(!Ъ(Ѿ[2],out Ď))return false;if(!Ъ(Ѿ[3],out ď))
+return false;if(!Ъ(Ѿ[4],out ѫ))return false;ˎ=new Vector3D(Ď,ď,ѫ);return true;}}public class Ȣ{public enum ê{Ӫ,ӫ,Ӭ,ӭ,é}public
+const double Ӯ=100,ӯ=20;ê ӓ=ê.é;Vector3D Ӱ;double ӱ;public ê ó{get{return ӓ;}}public double ʸ{get{return ӱ;}}public void ʰ(
+Vector3D Ӳ){Ӱ=Ӳ;}public void ù(Vector3D Ӳ,bool ӳ){Ӱ=Ӳ;ӓ=ӳ?ê.ӫ:ê.Ӫ;ӱ=0;}public Vector3D Ā(Vector3D ˎ,Vector3D Ӵ,double ӵ,double Ӷ
+,double ӷ){bool Ӹ=Ӵ.LengthSquared()>=1e-6;Vector3D ę=Vector3D.Zero;if(Ӹ)ę=-Vector3D.Normalize(Ӵ);Vector3D ˑ=Ӱ-ˎ;double ӹ=
+ˑ.Length();if((ӓ==ê.ӫ||ӓ==ê.Ӭ)&&!Ӹ){ӓ=ê.Ӫ;}else{switch(ӓ){case ê.Ӫ:if(ӹ<=ӷ)ӓ=ê.é;break;case ê.ӫ:if(ӵ>=0.95*Ӷ)ӓ=ê.Ӭ;break;
+case ê.Ӭ:{Vector3D Ӻ=ˑ-ę*Vector3D.Dot(ˑ,ę);if(Ӻ.Length()<=ӯ)ӓ=ê.ӭ;}break;case ê.ӭ:if(ӹ<=ӷ)ӓ=ê.é;break;}}if(ӓ==ê.ӫ||ӓ==ê.Ӭ){
+double ӻ=Vector3D.Dot(ˑ,ę);Vector3D Ӽ=ˑ-ę*ӻ;double Β=Ӽ.Length();ӱ=Β+Math.Abs(ӻ);if(ӓ==ê.ӫ)return ˎ+ę*(Ӷ-ӵ+5);Vector3D ē=Β>1e-9
+?Ӽ/Β:Vector3D.Zero;return ˎ+ē*Math.Min(Ӯ,Β)+ę*(Ӷ-ӵ);}ӱ=ӹ;return Ӱ;}}public static class ʺ{public const double ӽ=1,Ӿ=-1,ӿ=
 -1;public static double ʻ(Vector3D ϫ,Vector3D O){double ƽ=Vector3D.Dot(ϫ,O);if(ƽ>1)ƽ=1;else if(ƽ<-1)ƽ=-1;return Math.Acos
-(ƽ);}public static Vector3D ԁ(Vector3D ɷ,Vector3D ʓ,Vector3D ӽ){Vector3D M=Vector3D.Cross(ɷ,ʓ);double Ĕ=M.Length();if(Ĕ<
-1e-9){if(Vector3D.Dot(ɷ,ʓ)>0)return Vector3D.Zero;Vector3D Ӿ=ӽ-ɷ*Vector3D.Dot(ӽ,ɷ);if(Ӿ.Length()<1e-6){Vector3D ӿ=Vector3D.
-Cross(ɷ,Vector3D.Right);Vector3D Ԁ=Vector3D.Cross(ɷ,Vector3D.Up);Ӿ=ӿ.Length()>=Ԁ.Length()?ӿ:Ԁ;}return Vector3D.Normalize(Ӿ)*
-Math.PI;}return(M/Ĕ)*ʻ(ɷ,ʓ);}public static Vector3D ԉ(Vector3D Ԃ,Vector3D ԃ,Vector3D Ԅ,Vector3D ԅ,double Ԇ,double ԇ){
-Vector3D Q=ԁ(Ԃ,Ԅ,ԃ)+ԁ(ԃ,ԅ,Ԃ);Vector3D Ԉ=Q*Ԇ;double Ĕ=Ԉ.Length();if(Ĕ>ԇ&&Ĕ>0)Ԉ=Ԉ*(ԇ/Ĕ);return Ԉ;}public static Vector3D ԍ(
-Vector3D Ԋ,MatrixD ԋ){Vector3D Ԍ=Vector3D.TransformNormal(Ԋ,MatrixD.Transpose(ԋ));return new Vector3D(Ӻ*Ԍ.X,ӻ*Ԍ.Y,Ӽ*Ԍ.Z);}public
-static void Ԕ(MatrixD Ԏ,Vector3D ԏ,Vector3D Ԑ,out Vector3D ԑ,out Vector3D Ԓ){MatrixD ԓ=MatrixD.CreateWorld(Vector3D.Zero,ԏ,Ԑ);
-MatrixD R=MatrixD.Transpose(Ԏ);ԑ=Vector3D.TransformNormal(Vector3D.TransformNormal(Vector3D.Forward,R),ԓ);Ԓ=Vector3D.
-TransformNormal(Vector3D.TransformNormal(Vector3D.Up,R),ԓ);}public static Vector3D ˉ(Vector3D ʹ,Vector3D ę,Vector3D ԕ){Vector3D ğ=ę-ʹ*
-Vector3D.Dot(ę,ʹ);if(ğ.Length()>=1e-3)return Vector3D.Normalize(ğ);ğ=ԕ-ʹ*Vector3D.Dot(ԕ,ʹ);if(ğ.Length()>=1e-3)return Vector3D.
-Normalize(ğ);Vector3D ӿ=Vector3D.Cross(ʹ,Vector3D.Right);Vector3D Ԁ=Vector3D.Cross(ʹ,Vector3D.Up);return Vector3D.Normalize(ӿ.
-Length()>=Ԁ.Length()?ӿ:Ԁ);}}public class ș{Ԗ ԗ;double[]Ԙ,ԙ;MatrixD Ԛ=MatrixD.Identity;ɏ ӭ;public double ԛ=2.0,Ԝ=1.5,ԝ=0.8,Ԟ=
-1.5;public ѩ ԟ=new ѩ(2.0,0.2,0.0,2.0);public bool Ԡ{get;private set;}public double ԡ{get;private set;}public double Ԣ{get;
-private set;}public ș(Ԗ ԣ){ԗ=ԣ;Ԙ=new double[6];ԙ=new double[6];}public void ɬ(MatrixD Ԏ){Ԛ=Ԏ;}public void ʥ(ɏ ʪ){ӭ=ʪ;Ԡ=true;}
-public void ɱ(){ԗ.ƶ();ԟ.Ũ();Ԡ=false;}public void Ā(double Ѫ){if(!Ԡ)return;MatrixD Ϗ=ԗ.ϐ;MatrixD Ԥ=Ԛ*Ϗ;Vector3D ˑ=ӭ.š-Ԥ.
-Translation;ԡ=ˑ.Length();Vector3D ē=ԡ>1e-6?ˑ/ԡ:Vector3D.Zero;double ԥ=ӭ.ˣ>=0?ӭ.ˣ:ԡ;ԗ.ϕ(Ԙ);double Ԧ=ԗ.ϒ;Vector3D ƻ=ԗ.ʱ;MatrixD ԧ=
-MatrixD.Transpose(Ϗ);Vector3D Ա=Vector3D.TransformNormal(-ē,ԧ);double ӄ=ϗ.Ϙ(Ա,Ԙ)/Ԧ+Vector3D.Dot(ƻ,-ē);if(ӄ<0)ӄ=0;double Բ=ӈ.Ӈ(ԥ
-,ӄ,ӭ.ˢ,ԝ);Բ=Math.Min(Բ,Ԟ*ԥ);Vector3D Գ=ӭ.ɾ+ē*Բ;Vector3D Դ=ԟ.Ā(Գ-ԗ.ϑ,Ѫ);Vector3D Ե=(Դ-ƻ)*Ԧ;ϗ.Զ(Vector3D.TransformNormal(Ե,
-ԧ),Ԙ,ԙ);ԗ.Է(ԙ);Vector3D ę=ʺ.ˉ(ӭ.ˊ,ӭ.Ǘ,Ԥ.Up);Vector3D ԑ,Ԓ;ʺ.Ԕ(Ԛ,ӭ.ˊ,ę,out ԑ,out Ԓ);ԗ.Ը(ʺ.ԉ(Ϗ.Forward,Ϗ.Up,ԑ,Ԓ,ԛ,Ԝ));Ԣ=ʺ.ʻ(
-Ԥ.Forward,ӭ.ˊ);}}public static class Γ{public static void ƿ(MyIni ΐ,string Ў,List<Vector3D>Թ){ΐ.Set(Ў,"n",Թ.Count);for(
-int L=0;L<Թ.Count;L++){ΐ.Set(Ў,"x"+L,Math.Round(Թ[L].X,2));ΐ.Set(Ў,"y"+L,Math.Round(Թ[L].Y,2));ΐ.Set(Ў,"z"+L,Math.Round(Թ[L
-].Z,2));}}public static bool Ʃ(MyIni ΐ,string Ў,List<Vector3D>Թ){Թ.Clear();if(!ΐ.ContainsSection(Ў)||!ΐ.ContainsKey(Ў,"n"
+(ƽ);}public static Vector3D Ԅ(Vector3D ɷ,Vector3D ʓ,Vector3D Ԁ){Vector3D M=Vector3D.Cross(ɷ,ʓ);double Ĕ=M.Length();if(Ĕ<
+1e-9){if(Vector3D.Dot(ɷ,ʓ)>0)return Vector3D.Zero;Vector3D ԁ=Ԁ-ɷ*Vector3D.Dot(Ԁ,ɷ);if(ԁ.Length()<1e-6){Vector3D Ԃ=Vector3D.
+Cross(ɷ,Vector3D.Right);Vector3D ԃ=Vector3D.Cross(ɷ,Vector3D.Up);ԁ=Ԃ.Length()>=ԃ.Length()?Ԃ:ԃ;}return Vector3D.Normalize(ԁ)*
+Math.PI;}return(M/Ĕ)*ʻ(ɷ,ʓ);}public static Vector3D Ԍ(Vector3D ԅ,Vector3D Ԇ,Vector3D ԇ,Vector3D Ԉ,double ԉ,double Ԋ){
+Vector3D Q=Ԅ(ԅ,ԇ,Ԇ)+Ԅ(Ԇ,Ԉ,ԅ);Vector3D ԋ=Q*ԉ;double Ĕ=ԋ.Length();if(Ĕ>Ԋ&&Ĕ>0)ԋ=ԋ*(Ԋ/Ĕ);return ԋ;}public static Vector3D Ԑ(
+Vector3D ԍ,MatrixD Ԏ){Vector3D ԏ=Vector3D.TransformNormal(ԍ,MatrixD.Transpose(Ԏ));return new Vector3D(ӽ*ԏ.X,Ӿ*ԏ.Y,ӿ*ԏ.Z);}public
+static void ԗ(MatrixD ԑ,Vector3D Ԓ,Vector3D ԓ,out Vector3D Ԕ,out Vector3D ԕ){MatrixD Ԗ=MatrixD.CreateWorld(Vector3D.Zero,Ԓ,ԓ);
+MatrixD R=MatrixD.Transpose(ԑ);Ԕ=Vector3D.TransformNormal(Vector3D.TransformNormal(Vector3D.Forward,R),Ԗ);ԕ=Vector3D.
+TransformNormal(Vector3D.TransformNormal(Vector3D.Up,R),Ԗ);}public static Vector3D ˉ(Vector3D ʹ,Vector3D ę,Vector3D Ԙ){Vector3D ğ=ę-ʹ*
+Vector3D.Dot(ę,ʹ);if(ğ.Length()>=1e-3)return Vector3D.Normalize(ğ);ğ=Ԙ-ʹ*Vector3D.Dot(Ԙ,ʹ);if(ğ.Length()>=1e-3)return Vector3D.
+Normalize(ğ);Vector3D Ԃ=Vector3D.Cross(ʹ,Vector3D.Right);Vector3D ԃ=Vector3D.Cross(ʹ,Vector3D.Up);return Vector3D.Normalize(Ԃ.
+Length()>=ԃ.Length()?Ԃ:ԃ);}}public class ș{ԙ Ԛ;double[]ԛ,Ԝ;MatrixD ԝ=MatrixD.Identity;ɏ Ӱ;public double Ԟ=2.0,ԟ=1.5,Ԡ=0.8,ԡ=
+1.5;public ѩ Ԣ=new ѩ(2.0,0.2,0.0,2.0);public bool ԣ{get;private set;}public double Ԥ{get;private set;}public double ԥ{get;
+private set;}public ș(ԙ Ԧ){Ԛ=Ԧ;ԛ=new double[6];Ԝ=new double[6];}public void ɬ(MatrixD ԑ){ԝ=ԑ;}public void ʥ(ɏ ʪ){Ӱ=ʪ;ԣ=true;}
+public void ɱ(){Ԛ.ƶ();Ԣ.Ũ();ԣ=false;}public void Ā(double Ѫ){if(!ԣ)return;MatrixD Ϗ=Ԛ.ϐ;MatrixD ԧ=ԝ*Ϗ;Vector3D ˑ=Ӱ.š-ԧ.
+Translation;Ԥ=ˑ.Length();Vector3D ē=Ԥ>1e-6?ˑ/Ԥ:Vector3D.Zero;double Ա=Ӱ.ˣ>=0?Ӱ.ˣ:Ԥ;Ԛ.ϕ(ԛ);double Բ=Ԛ.ϒ;Vector3D ƻ=Ԛ.ʱ;MatrixD Գ=
+MatrixD.Transpose(Ϗ);Vector3D Դ=Vector3D.TransformNormal(-ē,Գ);double Ӈ=ϗ.Ϙ(Դ,ԛ)/Բ+Vector3D.Dot(ƻ,-ē);if(Ӈ<0)Ӈ=0;double Ե=Ӌ.ӊ(Ա
+,Ӈ,Ӱ.ˢ,Ԡ);Ե=Math.Min(Ե,ԡ*Ա);Vector3D Զ=Ӱ.ɾ+ē*Ե;Vector3D Է=Ԣ.Ā(Զ-Ԛ.ϑ,Ѫ);Vector3D Ը=(Է-ƻ)*Բ;ϗ.Թ(Vector3D.TransformNormal(Ը,
+Գ),ԛ,Ԝ);Ԛ.Ժ(Ԝ);Vector3D ę=ʺ.ˉ(Ӱ.ˊ,Ӱ.Ǘ,ԧ.Up);Vector3D Ԕ,ԕ;ʺ.ԗ(ԝ,Ӱ.ˊ,ę,out Ԕ,out ԕ);Ԛ.Ի(ʺ.Ԍ(Ϗ.Forward,Ϗ.Up,Ԕ,ԕ,Ԟ,ԟ));ԥ=ʺ.ʻ(
+ԧ.Forward,Ӱ.ˊ);}}public static class Γ{public static void ƿ(MyIni ΐ,string Ў,List<Vector3D>Լ){ΐ.Set(Ў,"n",Լ.Count);for(
+int L=0;L<Լ.Count;L++){ΐ.Set(Ў,"x"+L,Math.Round(Լ[L].X,2));ΐ.Set(Ў,"y"+L,Math.Round(Լ[L].Y,2));ΐ.Set(Ў,"z"+L,Math.Round(Լ[L
+].Z,2));}}public static bool Ʃ(MyIni ΐ,string Ў,List<Vector3D>Լ){Լ.Clear();if(!ΐ.ContainsSection(Ў)||!ΐ.ContainsKey(Ў,"n"
 ))return false;int b;if(!ΐ.Get(Ў,"n").TryGetInt32(out b)||b<0)return false;for(int L=0;L<b;L++){double Ď,ď,ѫ;if(!ΐ.Get(Ў,
-"x"+L).TryGetDouble(out Ď)||!ΐ.Get(Ў,"y"+L).TryGetDouble(out ď)||!ΐ.Get(Ў,"z"+L).TryGetDouble(out ѫ)){Թ.Clear();return
-false;}Թ.Add(new Vector3D(Ď,ď,ѫ));}return true;}}public class Ƞ{public const double Ժ=0.349,Ի=3;List<Vector3D>Լ;bool Խ,Ծ;int
-w;public void ʙ(List<Vector3D>ͼ,bool Կ,Vector3D Հ){Լ=ͼ;Խ=Կ;if(ͼ==null||ͼ.Count==0){w=0;Ծ=true;return;}double Ձ=double.
-MaxValue;int Ղ=0;for(int L=0;L<ͼ.Count;L++){double ˠ=Vector3D.Distance(Հ,ͼ[L]);if(ˠ<Ձ){Ձ=ˠ;Ղ=L;}}w=Կ?ͼ.Count-1-Ղ:Ղ;Ծ=false;}
-public bool é{get{return Ծ;}}public Vector3D Ā(Vector3D Հ,double Ӵ,double Ճ,out double Մ,out double ʭ){Մ=Ճ;ʭ=0;if(Լ==null||Լ.
-Count==0){return Հ;}int Յ=Լ.Count-1;while(w<Յ&&Vector3D.Distance(Հ,Ն(w))<=Ӵ){w++;}if(w==Յ&&Vector3D.Distance(Հ,Ն(w))<=Ӵ){Ծ=
-true;}ʭ=0;for(int L=w;L<Յ;L++){ʭ+=Vector3D.Distance(Ն(L),Ն(L+1));}ʭ+=Vector3D.Distance(Հ,Ն(w));if(w<Յ){Vector3D Շ;if(w==0){Շ
-=Ն(w)-Հ;}else{Շ=Ն(w)-Ն(w-1);}Vector3D Ո=Ն(w+1)-Ն(w);if(Շ.Length()<1e-6||Ո.Length()<1e-6){Մ=Ճ;}else{double Չ=Vector3D.
-Angle(Շ,Ո);if(Չ<Ժ){Մ=Ճ;}else{Մ=System.Math.Max(Ի,Ճ*(1-Չ/System.Math.PI));}}}return Ն(w);}Vector3D Ն(int ҁ){if(Խ){return Լ[Լ.
-Count-1-ҁ];}else{return Լ[ҁ];}}}public class Ȝ{public const double Պ=5,Ջ=1.0;readonly int Ռ;public List<Vector3D>ͽ;public Ȝ(
-int Ս){Ռ=Ս;ͽ=new List<Vector3D>(Ս);}public bool ʩ{get{return ͽ.Count>=Ռ;}}public void ʖ(Vector3D Հ){ͽ.Clear();if(Ռ>0)ͽ.Add(
-Հ);}public bool Ā(Vector3D Հ,double Բ){if(ʩ)return false;if(ͽ.Count==0){ͽ.Add(Հ);return true;}double ě=Բ*Ջ;if(ě<Պ)ě=Պ;if(
-Vector3D.Distance(Հ,ͽ[ͽ.Count-1])>=ě)ͽ.Add(Հ);return true;}public void ͻ(Vector3D Հ){if(ʩ)return;if(ͽ.Count==0||Vector3D.
-Distance(Հ,ͽ[ͽ.Count-1])>0.5)ͽ.Add(Հ);}}public class Ȩ{double Վ,Տ,Ր;bool Ց;public Ȩ(double Ւ,double Փ){Վ=Ւ;Տ=Փ;Ց=false;Ր=0;}
-public double ɒ=>Վ;public bool Ā(double û,double Ք,bool Օ){if(Օ&&Ք<Տ){if(!Ց){Ց=true;Ր=û;}else{if(û-Ր>=Վ){return true;}}}else{Ց
-=false;}return false;}public void Ũ(){Ց=false;}}public static class ϗ{public const double Ֆ=1e-5;public static double Զ(
-Vector3D ՙ,double[]ա,double[]բ){double գ=0.0;for(int L=0;L<6;L++){բ[L]=Ֆ;}if(Math.Abs(ՙ.X)>1e-9){int դ;double ե;bool զ=false;if(
-ՙ.X>0){դ=3;ե=ա[դ];}else{դ=2;ե=ա[դ];}double á;if(ե<=0){գ=double.PositiveInfinity;á=Ֆ;զ=true;}else{á=Math.Abs(ՙ.X)/ե;double
-է=Math.Max(Ֆ,Math.Min(1.0,á));բ[դ]=է;գ=Math.Max(գ,á);}if(զ){բ[դ]=Ֆ;}}if(Math.Abs(ՙ.Y)>1e-9){int դ;double ե;bool զ=false;
-if(ՙ.Y>0){դ=4;ե=ա[դ];}else{դ=5;ե=ա[դ];}double á;if(ե<=0){գ=double.PositiveInfinity;á=Ֆ;զ=true;}else{á=Math.Abs(ՙ.Y)/ե;
-double է=Math.Max(Ֆ,Math.Min(1.0,á));բ[դ]=է;գ=Math.Max(գ,á);}if(զ){բ[դ]=Ֆ;}}if(Math.Abs(ՙ.Z)>1e-9){int դ;double ե;bool զ=false
-;if(ՙ.Z<0){դ=0;ե=ա[դ];}else{դ=1;ե=ա[դ];}double á;if(ե<=0){գ=double.PositiveInfinity;á=Ֆ;զ=true;}else{á=Math.Abs(ՙ.Z)/ե;
-double է=Math.Max(Ֆ,Math.Min(1.0,á));բ[դ]=է;գ=Math.Max(գ,á);}if(զ){բ[դ]=Ֆ;}}return գ;}public static double Ϙ(Vector3D ѝ,double
-[]ա){double ը=double.PositiveInfinity;bool թ=false;if(Math.Abs(ѝ.X)>1e-9){թ=true;int դ=ѝ.X<0?2:3;double ҿ=ա[դ]/Math.Abs(ѝ
-.X);ը=Math.Min(ը,ҿ);}if(Math.Abs(ѝ.Y)>1e-9){թ=true;int դ=ѝ.Y>0?4:5;double ҿ=ա[դ]/Math.Abs(ѝ.Y);ը=Math.Min(ը,ҿ);}if(Math.
-Abs(ѝ.Z)>1e-9){թ=true;int դ=ѝ.Z<0?0:1;double ҿ=ա[դ]/Math.Abs(ѝ.Z);ը=Math.Min(ը,ҿ);}if(!թ){return 0.0;}if(Math.Abs(ѝ.X)>1e-9
-&&ա[ѝ.X<0?2:3]<=0)return 0.0;if(Math.Abs(ѝ.Y)>1e-9&&ա[ѝ.Y>0?4:5]<=0)return 0.0;if(Math.Abs(ѝ.Z)>1e-9&&ա[ѝ.Z<0?0:1]<=0)
-return 0.0;return ը;}}public interface Ԗ{MatrixD ϐ{get;}Vector3D ϑ{get;}Vector3D ʀ{get;}Vector3D ʱ{get;}double ϒ{get;}void ϕ(
-double[]ժ);void Է(double[]ի);void Ը(Vector3D Ԋ);void ƶ();}public class Ȇ:Ԗ{public double լ=1.0;const double խ=0.5,ծ=2.0;const
-int կ=3;static string[]հ={"pitch","yaw","roll"};List<IMyThrust>[]ձ;double[]ղ;IMyShipController ճ;List<IMyGyro>մ;int յ=-1;
-double ն;public Ȇ(){ձ=new List<IMyThrust>[6];for(int L=0;L<6;L++)ձ[L]=new List<IMyThrust>();ղ=new double[կ];}public void S(
-IMyShipController ɧ,List<IMyThrust>շ,List<IMyGyro>ƺ){ճ=ɧ;for(int L=0;L<6;L++)ձ[L].Clear();if(ɧ!=null&&շ!=null){MatrixD Ϗ=ɧ.WorldMatrix;
-for(int L=0;L<շ.Count;L++){IMyThrust i=շ[L];if(i==null)continue;ձ[ո(Ϗ,i.WorldMatrix.Backward)].Add(i);}}մ=ƺ;}public bool ϔ(
-out double Ӳ){Ӳ=0;if(ճ==null)return false;return ճ.TryGetPlanetElevation(MyPlanetElevation.Surface,out Ӳ);}public static
-int ո(MatrixD չ,Vector3D պ){Vector3D ɠ=Vector3D.TransformNormal(պ,MatrixD.Transpose(չ));return(int)Base6Directions.
-GetClosestDirection((Vector3)ɠ);}public static string ջ(double ҿ){if(ҿ>=0.7&&ҿ<=1.3)return"OK";if(ҿ>=-1.3&&ҿ<=-0.7)return"SIGN FLIPPED";if(
-ҿ>5)return"UNITS: RPM?";return"UNEXPECTED";}public MatrixD ϐ{get{if(ճ==null)return MatrixD.Identity;MatrixD ˍ=ճ.
-WorldMatrix;ˍ.Translation=ճ.CenterOfMass;return ˍ;}}public Vector3D ϑ{get{return ճ==null?Vector3D.Zero:ճ.GetShipVelocities().
-LinearVelocity;}}public Vector3D ʀ{get{return ճ==null?Vector3D.Zero:ճ.GetShipVelocities().AngularVelocity;}}public Vector3D ʱ{get{
-return ճ==null?Vector3D.Zero:ճ.GetNaturalGravity();}}public double ϒ{get{if(ճ==null)return 0;double ˍ=ճ.CalculateShipMass().
-PhysicalMass;return ˍ>0?ˍ:1;}}public void ϕ(double[]ժ){for(int ƻ=0;ƻ<6;ƻ++){double Þ=0;List<IMyThrust>ռ=ձ[ƻ];for(int L=0;L<ռ.Count;L
-++){IMyThrust i=ռ[L];if(i.IsFunctional&&i.Enabled)Þ+=i.MaxEffectiveThrust;}ժ[ƻ]=Þ;}}public void Է(double[]ի){for(int ƻ=0;ƻ
-<6;ƻ++){float á=(float)ի[ƻ];List<IMyThrust>ռ=ձ[ƻ];for(int L=0;L<ռ.Count;L++)ռ[L].ThrustOverridePercentage=á;}}public void
-Ը(Vector3D Ԋ){if(մ==null)return;for(int L=0;L<մ.Count;L++){IMyGyro ս=մ[L];Vector3D վ=ʺ.ԍ(Ԋ,ս.WorldMatrix)*լ;ս.
-GyroOverride=true;ս.Pitch=(float)վ.X;ս.Yaw=(float)վ.Y;ս.Roll=(float)վ.Z;}}public void ƶ(){for(int ƻ=0;ƻ<6;ƻ++){List<IMyThrust>ռ=ձ[ƻ]
-;for(int L=0;L<ռ.Count;L++)ռ[L].ThrustOverridePercentage=0f;}if(մ!=null){for(int L=0;L<մ.Count;L++){IMyGyro ս=մ[L];ս.
-GyroOverride=false;ս.Pitch=0f;ս.Yaw=0f;ս.Roll=0f;}}if(ճ!=null)ճ.DampenersOverride=true;}public void ͷ(double û){for(int L=0;L<կ;L++)
-ղ[L]=0;յ=0;ն=û;}public bool ϧ{get{return յ>=0;}}public void Ϩ(double û,System.Text.StringBuilder տ){if(յ<0)return;if(û-ն
->=ծ){Vector3D Ӿ=ր(յ);ղ[յ]=Vector3D.Dot(ʀ,Ӿ)/խ;յ++;ն=û;if(յ>=կ){յ=-1;ƶ();տ.Clear();for(int L=0;L<կ;L++){տ.Append(
-"GYROTEST ");տ.Append(հ[L]);տ.Append(": measured/commanded = ");ϻ.Ͻ(տ,ղ[L],2);տ.Append(" (");տ.Append(ջ(ղ[L]));տ.Append(")\n");}
-return;}}Ը(ր(յ)*խ);տ.Clear();տ.Append("GYROTEST running: ");տ.Append(հ[յ]);}Vector3D ր(int ʽ){MatrixD ˍ=ϐ;if(ʽ==0)return ˍ.
+"x"+L).TryGetDouble(out Ď)||!ΐ.Get(Ў,"y"+L).TryGetDouble(out ď)||!ΐ.Get(Ў,"z"+L).TryGetDouble(out ѫ)){Լ.Clear();return
+false;}Լ.Add(new Vector3D(Ď,ď,ѫ));}return true;}}public class Ƞ{public const double Խ=0.349,Ծ=3;List<Vector3D>Կ;bool Հ,Ձ;int
+w;public void ʙ(List<Vector3D>ͼ,bool Ղ,Vector3D Ճ){Կ=ͼ;Հ=Ղ;if(ͼ==null||ͼ.Count==0){w=0;Ձ=true;return;}double Մ=double.
+MaxValue;int Յ=0;for(int L=0;L<ͼ.Count;L++){double ˠ=Vector3D.Distance(Ճ,ͼ[L]);if(ˠ<Մ){Մ=ˠ;Յ=L;}}w=Ղ?ͼ.Count-1-Յ:Յ;Ձ=false;}
+public bool é{get{return Ձ;}}public Vector3D Ā(Vector3D Ճ,double ӷ,double Ն,out double Շ,out double ʭ){Շ=Ն;ʭ=0;if(Կ==null||Կ.
+Count==0){return Ճ;}int Ո=Կ.Count-1;while(w<Ո&&Vector3D.Distance(Ճ,Չ(w))<=ӷ){w++;}if(w==Ո&&Vector3D.Distance(Ճ,Չ(w))<=ӷ){Ձ=
+true;}ʭ=0;for(int L=w;L<Ո;L++){ʭ+=Vector3D.Distance(Չ(L),Չ(L+1));}ʭ+=Vector3D.Distance(Ճ,Չ(w));if(w<Ո){Vector3D Պ;if(w==0){Պ
+=Չ(w)-Ճ;}else{Պ=Չ(w)-Չ(w-1);}Vector3D Ջ=Չ(w+1)-Չ(w);if(Պ.Length()<1e-6||Ջ.Length()<1e-6){Շ=Ն;}else{double Ռ=Vector3D.
+Angle(Պ,Ջ);if(Ռ<Խ){Շ=Ն;}else{Շ=System.Math.Max(Ծ,Ն*(1-Ռ/System.Math.PI));}}}return Չ(w);}Vector3D Չ(int Ҍ){if(Հ){return Կ[Կ.
+Count-1-Ҍ];}else{return Կ[Ҍ];}}}public class Ȝ{public const double Ս=5,Վ=1.0;readonly int Տ;public List<Vector3D>ͽ;public Ȝ(
+int Ր){Տ=Ր;ͽ=new List<Vector3D>(Ր);}public bool ʩ{get{return ͽ.Count>=Տ;}}public void ʖ(Vector3D Ճ){ͽ.Clear();if(Տ>0)ͽ.Add(
+Ճ);}public bool Ā(Vector3D Ճ,double Ե){if(ʩ)return false;if(ͽ.Count==0){ͽ.Add(Ճ);return true;}double ě=Ե*Վ;if(ě<Ս)ě=Ս;if(
+Vector3D.Distance(Ճ,ͽ[ͽ.Count-1])>=ě)ͽ.Add(Ճ);return true;}public void ͻ(Vector3D Ճ){if(ʩ)return;if(ͽ.Count==0||Vector3D.
+Distance(Ճ,ͽ[ͽ.Count-1])>0.5)ͽ.Add(Ճ);}}public class Ȩ{double Ց,Ւ,Փ;bool Ք;public Ȩ(double Օ,double Ֆ){Ց=Օ;Ւ=Ֆ;Ք=false;Փ=0;}
+public double ɒ=>Ց;public bool Ā(double û,double ՙ,bool ա){if(ա&&ՙ<Ւ){if(!Ք){Ք=true;Փ=û;}else{if(û-Փ>=Ց){return true;}}}else{Ք
+=false;}return false;}public void Ũ(){Ք=false;}}public static class ϗ{public const double բ=1e-5;public static double Թ(
+Vector3D գ,double[]դ,double[]ե){double զ=0.0;for(int L=0;L<6;L++){ե[L]=բ;}if(Math.Abs(գ.X)>1e-9){int է;double ը;bool թ=false;if(
+գ.X>0){է=3;ը=դ[է];}else{է=2;ը=դ[է];}double á;if(ը<=0){զ=double.PositiveInfinity;á=բ;թ=true;}else{á=Math.Abs(գ.X)/ը;double
+ժ=Math.Max(բ,Math.Min(1.0,á));ե[է]=ժ;զ=Math.Max(զ,á);}if(թ){ե[է]=բ;}}if(Math.Abs(գ.Y)>1e-9){int է;double ը;bool թ=false;
+if(գ.Y>0){է=4;ը=դ[է];}else{է=5;ը=դ[է];}double á;if(ը<=0){զ=double.PositiveInfinity;á=բ;թ=true;}else{á=Math.Abs(գ.Y)/ը;
+double ժ=Math.Max(բ,Math.Min(1.0,á));ե[է]=ժ;զ=Math.Max(զ,á);}if(թ){ե[է]=բ;}}if(Math.Abs(գ.Z)>1e-9){int է;double ը;bool թ=false
+;if(գ.Z<0){է=0;ը=դ[է];}else{է=1;ը=դ[է];}double á;if(ը<=0){զ=double.PositiveInfinity;á=բ;թ=true;}else{á=Math.Abs(գ.Z)/ը;
+double ժ=Math.Max(բ,Math.Min(1.0,á));ե[է]=ժ;զ=Math.Max(զ,á);}if(թ){ե[է]=բ;}}return զ;}public static double Ϙ(Vector3D ѝ,double
+[]դ){double ի=double.PositiveInfinity;bool լ=false;if(Math.Abs(ѝ.X)>1e-9){լ=true;int է=ѝ.X<0?2:3;double ӂ=դ[է]/Math.Abs(ѝ
+.X);ի=Math.Min(ի,ӂ);}if(Math.Abs(ѝ.Y)>1e-9){լ=true;int է=ѝ.Y>0?4:5;double ӂ=դ[է]/Math.Abs(ѝ.Y);ի=Math.Min(ի,ӂ);}if(Math.
+Abs(ѝ.Z)>1e-9){լ=true;int է=ѝ.Z<0?0:1;double ӂ=դ[է]/Math.Abs(ѝ.Z);ի=Math.Min(ի,ӂ);}if(!լ){return 0.0;}if(Math.Abs(ѝ.X)>1e-9
+&&դ[ѝ.X<0?2:3]<=0)return 0.0;if(Math.Abs(ѝ.Y)>1e-9&&դ[ѝ.Y>0?4:5]<=0)return 0.0;if(Math.Abs(ѝ.Z)>1e-9&&դ[ѝ.Z<0?0:1]<=0)
+return 0.0;return ի;}}public interface ԙ{MatrixD ϐ{get;}Vector3D ϑ{get;}Vector3D ʀ{get;}Vector3D ʱ{get;}double ϒ{get;}void ϕ(
+double[]խ);void Ժ(double[]ծ);void Ի(Vector3D ԍ);void ƶ();}public class Ȇ:ԙ{public double կ=1.0;const double հ=0.5,ձ=2.0;const
+int ղ=3;static string[]ճ={"pitch","yaw","roll"};List<IMyThrust>[]մ;double[]յ;IMyShipController ն;List<IMyGyro>շ;int ո=-1;
+double չ;public Ȇ(){մ=new List<IMyThrust>[6];for(int L=0;L<6;L++)մ[L]=new List<IMyThrust>();յ=new double[ղ];}public void S(
+IMyShipController ɧ,List<IMyThrust>պ,List<IMyGyro>ƺ){ն=ɧ;for(int L=0;L<6;L++)մ[L].Clear();if(ɧ!=null&&պ!=null){MatrixD Ϗ=ɧ.WorldMatrix;
+for(int L=0;L<պ.Count;L++){IMyThrust i=պ[L];if(i==null)continue;մ[ջ(Ϗ,i.WorldMatrix.Backward)].Add(i);}}շ=ƺ;}public bool ϔ(
+out double ӵ){ӵ=0;if(ն==null)return false;return ն.TryGetPlanetElevation(MyPlanetElevation.Surface,out ӵ);}public static
+int ջ(MatrixD ռ,Vector3D ս){Vector3D ɠ=Vector3D.TransformNormal(ս,MatrixD.Transpose(ռ));return(int)Base6Directions.
+GetClosestDirection((Vector3)ɠ);}public static string վ(double ӂ){if(ӂ>=0.7&&ӂ<=1.3)return"OK";if(ӂ>=-1.3&&ӂ<=-0.7)return"SIGN FLIPPED";if(
+ӂ>5)return"UNITS: RPM?";return"UNEXPECTED";}public MatrixD ϐ{get{if(ն==null)return MatrixD.Identity;MatrixD ˍ=ն.
+WorldMatrix;ˍ.Translation=ն.CenterOfMass;return ˍ;}}public Vector3D ϑ{get{return ն==null?Vector3D.Zero:ն.GetShipVelocities().
+LinearVelocity;}}public Vector3D ʀ{get{return ն==null?Vector3D.Zero:ն.GetShipVelocities().AngularVelocity;}}public Vector3D ʱ{get{
+return ն==null?Vector3D.Zero:ն.GetNaturalGravity();}}public double ϒ{get{if(ն==null)return 0;double ˍ=ն.CalculateShipMass().
+PhysicalMass;return ˍ>0?ˍ:1;}}public void ϕ(double[]խ){for(int ƻ=0;ƻ<6;ƻ++){double Þ=0;List<IMyThrust>տ=մ[ƻ];for(int L=0;L<տ.Count;L
+++){IMyThrust i=տ[L];if(i.IsFunctional&&i.Enabled)Þ+=i.MaxEffectiveThrust;}խ[ƻ]=Þ;}}public void Ժ(double[]ծ){for(int ƻ=0;ƻ
+<6;ƻ++){float á=(float)ծ[ƻ];List<IMyThrust>տ=մ[ƻ];for(int L=0;L<տ.Count;L++)տ[L].ThrustOverridePercentage=á;}}public void
+Ի(Vector3D ԍ){if(շ==null)return;for(int L=0;L<շ.Count;L++){IMyGyro ր=շ[L];Vector3D ց=ʺ.Ԑ(ԍ,ր.WorldMatrix)*կ;ր.
+GyroOverride=true;ր.Pitch=(float)ց.X;ր.Yaw=(float)ց.Y;ր.Roll=(float)ց.Z;}}public void ƶ(){for(int ƻ=0;ƻ<6;ƻ++){List<IMyThrust>տ=մ[ƻ]
+;for(int L=0;L<տ.Count;L++)տ[L].ThrustOverridePercentage=0f;}if(շ!=null){for(int L=0;L<շ.Count;L++){IMyGyro ր=շ[L];ր.
+GyroOverride=false;ր.Pitch=0f;ր.Yaw=0f;ր.Roll=0f;}}if(ն!=null)ն.DampenersOverride=true;}public void ͷ(double û){for(int L=0;L<ղ;L++)
+յ[L]=0;ո=0;չ=û;}public bool ϧ{get{return ո>=0;}}public void Ϩ(double û,System.Text.StringBuilder ւ){if(ո<0)return;if(û-չ
+>=ձ){Vector3D ԁ=փ(ո);յ[ո]=Vector3D.Dot(ʀ,ԁ)/հ;ո++;չ=û;if(ո>=ղ){ո=-1;ƶ();ւ.Clear();for(int L=0;L<ղ;L++){ւ.Append(
+"GYROTEST ");ւ.Append(ճ[L]);ւ.Append(": measured/commanded = ");ϻ.Ͻ(ւ,յ[L],2);ւ.Append(" (");ւ.Append(վ(յ[L]));ւ.Append(")\n");}
+return;}}Ի(փ(ո)*հ);ւ.Clear();ւ.Append("GYROTEST running: ");ւ.Append(ճ[ո]);}Vector3D փ(int ʽ){MatrixD ˍ=ϐ;if(ʽ==0)return ˍ.
 Right;if(ʽ==1)return ˍ.Up;return ˍ.Backward;}}

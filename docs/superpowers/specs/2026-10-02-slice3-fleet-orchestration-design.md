@@ -46,14 +46,15 @@ script.
 ## 3. Protocol (IGC, channel `FLEET/<Channel>/…`)
 
 All payloads are versioned `|`-separated text lines, like `status` (`FleetLink.Version` → 2). Numbers
-use invariant formatting via the existing codec helpers. Every command stays **unicast**, as in §10.2 of
+are integers only: positions and spacing in millimetres, directions in millionths (culture-free). Every command stays **unicast**, as in §10.2 of
 slice 1. The one broadcast addition is `jobreq`, which only asks the carrier to act and starts nothing
 on its own.
 
 | Tag | Direction | Payload |
 |---|---|---|
-| `job` | drone → carrier, unicast | `J|2|jobId|ox|oy|oz|fx|fy|fz|ux|uy|uz|W|H|spacing|gps|nRoute|route xyz…|nDock|dock xyz…`. The grid in world space, the job route in world space, and the lead's dock path local to its connector |
+| `job` | drone → carrier, unicast | `J|2|jobId|ox|oy|oz|fx|fy|fz|ux|uy|uz|W|H|spacing|gps|nRoute|route xyz…|nDock|dock xyz…`. The grid in world space, the job route in world space, and the lead's dock path local to its connector. The drone sends jobId 0; **the carrier mints the id** and sends the job back (carrier → drone) to the lead and to every drone before its first lease |
 | `jobreq` | console/probe → broadcast | `Q|2|GPS:name:x:y:z:|W|H` (W/H 0 = the chosen drone's settings) |
+| `lease` | drone → carrier, unicast | `N|2|heldJobId`: request a lease (0 = no job held) |
 | `lease` | carrier → drone, unicast | `L|2|jobId|leaseId|n|i1…in` (n ≤ 4 spiral indices). `n = 0` means none left: the job is complete |
 | `dock` | drone → carrier, unicast | `R|2` (request a bay) |
 | `dock` | carrier → drone, unicast | `G|2|bayId` (go) or `W|2|slot` (wait at slot; `-1` = no hold marker, hold in place) |
@@ -112,7 +113,7 @@ Identical bays make one connector-local path valid on every bay.
   then dock as today along the connector-local dock path. On `WAIT n`, fly to slot `n`, hold there, and
   wait for `GO`.
 - **Hold marker:** the operator tags one carrier block `[FM] Hold`. The carrier broadcasts it as beacon
-  entry `BayId = -1`. Slot `n` pose = marker position + `n · HoldSpacing` (setting, default 15 m)
+  entry `BayId = -1`. Slot `n` pose = marker position + `(n + 1) · HoldSpacing` (so slot 0 is clear of the marker block) (setting, default 15 m)
   along the marker's up axis, with the marker's velocity, extrapolated exactly like a tracked bay
   (`HomeTracker`).
 - No marker while drones are waiting: the carrier shows a setup diagnostic and replies `WAIT -1`. The
@@ -179,17 +180,11 @@ handling is a rare, user-driven path and may allocate.
 - F7 Moving carrier (slice 2) with two drones: holding slots move with the carrier.
 - F8 A drone with no recorded dock path docks using the shared path.
 
-## 10. Card plan (for the writing-plans step)
+## 10. Implementation status
 
-Cards C33–C48, 14 of 16 for the local model:
-
-| Kind | Cards |
-|---|---|
-| local `logic` | C33 job codec · C34 lease + dock + jobreq codecs · C36 LeaseTable · C38 BayQueue · C40 HoldSlots · C41 LeaseCursor · C42 Dispatcher · C43 Dispatcher Save/Load |
-| local `cases` | C37 LeaseTable edges · C39 BayQueue edges |
-| local `wire` | C35 status v2 fields · C45 drone inbox for the new tags + `SHARE` command (`Cmd.Share`, parser, `Names`) · C47 console commands + fleet line |
-| local `doc` | C48 carrier build spec, console usage, F-checklist |
-| Claude | C44 carrier `Program` integration · C46 drone fleet mode in `MinerSubsystem` |
-
-**Ordering gate:** logic and cases cards may start immediately. Wire cards and C44/C46 wait until the
-slice-1 (G1–G12) and slice-2 (M1–M8) in-game checklists pass.
+Amended 2026-10-02 after implementation: the integer number format, the `N` lease request, carrier-minted job
+ids, and slot `(n + 1)` above are what the code does. The pure layer (codecs, status v2, `LeaseTable`,
+`BayQueue`, `HoldSlots`, `LeaseCursor`, `Dispatcher` with Save/Load) is **done** (`a641030`, `fc34871`,
+`2a7f22c`, 489 tests). It was written by Claude while proving the cards, and committed instead of being
+re-implemented by the local model (Blae's decision). The remaining work and its cards are in
+`docs/superpowers/plans/2026-10-02-slice3-fleet.md`.
