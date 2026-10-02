@@ -61,7 +61,10 @@ A **static** station needs no script. The drone remembers where its connector wa
 1. **Build the drone and name its blocks.** Put the tag (default `[FM]`) in the names of the LCDs, any
    ejectors (plus `Eject`), and the cockpit or connector if there is more than one. To reuse a ship
    built for PAM, either rename its `[PAM]` LCDs or set `Tag=[PAM]` in step 3.
-2. **Load the script.** Open the PB → Edit → Browse Scripts → `Fleet.Drone.Miner` → OK. Do this on a
+2. **Load the script.** Open the PB → Edit → Browse Scripts → `Fleet.Drone.Miner` → OK. Or, if MDK
+   hasn't deployed it on this machine: open the PB → Edit, select all, and paste the whole of
+   [`mining-drone.script.cs`](mining-drone.script.cs) (a snapshot of the Release build, so re-copy it
+   after any rebuild; see the file list in `CLAUDE.md`). Either way, do this on a
    PB with **empty Custom Data**. Old text that isn't INI (PAM leftovers, notes) makes the drone run
    on defaults, never write its settings, and refuse every menu or remote edit. Old Storage is
    discarded harmlessly ("storage dropped").

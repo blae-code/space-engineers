@@ -15,7 +15,10 @@ when a milestone is called, never on routine commits.
 - Task cards: `docs/superpowers/plans/slice1-cards/C01…C30`
 - Slice 2 (moving carrier): spec `docs/superpowers/specs/2026-09-30-slice2-moving-carrier-design.md`,
   plan + in-game checklist `docs/superpowers/plans/2026-09-30-slice2-moving-carrier.md`
-- In-game build specs (parts + manual setup per ship type): `docs/build-specs/` — `mining-drone.md`
+- In-game build specs (parts + manual setup per ship type): `docs/build-specs/` — `mining-drone.md`,
+  plus `mining-drone.script.cs`, the paste-ready PB script. It is a **snapshot** of the deployed
+  `script.cs`: after any drone build that changes the script, re-copy it from the Proton prefix
+  (`…/IngameScripts/local/Fleet.Drone.Miner/script.cs`) or it goes stale.
 
 ## Division of labour (Claude Code ↔ local model)
 Work is split to save Claude credits. The **local model** (qwen3-coder-30b in Continue, Agent mode)

@@ -5,3 +5,7 @@ obj/
 # machine-specific MDK paths (Proton prefix, Bin64)
 mdk.local.ini
 __pycache__/
+# editor/agent backup copies
+*.backup
+*.original
+*.bak-*
