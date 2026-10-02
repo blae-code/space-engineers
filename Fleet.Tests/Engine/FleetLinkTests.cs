@@ -26,7 +26,7 @@ namespace Fleet.Tests.Engine
         [Test]
         public void Encode_Format()
         {
-            Assert.That(Encode(Sample()), Is.EqualTo("1|Miner-01|5|0|3|25|64|88|-1|182|2|"));
+            Assert.That(Encode(Sample()), Is.EqualTo("2|Miner-01|5|0|3|25|64|88|-1|182|2|0|0|0|"));
         }
 
         [Test]
@@ -59,7 +59,7 @@ namespace Fleet.Tests.Engine
             Assert.That(back.Note, Is.EqualTo("x/y z"));
         }
 
-        [TestCase("2|Miner-01|5|0|3|25|64|88|-1|182|2|")]   // future version
+        [TestCase("3|Miner-01|5|0|3|25|64|88|-1|182|2|0|0|0|")]   // future version
         [TestCase("1|Miner-01|5|0|3|25|64|88|-1|182|2")]    // note field missing
         [TestCase("1|Miner-01|5|0|x|25|64|88|-1|182|2|")]   // not a number
         [TestCase("1|Miner-01|5|0|3")]

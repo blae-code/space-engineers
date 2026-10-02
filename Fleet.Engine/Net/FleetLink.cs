@@ -14,20 +14,21 @@ namespace IngameScript
             public int Battery, Hydrogen;   // percent, -1 = none fitted
             public int Lift100;             // lift margin x 100, -1 = not in gravity
             public int Flags;
+            public int JobId, LeaseId, DoneMask; // slice 3 fleet job: 0 = none; DoneMask bit k = the lease's k-th hole
             public string Note;             // Hold note / SAFE reason / diagnostic, may be empty
         }
 
         // Remote-console protocol: IGC tags, the versioned status line, the SET command.
         public static class FleetLink
         {
-            public const int Version = 1;
+            public const int Version = 2;
             public const int FlagConnected = 1, FlagHasJob = 2, FlagSafe = 4, FlagNotReady = 8, FlagRecording = 16;
 
             // Tags are built once at setup (allocation is fine there).
             public static string Tag(string channel, string kind) { return "FLEET/" + channel + "/" + kind; }
             public const string Status = "status", Command = "cmd", Cfg = "cfg", Ack = "ack";
 
-            // Appends "1|name|state|reason|hole|holes|cargo|bat|h2|lift|flags|note". '|' and newlines in
+            // Appends "2|name|state|reason|hole|holes|cargo|bat|h2|lift|flags|job|lease|mask|note". '|' and newlines in
             // the name or note are written as '/' and ' ' so they can never break the framing.
             public static StringBuilder Encode(StringBuilder sb, ref DroneStatus s)
             {
@@ -42,6 +43,9 @@ namespace IngameScript
                 SbFormat.AppendInt(sb, s.Hydrogen).Append('|');
                 SbFormat.AppendInt(sb, s.Lift100).Append('|');
                 SbFormat.AppendInt(sb, s.Flags).Append('|');
+                SbFormat.AppendInt(sb, s.JobId).Append('|');
+                SbFormat.AppendInt(sb, s.LeaseId).Append('|');
+                SbFormat.AppendInt(sb, s.DoneMask).Append('|');
                 return AppendClean(sb, s.Note);
             }
 
@@ -57,12 +61,13 @@ namespace IngameScript
             }
 
             // Parses a status line into s. False (s untouched) on a wrong version or malformed line.
+            // Version 1 lines (no job/lease/mask fields) are still accepted; those fields then read 0.
             // Allocates only when the name or note text actually changed since the previous line.
             public static bool Decode(string line, ref DroneStatus s)
             {
                 if (line == null) return false;
                 int pos = 0, v;
-                if (!ReadInt(line, ref pos, out v) || v != Version) return false;
+                if (!ReadInt(line, ref pos, out v) || (v != 1 && v != Version)) return false;
                 int nameStart = pos, nameEnd = line.IndexOf('|', pos);
                 if (nameEnd < 0) return false;
                 pos = nameEnd + 1;
@@ -73,11 +78,16 @@ namespace IngameScript
                     || !ReadInt(line, ref pos, out h2) || !ReadInt(line, ref pos, out lift)
                     || !ReadInt(line, ref pos, out flags))
                     return false;
+                int job = 0, lease = 0, mask = 0;
+                if (v == 2 && (!ReadInt(line, ref pos, out job) || !ReadInt(line, ref pos, out lease)
+                    || !ReadInt(line, ref pos, out mask)))
+                    return false;
                 if (pos > line.Length) return false;   // the note field must be present (may be empty)
                 s.Name = Reuse(s.Name, line, nameStart, nameEnd - nameStart);
                 s.Note = Reuse(s.Note, line, pos, line.Length - pos);
                 s.State = state; s.Reason = reason; s.Hole = hole; s.Holes = holes; s.Cargo = cargo;
                 s.Battery = bat; s.Hydrogen = h2; s.Lift100 = lift; s.Flags = flags;
+                s.JobId = job; s.LeaseId = lease; s.DoneMask = mask;
                 return true;
             }
 
