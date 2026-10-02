@@ -2,7 +2,8 @@
 """Mechanical half of a checkpoint: full test suite, Release build, size gate, and card-check on every
 card of the milestone. Run it before bringing a checkpoint to Claude and paste the output.
 
-    python3 tools/checkpoint.py A      # milestones: A C01-C09 · B C10-C18 · C C19-C24 · D C25-C30
+    python3 tools/checkpoint.py A        # slice-1 milestones: A C01-C09 · B C10-C18 · C C19-C24 · D C25-C30
+    python3 tools/checkpoint.py C31-C40  # any later range of cards
 """
 import re
 import subprocess
@@ -18,10 +19,21 @@ def run(cmd):
     return out.returncode, out.stdout + out.stderr
 
 
+def deployed_script():
+    ini = ROOT / "Fleet.Drone.Miner/mdk.local.ini"
+    m = re.search(r"^output=(.*)$", ini.read_text(), re.M) if ini.exists() else None
+    return Path(m.group(1).strip()) / "Fleet.Drone.Miner/script.cs" if m else None
+
+
 def main():
-    if len(sys.argv) != 2 or sys.argv[1].upper() not in MILESTONES:
+    arg = sys.argv[1].upper() if len(sys.argv) == 2 else ""
+    rng = re.fullmatch(r"C(\d{2,3})-C(\d{2,3})", arg)
+    if arg in MILESTONES:
+        ms, numbers = arg, MILESTONES[arg]
+    elif rng:
+        ms, numbers = arg, range(int(rng.group(1)), int(rng.group(2)) + 1)
+    else:
         sys.exit(__doc__)
-    ms = sys.argv[1].upper()
     rows = []
 
     code, text = run(["dotnet", "test", "Fleet.Tests"])
@@ -37,7 +49,15 @@ def main():
     code, text = run(["fish", "tools/check-size.fish"])
     rows.append(("FAIL" if code else ("WARN" if text.startswith("WARN") else "PASS"), "size gate", text.strip()))
 
-    for n in MILESTONES[ms]:
+    dep, snap = deployed_script(), ROOT / "docs/build-specs/mining-drone.script.cs"
+    if dep is None or not dep.exists():
+        rows.append(("FAIL", "build-spec snapshot", "deployed script.cs not found"))
+    elif dep.read_bytes() == snap.read_bytes():
+        rows.append(("PASS", "build-spec snapshot", "matches the deployed script.cs"))
+    else:
+        rows.append(("FAIL", "build-spec snapshot", "stale — run: fish tools/snapshot.fish"))
+
+    for n in numbers:
         cid = "C%02d" % n
         code, text = run(["python3", "tools/card-check.py", cid, "--committed", "--no-test"])
         detail = [l for l in text.splitlines() if l.startswith(("FAIL", "WARN"))]

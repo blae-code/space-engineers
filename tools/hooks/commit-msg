@@ -1,0 +1,21 @@
+#!/usr/bin/env python3
+"""Stamp a `Card: Cxx` trailer on any commit whose staged files belong to one task card.
+
+card-check --committed and next-card find a card's commit by this trailer, which is the only way to
+find a wire card's commit (it edits files that already exist). An existing trailer is left alone.
+"""
+import subprocess
+import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+from cards import ROOT, owners  # noqa: E402
+
+msg_file = Path(sys.argv[1])
+staged = subprocess.run(["git", "diff", "--cached", "--name-only", "--diff-filter=ACMR"],
+                        cwd=ROOT, capture_output=True, text=True).stdout.split()
+own = owners()
+cards = sorted({own[f] for f in staged if f in own})
+msg = msg_file.read_text()
+if len(cards) == 1 and "\nCard: " not in "\n" + msg:
+    msg_file.write_text(msg.rstrip("\n") + "\n\nCard: " + cards[0] + "\n")

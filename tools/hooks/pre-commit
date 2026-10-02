@@ -1,32 +1,48 @@
 #!/usr/bin/env python3
-"""Refuse any commit of task-card files that card-check does not PASS.
+"""Refuse any commit of script code that no task card covers, or that its card-check does not PASS.
 
 Installed with `git config core.hooksPath tools/hooks` (repo-local). Rules:
-  - staged files that belong to no card (docs, tools, new non-card code) -> allowed, no check;
+  - any staged script code (tools/cards.py SCRIPT) with a banned namespace -> refused, carded or not;
+  - staged script code that belongs to no card -> refused. Script code changes only through a card;
+    Claude's own commits use --no-verify and quote the card-check/test output in the message;
   - files from more than one card in one commit -> refused (one card per commit);
   - a staged card file with further unstaged edits -> refused (the check must see what is committed);
   - otherwise `card-check <card> --staged` must print RESULT: PASS.
+  Docs, tools and tests outside any card pass without a check.
 """
 import re
 import subprocess
 import sys
 from pathlib import Path
 
-ROOT = Path(subprocess.run(["git", "rev-parse", "--show-toplevel"], capture_output=True, text=True).stdout.strip())
-CARDS = ROOT / "docs/superpowers/plans/slice1-cards"
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+from cards import ROOT, SCRIPT, owners  # noqa: E402
+
+BANNED = re.compile(r"\bSystem\.(Linq|Threading|IO|Reflection|Net|Globalization)\b")
 
 
 def git(*args):
     return subprocess.run(["git"] + list(args), cwd=ROOT, capture_output=True, text=True).stdout.split()
 
 
-owner = {}
-for card in sorted(CARDS.glob("C*.md")):
-    m = re.search(r"^## Files(.*?)(?=^## )", card.read_text(), re.S | re.M)
-    for f in re.findall(r"`([^`]+/[^`]+)`", m.group(1) if m else ""):
-        owner[f] = card.stem.split("-")[0]
-
+owner = owners()
 staged = git("diff", "--cached", "--name-only", "--diff-filter=ACMR")
+scripts = [f for f in staged if SCRIPT.match(f)]
+
+for f in scripts:
+    text = subprocess.run(["git", "show", ":" + f], cwd=ROOT, capture_output=True, text=True).stdout
+    bad = [str(i + 1) for i, l in enumerate(text.splitlines()) if BANNED.search(l) and not l.strip().startswith("//")]
+    if bad:
+        print("pre-commit: refused — banned namespace in " + f + " line(s) " + ", ".join(bad))
+        sys.exit(1)
+
+uncarded = [f for f in scripts if f not in owner]
+if uncarded:
+    print("pre-commit: refused — script code that no task card covers: " + ", ".join(uncarded))
+    print("            Script code changes only through a card (python3 tools/next-card.py). For an idea,")
+    print("            add one line to docs/ideas.md and bring it to Claude Code.")
+    sys.exit(1)
+
 cards = sorted({owner[f] for f in staged if f in owner})
 if not cards:
     sys.exit(0)

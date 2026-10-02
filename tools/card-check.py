@@ -7,17 +7,21 @@
     python3 tools/card-check.py C01 --staged     # scope = the git index (used by the pre-commit hook)
 
 FAIL (exit 1): tests fail · the card's verbatim test file was edited · a file outside the card's
-`## Files` list changed · a banned namespace in script code · a token the card's "Done when" forbids.
-WARN (exit 0): allocation-shaped tokens in script code. They are legal on rare user-driven paths
-(commands, config, load/save), so a human reads the listed lines and decides.
+`## Files` list changed · a banned namespace in script code · a token the card's "Done when" forbids ·
+an allocation-shaped token inside a method the card lists under `## Hot paths` · (kind `cases`) a case
+id from the card's `## Cases` table missing from the test file.
+WARN (exit 0): allocation-shaped tokens elsewhere in script code. They are legal on rare user-driven
+paths (commands, config, load/save), so a human reads the listed lines and decides.
+
+Card kinds (`Kind:` on the header line; default logic): logic = interface + verbatim tests ·
+wire = edits existing files, oracle is a verbatim test · cases = the local model writes the test file
+from the card's case table · doc = docs only, scope check alone.
 """
 import re
 import subprocess
 import sys
-from pathlib import Path
 
-ROOT = Path(__file__).resolve().parent.parent
-CARDS = ROOT / "docs/superpowers/plans/slice1-cards"
+from cards import ROOT, card_path as find_card, card_id, section, kind, files as card_files_of
 
 BANNED = re.compile(r"\bSystem\.(Linq|Threading|IO|Reflection|Net|Globalization)\b")
 ALLOC = [("ToString(", r"\.ToString\("), ('$"', r'\$"'), ('+ "', r'\+\s*"'), ('" +', r'"\s*\+'),
@@ -42,16 +46,22 @@ def norm(text):
     return lines
 
 
-def section(md, title):
-    m = re.search(r"^## " + re.escape(title) + r".*?$(.*?)(?=^## |\Z)", md, re.S | re.M)
-    return m.group(1) if m else ""
+def card_path(cid):
+    hit = find_card(cid)
+    if not hit:
+        sys.exit("no card matching " + cid + " in docs/superpowers/plans/*-cards/")
+    return hit
 
 
-def card_path(card_id):
-    hits = sorted(CARDS.glob(card_id.upper() + "-*.md"))
-    if not hits:
-        sys.exit("no card matching " + card_id + " in " + str(CARDS))
-    return hits[0]
+def hot_body(src, entry):
+    """Body of `Class.Method` (or bare `Method`) in src: the method is searched from the class onward."""
+    cls, _, meth = entry.rpartition(".")
+    if cls:
+        m = re.search(r"\bclass\s+" + re.escape(cls) + r"\b", src)
+        if not m:
+            return None
+        src = src[m.start():]
+    return method_body(src, meth)
 
 
 def method_body(src, name):
@@ -75,12 +85,13 @@ def main():
     card_file = card_path(args[0])
     committed, no_test, staged = "--committed" in args, "--no-test" in args, "--staged" in args
     md = card_file.read_text()
-    files = [f for f in re.findall(r"`([^`]+)`", section(md, "Files")) if "/" in f]
-    scripts = [f for f in files if not f.startswith("Fleet.Tests/")]
-    print("card " + card_file.stem + " — files: " + ", ".join(files))
+    files = card_files_of(md)
+    scripts = [f for f in files if not f.startswith("Fleet.Tests/") and f.endswith(".cs")]
+    ckind = kind(md)
+    print("card " + card_file.stem + " (" + ckind + ") — files: " + ", ".join(files))
 
     # 1. tests
-    if not no_test:
+    if not no_test and ckind != "doc":
         m = re.search(r'--filter "(FullyQualifiedName~\w+)"', md)
         cmd = ["dotnet", "test", "Fleet.Tests"] + (["--filter", m.group(1)] if m else [])
         out = run(cmd)
@@ -107,12 +118,32 @@ def main():
         else:
             report("PASS", "verbatim tests", tm.group(1))
 
+    # 2b. kind `cases`: every case id in the card's table appears in the test file
+    if ckind == "cases":
+        ids = re.findall(r"^\|\s*(K\d+)\s*\|", section(md, "Cases"), re.M)
+        tests = [ROOT / f for f in files if f.startswith("Fleet.Tests/") and (ROOT / f).exists()]
+        text = "\n".join(t.read_text() for t in tests)
+        missing = [i for i in ids if not re.search(r"\b" + i + r"\b", text)]
+        if not ids:
+            report("FAIL", "cases", "card has no `| K1 |` rows under ## Cases")
+        elif not tests:
+            report("FAIL", "cases", "no test file from ## Files exists")
+        elif missing:
+            report("FAIL", "cases", "case id(s) not in the tests: " + ", ".join(missing))
+        else:
+            report("PASS", "cases", str(len(ids)) + " case id(s) all present")
+
     # 3. scope: only the card's files changed
     if committed:
-        log = run(["git", "log", "--diff-filter=A", "--format=%H", "--", scripts[0] if scripts else files[0]])
-        shas = log.stdout.split()
-        changed = run(["git", "show", "--name-only", "--format=", shas[-1]]).stdout.split() if shas else None
-        where = "commit " + shas[-1][:8] if shas else ""
+        # The commit-msg hook stamps `Card: Cxx`; cards committed before it existed are found by the
+        # commit that added their first file (a wire card edits existing files, so it needs the trailer).
+        cid = card_id(card_file)
+        shas = run(["git", "log", "--format=%H", "--grep", "^Card: " + cid + "$"]).stdout.split()
+        if not shas and ckind in ("logic", "cases"):
+            shas = run(["git", "log", "--diff-filter=A", "--format=%H", "--",
+                        scripts[0] if scripts else files[0]]).stdout.split()[-1:]
+        changed = run(["git", "show", "--name-only", "--format=", shas[0]]).stdout.split() if shas else None
+        where = "commit " + shas[0][:8] if shas else ""
     elif staged:
         changed, where = run(["git", "diff", "--cached", "--name-only"]).stdout.split(), "staged"
     else:
@@ -143,6 +174,18 @@ def main():
             hits = [str(i + 1) for i, l in enumerate(lines) if re.search(rx, l) and not l.strip().startswith("//")]
             if hits:
                 report("WARN", "alloc " + label, f + " line(s) " + ", ".join(hits) + " — OK only on rare paths")
+
+    # 4b. hot paths: allocation-shaped tokens inside these methods are defects, not judgement calls
+    src = "\n".join((ROOT / f).read_text() for f in scripts if (ROOT / f).exists())
+    for entry in re.findall(r"`([^`]+)`", section(md, "Hot paths")):
+        body = hot_body(src, entry)
+        if body is None:
+            report("FAIL", "hot " + entry, "could not locate " + entry + " in the card's script files")
+            continue
+        code = [l for l in body.splitlines() if not l.strip().startswith("//")]
+        found = sorted({label for label, rx in ALLOC for l in code if re.search(rx, l)})
+        report("FAIL" if found else "PASS", "hot " + entry,
+               ("allocates: " + ", ".join(found)) if found else "no allocation tokens")
 
     # 5. tokens the card's "Done when" forbids: "`X` contains no `a`, `b` or `c`"
     done = section(md, "Done when")
