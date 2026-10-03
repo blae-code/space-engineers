@@ -18,6 +18,8 @@ namespace IngameScript
             const double VelocityGain = 1.5;   // (m/s^2) of acceleration per m/s of velocity error
             const double GyroGain = 2.5;       // (rad/s) per radian of attitude error
             const double MaxGyroRate = 2.0;    // rad/s
+            const double AutopilotReissue = 5; // s before re-arming an autopilot that switched itself off
+            const string WaypointName = "FleetMiner";
 
             // Thruster groups, indexed by the ref-local direction they PUSH the ship.
             const int Right = 0, Left = 1, Up = 2, Down = 3, Back = 4, Fwd = 5;
@@ -31,11 +33,22 @@ namespace IngameScript
             Vector3D _targetPos, _targetVel, _targetFwd, _targetUp;
             double _maxSpeed;
 
+            bool _autopilot;
+            Vector3D _autopilotTarget;
+            double _autopilotIssuedAt = double.MinValue;
+
             public bool Engaged { get { return _engaged; } }
+            /// <summary>True while the vanilla Remote Control autopilot is flying the ship.</summary>
+            public bool OnAutopilot { get { return _autopilot; } }
             public double DistanceToTarget { get; private set; } = double.MaxValue;
             public double RelativeSpeed { get; private set; }
             /// <summary>Largest of |yaw|, |pitch|, |roll| error, in radians.</summary>
             public double AlignmentError { get; private set; } = Math.PI;
+            /// <summary>
+            /// Thrust available against gravity divided by weight, in the current attitude.
+            /// Infinity in space. Below ~1.2 a loaded drone can no longer climb out safely.
+            /// </summary>
+            public double LiftRatio { get; private set; } = double.PositiveInfinity;
 
             public HelmController(Program p, GridManager grid)
             {
@@ -50,7 +63,10 @@ namespace IngameScript
                 RegroupThrusters();
             }
 
-            public void Update100() { }
+            public void Update100()
+            {
+                MeasureLift();
+            }
 
             public void HandleMessage(FleetMessage message) { }
 
@@ -71,6 +87,7 @@ namespace IngameScript
 
                 var ctrl = _grid.Controller;
                 if (ctrl == null) return;
+                CancelAutopilot();
                 if (!_engaged)
                 {
                     _engaged = true;
@@ -91,9 +108,54 @@ namespace IngameScript
                 SetTarget(m.Translation, Vector3D.Zero, m.Forward, m.Up, 5);
             }
 
+            /// <summary>
+            /// Long, static legs only: hand the ship to the Remote Control autopilot, which brings
+            /// vanilla collision avoidance. Never use it for a moving target (the carrier).
+            /// Returns false when the reference block is not a working Remote Control.
+            /// </summary>
+            public bool AutopilotTo(Vector3D pos, double maxSpeed)
+            {
+                var rc = _grid.Controller as IMyRemoteControl;
+                if (rc == null || !rc.IsWorking) return false;
+                if (_engaged) Disengage();
+
+                // Waypoints are only (re)written when the leg changes, or after the autopilot gave
+                // up on its own, so the game-side waypoint allocation stays off the hot path.
+                bool newLeg = !_autopilot || Vector3D.DistanceSquared(pos, _autopilotTarget) > 1;
+                if (newLeg || (!rc.IsAutoPilotEnabled && _p.Clock - _autopilotIssuedAt > AutopilotReissue))
+                {
+                    rc.ClearWaypoints();
+                    rc.AddWaypoint(pos, WaypointName);
+                    rc.FlightMode = FlightMode.OneWay;
+                    rc.Direction = Base6Directions.Direction.Forward;
+                    rc.SpeedLimit = (float)maxSpeed;
+                    rc.SetCollisionAvoidance(true);
+                    rc.SetDockingMode(false);
+                    rc.SetAutoPilotEnabled(true);
+                    _autopilot = true;
+                    _autopilotTarget = pos;
+                    _autopilotIssuedAt = _p.Clock;
+                }
+
+                DistanceToTarget = Vector3D.Distance(pos, rc.GetPosition());
+                RelativeSpeed = rc.GetShipSpeed();
+                return true;
+            }
+
+            void CancelAutopilot()
+            {
+                if (!_autopilot) return;
+                _autopilot = false;
+                var rc = _grid.Controller as IMyRemoteControl;
+                if (rc == null) return;
+                rc.SetAutoPilotEnabled(false);
+                rc.ClearWaypoints();
+            }
+
             /// <summary>Release every override and hand the ship back to inertial dampeners.</summary>
             public void Disengage()
             {
+                CancelAutopilot();
                 _engaged = false;
                 DistanceToTarget = double.MaxValue;
                 AlignmentError = Math.PI;
@@ -210,6 +272,39 @@ namespace IngameScript
                     Drive(negative, -force);
                     Drive(positive, 0);
                 }
+            }
+
+            /// <summary>
+            /// To hover, every ref axis must supply its share of m*g: F_i = m*g*u_i with
+            /// |F_i| bounded by that axis' thrust, so lift = min_i(cap_i / |u_i|) / (m*g).
+            /// </summary>
+            void MeasureLift()
+            {
+                LiftRatio = double.PositiveInfinity;
+                var ctrl = _grid.Controller;
+                if (ctrl == null || ctrl.Closed) return;
+                Vector3D g = ctrl.GetNaturalGravity();
+                double gLen = g.Length();
+                if (gLen < 0.05) return;
+
+                MatrixD refT = MatrixD.Transpose(ctrl.WorldMatrix);
+                Vector3D up = Vector3D.TransformNormal(-g / gLen, refT);
+                double lift = double.PositiveInfinity;
+                lift = Math.Min(lift, AxisLift(up.X, Right, Left));
+                lift = Math.Min(lift, AxisLift(up.Y, Up, Down));
+                lift = Math.Min(lift, AxisLift(up.Z, Back, Fwd));
+                LiftRatio = lift / (ctrl.CalculateShipMass().PhysicalMass * gLen);
+            }
+
+            double AxisLift(double component, int positive, int negative)
+            {
+                double c = Math.Abs(component);
+                if (c < 0.05) return double.PositiveInfinity;
+                var list = _groups[component > 0 ? positive : negative];
+                double capacity = 0;
+                for (int i = 0; i < list.Count; i++)
+                    if (list[i].IsFunctional) capacity += list[i].MaxEffectiveThrust; // counts sleeping (docked) thrusters too
+                return capacity / c;
             }
 
             void Drive(int group, double force)

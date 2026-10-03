@@ -6,17 +6,27 @@ SETUP
        [FleetMiner]
        Role=Miner          ; Miner | Hauler | Carrier
        Channel=FLEETMINER  ; must match across the whole fleet
-  2. Drones need: a Remote Control (or tag a controller [FM Ref]), gyros,
-     thrusters on all six sides, and one connector (tag [FM Dock] to choose).
-  3. The carrier offers every connector tagged [FM Dock] (or all of them) as a dock.
+  2. Drones need: a Remote Control (or tag a controller [FM Ref]) facing the
+     drill direction, gyros, thrusters on all six sides, an antenna, and one
+     connector (tag [FM Dock] to choose).
+  3. Optional on miners:
+       [FM Cam]    forward camera: finds the rock face, lets 'setsite' work from range
+       [FM Eject]  conveyor sorter + ejector: dumps stone while drilling
+       [FM LCD]    LCD or cockpit/console screen: status display
+       Timers named with a state tag fire on entering that state:
+       [FM Docked] [FM Undocking] [FM Transit] [FM Working] [FM RequestDock]
+       [FM Approach] [FM FinalDock] [FM Idle]
+  4. The carrier offers every connector tagged [FM Dock] (or all of them) as a dock.
+     Drones unload into its cargo containers (only [FM Unload] ones, if any are tagged).
      Give a moving carrier a ship controller so it can report its velocity.
-  4. Tag any LCD with [FM LCD] for a status display.
+  See docs/MinerDrone.md in the source repo for the full build guide.
 
 DRONE COMMANDS (PB argument)
-  setsite    Record the current pose as the work site (aim at the rock face).
+  setsite    Aim at the rock face and run: records the site (and its plane, with a camera).
   start      Begin the automatic mine -> dock -> unload -> launch cycle.
-  return     Fly home and dock. The cycle stops once docked.
+  return     Back out of the shaft, fly home and dock. The cycle stops once docked.
   stop       Halt in place; dampeners on.
+  skip       Abandon the current shaft and move to the next one.
   resetsite  Restart the shaft spiral at shaft 0.
   forget     Forget the home carrier (next dock request is broadcast).
 

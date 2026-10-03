@@ -21,6 +21,7 @@ This repository contains a modular C# Ingame Script for Space Engineers, built u
    * `StringBuilder.Append(int/double)` allocates a string internally. Use the `Fmt` helpers in `Program.cs`.
    * Use `IMyTextSurface.WriteText(StringBuilder)` for UI, not `Echo(sb.ToString())`.
 4. **Grid Scoping:** Always filter block queries with `b => b.CubeGrid == Me.CubeGrid` to avoid hijacking docked ships.
+   * Sole exception: a docked drone unloading cargo queries the carrier's containers, reached only via `Connector.OtherConnector.CubeGrid` (`GridManager.Unload`).
 5. **Moving Docking:** Docking and flight approaches must rely on relative matrix transformations (`Vector3D.TransformNormal` and `WorldMatrix`), not static GPS coordinates.
 
 ## API Restrictions (Space Engineers Sandbox)

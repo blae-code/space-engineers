@@ -115,6 +115,9 @@ namespace IngameScript
             public string DockTag = "[FM Dock]";
             public string LcdTag = "[FM LCD]";
             public string RefTag = "[FM Ref]";
+            public string CamTag = "[FM Cam]";
+            public string EjectTag = "[FM Eject]";
+            public string UnloadTag = "[FM Unload]";
 
             public double CargoFull = 0.90;
             public double CargoEmpty = 0.02;
@@ -131,7 +134,17 @@ namespace IngameScript
 
             public double MineSpeed = 1.0;
             public double MineDepth = 30;
-            public double ShaftSpacing = 5;
+            public double ShaftSpacing = 0;     // 0 = derive from the drill layout
+            public int MaxShafts = 25;          // 0 = unlimited
+            public double SiteStandoff = 10;
+            public double FaceMargin = 2;
+            public double ScanRange = 100;
+            public double StallTime = 20;
+            public double MinLift = 1.25;
+
+            public bool Autopilot = true;
+            public double AutopilotRange = 300;
+            public bool Unload = true;
 
             public double BeaconTimeout = 5;
             public double DockTimeout = 60;
@@ -153,6 +166,9 @@ namespace IngameScript
                 DockTag = Str(ini, "DockTag", DockTag);
                 LcdTag = Str(ini, "LcdTag", LcdTag);
                 RefTag = Str(ini, "RefTag", RefTag);
+                CamTag = Str(ini, "CamTag", CamTag);
+                EjectTag = Str(ini, "EjectTag", EjectTag);
+                UnloadTag = Str(ini, "UnloadTag", UnloadTag);
 
                 CargoFull = Num(ini, "CargoFull", CargoFull);
                 CargoEmpty = Num(ini, "CargoEmpty", CargoEmpty);
@@ -170,6 +186,16 @@ namespace IngameScript
                 MineSpeed = Num(ini, "MineSpeed", MineSpeed);
                 MineDepth = Num(ini, "MineDepth", MineDepth);
                 ShaftSpacing = Num(ini, "ShaftSpacing", ShaftSpacing);
+                MaxShafts = Int(ini, "MaxShafts", MaxShafts);
+                SiteStandoff = Num(ini, "SiteStandoff", SiteStandoff);
+                FaceMargin = Num(ini, "FaceMargin", FaceMargin);
+                ScanRange = Num(ini, "ScanRange", ScanRange);
+                StallTime = Num(ini, "StallTime", StallTime);
+                MinLift = Num(ini, "MinLift", MinLift);
+
+                Autopilot = Bool(ini, "Autopilot", Autopilot);
+                AutopilotRange = Num(ini, "AutopilotRange", AutopilotRange);
+                Unload = Bool(ini, "Unload", Unload);
 
                 BeaconTimeout = Num(ini, "BeaconTimeout", BeaconTimeout);
                 DockTimeout = Num(ini, "DockTimeout", DockTimeout);
@@ -190,6 +216,20 @@ namespace IngameScript
             static double Num(MyIni ini, string key, double def)
             {
                 double v = ini.Get(Section, key).ToDouble(def);
+                ini.Set(Section, key, v);
+                return v;
+            }
+
+            static int Int(MyIni ini, string key, int def)
+            {
+                int v = ini.Get(Section, key).ToInt32(def);
+                ini.Set(Section, key, v);
+                return v;
+            }
+
+            static bool Bool(MyIni ini, string key, bool def)
+            {
+                bool v = ini.Get(Section, key).ToBoolean(def);
                 ini.Set(Section, key, v);
                 return v;
             }

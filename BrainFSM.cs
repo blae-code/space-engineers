@@ -24,7 +24,14 @@ namespace IngameScript
                 "Idle", "Docked", "Undocking", "Transit", "Working", "RequestDock", "Approach", "FinalDock", "Carrier"
             };
 
-            const string SaveVersion = "FM1";
+            /// <summary>Timer hooks, by state: a timer named "... [FM Docked]" fires on entering Docked.</summary>
+            static readonly string[] StateTags =
+            {
+                "[FM Idle]", "[FM Docked]", "[FM Undocking]", "[FM Transit]", "[FM Working]",
+                "[FM RequestDock]", "[FM Approach]", "[FM FinalDock]", "[FM Carrier]"
+            };
+
+            const string SaveVersion = "FM2";
             const int MaxSlots = 16;
             const double DockLease = 15;         // s a carrier keeps beaconing after the last DockRequest
             const double RequestInterval = 3;    // s between DockRequests (also renews the lease)
@@ -36,6 +43,13 @@ namespace IngameScript
             const string NoteUnknown = "Unknown command";
             const string NoteKnockedLoose = "Lost connector lock";
             const string NoteNoLink = "Lost carrier beacon, re-requesting";
+            const string NoteStalled = "Shaft blocked, skipping it";
+            const string NoteSiteDone = "Site exhausted. 'setsite' a new one";
+            const string NoteDamaged = "Drill damaged, returning for repair";
+            const string NoteHeavy = "Too heavy to climb, returning";
+            const string NoteWeak = "Can't lift even when empty: add thrust";
+            const string NoteSiteScanned = "Site set in front of the rock face";
+            const string NoteSiteManual = "Site set here (no rock seen by camera)";
 
             readonly Program _p;
             readonly Config _cfg;
@@ -59,10 +73,19 @@ namespace IngameScript
             bool _hasSite;
             Vector3D _sitePos, _siteFwd, _siteUp;
             int _shaft;
-            int _entryShaft = -1;
+            int _entryShaft = -1, _entryVersion = -1;
             Vector3D _entry;
-            double _depth;
-            bool _retracting;
+            bool _staged;            // Transit: already in front of the face, no need for the staging point
+
+            // Current shaft. Depths are along _siteFwd from the shaft entry, measured at the
+            // reference block. They persist, so a shaft interrupted by a full hold is resumed.
+            bool _faceKnown;
+            double _faceDepth;       // reference depth at which the drills touch rock
+            double _minedDepth;      // deepest point reached so far (already a clear hole)
+            double _depth;           // commanded depth (the carrot)
+            bool _retracting, _shaftDone, _recall, _scanPending;
+            double _progressAt;
+            long _lastCargoVolume;
 
             // Undock: captured at the moment of release, extrapolated with the carrier's velocity.
             Vector3D _undockOrigin, _undockDir, _undockVel, _undockFwd, _undockUp;
@@ -102,6 +125,9 @@ namespace IngameScript
                 if (next != FleetState.Docked)
                     _grid.SetDockedMode(false);
 
+                if (next != FleetState.Working)
+                    _grid.SetEjecting(false);
+
                 switch (next)
                 {
                     case FleetState.Idle:
@@ -110,23 +136,27 @@ namespace IngameScript
                         break;
 
                     case FleetState.Docked:
-                        _note = null;
                         _grid.SetDrills(false);
                         _helm.Disengage();
                         _grid.SetDockedMode(true);
                         break;
 
                     case FleetState.Undocking:
+                        _note = null; // keep the reason we came home visible until the next trip
                         BeginUndock();
                         break;
 
                     case FleetState.Transit:
                         _grid.SetDrills(false);
+                        _staged = InFrontOfFace();
                         break;
 
                     case FleetState.Working:
                         _depth = 0;
                         _retracting = false;
+                        _progressAt = _p.Clock;
+                        _lastCargoVolume = _grid.CargoVolume;
+                        _scanPending = !_faceKnown && _grid.Camera != null;
                         _grid.SetDrills(_cfg.Role == FleetRole.Miner);
                         break;
 
@@ -136,6 +166,8 @@ namespace IngameScript
                         SendDockRequest();
                         break;
                 }
+
+                _grid.FireTimers(StateTags[(int)next]);
             }
 
             void BeginUndock()
@@ -202,10 +234,26 @@ namespace IngameScript
                             _note = NoteKnockedLoose;
                             Enter(FleetState.Idle);
                         }
-                        else if (_autoCycle && _grid.Problem == null && ReadyToLaunch())
+                        else
                         {
-                            Enter(FleetState.Undocking);
+                            _grid.Unload();
+                            if (_autoCycle && _grid.Problem == null && ReadyToLaunch())
+                                Enter(FleetState.Undocking);
                         }
+                        break;
+
+                    case FleetState.Working:
+                        if (_grid.Controller == null) break;
+                        // No camera fix: the first cargo gain means the drills have reached rock.
+                        long volume = _grid.CargoVolume;
+                        if (!_faceKnown && !_retracting && volume > _lastCargoVolume)
+                        {
+                            _faceKnown = true;
+                            _faceDepth = Math.Max(0, CurrentDepth() - _cfg.MineSpeed * 2);
+                        }
+                        _lastCargoVolume = volume;
+                        // Dump stone only once in rock, so the contact signal above is never masked.
+                        _grid.SetEjecting(_faceKnown && !_retracting && _grid.CanEject);
                         break;
 
                     // RequestDock retries; Approach/FinalDock renew the carrier's beacon lease.
@@ -236,51 +284,183 @@ namespace IngameScript
 
             void TickTransit()
             {
-                if (EnergyLow() || _grid.CargoFill >= _cfg.CargoFull)
+                if (_recall || NeedsHome())
                 {
+                    _recall = false;
+                    Enter(FleetState.RequestDock);
+                    return;
+                }
+                if (_cfg.MaxShafts > 0 && _shaft >= _cfg.MaxShafts)
+                {
+                    _note = NoteSiteDone;
+                    _autoCycle = false;
                     Enter(FleetState.RequestDock);
                     return;
                 }
 
-                _helm.SetTarget(ShaftEntry(), Vector3D.Zero, _siteFwd, _siteUp, _cfg.MaxSpeed);
-                if (_helm.DistanceToTarget < 2 && _helm.RelativeSpeed < 0.5 && _helm.AlignmentError < 0.05)
+                Vector3D entry = ShaftEntry();
+                if (!_staged)
+                {
+                    // Arrive square-on to the face from a staging point out in clear space,
+                    // so the final leg never cuts across the rock. Long legs go to the vanilla
+                    // autopilot for its collision avoidance; the site is static, so that is safe.
+                    Vector3D stage = entry - _siteFwd * _cfg.ApproachDistance;
+                    double far = Vector3D.Distance(_grid.Controller.GetPosition(), stage);
+                    if (_cfg.Autopilot && far > _cfg.AutopilotRange && _helm.AutopilotTo(stage, _cfg.MaxSpeed))
+                        return;
+
+                    _helm.SetTarget(stage, Vector3D.Zero, _siteFwd, _siteUp, _cfg.MaxSpeed);
+                    if (_helm.DistanceToTarget < 3 && _helm.RelativeSpeed < 1)
+                        _staged = true;
+                    return;
+                }
+
+                _helm.SetTarget(entry, Vector3D.Zero, _siteFwd, _siteUp, _cfg.ApproachSpeed);
+                if (_helm.DistanceToTarget < 1 && _helm.RelativeSpeed < 0.5 && _helm.AlignmentError < 0.05)
                     Enter(FleetState.Working);
             }
 
+            /// <summary>
+            /// One shaft: glide through open space and already-cut hole, drill at MineSpeed from the
+            /// rock face to MineDepth past it, then back straight out along the shaft axis.
+            /// </summary>
             void TickWorking()
             {
-                bool full = _grid.CargoFill >= _cfg.CargoFull;
-                bool low = EnergyLow();
                 Vector3D entry = ShaftEntry();
+                bool goHome = _recall || NeedsHome();
 
                 if (_cfg.Role != FleetRole.Miner)
                 {
                     // Hauler: hold station at the site until someone fills the hold.
                     _helm.SetTarget(entry, Vector3D.Zero, _siteFwd, _siteUp, _cfg.ApproachSpeed);
-                    if (full || low) Enter(FleetState.RequestDock);
-                    return;
-                }
-
-                if (!_retracting)
-                {
-                    if (full || low || _depth >= _cfg.MineDepth)
-                        _retracting = true;
-                    else if (_helm.DistanceToTarget < 1.0) // only advance once the drills have caught up
-                        _depth = Math.Min(_depth + _cfg.MineSpeed * _p.Dt10, _cfg.MineDepth);
-                }
-
-                if (_retracting)
-                {
-                    _helm.SetTarget(entry, Vector3D.Zero, _siteFwd, _siteUp, _cfg.MineSpeed * 3);
-                    if (_helm.DistanceToTarget < 1.5)
+                    if (goHome)
                     {
-                        _shaft++;
-                        Enter(full || low ? FleetState.RequestDock : FleetState.Transit);
+                        _recall = false;
+                        Enter(FleetState.RequestDock);
                     }
                     return;
                 }
 
-                _helm.SetTarget(entry + _siteFwd * _depth, Vector3D.Zero, _siteFwd, _siteUp, _cfg.MineSpeed);
+                double depth = CurrentDepth();
+                if (depth > _minedDepth) _minedDepth = depth;
+                if (_scanPending) ScanFace(entry);
+
+                if (!_retracting)
+                {
+                    double end = EndDepth();
+                    if (goHome)
+                    {
+                        _retracting = true;
+                    }
+                    else if (_depth >= end)
+                    {
+                        _retracting = true;
+                        _shaftDone = true; // full depth, or open space all the way (shaft off the rock's edge)
+                    }
+                    else if (_p.Clock - _progressAt > _cfg.StallTime)
+                    {
+                        _retracting = true;
+                        _shaftDone = true;
+                        _note = NoteStalled;
+                    }
+                    else if (_helm.DistanceToTarget < 1.0) // only advance once the drills have caught up
+                    {
+                        _progressAt = _p.Clock;
+                        double glide = GlideDepth();
+                        _depth = _depth < glide
+                            ? Math.Min(glide, end)
+                            : Math.Min(_depth + _cfg.MineSpeed * _p.Dt10, end);
+                    }
+                }
+
+                if (_retracting)
+                {
+                    // Back out along the axis; heading home, keep going until clear of the face.
+                    Vector3D exit = goHome ? entry - _siteFwd * _cfg.ApproachDistance : entry;
+                    bool inRock = depth > (_faceKnown ? _faceDepth - _cfg.FaceMargin : 0);
+                    double speed = inRock ? _cfg.MineSpeed * 3 : _cfg.ApproachSpeed;
+                    _helm.SetTarget(exit, Vector3D.Zero, _siteFwd, _siteUp, speed);
+                    if (_helm.DistanceToTarget < 1.5)
+                    {
+                        if (_shaftDone) NextShaft();
+                        if (goHome)
+                        {
+                            _recall = false;
+                            Enter(FleetState.RequestDock);
+                        }
+                        else
+                        {
+                            Enter(FleetState.Transit);
+                        }
+                    }
+                    return;
+                }
+
+                // Far behind the carrot means we are gliding, not cutting.
+                double limit = _helm.DistanceToTarget > 2 ? _cfg.ApproachSpeed : _cfg.MineSpeed;
+                _helm.SetTarget(entry + _siteFwd * _depth, Vector3D.Zero, _siteFwd, _siteUp, limit);
+            }
+
+            /// <summary>Raycast the face once per shaft, as soon as the camera is aimed down the axis.</summary>
+            void ScanFace(Vector3D entry)
+            {
+                if (_faceKnown)
+                {
+                    _scanPending = false;
+                    return;
+                }
+                if (_helm.AlignmentError > 0.05) return; // wait until the camera looks down the axis
+                bool hit;
+                Vector3D point;
+                if (!_grid.TryScanRock(_cfg.ScanRange, out hit, out point)) return; // camera charging
+                _scanPending = false;
+                if (!hit) return; // fall back to contact detection
+                _faceKnown = true;
+                _faceDepth = Math.Max(0, Vector3D.Dot(point - entry, _siteFwd) - _grid.DrillReach);
+            }
+
+            /// <summary>Depth we can cover at ApproachSpeed: open space before the face, plus cut hole.</summary>
+            double GlideDepth()
+            {
+                double glide = _minedDepth - 0.5;
+                if (_faceKnown) glide = Math.Max(glide, _faceDepth - _cfg.FaceMargin);
+                return Math.Max(0, glide);
+            }
+
+            /// <summary>Bottom of the shaft. Until the face is found, ScanRange of open space ends it.</summary>
+            double EndDepth()
+            {
+                return _faceKnown ? _faceDepth + _cfg.MineDepth : _cfg.ScanRange;
+            }
+
+            double CurrentDepth()
+            {
+                return Vector3D.Dot(_grid.Controller.GetPosition() - ShaftEntry(), _siteFwd);
+            }
+
+            void NextShaft()
+            {
+                _shaft++;
+                ResetShaft();
+            }
+
+            void ResetShaft()
+            {
+                _faceKnown = false;
+                _faceDepth = 0;
+                _minedDepth = 0;
+                _shaftDone = false;
+                _entryShaft = -1;
+            }
+
+            /// <summary>True when we are already hovering in front of the face (between shafts).</summary>
+            bool InFrontOfFace()
+            {
+                if (!_hasSite || _grid.Controller == null) return false;
+                Vector3D rel = _grid.Controller.GetPosition() - ShaftEntry();
+                double along = Vector3D.Dot(rel, _siteFwd);
+                double lateral = (rel - _siteFwd * along).Length();
+                return along > -_cfg.ApproachDistance - 5 && along < 2 && lateral < _cfg.ApproachDistance;
             }
 
             void TickApproach()
@@ -360,13 +540,17 @@ namespace IngameScript
             /// <summary>Entry point of the current shaft; shafts spiral out from the site origin.</summary>
             Vector3D ShaftEntry()
             {
-                if (_entryShaft != _shaft)
+                if (_entryShaft != _shaft || _entryVersion != _grid.Version)
                 {
                     int dx, dy;
                     Spiral(_shaft, out dx, out dy);
+                    // Auto spacing: the drill bank's cut, with 10% overlap so no ribs are left standing.
+                    double sx = _cfg.ShaftSpacing > 0 ? _cfg.ShaftSpacing : Math.Max(1, _grid.DrillWidth * 0.9);
+                    double sy = _cfg.ShaftSpacing > 0 ? _cfg.ShaftSpacing : Math.Max(1, _grid.DrillHeight * 0.9);
                     Vector3D right = Vector3D.Cross(_siteFwd, _siteUp);
-                    _entry = _sitePos + right * (dx * _cfg.ShaftSpacing) + _siteUp * (dy * _cfg.ShaftSpacing);
+                    _entry = _sitePos + right * (dx * sx) + _siteUp * (dy * sy);
                     _entryShaft = _shaft;
+                    _entryVersion = _grid.Version;
                 }
                 return _entry;
             }
@@ -396,9 +580,28 @@ namespace IngameScript
                     || (_grid.HasHydrogen && _grid.HydrogenFill < _cfg.ReturnHydrogen);
             }
 
+            /// <summary>Any reason to abandon the site and head for the carrier. Sets the note.</summary>
+            bool NeedsHome()
+            {
+                if (_grid.DrillsDamaged && _cfg.Role == FleetRole.Miner)
+                {
+                    _note = NoteDamaged;
+                    return true;
+                }
+                if (_helm.LiftRatio < _cfg.MinLift)
+                {
+                    // Empty and still too weak: relaunching would only loop, so stay home after docking.
+                    if (_grid.CargoFill <= _cfg.CargoEmpty) _autoCycle = false;
+                    _note = _autoCycle ? NoteHeavy : NoteWeak;
+                    return true;
+                }
+                return EnergyLow() || _grid.CargoFill >= _cfg.CargoFull;
+            }
+
             bool ReadyToLaunch()
             {
-                return _grid.CargoFill <= _cfg.CargoEmpty
+                return !_grid.DrillsDamaged
+                    && _grid.CargoFill <= _cfg.CargoEmpty
                     && _grid.BatteryCharge >= _cfg.LaunchCharge
                     && (!_grid.HasHydrogen || _grid.HydrogenFill >= _cfg.LaunchCharge);
             }
@@ -592,7 +795,8 @@ namespace IngameScript
                 else if (Is(argument, "stop")) Stop();
                 else if (Is(argument, "return")) Recall();
                 else if (Is(argument, "setsite")) SetSite();
-                else if (Is(argument, "resetsite")) { _shaft = 0; }
+                else if (Is(argument, "resetsite")) { _shaft = 0; ResetShaft(); }
+                else if (Is(argument, "skip")) Skip();
                 else if (Is(argument, "forget")) { _carrierAddr = 0; _slot = -1; }
                 else _note = NoteUnknown;
             }
@@ -605,6 +809,7 @@ namespace IngameScript
                     return;
                 }
                 _autoCycle = true;
+                _recall = false;
                 Enter(_grid.IsConnected ? FleetState.Docked : FleetState.Transit);
             }
 
@@ -612,12 +817,29 @@ namespace IngameScript
             {
                 _autoCycle = false;
                 if (_grid.IsConnected) Enter(FleetState.Docked);
-                else if (State != FleetState.Approach && State != FleetState.FinalDock) Enter(FleetState.RequestDock);
+                else if (State == FleetState.Working) _recall = true; // back out of the shaft first
+                else if (State != FleetState.Approach && State != FleetState.FinalDock
+                    && State != FleetState.RequestDock) Enter(FleetState.RequestDock);
+            }
+
+            /// <summary>Abandon the current shaft (e.g. it hit something the drills cannot cut).</summary>
+            void Skip()
+            {
+                if (State == FleetState.Working)
+                {
+                    _retracting = true;
+                    _shaftDone = true;
+                }
+                else
+                {
+                    NextShaft();
+                }
             }
 
             void Stop()
             {
                 _autoCycle = false;
+                _recall = false;
                 Enter(_grid.IsConnected ? FleetState.Docked : FleetState.Idle);
             }
 
@@ -631,7 +853,23 @@ namespace IngameScript
                 _siteUp = m.Up;
                 _hasSite = true;
                 _shaft = 0;
-                _entryShaft = -1;
+                ResetShaft();
+
+                // With a camera, slide the site plane to SiteStandoff in front of the rock, so
+                // 'setsite' works from any distance as long as you aim at the face.
+                bool hit;
+                Vector3D point;
+                if (_grid.Camera == null) return;
+                if (_grid.TryScanRock(_cfg.ScanRange, out hit, out point) && hit)
+                {
+                    double face = Vector3D.Dot(point - m.Translation, m.Forward) - _grid.DrillReach;
+                    _sitePos = m.Translation + m.Forward * (face - _cfg.SiteStandoff);
+                    _note = NoteSiteScanned;
+                }
+                else
+                {
+                    _note = NoteSiteManual;
+                }
             }
 
             void ResetSlots()
@@ -678,11 +916,23 @@ namespace IngameScript
                 {
                     sb.Append("Shaft ");
                     Fmt.Int(sb, _shaft);
+                    if (_cfg.MaxShafts > 0)
+                    {
+                        sb.Append('/');
+                        Fmt.Int(sb, _cfg.MaxShafts);
+                    }
                     if (State == FleetState.Working && _cfg.Role == FleetRole.Miner)
                     {
-                        sb.Append("  depth ");
-                        Fmt.Fixed(sb, _depth, 1).Append('/');
-                        Fmt.Fixed(sb, _cfg.MineDepth, 0).Append(" m");
+                        if (_faceKnown)
+                        {
+                            sb.Append("  cut ");
+                            Fmt.Fixed(sb, Math.Max(0, _depth - _faceDepth), 1).Append('/');
+                            Fmt.Fixed(sb, _cfg.MineDepth, 0).Append(" m");
+                        }
+                        else
+                        {
+                            sb.Append("  seeking face");
+                        }
                     }
                     sb.Append('\n');
                 }
@@ -692,7 +942,17 @@ namespace IngameScript
                     Fmt.Int(sb, _carrierAddr % 10000).Append(" slot ");
                     Fmt.Int(sb, _slot).Append('\n');
                 }
-                if (_helm.Engaged)
+                if (!double.IsInfinity(_helm.LiftRatio))
+                {
+                    sb.Append("Lift x");
+                    Fmt.Fixed(sb, _helm.LiftRatio, 2).Append('\n');
+                }
+                if (_helm.OnAutopilot)
+                {
+                    sb.Append("Autopilot ");
+                    Fmt.Fixed(sb, _helm.DistanceToTarget, 0).Append(" m\n");
+                }
+                else if (_helm.Engaged)
                 {
                     sb.Append("Target ");
                     Fmt.Fixed(sb, _helm.DistanceToTarget, 1).Append(" m  err ");
@@ -723,6 +983,9 @@ namespace IngameScript
                     if (i > 0) sb.Append(',');
                     sb.Append(_slotOwner[i].ToString(ic));
                 }
+                sb.Append('|').Append(_faceKnown ? 1 : 0)
+                  .Append('|').Append(_faceDepth.ToString("R", ic))
+                  .Append('|').Append(_minedDepth.ToString("R", ic));
             }
 
             static void AppendVec(StringBuilder sb, Vector3D v)
@@ -737,7 +1000,7 @@ namespace IngameScript
             {
                 if (string.IsNullOrEmpty(storage)) return;
                 string[] f = storage.Split('|');
-                if (f.Length < 18 || f[0] != SaveVersion) return;
+                if (f.Length < 18 || (f[0] != SaveVersion && f[0] != "FM1")) return;
                 if (Int(f[1]) != (int)_cfg.Role) return; // role changed in Custom Data: start clean
 
                 var saved = (FleetState)Int(f[2]);
@@ -755,6 +1018,13 @@ namespace IngameScript
                 {
                     long.TryParse(owners[i], NumberStyles.Integer, CultureInfo.InvariantCulture, out _slotOwner[i]);
                     _slotLastSeen[i] = _p.Clock; // give absent drones a full grace period after reload
+                }
+
+                if (f.Length >= 21) // FM2: progress on the current shaft
+                {
+                    _faceKnown = Int(f[18]) == 1;
+                    _faceDepth = Dbl(f[19]);
+                    _minedDepth = Dbl(f[20]);
                 }
 
                 if (IsCarrier) return;
