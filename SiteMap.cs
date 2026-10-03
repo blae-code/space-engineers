@@ -34,6 +34,8 @@ namespace IngameScript
             public readonly double[] Value = new double[Cap];
             public readonly long[] Claimant = new long[Cap];
             public readonly double[] ClaimAt = new double[Cap];
+            /// <summary>Distance from the shaft entry to the rock face along the site forward, -1 = unknown (camera survey).</summary>
+            public readonly double[] Face = new double[Cap];
 
             public SiteMap()
             {
@@ -78,6 +80,7 @@ namespace IngameScript
                     Status[i] = Untouched;
                     Value[i] = 0;
                     Claimant[i] = 0;
+                    Face[i] = -1;
                 }
             }
 
@@ -87,10 +90,15 @@ namespace IngameScript
                 return Pos + right * (X[shaft] * SpacingX) + Up * (Y[shaft] * SpacingY);
             }
 
-            /// <summary>Merges a report. Finished shafts are never downgraded by a late claim.</summary>
-            public void Apply(int shaft, int status, double value, long source, double now)
+            /// <summary>
+            /// Merges a report. Finished shafts are never downgraded by a late claim, and an
+            /// Untouched report only carries survey data (the face distance).
+            /// </summary>
+            public void Apply(int shaft, int status, double value, double face, long source, double now)
             {
                 if (shaft < 0 || shaft >= Cap) return;
+                if (face >= 0) Face[shaft] = face;
+                if (status == Untouched) return;
                 if (status == Claimed)
                 {
                     if (Status[shaft] >= Done) return;
@@ -189,6 +197,12 @@ namespace IngameScript
                     if (i > 0) sb.Append(',');
                     if (Value[i] > 0) sb.Append(Math.Round(Value[i]).ToString(ic));
                 }
+                sb.Append('|');
+                for (int i = 0; i < Cap; i++)
+                {
+                    if (i > 0) sb.Append(',');
+                    if (Face[i] >= 0) sb.Append(Math.Round(Face[i], 1).ToString(ic));
+                }
             }
 
             public void Read(string s)
@@ -205,11 +219,13 @@ namespace IngameScript
                 Limit = Math.Max(1, Math.Min(Cap, (int)Dbl(f[12])));
                 string st = f[13];
                 string[] v = f[14].Split(',');
+                string[] face = f.Length > 15 ? f[15].Split(',') : v;
                 for (int i = 0; i < Cap; i++)
                 {
                     Status[i] = i < st.Length ? Math.Max(0, Math.Min(Blocked, st[i] - '0')) : Untouched;
                     Value[i] = i < v.Length ? Dbl(v[i]) : 0;
                     Claimant[i] = 0;
+                    Face[i] = f.Length > 15 && i < face.Length && face[i].Length > 0 ? Dbl(face[i]) : -1;
                 }
             }
 

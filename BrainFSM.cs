@@ -8,51 +8,61 @@ namespace IngameScript
     {
         public enum FleetState
         {
-            Idle, Docked, Undocking, Transit, Working, RequestDock, Approach, FinalDock, Carrier
+            Idle, Docked, Undocking, Transit, Working, RequestDock, Approach, FinalDock, Carrier, Mothership, Evading
         }
 
         /// <summary>
-        /// Decides what the grid is doing. Drones (Miner/Hauler) run the mining cycle
-        /// (this file); a Carrier runs flight control (BrainFSM.Carrier.cs). Commands,
-        /// self-test, status text and persistence live in BrainFSM.Io.cs.
+        /// Decides what the grid is doing. Drones (miners, haulers) fly this file's state
+        /// machine; bases (carrier, mothership) run BrainFSM.Bases.cs. Commands, self-test,
+        /// status text and persistence live in BrainFSM.Io.cs.
         /// </summary>
         public partial class BrainFSM : ISubsystem
         {
             public static readonly string[] StateNames =
             {
-                "Idle", "Docked", "Undocking", "Transit", "Working", "RequestDock", "Approach", "FinalDock", "Carrier"
+                "Idle", "Docked", "Undocking", "Transit", "Working", "RequestDock", "Approach", "FinalDock",
+                "Carrier", "Mothership", "Evading"
             };
 
             /// <summary>Radio-style labels for HUD markers and screens.</summary>
             public static readonly string[] StateLabels =
             {
-                "IDLE", "DOCKED", "LAUNCHING", "EN ROUTE", "MINING", "RTB", "INBOUND", "DOCKING", "FLIGHT CONTROL"
+                "IDLE", "DOCKED", "LAUNCHING", "EN ROUTE", "MINING", "RTB", "INBOUND", "DOCKING",
+                "FLIGHT CONTROL", "FLEET HQ", "EVADING"
             };
 
             /// <summary>Hooks, by state: a timer or sound block named "... [FM Docked]" fires on entering Docked.</summary>
             static readonly string[] StateTags =
             {
                 "[FM Idle]", "[FM Docked]", "[FM Undocking]", "[FM Transit]", "[FM Working]",
-                "[FM RequestDock]", "[FM Approach]", "[FM FinalDock]", "[FM Carrier]"
+                "[FM RequestDock]", "[FM Approach]", "[FM FinalDock]", "[FM Carrier]", "[FM Mothership]", "[FM Evading]"
             };
             const string HookDistress = "[FM Distress]", HookBackout = "[FM Backout]";
             const string HookRich = "[FM Rich]", HookLaunch = "[FM Launch]", HookHolding = "[FM Holding]";
+            const string HookLinkLost = "[FM LinkLost]";
 
             static readonly Color[] StateColor =
             {
                 new Color(160, 160, 160), new Color(0, 200, 60), new Color(0, 180, 255), new Color(0, 180, 255),
-                new Color(255, 255, 230), new Color(255, 200, 0), new Color(255, 200, 0), new Color(0, 200, 60), Color.Black
+                new Color(255, 255, 230), new Color(255, 200, 0), new Color(255, 200, 0), new Color(0, 200, 60),
+                Color.Black, Color.Black, new Color(255, 60, 0)
             };
-            static readonly float[] StateBlink = { 0, 0, 1, 0, 0, 0, 0, 0.5f, 0 };
+            static readonly float[] StateBlink = { 0, 0, 1, 0, 0, 0, 0, 0.5f, 0, 0, 0.3f };
             static readonly Color Amber = new Color(255, 120, 0), Red = new Color(255, 0, 0);
 
-            const double DockLease = 15;         // s a carrier keeps beaconing after the last DockRequest
+            // Where a drone docks: its home carrier, a hauler at the site, or the mothership.
+            const int DockHome = 0, DockHauler = 1, DockMother = 2;
+
+            const double DockLease = 15;         // s a pad server keeps beaconing after the last DockRequest
             const double RequestInterval = 3;    // s between DockRequests (also renews the lease)
             const double DenyMemory = 10;        // s a DockDeny keeps us in the holding pattern
-            const double CarrierMemory = 30;     // s a carrier position report stays usable
+            const double PeerFresh = 30;         // s a peer's position report stays usable
             const double LaunchAskInterval = 8;  // s between LaunchRequests
             const double LaunchGiveUp = 30;      // s without clearance before launching anyway
             const double SiteSyncGrace = 5;      // s to collect a shared site's map before picking a shaft
+            const double HaulerFresh = 10;       // s a HaulerOffer stays valid
+            const double LoadStall = 20;         // s without cargo gain before a shuttle leaves part-loaded
+            const double MaxYield = 20;          // s a drone gives way to traffic before pressing on
             const int MaxCrumbs = 32;
 
             // Static notes only: assigning a literal never allocates.
@@ -60,7 +70,7 @@ namespace IngameScript
             const string NoteDenied = "Docks full, holding";
             const string NoteUnknown = "Unknown command";
             const string NoteKnockedLoose = "Lost connector lock";
-            const string NoteNoLink = "Lost carrier beacon, re-requesting";
+            const string NoteNoLink = "Lost dock beacon, re-requesting";
             const string NoteStalled = "Shaft blocked, skipping it";
             const string NoteSiteDone = "Site exhausted. 'setsite' a new one";
             const string NoteDamaged = "Drill damaged, returning for repair";
@@ -68,15 +78,18 @@ namespace IngameScript
             const string NoteWeak = "Can't lift even when empty: add thrust";
             const string NoteLowPower = "Power low, returning";
             const string NoteFull = "Hold full, returning";
-            const string NoteHostile = "MAYDAY: hostile contact, returning";
+            const string NoteHostile = "MAYDAY: hostile contact";
             const string NoteHullDamage = "MAYDAY: hull damage, returning";
             const string NoteBarren = "Barren rock, moving on";
+            const string NoteLinkLost = "Lost link to carrier, heading for its last position";
+            const string NoteDetour = "Obstacle ahead, detouring";
 
             // Log lines (who is the speaker; these are the words).
             const string LogLaunch = "launching";
             const string LogOnStation = "on station, shaft";
             const string LogRtbFull = "hold full, RTB";
             const string LogRtbPower = "power low, RTB";
+            const string LogHandoff = "handing off ore to hauler";
             const string LogRich = "rich vein, shaft";
             const string LogBarren = "barren, abandoning shaft";
             const string LogBlocked = "shaft blocked";
@@ -84,8 +97,13 @@ namespace IngameScript
             const string LogDelivered = "delivered";
             const string LogExhausted = "site exhausted";
             const string LogMayday = "MAYDAY";
+            const string LogEvading = "evading hostile";
             const string LogCleared = "cleared for launch, T-";
             const string LogAdopted = "assigned to site";
+            const string LogLinkLost = "lost link to carrier";
+            const string LogLinkBack = "link restored";
+            const string LogRehomed = "re-homed to nearest carrier";
+            const string LogHaulerStation = "hauler on station, site";
             const string Kg = " kg", Sec = " s";
 
             readonly Program _p;
@@ -101,21 +119,36 @@ namespace IngameScript
             bool _autoCycle;
             string _note;
 
-            // Home: carrier address, slot, and the latest dock pose + carrier velocity.
+            // Home carrier, and the pad server we are docking with right now (home, hauler or mothership).
             long _carrierAddr;
+            long _dockAddr;
+            int _dockKind;
+            bool _dockHq;
             int _slot = -1;
             Vector3D _dockPos, _dockFwd, _dockUp, _carrierVel;
             double _dockStamp = double.MinValue;
-            double _lastRequestAt = double.MinValue;
-            // Carrier position from its Status broadcasts (for holding, energy and ETA).
-            Vector3D _carrierPos, _carrierPosVel;
-            double _carrierSeen = double.MinValue;
+            double _lastRequestAt = double.MinValue, _requestAt;
             // Dock queue / holding pattern.
             public int QueuePlace { get; private set; }
             double _deniedAt = double.MinValue;
             Vector3D _holdDir;
             // Launch clearance.
             double _launchAt = -1, _launchAskedAt = double.MinValue, _launchFirstAsk = -1;
+
+            // Link to home: reachability, last known position, re-homing.
+            public bool LinkLost { get; private set; }
+            double _homeHeardAt;
+            Vector3D _lastHomePos;
+            bool _hasLastHome;
+
+            // Haulers at our site advertising free bays.
+            long _haulerAddr;
+            double _haulerSeen = double.MinValue;
+            int _haulerBays, _haulerSite = -1;
+            // Site hauler: leaving station once its bays are clear. Shuttle: load progress.
+            bool _closing;
+            long _lastLoadVolume;
+            double _loadProgressAt;
 
             // Work site. Asteroids never move, so the world frame IS the site's frame.
             public readonly SiteMap Site = new SiteMap();
@@ -129,11 +162,14 @@ namespace IngameScript
             bool _adoptPending;
             int _adoptId;
             Vector3D _adoptPos, _adoptFwd, _adoptUp, _adoptSpacing;
+            // Camera survey of the site's shafts.
+            int _surveyIdx;
+            public int Surveyed { get; private set; }
 
             // Current shaft. Depths are along the site forward from the shaft entry, measured at
             // the reference block. They persist, so a shaft interrupted by a full hold is resumed.
             public bool FaceKnown { get { return _faceKnown; } }
-            bool _faceKnown;
+            bool _faceKnown, _faceFromSurvey;
             double _faceDepth;       // reference depth at which the drills touch rock
             double _minedDepth;      // deepest point reached so far (already a clear hole)
             double _depth;           // commanded depth (the carrot)
@@ -151,6 +187,11 @@ namespace IngameScript
             public int CrumbCount { get; private set; }
             double _crumbSpacing;
 
+            // Look-ahead avoidance and traffic.
+            Vector3D _detour;
+            double _detourUntil = double.MinValue, _yieldSince = -1;
+            Vector3D _yieldPos;
+
             // Energy model: fraction of battery / hydrogen burned per metre flown, learned outbound.
             public double BattPerMetre { get; private set; }
             public double H2PerMetre { get; private set; }
@@ -161,6 +202,8 @@ namespace IngameScript
             // Self-preservation.
             public int DistressReason { get; private set; }
             double _integrityBaseline = 1, _distressSentAt = double.MinValue;
+            Vector3D _fleeTarget, _fleeDir;
+            bool _aiFleeing;
 
             // Production: ore on board when we docked, and lifetime deliveries.
             readonly double[] _oreAtDock = new double[Ore.Count];
@@ -169,10 +212,11 @@ namespace IngameScript
 
             // HUD markers, built once (callsign + label).
             readonly string[] _hud = new string[StateLabels.Length];
-            string _hudMayday, _hudHolding;
+            string _hudMayday, _hudHolding, _hudLinkLost;
 
             bool IsCarrier { get { return _cfg.Role == FleetRole.Carrier; } }
             bool IsMiner { get { return _cfg.Role == FleetRole.Miner; } }
+            bool IsShuttle { get { return _cfg.Role == FleetRole.Hauler && _cfg.Shuttle; } }
             public double StatsSeconds { get { return _statsBase + _p.Clock; } }
 
             public BrainFSM(Program p, GridManager grid, CommsOfficer comms, HelmController helm)
@@ -192,11 +236,12 @@ namespace IngameScript
                     _hud[i] = _cfg.Name + " | " + StateLabels[i];
                 _hudMayday = _cfg.Name + " | MAYDAY";
                 _hudHolding = _cfg.Name + " | HOLDING";
+                _hudLinkLost = _cfg.Name + " | NO LINK";
 
-                State = IsCarrier ? FleetState.Carrier : FleetState.Idle;
+                State = IsCarrier ? FleetState.Carrier : IsMothership ? FleetState.Mothership : FleetState.Idle;
                 _enteredAt = _p.Clock;
-                _grid.SetHud(_hud[(int)State]);
-                _grid.SetLights(StateColor[(int)State], StateBlink[(int)State]);
+                _homeHeardAt = _p.Clock;
+                RefreshSignals();
             }
 
             // =================================================================
@@ -207,6 +252,11 @@ namespace IngameScript
             {
                 if (State == FleetState.Working && _sessionOpen)
                     CloseSession();
+                if (State == FleetState.Evading && _aiFleeing)
+                {
+                    _grid.StopAiFlee();
+                    _aiFleeing = false;
+                }
 
                 State = next;
                 _enteredAt = _p.Clock;
@@ -228,20 +278,26 @@ namespace IngameScript
                         _grid.SetDrills(false);
                         _helm.Disengage();
                         _grid.SetDockedMode(true);
+                        _grid.SetDecoys(false);
                         DistressReason = 0;
                         _launchAt = -1;
                         _launchFirstAsk = -1;
                         _launchAskedAt = double.MinValue;
+                        _loadProgressAt = _p.Clock;
+                        _lastLoadVolume = _grid.CargoVolume;
                         Array.Copy(_grid.OreKg, _oreAtDock, Ore.Count);
                         _p.Log.Add(_cfg.Name, LogDocked);
                         break;
 
                     case FleetState.Undocking:
                         _note = null; // keep the reason we came home visible until the next trip
-                        ReportDelivery();
+                        if (IsMiner) ReportDelivery();
                         _integrityBaseline = _grid.Integrity;
-                        CrumbCount = 0;
-                        _crumbSpacing = _cfg.CrumbSpacing;
+                        if (_dockKind == DockHome)
+                        {
+                            CrumbCount = 0;
+                            _crumbSpacing = _cfg.CrumbSpacing;
+                        }
                         _p.Log.Add(_cfg.Name, LogLaunch);
                         BeginUndock();
                         break;
@@ -252,7 +308,9 @@ namespace IngameScript
                         break;
 
                     case FleetState.Working:
-                        if (IsMiner) OpenSession(); // haulers only hold station; they never touch the map
+                        if (IsMiner) OpenSession(); // haulers hold station; they never touch the map
+                        else _p.Log.Add(_cfg.Name, LogHaulerStation, SiteId);
+                        _closing = false;
                         _grid.SetDrills(IsMiner);
                         break;
 
@@ -260,7 +318,21 @@ namespace IngameScript
                         _grid.SetDrills(false);
                         _helm.HoldPosition();
                         _deniedAt = double.MinValue;
+                        _requestAt = _p.Clock;
+                        _yieldSince = -1;
                         SendDockRequest();
+                        break;
+
+                    case FleetState.Evading:
+                        _grid.SetDrills(false);
+                        _grid.SetDecoys(true);
+                        Vector3D me = _grid.Controller.GetPosition();
+                        Vector3D away = me - _grid.ThreatPos;
+                        _fleeDir = away.LengthSquared() > 1 ? Vector3D.Normalize(away) : _grid.Controller.WorldMatrix.Backward;
+                        _fleeTarget = me + _fleeDir * _cfg.FleeDistance;
+                        _aiFleeing = _grid.StartAiFlee();
+                        if (_aiFleeing) _helm.Disengage(); // the AI Defensive block flies now
+                        _p.Log.Add(_cfg.Name, LogEvading);
                         break;
                 }
 
@@ -283,7 +355,7 @@ namespace IngameScript
                 }
                 else
                 {
-                    _grid.SetHud(_hud[(int)State]);
+                    _grid.SetHud(LinkLost ? _hudLinkLost : _hud[(int)State]);
                     _grid.SetLights(StateColor[(int)State], StateBlink[(int)State]);
                 }
             }
@@ -296,7 +368,7 @@ namespace IngameScript
                 var conn = _grid.Connector;
                 MatrixD refM = ctrl.WorldMatrix;
 
-                // Everything is relative to the carrier: its velocity at release and our
+                // Everything is relative to the pad: its velocity at release and our
                 // connector's axis. No absolute waypoint is ever stored.
                 _undockVel = ctrl.GetShipVelocities().LinearVelocity;
                 _undockOrigin = refM.Translation;
@@ -305,8 +377,9 @@ namespace IngameScript
                 _undockUp = refM.Up;
 
                 _grid.Disconnect();
-                if (_carrierAddr != 0)
-                    _comms.Unicast(_carrierAddr, Op.DockRelease, _slot);
+                if (_dockAddr != 0)
+                    _comms.Unicast(_dockAddr, Op.DockRelease, _slot, default(Vector3D), default(Vector3D),
+                        default(Vector3D), default(Vector3D), _dockHq);
             }
 
             // =================================================================
@@ -315,11 +388,12 @@ namespace IngameScript
 
             public void Update10()
             {
-                if (IsCarrier)
+                if (_cfg.IsBase)
                 {
                     StreamBeacons();
                     return;
                 }
+                if (ServesBays) StreamBeacons();
 
                 if (_grid.Problem != null && State != FleetState.Idle && State != FleetState.Docked)
                 {
@@ -328,6 +402,7 @@ namespace IngameScript
                     return;
                 }
 
+                _helm.AltitudeFloor = FloorApplies() ? _cfg.MinAltitude : 0;
                 switch (State)
                 {
                     case FleetState.Undocking: TickUndocking(); break;
@@ -336,17 +411,20 @@ namespace IngameScript
                     case FleetState.RequestDock: TickRequestDock(); break;
                     case FleetState.Approach: TickApproach(); break;
                     case FleetState.FinalDock: TickFinalDock(); break;
+                    case FleetState.Evading: TickEvading(); break;
                 }
+                SurveyStep();
             }
 
             public void Update100()
             {
-                if (IsCarrier)
+                if (_cfg.IsBase)
                 {
-                    CarrierUpdate100();
+                    BaseUpdate100();
                     return;
                 }
 
+                WatchLink();
                 switch (State)
                 {
                     case FleetState.Docked:
@@ -355,30 +433,25 @@ namespace IngameScript
                             _note = NoteKnockedLoose;
                             Enter(FleetState.Idle);
                         }
-                        else
-                        {
-                            _grid.Unload();
-                            TryLaunch();
-                        }
+                        else DockedUpdate();
                         break;
 
                     case FleetState.Working:
-                        if (_grid.Controller == null || !_sessionOpen || !IsMiner) break;
-                        // No camera fix: the first cargo gain means the drills have reached rock.
-                        long volume = _grid.CargoVolume;
-                        if (!_faceKnown && !_retracting && volume > _lastCargoVolume)
-                        {
-                            _faceKnown = true;
-                            _faceDepth = Math.Max(0, CurrentDepth() - _cfg.MineSpeed * 2);
-                        }
-                        _lastCargoVolume = volume;
-                        CheckBarren();
-                        // Dump stone only once in rock, so the contact signal above is never masked.
-                        _grid.SetEjecting(_faceKnown && !_retracting && _grid.CanEject);
+                        if (IsMiner) MiningUpdate();
+                        else HaulerOnStation();
                         break;
 
-                    // RequestDock retries; Approach/FinalDock renew the carrier's beacon lease.
                     case FleetState.RequestDock:
+                        // A hauler that doesn't answer is no use: go home instead.
+                        if (_dockKind == DockHauler && !Holding && _p.Clock - _requestAt > 10)
+                        {
+                            SetDock(DockHome);
+                            SendDockRequest();
+                        }
+                        else if (_p.Clock - _lastRequestAt >= RequestInterval) SendDockRequest();
+                        break;
+
+                    // Approach/FinalDock renew the pad server's beacon lease.
                     case FleetState.Approach:
                     case FleetState.FinalDock:
                         if (_p.Clock - _lastRequestAt >= RequestInterval)
@@ -388,13 +461,15 @@ namespace IngameScript
 
                 if (State != FleetState.Idle && State != FleetState.Docked)
                     WatchForDanger();
+                AutoAntenna();
 
                 var ctrl = _grid.Controller;
-                _comms.Broadcast(Op.Status, (int)State,
-                    new Vector3D(_grid.CargoFill, _grid.BatteryCharge, _grid.HydrogenFill),
-                    ctrl != null ? ctrl.GetPosition() : Vector3D.Zero,
-                    new Vector3D(SiteId, Shaft, DistressReason),
-                    ctrl != null ? ctrl.GetShipVelocities().LinearVelocity : Vector3D.Zero);
+                var cargo = new Vector3D(_grid.CargoFill, _grid.BatteryCharge, _grid.HydrogenFill);
+                var pos = ctrl != null ? ctrl.GetPosition() : Vector3D.Zero;
+                var work = new Vector3D(SiteId, Shaft, DistressReason);
+                var vel = ctrl != null ? ctrl.GetShipVelocities().LinearVelocity : Vector3D.Zero;
+                _comms.Broadcast(Op.Status, (int)State, cargo, pos, work, vel);
+                if (IsShuttle) _comms.Broadcast(Op.Status, (int)State, cargo, pos, work, vel, true);
             }
 
             void TickUndocking()
@@ -402,17 +477,22 @@ namespace IngameScript
                 double t = _p.Clock - _enteredAt;
                 Vector3D target = _undockOrigin + _undockVel * t + _undockDir * _cfg.ApproachDistance;
                 _helm.SetTarget(target, _undockVel, _undockFwd, _undockUp, _cfg.ApproachSpeed);
+                if (_helm.DistanceToTarget >= 3) return;
 
-                if (_helm.DistanceToTarget < 3)
+                if (IsShuttle)
                 {
-                    if (!Site.Defined)
-                    {
-                        Enter(FleetState.Idle);
-                        return;
-                    }
-                    StartLearning();
-                    Enter(FleetState.Transit);
+                    // Loaded: on to the mothership. Empty: back to the carrier for the next load.
+                    SetDock(_grid.CargoFill > _cfg.CargoEmpty && MotherAddr != 0 ? DockMother : DockHome);
+                    Enter(FleetState.RequestDock);
+                    return;
                 }
+                if (!Site.Defined)
+                {
+                    Enter(FleetState.Idle);
+                    return;
+                }
+                if (_dockKind == DockHome) StartLearning();
+                Enter(FleetState.Transit);
             }
 
             void TickTransit()
@@ -425,6 +505,16 @@ namespace IngameScript
                 var ctrl = _grid.Controller;
                 Vector3D pos = ctrl.GetPosition();
 
+                // Haulers fly to their holding point off the face; miners to a shaft.
+                if (!IsMiner)
+                {
+                    Vector3D hold = HoldPoint();
+                    if (!_staged && LongLeg(pos, hold)) return;
+                    _helm.SetTarget(hold, Vector3D.Zero, Site.Fwd, Site.Up, _cfg.ApproachSpeed);
+                    if (_helm.DistanceToTarget < 3 && _helm.RelativeSpeed < 0.5) Enter(FleetState.Working);
+                    return;
+                }
+
                 // Shared site just adopted: give the carrier a moment to send its map.
                 if (Shaft < 0 && _p.Clock - _siteAdoptedAt > SiteSyncGrace && !PickShaft())
                 {
@@ -432,20 +522,14 @@ namespace IngameScript
                     return;
                 }
                 Vector3D entry = Shaft >= 0 ? ShaftEntry() : Site.Pos;
+                Vector3D stage = entry - Site.Fwd * _cfg.ApproachDistance;
 
                 if (!_staged)
                 {
                     // Arrive square-on to the face from a staging point out in clear space,
-                    // so the final leg never cuts across the rock. Long legs go to the vanilla
-                    // autopilot for its collision avoidance; the site is static, so that is safe.
-                    Learn(pos);
-                    DropCrumb(pos);
-                    Vector3D stage = entry - Site.Fwd * _cfg.ApproachDistance;
-                    double far = Vector3D.Distance(pos, stage);
-                    if (_cfg.Autopilot && far > _cfg.AutopilotRange && _helm.AutopilotTo(stage, _cfg.MaxSpeed))
-                        return;
-
-                    _helm.SetTarget(stage, Vector3D.Zero, Site.Fwd, Site.Up, _cfg.MaxSpeed);
+                    // so the final leg never cuts across the rock.
+                    if (LongLeg(pos, stage)) return;
+                    _helm.SetTarget(stage, Vector3D.Zero, Site.Fwd, Site.Up, _cfg.ApproachSpeed);
                     if (_helm.DistanceToTarget < 3 && _helm.RelativeSpeed < 1)
                     {
                         _staged = true;
@@ -456,7 +540,7 @@ namespace IngameScript
 
                 if (Shaft < 0)
                 {
-                    _helm.SetTarget(entry - Site.Fwd * _cfg.ApproachDistance, Vector3D.Zero, Site.Fwd, Site.Up, _cfg.ApproachSpeed);
+                    _helm.SetTarget(stage, Vector3D.Zero, Site.Fwd, Site.Up, _cfg.ApproachSpeed);
                     return;
                 }
                 _helm.SetTarget(entry, Vector3D.Zero, Site.Fwd, Site.Up, _cfg.ApproachSpeed);
@@ -465,22 +549,38 @@ namespace IngameScript
             }
 
             /// <summary>
+            /// The outbound leg to a static point near the site. Records breadcrumbs and the energy
+            /// model; long legs use the Remote Control autopilot (collision avoidance), the rest fly
+            /// nose-first with camera look-ahead. False once within 100 m (caller does the final leg).
+            /// </summary>
+            bool LongLeg(Vector3D pos, Vector3D target)
+            {
+                Learn(pos);
+                DropCrumb(pos);
+                Vector3D to = target - pos;
+                double far = to.Length();
+                if (far < 100) return false;
+                if (_cfg.Autopilot && far > _cfg.AutopilotRange && _helm.AutopilotTo(target, _cfg.MaxSpeed))
+                    return true;
+                FlyTo(target, Vector3D.Zero, to / far, _grid.Controller.WorldMatrix.Up, _cfg.MaxSpeed);
+                return true;
+            }
+
+            /// <summary>
             /// One shaft: glide through open space and already-cut hole, drill at MineSpeed from the
             /// rock face to MineDepth past it, then back straight out along the shaft axis.
+            /// Site haulers: hold station off the face while miners use the bays.
             /// </summary>
             void TickWorking()
             {
-                Vector3D entry = ShaftEntry();
-                bool goHome = _recall || NeedsHome();
-
                 if (!IsMiner)
                 {
-                    // Hauler: hold station at the site until someone fills the hold.
-                    _helm.SetTarget(entry, Vector3D.Zero, Site.Fwd, Site.Up, _cfg.ApproachSpeed);
-                    if (goHome) GoHome();
+                    _helm.SetTarget(HoldPoint(), Vector3D.Zero, Site.Fwd, Site.Up, _cfg.ApproachSpeed);
                     return;
                 }
 
+                Vector3D entry = ShaftEntry();
+                bool goHome = _recall || NeedsHome();
                 double depth = CurrentDepth();
                 if (depth > _minedDepth) _minedDepth = depth;
                 if (_scanPending) ScanFace(entry);
@@ -530,13 +630,24 @@ namespace IngameScript
 
             void TickRequestDock()
             {
-                // Docks full: wait in a holding ring around the carrier instead of where we stopped,
-                // staggered by queue place so holding drones never share a spot.
-                if (!Holding || !CarrierKnown()) return;
                 var ctrl = _grid.Controller;
-                double r = _cfg.HoldDistance + 30 * Math.Max(0, QueuePlace - 1);
-                Vector3D target = CarrierNow() + _holdDir * r;
-                _helm.SetTarget(target, _carrierPosVel, -_holdDir, ctrl.WorldMatrix.Up, _cfg.MaxSpeed);
+                Vector3D server, serverVel;
+                // Pads full: wait in a holding ring around the pad server instead of where we
+                // stopped, staggered by queue place so holding drones never share a spot.
+                if (Holding && PeerPosition(_dockAddr, out server, out serverVel))
+                {
+                    double r = _cfg.HoldDistance + 30 * Math.Max(0, QueuePlace - 1);
+                    _helm.SetTarget(server + _holdDir * r, serverVel, -_holdDir, ctrl.WorldMatrix.Up, _cfg.MaxSpeed);
+                    return;
+                }
+                // No link home: head for where the carrier was last heard, then wait in range.
+                if (LinkLost && _hasLastHome && _dockKind == DockHome)
+                {
+                    Vector3D away = ctrl.GetPosition() - _lastHomePos;
+                    double d = away.Length();
+                    if (d > _cfg.HoldDistance + 20)
+                        FlyTo(_lastHomePos + away / d * _cfg.HoldDistance, Vector3D.Zero, -away / d, ctrl.WorldMatrix.Up, _cfg.MaxSpeed);
+                }
             }
 
             void TickApproach()
@@ -547,13 +658,14 @@ namespace IngameScript
                     Enter(FleetState.RequestDock);
                     return;
                 }
-
-                if (FollowCrumbs()) return;
+                if (GiveWay()) return;
+                if (_dockKind == DockHome && FollowCrumbs()) return;
 
                 Vector3D pos, fwd, up;
                 SolveDockPose(_cfg.ApproachDistance, out pos, out fwd, out up);
-                double speed = _helm.DistanceToTarget > _cfg.ApproachDistance * 2 ? _cfg.MaxSpeed : _cfg.ApproachSpeed;
-                _helm.SetTarget(pos, _carrierVel, fwd, up, speed);
+                bool far = _helm.DistanceToTarget > _cfg.ApproachDistance * 2;
+                if (far) FlyTo(pos, _carrierVel, fwd, up, _cfg.MaxSpeed);
+                else _helm.SetTarget(pos, _carrierVel, fwd, up, _cfg.ApproachSpeed);
 
                 if (_helm.DistanceToTarget < 2 && _helm.RelativeSpeed < 1 && _helm.AlignmentError < 0.05)
                     Enter(FleetState.FinalDock);
@@ -582,9 +694,100 @@ namespace IngameScript
                 _helm.SetTarget(pos, _carrierVel, fwd, up, _cfg.DockSpeed);
             }
 
+            /// <summary>Run directly away from the threat (or let an AI Defensive block do it), then go home.</summary>
+            void TickEvading()
+            {
+                if (_p.Clock - _enteredAt > _cfg.FleeTime)
+                {
+                    GoHome();
+                    return;
+                }
+                if (!_aiFleeing)
+                    FlyTo(_fleeTarget, Vector3D.Zero, _fleeDir, _grid.Controller.WorldMatrix.Up, _cfg.MaxSpeed);
+            }
+
+            bool FloorApplies()
+            {
+                return (State == FleetState.Transit && !_staged) || State == FleetState.RequestDock
+                    || State == FleetState.Evading || (State == FleetState.Approach && CrumbCount > 0);
+            }
+
             // =================================================================
-            // Mining: shaft sessions, ore yield, face finding
+            // Docked: unload / load and launch decisions per role
             // =================================================================
+
+            void DockedUpdate()
+            {
+                bool home = _dockKind == DockHome;
+                if (IsShuttle)
+                {
+                    if (home)
+                    {
+                        _grid.Load();
+                        if (_grid.CargoVolume > _lastLoadVolume)
+                        {
+                            _lastLoadVolume = _grid.CargoVolume;
+                            _loadProgressAt = _p.Clock;
+                        }
+                        bool loaded = _grid.CargoFill >= _cfg.CargoFull
+                            || (_grid.CargoFill > _cfg.CargoEmpty && _p.Clock - _loadProgressAt > LoadStall);
+                        if (loaded && MotherAddr != 0) TryLaunch(PoweredUp());
+                    }
+                    else
+                    {
+                        _grid.Unload();
+                        if (_autoCycle && _grid.CargoFill <= _cfg.CargoEmpty && !EnergyLow()) Enter(FleetState.Undocking);
+                    }
+                    return;
+                }
+
+                _grid.Unload();
+                if (!home)
+                {
+                    // Miner at a hauler: hand the ore over and get straight back to work.
+                    if (_autoCycle && _grid.CargoFill <= _cfg.CargoEmpty && !EnergyLow()) Enter(FleetState.Undocking);
+                    return;
+                }
+                TryLaunch(ReadyToLaunch());
+            }
+
+            /// <summary>Site hauler on station: advertise free bays; leave once full and the bays are clear.</summary>
+            void HaulerOnStation()
+            {
+                if (!_closing && (_recall || NeedsHome() || DistressReason != 0)) _closing = true;
+                if (!_closing)
+                {
+                    var ctrl = _grid.Controller;
+                    _comms.Broadcast(Op.HaulerOffer, SiteId, new Vector3D(FreeSlots(), _grid.CargoFill, 0),
+                        ctrl != null ? ctrl.GetPosition() : Vector3D.Zero);
+                }
+                else if (!BaysBusy()) GoHome();
+            }
+
+            Vector3D HoldPoint()
+            {
+                return Site.Pos - Site.Fwd * (_cfg.ApproachDistance + 40) + Site.Up * 30;
+            }
+
+            // =================================================================
+            // Mining: shaft sessions, ore yield, face finding, survey
+            // =================================================================
+
+            void MiningUpdate()
+            {
+                if (_grid.Controller == null || !_sessionOpen) return;
+                // No camera fix: the first cargo gain means the drills have reached rock.
+                long volume = _grid.CargoVolume;
+                if (!_faceKnown && !_retracting && volume > _lastCargoVolume)
+                {
+                    _faceKnown = true;
+                    _faceDepth = Math.Max(0, CurrentDepth() - _cfg.MineSpeed * 2);
+                }
+                _lastCargoVolume = volume;
+                CheckBarren();
+                // Dump stone only once in rock, so the contact signal above is never masked.
+                _grid.SetEjecting(_faceKnown && !_retracting && _grid.CanEject);
+            }
 
             bool PickShaft()
             {
@@ -610,11 +813,17 @@ namespace IngameScript
                 _shaftDone = false;
                 _progressAt = _p.Clock;
                 _lastCargoVolume = _grid.CargoVolume;
-                _scanPending = !_faceKnown && _grid.Camera != null;
+                // A surveyed face lets us glide in at once; a fresh scan still refines it.
+                if (!_faceKnown && Site.Face[Shaft] >= 0)
+                {
+                    _faceKnown = _faceFromSurvey = true;
+                    _faceDepth = Math.Max(0, Site.Face[Shaft] - _grid.DrillReach);
+                }
+                _scanPending = (!_faceKnown || _faceFromSurvey) && _grid.Camera != null;
                 _shaftBase = Site.Value[Shaft];
                 Array.Copy(_grid.OreKg, _oreAtStart, Ore.Count);
-                Site.Apply(Shaft, SiteMap.Claimed, _shaftBase, _p.IGC.Me, _p.Clock);
-                ReportShaft(SiteMap.Claimed);
+                Site.Apply(Shaft, SiteMap.Claimed, _shaftBase, -1, _p.IGC.Me, _p.Clock);
+                ReportShaft(Shaft, SiteMap.Claimed, false);
                 _p.Log.Add(_cfg.Name, LogOnStation, Shaft);
             }
 
@@ -624,8 +833,8 @@ namespace IngameScript
                 _sessionOpen = false;
                 double mean = Site.MeanValue();
                 int status = _shaftDone ? _shaftResult : SiteMap.Partial;
-                Site.Apply(Shaft, status, ShaftValue(), _p.IGC.Me, _p.Clock);
-                ReportShaft(status);
+                Site.Apply(Shaft, status, ShaftValue(), -1, _p.IGC.Me, _p.Clock);
+                ReportShaft(Shaft, status, true);
 
                 if (status == SiteMap.Done && Site.IsRich(Shaft, mean))
                 {
@@ -678,16 +887,24 @@ namespace IngameScript
                 Retract(true, SiteMap.Barren);
             }
 
-            void ReportShaft(int status)
+            /// <summary>
+            /// Claims and survey data are broadcast (best effort, drone to drone). Results go to the
+            /// carrier reliably; it applies them, passes them up to HQ and re-broadcasts them to us all.
+            /// </summary>
+            void ReportShaft(int shaft, int status, bool result)
             {
                 if (SiteId < 0) return;
-                _comms.Broadcast(Op.ShaftReport, SiteId, new Vector3D(Shaft, status, Site.Value[Shaft]));
+                var report = new Vector3D(shaft, status, Site.Value[shaft]);
+                // B.Y = 1 marks survey data: bases apply it but don't forward it up to HQ.
+                var face = new Vector3D(Site.Face[shaft], result ? 0 : 1, 0);
+                if (result && _carrierAddr != 0) _comms.SendReliable(_carrierAddr, Op.ShaftReport, SiteId, report, face);
+                else _comms.Broadcast(Op.ShaftReport, SiteId, report, face);
             }
 
             /// <summary>Raycast the face once per shaft, as soon as the camera is aimed down the axis.</summary>
             void ScanFace(Vector3D entry)
             {
-                if (_faceKnown)
+                if (_faceKnown && !_faceFromSurvey)
                 {
                     _scanPending = false;
                     return;
@@ -697,9 +914,40 @@ namespace IngameScript
                 Vector3D point;
                 if (!_grid.TryScanRock(_cfg.ScanRange, out hit, out point)) return; // camera charging
                 _scanPending = false;
-                if (!hit) return; // fall back to contact detection
+                if (!hit) return; // fall back to the survey value or contact detection
                 _faceKnown = true;
+                _faceFromSurvey = false;
                 _faceDepth = Math.Max(0, Vector3D.Dot(point - entry, Site.Fwd) - _grid.DrillReach);
+            }
+
+            /// <summary>
+            /// Camera survey, one ray per tick while near the face: a hit gives that shaft's face
+            /// distance before anyone flies there; a near-axial miss marks it as having no rock.
+            /// </summary>
+            void SurveyStep()
+            {
+                if (!_cfg.Survey || !IsMiner || !Site.Defined || _grid.Camera == null || _scanPending) return;
+                if (State != FleetState.Working && !(State == FleetState.Transit && _staged)) return;
+                Vector3D cam = _grid.Camera.GetPosition();
+                for (int tries = 0; tries < 4; tries++)
+                {
+                    int i = _surveyIdx;
+                    _surveyIdx = (_surveyIdx + 1) % Site.Limit;
+                    if (Site.Status[i] != SiteMap.Untouched || Site.Face[i] >= 0) continue;
+                    Vector3D entry = Site.Entry(i);
+                    Vector3D target = entry + Site.Fwd * _cfg.ScanRange;
+                    bool hit;
+                    Vector3D point;
+                    if (!_grid.RaycastAt(target, true, out hit, out point)) continue; // outside the cone or charging
+                    if (hit)
+                        Site.Apply(i, SiteMap.Untouched, 0, Math.Max(0, Vector3D.Dot(point - entry, Site.Fwd)), _p.IGC.Me, _p.Clock);
+                    else if (Vector3D.Dot(Vector3D.Normalize(target - cam), Site.Fwd) > 0.96)
+                        Site.Apply(i, SiteMap.Empty, 0, -1, _p.IGC.Me, _p.Clock);
+                    else return;
+                    Surveyed++;
+                    ReportShaft(i, Site.Status[i], false);
+                    return;
+                }
             }
 
             /// <summary>Depth we can cover at ApproachSpeed: open space before the face, plus cut hole.</summary>
@@ -727,6 +975,7 @@ namespace IngameScript
             void ResetShaft()
             {
                 _faceKnown = false;
+                _faceFromSurvey = false;
                 _faceDepth = 0;
                 _minedDepth = 0;
                 _shaftDone = false;
@@ -747,16 +996,90 @@ namespace IngameScript
             /// <summary>True when we are already hovering in front of the face (between shafts).</summary>
             bool InFrontOfFace()
             {
-                if (!Site.Defined || _grid.Controller == null || Shaft < 0) return false;
-                Vector3D rel = _grid.Controller.GetPosition() - ShaftEntry();
+                if (!Site.Defined || _grid.Controller == null) return false;
+                Vector3D target = IsMiner ? (Shaft >= 0 ? ShaftEntry() : Site.Pos) : HoldPoint();
+                Vector3D rel = _grid.Controller.GetPosition() - target;
                 double along = Vector3D.Dot(rel, Site.Fwd);
                 double lateral = (rel - Site.Fwd * along).Length();
                 return along > -_cfg.ApproachDistance - 5 && along < 2 && lateral < _cfg.ApproachDistance;
             }
 
             // =================================================================
-            // Navigation: breadcrumbs, energy model, going home
+            // Navigation: look-ahead, traffic, breadcrumbs, energy, going home
             // =================================================================
+
+            /// <summary>
+            /// Flies towards a target while the camera looks ahead along the way (within its cone).
+            /// Anything in the path, short of the target itself, gets a detour around it.
+            /// </summary>
+            void FlyTo(Vector3D target, Vector3D vel, Vector3D fwd, Vector3D up, double speed)
+            {
+                var ctrl = _grid.Controller;
+                Vector3D me = ctrl.GetPosition();
+                if (_p.Clock < _detourUntil)
+                {
+                    if (Vector3D.DistanceSquared(me, _detour) > 100)
+                    {
+                        _helm.SetTarget(_detour, Vector3D.Zero, fwd, up, speed);
+                        return;
+                    }
+                    _detourUntil = double.MinValue;
+                }
+
+                Vector3D to = target - me;
+                double dist = to.Length();
+                double v = ctrl.GetShipSpeed();
+                if (v > 5 && dist > 60)
+                {
+                    Vector3D dir = to / dist;
+                    double look = Math.Min(dist - 30, Math.Max(60, v * 5));
+                    bool hit;
+                    Vector3D point;
+                    if (_grid.RaycastAt(me + dir * look, false, out hit, out point) && hit)
+                    {
+                        Vector3D side = ctrl.WorldMatrix.Up - dir * Vector3D.Dot(ctrl.WorldMatrix.Up, dir);
+                        if (side.LengthSquared() < 0.01) side = ctrl.WorldMatrix.Right;
+                        _detour = point - dir * 30 + Vector3D.Normalize(side) * 80;
+                        _detourUntil = _p.Clock + 20;
+                        _note = NoteDetour;
+                        _helm.SetTarget(_detour, Vector3D.Zero, fwd, up, speed);
+                        return;
+                    }
+                }
+                _helm.SetTarget(target, vel, fwd, up, speed);
+            }
+
+            /// <summary>
+            /// Traffic around the pads: within Separation of another drone, the one with the higher
+            /// address (or anyone near a drone on final) holds still, for at most MaxYield seconds.
+            /// </summary>
+            bool GiveWay()
+            {
+                Vector3D me = _grid.Controller.GetPosition();
+                long self = _p.IGC.Me;
+                bool yield = false;
+                for (int i = 0; i < _comms.PeerCount && !yield; i++)
+                {
+                    int st = _comms.PeerState[i];
+                    if (_comms.PeerRole[i] >= (int)FleetRole.Carrier || _p.Clock - _comms.PeerSeen[i] > 5
+                        || st == (int)FleetState.Docked || st == (int)FleetState.Idle) continue;
+                    if (Vector3D.Distance(me, _comms.PeerNow(i)) > _cfg.Separation) continue;
+                    yield = _comms.PeerState[i] == (int)FleetState.FinalDock || _comms.PeerAddress[i] < self;
+                }
+                if (!yield)
+                {
+                    _yieldSince = -1;
+                    return false;
+                }
+                if (_yieldSince < 0)
+                {
+                    _yieldSince = _p.Clock;
+                    _yieldPos = me;
+                }
+                if (_p.Clock - _yieldSince > MaxYield) return false;
+                _helm.SetTarget(_yieldPos, Vector3D.Zero, _grid.Controller.WorldMatrix.Forward, _grid.Controller.WorldMatrix.Up, _cfg.ApproachSpeed);
+                return true;
+            }
 
             /// <summary>Records the outbound path; when full, keeps every other crumb and doubles the spacing.</summary>
             void DropCrumb(Vector3D pos)
@@ -797,7 +1120,7 @@ namespace IngameScript
                     CrumbCount--;
                     return CrumbCount > 0;
                 }
-                _helm.SetTarget(crumb, Vector3D.Zero, dir / d, ctrl.WorldMatrix.Up, _cfg.MaxSpeed);
+                FlyTo(crumb, Vector3D.Zero, dir / d, ctrl.WorldMatrix.Up, _cfg.MaxSpeed);
                 return true;
             }
 
@@ -829,15 +1152,28 @@ namespace IngameScript
                 if (h2 > 0) H2PerMetre = H2PerMetre > 0 ? (H2PerMetre + h2) / 2 : h2;
             }
 
-            bool CarrierKnown() { return _p.Clock - _carrierSeen < CarrierMemory; }
+            /// <summary>A peer's current position and velocity, when it reported recently.</summary>
+            bool PeerPosition(long address, out Vector3D pos, out Vector3D vel)
+            {
+                int i = _comms.IndexOfPeer(address);
+                if (address == 0 || i < 0 || _p.Clock - _comms.PeerSeen[i] > PeerFresh)
+                {
+                    pos = vel = Vector3D.Zero;
+                    return false;
+                }
+                pos = _comms.PeerNow(i);
+                vel = _comms.PeerVel[i];
+                return true;
+            }
 
-            Vector3D CarrierNow() { return _carrierPos + _carrierPosVel * (_p.Clock - _carrierSeen); }
-
-            /// <summary>Straight-line distance home, or -1 when the carrier's position is unknown.</summary>
+            /// <summary>Straight-line distance home (last known position if out of contact), -1 if never heard.</summary>
             public double HomeDistance()
             {
-                if (!CarrierKnown() || _grid.Controller == null) return -1;
-                return Vector3D.Distance(_grid.Controller.GetPosition(), CarrierNow());
+                if (_grid.Controller == null) return -1;
+                Vector3D home, vel;
+                if (PeerPosition(_carrierAddr, out home, out vel))
+                    return Vector3D.Distance(_grid.Controller.GetPosition(), home);
+                return _hasLastHome ? Vector3D.Distance(_grid.Controller.GetPosition(), _lastHomePos) : -1;
             }
 
             /// <summary>Battery fraction needed to get home: learned burn x distance x margin, plus reserve.</summary>
@@ -876,6 +1212,11 @@ namespace IngameScript
                     _note = _autoCycle ? NoteHeavy : NoteWeak;
                     return true;
                 }
+                if (LinkLost)
+                {
+                    _note = NoteLinkLost;
+                    return true;
+                }
                 if (EnergyLow())
                 {
                     _note = NoteLowPower;
@@ -889,26 +1230,51 @@ namespace IngameScript
                 return false;
             }
 
+            /// <summary>Hauler at our site with free bays, when the only reason to go is a full hold.</summary>
+            int ChooseDock()
+            {
+                if (IsMiner && _note == NoteFull && !_recall && DistressReason == 0 && !LinkLost
+                    && _haulerAddr != 0 && _p.Clock - _haulerSeen < HaulerFresh && _haulerSite == SiteId && _haulerBays > 0)
+                    return DockHauler;
+                if (IsShuttle && _grid.CargoFill > _cfg.CargoEmpty && MotherAddr != 0) return DockMother;
+                return DockHome;
+            }
+
+            void SetDock(int kind)
+            {
+                long addr = kind == DockHauler ? _haulerAddr : kind == DockMother ? MotherAddr : _carrierAddr;
+                if (addr != _dockAddr) _slot = -1;
+                _dockKind = kind;
+                _dockAddr = addr;
+                _dockHq = kind == DockMother;
+            }
+
             void GoHome()
             {
+                int kind = ChooseDock();
                 _recall = false;
-                if (_note == NoteFull) _p.Log.Add(_cfg.Name, LogRtbFull);
+                if (kind == DockHauler) _p.Log.Add(_cfg.Name, LogHandoff);
+                else if (_note == NoteFull) _p.Log.Add(_cfg.Name, LogRtbFull);
                 else if (_note == NoteLowPower) _p.Log.Add(_cfg.Name, LogRtbPower);
+                SetDock(kind);
                 Enter(FleetState.RequestDock);
+            }
+
+            bool PoweredUp()
+            {
+                return _grid.BatteryCharge >= _cfg.LaunchCharge
+                    && (!_grid.HasHydrogen || _grid.HydrogenFill >= _cfg.LaunchCharge);
             }
 
             bool ReadyToLaunch()
             {
-                return !_grid.DrillsDamaged
-                    && _grid.CargoFill <= _cfg.CargoEmpty
-                    && _grid.BatteryCharge >= _cfg.LaunchCharge
-                    && (!_grid.HasHydrogen || _grid.HydrogenFill >= _cfg.LaunchCharge);
+                return !_grid.DrillsDamaged && _grid.CargoFill <= _cfg.CargoEmpty && PoweredUp();
             }
 
             /// <summary>Docked and ready: ask flight control for a slot in the launch sequence.</summary>
-            void TryLaunch()
+            void TryLaunch(bool ready)
             {
-                if (!_autoCycle || _grid.Problem != null || !ReadyToLaunch()) return;
+                if (!_autoCycle || _grid.Problem != null || !ready) return;
                 if (_launchAt >= 0)
                 {
                     if (_p.Clock >= _launchAt) Enter(FleetState.Undocking);
@@ -925,6 +1291,7 @@ namespace IngameScript
                 _comms.Unicast(_carrierAddr, Op.LaunchRequest, 0);
             }
 
+            /// <summary>What we unloaded since docking, reported to our home carrier (reliably).</summary>
             void ReportDelivery()
             {
                 double total = 0;
@@ -938,7 +1305,7 @@ namespace IngameScript
                 if (total < 1) return;
                 _p.Log.Add(_cfg.Name, LogDelivered, (long)total, Kg);
                 if (_carrierAddr != 0)
-                    _comms.Unicast(_carrierAddr, Op.Delivery, 0,
+                    _comms.SendReliable(_carrierAddr, Op.Delivery, 0,
                         new Vector3D(_oreAtDock[0], _oreAtDock[1], _oreAtDock[2]),
                         new Vector3D(_oreAtDock[3], _oreAtDock[4], _oreAtDock[5]),
                         new Vector3D(_oreAtDock[6], _oreAtDock[7], _oreAtDock[8]),
@@ -946,8 +1313,74 @@ namespace IngameScript
             }
 
             // =================================================================
-            // Self-preservation
+            // Link, antenna, self-preservation
             // =================================================================
+
+            /// <summary>
+            /// Is home reachable? If not for LinkTimeout, re-home to the nearest carrier we can
+            /// reach; failing that, mark the link lost (fly home to its last known position).
+            /// </summary>
+            void WatchLink()
+            {
+                var ctrl = _grid.Controller;
+                if (ctrl == null) return;
+                if (_comms.Reachable(_carrierAddr))
+                {
+                    _homeHeardAt = _p.Clock;
+                    Vector3D home, vel;
+                    if (PeerPosition(_carrierAddr, out home, out vel))
+                    {
+                        _lastHomePos = home;
+                        _hasLastHome = true;
+                    }
+                    if (LinkLost)
+                    {
+                        LinkLost = false;
+                        _p.Log.Add(_cfg.Name, LogLinkBack);
+                        RefreshSignals();
+                    }
+                    return;
+                }
+                if (_carrierAddr != 0 && (_p.Clock - _homeHeardAt < _cfg.LinkTimeout
+                    || State == FleetState.Docked || State == FleetState.Idle)) return;
+
+                long alt = _comms.Nearest(FleetRole.Carrier, ctrl.GetPosition(), PeerFresh);
+                if (alt != 0 && alt != _carrierAddr && _comms.Reachable(alt))
+                {
+                    bool orphan = _carrierAddr == 0;
+                    _carrierAddr = alt;
+                    _homeHeardAt = _p.Clock;
+                    LinkLost = false;
+                    if (!orphan) _p.Log.Add(_cfg.Name, LogRehomed);
+                    if (State == FleetState.RequestDock && _dockKind == DockHome)
+                    {
+                        SetDock(DockHome);
+                        SendDockRequest();
+                    }
+                    return;
+                }
+                if (!LinkLost && _carrierAddr != 0)
+                {
+                    LinkLost = true;
+                    _p.Log.Add(_cfg.Name, LogLinkLost);
+                    _grid.FireHooks(HookLinkLost);
+                    RefreshSignals();
+                }
+            }
+
+            /// <summary>Antenna range: short when docked, distance home x 1.5 in flight, full when lost.</summary>
+            void AutoAntenna()
+            {
+                if (!_cfg.AntennaAuto) return;
+                double r;
+                if (State == FleetState.Docked) r = 500;
+                else
+                {
+                    double home = HomeDistance();
+                    r = home < 0 || LinkLost ? _cfg.AntennaMax : Math.Min(_cfg.AntennaMax, Math.Max(1000, home * 1.5 + 500));
+                }
+                _grid.SetAntennaRange((float)r);
+            }
 
             void WatchForDanger()
             {
@@ -963,6 +1396,8 @@ namespace IngameScript
                     _p.Log.Add(_cfg.Name, LogMayday);
                     _grid.FireHooks(HookDistress);
                     if (State == FleetState.Working) _recall = true; // back out of the shaft first
+                    else if (reason == Distress.Hostile && _grid.ThreatLocated && State != FleetState.FinalDock)
+                        Enter(FleetState.Evading);
                     else if (State == FleetState.Transit || State == FleetState.Undocking) GoHome();
                     RefreshSignals();
                 }
@@ -972,7 +1407,7 @@ namespace IngameScript
                     _distressSentAt = _p.Clock;
                     var ctrl = _grid.Controller;
                     _comms.Broadcast(Op.Distress, DistressReason, Vector3D.Zero,
-                        ctrl != null ? ctrl.GetPosition() : Vector3D.Zero);
+                        ctrl != null ? ctrl.GetPosition() : Vector3D.Zero, _grid.ThreatPos, _grid.ThreatVel);
                 }
             }
 
@@ -981,10 +1416,10 @@ namespace IngameScript
             // =================================================================
 
             /// <summary>
-            /// Where the reference block must be so that OUR connector faces the carrier's
-            /// dock connector, <paramref name="standoff"/> metres out along its normal.
-            /// Pure relative matrix math: the dock pose is extrapolated by the carrier's
-            /// velocity, then our connector's fixed offset from the reference block is undone.
+            /// Where the reference block must be so that OUR connector faces the pad's connector,
+            /// <paramref name="standoff"/> metres out along its normal. Pure relative matrix math:
+            /// the pad pose is extrapolated by its velocity, then our connector's fixed offset from
+            /// the reference block is undone.
             /// </summary>
             void SolveDockPose(double standoff, out Vector3D pos, out Vector3D fwd, out Vector3D up)
             {
@@ -1016,7 +1451,9 @@ namespace IngameScript
             void SendDockRequest()
             {
                 _lastRequestAt = _p.Clock;
-                _comms.Send(_carrierAddr, Op.DockRequest, _slot);
+                if (_dockAddr == 0 && _dockKind != DockHome) SetDock(DockHome);
+                _comms.Send(_dockAddr, Op.DockRequest, _slot, default(Vector3D), default(Vector3D),
+                    default(Vector3D), default(Vector3D), _dockHq);
             }
 
             void StoreDockPose(FleetMessage m)
@@ -1030,54 +1467,83 @@ namespace IngameScript
 
             public void HandleMessage(FleetMessage m)
             {
-                if (IsCarrier)
+                if (_cfg.IsBase)
                 {
-                    HandleAsCarrier(m);
+                    HandleAsBase(m);
                     return;
+                }
+                if (ServesBays && !m.Hq)
+                {
+                    if (m.Op == Op.DockRequest) { OnDockRequest(m.Source, m.Arg); return; }
+                    if (m.Op == Op.DockRelease) { ReleaseSlots(m.Source); return; }
+                    if (m.Op == Op.Status) TouchSlots(m.Source);
                 }
 
                 switch (m.Op)
                 {
                     case Op.Status:
-                        if (m.Arg == (int)FleetState.Carrier && (m.Source == _carrierAddr || _carrierAddr == 0))
+                        if (m.Hq && m.Arg == (int)FleetState.Mothership) MotherAddr = m.Source;
+                        break;
+
+                    case Op.HaulerOffer:
+                        if (!IsMiner || m.Arg != SiteId) break;
+                        // Keep the hauler with the most free bays (or refresh the current one).
+                        if (m.Source == _haulerAddr || _p.Clock - _haulerSeen > HaulerFresh || m.A.X > _haulerBays)
                         {
-                            _carrierPos = m.B;
-                            _carrierPosVel = m.D;
-                            _carrierSeen = _p.Clock;
+                            _haulerAddr = m.Source;
+                            _haulerSeen = _p.Clock;
+                            _haulerBays = (int)m.A.X;
+                            _haulerSite = m.Arg;
                         }
                         break;
 
                     case Op.DockAssign:
-                        if (State == FleetState.RequestDock)
+                        if (State == FleetState.RequestDock && (m.Source == _dockAddr || (_dockAddr == 0 && m.Hq == _dockHq)))
                         {
-                            _carrierAddr = m.Source;
+                            if (_dockAddr == 0)
+                            {
+                                _dockAddr = m.Source;
+                                if (_dockKind == DockHome)
+                                {
+                                    _carrierAddr = m.Source;
+                                    _homeHeardAt = _p.Clock;
+                                }
+                            }
                             _slot = m.Arg;
                             _note = null;
                             _deniedAt = double.MinValue;
                             StoreDockPose(m);
                             Enter(FleetState.Approach);
                         }
-                        else if (m.Source == _carrierAddr && m.Arg == _slot)
+                        else if (m.Source == _dockAddr && m.Arg == _slot)
                         {
                             StoreDockPose(m); // lease renewal reply
                         }
                         break;
 
                     case Op.DockBeacon:
-                        if (m.Source == _carrierAddr && m.Arg == _slot)
+                        if (m.Source == _dockAddr && m.Arg == _slot)
                             StoreDockPose(m);
                         break;
 
                     case Op.DockDeny:
-                        if (State != FleetState.RequestDock) break;
+                        if (State != FleetState.RequestDock || (_dockAddr != 0 && m.Source != _dockAddr)) break;
+                        if (_dockKind == DockHauler)
+                        {
+                            SetDock(DockHome); // hauler full: take the ore home after all
+                            SendDockRequest();
+                            break;
+                        }
                         bool wasHolding = Holding;
                         _note = NoteDenied;
                         QueuePlace = m.Arg;
                         _deniedAt = _p.Clock;
-                        if (_carrierAddr == 0) _carrierAddr = m.Source;
+                        if (_dockAddr == 0) _dockAddr = m.Source;
                         if (!wasHolding)
                         {
-                            Vector3D away = _grid.Controller.GetPosition() - CarrierNow();
+                            Vector3D server, serverVel;
+                            Vector3D away = PeerPosition(_dockAddr, out server, out serverVel)
+                                ? _grid.Controller.GetPosition() - server : Vector3D.Zero;
                             _holdDir = away.LengthSquared() > 1 ? Vector3D.Normalize(away) : _grid.Controller.WorldMatrix.Backward;
                             _grid.FireHooks(HookHolding);
                             RefreshSignals();
@@ -1094,7 +1560,7 @@ namespace IngameScript
                     case Op.ShaftReport:
                         if (m.Arg != SiteId || SiteId < 0) break;
                         int shaft = (int)m.A.X, status = (int)m.A.Y;
-                        Site.Apply(shaft, status, m.A.Z, m.Source, _p.Clock);
+                        Site.Apply(shaft, status, m.A.Z, m.B.X, m.Source, _p.Clock);
                         // Two drones picked the same shaft: the lower address keeps it.
                         if (status == SiteMap.Claimed && shaft == Shaft && State == FleetState.Transit
                             && m.Source < _p.IGC.Me && !PickShaft())
@@ -1102,18 +1568,18 @@ namespace IngameScript
                         break;
 
                     case Op.SiteOffer:
-                        if (_carrierAddr != 0 && m.Source != _carrierAddr) break;
+                        if (m.Hq || (_carrierAddr != 0 && m.Source != _carrierAddr)) break;
                         _adoptId = m.Arg;
                         _adoptPos = m.A;
                         _adoptFwd = m.B;
                         _adoptUp = m.C;
                         _adoptSpacing = m.D;
                         _adoptPending = true;
-                        if (State != FleetState.Working) ApplyAdoption();
+                        if (State != FleetState.Working || !IsMiner) ApplyAdoption();
                         break;
 
                     case Op.FleetCommand:
-                        if (_carrierAddr != 0 && m.Source != _carrierAddr) return;
+                        if (m.Hq || (_carrierAddr != 0 && m.Source != _carrierAddr)) return;
                         if (m.Arg == Cmd.Launch) Start();
                         else if (m.Arg == Cmd.Recall) Recall();
                         else if (m.Arg == Cmd.Halt) Stop();

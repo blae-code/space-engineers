@@ -89,17 +89,19 @@ namespace IngameScript
         // table so the 'set' command can change any of them by name.
         // ------------------------------------------------------------------
 
-        public enum FleetRole { Miner, Hauler, Carrier }
+        public enum FleetRole { Miner, Hauler, Carrier, Mothership }
 
         public class Config
         {
-            public static readonly string[] RoleNames = { "Miner", "Hauler", "Carrier" };
+            public static readonly string[] RoleNames = { "Miner", "Hauler", "Carrier", "Mothership" };
             const string Section = "FleetMiner";
 
             public FleetRole Role = FleetRole.Miner;
             public string Channel = "FLEETMINER";
             public string Callsign = "";            // empty = use the grid name
             public string Prefer = "Platinum,Uranium,Gold";
+            public string FleetKey = "";            // shared secret: messages without it are ignored
+            public string HaulMode = "Site";        // Hauler: Site (bays at the work site) | Shuttle (carrier -> mothership)
             public string DockTag = "[FM Dock]";
             public string LcdTag = "[FM LCD]";
             public string RefTag = "[FM Ref]";
@@ -114,6 +116,11 @@ namespace IngameScript
             public readonly bool[] PreferOre = new bool[Ore.Count];
             /// <summary>Set by 'set'; Save() writes the values back to Custom Data.</summary>
             public bool Dirty;
+            /// <summary>24-bit FNV-1a hash of FleetKey, stamped on every message.</summary>
+            public int KeyHash;
+            public bool Shuttle;
+            /// <summary>Carrier or mothership: serves pads, never flies the mining cycle.</summary>
+            public bool IsBase { get { return Role >= FleetRole.Carrier; } }
 
             public double CargoFull = 0.90, CargoEmpty = 0.02, LaunchCharge = 0.90;
             public double ReturnCharge = 0.25, ReturnHydrogen = 0.20, ReserveCharge = 0.10, EnergyMargin = 1.5;
@@ -125,7 +132,10 @@ namespace IngameScript
             public double AutopilotRange = 300, CrumbSpacing = 100, HoldDistance = 150;
             public double LaunchInterval = 10, LaunchCountdown = 5, DamageTolerance = 0.03;
             public double BeaconTimeout = 5, DockTimeout = 60;
+            public double AntennaMax = 50000, MinAltitude = 50, FleeDistance = 1500, FleeTime = 30;
+            public double Separation = 25, LinkTimeout = 60;
             public bool Autopilot = true, Unload = true, RecallOnDistress = true;
+            public bool AntennaAuto = true, ConfigureSensors = true, Survey = true;
 
             public static readonly string[] Keys =
             {
@@ -135,10 +145,11 @@ namespace IngameScript
                 "ShaftSpacing", "MaxShafts", "SiteStandoff", "FaceMargin", "ScanRange",
                 "StallTime", "BarrenDepth", "ClaimTimeout", "MinLift", "AutopilotRange",
                 "CrumbSpacing", "HoldDistance", "LaunchInterval", "LaunchCountdown", "DamageTolerance",
-                "BeaconTimeout", "DockTimeout",
-                "Autopilot", "Unload", "RecallOnDistress"
+                "BeaconTimeout", "DockTimeout", "AntennaMax", "MinAltitude", "FleeDistance",
+                "FleeTime", "Separation", "LinkTimeout",
+                "Autopilot", "Unload", "RecallOnDistress", "AntennaAuto", "ConfigureSensors", "Survey"
             };
-            const int FirstBool = 32; // Keys from this index on are booleans (stored as 0/1)
+            const int FirstBool = 38; // Keys from this index on are booleans (stored as 0/1)
 
             public double Get(int i)
             {
@@ -176,9 +187,18 @@ namespace IngameScript
                     case 29: return DamageTolerance;
                     case 30: return BeaconTimeout;
                     case 31: return DockTimeout;
-                    case 32: return Autopilot ? 1 : 0;
-                    case 33: return Unload ? 1 : 0;
-                    case 34: return RecallOnDistress ? 1 : 0;
+                    case 32: return AntennaMax;
+                    case 33: return MinAltitude;
+                    case 34: return FleeDistance;
+                    case 35: return FleeTime;
+                    case 36: return Separation;
+                    case 37: return LinkTimeout;
+                    case 38: return Autopilot ? 1 : 0;
+                    case 39: return Unload ? 1 : 0;
+                    case 40: return RecallOnDistress ? 1 : 0;
+                    case 41: return AntennaAuto ? 1 : 0;
+                    case 42: return ConfigureSensors ? 1 : 0;
+                    case 43: return Survey ? 1 : 0;
                 }
                 return 0;
             }
@@ -219,9 +239,18 @@ namespace IngameScript
                     case 29: DamageTolerance = v; break;
                     case 30: BeaconTimeout = v; break;
                     case 31: DockTimeout = v; break;
-                    case 32: Autopilot = v != 0; break;
-                    case 33: Unload = v != 0; break;
-                    case 34: RecallOnDistress = v != 0; break;
+                    case 32: AntennaMax = v; break;
+                    case 33: MinAltitude = v; break;
+                    case 34: FleeDistance = v; break;
+                    case 35: FleeTime = v; break;
+                    case 36: Separation = v; break;
+                    case 37: LinkTimeout = v; break;
+                    case 38: Autopilot = v != 0; break;
+                    case 39: Unload = v != 0; break;
+                    case 40: RecallOnDistress = v != 0; break;
+                    case 41: AntennaAuto = v != 0; break;
+                    case 42: ConfigureSensors = v != 0; break;
+                    case 43: Survey = v != 0; break;
                 }
             }
 
@@ -260,6 +289,8 @@ namespace IngameScript
                 Channel = Str(ini, "Channel", Channel);
                 Callsign = Str(ini, "Callsign", Callsign);
                 Prefer = Str(ini, "Prefer", Prefer);
+                FleetKey = Str(ini, "FleetKey", FleetKey);
+                HaulMode = Str(ini, "HaulMode", HaulMode);
                 DockTag = Str(ini, "DockTag", DockTag);
                 LcdTag = Str(ini, "LcdTag", LcdTag);
                 RefTag = Str(ini, "RefTag", RefTag);
@@ -285,6 +316,11 @@ namespace IngameScript
                 }
 
                 Name = Callsign.Length > 0 ? Callsign : me.CubeGrid.CustomName;
+                Shuttle = string.Equals(HaulMode, "Shuttle", StringComparison.OrdinalIgnoreCase);
+                uint h = 2166136261;
+                for (int i = 0; i < FleetKey.Length; i++)
+                    h = (h ^ FleetKey[i]) * 16777619;
+                KeyHash = (int)(h & 0xFFFFFF);
                 string[] prefer = Prefer.Split(',');
                 for (int i = 0; i < Ore.Count; i++)
                 {

@@ -49,6 +49,10 @@ namespace IngameScript
             /// Infinity in space. Below ~1.2 a loaded drone can no longer climb out safely.
             /// </summary>
             public double LiftRatio { get; private set; } = double.PositiveInfinity;
+            /// <summary>Planet surface clearance to keep (m); 0 = off. Set by the brain per state.</summary>
+            public double AltitudeFloor;
+            /// <summary>Height above the planet surface, or -1 in space.</summary>
+            public double Elevation { get; private set; } = -1;
 
             public HelmController(Program p, GridManager grid)
             {
@@ -208,6 +212,17 @@ namespace IngameScript
                     Math.Min(Math.Sqrt(2 * _p.Cfg.Decel * dist), dist * PositionGain));
                 Vector3D desiredVel = _targetVel;
                 if (dist > 1e-3) desiredVel += toTarget * (speed / dist);
+
+                // Altitude floor: below it, add whatever climb rate is missing (planets only).
+                double elevation;
+                Elevation = ctrl.TryGetPlanetElevation(MyPlanetElevation.Surface, out elevation) ? elevation : -1;
+                if (AltitudeFloor > 0 && Elevation >= 0 && Elevation < AltitudeFloor)
+                {
+                    Vector3D up = -Vector3D.Normalize(ctrl.GetNaturalGravity());
+                    double climb = Math.Min(_maxSpeed, (AltitudeFloor - Elevation) * PositionGain + 2);
+                    double vUp = Vector3D.Dot(desiredVel, up);
+                    if (vUp < climb) desiredVel += up * (climb - vUp);
+                }
 
                 Vector3D vel = ctrl.GetShipVelocities().LinearVelocity;
                 Vector3D accel = (desiredVel - vel) * VelocityGain - ctrl.GetNaturalGravity();

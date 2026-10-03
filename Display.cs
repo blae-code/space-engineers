@@ -230,14 +230,28 @@ namespace IngameScript
                 }
                 if (_brain.State == FleetState.Working && _brain.FaceKnown)
                     Bar(y, "SHAFT %", _brain.CutDepth / Math.Max(1, cfg.MineDepth), Accent);
-                else if (_brain.State == FleetState.Working)
+                else if (_brain.State == FleetState.Working && cfg.Role == FleetRole.Miner)
                     Text("SEEKING ROCK FACE", 16, y, 0.75f, Warn);
+
+                // Footer: link to home, unacknowledged reports, threat range.
+                Text(_brain.LinkLost ? "LINK LOST" : "LINK OK", 16, 470, 0.7f, _brain.LinkLost ? Bad : Good);
+                int outbox = _comms.OutboxCount;
+                if (outbox > 0)
+                {
+                    Text("QUEUED", 180, 470, 0.7f, Warn);
+                    Text(Fmt.Str(outbox), 290, 470, 0.7f, Warn);
+                }
+                if (_grid.ThreatLocated)
+                {
+                    Text("THREAT m", 360, 470, 0.7f, Bad);
+                    Text(Fmt.Str(Vector3D.Distance(_p.Me.GetPosition(), _grid.ThreatPos)), 496, 470, 0.7f, Bad, TextAlignment.RIGHT);
+                }
             }
 
             /// <summary>Site map: one cell per shaft, coloured by result and yield.</summary>
             void Map(int arg)
             {
-                bool carrier = _p.Cfg.Role == FleetRole.Carrier;
+                bool carrier = _p.Cfg.IsBase;
                 int id = carrier ? (arg >= 0 ? arg : _brain.MapSite) : _brain.SiteId;
                 SiteMap site = carrier ? _brain.Library(id) : _brain.Site;
 
@@ -296,7 +310,7 @@ namespace IngameScript
             /// <summary>Carrier flight-control board: pads, launch countdown, one row per drone.</summary>
             void Board()
             {
-                Header(_p.Cfg.Name, "FLIGHT CONTROL", Accent);
+                Header(_p.Cfg.Name, BrainFSM.StateLabels[(int)_brain.State], Accent);
 
                 int free = 0;
                 for (int i = 0; i < _brain.SlotCount; i++)
@@ -319,7 +333,7 @@ namespace IngameScript
                 int rows = 0;
                 for (int i = 0; i < _comms.PeerCount && rows < BoardRows; i++)
                 {
-                    if (_comms.PeerRole[i] == (int)FleetRole.Carrier) continue;
+                    if (_comms.PeerRole[i] >= (int)_p.Cfg.Role) continue; // one tier down only
                     rows++;
                     if (_comms.PeerDistress[i] != 0) Rect(8, y - 2, 496, 44, DistressBg);
 
@@ -358,7 +372,7 @@ namespace IngameScript
                     }
                     y += 46;
                 }
-                if (rows == 0) Text("NO DRONES IN RANGE", 256, 240, 0.9f, Dim, TextAlignment.CENTER);
+                if (rows == 0) Text("NOBODY IN RANGE", 256, 240, 0.9f, Dim, TextAlignment.CENTER);
             }
         }
     }

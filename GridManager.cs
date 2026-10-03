@@ -3,6 +3,7 @@ using SpaceEngineers.Game.ModAPI.Ingame;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using VRage.Game;
 using VRage.Game.GUI.TextPanel;
 using VRage.Game.ModAPI.Ingame;
 using VRageMath;
@@ -23,6 +24,7 @@ namespace IngameScript
             const string HookPrefix = "[FM ";
             const string LightTag = "[FM Light]";
             const string PadTag = "[FM Pad ";
+            const string BayTag = "[FM Bay]", FleeTag = "[FM Flee]", SearchlightTag = "[FM Searchlight]";
 
             readonly Program _p;
             readonly Config _cfg;
@@ -74,6 +76,11 @@ namespace IngameScript
             readonly List<IMyLargeTurretBase> _turrets = new List<IMyLargeTurretBase>(8);
             readonly List<IMyTurretControlBlock> _turretControllers = new List<IMyTurretControlBlock>(4);
             readonly List<IMySensorBlock> _sensors = new List<IMySensorBlock>(4);
+            readonly List<MyDetectedEntityInfo> _detected = new List<MyDetectedEntityInfo>(16);
+            readonly List<IMyDecoy> _decoys = new List<IMyDecoy>(4);
+            readonly List<IMyDefensiveCombatBlock> _fleeBlocks = new List<IMyDefensiveCombatBlock>(2);
+            readonly List<IMySearchlight> _searchlights = new List<IMySearchlight>(4);
+            readonly List<IMyInventory> _holds = new List<IMyInventory>(32);
 
             // Stone dumping: sorters whitelist stone and drain it into the ejectors.
             readonly List<MyInventoryItemFilter> _stoneFilter = new List<MyInventoryItemFilter>(1);
@@ -113,6 +120,18 @@ namespace IngameScript
             public double Integrity { get; private set; } = 1;
             /// <summary>A turret, turret controller or tagged sensor sees something.</summary>
             public bool ThreatDetected { get; private set; }
+            /// <summary>Where the threat is, when a sensor or turret reported it (else Zero).</summary>
+            public Vector3D ThreatPos { get; private set; }
+            public Vector3D ThreatVel { get; private set; }
+            public bool ThreatLocated { get; private set; }
+            /// <summary>Battery net drain in MW (negative while charging).</summary>
+            public double BatteryDrainMW { get; private set; }
+            double _batteryStoredMWh;
+            /// <summary>Minutes until the batteries are flat at the current drain (infinity if not draining).</summary>
+            public double BatteryMinutes
+            {
+                get { return BatteryDrainMW > 0.001 ? _batteryStoredMWh / BatteryDrainMW * 60 : double.PositiveInfinity; }
+            }
 
             /// <summary>
             /// Drill bank geometry in the reference block's frame, metres: how far the
@@ -198,11 +217,13 @@ namespace IngameScript
 
                 gts.GetBlocksOfType<IMyTerminalBlock>(_cargoBlocks, _isCargoHolder);
                 _inventories.Clear();
+                _holds.Clear();
                 for (int i = 0; i < _cargoBlocks.Count; i++)
                 {
                     var b = _cargoBlocks[i];
                     for (int j = 0; j < b.InventoryCount; j++)
                         _inventories.Add(b.GetInventory(j));
+                    if (b is IMyCargoContainer) _holds.Add(b.GetInventory(0));
                 }
 
                 gts.GetBlocksOfType<IMyCameraBlock>(_cameras, _onThisGrid);
@@ -231,6 +252,40 @@ namespace IngameScript
                 gts.GetBlocksOfType<IMyLargeTurretBase>(_turrets, _onThisGrid);
                 gts.GetBlocksOfType<IMyTurretControlBlock>(_turretControllers, _onThisGrid);
                 gts.GetBlocksOfType<IMySensorBlock>(_sensors, _isSensor);
+                if (_cfg.ConfigureSensors)
+                    for (int i = 0; i < _sensors.Count; i++)
+                    {
+                        // Enemies only: friends, asteroids and loose ore are not threats.
+                        var s = _sensors[i];
+                        s.DetectEnemy = true;
+                        s.DetectNeutral = false;
+                        s.DetectFriendly = false;
+                        s.DetectOwner = false;
+                        s.DetectAsteroids = false;
+                        s.DetectFloatingObjects = false;
+                        s.DetectPlayers = true;
+                        s.DetectSmallShips = true;
+                        s.DetectLargeShips = true;
+                        s.DetectStations = true;
+                    }
+                gts.GetBlocksOfType<IMyDecoy>(_decoys, _onThisGrid);
+                gts.GetBlocksOfType<IMyDefensiveCombatBlock>(_fleeBlocks, _isHook);
+                for (int i = _fleeBlocks.Count - 1; i >= 0; i--)
+                    if (!_fleeBlocks[i].CustomName.Contains(FleeTag)) _fleeBlocks.RemoveAt(i);
+                gts.GetBlocksOfType<IMySearchlight>(_searchlights, _isHook);
+                for (int i = _searchlights.Count - 1; i >= 0; i--)
+                {
+                    var l = _searchlights[i];
+                    if (!l.CustomName.Contains(SearchlightTag)) { _searchlights.RemoveAt(i); continue; }
+                    // Track friendly small ships: our drones on final approach.
+                    l.TargetFriends = true;
+                    l.TargetSmallShips = true;
+                    l.TargetEnemy = false;
+                    l.TargetNeutrals = false;
+                    l.TargetLargeShips = false;
+                    l.TargetStations = false;
+                    l.TargetCharacters = false;
+                }
 
                 FindScreens();
                 MeasureDrills();
@@ -257,25 +312,32 @@ namespace IngameScript
             {
                 Connector = null;
                 DockConnectors.Clear();
+                bool hauler = _cfg.Role == FleetRole.Hauler;
                 for (int i = 0; i < _connectors.Count; i++)
                 {
                     var c = _connectors[i];
+                    // Haulers offer [FM Bay] connectors to miners; bases offer [FM Dock] ones.
+                    if (hauler && c.CustomName.Contains(BayTag))
+                    {
+                        if (DockConnectors.Count < MaxDockConnectors) DockConnectors.Add(c);
+                        continue;
+                    }
                     if (!c.CustomName.Contains(_cfg.DockTag)) continue;
                     if (Connector == null) Connector = c;
-                    if (DockConnectors.Count < MaxDockConnectors) DockConnectors.Add(c);
+                    if (!hauler && DockConnectors.Count < MaxDockConnectors) DockConnectors.Add(c);
                 }
 
-                // Untagged grids: drones use their first non-ejector connector, carriers offer all of them.
+                // Untagged grids: drones use their first plain connector, bases offer all of them.
                 for (int i = 0; i < _connectors.Count && Connector == null; i++)
-                    if (!_connectors[i].CustomName.Contains(_cfg.EjectTag))
+                    if (Plain(_connectors[i]))
                         Connector = _connectors[i];
-                if (DockConnectors.Count == 0)
+                if (DockConnectors.Count == 0 && _cfg.IsBase)
                     for (int i = 0; i < _connectors.Count && DockConnectors.Count < MaxDockConnectors; i++)
-                        if (!_connectors[i].CustomName.Contains(_cfg.EjectTag))
+                        if (Plain(_connectors[i]))
                             DockConnectors.Add(_connectors[i]);
 
                 // A drone's dock connector must never spit cargo at the carrier.
-                if (Connector != null && _cfg.Role != FleetRole.Carrier)
+                if (Connector != null && !_cfg.IsBase)
                 {
                     Connector.ThrowOut = false;
                     Connector.CollectAll = false;
@@ -294,6 +356,11 @@ namespace IngameScript
                     }
                     DockConnectors[j + 1] = key;
                 }
+            }
+
+            bool Plain(IMyShipConnector c)
+            {
+                return !c.CustomName.Contains(_cfg.EjectTag) && !c.CustomName.Contains(BayTag);
             }
 
             /// <summary>Tagged camera, else any camera looking along the reference forward.</summary>
@@ -439,7 +506,7 @@ namespace IngameScript
 
             string Diagnose()
             {
-                if (_cfg.Role == FleetRole.Carrier)
+                if (_cfg.IsBase)
                     return DockConnectors.Count == 0 ? "No connectors to offer as docks" : null;
                 if (Controller == null) return "No ship controller (add a Remote Control)";
                 if (Gyros.Count == 0) return "No gyroscopes";
@@ -464,7 +531,7 @@ namespace IngameScript
             {
                 long cur = 0, max = 0;
                 for (int i = 0; i < Ore.Count; i++) OreKg[i] = 0;
-                bool countOre = _cfg.Role != FleetRole.Carrier;
+                bool countOre = !_cfg.IsBase;
                 for (int i = 0; i < _inventories.Count; i++)
                 {
                     var inv = _inventories[i];
@@ -491,6 +558,11 @@ namespace IngameScript
                     capacity += _batteries[i].MaxStoredPower;
                 }
                 BatteryCharge = capacity > 0 ? stored / capacity : 1;
+                double drain = 0;
+                for (int i = 0; i < _batteries.Count; i++)
+                    drain += _batteries[i].CurrentOutput - _batteries[i].CurrentInput;
+                BatteryDrainMW = drain;
+                _batteryStoredMWh = stored;
 
                 double h2 = 0;
                 for (int i = 0; i < _h2Tanks.Count; i++)
@@ -507,17 +579,69 @@ namespace IngameScript
                     if (!_all[i].Closed && _all[i].IsFunctional) working++;
                 Integrity = _all.Count > 0 ? (double)working / _all.Count : 1;
 
+                // Threats: anything a turret targets, or an enemy a tagged sensor sees. Keep the
+                // nearest located one so a drone can run away from it.
                 bool threat = false;
-                for (int i = 0; i < _turrets.Count && !threat; i++)
-                    threat = _turrets[i].IsWorking && _turrets[i].HasTarget;
-                for (int i = 0; i < _turretControllers.Count && !threat; i++)
-                    threat = _turretControllers[i].IsWorking && _turretControllers[i].HasTarget;
-                for (int i = 0; i < _sensors.Count && !threat; i++)
-                    threat = _sensors[i].IsWorking && _sensors[i].IsActive;
+                MyDetectedEntityInfo found = new MyDetectedEntityInfo();
+                for (int i = 0; i < _turrets.Count; i++)
+                    if (_turrets[i].IsWorking && _turrets[i].HasTarget)
+                    {
+                        threat = true;
+                        Nearer(ref found, _turrets[i].GetTargetedEntity());
+                    }
+                for (int i = 0; i < _turretControllers.Count; i++)
+                    if (_turretControllers[i].IsWorking && _turretControllers[i].HasTarget)
+                    {
+                        threat = true;
+                        Nearer(ref found, _turretControllers[i].GetTargetedEntity());
+                    }
+                for (int i = 0; i < _sensors.Count; i++)
+                {
+                    if (!_sensors[i].IsWorking || !_sensors[i].IsActive) continue;
+                    _detected.Clear();
+                    _sensors[i].DetectedEntities(_detected);
+                    for (int k = 0; k < _detected.Count; k++)
+                    {
+                        if (_detected[k].Relationship != MyRelationsBetweenPlayerAndBlock.Enemies) continue;
+                        threat = true;
+                        Nearer(ref found, _detected[k]);
+                    }
+                }
                 ThreatDetected = threat;
+                ThreatLocated = !found.IsEmpty();
+                ThreatPos = ThreatLocated ? found.Position : Vector3D.Zero;
+                ThreatVel = ThreatLocated ? (Vector3D)found.Velocity : Vector3D.Zero;
+            }
+
+            void Nearer(ref MyDetectedEntityInfo best, MyDetectedEntityInfo candidate)
+            {
+                if (candidate.IsEmpty()) return;
+                Vector3D me = _p.Me.GetPosition();
+                if (best.IsEmpty() || Vector3D.DistanceSquared(me, candidate.Position) < Vector3D.DistanceSquared(me, best.Position))
+                    best = candidate;
             }
 
             // ---------------- Sensing ----------------
+
+            /// <summary>
+            /// Raycasts at a world point (any direction inside the camera's cone). Returns false when
+            /// that is not possible right now (no camera, outside the cone, still charging).
+            /// voxelOnly: count only asteroids and planets as hits; otherwise ships count too.
+            /// </summary>
+            public bool RaycastAt(Vector3D target, bool voxelOnly, out bool hit, out Vector3D point)
+            {
+                hit = false;
+                point = Vector3D.Zero;
+                var cam = Camera;
+                if (cam == null || !cam.IsWorking || !cam.CanScan(target)) return false;
+                MyDetectedEntityInfo info = cam.Raycast(target);
+                if (info.IsEmpty() || !info.HitPosition.HasValue) return true;
+                bool voxel = info.Type == MyDetectedEntityType.Asteroid || info.Type == MyDetectedEntityType.Planet;
+                if (voxelOnly && !voxel) return true;
+                hit = true;
+                point = info.HitPosition.Value;
+                return true;
+            }
 
             /// <summary>
             /// Raycasts straight ahead for rock (asteroid or planet voxels only).
@@ -635,6 +759,49 @@ namespace IngameScript
                 }
             }
 
+            public void SetDecoys(bool on)
+            {
+                for (int i = 0; i < _decoys.Count; i++)
+                    if (_decoys[i].Enabled != on) _decoys[i].Enabled = on;
+            }
+
+            /// <summary>Hands the ship to an AI Defensive block tagged [FM Flee]. False when there is none.</summary>
+            public bool StartAiFlee()
+            {
+                bool any = false;
+                for (int i = 0; i < _fleeBlocks.Count; i++)
+                {
+                    var b = _fleeBlocks[i];
+                    if (b.Closed || !b.IsFunctional) continue;
+                    b.Enabled = true;
+                    b.Flee();
+                    any = true;
+                }
+                return any;
+            }
+
+            public void StopAiFlee()
+            {
+                for (int i = 0; i < _fleeBlocks.Count; i++)
+                    _fleeBlocks[i].Enabled = false;
+            }
+
+            public void SetSearchlights(bool on)
+            {
+                for (int i = 0; i < _searchlights.Count; i++)
+                    if (_searchlights[i].Enabled != on) _searchlights[i].Enabled = on;
+            }
+
+            /// <summary>Radio antenna range; only written when it changes by more than 10%.</summary>
+            public void SetAntennaRange(float radius)
+            {
+                for (int i = 0; i < _antennas.Count; i++)
+                {
+                    float r = _antennas[i].Radius;
+                    if (Math.Abs(r - radius) > r * 0.1f) _antennas[i].Radius = radius;
+                }
+            }
+
             /// <summary>Colours every [FM Light]; blink is the interval in seconds (0 = steady).</summary>
             public void SetLights(Color color, float blink)
             {
@@ -688,21 +855,39 @@ namespace IngameScript
                 var other = Connector.OtherConnector;
                 if (other == null) return;
                 if (other.CubeGrid != _unloadGrid) FindUnloadTargets(other.CubeGrid);
-                if (_unloadInventories.Count == 0) return;
+                Transfer(_inventories, _unloadInventories, false);
+            }
 
+            /// <summary>
+            /// Shuttle haulers at their carrier: pull ore out of the carrier's [FM Unload] containers
+            /// (or all of them) into our cargo containers. Same cross-grid exception as Unload.
+            /// </summary>
+            public void Load()
+            {
+                if (!IsConnected) return;
+                var other = Connector.OtherConnector;
+                if (other == null) return;
+                if (other.CubeGrid != _unloadGrid) FindUnloadTargets(other.CubeGrid);
+                Transfer(_unloadInventories, _holds, true);
+            }
+
+            void Transfer(List<IMyInventory> from, List<IMyInventory> to, bool oreOnly)
+            {
+                if (to.Count == 0) return;
                 int budget = MaxTransfersPerRun;
-                for (int s = 0; s < _inventories.Count && budget > 0; s++)
+                for (int s = 0; s < from.Count && budget > 0; s++)
                 {
-                    var src = _inventories[s];
+                    var src = from[s];
                     if (src.ItemCount == 0) continue;
                     _items.Clear();
                     src.GetItems(_items);
                     for (int k = _items.Count - 1; k >= 0 && budget > 0; k--)
                     {
                         var item = _items[k];
-                        for (int t = 0; t < _unloadInventories.Count; t++)
+                        if (oreOnly && item.Type.TypeId != Ore.TypeId) continue;
+                        for (int t = 0; t < to.Count; t++)
                         {
-                            var dst = _unloadInventories[t];
+                            var dst = to[t];
                             if (dst.IsFull || !src.CanTransferItemTo(dst, item.Type)) continue;
                             budget--;
                             if (src.TransferItemTo(dst, item)) break;
@@ -737,7 +922,7 @@ namespace IngameScript
                     sb.Append("!! ").Append(Problem).Append('\n');
                 if (Warning != null)
                     sb.Append("! ").Append(Warning).Append('\n');
-                if (_cfg.Role == FleetRole.Carrier) return;
+                if (_cfg.IsBase) return;
 
                 sb.Append("Cargo ");
                 Fmt.Pct(sb, CargoFill).Append("  Batt ");

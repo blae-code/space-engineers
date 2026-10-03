@@ -24,11 +24,12 @@ namespace IngameScript
             public static readonly string[] TestNames =
             {
                 "Controller", "Gyroscopes", "Thrust, 6 axes", "Lift vs gravity", "Dock connector",
-                "Drills", "Antenna", "Forward camera", "Stone dump path", "Battery / H2", "Flight control"
+                "Drills", "Antenna", "Forward camera", "Stone dump path", "Battery / H2", "Flight control",
+                "Hauler bays / mothership"
             };
             public const int TestNa = -1, TestPass = 0, TestWarn = 1, TestFail = 2;
             /// <summary>Last self-test result per TestNames entry.</summary>
-            public readonly int[] Tests = new int[11];
+            public readonly int[] Tests = new int[12];
             public bool TestsRun { get; private set; }
             /// <summary>The PB screen shows the detail page (self-test, models) until this time.</summary>
             public double DetailUntil { get; private set; } = double.MinValue;
@@ -71,11 +72,13 @@ namespace IngameScript
                     return;
                 }
 
-                if (IsCarrier)
+                if (_cfg.IsBase)
                 {
-                    if (Is(argument, "launch")) _comms.Broadcast(Op.FleetCommand, Cmd.Launch);
-                    else if (Is(argument, "recall")) _comms.Broadcast(Op.FleetCommand, Cmd.Recall);
-                    else if (Is(argument, "halt")) _comms.Broadcast(Op.FleetCommand, Cmd.Halt);
+                    // The mothership commands carriers over HQ; they pass orders down to their drones.
+                    int cmd = Is(argument, "launch") ? Cmd.Launch : Is(argument, "recall") ? Cmd.Recall
+                        : Is(argument, "halt") ? Cmd.Halt : 0;
+                    if (cmd != 0) _comms.Broadcast(Op.FleetCommand, cmd, default(Vector3D), default(Vector3D),
+                        default(Vector3D), default(Vector3D), IsMothership);
                     else if (Is(argument, "reset")) ResetSlots();
                     else if (Is(argument, "assign", out at)) AssignSite(GridManager.ParseInt(argument, at));
                     else _note = NoteUnknown;
@@ -141,7 +144,7 @@ namespace IngameScript
 
             void Start()
             {
-                if (!Site.Defined)
+                if (!Site.Defined && !IsShuttle)
                 {
                     _note = NoteNoSite;
                     return;
@@ -151,7 +154,7 @@ namespace IngameScript
                     _note = NoteSelfTestFail;
                     return;
                 }
-                if (Shaft < 0 && !PickShaft())
+                if (IsMiner && Shaft < 0 && !PickShaft())
                 {
                     _note = NoteSiteDone;
                     return;
@@ -159,7 +162,9 @@ namespace IngameScript
                 _autoCycle = true;
                 _recall = false;
                 if (!_grid.IsConnected) CrumbCount = 0; // no outbound path from a mid-flight start
-                Enter(_grid.IsConnected ? FleetState.Docked : FleetState.Transit);
+                if (_grid.IsConnected) Enter(FleetState.Docked);
+                else if (IsShuttle) GoHome();
+                else Enter(FleetState.Transit);
             }
 
             void Recall()
@@ -187,8 +192,8 @@ namespace IngameScript
                 }
                 else if (Shaft >= 0)
                 {
-                    Site.Apply(Shaft, SiteMap.Blocked, Site.Value[Shaft], _p.IGC.Me, _p.Clock);
-                    ReportShaft(SiteMap.Blocked);
+                    Site.Apply(Shaft, SiteMap.Blocked, Site.Value[Shaft], -1, _p.IGC.Me, _p.Clock);
+                    ReportShaft(Shaft, SiteMap.Blocked, true);
                     PickShaft();
                 }
             }
@@ -254,7 +259,7 @@ namespace IngameScript
                 PickShaft();
 
                 if (id >= 0)
-                    _comms.Send(_carrierAddr, Op.SiteDef, id, Site.Pos, Site.Fwd, Site.Up,
+                    _comms.SendReliable(_carrierAddr, Op.SiteDef, id, Site.Pos, Site.Fwd, Site.Up,
                         new Vector3D(Site.SpacingX, Site.SpacingY, Site.Limit));
             }
 
@@ -278,10 +283,11 @@ namespace IngameScript
             {
                 TestsRun = true;
                 DetailUntil = _p.Clock + DetailSeconds;
-                bool drone = !IsCarrier;
+                bool drone = !_cfg.IsBase;
                 var ctrl = _grid.Controller;
 
                 Tests[0] = !drone ? TestNa : ctrl != null ? TestPass : TestFail;
+                if (drone) Tests[4] = _grid.Connector != null ? TestPass : TestFail;
                 Tests[1] = !drone ? TestNa : _grid.Gyros.Count > 0 ? TestPass : TestFail;
                 Tests[2] = !drone ? TestNa : _helm.ThrustOnAllAxes() ? TestPass : TestFail;
                 double lift = _helm.LiftRatio;
@@ -294,7 +300,12 @@ namespace IngameScript
                 Tests[7] = !IsMiner ? TestNa : _grid.CameraReady ? TestPass : TestWarn;
                 Tests[8] = !IsMiner || !_grid.CanEject ? TestNa : _grid.StonePathReady ? TestPass : TestWarn;
                 Tests[9] = !drone ? TestNa : _grid.HasPowerStore ? TestPass : TestWarn;
-                Tests[10] = !drone ? TestNa : _carrierAddr != 0 || CarrierKnown() ? TestPass : TestWarn;
+                Tests[10] = !drone ? TestNa : _comms.Reachable(_carrierAddr) || _comms.Nearest(FleetRole.Carrier, _p.Me.GetPosition(), PeerFresh) != 0
+                    ? TestPass : TestWarn;
+                // Site haulers need [FM Bay] connectors; shuttles need to hear a mothership.
+                Tests[11] = _cfg.Role != FleetRole.Hauler ? TestNa
+                    : _cfg.Shuttle ? (MotherAddr != 0 ? TestPass : TestWarn)
+                    : (_grid.DockConnectors.Count > 0 ? TestPass : TestFail);
 
                 for (int i = 0; i < Tests.Length; i++)
                     if (Tests[i] == TestFail) return false;
@@ -312,8 +323,10 @@ namespace IngameScript
                 sb.Append('\n');
                 if (_note != null) sb.Append(_note).Append('\n');
 
-                if (IsCarrier)
+                if (_cfg.IsBase)
                 {
+                    if (IsCarrier)
+                        sb.Append(MotherAddr == 0 ? "HQ: none heard\n" : _comms.Reachable(MotherAddr) ? "HQ: linked\n" : "HQ: out of range\n");
                     for (int i = 0; i < SlotCount; i++)
                     {
                         sb.Append(" Pad ");
@@ -375,6 +388,20 @@ namespace IngameScript
                     sb.Append("Holding, queue #");
                     Fmt.Int(sb, QueuePlace).Append('\n');
                 }
+                sb.Append(LinkLost ? "Link: LOST" : _carrierAddr == 0 ? "Link: no carrier" : "Link: OK");
+                if (_dockKind == DockHauler) sb.Append("  -> hauler");
+                else if (_dockKind == DockMother) sb.Append("  -> mothership");
+                if (Surveyed > 0)
+                {
+                    sb.Append("  surveyed ");
+                    Fmt.Int(sb, Surveyed);
+                }
+                sb.Append('\n');
+                if (_grid.ThreatLocated)
+                {
+                    sb.Append("Threat at ");
+                    Fmt.Fixed(sb, Vector3D.Distance(_p.Me.GetPosition(), _grid.ThreatPos), 0).Append(" m\n");
+                }
                 double home = HomeDistance();
                 if (home >= 0)
                 {
@@ -415,7 +442,7 @@ namespace IngameScript
                         sb.Append(TestNames[i]).Append('\n');
                     }
                 }
-                if (IsCarrier)
+                if (_cfg.IsBase)
                 {
                     for (int i = 0; i < LibrarySize; i++)
                     {
@@ -429,7 +456,12 @@ namespace IngameScript
                 sb.Append("-- Models --\nBurn/km: batt ");
                 Fmt.Fixed(sb, BattPerMetre * 1e5, 2).Append("%  H2 ");
                 Fmt.Fixed(sb, H2PerMetre * 1e5, 2).Append("%\nBreadcrumbs ");
-                Fmt.Int(sb, CrumbCount).Append("  drill bank ");
+                Fmt.Int(sb, CrumbCount).Append("  outbox ");
+                Fmt.Int(sb, _comms.OutboxCount).Append("\nBattery ");
+                if (double.IsInfinity(_grid.BatteryMinutes)) sb.Append("not draining");
+                else Fmt.Fixed(sb, _grid.BatteryMinutes, 0).Append(" min left");
+                sb.Append("  elevation ");
+                Fmt.Fixed(sb, _helm.Elevation, 0).Append(" m\nDrill bank ");
                 Fmt.Fixed(sb, _grid.DrillWidth, 1).Append('x');
                 Fmt.Fixed(sb, _grid.DrillHeight, 1).Append(" m\n");
                 if (Site.Defined)
@@ -475,6 +507,9 @@ namespace IngameScript
                 ini.Set(SaveSection, "H2PerMetre", H2PerMetre);
                 ini.Set(SaveSection, "StatsSeconds", StatsSeconds);
                 ini.Set(SaveSection, "MapSite", MapSite);
+                ini.Set(SaveSection, "Mother", MotherAddr.ToString(ic));
+                ini.Set(SaveSection, "DockKind", _dockKind);
+                ini.Set(SaveSection, "Dock", _dockAddr.ToString(ic));
 
                 var sb = new StringBuilder();
                 for (int i = 0; i < Ore.Count; i++)
@@ -488,7 +523,7 @@ namespace IngameScript
                 Site.Write(sb);
                 ini.Set(SaveSection, "Site", sb.ToString());
 
-                if (IsCarrier)
+                if (_cfg.IsBase)
                 {
                     sb.Clear();
                     for (int i = 0; i < MaxSlots; i++)
@@ -531,12 +566,19 @@ namespace IngameScript
                 H2PerMetre = ini.Get(SaveSection, "H2PerMetre").ToDouble();
                 _statsBase = ini.Get(SaveSection, "StatsSeconds").ToDouble();
                 MapSite = ini.Get(SaveSection, "MapSite").ToInt32(-1);
+                long mother;
+                long.TryParse(ini.Get(SaveSection, "Mother").ToString("0"), System.Globalization.NumberStyles.Integer,
+                    System.Globalization.CultureInfo.InvariantCulture, out mother);
+                MotherAddr = mother;
+                _dockKind = ini.Get(SaveSection, "DockKind").ToInt32();
+                long.TryParse(ini.Get(SaveSection, "Dock").ToString("0"), System.Globalization.NumberStyles.Integer,
+                    System.Globalization.CultureInfo.InvariantCulture, out _dockAddr);
 
                 string[] delivered = ini.Get(SaveSection, "Delivered").ToString().Split(',');
                 for (int i = 0; i < Ore.Count && i < delivered.Length; i++)
                     Delivered[i] = SiteMap.Dbl(delivered[i]);
 
-                if (IsCarrier)
+                if (_cfg.IsBase)
                 {
                     string[] owners = ini.Get(SaveSection, "Owners").ToString().Split(',');
                     for (int i = 0; i < owners.Length && i < MaxSlots; i++)
@@ -555,6 +597,9 @@ namespace IngameScript
                     case FleetState.Transit:
                     case FleetState.Working:
                         Enter(Site.Defined ? FleetState.Transit : FleetState.Idle);
+                        break;
+                    case FleetState.Evading:
+                        Enter(FleetState.RequestDock);
                         break;
                     case FleetState.Docked:
                     case FleetState.Undocking:

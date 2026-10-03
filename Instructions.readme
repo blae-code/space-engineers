@@ -1,46 +1,39 @@
-FleetMiner Core: modular drone fleet script (miners, haulers, carriers) over IGC.
+FleetMiner Core: one script for a whole mining fleet over IGC.
+Roles: Miner, Hauler (Site or Shuttle), Carrier, Mothership.
 
 SETUP
   1. Load the script into a Programmable Block, then edit its Custom Data.
      Recompile once to write every key with its default value.
        [FleetMiner]
-       Role=Miner          ; Miner | Hauler | Carrier
-       Channel=FLEETMINER  ; must match across the whole fleet
+       Role=Miner          ; Miner | Hauler | Carrier | Mothership
+       HaulMode=Site       ; Haulers: Site (bays at the work site) | Shuttle (carrier -> mothership)
+       Channel=FLEETMINER  ; same on every ship (HQ traffic uses Channel/HQ)
+       FleetKey=           ; same secret on every ship
        Callsign=MINER-1    ; HUD / screen name (empty = grid name)
-  2. Drones need: a Remote Control facing the drill direction, gyros, thrusters
-     on all six sides, a broadcasting antenna, and a connector tagged [FM Dock].
-     Run 'selftest' to check the build.
-  3. Optional tags (drone):
-       [FM Cam] forward camera     [FM Eject] sorter + ejector (stone dump)
-       [FM Sensor] threat sensor   [FM Light] status lights
-  4. Carrier: [FM Dock] connectors (pads), [FM Pad N] pad lights,
-     [FM Unload] cargo containers to fill.
-  5. Screens (any LCD or cockpit/console screen):
-       [FM LCD] status  [FM Gauges] drone gauges  [FM Map] / [FM Map N] site map
-       [FM Board] flight control  [FM Log] comms log  [FM Stats] production
-  6. Hooks: timers trigger / sound blocks play when named with
-       [FM <State>] (Docked, Working, ...) or [FM Backout] [FM Rich]
-       [FM Holding] [FM Launch] [FM Distress]
+  2. Drones: Remote Control facing the drill direction, gyros, thrusters on all
+     six sides, a broadcasting antenna, a connector tagged [FM Dock].
+     Site haulers add [FM Bay] connectors. Run 'selftest'.
+  3. Optional (drone): [FM Cam] camera, [FM Eject] sorter + ejector,
+     [FM Sensor] sensor, decoys, [FM Flee] AI Defensive block, [FM Light] lights.
+  4. Bases: [FM Dock] pads, [FM Pad N] pad lights, [FM Searchlight],
+     [FM Unload] cargo containers.
+  5. Screens: [FM LCD] [FM Gauges] [FM Map] / [FM Map N] [FM Board] [FM Log] [FM Stats]
+  6. Hooks (timers trigger, sound blocks play): [FM <State>] and
+     [FM Backout] [FM Rich] [FM Holding] [FM Launch] [FM Distress] [FM LinkLost]
   Full guide: docs/MinerDrone.md in the source repo.
 
 DRONE COMMANDS (PB argument)
   setsite [N]  Aim at the rock face and run. N (0-7) shares it via the carrier.
   site N       Join carrier library site N.
-  start        Self-test, then the automatic mine -> dock -> unload -> launch cycle.
+  start        Self-test, then the automatic cycle.
   return       Back out of the shaft, fly home and dock. The cycle stops.
   stop         Halt in place; dampeners on.
-  skip         Abandon the current shaft.
-  goto N       Mine shaft N next.
-  resetsite    Forget shaft results; restart the spiral.
-  forget       Forget the home carrier.
+  skip | goto N | resetsite | forget
 
-CARRIER COMMANDS
-  launch | recall | halt   Fleet commands (launches are sequenced).
-  assign N                 Send every drone to library site N.
+CARRIER / MOTHERSHIP COMMANDS
+  launch | recall | halt   Fleet orders (the mothership's reach every carrier).
+  assign N                 Send everyone below to library site N.
   reset                    Clear pad reservations and queues.
 
 ANY ROLE
-  status       Detail page on the PB screen (self-test, learned models).
-  selftest     Check the build.
-  set K V      Change a Custom Data value live, e.g. 'set MineDepth 50'.
-  resetstats   Zero production counters.
+  status | selftest | set <Key> <Value> | resetstats
