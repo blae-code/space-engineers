@@ -296,6 +296,20 @@ namespace IngameScript
                 LiftRatio = lift / (ctrl.CalculateShipMass().PhysicalMass * gLen);
             }
 
+            /// <summary>Self-test: every one of the six push directions has a working thruster.</summary>
+            public bool ThrustOnAllAxes()
+            {
+                if (_grid.Version != _groupedVersion) RegroupThrusters();
+                for (int g = 0; g < _groups.Length; g++)
+                {
+                    bool any = false;
+                    for (int i = 0; i < _groups[g].Count && !any; i++)
+                        any = _groups[g][i].IsFunctional;
+                    if (!any) return false;
+                }
+                return true;
+            }
+
             double AxisLift(double component, int positive, int negative)
             {
                 double c = Math.Abs(component);

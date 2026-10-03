@@ -9,7 +9,7 @@ This repository contains a modular C# Ingame Script for Space Engineers, built u
 * **To Deploy:** Click `Deploy MDK Script` in the Visual Studio extensions menu. This minifies the multi-file project, resolves `using` statements, and outputs a single `readme.txt` and `script.cs` to `%AppData%\SpaceEngineers\IngameScripts\local\`.
 
 ## Architectural Rules & Guardrails
-1. **Component-Based:** Logic is split into modules (`GridManager`, `CommsOfficer`, `HelmController`, `BrainFSM`) that implement the `ISubsystem` interface.
+1. **Component-Based:** Logic is split into modules (`GridManager`, `CommsOfficer`, `HelmController`, `BrainFSM`, `Display`) that implement the `ISubsystem` interface.
 2. **Frequency Throttling:**
    * High-frequency math/physics runs on `Update10` (every 10 ticks).
    * Low-frequency network/UI runs on `Update100` (every 100 ticks).
@@ -20,6 +20,8 @@ This repository contains a modular C# Ingame Script for Space Engineers, built u
    * `new Vector3D(...)` / `MatrixD` values are structs (stack), which is fine.
    * `StringBuilder.Append(int/double)` allocates a string internally. Use the `Fmt` helpers in `Program.cs`.
    * Use `IMyTextSurface.WriteText(StringBuilder)` for UI, not `Echo(sb.ToString())`.
+   * Sprites need real strings: use literals, cached strings (callsigns, HUD labels built in `Initialize`) or `Fmt.Str` (cached 0..999).
+   * Log entries (`Logbook.Add`) store references only; pass literals or existing strings, never built ones.
 4. **Grid Scoping:** Always filter block queries with `b => b.CubeGrid == Me.CubeGrid` to avoid hijacking docked ships.
    * Sole exception: a docked drone unloading cargo queries the carrier's containers, reached only via `Connector.OtherConnector.CubeGrid` (`GridManager.Unload`).
 5. **Moving Docking:** Docking and flight approaches must rely on relative matrix transformations (`Vector3D.TransformNormal` and `WorldMatrix`), not static GPS coordinates.
@@ -28,12 +30,18 @@ This repository contains a modular C# Ingame Script for Space Engineers, built u
 * **Banned Namespaces:** `System.Threading`, `System.IO`, `System.Reflection`, `System.Net`.
 * **LINQ:** Avoid LINQ in high-frequency loops (causes overhead and garbage collection).
 * **Language level:** Stick to C# 6 (no tuples, `out var`, pattern matching, or local functions).
+* **Packing drops `using` directives.** Only the game's default imports survive, and `System.Globalization` is not one of them: write `System.Globalization.CultureInfo` in full.
+* **Size:** the packed script must stay under 100,000 characters (≈60k as of the fleet-features update).
 * **State Preservation:** Volatile state (home vectors, current FSM state) must be serialized to the `Storage` string in the `Save()` method and parsed in the `Program()` constructor to survive world reloads.
 
 ## File Structure
-* `Program.cs` - The kernel. Initializes modules and routes ticks/IGC messages. Also holds `Config` (Custom Data) and `Fmt` (allocation-free number formatting).
+* `Program.cs` - The kernel. Initializes modules and routes ticks/IGC messages. Also holds `Config` (Custom Data, table-driven for the `set` command), `Ore` (ore catalogue), `Logbook` (comms log ring) and `Fmt` (allocation-free formatting).
 * `ISubsystem.cs` - The contract (`Initialize`, `Update10`, `Update100`, `HandleMessage`).
-* `GridManager.cs` - Block caching and terminal interactions.
-* `CommsOfficer.cs` - IGC mesh networking, payload serialization/deserialization.
-* `HelmController.cs` - Matrix math, gyro overrides, and thruster control.
-* `BrainFSM.cs` - Finite state machine dictating the drone's current objective.
+* `GridManager.cs` - Block caching and terminal interactions: telemetry, ore counts, integrity, threats, unloading, stone dump, screens, lights, HUD text, timer/sound hooks.
+* `CommsOfficer.cs` - IGC mesh networking (opcodes in `Op`), payload decoding, and the peer table.
+* `HelmController.cs` - Matrix math, gyro overrides, thruster control, Remote Control autopilot legs, lift measurement.
+* `SiteMap.cs` - A mining site: frame, spiral shaft layout, per-shaft status/yield, ore-aware shaft picking. Shared by drones and the carrier library.
+* `BrainFSM.cs` - Drone state machine: mining sessions, breadcrumbs, energy model, holding, launch requests, distress.
+* `BrainFSM.Carrier.cs` - Carrier flight control: pads, dock queue, launch sequencing, site library + map sync, deliveries.
+* `BrainFSM.Io.cs` - Commands, self-test, status text, persistence (`Storage` as MyIni).
+* `Display.cs` - Every screen: text pages (status, detail, log, stats) and sprite pages (gauges, site map, board).

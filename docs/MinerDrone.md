@@ -1,134 +1,203 @@
-# Building a FleetMiner mining drone
+# Building and flying a FleetMiner fleet
 
-This guide covers what the script expects from the drone's hull: which blocks, where they go, and how to tag them. Everything uses vanilla blocks. The script finds blocks by their in-game *type* (thruster, drill, camera…), not by model, so every size, skin and DLC variant of a block works the same way.
+This guide covers what the script expects from your ships (which blocks, where they go, how to tag them) and what the fleet does once it's flying. Everything uses vanilla blocks. The script finds blocks by their in-game *type* (thruster, drill, camera…), not by model, so every size, skin and DLC variant of a block works the same way.
 
 ## The mining cycle
 
 ```
-Docked ──(unloaded, charged, drills intact)──▶ Undocking ──▶ Transit ──▶ Working ─┐
-  ▲                                                          ▲   (next shaft)  │
-  │                                                          └─────────────────┤
-  └── FinalDock ◀── Approach ◀── RequestDock ◀──(hold full / low power / damaged / too heavy / 'return')
+Docked ──(unloaded, charged, repaired, launch clearance)──▶ Undocking ──▶ Transit ──▶ Working ─┐
+  ▲                                                                       ▲  (next shaft)  │
+  │                                                                       └────────────────┤
+  └── FinalDock ◀── Approach ◀── RequestDock ◀──(hold full / power / damage / heavy / MAYDAY / 'return')
+                    (retraces     (holds in a ring
+                     breadcrumbs)  if pads are full)
 ```
 
-1. **Docked:** batteries recharge and H2 tanks stockpile. The drone pushes its ore into the carrier's cargo. It launches once the hold is empty, power is back up and every drill works. A damaged drone waits, so welders around the dock repair it automatically.
+1. **Docked:**
+   - Batteries recharge and H2 stockpiles. The drone pushes its ore into the carrier's cargo and reports the delivery.
+   - When it's empty, charged and has working drills, it asks flight control for **launch clearance**. Drones leave one at a time, with a countdown.
+   - A damaged drone waits on the pad, so welders around the pad repair it.
 2. **Undocking:** backs straight off the connector, matching the carrier's velocity.
-3. **Transit:** flies to a *staging point* `ApproachDistance` in front of the current shaft, then slides square-on to the shaft entry. Legs longer than `AutopilotRange` use the Remote Control autopilot, which has vanilla collision avoidance.
+3. **Transit:**
+   - Flies to a *staging point* in front of the shaft, then slides square-on to the shaft entry.
+   - Drops **breadcrumbs** along the way and learns how much battery and H2 it burns per metre.
+   - Legs longer than `AutopilotRange` use the Remote Control autopilot, which has collision avoidance.
 4. **Working:** one shaft at a time.
-   - Glides at `ApproachSpeed` through open space and any hole it has already cut.
-   - Drills at `MineSpeed` from the rock face to `MineDepth` past it.
-   - Backs out along the shaft axis.
-   - Shafts spiral outward from the site origin (`MaxShafts` of them).
-   - If the drone goes home mid-shaft, it resumes the same shaft next trip.
-   - A shaft that finds no rock within `ScanRange`, or makes no progress for `StallTime`, is skipped.
-5. **RequestDock → Approach → FinalDock:** once clear of the face, the drone gets a dock slot. It then follows the carrier's streamed connector pose, even while the carrier is moving.
+   - Glides through open space and any hole already cut, then drills `MineDepth` past the rock face, then backs out.
+   - **What gets mined next follows the ore.** Every shaft records its yield. The next shaft is the untouched one whose neighbours yielded the most, weighted 5× for ores in `Prefer`. Barren rock and the asteroid's edge are avoided, and interrupted shafts are always finished first.
+   - A shaft is given up early in these cases:
+     - **Barren:** `BarrenDepth` m into rock with no ore at all.
+     - **No rock:** no rock within `ScanRange`.
+     - **Blocked:** no progress for `StallTime`.
+5. **RequestDock → Approach → FinalDock:**
+   - If every pad is taken, the drone holds in a ring around the carrier, spaced out by its place in the queue.
+   - Once a pad is assigned, it retraces its outbound breadcrumbs (skipping any that no longer lead toward the carrier). It then docks by following the carrier's streamed connector pose, even while the carrier moves.
 
-## Required blocks
+### When it goes home
 
-| Block | Count | Notes |
-|---|---|---|
-| Programmable Block | 1 | Runs the script. Its own screen shows status. |
-| **Remote Control** | 1 | **The reference block.** Its *forward* must point the way the drills cut, and its *up* is "up" while mining. Tag another controller `[FM Ref]` to use it instead, but autopilot needs a Remote Control. |
-| Gyroscopes | 1+ | Any orientation. |
-| Thrusters | all 6 directions | Any type mix (ion/atmo/hydrogen, any size or skin). Forward and backward thrust need to be strong enough for precise moves in and out of the shaft. |
-| Connector | 1 | Tag `[FM Dock]` if there is more than one. Put it anywhere *except* the drill face. Rear or belly works well. Docking math is relative, so any position works. |
-| Drills | 1+ | All facing Remote Control forward. A flat, compact bank cuts the cleanest shafts. |
-| Batteries and/or H2 tanks | 1+ | Return thresholds: `ReturnCharge`, `ReturnHydrogen`. |
-| Cargo containers | optional | Drills have inventory, but more cargo means fewer trips. |
-| **Antenna** | 1 | Radio (or laser). Without one, the drone can't hear the carrier once undocked. |
+| Reason | Trigger |
+|---|---|
+| Hold full | Cargo ≥ `CargoFull` |
+| Power | Battery (or H2) below what it takes to get home: learned burn per metre × distance × `EnergyMargin`, plus `ReserveCharge`. Before the drone has learned its burn rate, `ReturnCharge` / `ReturnHydrogen` are used instead. |
+| Too heavy | In gravity, lift drops below `MinLift`. If it can't lift even when empty, the cycle stops. |
+| Drill damaged | It waits on the pad until repaired. |
+| **MAYDAY** | Hull integrity drops by more than `DamageTolerance` since launch, *or* a turret, turret controller or `[FM Sensor]` sensor sees something. The drone broadcasts a distress call. The carrier logs it, fires `[FM Distress]` hooks and, with `RecallOnDistress`, recalls the whole fleet. |
 
-## Recommended blocks (what makes it "feature complete")
+## Drone: required blocks
 
-### Forward camera — `[FM Cam]`
-- **Placement:** facing Remote Control forward, flush with the drill face, with a clear view ahead. Next to the drill bank is ideal.
-- **What it does:**
-  - `setsite` raycasts the rock and moves the site plane to `SiteStandoff` m in front of the face. You can aim from 50–100 m away.
-  - Each shaft is scanned first, so the drone glides fast to the face instead of creeping through open space.
-- **Without a camera:** the drone detects contact when cargo starts rising, which works but is slower. If the camera isn't tagged, any camera facing forward is used.
+| Block | Notes |
+|---|---|
+| Programmable Block | Runs the script. Its screen shows status, or the detail page after `status` / `selftest`. |
+| **Remote Control** | **The reference block.** Its *forward* is the drill direction and its *up* is "up" while mining. It's needed for the autopilot. Tag another controller `[FM Ref]` to use that one instead. |
+| Gyroscopes | Any orientation. |
+| Thrusters, all 6 directions | Any type mix. The self-test checks all six directions. |
+| Connector `[FM Dock]` | Anywhere except the drill face. |
+| Drills | All facing Remote Control forward. |
+| Batteries and/or H2 tanks | Power for the trip and the return budget. |
+| **Antenna** (broadcasting) | Without one the drone can't hear flight control once undocked. |
 
-### Stone dump — `[FM Eject]` on a sorter and on an ejector (or connector)
-- **Setup:** conveyor sorter output → ejector. The script sets the sorter itself to whitelist Stone with *Drain All*.
-- **When it runs:** only while drilling, and only after the rock face has been found, so the contact signal is never masked. It's off while docked and in transit, so stone is never thrown at the carrier.
-- **Why:** the hold fills with ore, not gravel, and trips get much longer.
-- **To keep stone:** leave these blocks off the drone.
+## Drone: recommended blocks
 
-### Status screens — `[FM LCD]`
-Any LCD (any size or DLC variant) or block with screens (cockpit, console, button panel). The block's first screen is used.
+| Block / tag | What it adds |
+|---|---|
+| Camera `[FM Cam]`, facing forward | Finds the rock face, so the drone glides in fast. `setsite` works from 50–100 m away. |
+| Sorter + ejector `[FM Eject]` | Dumps stone while drilling, so only ore fills the hold. The sorter is set up automatically. |
+| Sensor `[FM Sensor]` | Threat detection. Set its detection filters yourself (e.g. enemies only). |
+| Turrets / turret controller | Anything they target counts as a threat. |
+| Lights `[FM Light]` | Colour by state. See *Signals*. |
+| Screens | See *Screens*. |
+| Timers / sound blocks | See *Hooks*. |
 
-### State timers — `[FM <State>]`
-A timer block whose name contains a state tag is triggered when the drone enters that state. Use them for anything the script doesn't do itself:
-- `[FM Working]`: turn on work lights or play a sound.
-- `[FM Docked]`: switch on welders or start a sorter on the carrier.
-- `[FM RequestDock]`: turn on beacon lights so you can see the drone coming home.
-- `[FM Idle]`: send an alarm.
+## Carrier
 
-Tags: `[FM Idle]` `[FM Docked]` `[FM Undocking]` `[FM Transit]` `[FM Working]` `[FM RequestDock]` `[FM Approach]` `[FM FinalDock]`.
-
-## Vanilla/DLC notes
-
-- **Variants are free:** thrusters, LCDs, cockpits, cargo and drills from any DLC are the same block *types* to the script. Use whatever looks right.
-- **Event Controllers:** these work well next to the script, e.g. for alarms, or to run the PB with `return` on a condition the script doesn't watch.
-- **AI / autopilot blocks:** keep AI flight or task blocks *off* on the drone. Like a second autopilot, they would fight the script's gyro and thruster overrides. The script only drives the Remote Control's autopilot itself, and only for the long, static outbound leg.
-- **Ore detector:** the in-game script API can't read ore positions, so the script doesn't use it. Fit one for your HUD or for antenna-broadcast ore markers if you want.
-- **Ice and hydrogen:** an O2/H2 generator on a hydrogen drone can top up its own tanks from ice it mines. Ice in cargo is still unloaded at the carrier.
-
-## Orientation checklist
-
-1. Remote Control forward = drill direction, and Remote Control up = the drone's "up". `setsite` copies this pose.
-2. Camera forward = Remote Control forward.
-3. Sorter arrow points into the ejector.
-4. Connector not on the drill face. Nothing protrudes ahead of the drill face except the drills.
-
-## Carrier side
-
-- Connectors tagged `[FM Dock]`: one per drone that may be home at the same time.
-- Cargo containers on the carrier grid. Tag the ones drones should fill `[FM Unload]`. If none are tagged, any container on the carrier grid is used.
+- Connectors `[FM Dock]`: one pad each. Lights named `[FM Pad 0]`, `[FM Pad 1]`, … show each pad's state.
+- Cargo containers, optionally tagged `[FM Unload]` to choose which ones drones fill.
 - Antenna, and a ship controller if the carrier moves.
-- Optional: welders around each dock, so damaged drones get repaired before relaunch.
+- Screens: `[FM Board]` is the flight-control board. `[FM Map]` or `[FM Map 2]` shows a site map. `[FM Log]` and `[FM Stats]` show the comms log and production.
+- Welders around the pads repair drones before relaunch.
 
-## Planet mining
+## Sharing a site between drones
 
-- `Lift xN` on the status display is the drone's thrust against gravity divided by its weight, in its current attitude.
-- If it drops below `MinLift` (1.25), the drone treats itself as full and heads home. That's before it gets too heavy to climb out of the shaft.
-- A drone that can't make `MinLift` even when empty stops its cycle and asks for more thrust.
-- Rule of thumb: build for at least 1.5× the full-cargo weight on whichever side faces "up" (per the Remote Control) while mining.
+1. Fly one drone to the rock, aim, and run `setsite 0`. The number (0–7) charts the site in the carrier's library.
+2. On the carrier, run `assign 0`. Every drone in range adopts site 0, and the carrier sends them its map.
+3. Alternatively, run `site 0` on a single drone to have just that one join.
+
+Drones broadcast every shaft they claim and finish, so they never drill the same shaft. If two drones pick the same shaft at the same moment, the one with the lower address keeps it and the other picks again. A plain `setsite` with no number makes a private site that isn't shared.
+
+## Screens
+
+Tag any LCD, or any block with a screen (cockpit, console…). The block's first screen is used.
+
+| Tag | Shows |
+|---|---|
+| `[FM LCD]` | Status text |
+| `[FM Gauges]` | Drone gauges: cargo, battery (with a marker for the charge needed to get home), H2, hull, lift, shaft progress |
+| `[FM Map]` / `[FM Map N]` | Shaft grid. Gold = rich, green = done (brighter is richer), orange = partial, blue = in progress, brown = barren, dark = no rock, red = blocked, white outline = current shaft. On the carrier, `N` picks the library site. |
+| `[FM Board]` | Carrier flight control: free pads, holding queue, launch countdown, and a row per drone (state, cargo and battery bars, ETA or distance, MAYDAY highlighted) |
+| `[FM Log]` | Comms log, e.g. `[12:04] MINER-2: hold full, RTB` |
+| `[FM Stats]` | Ore delivered by type, total, rate per hour, per-drone totals |
+
+## Signals: HUD, lights, hooks
+
+- **HUD:** antennas and beacons are renamed to `<callsign> | <state>`, e.g. `MINER-2 | MINING`, `MINER-2 | HOLDING`, `MINER-2 | MAYDAY`. Set `Callsign` in Custom Data; otherwise the grid name is used.
+- **Lights `[FM Light]`:**
+
+  | Situation | Colour |
+  |---|---|
+  | Docked | Green |
+  | Launching | Blinking cyan |
+  | En route | Cyan |
+  | Mining | White |
+  | Backing out of a shaft | Blinking amber |
+  | Returning / holding | Yellow (slow blink while holding) |
+  | Final docking | Blinking green |
+  | MAYDAY | Fast red strobe |
+
+- **Pad lights `[FM Pad N]` (carrier):**
+
+  | Pad | Colour |
+  |---|---|
+  | Free | Green |
+  | Drone inbound | Blinking green |
+  | Occupied | Blue |
+  | Reserved | Yellow |
+
+- **Hooks:** a timer is *triggered*, and a sound block *plays*, when its name contains:
+  - **State tags:** `[FM Idle]` `[FM Docked]` `[FM Undocking]` `[FM Transit]` `[FM Working]` `[FM RequestDock]` `[FM Approach]` `[FM FinalDock]`
+  - **Events:** `[FM Backout]` (leaving a shaft), `[FM Rich]` (rich vein found), `[FM Holding]` (pads full), `[FM Launch]` (launch clearance), `[FM Distress]` (MAYDAY; on the carrier too)
+
+  Pick the sound in the sound block itself. Timers can do anything else: doors, spotlights, alarms.
+
+## Commands
+
+| Drone | |
+|---|---|
+| `setsite` / `setsite N` | Record the site from the current pose (private, or charted as library site N) |
+| `site N` | Ask flight control for library site N |
+| `start` | Run the self-test, then begin the automatic cycle |
+| `return` | Back out of the shaft, fly home, dock; the cycle stops |
+| `stop` | Halt in place, dampeners on |
+| `skip` | Abandon the current shaft (marked blocked) |
+| `goto N` | Mine shaft N next (the current one stays resumable) |
+| `resetsite` | Forget the shaft results; start the spiral again |
+| `forget` | Forget the home carrier |
+
+| Carrier | |
+|---|---|
+| `launch` / `recall` / `halt` | Fleet commands (launches are still sequenced) |
+| `assign N` | Send every drone to library site N |
+| `reset` | Clear pad reservations and queues |
+
+| Both | |
+|---|---|
+| `status` | Detail page on the PB screen for 30 s: self-test results, learned burn rates, site counts |
+| `selftest` | Check the build (controller, gyros, 6-direction thrust, lift, connector, drills, antenna, camera, stone-dump conveyor path, power, flight control). `start` refuses to run while anything fails. |
+| `set <Key> <value>` | Change any number or switch below live, e.g. `set MineDepth 50`, `set Autopilot off`. Written back to Custom Data on the next world save. |
+| `resetstats` | Zero the production counters |
 
 ## Custom Data reference (`[FleetMiner]`)
 
 | Key | Default | Meaning |
 |---|---|---|
+| `Role` / `Channel` / `Callsign` | Miner / FLEETMINER / *(grid name)* | Role, fleet channel, name on HUD and screens |
+| `Prefer` | Platinum,Uranium,Gold | Ores worth 5× when ranking shafts |
 | `CargoFull` / `CargoEmpty` | 0.90 / 0.02 | Return at / relaunch below this cargo fill |
 | `LaunchCharge` | 0.90 | Battery (and H2) needed to relaunch |
-| `ReturnCharge` / `ReturnHydrogen` | 0.25 / 0.20 | Head home below these |
-| `MaxSpeed` / `ApproachSpeed` / `DockSpeed` | 40 / 8 / 1.5 | m/s for long legs / near rock and carrier / last metres of docking |
-| `MineSpeed` | 1.0 | m/s while cutting |
-| `MineDepth` | 30 | m to drill past the rock face |
-| `ShaftSpacing` | 0 | m between shafts. 0 = measured from the drill bank (with 10% overlap) |
-| `MaxShafts` | 25 | Shafts per site (25 = 5×5). 0 = unlimited |
-| `SiteStandoff` | 10 | m in front of the face for the site plane (camera `setsite`) |
-| `FaceMargin` | 2 | m before the scanned face where the glide stops |
-| `ScanRange` | 100 | m of camera range; also how far an empty shaft goes before it is skipped |
-| `StallTime` | 20 | s without progress before a shaft is skipped |
-| `MinLift` | 1.25 | Lift ratio that triggers return in gravity |
-| `Autopilot` / `AutopilotRange` | true / 300 | Use the Remote Control autopilot for outbound legs longer than this |
-| `Unload` | true | Push cargo into the carrier when docked |
-| `CamTag` / `EjectTag` / `UnloadTag` | `[FM Cam]` / `[FM Eject]` / `[FM Unload]` | Name tags |
+| `ReturnCharge` / `ReturnHydrogen` | 0.25 / 0.20 | Return thresholds until the burn rate is learned |
+| `ReserveCharge` / `EnergyMargin` | 0.10 / 1.5 | Learned budget: reserve kept + safety factor on the trip home |
+| `MaxSpeed` / `ApproachSpeed` / `DockSpeed` | 40 / 8 / 1.5 | m/s: long legs / near rock and carrier / last metres of docking |
+| `Decel` | 4 | m/s² of braking the helm plans with |
+| `ApproachDistance` / `DockGap` | 40 / 1.5 | Staging distance (site and dock) / connector gap on final approach |
+| `MineSpeed` / `MineDepth` | 1.0 / 30 | m/s while cutting / m to drill past the face |
+| `ShaftSpacing` / `MaxShafts` | 0 / 25 | 0 = measured from the drill bank / shafts per site (max 121) |
+| `SiteStandoff` / `FaceMargin` / `ScanRange` | 10 / 2 / 100 | Site plane in front of the face / glide stop before it / camera range and empty-shaft limit |
+| `StallTime` / `BarrenDepth` | 20 / 10 | s without progress / m of ore-free rock before giving a shaft up |
+| `ClaimTimeout` | 900 | s before another drone's unfinished claim can be taken over |
+| `MinLift` | 1.25 | Lift ratio that triggers a return in gravity |
+| `Autopilot` / `AutopilotRange` | on / 300 | Remote Control autopilot for outbound legs longer than this |
+| `CrumbSpacing` | 100 | m between breadcrumbs (spacing doubles if a trip runs out of slots) |
+| `HoldDistance` | 150 | m from the carrier for the holding ring (+30 m per queue place) |
+| `LaunchInterval` / `LaunchCountdown` | 10 / 5 | s between launches / countdown before each one |
+| `DamageTolerance` / `RecallOnDistress` | 0.03 / on | Hull loss that triggers MAYDAY / carrier recalls the fleet on a MAYDAY |
+| `Unload` | on | Push cargo into the carrier when docked |
+| `BeaconTimeout` / `DockTimeout` | 5 / 60 | s without a dock beacon / s allowed for final docking |
+| `DockTag` `LcdTag` `RefTag` `CamTag` `EjectTag` `UnloadTag` `SensorTag` | `[FM …]` | Name tags |
 
 ## First test (creative mode)
 
-1. Build the drone docked to a carrier (or station) running `Role=Carrier`.
-2. Undock by hand and fly 50–100 m from an asteroid. Aim the Remote Control at the face and run `setsite`. The status should say *Site set in front of the rock face*.
-3. Dock again, then run `start`. Watch `Shaft n/25`, `seeking face` / `cut x/30 m`, `Cargo %`.
-4. Things to check:
-   - Transit arrives square-on.
-   - Stone ejects only while cutting.
-   - The drone backs fully out before turning for home.
-   - Ore lands in the carrier.
-   - It relaunches once empty.
-5. `return` mid-shaft should back out first. `skip` should move to the next shaft.
+1. Build a carrier (`Role=Carrier`) with two pads, `[FM Board]` and `[FM Log]` screens, and pad lights. Build two drones and dock them.
+2. On each drone, run `selftest` and fix anything marked FAIL. WARN is fine to start with.
+3. Undock one drone and aim it at an asteroid 50–100 m away. Run `setsite 0`, then dock it again.
+4. On the carrier, run `assign 0` and then `launch`. The drones should leave one at a time with a countdown, then split the shafts between them.
+5. Watch these:
+   - `[FM Map]` fills in.
+   - The log reports deliveries.
+   - Holding works: give the carrier one pad for two drones.
+   - MAYDAY works: grind a block off a drone mid-flight.
 
 ## Known limits
 
-- The site plane must be open space. The drone moves sideways along it between shafts.
-- The flight home from the site to the carrier is a straight line.
-- Several miners on one site would each mine the same spiral. Assigning shafts across the fleet is a carrier feature for later.
+- The site plane must be open space. Drones move sideways along it between shafts.
+- Breadcrumbs cover the outbound path from the carrier's position *at launch*. If the carrier has moved far since then, the drone flies straight once no crumb leads closer.
+- The production rate counts time since the script started plus saved time. It's reset with `resetstats`.
+- Saved state from earlier versions of this script is discarded once on upgrade: run `setsite` again.

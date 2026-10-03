@@ -38,6 +38,10 @@
     <Compile Include="CommsOfficer.cs" />
     <Compile Include="HelmController.cs" />
     <Compile Include="BrainFSM.cs" />
+    <Compile Include="BrainFSM.Carrier.cs" />
+    <Compile Include="BrainFSM.Io.cs" />
+    <Compile Include="SiteMap.cs" />
+    <Compile Include="Display.cs" />
   </ItemGroup>
   <ItemGroup>
     <AdditionalFiles Include="Instructions.readme" />
