@@ -30,6 +30,7 @@ namespace IngameScript
             public const int Distress = 16;     // drone -> all   Arg=Distress.* B=pos C=threat pos D=threat vel
             public const int Ack = 17;          // -> sender      Arg=sequence number being acknowledged
             public const int HaulerOffer = 18;  // hauler -> miners  Arg=site A=(free bays, fill, 0) B=pos
+            public const int ChartOrder = 19;   // carrier -> miner  Arg=site A=target (GPS): fly there, aim, chart it
         }
 
         /// <summary>Arguments for Op.FleetCommand.</summary>

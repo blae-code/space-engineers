@@ -134,8 +134,9 @@ namespace IngameScript
             public double BeaconTimeout = 5, DockTimeout = 60;
             public double AntennaMax = 50000, MinAltitude = 50, FleeDistance = 1500, FleeTime = 30;
             public double Separation = 25, LinkTimeout = 60;
+            public double LaserRange = 0, LaserRadius = 0, LaserSpeed = 2;   // lasers: 0 = auto by mod and grid size
             public bool Autopilot = true, Unload = true, RecallOnDistress = true;
-            public bool AntennaAuto = true, ConfigureSensors = true, Survey = true;
+            public bool AntennaAuto = true, ConfigureSensors = true, Survey = true, KeepStone;
 
             public static readonly string[] Keys =
             {
@@ -146,10 +147,10 @@ namespace IngameScript
                 "StallTime", "BarrenDepth", "ClaimTimeout", "MinLift", "AutopilotRange",
                 "CrumbSpacing", "HoldDistance", "LaunchInterval", "LaunchCountdown", "DamageTolerance",
                 "BeaconTimeout", "DockTimeout", "AntennaMax", "MinAltitude", "FleeDistance",
-                "FleeTime", "Separation", "LinkTimeout",
-                "Autopilot", "Unload", "RecallOnDistress", "AntennaAuto", "ConfigureSensors", "Survey"
+                "FleeTime", "Separation", "LinkTimeout", "LaserRange", "LaserRadius", "LaserSpeed",
+                "Autopilot", "Unload", "RecallOnDistress", "AntennaAuto", "ConfigureSensors", "Survey", "KeepStone"
             };
-            const int FirstBool = 38; // Keys from this index on are booleans (stored as 0/1)
+            const int FirstBool = 41; // Keys from this index on are booleans (stored as 0/1)
 
             public double Get(int i)
             {
@@ -193,12 +194,16 @@ namespace IngameScript
                     case 35: return FleeTime;
                     case 36: return Separation;
                     case 37: return LinkTimeout;
-                    case 38: return Autopilot ? 1 : 0;
-                    case 39: return Unload ? 1 : 0;
-                    case 40: return RecallOnDistress ? 1 : 0;
-                    case 41: return AntennaAuto ? 1 : 0;
-                    case 42: return ConfigureSensors ? 1 : 0;
-                    case 43: return Survey ? 1 : 0;
+                    case 38: return LaserRange;
+                    case 39: return LaserRadius;
+                    case 40: return LaserSpeed;
+                    case 41: return Autopilot ? 1 : 0;
+                    case 42: return Unload ? 1 : 0;
+                    case 43: return RecallOnDistress ? 1 : 0;
+                    case 44: return AntennaAuto ? 1 : 0;
+                    case 45: return ConfigureSensors ? 1 : 0;
+                    case 46: return Survey ? 1 : 0;
+                    case 47: return KeepStone ? 1 : 0;
                 }
                 return 0;
             }
@@ -245,12 +250,16 @@ namespace IngameScript
                     case 35: FleeTime = v; break;
                     case 36: Separation = v; break;
                     case 37: LinkTimeout = v; break;
-                    case 38: Autopilot = v != 0; break;
-                    case 39: Unload = v != 0; break;
-                    case 40: RecallOnDistress = v != 0; break;
-                    case 41: AntennaAuto = v != 0; break;
-                    case 42: ConfigureSensors = v != 0; break;
-                    case 43: Survey = v != 0; break;
+                    case 38: LaserRange = v; break;
+                    case 39: LaserRadius = v; break;
+                    case 40: LaserSpeed = v; break;
+                    case 41: Autopilot = v != 0; break;
+                    case 42: Unload = v != 0; break;
+                    case 43: RecallOnDistress = v != 0; break;
+                    case 44: AntennaAuto = v != 0; break;
+                    case 45: ConfigureSensors = v != 0; break;
+                    case 46: Survey = v != 0; break;
+                    case 47: KeepStone = v != 0; break;
                 }
             }
 

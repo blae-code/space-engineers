@@ -87,7 +87,9 @@ namespace IngameScript
                 var ctrl = _grid.Controller;
                 Vector3D pos = ctrl != null ? ctrl.GetPosition() : _p.Me.GetPosition();
                 Vector3D vel = ctrl != null ? ctrl.GetShipVelocities().LinearVelocity : Vector3D.Zero;
-                var summary = new Vector3D(_grid.CargoFill, 1, CountBelow());
+                // A.Y carries our Defense Shields charge (0-1, -1 without a shield) for drones' safe harbour.
+                double shield = _grid.ShieldPercent >= 0 ? _grid.ShieldPercent / 100 : -1;
+                var summary = new Vector3D(_grid.CargoFill, shield, CountBelow());
                 var site = new Vector3D(MapSite, -1, 0);
                 if (!IsMothership) _comms.Broadcast(Op.Status, (int)FleetState.Carrier, summary, pos, site, vel);
                 _comms.Broadcast(Op.Status, (int)State, summary, pos, site, vel, true);

@@ -67,6 +67,48 @@ Docked ──(unloaded, charged, repaired, launch clearance)──▶ Undocking 
 | **Link lost** | Home carrier unreachable for `LinkTimeout`, and no other carrier to re-home to. It flies to where the carrier was last heard and waits there in antenna range. |
 | **MAYDAY** | Hull loss beyond `DamageTolerance`, or a turret, turret controller or `[FM Sensor]` sees an enemy. If the threat's position is known, it evades first (see below). |
 
+## Mining lasers
+
+A miner with forward-facing mining lasers (instead of, or as well as, drills) **bores shafts from outside**:
+- It hovers just short of the rock face on each shaft's axis and fires down it, never flying into the hole.
+- It stops when the shaft is `MineDepth` past the face, or as deep as the beam reaches, whichever is less.
+- Shaft spacing comes from the beam's diameter.
+- Everything else (survey, ore-aware choice, barren/empty detection, partial resume, hand-offs) works as with drills.
+
+Two laser mods are supported, detected automatically:
+
+| | Adjustable Mining Laser | ToolCore tools (e.g. Simple Laser Multitools) |
+|---|---|---|
+| Depth | Exact: the laser reports its contact distance, and the script sets the beam's range so it stops at the shaft bottom | From the camera when it can see down the hole, else time × `LaserSpeed` |
+| Range / radius | Radius read from the block; range defaults to the mod's 60 m / 20 m maximum (`LaserRange` to change) | `LaserRange` / `LaserRadius`, default 300 m × 2.5 m (large) or 100 m × 1.5 m (small) |
+| Stone | `KeepStone=false` (default) sets the laser's own *Ignore Stone* | Use the `[FM Eject]` stone dump |
+| Safety | — | **Switched to Drill mode and read back before every shot.** A ToolCore beam in Grind mode would cut through ships, so the script refuses to fire if the mode doesn't read *Drill*. |
+
+**Beam safety:**
+- With a forward camera, the script checks the beam path every ~0.2 s and holds fire while anything other than rock (a ship, a person) is in it.
+- A ToolCore beam in Drill mode doesn't harm ships, but it does hurt people.
+- Fit a camera next to the laser. The self-test warns if there isn't one.
+
+**Never put ToolCore laser *turrets* on drones or near the pads.** They auto-target anything they can weld or grind.
+
+## Charting sites from GPS
+
+```
+chart 2 GPS:Cobalt node:12345.6:-2345.1:98765.4:#FF75C9F1:
+```
+
+The GPS can be pasted straight from your GPS list.
+- **On a miner:** it charts the site itself.
+- **On a carrier:** the nearest docked or idle miner is sent.
+
+What the miner does:
+1. Flies to the target.
+2. Finds the rock with its camera: the near face of an asteroid, or the ground on a planet, where it points straight down.
+3. Stops `SiteStandoff` short of the rock.
+4. Records library site N and starts mining it.
+
+Other drones join with `assign N`. This pairs well with **Seismic Surveying** (planet ore nodes) and **Radio Spectrometry** (asteroid composition): read their screens, copy a GPS, and send a drone.
+
 ## Communication
 
 | | |
@@ -161,11 +203,13 @@ A timer triggers, and a sound block plays, when its name contains one of these t
 | `site N` | Join carrier library site N |
 | `start` / `return` / `stop` | Self-test then run the cycle / come home / halt. Shuttle haulers need no site. |
 | `skip` / `goto N` / `resetsite` / `forget` | Shaft and home management |
+| `chart N GPS:…` | Fly to the GPS, find the rock, chart it as library site N, mine it |
 
 | Carrier / mothership | |
 |---|---|
 | `launch` / `recall` / `halt` | Fleet orders (from the mothership they go to every carrier, which passes them on) |
 | `assign N` | Send everyone below to library site N, with its map |
+| `chart N GPS:…` | Carrier: send the nearest docked/idle miner to chart a GPS target as site N |
 | `reset` | Clear pad reservations and queues |
 
 | Any | |
@@ -205,6 +249,9 @@ A timer triggers, and a sound block plays, when its name contains one of these t
 | `AntennaAuto` / `AntennaMax` | on / 50000 | Antenna range management |
 | `ConfigureSensors` / `Survey` | on / on | Enemy-only sensor setup / camera site survey |
 | `Unload` | on | Push cargo into the pad server's containers when docked |
+| `LaserRange` / `LaserRadius` | 0 / 0 | Mining lasers: 0 = auto (see *Mining lasers*) |
+| `LaserSpeed` | 2 | m/s a ToolCore laser cuts, for depth when the camera can't see down the hole |
+| `KeepStone` | off | Adjustable Mining Laser: keep stone instead of its *Ignore Stone* |
 | `BeaconTimeout` / `DockTimeout` | 5 / 60 | Docking timeouts |
 
 ## First test (creative mode)
@@ -224,6 +271,24 @@ A timer triggers, and a sound block plays, when its name contains one of these t
    - Put an asteroid between a drone and its target: it should detour.
    - Spawn an enemy ship near a sensor-equipped drone: it should MAYDAY and evade.
 
+## Using with other mods and scripts
+
+| Mod / script | Effect | What to do |
+|---|---|---|
+| **Adjustable Mining Laser**, **ToolCore** + **Simple Laser Multitools** | Supported as mining lasers | See *Mining lasers*. Keep laser turrets off drones. |
+| **WeaponCore** | Replaces vanilla turrets, so vanilla "has a target" goes quiet | Supported: threats come from WeaponCore's script API automatically (the status page says "WeaponCore threat feed active") |
+| **Defense Shields** | Shields on drones and bases | Supported: a drone's shield dropping 25 points since launch is a MAYDAY. If the home carrier's shield is up, a drone under attack heads for it (safe harbour). Bases report shield % (the mothership's board shows it as each carrier's second bar). |
+| **Seismic Surveying**, **Radio Spectrometry** | Ore readings on special LCD screens that scripts can't read | Copy a GPS from their results and use `chart`. The thumper is a landing gear: build it on a survey ship, not a drone. |
+| **Spug's Easy Auto-Docking 2** | Its own docking script | Never on fleet drones (two scripts would fight over the gyros). On ships you fly, fine. Tag drone pads `[FM Dock]` and leave your own docking connectors untagged. |
+| **Isy's Inventory Manager** | Sorts cargo, feeds refineries | Add `[FM Unload]` to the names of its ore containers so shuttles find ore. Keep it from stuffing docked drones (its exclusion keywords). Decide whether carrier refineries or the mothership get the ore. |
+| **Isy's Solar Alignment** | Turns panels or whole ships | Rotor mode only on bases with docking traffic (gyro mode rotates the pads). Keep `[FM Light]` / `[FM Pad N]` lights out of its light control. |
+| **Isy's Block Renaming** | Bulk renames | Great for adding `[FM …]` tags. "Restore default names" strips them, and its custom-data delete would wipe a drone's settings. |
+| **Isy's Docked Ships Info**, **Connector Alignment App**, **LandingComputer** | LCD displays | Don't also give those LCDs an `[FM …]` tag. A Connector Alignment screen next to each pad is a nice way to watch drones dock. |
+| **Definition Extension API**, **Rich HUD Master**, **Text HUD API**, **Visual Overrides API**, **ModAdjusterV2** | Libraries | No effect. If an adjustment changes the laser tools' range or radius, set `LaserRange` / `LaserRadius` to match. |
+| **Build Vision**, **BuildInfo**, **Leak Finder**, **Automatic Ore Pickup** | Player tools (ore pickup only affects hand drills now) | No effect |
+
+Every script needs its own programmable block. The fleet script owns its block's `[FleetMiner]` Custom Data section and leaves other sections alone.
+
 ## Known limits
 
 - The site plane must be open space. Drones move sideways along it between shafts.
@@ -232,3 +297,5 @@ A timer triggers, and a sound block plays, when its name contains one of these t
 - A shuttle hauler waits for the mothership's pad assignment before it starts flying, so the mothership must be reachable over IGC (antennas or relays in between).
 - Antenna auto-range can break drone-to-drone relay chains. Turn off `AntennaAuto` if you rely on them.
 - Saved state from earlier versions of this script is discarded once on upgrade: run `setsite` again.
+- ToolCore lasers can't report how deep they've cut. Without a camera that can see down the hole, depth is estimated from time × `LaserSpeed`.
+- Landing gears on drones are unlocked at launch and auto-lock is turned off, so a drone never grabs the rock it is cutting.

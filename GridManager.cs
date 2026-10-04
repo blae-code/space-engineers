@@ -1,4 +1,5 @@
 using Sandbox.ModAPI.Ingame;
+using Sandbox.ModAPI.Interfaces;
 using SpaceEngineers.Game.ModAPI.Ingame;
 using System;
 using System.Collections.Generic;
@@ -81,6 +82,27 @@ namespace IngameScript
             readonly List<IMyDefensiveCombatBlock> _fleeBlocks = new List<IMyDefensiveCombatBlock>(2);
             readonly List<IMySearchlight> _searchlights = new List<IMySearchlight>(4);
             readonly List<IMyInventory> _holds = new List<IMyInventory>(32);
+            readonly List<IMyLandingGear> _gears = new List<IMyLandingGear>(8);
+
+            // ---- Mod integrations: found at run time by terminal property name, all optional ----
+            // Adjustable Mining Laser (welder-based) and ToolCore tools such as Simple Laser
+            // Multitools (sorter-based). Only lasers facing the reference forward are used.
+            const string AldFire = "AdjustableLaserDrill.ContinuousFire", AldStone = "AdjustableLaserDrill.IgnoreStone";
+            const string AldContact = "AdjustableLaserDrill.LastContactDistance", AldBlocked = "AdjustableLaserDrill.InventoryBlocked";
+            const string AldNoPower = "AdjustableLaserDrill.InsufficientPower";
+            const string TcShoot = "ToolCore_Shoot", TcMode = "ToolCore_Mode";
+            const long TcDrill = 4; // ToolComp.ToolMode.Drill
+            readonly List<IMyTerminalBlock> _toolBlocks = new List<IMyTerminalBlock>(16);
+            public readonly List<IMyTerminalBlock> Lasers = new List<IMyTerminalBlock>(8);
+            ITerminalProperty<bool> _fireProp, _blockedProp, _noPowerProp;
+            ITerminalProperty<float> _rangeProp, _radiusProp, _contactProp;
+            ITerminalProperty<long> _modeProp;
+            // WeaponCore threat list and Defense Shields status (programmable block APIs).
+            Action<IMyTerminalBlock, IDictionary<MyDetectedEntityInfo, float>> _wcThreats;
+            readonly Dictionary<MyDetectedEntityInfo, float> _threats = new Dictionary<MyDetectedEntityInfo, float>(16);
+            Func<IMyEntity, IMyTerminalBlock> _dsShieldBlock;
+            Func<IMyTerminalBlock, float> _dsPercent;
+            IMyTerminalBlock _shield;
 
             // Stone dumping: sorters whitelist stone and drain it into the ejectors.
             readonly List<MyInventoryItemFilter> _stoneFilter = new List<MyInventoryItemFilter>(1);
@@ -138,6 +160,20 @@ namespace IngameScript
             /// cutting face sits ahead of the reference, and the width/height it cuts.
             /// </summary>
             public double DrillReach { get; private set; }
+
+            public bool HasLasers { get { return Lasers.Count > 0; } }
+            /// <summary>ToolCore lasers: no contact readout, range/radius come from config.</summary>
+            public bool LasersToolCore { get; private set; }
+            /// <summary>How far the laser emitters sit ahead of the reference block, along its forward.</summary>
+            public double LaserForward { get; private set; }
+            public double LaserRadius { get; private set; }
+            public double LaserRange { get; private set; }
+            /// <summary>False when a ToolCore tool could not be confirmed in Drill mode (never fired then).</summary>
+            public bool LaserModeOk { get; private set; } = true;
+            public bool WeaponCore { get { return _wcThreats != null; } }
+            /// <summary>Our Defense Shields charge, 0-100, or -1 without a shield.</summary>
+            public double ShieldPercent { get; private set; } = -1;
+            public bool GearLocked { get; private set; }
             public double DrillWidth { get; private set; }
             public double DrillHeight { get; private set; }
 
@@ -288,6 +324,12 @@ namespace IngameScript
                 }
 
                 FindScreens();
+                FindLasers();
+                LinkModApis();
+                gts.GetBlocksOfType<IMyLandingGear>(_gears, _onThisGrid);
+                if (!_cfg.IsBase)
+                    for (int i = 0; i < _gears.Count; i++)
+                        _gears[i].AutoLock = false; // a drone must never grab the rock it is cutting
                 MeasureDrills();
                 Problem = Diagnose();
                 Warning = Advise();
@@ -512,7 +554,7 @@ namespace IngameScript
                 if (Gyros.Count == 0) return "No gyroscopes";
                 if (Thrusters.Count == 0) return "No thrusters";
                 if (Connector == null) return "No connector";
-                if (_cfg.Role == FleetRole.Miner && Drills.Count == 0) return "No drills";
+                if (_cfg.Role == FleetRole.Miner && Drills.Count == 0 && Lasers.Count == 0) return "No drills or lasers";
                 return null;
             }
 
@@ -607,7 +649,22 @@ namespace IngameScript
                         Nearer(ref found, _detected[k]);
                     }
                 }
+                if (_wcThreats != null)
+                {
+                    _threats.Clear();
+                    _wcThreats(_p.Me, _threats);
+                    foreach (var kv in _threats)
+                    {
+                        threat = true;
+                        Nearer(ref found, kv.Key);
+                    }
+                }
                 ThreatDetected = threat;
+                ShieldPercent = _shield != null && !_shield.Closed && _dsPercent != null ? _dsPercent(_shield) : -1;
+                bool locked = false;
+                for (int i = 0; i < _gears.Count && !locked; i++)
+                    locked = _gears[i].IsLocked;
+                GearLocked = locked;
                 ThreatLocated = !found.IsEmpty();
                 ThreatPos = ThreatLocated ? found.Position : Vector3D.Zero;
                 ThreatVel = ThreatLocated ? (Vector3D)found.Velocity : Vector3D.Zero;
@@ -630,14 +687,22 @@ namespace IngameScript
             /// </summary>
             public bool RaycastAt(Vector3D target, bool voxelOnly, out bool hit, out Vector3D point)
             {
-                hit = false;
+                bool voxel;
+                bool done = RaycastAt(target, out hit, out voxel, out point);
+                if (voxelOnly && !voxel) hit = false;
+                return done;
+            }
+
+            /// <summary>As above, reporting whether the hit was rock (voxel) or something else (ship, person).</summary>
+            public bool RaycastAt(Vector3D target, out bool hit, out bool voxel, out Vector3D point)
+            {
+                hit = voxel = false;
                 point = Vector3D.Zero;
                 var cam = Camera;
                 if (cam == null || !cam.IsWorking || !cam.CanScan(target)) return false;
                 MyDetectedEntityInfo info = cam.Raycast(target);
                 if (info.IsEmpty() || !info.HitPosition.HasValue) return true;
-                bool voxel = info.Type == MyDetectedEntityType.Asteroid || info.Type == MyDetectedEntityType.Planet;
-                if (voxelOnly && !voxel) return true;
+                voxel = info.Type == MyDetectedEntityType.Asteroid || info.Type == MyDetectedEntityType.Planet;
                 hit = true;
                 point = info.HitPosition.Value;
                 return true;
@@ -757,6 +822,169 @@ namespace IngameScript
                     var s = _sounds[i];
                     if (!s.Closed && s.IsWorking && s.CustomName.Contains(tag)) s.Play();
                 }
+            }
+
+            // ---------------- Mod integrations ----------------
+
+            /// <summary>Forward-facing lasers of one kind (Adjustable Mining Laser preferred over ToolCore).</summary>
+            void FindLasers()
+            {
+                Lasers.Clear();
+                if (Controller == null || _cfg.Role != FleetRole.Miner) return;
+                _p.GridTerminalSystem.GetBlocksOfType<IMyTerminalBlock>(_toolBlocks, _onThisGrid);
+                bool large = _p.Me.CubeGrid.GridSizeEnum == MyCubeSize.Large;
+                MatrixD refM = Controller.WorldMatrix;
+                LaserForward = 0;
+                for (int pass = 0; pass < 2 && Lasers.Count == 0; pass++)
+                {
+                    string id = pass == 0 ? AldFire : TcShoot;
+                    for (int i = 0; i < _toolBlocks.Count; i++)
+                    {
+                        var b = _toolBlocks[i];
+                        if (!(b is IMyShipWelder || b is IMyConveyorSorter) || b.GetProperty(id) == null) continue;
+                        if (Vector3D.Dot(b.WorldMatrix.Forward, refM.Forward) < 0.98) continue;
+                        Lasers.Add(b);
+                        LaserForward = Math.Max(LaserForward, Vector3D.Dot(b.GetPosition() - refM.Translation, refM.Forward));
+                    }
+                }
+                if (Lasers.Count == 0) return;
+
+                var first = Lasers[0];
+                LasersToolCore = first.GetProperty(AldFire) == null;
+                if (LasersToolCore)
+                {
+                    _fireProp = first.GetProperty(TcShoot).As<bool>();
+                    var mode = first.GetProperty(TcMode);
+                    _modeProp = mode != null ? mode.As<long>() : null;
+                    _rangeProp = _radiusProp = _contactProp = null;
+                    _blockedProp = _noPowerProp = null;
+                    // Simple Laser Multitools: 300 m x 2.5 m (large), 100 m x 1.5 m (small).
+                    LaserRange = _cfg.LaserRange > 0 ? _cfg.LaserRange : large ? 300 : 100;
+                    LaserRadius = _cfg.LaserRadius > 0 ? _cfg.LaserRadius : large ? 2.5 : 1.5;
+                    return;
+                }
+
+                _fireProp = first.GetProperty(AldFire).As<bool>();
+                _modeProp = null;
+                _rangeProp = Prop<float>(first, large ? "AdjustableLaserDrill.RangeLarge" : "AdjustableLaserDrill.RangeSmall");
+                _radiusProp = Prop<float>(first, large ? "AdjustableLaserDrill.RadiusLarge" : "AdjustableLaserDrill.RadiusSmall");
+                _contactProp = Prop<float>(first, AldContact);
+                _blockedProp = Prop<bool>(first, AldBlocked);
+                _noPowerProp = Prop<bool>(first, AldNoPower);
+                // Mod defaults: max range 60 m (large) / 20 m (small). The terminal "radius" slider is a diameter.
+                LaserRange = _cfg.LaserRange > 0 ? _cfg.LaserRange : large ? 60 : 20;
+                LaserRadius = _cfg.LaserRadius > 0 ? _cfg.LaserRadius
+                    : _radiusProp != null ? _radiusProp.GetValue(first) * 0.5 : large ? 2.5 : 1.5;
+                var stone = first.GetProperty(AldStone);
+                if (stone != null)
+                    for (int i = 0; i < Lasers.Count; i++)
+                        stone.As<bool>().SetValue(Lasers[i], !_cfg.KeepStone);
+            }
+
+            static ITerminalProperty<T> Prop<T>(IMyTerminalBlock b, string id)
+            {
+                var p = b.GetProperty(id);
+                return p != null ? p.As<T>() : null;
+            }
+
+            /// <summary>
+            /// Fires or stops every laser. ToolCore tools are switched to Drill mode first and only
+            /// fire if the mode reads back as Drill: a grinding beam would cut through ships.
+            /// Returns whether the lasers are now firing.
+            /// </summary>
+            public bool SetLasers(bool on)
+            {
+                if (Lasers.Count == 0 || _fireProp == null) return false;
+                bool ok = true;
+                if (on && LasersToolCore)
+                    for (int i = 0; i < Lasers.Count; i++)
+                    {
+                        var l = Lasers[i];
+                        if (_modeProp == null) { ok = false; break; }
+                        if (_modeProp.GetValue(l) != TcDrill) _modeProp.SetValue(l, TcDrill);
+                        if (_modeProp.GetValue(l) != TcDrill) ok = false;
+                    }
+                LaserModeOk = ok;
+                bool fire = on && ok;
+                for (int i = 0; i < Lasers.Count; i++)
+                {
+                    var l = Lasers[i];
+                    if (fire && !((IMyFunctionalBlock)l).Enabled) ((IMyFunctionalBlock)l).Enabled = true;
+                    if (_fireProp.GetValue(l) != fire) _fireProp.SetValue(l, fire);
+                }
+                return fire;
+            }
+
+            /// <summary>Adjustable Mining Laser: beam length in metres (stops it at the shaft bottom).</summary>
+            public void SetLaserRange(double metres)
+            {
+                if (_rangeProp == null) return;
+                float r = (float)Math.Max(1, Math.Min(LaserRange, metres));
+                for (int i = 0; i < Lasers.Count; i++)
+                    if (Math.Abs(_rangeProp.GetValue(Lasers[i]) - r) > 0.5f) _rangeProp.SetValue(Lasers[i], r);
+            }
+
+            /// <summary>Distance from the emitter to the rock it is cutting, -1 when unknown (Adjustable Mining Laser).</summary>
+            public double LaserContact
+            {
+                get
+                {
+                    double best = -1;
+                    if (_contactProp == null) return best;
+                    for (int i = 0; i < Lasers.Count; i++)
+                    {
+                        double c = _contactProp.GetValue(Lasers[i]);
+                        if (c >= 0 && (best < 0 || c < best)) best = c;
+                    }
+                    return best;
+                }
+            }
+
+            /// <summary>Adjustable Mining Laser reports a full drill buffer or too little power.</summary>
+            public bool LaserBlocked
+            {
+                get
+                {
+                    for (int i = 0; i < Lasers.Count; i++)
+                        if ((_blockedProp != null && _blockedProp.GetValue(Lasers[i]))
+                            || (_noPowerProp != null && _noPowerProp.GetValue(Lasers[i]))) return true;
+                    return false;
+                }
+            }
+
+            /// <summary>
+            /// Links the WeaponCore and Defense Shields programmable block APIs when those mods are
+            /// loaded. Retried on every rescan, since mods may finish loading after the script.
+            /// </summary>
+            void LinkModApis()
+            {
+                Delegate d;
+                if (_wcThreats == null)
+                {
+                    var api = Api("WcPbAPI");
+                    if (api != null && api.TryGetValue("GetSortedThreats", out d))
+                        _wcThreats = d as Action<IMyTerminalBlock, IDictionary<MyDetectedEntityInfo, float>>;
+                }
+                if (_dsPercent == null)
+                {
+                    var api = Api("DefenseSystemsPbAPI");
+                    if (api != null && api.TryGetValue("GetShieldPercent", out d)) _dsPercent = d as Func<IMyTerminalBlock, float>;
+                    if (api != null && api.TryGetValue("GetShieldBlock", out d)) _dsShieldBlock = d as Func<IMyEntity, IMyTerminalBlock>;
+                }
+                if (_dsShieldBlock != null) _shield = _dsShieldBlock(_p.Me.CubeGrid);
+            }
+
+            IReadOnlyDictionary<string, Delegate> Api(string property)
+            {
+                var prop = _p.Me.GetProperty(property);
+                return prop != null ? prop.As<IReadOnlyDictionary<string, Delegate>>().GetValue(_p.Me) : null;
+            }
+
+            /// <summary>Drones: unlock every landing gear before flying (thumpers are landing gears too).</summary>
+            public void ReleaseGear()
+            {
+                for (int i = 0; i < _gears.Count; i++)
+                    if (_gears[i].IsLocked) _gears[i].Unlock();
             }
 
             public void SetDecoys(bool on)
@@ -935,6 +1163,20 @@ namespace IngameScript
                 sb.Append("  Hull ");
                 Fmt.Pct(sb, Integrity).Append('\n');
                 if (DrillsDamaged) sb.Append("!! Drill damaged\n");
+                if (HasLasers)
+                {
+                    sb.Append(LasersToolCore ? "ToolCore lasers " : "Mining lasers ");
+                    Fmt.Int(sb, Lasers.Count).Append("  r ");
+                    Fmt.Fixed(sb, LaserRadius, 1).Append(" m  range ");
+                    Fmt.Fixed(sb, LaserRange, 0).Append(" m\n");
+                    if (!LaserModeOk) sb.Append("!! Laser not in Drill mode: holding fire\n");
+                }
+                if (ShieldPercent >= 0)
+                {
+                    sb.Append("Shield ");
+                    Fmt.Fixed(sb, ShieldPercent, 0).Append("%\n");
+                }
+                if (GearLocked) sb.Append("! Landing gear locked\n");
             }
         }
     }

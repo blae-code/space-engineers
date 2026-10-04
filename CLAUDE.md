@@ -33,7 +33,8 @@ This repository contains a modular C# Ingame Script for Space Engineers, built u
 * **LINQ:** Avoid LINQ in high-frequency loops (causes overhead and garbage collection).
 * **Language level:** Stick to C# 6 (no tuples, `out var`, pattern matching, or local functions).
 * **Packing drops `using` directives.** Only the game's default imports survive, and `System.Globalization` is not one of them: write `System.Globalization.CultureInfo` in full.
-* **Size:** the packed script must stay under 100,000 characters (≈76k after the mothership/sensors update).
+* **Size:** the packed script must stay under 100,000 characters (≈84k after the mod-integration update). Trim or split roles before adding another large feature.
+* **Mod integrations** (laser drills, WeaponCore, Defense Shields) are optional and found at run time by terminal property / PB API name (`GridManager.FindLasers`, `LinkModApis`). Cache `ITerminalProperty<T>` / delegates on rescan; never look them up per tick. A ToolCore tool must read back `ToolCore_Mode == 4` (Drill) before it is ever fired.
 * **State Preservation:** Volatile state (home vectors, current FSM state) must be serialized to the `Storage` string in the `Save()` method and parsed in the `Program()` constructor to survive world reloads.
 
 ## File Structure

@@ -162,13 +162,21 @@ namespace IngameScript
             bool _adoptPending;
             int _adoptId;
             Vector3D _adoptPos, _adoptFwd, _adoptUp, _adoptSpacing;
+            // Charting a new site from a GPS target ('chart N GPS:...').
+            bool _charting, _chartRockKnown;
+            int _chartSite;
+            Vector3D _chartTarget, _chartRock;
             // Camera survey of the site's shafts.
             int _surveyIdx;
             public int Surveyed { get; private set; }
 
             // Current shaft. Depths are along the site forward from the shaft entry, measured at
             // the reference block. They persist, so a shaft interrupted by a full hold is resumed.
-            public bool FaceKnown { get { return _faceKnown; } }
+            public bool FaceKnown { get { return _grid.HasLasers ? _laserFace >= 0 : _faceKnown; } }
+            // Laser mining: face distance from the shaft entry (-1 unknown), firing state and timing.
+            // The cut so far is kept in _minedDepth, so an interrupted shaft resumes where it stopped.
+            double _laserFace = -1, _laserStart, _laserContactAt, _laserFired;
+            bool _laserFiring;
             bool _faceKnown, _faceFromSurvey;
             double _faceDepth;       // reference depth at which the drills touch rock
             double _minedDepth;      // deepest point reached so far (already a clear hole)
@@ -201,7 +209,8 @@ namespace IngameScript
 
             // Self-preservation.
             public int DistressReason { get; private set; }
-            double _integrityBaseline = 1, _distressSentAt = double.MinValue;
+            double _integrityBaseline = 1, _distressSentAt = double.MinValue, _shieldBaseline = -1;
+            const double ShieldDrop = 25; // shield points lost since launch that count as being under attack
             Vector3D _fleeTarget, _fleeDir;
             bool _aiFleeing;
 
@@ -265,7 +274,10 @@ namespace IngameScript
                 if (next != FleetState.Docked)
                     _grid.SetDockedMode(false);
                 if (next != FleetState.Working)
+                {
                     _grid.SetEjecting(false);
+                    StopLasers();
+                }
 
                 switch (next)
                 {
@@ -293,6 +305,8 @@ namespace IngameScript
                         _note = null; // keep the reason we came home visible until the next trip
                         if (IsMiner) ReportDelivery();
                         _integrityBaseline = _grid.Integrity;
+                        _shieldBaseline = _grid.ShieldPercent;
+                        _grid.ReleaseGear();
                         if (_dockKind == DockHome)
                         {
                             CrumbCount = 0;
@@ -486,7 +500,7 @@ namespace IngameScript
                     Enter(FleetState.RequestDock);
                     return;
                 }
-                if (!Site.Defined)
+                if (!Site.Defined && !_charting)
                 {
                     Enter(FleetState.Idle);
                     return;
@@ -504,6 +518,11 @@ namespace IngameScript
                 }
                 var ctrl = _grid.Controller;
                 Vector3D pos = ctrl.GetPosition();
+                if (_charting)
+                {
+                    TickChart(pos);
+                    return;
+                }
 
                 // Haulers fly to their holding point off the face; miners to a shaft.
                 if (!IsMiner)
@@ -576,6 +595,11 @@ namespace IngameScript
                 if (!IsMiner)
                 {
                     _helm.SetTarget(HoldPoint(), Vector3D.Zero, Site.Fwd, Site.Up, _cfg.ApproachSpeed);
+                    return;
+                }
+                if (_grid.HasLasers)
+                {
+                    TickLaser();
                     return;
                 }
 
@@ -706,6 +730,39 @@ namespace IngameScript
                     FlyTo(_fleeTarget, Vector3D.Zero, _fleeDir, _grid.Controller.WorldMatrix.Up, _cfg.MaxSpeed);
             }
 
+            /// <summary>
+            /// Charting: fly to the GPS target, find the rock with the camera (or use gravity on a
+            /// planet: dig straight down), stop SiteStandoff short of it, aim, and record the site.
+            /// </summary>
+            void TickChart(Vector3D pos)
+            {
+                var ctrl = _grid.Controller;
+                Vector3D g = ctrl.GetNaturalGravity();
+                Vector3D to = _chartTarget - pos;
+                double d = to.Length();
+                Vector3D dir = g.LengthSquared() > 0.25 ? Vector3D.Normalize(g) : to / Math.Max(1, d);
+                bool hit, voxel;
+                Vector3D point;
+                double look = _cfg.ScanRange * 2;
+                if (d < look && _grid.RaycastAt(pos + dir * Math.Min(d + 50, look), out hit, out voxel, out point) && hit && voxel)
+                {
+                    _chartRock = point;
+                    _chartRockKnown = true;
+                }
+                Vector3D stand = (_chartRockKnown ? _chartRock : _chartTarget) - dir * (_cfg.SiteStandoff + _grid.DrillReach + 10);
+                if (LongLeg(pos, stand)) return;
+
+                Vector3D up = ctrl.WorldMatrix.Up - dir * Vector3D.Dot(ctrl.WorldMatrix.Up, dir);
+                if (up.LengthSquared() < 0.01) up = ctrl.WorldMatrix.Right;
+                _helm.SetTarget(stand, Vector3D.Zero, dir, Vector3D.Normalize(up), _cfg.ApproachSpeed);
+                if (_helm.DistanceToTarget > 2 || _helm.RelativeSpeed > 0.3 || _helm.AlignmentError > 0.03) return;
+
+                _charting = false;
+                SetSite(_chartSite); // camera scan places the plane; charted with the carrier
+                if (Site.Defined && Shaft >= 0) Enter(FleetState.Transit);
+                else Enter(FleetState.Idle);
+            }
+
             bool FloorApplies()
             {
                 return (State == FleetState.Transit && !_staged) || State == FleetState.RequestDock
@@ -773,9 +830,141 @@ namespace IngameScript
             // Mining: shaft sessions, ore yield, face finding, survey
             // =================================================================
 
+            // =================================================================
+            // Laser mining (Adjustable Mining Laser, ToolCore multitools)
+            // =================================================================
+
+            const string NoteBeamBlocked = "Ship or person in the beam path: holding fire";
+            const string NoteLaserMode = "Laser not in Drill mode: holding fire";
+
+            /// <summary>
+            /// Lasers bore from outside: hover just short of the rock face, aim down the shaft axis
+            /// and fire until the shaft is MineDepth deep, never flying into the hole.
+            /// </summary>
+            void TickLaser()
+            {
+                Vector3D entry = ShaftEntry();
+                bool goHome = _recall || NeedsHome();
+                double hover = _laserFace >= 0 ? Math.Max(0, _laserFace - _grid.LaserForward - _cfg.FaceMargin) : 0;
+                if (!_retracting)
+                {
+                    if (goHome) Retract(false, SiteMap.Partial);
+                    else
+                    {
+                        _helm.SetTarget(entry + Site.Fwd * hover, Vector3D.Zero, Site.Fwd, Site.Up, _cfg.ApproachSpeed);
+                        LaserStep(entry, hover);
+                        return;
+                    }
+                }
+                Vector3D exit = goHome ? entry - Site.Fwd * _cfg.ApproachDistance : entry;
+                _helm.SetTarget(exit, Vector3D.Zero, Site.Fwd, Site.Up, _cfg.ApproachSpeed);
+                if (_helm.DistanceToTarget < 1.5)
+                {
+                    CloseSession();
+                    if (goHome) GoHome();
+                    else Enter(FleetState.Transit);
+                }
+            }
+
+            void LaserStep(Vector3D entry, double hover)
+            {
+                // Fire only when held steady on the axis.
+                if (_helm.DistanceToTarget > 1.5 || _helm.AlignmentError > 0.04)
+                {
+                    StopLasers();
+                    return;
+                }
+                double reach = _grid.LaserRange;
+                double goal = Math.Min(_cfg.MineDepth, reach - _cfg.FaceMargin - 1);
+                double emitter = hover + _grid.LaserForward; // emitter depth along the axis
+
+                // Camera down the axis: safety (nothing but rock in the beam) and, for ToolCore, depth.
+                double camDepth = -1;
+                bool hit, voxel;
+                Vector3D point;
+                var cam = _grid.Camera;
+                if (cam != null && _grid.RaycastAt(cam.GetPosition() + Site.Fwd * (reach + _grid.LaserForward), out hit, out voxel, out point) && hit)
+                {
+                    double along = Vector3D.Dot(point - entry, Site.Fwd);
+                    if (!voxel)
+                    {
+                        StopLasers();
+                        _note = NoteBeamBlocked;
+                        if (_p.Clock - _progressAt > _cfg.StallTime) Retract(true, SiteMap.Blocked);
+                        return;
+                    }
+                    camDepth = along;
+                    if (_laserFace < 0) SetLaserFace(along);
+                }
+                if (_laserFace < 0 && _grid.LasersToolCore && cam == null) SetLaserFace(emitter); // blind: time-based
+
+                if (!_grid.SetLasers(true))
+                {
+                    _laserFiring = false;
+                    _note = NoteLaserMode;
+                    return;
+                }
+                if (!_laserFiring)
+                {
+                    _laserFiring = true;
+                    _laserStart = _laserContactAt = _p.Clock;
+                }
+                _laserFired += _p.Dt10;
+
+                if (!_grid.LasersToolCore)
+                {
+                    // Adjustable Mining Laser reports where it is cutting; cap the beam at the shaft bottom.
+                    double contact = _grid.LaserContact;
+                    if (contact >= 0)
+                    {
+                        double d = emitter + contact;
+                        if (_laserFace < 0) SetLaserFace(d);
+                        _minedDepth = Math.Max(_minedDepth, d - _laserFace);
+                        _laserContactAt = _progressAt = _p.Clock;
+                    }
+                    _grid.SetLaserRange((_laserFace >= 0 ? _laserFace + goal : emitter + reach) - emitter + 1);
+                    if (_laserFace >= 0 && _p.Clock - _laserContactAt > 5)
+                    {
+                        Retract(true, SiteMap.Done); // the beam reaches the bottom and finds nothing left
+                        return;
+                    }
+                }
+                else
+                {
+                    // ToolCore: depth from the camera when it can see down the hole, else from time.
+                    if (_laserFace >= 0)
+                    {
+                        double cut = camDepth > _laserFace + 0.5 ? camDepth - _laserFace : _laserFired * _cfg.LaserSpeed;
+                        _minedDepth = Math.Max(_minedDepth, cut);
+                    }
+                    _progressAt = _p.Clock;
+                }
+
+                if (_laserFace >= 0 && _minedDepth >= goal - 0.5) Retract(true, SiteMap.Done);
+                else if (_laserFace < 0 && _p.Clock - _laserStart > 8) Retract(true, SiteMap.Empty);
+            }
+
+            void SetLaserFace(double depth)
+            {
+                _laserFace = Math.Max(0, depth);
+                Site.Face[Shaft] = _laserFace;
+            }
+
+            void StopLasers()
+            {
+                if (_grid.HasLasers) _grid.SetLasers(false);
+                _laserFiring = false;
+            }
+
             void MiningUpdate()
             {
                 if (_grid.Controller == null || !_sessionOpen) return;
+                if (_grid.HasLasers)
+                {
+                    CheckBarren();
+                    _grid.SetEjecting(_laserFiring && _grid.CanEject);
+                    return;
+                }
                 // No camera fix: the first cargo gain means the drills have reached rock.
                 long volume = _grid.CargoVolume;
                 if (!_faceKnown && !_retracting && volume > _lastCargoVolume)
@@ -819,7 +1008,10 @@ namespace IngameScript
                     _faceKnown = _faceFromSurvey = true;
                     _faceDepth = Math.Max(0, Site.Face[Shaft] - _grid.DrillReach);
                 }
-                _scanPending = (!_faceKnown || _faceFromSurvey) && _grid.Camera != null;
+                _scanPending = (!_faceKnown || _faceFromSurvey) && _grid.Camera != null && !_grid.HasLasers;
+                _laserFace = Site.Face[Shaft];
+                _laserFiring = false;
+                _laserFired = _cfg.LaserSpeed > 0 ? _minedDepth / _cfg.LaserSpeed : 0; // ToolCore resume
                 _shaftBase = Site.Value[Shaft];
                 Array.Copy(_grid.OreKg, _oreAtStart, Ore.Count);
                 Site.Apply(Shaft, SiteMap.Claimed, _shaftBase, -1, _p.IGC.Me, _p.Clock);
@@ -862,6 +1054,7 @@ namespace IngameScript
                 _shaftDone = done;
                 _shaftResult = result;
                 _grid.SetEjecting(false);
+                StopLasers();
                 _grid.FireHooks(HookBackout);
                 if (DistressReason == 0) _grid.SetLights(Amber, 1f);
             }
@@ -881,8 +1074,8 @@ namespace IngameScript
             /// <summary>BarrenDepth metres into rock with no ore at all: give the shaft up.</summary>
             void CheckBarren()
             {
-                if (_retracting || !_faceKnown || _cfg.BarrenDepth <= 0) return;
-                if (CurrentDepth() - _faceDepth < _cfg.BarrenDepth || ShaftValue() >= 1) return;
+                double cut = _grid.HasLasers ? (_laserFace >= 0 ? _minedDepth : -1) : (_faceKnown ? CurrentDepth() - _faceDepth : -1);
+                if (_retracting || cut < _cfg.BarrenDepth || _cfg.BarrenDepth <= 0 || ShaftValue() >= 1) return;
                 _note = NoteBarren;
                 Retract(true, SiteMap.Barren);
             }
@@ -926,7 +1119,8 @@ namespace IngameScript
             /// </summary>
             void SurveyStep()
             {
-                if (!_cfg.Survey || !IsMiner || !Site.Defined || _grid.Camera == null || _scanPending) return;
+                // Never while a laser fires: its beam-safety ray needs the camera's charge.
+                if (!_cfg.Survey || !IsMiner || !Site.Defined || _grid.Camera == null || _scanPending || _laserFiring) return;
                 if (State != FleetState.Working && !(State == FleetState.Transit && _staged)) return;
                 Vector3D cam = _grid.Camera.GetPosition();
                 for (int tries = 0; tries < 4; tries++)
@@ -970,7 +1164,10 @@ namespace IngameScript
             }
 
             /// <summary>Metres cut past the face on the current shaft (for screens).</summary>
-            public double CutDepth { get { return _faceKnown ? Math.Max(0, _depth - _faceDepth) : 0; } }
+            public double CutDepth
+            {
+                get { return _grid.HasLasers ? _minedDepth : _faceKnown ? Math.Max(0, _depth - _faceDepth) : 0; }
+            }
 
             void ResetShaft()
             {
@@ -1368,6 +1565,13 @@ namespace IngameScript
                 }
             }
 
+            /// <summary>Home carrier reports a shield with charge left (its Status A.Y is shield charge, -1 without).</summary>
+            bool HomeShielded()
+            {
+                int i = _comms.IndexOfPeer(_carrierAddr);
+                return i >= 0 && _p.Clock - _comms.PeerSeen[i] < PeerFresh && _comms.PeerBattery[i] > 0.1;
+            }
+
             /// <summary>Antenna range: short when docked, distance home x 1.5 in flight, full when lost.</summary>
             void AutoAntenna()
             {
@@ -1386,6 +1590,9 @@ namespace IngameScript
             {
                 int reason = Distress.None;
                 if (_grid.ThreatDetected) reason = Distress.Hostile;
+                // Defense Shields: our shield draining is an attack, even before anything is seen.
+                else if (_shieldBaseline > 0 && _grid.ShieldPercent >= 0 && _grid.ShieldPercent < _shieldBaseline - ShieldDrop)
+                    reason = Distress.Hostile;
                 else if (_grid.Integrity < _integrityBaseline - _cfg.DamageTolerance) reason = Distress.Damage;
 
                 if (reason != Distress.None && DistressReason == Distress.None)
@@ -1396,6 +1603,8 @@ namespace IngameScript
                     _p.Log.Add(_cfg.Name, LogMayday);
                     _grid.FireHooks(HookDistress);
                     if (State == FleetState.Working) _recall = true; // back out of the shaft first
+                    else if (reason == Distress.Hostile && HomeShielded())
+                        GoHome(); // safe harbour: inside the carrier's shield beats open space
                     else if (reason == Distress.Hostile && _grid.ThreatLocated && State != FleetState.FinalDock)
                         Enter(FleetState.Evading);
                     else if (State == FleetState.Transit || State == FleetState.Undocking) GoHome();
@@ -1576,6 +1785,10 @@ namespace IngameScript
                         _adoptSpacing = m.D;
                         _adoptPending = true;
                         if (State != FleetState.Working || !IsMiner) ApplyAdoption();
+                        break;
+
+                    case Op.ChartOrder:
+                        if (!m.Hq && (_carrierAddr == 0 || m.Source == _carrierAddr)) BeginChart(m.Arg, m.A);
                         break;
 
                     case Op.FleetCommand:

@@ -37,3 +37,9 @@ CARRIER / MOTHERSHIP COMMANDS
 
 ANY ROLE
   status | selftest | set <Key> <Value> | resetstats
+
+MODS
+  Mining lasers (Adjustable Mining Laser, ToolCore tools) are used automatically
+  when they face forward on a miner: it bores each shaft from outside.
+  chart N GPS:Name:X:Y:Z:   (miner or carrier) fly to a GPS, chart it as site N.
+  WeaponCore threats and Defense Shields are picked up automatically.
