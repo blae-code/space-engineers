@@ -27,6 +27,7 @@ namespace IngameScript
         readonly CommsOfficer _comms;
         readonly HelmController _helm;
         readonly BrainFSM _brain;
+        readonly Display _display;
         readonly ISubsystem[] _subsystems;
 
         double _last10 = -1;
@@ -42,10 +43,10 @@ namespace IngameScript
             _comms = new CommsOfficer(this);
             _helm = new HelmController(this, _grid);
             _brain = new BrainFSM(this, _grid, _comms, _helm);
-            var display = new Display(this, _grid, _comms, _helm, _brain);
+            _display = new Display(this, _grid, _comms, _helm, _brain);
 
             // Order matters: telemetry -> network -> decisions -> actuation -> screens.
-            _subsystems = new ISubsystem[] { _grid, _comms, _brain, _helm, display };
+            _subsystems = new ISubsystem[] { _grid, _comms, _brain, _helm, _display };
             for (int i = 0; i < _subsystems.Length; i++)
                 _subsystems[i].Initialize();
 
@@ -66,7 +67,10 @@ namespace IngameScript
             Clock += Runtime.TimeSinceLastRun.TotalSeconds;
 
             if ((updateSource & CommandSources) != 0 && !string.IsNullOrEmpty(argument))
+            {
                 _brain.HandleCommand(argument);
+                _display.RedrawMenus(); // menu keys answer at once, not on the next Update100
+            }
 
             if ((updateSource & (UpdateType.IGC | UpdateType.Update10)) != 0)
                 _comms.Drain(_subsystems);

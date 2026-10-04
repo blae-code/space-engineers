@@ -62,6 +62,7 @@ namespace IngameScript
 
             public void HandleCommand(string argument)
             {
+                if (MenuCommand(argument)) return;
                 _note = null;
                 int at;
 

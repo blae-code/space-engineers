@@ -18,6 +18,7 @@ SETUP
   4. Bases: [FM Dock] pads, [FM Pad N] pad lights, [FM Searchlight],
      [FM Unload] cargo containers.
   5. Screens: [FM LCD] [FM Gauges] [FM Map] / [FM Map N] [FM Board] [FM Log] [FM Stats]
+     [FM Menu]: control menu. Toolbar-run the PB with up / down / select / back.
   6. Hooks (timers trigger, sound blocks play): [FM <State>] and
      [FM Backout] [FM Rich] [FM Holding] [FM Launch] [FM Distress] [FM LinkLost]
   Full guide: docs/MinerDrone.md in the source repo.

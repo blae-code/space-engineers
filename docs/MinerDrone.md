@@ -176,7 +176,7 @@ Other drones join with `assign N`. This pairs well with **Seismic Surveying** (p
 | Cargo | `[FM Unload]` marks the containers to fill (drones unload into them; shuttles load from them) |
 | Antenna | Required |
 | Ship controller | Needed if the base moves |
-| Screens | `[FM Board]`, `[FM Map]`, `[FM Log]`, `[FM Stats]` |
+| Screens | `[FM Board]`, `[FM Map]`, `[FM Log]`, `[FM Stats]`, `[FM Menu]` |
 | Welders | Around the pads, for repairs |
 
 ## Screens
@@ -189,6 +189,71 @@ Other drones join with `assign N`. This pairs well with **Seismic Surveying** (p
 | `[FM Board]` | One tier down: a carrier lists its drones, the mothership lists its carriers and shuttles |
 | `[FM Log]` | Comms log |
 | `[FM Stats]` | Production by ore, per hour, per drone (carrier) or per carrier (mothership) |
+| `[FM Menu]` | The control menu (below) |
+
+### Control menu (`[FM Menu]`)
+
+A navigable control panel in amber monospace, drawn in plain ASCII. The font is sized so the 40 x 22 panel fills any screen, including cockpit and console screens.
+
+```
++==[ FLEETMINER CORE ]============[/]==+
+| UNIT  Prospector-1             MINER |
++--------------------------------------+
+| STATE  MINING                LINK OK |
+| CARGO  [###############-----]    75% |
+| POWER  [###################-]    96% |
++--[ OPERATIONS ]--------------[ 1/4 ]-+
+| >> START CYCLE ................... < |
+|    RETURN TO BASE                    |
+|    HALT IN PLACE                     |
+|    SKIP SHAFT                        |
+|                                      |
++--------------------------------------+
+| > READY                              |
+|                                      |
++--------------------------------------+
+| UP/DN MOVE  SELECT RUN  BACK EXIT    |
++//  //  //  //  //  //  //  //  //  //+
+```
+
+The real panel has nine item rows; this sample trims the empty ones.
+
+**Controls.** Bind four toolbar slots (a button panel or cockpit) to *Run* on the programmable block, with these arguments:
+
+| Argument | Action |
+|---|---|
+| `up` | Move up. While editing a value, raise it. |
+| `down` | Move down. While editing a value, lower it. |
+| `select` (or `apply`) | Open a page, run an action, or start or confirm an edit |
+| `back` | Leave edit mode and restore the old value, or go back to the main menu |
+
+The screen redraws as soon as a key is pressed.
+
+**Pages.**
+
+| Page | Drone | Carrier / mothership |
+|---|---|---|
+| Operations | start, return, halt, skip shaft | launch, recall, halt fleet, reset pads |
+| Site & shafts | site number (-1 = own), join site, set site here, go to shaft, reset site | site number, assign site |
+| Settings | every Custom Data key | every Custom Data key |
+| Diagnostics | self-test, detail page, reset stats, hold test, turn tests (yaw, pitch, roll) | self-test, detail page, reset stats |
+
+**Panel layout.**
+
+- The header shows the unit, its role, a heartbeat spinner, the FSM state, and the link (`HQ` for carriers).
+- The gauges show cargo and power for drones, and pads in use, queue and delivered tonnage for bases.
+- The bottom of the panel shows the last result or note, and key hints.
+
+**Settings.**
+
+- `select` flips a switch at once.
+- For a number, `select` starts an edit:
+  - `up` and `down` step it by a tenth of its magnitude, or by 1 when it is zero.
+  - The change takes effect live.
+  - `select` keeps it and `back` undoes it.
+- Kept changes are saved into Custom Data with the world, the same as `set`.
+
+Every action is the matching text command, so the menu and the toolbar commands always agree.
 
 ## Hooks
 
@@ -220,6 +285,7 @@ A timer triggers, and a sound block plays, when its name contains one of these t
 | `selftest` | Build check. Adds a hauler check: bays fitted, or a mothership heard for shuttles. |
 | `set <Key> <value>` | Change a number or switch live. It's saved into Custom Data when the world saves. |
 | `resetstats` | Zero production counters |
+| `up` / `down` / `select` / `back` | Drive the `[FM Menu]` screen |
 
 ## Custom Data reference (`[FleetMiner]`)
 

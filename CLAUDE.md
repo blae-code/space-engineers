@@ -33,7 +33,7 @@ This repository contains a modular C# Ingame Script for Space Engineers, built u
 * **LINQ:** Avoid LINQ in high-frequency loops (causes overhead and garbage collection).
 * **Language level:** Stick to C# 6 (no tuples, `out var`, pattern matching, or local functions).
 * **Packing drops `using` directives.** Only the game's default imports survive, and `System.Globalization` is not one of them: write `System.Globalization.CultureInfo` in full.
-* **Size:** the packed script must stay under 100,000 characters (≈88k after the flight/energy refinements). Trim or split roles before adding another large feature.
+* **Size:** the packed script must stay under 100,000 characters (≈94k after the control menu). Trim or split roles before adding another large feature.
 * **Mod integrations** (laser drills, WeaponCore, Defense Shields) are optional and found at run time by terminal property / PB API name (`GridManager.FindLasers`, `LinkModApis`). Cache `ITerminalProperty<T>` / delegates on rescan; never look them up per tick. A ToolCore tool must read back `ToolCore_Mode == 4` (Drill) before it is ever fired.
 * **State Preservation:** Volatile state (home vectors, current FSM state) must be serialized to the `Storage` string in the `Save()` method and parsed in the `Program()` constructor to survive world reloads.
 
@@ -47,4 +47,5 @@ This repository contains a modular C# Ingame Script for Space Engineers, built u
 * `BrainFSM.cs` - Drone state machine (miners, both hauler modes): mining sessions, survey, look-ahead, breadcrumbs, energy model, dock-target choice, holding, link watch/re-homing, traffic, evasion.
 * `BrainFSM.Bases.cs` - Pad server (carrier, mothership, site-hauler bays), carrier flight control (queue, launch sequence), site library + map sync, carrier <-> mothership uplink.
 * `BrainFSM.Io.cs` - Commands, self-test, status text, persistence (`Storage` as MyIni).
-* `Display.cs` - Every screen: text pages (status, detail, log, stats) and sprite pages (gauges, site map, board).
+* `BrainFSM.Menu.cs` - The `[FM Menu]` control panel: up/down/select/back navigation (actions reuse the text commands) and the 40-column ASCII renderer.
+* `Display.cs` - Every screen: text pages (status, detail, log, stats, menu) and sprite pages (gauges, site map, board).

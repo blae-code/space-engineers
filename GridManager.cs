@@ -52,6 +52,7 @@ namespace IngameScript
             public readonly List<IMyTextSurface> Screens = new List<IMyTextSurface>(16);
             public readonly List<int> ScreenMode = new List<int>(16);
             public readonly List<int> ScreenArg = new List<int>(16);
+            readonly StringBuilder _probe = new StringBuilder().Append('0', BrainFSM.MenuWidth); // menu font sizing
 
             readonly List<IMyTerminalBlock> _all = new List<IMyTerminalBlock>(256);
             readonly List<IMyBatteryBlock> _batteries = new List<IMyBatteryBlock>(16);
@@ -492,6 +493,17 @@ namespace IngameScript
                 {
                     s.Script = "";
                     s.ScriptBackgroundColor = Color.Black;
+                }
+                if (mode == Display.ModeMenu)
+                {
+                    // Amber monospace, sized so the panel's columns and rows fill the screen.
+                    s.Font = "Monospace";
+                    s.FontColor = new Color(255, 170, 0);
+                    s.BackgroundColor = Color.Black;
+                    s.Alignment = TextAlignment.LEFT;
+                    s.TextPadding = 2;
+                    Vector2 m = s.MeasureStringInPixels(_probe, "Monospace", 1), a = s.SurfaceSize * 0.96f;
+                    s.FontSize = Math.Min(a.X / m.X, a.Y / (m.Y * BrainFSM.MenuLines));
                 }
                 Screens.Add(s);
                 ScreenMode.Add(mode);

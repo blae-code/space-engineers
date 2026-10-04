@@ -16,9 +16,9 @@ namespace IngameScript
         /// </summary>
         public class Display : ISubsystem
         {
-            public const int ModeText = 0, ModeGauges = 1, ModeMap = 2, ModeBoard = 3, ModeLog = 4, ModeStats = 5;
+            public const int ModeText = 0, ModeGauges = 1, ModeMap = 2, ModeBoard = 3, ModeLog = 4, ModeStats = 5, ModeMenu = 6;
             /// <summary>Name tags per mode (index = mode). "[FM Map" takes an optional site number: "[FM Map 2]".</summary>
-            public static readonly string[] Tags = { "[FM LCD]", "[FM Gauges]", "[FM Map", "[FM Board]", "[FM Log]", "[FM Stats]" };
+            public static readonly string[] Tags = { "[FM LCD]", "[FM Gauges]", "[FM Map", "[FM Board]", "[FM Log]", "[FM Stats]", "[FM Menu]" };
             public static bool IsSpriteMode(int mode) { return mode >= ModeGauges && mode <= ModeBoard; }
 
             const string Font = "White", Square = "SquareSimple";
@@ -40,6 +40,7 @@ namespace IngameScript
             readonly StringBuilder _detail = new StringBuilder(1024);
             readonly StringBuilder _log = new StringBuilder(2048);
             readonly StringBuilder _stats = new StringBuilder(1024);
+            readonly StringBuilder _menu = new StringBuilder(1024);
 
             MySpriteDrawFrame _f;
             Vector2 _o;
@@ -64,6 +65,7 @@ namespace IngameScript
                 _detail.Clear();
                 _log.Clear();
                 _stats.Clear();
+                _menu.Clear();
                 bool detail = _brain.DetailUntil > _p.Clock;
 
                 for (int i = 0; i < _grid.Screens.Count; i++)
@@ -78,6 +80,7 @@ namespace IngameScript
                             break;
                         case ModeLog: s.WriteText(Log()); break;
                         case ModeStats: s.WriteText(Stats()); break;
+                        case ModeMenu: s.WriteText(Menu()); break;
                         case ModeGauges: Draw(s, ModeGauges, -1); break;
                         case ModeMap: Draw(s, ModeMap, _grid.ScreenArg[i]); break;
                         case ModeBoard: Draw(s, ModeBoard, -1); break;
@@ -104,6 +107,20 @@ namespace IngameScript
                 _brain.AppendDetail(_detail);
                 Cpu(_detail);
                 return _detail;
+            }
+
+            StringBuilder Menu()
+            {
+                if (_menu.Length == 0) _brain.AppendMenu(_menu);
+                return _menu;
+            }
+
+            /// <summary>Redraws only the menu screens (after a command).</summary>
+            public void RedrawMenus()
+            {
+                _menu.Clear();
+                for (int i = 0; i < _grid.Screens.Count; i++)
+                    if (_grid.ScreenMode[i] == ModeMenu) _grid.Screens[i].WriteText(Menu());
             }
 
             void Cpu(StringBuilder sb)
