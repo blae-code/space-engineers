@@ -1,0 +1,642 @@
+<title>FM-M1 Prospector Blueprint</title>
+<meta name="description" content="Cube-by-cube build drawings and technical specs for the FleetMiner small-grid mining drone.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: engineering drawing set on blueprint paper. A title block, then numbered sheets:
+   general arrangement (4 projected views), layer-by-layer build slices, block schedule,
+   orientation rules, thrust/lift check, commissioning. Single deliberate dark look. */
+:root {
+  --paper: #123b6e;
+  --paper-deep: #0d2d57;
+  --grid: rgba(150, 190, 240, 0.13);
+  --grid-strong: rgba(150, 190, 240, 0.28);
+  --ink: #eaf3ff;
+  --ink-dim: #a9c3e4;
+  --rule: #6f97cb;
+  --amber: #ffd36b;
+  --flame: #ff8a5c;
+  --ok: #7bed9f;
+  --bad: #ff6b81;
+  --display: "Barlow Condensed", "Arial Narrow", "Roboto Condensed", sans-serif;
+  --body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background-color: var(--paper);
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px),
+    linear-gradient(var(--grid-strong) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-strong) 1px, transparent 1px);
+  background-size: 20px 20px, 20px 20px, 100px 100px, 100px 100px;
+  color: var(--ink);
+  font: 15px/1.55 var(--body);
+}
+.wrap { max-width: 1180px; margin: 0 auto; padding-inline: 20px; padding-block: 28px 64px; }
+h1, h2, h3 { font-family: var(--display); font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; text-wrap: balance; margin: 0; }
+h1 { font-size: clamp(2.2rem, 6vw, 3.6rem); line-height: 1; }
+h2 { font-size: 1.6rem; }
+h3 { font-size: 1.15rem; color: var(--amber); }
+p { margin: 0; max-width: 68ch; }
+code, .mono { font-family: var(--mono); font-size: 0.92em; }
+code { color: var(--amber); }
+a { color: var(--amber); }
+
+/* Title block */
+.head { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 24px; align-items: end; border: 2px solid var(--ink); padding: 20px; background: var(--paper-deep); }
+.head .kicker { font-family: var(--mono); color: var(--ink-dim); font-size: 0.8rem; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 8px; }
+.head p { margin-top: 12px; color: var(--ink-dim); }
+.tblock { display: grid; grid-template-columns: auto auto; border: 1px solid var(--rule); font-family: var(--mono); font-size: 0.78rem; min-width: 0; }
+.tblock div { padding: 4px 10px; border-bottom: 1px solid var(--rule); }
+.tblock div:nth-child(odd) { color: var(--ink-dim); border-right: 1px solid var(--rule); text-transform: uppercase; letter-spacing: 0.08em; }
+.tblock div:nth-last-child(-n+2) { border-bottom: 0; }
+@media (max-width: 760px) { .head { grid-template-columns: 1fr; } }
+
+.sheet { margin-top: 40px; border: 1px solid var(--rule); background: rgba(13, 45, 87, 0.72); }
+.sheet > header { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: baseline; justify-content: space-between; padding: 12px 18px; border-bottom: 1px solid var(--rule); }
+.sheet > header .no { font-family: var(--mono); color: var(--ink-dim); font-size: 0.8rem; letter-spacing: 0.1em; }
+.sheet .body { padding: 18px; display: grid; gap: 18px; }
+
+/* Specs strip */
+.specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(185px, 1fr)); border-top: 1px solid var(--rule); border-left: 1px solid var(--rule); }
+.specs div { padding: 10px 14px; border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule); min-width: 0; }
+.specs b { display: block; font-family: var(--mono); font-size: 1.15rem; font-weight: 600; font-variant-numeric: tabular-nums; }
+.specs span { font-family: var(--mono); font-size: 0.72rem; color: var(--ink-dim); text-transform: uppercase; letter-spacing: 0.08em; }
+
+/* Drawings */
+.views { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+@media (max-width: 820px) { .views { grid-template-columns: 1fr; } }
+figure { margin: 0; border: 1px solid var(--rule); background: var(--paper-deep); min-width: 0; }
+figure figcaption { display: flex; justify-content: space-between; gap: 12px; padding: 8px 12px; border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 0.78rem; letter-spacing: 0.06em; text-transform: uppercase; }
+figure figcaption span:last-child { color: var(--ink-dim); text-transform: none; letter-spacing: 0; }
+.draw { overflow-x: auto; padding: 8px; }
+.draw svg { display: block; width: 100%; height: auto; max-width: 560px; margin: 0 auto; }
+svg text { font-family: var(--mono); }
+
+.legend { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 6px 16px; font-size: 0.85rem; }
+.legend div { display: flex; gap: 8px; align-items: center; min-width: 0; }
+.sw { width: 26px; height: 16px; border: 1.5px solid var(--ink); flex: none; font-family: var(--mono); font-size: 9px; display: grid; place-items: center; color: var(--ink); }
+.symbols { display: flex; flex-wrap: wrap; gap: 8px 22px; font-size: 0.85rem; color: var(--ink-dim); }
+.symbols b { color: var(--ink); font-family: var(--mono); font-weight: 500; }
+
+/* Layer slicer */
+.slicer { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 18px; align-items: start; }
+@media (max-width: 820px) { .slicer { grid-template-columns: 1fr; } }
+.layers { display: flex; flex-wrap: wrap; gap: 6px; }
+.layers button { font: 600 0.85rem var(--mono); color: var(--ink); background: transparent; border: 1px solid var(--rule); padding: 6px 10px; cursor: pointer; font-variant-numeric: tabular-nums; }
+.layers button:hover { border-color: var(--ink); }
+.layers button[aria-pressed="true"] { background: var(--amber); color: var(--paper-deep); border-color: var(--amber); }
+.layers button:focus-visible, .calc input:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+.layer-notes { display: grid; gap: 10px; }
+.layer-notes ul { margin: 0; padding-left: 18px; }
+.layer-notes li { margin: 2px 0; }
+
+/* Tables */
+.tbl { overflow-x: auto; border: 1px solid var(--rule); }
+table { border-collapse: collapse; width: 100%; font-size: 0.86rem; }
+th, td { text-align: left; padding: 7px 10px; border-bottom: 1px solid rgba(111, 151, 203, 0.45); vertical-align: top; }
+th { font-family: var(--mono); font-weight: 500; font-size: 0.72rem; color: var(--ink-dim); text-transform: uppercase; letter-spacing: 0.08em; background: var(--paper-deep); white-space: nowrap; }
+td.n { font-family: var(--mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+tr:last-child td { border-bottom: 0; }
+
+/* Rules */
+.rules { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px; }
+.rule { border: 1px solid var(--rule); padding: 14px; display: grid; gap: 6px; align-content: start; background: var(--paper-deep); min-width: 0; }
+.rule .tagline { font-family: var(--mono); font-size: 0.75rem; color: var(--ink-dim); text-transform: uppercase; letter-spacing: 0.08em; }
+.rule.critical { border-color: var(--amber); }
+.rule.critical .tagline { color: var(--amber); }
+
+/* Calculator */
+.calc { display: grid; grid-template-columns: minmax(0, 280px) minmax(0, 1fr); gap: 18px; }
+@media (max-width: 820px) { .calc { grid-template-columns: 1fr; } }
+.calc form { display: grid; gap: 10px; align-content: start; }
+.calc label { display: grid; gap: 3px; font-family: var(--mono); font-size: 0.74rem; color: var(--ink-dim); text-transform: uppercase; letter-spacing: 0.06em; }
+.calc input { font: 500 0.95rem var(--mono); color: var(--ink); background: var(--paper-deep); border: 1px solid var(--rule); padding: 6px 8px; width: 100%; font-variant-numeric: tabular-nums; }
+.presets { display: flex; flex-wrap: wrap; gap: 6px; }
+.presets button { font: 500 0.75rem var(--mono); color: var(--ink); background: transparent; border: 1px solid var(--rule); padding: 4px 8px; cursor: pointer; }
+.presets button:hover { border-color: var(--ink); }
+.pill { display: inline-block; font-family: var(--mono); font-size: 0.72rem; padding: 1px 7px; border: 1px solid currentColor; }
+.pill.ok { color: var(--ok); }
+.pill.bad { color: var(--bad); }
+.pill.na { color: var(--ink-dim); }
+.note { font-size: 0.85rem; color: var(--ink-dim); }
+
+pre.cd { margin: 0; padding: 12px 14px; border: 1px solid var(--rule); background: var(--paper-deep); font: 0.85rem/1.5 var(--mono); overflow-x: auto; color: var(--ink); }
+ol.steps { margin: 0; padding-left: 22px; display: grid; gap: 6px; max-width: 80ch; }
+.two { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 18px; }
+.two > * { min-width: 0; }
+footer.end { margin-top: 32px; font-family: var(--mono); font-size: 0.75rem; color: var(--ink-dim); }
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto; } }
+</style>
+
+<div class="wrap">
+  <header class="head">
+    <div>
+      <div class="kicker">FleetMiner Core · Role = Miner · Small grid</div>
+      <h1>FM-M1 Prospector</h1>
+      <p>A cube-exact reference build for the FleetMiner script: every block the script uses, where it goes, and which way it faces. Build it as drawn, or use the orientation rules on sheet 4 to adapt your own hull. Each grid square on the drawings is one small-grid block (0.5 m).</p>
+    </div>
+    <div class="tblock" aria-label="Drawing title block">
+      <div>Dwg no.</div><div>FM-M1-GA</div>
+      <div>Rev</div><div>A</div>
+      <div>Grid</div><div>Small (0.5 m)</div>
+      <div>Scale</div><div>1 square = 1 block</div>
+      <div>Origin</div><div>Rear-bottom-left of hull</div>
+      <div>Date</div><div>2026-10-04</div>
+    </div>
+  </header>
+
+  <section class="sheet" id="specs">
+    <header><h2>Technical specifications</h2><span class="no">SHEET 1 / 6</span></header>
+    <div class="body">
+      <div class="specs" id="specgrid"></div>
+      <p class="note">Block sizes are taken from the Space Engineers wiki. Masses are estimates, so read the real figure from the ship's <b>Info</b> tab once it's built and enter it on sheet 5. Ore volume assumes 0.37 L per kg.</p>
+    </div>
+  </section>
+
+  <section class="sheet" id="ga">
+    <header><h2>General arrangement</h2><span class="no">SHEET 2 / 6 · Four views, nearest block shown</span></header>
+    <div class="body">
+      <div class="views">
+        <figure><figcaption><span>A · Top (plan)</span><span>Looking down. Nose at top.</span></figcaption><div class="draw" id="v-top"></div></figure>
+        <figure><figcaption><span>B · Right side (elevation)</span><span>Nose to the right.</span></figcaption><div class="draw" id="v-side"></div></figure>
+        <figure><figcaption><span>C · Front (drill face)</span><span>From ahead: ship's right is on your left.</span></figcaption><div class="draw" id="v-front"></div></figure>
+        <figure><figcaption><span>D · Rear (dock face)</span><span>From behind: ship's right is on your right.</span></figcaption><div class="draw" id="v-rear"></div></figure>
+      </div>
+      <div class="legend" id="legend"></div>
+      <div class="symbols">
+        <span><b style="color:var(--flame)">▶</b> Thruster flame direction (the ship is pushed the opposite way)</span>
+        <span><b style="color:var(--flame)">⊙</b> Flame toward you</span>
+        <span><b style="color:var(--flame)">⊗</b> Flame away from you</span>
+        <span><b>▲</b> Block's front (lens, bit, magnetic ring, "eye")</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="sheet" id="layers">
+    <header><h2>Build layers</h2><span class="no">SHEET 3 / 6 · Plan slices, bottom to top</span></header>
+    <div class="body">
+      <div class="layers" role="group" aria-label="Layer" id="layerbtns"></div>
+      <div class="slicer">
+        <figure><figcaption><span id="layercap">Layer</span><span>Nose at top · dotted = layer below</span></figcaption><div class="draw" id="v-layer"></div></figure>
+        <div class="layer-notes" id="layernotes"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sheet" id="schedule">
+    <header><h2>Block schedule</h2><span class="no">SHEET 4 / 6 · Bill of materials, tags, placement</span></header>
+    <div class="body">
+      <div class="tbl"><table>
+        <thead><tr><th>Code</th><th>Block (small grid)</th><th>Qty</th><th>Size (blocks)</th><th>Tag in name</th><th>Where (X, Y, Z)</th><th>Faces</th></tr></thead>
+        <tbody id="bom"></tbody>
+      </table></div>
+      <p class="note">Coordinates count blocks from the rear-bottom-left corner of the hull: X to the ship's right, Y up, Z forward toward the drills. The pods sit outside the hull, so their X values run below 0 and above 5.</p>
+
+      <h3>Orientation rules</h3>
+      <div class="rules">
+        <div class="rule critical"><span class="tagline">Reference · critical</span><h3>Remote Control faces the drills</h3><p>The script flies by the Remote Control's frame, so its forward is the mining direction. The "eye" goes in front and the gap on top. If you add a cockpit, put <code>[FM Ref]</code> in the Remote Control's name so the script never picks the cockpit.</p></div>
+        <div class="rule critical"><span class="tagline">Drills · critical</span><h3>All drill bits forward</h3><p>The script measures the drill bank in the Remote Control's frame. The bank's width and height set shaft spacing (here 3 m × 3 m). Its forward reach sets where cutting starts. Mixed facings break both.</p></div>
+        <div class="rule critical"><span class="tagline">Docking · critical</span><h3>One dock connector, ring outward</h3><p>Name it <code>[FM Dock]</code>. Any face of the hull works, because docking is solved from the connector's own frame. The rear keeps the drills pointing away from the carrier. Nothing may stand behind its ring. The small-grid Connector mates with a carrier's large-grid connector.</p></div>
+        <div class="rule"><span class="tagline">Camera</span><h3>Lens along the drill axis, clear view</h3><p>Name it <code>[FM Cam]</code>. It ranges the rock face, runs the survey and checks for obstacles ahead. An untagged camera is only used if it points within about 8° of forward. Mount it above the drills, not behind them.</p></div>
+        <div class="rule"><span class="tagline">Thrusters</span><h3>Every push direction covered</h3><p>The self-test fails without at least one working thruster per direction. In Space Engineers thrust doesn't twist the ship, so the layout needn't be symmetric. Only the count per direction matters. Keep flames off the drills and the camera.</p></div>
+        <div class="rule"><span class="tagline">Stone dump</span><h3>Sorter feeds ejector, ejector faces out</h3><p>Both carry <code>[FM Eject]</code>. The script sets the sorter to a stone whitelist with Drain All, and opens the ejector only while mining. Point the ejector away from the hull and the camera's view. The self-test's <i>Stone dump path</i> line confirms the conveyor link.</p></div>
+        <div class="rule"><span class="tagline">Antenna</span><h3>Broadcasting, mast clear</h3><p>Turn broadcast on. With <code>AntennaAuto</code> the script sets its range itself (distance home × 1.5). Mount it high so the hull doesn't shade it.</p></div>
+        <div class="rule"><span class="tagline">Power</span><h3>Batteries on Auto</h3><p>Leave them in <i>Auto</i>. The carrier's pad charges them through the connector. The script learns the drain per metre and per tonne, and turns home with <code>EnergyMargin</code> to spare.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sheet" id="thrust">
+    <header><h2>Thrust and lift check</h2><span class="no">SHEET 5 / 6 · Enter your real mass</span></header>
+    <div class="body">
+      <div class="calc">
+        <form id="calc" autocomplete="off">
+          <label for="c-empty">Empty mass, kg (Info tab)<input id="c-empty" type="number" min="100" step="100" value="12000"></label>
+          <label for="c-ore">Ore carried, L (cargo volume)<input id="c-ore" type="number" min="0" step="100" value="13500"></label>
+          <label for="c-thr">Thrust per thruster, N<input id="c-thr" type="number" min="1" step="100" value="14400"></label>
+          <label for="c-g">Gravity, g<input id="c-g" type="number" min="0" step="0.05" value="0"></label>
+          <div class="presets" role="group" aria-label="Gravity presets">
+            <button type="button" data-g="0">Space</button>
+            <button type="button" data-g="0.25">Moon 0.25 g</button>
+            <button type="button" data-g="0.9">Mars 0.9 g</button>
+            <button type="button" data-g="1">Earthlike 1 g</button>
+          </div>
+          <p class="note">14,400 N is the small-grid Small Ion Thruster in vacuum. Ion thrust falls off sharply in atmosphere, so for planet work enter your atmospheric or hydrogen figure.</p>
+        </form>
+        <div class="tbl"><table>
+          <thead><tr><th>Push direction</th><th>Thrusters</th><th>Thrust</th><th>Accel empty</th><th>Accel full</th><th>Lift full</th></tr></thead>
+          <tbody id="calcout"></tbody>
+        </table></div>
+      </div>
+      <p class="note" id="calcnote"></p>
+    </div>
+  </section>
+
+  <section class="sheet" id="commission">
+    <header><h2>Commissioning</h2><span class="no">SHEET 6 / 6 · Terminal setup and first flight</span></header>
+    <div class="body two">
+      <div style="display:grid;gap:12px;align-content:start">
+        <h3>Build order</h3>
+        <ol class="steps">
+          <li><b>Layer Y0–Y5, Z0–Z1 (aft slab):</b> place the connector and three batteries. Start with the connector at the bottom-left of the rear face.</li>
+          <li><b>Z2–Z4:</b> four medium cargo containers. Each one's back port meets the connector or a battery face. The lower-left one sits on the connector's conveyor port.</li>
+          <li><b>Z5–Z10:</b> four drills, bits forward, each fed straight into the container behind it.</li>
+          <li><b>Y6 (utility deck):</b> Remote Control (eye forward, gap up), programmable block, six gyros, camera and sensor at the front edge, lights and decoy at the rear. Fill the rest with light armor.</li>
+          <li><b>Antenna</b> on the deck's rear-left corner (X0, Z0), mast up.</li>
+          <li><b>Pods:</b> 2 × 2 × 7 armor spines on both sides (Y2–Y3, Z2–Z8), then 22 thrusters per pod, as sheet 3 shows layer by layer.</li>
+          <li><b>Belly:</b> small conveyor sorter under the lower-left cargo (X1, Y−1, Z3), ejector below it facing down.</li>
+        </ol>
+        <h3>Programmable block · Custom Data</h3>
+<pre class="cd">[FleetMiner]
+Role=Miner
+Callsign=PROSPECTOR-1
+FleetKey=<i>same secret on every ship</i>
+Channel=FLEETMINER
+Prefer=Platinum,Uranium,Gold</pre>
+        <p class="note">Every other setting is written into Custom Data with its default on the first run, so you can tune it there or with <code>set</code>.</p>
+      </div>
+      <div style="display:grid;gap:12px;align-content:start">
+        <h3>Self-test map</h3>
+        <div class="tbl"><table>
+          <thead><tr><th>selftest line</th><th>Satisfied by</th></tr></thead>
+          <tbody id="testmap"></tbody>
+        </table></div>
+        <h3>First flight</h3>
+        <ol class="steps">
+          <li>Recompile and run <code>selftest</code> while docked. Fix every FAIL. <i>Flight control</i> warns until a carrier is in range.</li>
+          <li>In open space, run <code>hold</code>, then <code>turn</code>, <code>turn up</code> and <code>turn roll</code>. Each should settle 45° the right way. If an axis turns the wrong way, use <code>set InvertYaw on</code> (or Pitch / Roll).</li>
+          <li>Aim at a rock face within 100 m and run <code>setsite</code>, then <code>start</code>. <code>return</code> brings it home.</li>
+          <li>Optional: an LCD named <code>[FM Menu]</code> plus four toolbar slots running the PB with <code>up</code>, <code>down</code>, <code>select</code> and <code>back</code>.</li>
+        </ol>
+        <h3>Variants</h3>
+        <ul class="steps" style="padding-left:18px">
+          <li><b>Planets:</b> for charted ground sites the drone points its nose straight down. The <i>back</i> thrusters (flames toward the drills) then hold it up. Check the "nose-down" lift on sheet 5: the script turns home below <code>MinLift</code> 1.25.</li>
+          <li><b>Hydrogen:</b> swap ions for hydrogen thrusters and add H2 tanks. The script tracks tank level next to battery charge.</li>
+          <li><b>Mining lasers:</b> replace the drills with forward-facing lasers. Keep the <code>[FM Cam]</code> camera next to them, because the beam only fires on a clear path.</li>
+          <li><b>Evasion:</b> add an AI Defensive block named <code>[FM Flee]</code> and an AI Move block anywhere inside.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <footer class="end">FleetMiner Core · FM-M1 Prospector · Reference build, Rev A · Pairs with docs/MinerDrone.md</footer>
+</div>
+
+<script>
+// ---------------- Model: every block, in small-grid cells ----------------
+// Axes: X = ship's right, Y = up, Z = forward (drill direction). Ranges are inclusive.
+// f = facing: the block's front, or for thrusters the FLAME direction.
+var TYPES = {
+  DR: { n: "Drill", c: "#ff9f43", size: "3 × 3 × 6", tag: "", f: "Bit forward" },
+  CG: { n: "Medium Cargo Container", c: "#4fd1c5", size: "3 × 3 × 3", tag: "", f: "Any" },
+  CN: { n: "Connector", c: "#ffd36b", size: "3 × 3 × 2", tag: "[FM Dock]", f: "Ring aft" },
+  BT: { n: "Battery", c: "#7bed9f", size: "3 × 2 × 3", tag: "", f: "2-deep along Z" },
+  GY: { n: "Gyroscope", c: "#c3a6ff", size: "1 × 1 × 1", tag: "", f: "Any" },
+  RC: { n: "Remote Control", c: "#ffffff", size: "1 × 1 × 1", tag: "(optional [FM Ref])", f: "Eye forward, gap up" },
+  PB: { n: "Programmable Block", c: "#dfe6ff", size: "1 × 1 × 1", tag: "", f: "Any" },
+  CM: { n: "Camera", c: "#ff6b81", size: "1 × 1 × 1", tag: "[FM Cam]", f: "Lens forward" },
+  SN: { n: "Sensor", c: "#ff9fb0", size: "1 × 1 × 1", tag: "[FM Sensor]", f: "Forward" },
+  AN: { n: "Antenna", c: "#70a1ff", size: "1 × 1 × 2", tag: "", f: "Mast up" },
+  LT: { n: "Interior Light", c: "#f6e58d", size: "1 × 1 × 1", tag: "[FM Light]", f: "Any" },
+  DC: { n: "Decoy", c: "#e1c16e", size: "1 × 1 × 1", tag: "", f: "Any" },
+  AR: { n: "Light Armor Block", c: "#9fb8d9", size: "1 × 1 × 1", tag: "", f: "Any" },
+  TH: { n: "Small Ion Thruster", c: "#ff8a5c", size: "1 × 1 × 2", tag: "", f: "See flames" },
+  SO: { n: "Small Conveyor Sorter", c: "#d1a36b", size: "1 × 1 × 1", tag: "[FM Eject]", f: "Arrow toward ejector" },
+  EJ: { n: "Small Connector (ejector)", c: "#e8bf8a", size: "1 × 1 × 1", tag: "[FM Eject]", f: "Opening down" }
+};
+var ORDER = ["DR", "CG", "CN", "BT", "GY", "RC", "PB", "CM", "SN", "AN", "LT", "DC", "TH", "SO", "EJ", "AR"];
+var VEC = { "+x": [1, 0, 0], "-x": [-1, 0, 0], "+y": [0, 1, 0], "-y": [0, -1, 0], "+z": [0, 0, 1], "-z": [0, 0, -1] };
+var B = [];
+function add(t, x0, x1, y0, y1, z0, z1, f) { B.push({ t: t, x0: x0, x1: x1, y0: y0, y1: y1, z0: z0, z1: z1, f: f || null }); }
+
+// Aft slab (Z0-1): connector + 3 batteries in a 2 x 2 quad.
+add("CN", 0, 2, 0, 2, 0, 1, "-z");
+add("BT", 3, 5, 0, 2, 0, 1); add("BT", 0, 2, 3, 5, 0, 1); add("BT", 3, 5, 3, 5, 0, 1);
+// Cargo (Z2-4) and drills (Z5-10), one per quadrant, each drill feeding the box behind it.
+[0, 3].forEach(function (qx) { [0, 3].forEach(function (qy) {
+  add("CG", qx, qx + 2, qy, qy + 2, 2, 4);
+  add("DR", qx, qx + 2, qy, qy + 2, 5, 10, "+z");
+}); });
+// Utility deck (Y6), rows Z0..Z4, columns X0..X5.
+var DECK = [
+  ["AR", "LT", "AR", "AR", "LT", "DC"],
+  ["GY", "GY", "AR", "AR", "GY", "GY"],
+  ["AR", "AR", "RC", "PB", "AR", "AR"],
+  ["GY", "AR", "AR", "AR", "AR", "GY"],
+  ["AR", "AR", "CM", "SN", "AR", "AR"]
+];
+DECK.forEach(function (row, z) { row.forEach(function (t, x) {
+  add(t, x, x, 6, 6, z, z, t === "RC" || t === "CM" || t === "SN" ? "+z" : null);
+}); });
+add("AN", 0, 0, 7, 8, 0, 0, "+y");
+// Thruster pods: a 2 x 2 x 7 armor spine each side, thrusters mounted on it.
+function pod(s) { // s = +1 right, -1 left
+  var a = s > 0 ? 6 : -2, b = s > 0 ? 7 : -1, la = s > 0 ? 8 : -4, lb = s > 0 ? 9 : -3;
+  for (var x2 = 0; x2 < 2; x2++) for (var y2 = 0; y2 < 2; y2++) for (var z2 = 2; z2 <= 8; z2++) add("AR", a + x2, a + x2, 2 + y2, 2 + y2, z2, z2);
+  [a, b].forEach(function (x) {
+    [2, 3].forEach(function (y) {
+      add("TH", x, x, y, y, 0, 1, "-z");   // pushes forward
+      add("TH", x, x, y, y, 9, 10, "+z");  // pushes back (brakes, backs out of shafts)
+    });
+    [4, 5].forEach(function (z) {
+      add("TH", x, x, 0, 1, z, z, "-y");   // pushes up
+      add("TH", x, x, 4, 5, z, z, "+y");   // pushes down
+    });
+  });
+  [2, 3].forEach(function (y) { [3, 4, 5].forEach(function (z) {
+    add("TH", la, lb, y, y, z, z, s > 0 ? "+x" : "-x"); // pushes toward the other side
+  }); });
+}
+pod(1); pod(-1);
+// Stone dump on the belly.
+add("SO", 1, 1, -1, -1, 3, 3, "-y");
+add("EJ", 1, 1, -2, -2, 3, 3, "-y");
+
+// ---------------- Voxel index ----------------
+var X = [-4, 9], Y = [-2, 8], Z = [0, 10];
+var CELL = {}, OVERLAPS = [];
+B.forEach(function (b, i) {
+  for (var x = b.x0; x <= b.x1; x++) for (var y = b.y0; y <= b.y1; y++) for (var z = b.z0; z <= b.z1; z++) {
+    var k = x + "," + y + "," + z;
+    if (CELL[k] !== undefined) OVERLAPS.push(k);
+    CELL[k] = i;
+  }
+});
+function at(x, y, z) { var v = CELL[x + "," + y + "," + z]; return v === undefined ? -1 : v; }
+function count(t) { return B.filter(function (b) { return b.t === t; }).length; }
+function thrustCount(flame) { return B.filter(function (b) { return b.t === "TH" && b.f === flame; }).length; }
+
+// ---------------- Views ----------------
+// Each view maps (u, v) on paper and a depth walk to model cells; uv(b) is a block's paper extent.
+var VIEWS = {
+  top:   { u: X, v: Z, d: [Y[1], Y[0]], cell: function (u, v, d) { return [u, d, v]; }, dir: function (p) { return [p[0], p[2], p[1]]; }, U: "SHIP RIGHT", V: "FORWARD" },
+  side:  { u: Z, v: Y, d: [X[1], X[0]], cell: function (u, v, d) { return [d, v, u]; }, dir: function (p) { return [p[2], p[1], p[0]]; }, U: "FORWARD", V: "UP" },
+  front: { u: [-X[1], -X[0]], v: Y, d: [Z[1], Z[0]], cell: function (u, v, d) { return [-u, v, d]; }, dir: function (p) { return [-p[0], p[1], p[2]]; }, U: "SHIP LEFT", V: "UP" },
+  rear:  { u: X, v: Y, d: [Z[0], Z[1]], cell: function (u, v, d) { return [u, v, d]; }, dir: function (p) { return [p[0], p[1], -p[2]]; }, U: "SHIP RIGHT", V: "UP" }
+};
+var CS = 20, MG = 46; // px per cell, margin
+
+function grid(view, layer) {
+  // Returns {w, h, id[v][u]} of the visible block per paper cell.
+  var nu = view.u[1] - view.u[0] + 1, nv = view.v[1] - view.v[0] + 1, ids = [];
+  for (var j = 0; j < nv; j++) {
+    ids.push([]);
+    for (var i = 0; i < nu; i++) {
+      var u = view.u[0] + i, v = view.v[0] + j, hit = -1;
+      if (layer !== undefined) { var c = view.cell(u, v, layer); hit = at(c[0], c[1], c[2]); }
+      else {
+        var step = view.d[0] <= view.d[1] ? 1 : -1;
+        for (var d = view.d[0]; hit < 0 && d !== view.d[1] + step; d += step) { var c2 = view.cell(u, v, d); hit = at(c2[0], c2[1], c2[2]); }
+      }
+      ids[j].push(hit);
+    }
+  }
+  return { nu: nu, nv: nv, ids: ids };
+}
+
+function px(view, g, i) { return MG + i * CS; }
+function py(view, g, j) { return MG + (g.nv - 1 - j) * CS; }
+
+function render(viewName, layer) {
+  var view = VIEWS[viewName], g = grid(view, layer), out = [];
+  var W = MG * 2 + g.nu * CS, H = MG * 2 + g.nv * CS;
+  out.push('<svg viewBox="0 0 ' + W + " " + H + '" role="img" aria-label="' + viewName + ' view">');
+  out.push('<defs><pattern id="hatch-' + viewName + '" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" fill="#9fb8d9" fill-opacity="0.10"/><line x1="0" y1="0" x2="0" y2="6" stroke="#9fb8d9" stroke-opacity="0.45" stroke-width="1"/></pattern></defs>');
+  // Grid
+  for (var i = 0; i <= g.nu; i++) out.push('<line x1="' + (MG + i * CS) + '" y1="' + MG + '" x2="' + (MG + i * CS) + '" y2="' + (MG + g.nv * CS) + '" stroke="#96bef0" stroke-opacity="' + (i % 2 ? 0.08 : 0.16) + '"/>');
+  for (var j = 0; j <= g.nv; j++) out.push('<line x1="' + MG + '" y1="' + (MG + j * CS) + '" x2="' + (MG + g.nu * CS) + '" y2="' + (MG + j * CS) + '" stroke="#96bef0" stroke-opacity="' + (j % 2 ? 0.08 : 0.16) + '"/>');
+  // Ghost of the layer below
+  if (layer !== undefined && layer > Y[0]) {
+    var gb = grid(view, layer - 1);
+    for (var jb = 0; jb < g.nv; jb++) for (var ib = 0; ib < g.nu; ib++) if (gb.ids[jb][ib] >= 0 && g.ids[jb][ib] < 0)
+      out.push('<rect x="' + (px(view, g, ib) + 3) + '" y="' + (py(view, g, jb) + 3) + '" width="' + (CS - 6) + '" height="' + (CS - 6) + '" fill="none" stroke="#a9c3e4" stroke-opacity="0.55" stroke-dasharray="2 2"/>');
+  }
+  // Fills
+  for (var j2 = 0; j2 < g.nv; j2++) for (var i2 = 0; i2 < g.nu; i2++) {
+    var id = g.ids[j2][i2]; if (id < 0) continue;
+    var t = B[id].t;
+    var fill = t === "AR" ? "url(#hatch-" + viewName + ")" : TYPES[t].c;
+    out.push('<rect x="' + px(view, g, i2) + '" y="' + py(view, g, j2) + '" width="' + CS + '" height="' + CS + '" fill="' + fill + '" fill-opacity="' + (t === "AR" ? 1 : 0.24) + '"/>');
+  }
+  // Outlines where the visible block changes
+  var path = "";
+  for (var j3 = 0; j3 < g.nv; j3++) for (var i3 = 0; i3 < g.nu; i3++) {
+    var a = g.ids[j3][i3];
+    var r = i3 + 1 < g.nu ? g.ids[j3][i3 + 1] : -1, up = j3 + 1 < g.nv ? g.ids[j3 + 1][i3] : -1;
+    var l = i3 > 0 ? g.ids[j3][i3 - 1] : -1, dn = j3 > 0 ? g.ids[j3 - 1][i3] : -1;
+    var x0 = px(view, g, i3), y0 = py(view, g, j3);
+    if (a !== r && (a >= 0 || r >= 0)) path += "M" + (x0 + CS) + " " + y0 + "v" + CS;
+    if (a !== up && (a >= 0 || up >= 0)) path += "M" + x0 + " " + y0 + "h" + CS;
+    if (i3 === 0 && a >= 0) path += "M" + x0 + " " + y0 + "v" + CS;
+    if (j3 === 0 && a >= 0) path += "M" + x0 + " " + (y0 + CS) + "h" + CS;
+    void l; void dn;
+  }
+  out.push('<path d="' + path + '" stroke="#eaf3ff" stroke-width="1.4" fill="none" stroke-linecap="square"/>');
+  // Glyphs per visible block
+  var seen = {};
+  for (var j4 = 0; j4 < g.nv; j4++) for (var i4 = 0; i4 < g.nu; i4++) {
+    var id4 = g.ids[j4][i4]; if (id4 < 0) continue;
+    var s = seen[id4] || (seen[id4] = { n: 0, i0: 1e9, i1: -1e9, j0: 1e9, j1: -1e9 });
+    s.n++; s.i0 = Math.min(s.i0, i4); s.i1 = Math.max(s.i1, i4); s.j0 = Math.min(s.j0, j4); s.j1 = Math.max(s.j1, j4);
+  }
+  Object.keys(seen).forEach(function (k) {
+    var b = B[k], s = seen[k];
+    var left = px(view, g, s.i0), right = px(view, g, s.i1) + CS, top = py(view, g, s.j1), bottom = py(view, g, s.j0) + CS;
+    var cx = (left + right) / 2, cy = (top + bottom) / 2, w = right - left, h = bottom - top;
+    if (b.t === "AR") return;
+    if (b.f) {
+      var p = view.dir(VEC[b.f]), flame = b.t === "TH", col = flame ? "#ff8a5c" : "#eaf3ff";
+      if (p[2] !== 0) { // along the line of sight
+        if (flame) {
+          var rr = Math.min(w, h) * 0.3;
+          out.push('<circle cx="' + cx + '" cy="' + cy + '" r="' + rr + '" fill="none" stroke="' + col + '" stroke-width="1.4"/>');
+          if (p[2] > 0) out.push('<circle cx="' + cx + '" cy="' + cy + '" r="1.8" fill="' + col + '"/>');
+          else out.push('<path d="M' + (cx - rr * 0.7) + " " + (cy - rr * 0.7) + "L" + (cx + rr * 0.7) + " " + (cy + rr * 0.7) + "M" + (cx + rr * 0.7) + " " + (cy - rr * 0.7) + "L" + (cx - rr * 0.7) + " " + (cy + rr * 0.7) + '" stroke="' + col + '" stroke-width="1.4"/>');
+        }
+      } else { // in the paper plane: triangle at the edge it faces
+        var dx = p[0], dy = -p[1], tx = cx + dx * (w / 2 - 2), ty = cy + dy * (h / 2 - 2), sz = flame ? 6 : 5;
+        var bx = tx - dx * sz * 1.4, by = ty - dy * sz * 1.4, nx = -dy, ny = dx;
+        out.push('<path d="M' + tx + " " + ty + "L" + (bx + nx * sz) + " " + (by + ny * sz) + "L" + (bx - nx * sz) + " " + (by - ny * sz) + 'Z" fill="' + col + '"/>');
+        if (flame && (w > CS || h > CS)) out.push('<line x1="' + (cx - dx * (w / 2 - 4)) + '" y1="' + (cy - dy * (h / 2 - 4)) + '" x2="' + bx + '" y2="' + by + '" stroke="' + col + '" stroke-width="1.4"/>');
+      }
+    }
+    if (b.t !== "TH") {
+      var fs = w >= CS * 3 && h >= CS * 2 ? 13 : 8.5;
+      out.push('<text x="' + cx + '" y="' + (cy + fs * 0.35) + '" font-size="' + fs + '" font-weight="600" text-anchor="middle" fill="#eaf3ff">' + b.t + "</text>");
+    }
+  });
+  // Dimensions
+  var gx0 = MG, gx1 = MG + g.nu * CS, gy0 = MG, gy1 = MG + g.nv * CS;
+  out.push('<g stroke="#a9c3e4" stroke-width="1" fill="#a9c3e4">');
+  out.push('<line x1="' + gx0 + '" y1="' + (gy1 + 18) + '" x2="' + gx1 + '" y2="' + (gy1 + 18) + '"/><line x1="' + gx0 + '" y1="' + (gy1 + 12) + '" x2="' + gx0 + '" y2="' + (gy1 + 24) + '"/><line x1="' + gx1 + '" y1="' + (gy1 + 12) + '" x2="' + gx1 + '" y2="' + (gy1 + 24) + '"/>');
+  out.push('<line x1="' + (gx0 - 18) + '" y1="' + gy0 + '" x2="' + (gx0 - 18) + '" y2="' + gy1 + '"/><line x1="' + (gx0 - 24) + '" y1="' + gy0 + '" x2="' + (gx0 - 12) + '" y2="' + gy0 + '"/><line x1="' + (gx0 - 24) + '" y1="' + gy1 + '" x2="' + (gx0 - 12) + '" y2="' + gy1 + '"/>');
+  out.push("</g>");
+  out.push('<text x="' + (gx0 + gx1) / 2 + '" y="' + (gy1 + 36) + '" font-size="11" text-anchor="middle" fill="#a9c3e4">' + (g.nu * 0.5).toFixed(1) + " m · " + g.nu + " blocks</text>");
+  out.push('<text transform="translate(' + (gx0 - 26) + " " + (gy0 + gy1) / 2 + ') rotate(-90)" font-size="11" text-anchor="middle" fill="#a9c3e4">' + (g.nv * 0.5).toFixed(1) + " m · " + g.nv + " blocks</text>");
+  // Axis triad
+  out.push('<g fill="#ffd36b" stroke="#ffd36b" stroke-width="1.5"><line x1="' + (gx1 - 70) + '" y1="18" x2="' + (gx1 - 40) + '" y2="18"/><path d="M' + (gx1 - 36) + " 18l-7 -4v8z" + '"/><line x1="12" y1="' + (gy0 + 30) + '" x2="12" y2="' + gy0 + '"/><path d="M12 ' + (gy0 - 4) + "l-4 7h8z" + '"/></g>');
+  out.push('<text x="' + (gx1 - 74) + '" y="22" font-size="10" text-anchor="end" fill="#ffd36b">' + view.U + "</text>");
+  out.push('<text transform="translate(26 ' + (gy0 + 2) + ')" font-size="10" fill="#ffd36b">' + view.V + "</text>");
+  out.push("</svg>");
+  return out.join("");
+}
+
+// ---------------- Sheet content ----------------
+function cellsOf(t) { var n = 0; B.forEach(function (b) { if (b.t === t) n += (b.x1 - b.x0 + 1) * (b.y1 - b.y0 + 1) * (b.z1 - b.z0 + 1); }); return n; }
+var WHERE = {
+  DR: "X0–5, Y0–5, Z5–10 (2 × 2 bank)",
+  CG: "X0–5, Y0–5, Z2–4 (2 × 2, behind the drills)",
+  CN: "X0–2, Y0–2, Z0–1 (rear face, lower left)",
+  BT: "Rear face, the other three quadrants of Z0–1",
+  GY: "Deck Y6: (0,1) (1,1) (4,1) (5,1) (0,3) (5,3) as (X,Z)",
+  RC: "Deck Y6, X2, Z2",
+  PB: "Deck Y6, X3, Z2",
+  CM: "Deck Y6, X2, Z4 (front edge, above the drills)",
+  SN: "Deck Y6, X3, Z4",
+  AN: "X0, Y7–8, Z0 (on the deck's rear-left corner)",
+  LT: "Deck Y6, X1 and X4, Z0",
+  DC: "Deck Y6, X5, Z0",
+  TH: "Pods (X−4…−1 and X6…9), see the next rows",
+  SO: "Belly X1, Y−1, Z3 (under the lower-left cargo)",
+  EJ: "Belly X1, Y−2, Z3",
+  AR: "Deck filler (Y6) + two 2 × 2 × 7 pod spines (Y2–3, Z2–8)"
+};
+
+function fill() {
+  var mass = 12000, ore = 13500;
+  var specs = [
+    ["Envelope", "7.0 × 5.5 × 5.5 m", "W × H × L incl. pods"],
+    ["Blocks", B.reduce(function (n, b) { return n + (b.t === "AR" ? 0 : 1); }, 0) + cellsOf("AR") + "", "functional + armor"],
+    ["Cargo", "13,500 L", "≈ 36.5 t of ore + drill bins"],
+    ["Shaft bore", "3.0 × 3.0 m", "from the drill bank"],
+    ["Drill reach", "≈ 4.25 m", "Remote Control → bit tips"],
+    ["Thrusters", count("TH") + " small ion", "8 / 8 / 8 / 8 / 6 / 6"],
+    ["Fwd thrust", (thrustCount("-z") * 14.4).toFixed(1) + " kN", "per main axis"],
+    ["Storage", "3 batteries", "auto mode, charged on the pad"]
+  ];
+  document.getElementById("specgrid").innerHTML = specs.map(function (s) { return "<div><span>" + s[0] + "</span><b>" + s[1] + "</b><span>" + s[2] + "</span></div>"; }).join("");
+  void mass; void ore;
+
+  ["top", "side", "front", "rear"].forEach(function (v) { document.getElementById("v-" + v).innerHTML = render(v); });
+  document.getElementById("legend").innerHTML = ORDER.map(function (t) {
+    var T = TYPES[t];
+    var sw = t === "AR" ? 'background:repeating-linear-gradient(45deg,rgba(159,184,217,.5) 0 1px,transparent 1px 5px)' : "background:" + T.c + "3d";
+    return '<div><span class="sw" style="' + sw + '">' + (t === "TH" ? "" : t) + "</span><span>" + T.n + (T.tag && T.tag[0] === "[" ? " <code>" + T.tag + "</code>" : "") + "</span></div>";
+  }).join("");
+
+  // BOM
+  var rows = ORDER.map(function (t) {
+    var T = TYPES[t], q = t === "AR" ? cellsOf("AR") : count(t);
+    return "<tr><td class='n'>" + t + "</td><td>" + T.n + "</td><td class='n'>" + q + "</td><td class='n'>" + T.size + "</td><td>" + (T.tag ? "<code>" + T.tag + "</code>" : "—") + "</td><td>" + WHERE[t] + "</td><td>" + T.f + "</td></tr>";
+  });
+  var TH = [
+    ["-z", "Forward", "Pod rear ends, X±(6,7) Y2–3 Z0–1, flames aft"],
+    ["+z", "Back / brake", "Pod front ends, Z9–10, flames forward"],
+    ["-y", "Up", "Under the spines, Y0–1, Z4–5, flames down"],
+    ["+y", "Down", "Over the spines, Y4–5, Z4–5, flames up"],
+    ["-x", "Right", "Left pod outboard, X−4…−3, Y2–3, Z3–5, flames left"],
+    ["+x", "Left", "Right pod outboard, X8–9, Y2–3, Z3–5, flames right"]
+  ].map(function (r) {
+    return "<tr><td class='n'>TH</td><td>&nbsp;&nbsp;↳ pushes " + r[1] + "</td><td class='n'>" + thrustCount(r[0]) + "</td><td class='n'>1 × 1 × 2</td><td>—</td><td>" + r[2] + "</td><td>Flame " + r[0] + "</td></tr>";
+  });
+  rows.splice(ORDER.indexOf("TH") + 1, 0, TH.join(""));
+  document.getElementById("bom").innerHTML = rows.join("");
+
+  // Layers
+  var btns = document.getElementById("layerbtns"), html = "";
+  for (var y = Y[0]; y <= Y[1]; y++) html += '<button type="button" data-y="' + y + '" aria-pressed="false">Y' + (y < 0 ? "−" + -y : y) + "</button>";
+  btns.innerHTML = html;
+  btns.addEventListener("click", function (e) { var b = e.target.closest("button"); if (b) showLayer(+b.dataset.y); });
+  var start = 6;
+  try { var saved = localStorage.getItem("fm-layer"); if (saved !== null && !isNaN(+saved)) start = +saved; } catch (err) {}
+  showLayer(start);
+
+  // Self-test map
+  var TM = [
+    ["Controller", "RC: Remote Control on the grid"],
+    ["Gyroscopes", "GY: at least one"],
+    ["Thrust, 6 axes", "TH: a working thruster per push direction"],
+    ["Lift vs gravity", "In gravity: lift ≥ MinLift (sheet 5)"],
+    ["Dock connector", "CN: Connector named [FM Dock]"],
+    ["Drills", "DR: drills, undamaged (or lasers)"],
+    ["Antenna", "AN: broadcasting antenna"],
+    ["Forward camera", "CM: [FM Cam], working"],
+    ["Stone dump path", "SO + EJ: conveyor path drill → ejector"],
+    ["Battery / H2", "BT: batteries (or H2 tanks)"],
+    ["Flight control", "A carrier in range (warns until then)"],
+    ["Landing gear unlocked", "No locked gear while undocked"]
+  ];
+  document.getElementById("testmap").innerHTML = TM.map(function (r) { return "<tr><td class='n'>" + r[0] + "</td><td>" + r[1] + "</td></tr>"; }).join("");
+
+  // Calculator
+  var form = document.getElementById("calc");
+  form.addEventListener("input", calc);
+  form.addEventListener("submit", function (e) { e.preventDefault(); });
+  form.querySelectorAll("[data-g]").forEach(function (b) { b.addEventListener("click", function () { document.getElementById("c-g").value = b.dataset.g; calc(); }); });
+  calc();
+}
+
+var LAYER_NOTE = {
+  "-2": "Ejector (small connector) facing down. Last block on the belly.",
+  "-1": "Small conveyor sorter under the lower-left cargo container, arrow pointing down toward the ejector.",
+  "0": "Bottom of the hull. Pods: up-push thrusters hang from the spines here, flames down.",
+  "1": "Second half of the hanging up-push thrusters.",
+  "2": "Pod spines start. Forward-push thrusters at the rear ends, brake thrusters at the front ends, lateral thrusters outboard.",
+  "3": "Upper row of the spines and the second row of pod thrusters.",
+  "4": "Down-push thrusters stand on the spines, flames up.",
+  "5": "Top of the hull and of the down-push thrusters.",
+  "6": "Utility deck: Remote Control (eye forward, gap up), programmable block, six gyros, camera and sensor on the front edge, lights and decoy at the rear.",
+  "7": "Antenna mast, lower block.",
+  "8": "Antenna mast, upper block."
+};
+
+function showLayer(y) {
+  document.querySelectorAll("#layerbtns button").forEach(function (b) { b.setAttribute("aria-pressed", String(+b.dataset.y === y)); });
+  document.getElementById("v-layer").innerHTML = render("top", y);
+  document.getElementById("layercap").textContent = "Layer Y" + (y < 0 ? "−" + -y : y) + " · " + (y * 0.5).toFixed(1) + " m";
+  var tally = {}, seen = {};
+  for (var x = X[0]; x <= X[1]; x++) for (var z = Z[0]; z <= Z[1]; z++) {
+    var i = at(x, y, z); if (i < 0 || seen[i]) continue;
+    seen[i] = 1;
+    var b = B[i], key = b.t === "TH" ? "TH" + b.f : b.t;
+    if (b.y0 !== y && b.t !== "AR") continue; // only count where a block starts
+    tally[key] = (tally[key] || 0) + (b.t === "AR" ? 0 : 1);
+  }
+  var armor = 0;
+  for (var x2 = X[0]; x2 <= X[1]; x2++) for (var z2 = Z[0]; z2 <= Z[1]; z2++) { var k = at(x2, y, z2); if (k >= 0 && B[k].t === "AR") armor++; }
+  var PUSH = { "-z": "forward", "+z": "back", "-y": "up", "+y": "down", "-x": "right", "+x": "left" };
+  var items = Object.keys(tally).filter(function (k) { return tally[k] > 0; }).map(function (k) {
+    if (k.indexOf("TH") === 0) return "<li>" + tally[k] + " × thruster pushing <b>" + PUSH[k.slice(2)] + "</b> (flame " + k.slice(2) + ")</li>";
+    return "<li>" + tally[k] + " × " + TYPES[k].n + (TYPES[k].tag && TYPES[k].tag[0] === "[" ? " <code>" + TYPES[k].tag + "</code>" : "") + "</li>";
+  });
+  if (armor) items.push("<li>" + armor + " × light armor cell" + (armor > 1 ? "s" : "") + "</li>");
+  document.getElementById("layernotes").innerHTML = "<h3>Y" + (y < 0 ? "−" + -y : y) + "</h3><p>" + (LAYER_NOTE[String(y)] || "") + "</p>" +
+    (items.length ? "<p class='note'>Blocks starting on this layer:</p><ul>" + items.join("") + "</ul>" : "<p class='note'>Nothing starts on this layer.</p>");
+  try { localStorage.setItem("fm-layer", String(y)); } catch (err) {}
+}
+
+function calc() {
+  var num = function (id) { var v = parseFloat(document.getElementById(id).value); return isFinite(v) ? v : 0; };
+  var empty = Math.max(1, num("c-empty")), full = empty + num("c-ore") / 0.37, F = num("c-thr"), g = num("c-g") * 9.81;
+  var DIRS = [["-z", "Forward"], ["+z", "Back / brake"], ["-y", "Up"], ["+y", "Down"], ["-x", "Right"], ["+x", "Left"]];
+  document.getElementById("calcout").innerHTML = DIRS.map(function (d) {
+    var n = thrustCount(d[0]), T = n * F;
+    var lift = "<span class='pill na'>—</span>";
+    if (g > 0 && (d[0] === "-y" || d[0] === "+z")) {
+      var r = T / (full * g);
+      lift = "<span class='pill " + (r >= 1.25 ? "ok" : "bad") + "'>" + r.toFixed(2) + (d[0] === "-y" ? " level" : " nose-down") + "</span>";
+    }
+    return "<tr><td>" + d[1] + "</td><td class='n'>" + n + "</td><td class='n'>" + (T / 1000).toFixed(1) + " kN</td><td class='n'>" + (T / empty).toFixed(2) + " m/s²</td><td class='n'>" + (T / full).toFixed(2) + " m/s²</td><td>" + lift + "</td></tr>";
+  }).join("");
+  document.getElementById("calcnote").textContent = "Full mass " + Math.round(full).toLocaleString() + " kg. " +
+    (g > 0 ? "Lift must stay at or above MinLift 1.25, or the drone heads home early. Level flight is held by the up-push group; nose-down mining by the back-push group."
+           : "In space only braking matters: with Decel = 0 the script plans its stops on 70% of the thrust actually available, so a heavy load just means gentler approaches.");
+}
+
+if (typeof document !== "undefined") fill();
+</script>
