@@ -43,3 +43,8 @@ MODS
   when they face forward on a miner: it bores each shaft from outside.
   chart N GPS:Name:X:Y:Z:   (miner or carrier) fly to a GPS, chart it as site N.
   WeaponCore threats and Defense Shields are picked up automatically.
+
+FLIGHT TESTS (first time on a new drone, in open space)
+  hold        helm holds this pose (should stay steady)
+  turn        yaw 45 deg right     turn up    nose 45 deg up     turn roll   roll 45 deg right
+  wrong way?  set InvertYaw on / set InvertPitch on / set InvertRoll on      stop to end

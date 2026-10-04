@@ -99,6 +99,8 @@ namespace IngameScript
                 else if (Is(argument, "skip")) Skip();
                 else if (Is(argument, "goto", out at)) Goto(GridManager.ParseInt(argument, at));
                 else if (Is(argument, "forget")) { _carrierAddr = 0; _slot = -1; }
+                else if (Is(argument, "hold")) { TestHold(); }
+                else if (Is(argument, "turn", out at)) TestTurn(argument, at);
                 else if (Is(argument, "chart", out at))
                 {
                     Vector3D target;
@@ -180,6 +182,51 @@ namespace IngameScript
                 if (_grid.IsConnected) Enter(FleetState.Docked);
                 else if (IsShuttle) GoHome();
                 else Enter(FleetState.Transit);
+            }
+
+            // Flight tests: the helm holds the current pose ('hold'), or turns 45 degrees on one axis
+            // ('turn' = yaw right, 'turn up' = nose up, 'turn roll' = roll right). A wrong way or a
+            // spin means that axis is mirrored: 'set InvertYaw on' (or Pitch / Roll). 'stop' ends it.
+            const string NoteHold = "Test: holding this pose under helm control";
+            const string NoteTurnRight = "Test: should yaw 45 deg RIGHT and settle";
+            const string NoteTurnUp = "Test: should pitch nose 45 deg UP and settle";
+            const string NoteTurnRoll = "Test: should roll 45 deg RIGHT (right side down) and settle";
+
+            void TestHold()
+            {
+                _autoCycle = false;
+                Enter(FleetState.Idle);
+                _helm.HoldPosition();
+                _note = NoteHold;
+            }
+
+            void TestTurn(string argument, int at)
+            {
+                var ctrl = _grid.Controller;
+                if (ctrl == null) return;
+                TestHold();
+                MatrixD m = ctrl.WorldMatrix;
+                Vector3D f = m.Forward, u = m.Up;
+                while (at < argument.Length && argument[at] == ' ') at++;
+                char c = at < argument.Length ? char.ToLowerInvariant(argument[at]) : 'r';
+                char c2 = at + 1 < argument.Length ? char.ToLowerInvariant(argument[at + 1]) : ' ';
+                if (c == 'u')
+                {
+                    f = Vector3D.Normalize(m.Forward + m.Up);
+                    u = Vector3D.Normalize(m.Up - m.Forward);
+                    _note = NoteTurnUp;
+                }
+                else if (c == 'r' && c2 == 'o')
+                {
+                    u = Vector3D.Normalize(m.Up + m.Right);
+                    _note = NoteTurnRoll;
+                }
+                else
+                {
+                    f = Vector3D.Normalize(m.Forward + m.Right);
+                    _note = NoteTurnRight;
+                }
+                _helm.SetTarget(m.Translation, Vector3D.Zero, f, u, 5);
             }
 
             /// <summary>Miner: fly to a GPS target, find the rock, aim and chart it as library site N.</summary>

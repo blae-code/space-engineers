@@ -235,7 +235,8 @@ A timer triggers, and a sound block plays, when its name contains one of these t
 | `ReserveCharge` / `EnergyMargin` | 0.10 / 1.5 | Reserve kept, safety factor on the trip home |
 | `MaxSpeed` / `ApproachSpeed` / `DockSpeed` | 40 / 8 / 1.5 | m/s |
 | `Decel` | 0 | Braking cap in m/s². 0 = plan stops on 70% of what the thrusters can actually do against the motion, for the current mass and gravity. Worlds that already have `Decel=4` keep that as a cap until you `set Decel 0`. |
-| `ApproachDistance` / `DockGap` | 40 / 1.5 | Staging distance / connector gap on final approach |
+| `ApproachDistance` / `DockGap` | 40 / 1.0 | Staging distance / extra gap beyond connector contact where final docking starts (it then creeps in at 0.3 m/s until the connector is ready to lock) |
+| `InvertPitch` / `InvertYaw` / `InvertRoll` | off | Flight-test fixes if an axis turns the wrong way (see *First flight: one drone*) |
 | `MineSpeed` / `MineDepth` | 1.0 / 30 | m/s while cutting / m past the face |
 | `ShaftSpacing` / `MaxShafts` | 0 / 25 | 0 = from the drill bank / shafts per site (max 121) |
 | `SiteStandoff` / `FaceMargin` / `ScanRange` | 10 / 2 / 100 | Site plane offset / glide stop / camera and survey range |
@@ -255,6 +256,42 @@ A timer triggers, and a sound block plays, when its name contains one of these t
 | `LaserSpeed` | 2 | m/s a ToolCore laser cuts, for depth when the camera can't see down the hole |
 | `KeepStone` | off | Adjustable Mining Laser: keep stone instead of its *Ignore Stone* |
 | `BeaconTimeout` / `DockTimeout` | 5 / 60 | Docking timeouts |
+
+## First flight: one drone (creative mode)
+
+Test the pieces in this order. Each step needs only what the steps before it proved.
+
+**1. Bench check (still docked, or parked with dampeners on)**
+- Recompile, then run `selftest`. Fix every FAIL.
+- WARN is fine for now. "Flight control" warns until a carrier exists.
+
+**2. Steering (undocked, in open space, a few hundred metres from anything)**
+
+| Command | Correct result | If it goes the wrong way or keeps spinning |
+|---|---|---|
+| `hold` | Stays put and steady. Nudging it with your jetpack makes it settle back. | Drifting away means thrust is mirrored: send me the details |
+| `turn` | Yaws 45° right and settles | `set InvertYaw on` |
+| `turn up` | Nose pitches 45° up and settles | `set InvertPitch on` |
+| `turn roll` | Rolls 45° right (right side down) and settles | `set InvertRoll on` |
+
+`stop` hands the ship back to the dampeners.
+
+**3. Mining, no carrier**
+1. Aim at an asteroid 50–100 m away, run `setsite`, then `start`.
+2. Watch it reach the staging point, slide to the first shaft, cut, back out and move to the next shaft.
+3. `return` should back it out of the shaft.
+4. Without a carrier it then waits in place ("RTB"), because there's no pad to go to. That's expected.
+
+**4. Docking**
+1. Add a carrier: a programmable block with `Role=Carrier`, a connector tagged `[FM Dock]` and an antenna, all on a station or a ship.
+2. Run `return` on the drone. It should get a pad, approach, creep in and lock.
+3. Run `start` while it's docked: it unloads, charges, and launches when it's ready.
+
+**What to send back if something's off:**
+- The `status` page (photo or text).
+- The `[FM Log]` screen.
+- What the drone did versus what you expected.
+- The ship's mass, and whether it's in gravity.
 
 ## First test (creative mode)
 

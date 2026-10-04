@@ -283,6 +283,10 @@ namespace IngameScript
 
             void ApplyGyros(ref MatrixD refM, double pitch, double yaw, double roll)
             {
+                var cfg = _p.Cfg;
+                if (cfg.InvertPitch) pitch = -pitch;
+                if (cfg.InvertYaw) yaw = -yaw;
+                if (cfg.InvertRoll) roll = -roll;
                 // Gyro override axes are sign-flipped relative to a right-handed rotation,
                 // hence the negated pitch (same convention as Whiplash141's ApplyGyroOverride).
                 Vector3D world = Vector3D.TransformNormal(new Vector3D(-pitch, yaw, roll), refM);

@@ -125,7 +125,7 @@ namespace IngameScript
             public double CargoFull = 0.90, CargoEmpty = 0.02, LaunchCharge = 0.90;
             public double ReturnCharge = 0.25, ReturnHydrogen = 0.20, ReserveCharge = 0.10, EnergyMargin = 1.5;
             public double MaxSpeed = 40, ApproachSpeed = 8, DockSpeed = 1.5, Decel = 0; // Decel: braking cap, 0 = from thrust
-            public double ApproachDistance = 40, DockGap = 1.5;
+            public double ApproachDistance = 40, DockGap = 1.0; // DockGap: extra gap beyond connector contact where final docking starts
             public double MineSpeed = 1.0, MineDepth = 30, ShaftSpacing = 0, MaxShafts = 25;
             public double SiteStandoff = 10, FaceMargin = 2, ScanRange = 100, StallTime = 20;
             public double BarrenDepth = 10, ClaimTimeout = 900, MinLift = 1.25;
@@ -137,6 +137,7 @@ namespace IngameScript
             public double LaserRange = 0, LaserRadius = 0, LaserSpeed = 2;   // lasers: 0 = auto by mod and grid size
             public bool Autopilot = true, Unload = true, RecallOnDistress = true;
             public bool AntennaAuto = true, ConfigureSensors = true, Survey = true, KeepStone;
+            public bool InvertPitch, InvertYaw, InvertRoll; // flight-test fixes, see 'turn' in the guide
 
             public static readonly string[] Keys =
             {
@@ -148,7 +149,8 @@ namespace IngameScript
                 "CrumbSpacing", "HoldDistance", "LaunchInterval", "LaunchCountdown", "DamageTolerance",
                 "BeaconTimeout", "DockTimeout", "AntennaMax", "MinAltitude", "FleeDistance",
                 "FleeTime", "Separation", "LinkTimeout", "LaserRange", "LaserRadius", "LaserSpeed",
-                "Autopilot", "Unload", "RecallOnDistress", "AntennaAuto", "ConfigureSensors", "Survey", "KeepStone"
+                "Autopilot", "Unload", "RecallOnDistress", "AntennaAuto", "ConfigureSensors", "Survey", "KeepStone",
+                "InvertPitch", "InvertYaw", "InvertRoll"
             };
             const int FirstBool = 41; // Keys from this index on are booleans (stored as 0/1)
 
@@ -204,6 +206,9 @@ namespace IngameScript
                     case 45: return ConfigureSensors ? 1 : 0;
                     case 46: return Survey ? 1 : 0;
                     case 47: return KeepStone ? 1 : 0;
+                    case 48: return InvertPitch ? 1 : 0;
+                    case 49: return InvertYaw ? 1 : 0;
+                    case 50: return InvertRoll ? 1 : 0;
                 }
                 return 0;
             }
@@ -260,6 +265,9 @@ namespace IngameScript
                     case 45: ConfigureSensors = v != 0; break;
                     case 46: Survey = v != 0; break;
                     case 47: KeepStone = v != 0; break;
+                    case 48: InvertPitch = v != 0; break;
+                    case 49: InvertYaw = v != 0; break;
+                    case 50: InvertRoll = v != 0; break;
                 }
             }
 

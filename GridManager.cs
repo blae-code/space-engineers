@@ -160,6 +160,8 @@ namespace IngameScript
             /// cutting face sits ahead of the reference, and the width/height it cuts.
             /// </summary>
             public double DrillReach { get; private set; }
+            /// <summary>Half our dock connector's length along its facing: two mated connectors' centres sit 2x this apart.</summary>
+            public double ConnectorHalf { get; private set; }
 
             public bool HasLasers { get { return Lasers.Count > 0; } }
             /// <summary>ToolCore lasers: no contact readout, range/radius come from config.</summary>
@@ -331,6 +333,14 @@ namespace IngameScript
                     for (int i = 0; i < _gears.Count; i++)
                         _gears[i].AutoLock = false; // a drone must never grab the rock it is cutting
                 MeasureDrills();
+                ConnectorHalf = 0;
+                if (Connector != null)
+                {
+                    Vector3I cells = Connector.Max - Connector.Min + Vector3I.One;
+                    Vector3D half = new Vector3D(cells.X, cells.Y, cells.Z) * (_p.Me.CubeGrid.GridSize * 0.5);
+                    Vector3D f = Vector3D.TransformNormal(Connector.WorldMatrix.Forward, MatrixD.Transpose(_p.Me.CubeGrid.WorldMatrix));
+                    ConnectorHalf = Math.Abs(half.X * f.X) + Math.Abs(half.Y * f.Y) + Math.Abs(half.Z * f.Z);
+                }
                 Problem = Diagnose();
                 Warning = Advise();
                 if (_hudText != null) ApplyHud();

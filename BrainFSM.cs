@@ -730,8 +730,12 @@ namespace IngameScript
                     return;
                 }
 
+                // Connector standoffs are centre to centre: mated connectors of the same size sit two
+                // half-lengths apart. Start DockGap beyond that and creep in until it reports ready to lock.
+                double contact = 2 * _grid.ConnectorHalf;
+                double gap = Math.Max(contact - 0.25, contact + _cfg.DockGap - (_p.Clock - _enteredAt) * 0.3);
                 Vector3D pos, fwd, up;
-                SolveDockPose(_cfg.DockGap, out pos, out fwd, out up);
+                SolveDockPose(gap, out pos, out fwd, out up);
                 _helm.SetTarget(pos, _carrierVel, fwd, up, _cfg.DockSpeed);
             }
 
