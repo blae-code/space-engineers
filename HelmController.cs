@@ -27,6 +27,9 @@ namespace IngameScript
             readonly Program _p;
             readonly GridManager _grid;
             readonly List<IMyThrust>[] _groups = new List<IMyThrust>[6];
+            /// <summary>Working thrust (N) per push direction, refreshed every control tick.</summary>
+            readonly double[] _cap = new double[6];
+            const double BrakeMargin = 0.7; // plan stops on 70% of the deceleration we could produce
             int _groupedVersion = -1;
 
             bool _engaged;
@@ -49,6 +52,8 @@ namespace IngameScript
             /// Infinity in space. Below ~1.2 a loaded drone can no longer climb out safely.
             /// </summary>
             public double LiftRatio { get; private set; } = double.PositiveInfinity;
+            /// <summary>Deceleration (m/s²) the last approach was planned with: thrust against the motion, mass and gravity.</summary>
+            public double BrakeAccel { get; private set; }
             /// <summary>Planet surface clearance to keep (m); 0 = off. Set by the brain per state.</summary>
             public double AltitudeFloor;
             /// <summary>Height above the planet surface, or -1 in space.</summary>
@@ -205,11 +210,33 @@ namespace IngameScript
                     ClampRate(yaw * GyroGain),
                     ClampRate(roll * GyroGain * rollWeight));
 
-                // Translation: braking-limited closing speed on top of the target's own velocity.
+                // Translation: braking-limited closing speed on top of the target's own velocity. The
+                // braking figure is what this ship can do right now: thrust pointing against the
+                // motion, divided by current mass (cargo included), plus any help from gravity.
                 Vector3D toTarget = _targetPos - ctrl.GetPosition();
                 double dist = DistanceToTarget;
+                double mass = ctrl.CalculateShipMass().PhysicalMass;
+                Vector3D g = ctrl.GetNaturalGravity();
+                for (int i = 0; i < 6; i++)
+                {
+                    double c = 0;
+                    var list = _groups[i];
+                    for (int k = 0; k < list.Count; k++)
+                        if (list[k].IsWorking) c += list[k].MaxEffectiveThrust;
+                    _cap[i] = c;
+                }
+                double brake = _p.Cfg.Decel > 0 ? _p.Cfg.Decel : 4;
+                if (dist > 1e-3)
+                {
+                    Vector3D back = -toTarget / dist;
+                    Vector3D u = Vector3D.TransformNormal(back, refT);
+                    double f = Math.Min(AxisForce(u.X, Right, Left), Math.Min(AxisForce(u.Y, Up, Down), AxisForce(u.Z, Back, Fwd)));
+                    double a = (f / mass + Vector3D.Dot(g, back)) * BrakeMargin;
+                    brake = Math.Max(0.5, _p.Cfg.Decel > 0 ? Math.Min(a, _p.Cfg.Decel) : a);
+                }
+                BrakeAccel = brake;
                 double speed = Math.Min(_maxSpeed,
-                    Math.Min(Math.Sqrt(2 * _p.Cfg.Decel * dist), dist * PositionGain));
+                    Math.Min(Math.Sqrt(2 * brake * dist), dist * PositionGain));
                 Vector3D desiredVel = _targetVel;
                 if (dist > 1e-3) desiredVel += toTarget * (speed / dist);
 
@@ -225,8 +252,8 @@ namespace IngameScript
                 }
 
                 Vector3D vel = ctrl.GetShipVelocities().LinearVelocity;
-                Vector3D accel = (desiredVel - vel) * VelocityGain - ctrl.GetNaturalGravity();
-                Vector3D force = accel * ctrl.CalculateShipMass().PhysicalMass;
+                Vector3D accel = (desiredVel - vel) * VelocityGain - g;
+                Vector3D force = accel * mass;
 
                 Vector3D local = Vector3D.TransformNormal(force, refT);
                 DriveAxis(Right, Left, local.X);
@@ -336,12 +363,17 @@ namespace IngameScript
                 return capacity / c;
             }
 
+            /// <summary>Largest force along a ref-local direction component the working thrusters allow.</summary>
+            double AxisForce(double component, int positive, int negative)
+            {
+                double c = Math.Abs(component);
+                return c < 0.05 ? double.PositiveInfinity : _cap[component > 0 ? positive : negative] / c;
+            }
+
             void Drive(int group, double force)
             {
                 var list = _groups[group];
-                double capacity = 0;
-                for (int i = 0; i < list.Count; i++)
-                    if (list[i].IsWorking) capacity += list[i].MaxEffectiveThrust;
+                double capacity = _cap[group];
 
                 float pct = capacity > 0 ? (float)Math.Min(force / capacity, 1.0) : 0f;
                 for (int i = 0; i < list.Count; i++)

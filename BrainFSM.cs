@@ -201,11 +201,18 @@ namespace IngameScript
             Vector3D _yieldPos;
 
             // Energy model: fraction of battery / hydrogen burned per metre flown, learned outbound.
+            // Burn is per metre per tonne, so a full hold predicts the heavier trip home. Learned on
+            // both legs (outbound light, inbound laden); hover-heavy legs are discarded.
             public double BattPerMetre { get; private set; }
             public double H2PerMetre { get; private set; }
+            /// <summary>Fraction of battery / H2 used per second while working, and a typical shaft's duration.</summary>
+            public double WorkDrainBatt { get; private set; }
+            public double WorkDrainH2 { get; private set; }
+            public double ShaftSeconds { get; private set; }
             bool _learning;
-            double _learnBatt, _learnH2, _learnDist;
+            double _learnBatt, _learnH2, _learnDist, _learnMass, _learnStart;
             Vector3D _learnLast;
+            double _workAt = -1, _workBatt, _workH2, _sessionStart;
 
             // Self-preservation.
             public int DistressReason { get; private set; }
@@ -287,6 +294,7 @@ namespace IngameScript
                         break;
 
                     case FleetState.Docked:
+                        FinishLearning(); // inbound leg done, before charging muddies it
                         _grid.SetDrills(false);
                         _helm.Disengage();
                         _grid.SetDockedMode(true);
@@ -322,6 +330,7 @@ namespace IngameScript
                         break;
 
                     case FleetState.Working:
+                        _workAt = -1;
                         if (IsMiner) OpenSession(); // haulers hold station; they never touch the map
                         else _p.Log.Add(_cfg.Name, LogHaulerStation, SiteId);
                         _closing = false;
@@ -417,6 +426,7 @@ namespace IngameScript
                 }
 
                 _helm.AltitudeFloor = FloorApplies() ? _cfg.MinAltitude : 0;
+                if (_learning && _grid.Controller != null) Learn(_grid.Controller.GetPosition());
                 switch (State)
                 {
                     case FleetState.Undocking: TickUndocking(); break;
@@ -451,6 +461,7 @@ namespace IngameScript
                         break;
 
                     case FleetState.Working:
+                        LearnWorkDrain();
                         if (IsMiner) MiningUpdate();
                         else HaulerOnStation();
                         break;
@@ -564,7 +575,14 @@ namespace IngameScript
                 }
                 _helm.SetTarget(entry, Vector3D.Zero, Site.Fwd, Site.Up, _cfg.ApproachSpeed);
                 if (_helm.DistanceToTarget < 1 && _helm.RelativeSpeed < 0.5 && _helm.AlignmentError < 0.05)
-                    Enter(FleetState.Working);
+                {
+                    if (CanFinishShaft()) Enter(FleetState.Working);
+                    else
+                    {
+                        _note = NoteLowPower; // a shaft started now would strand us
+                        GoHome();
+                    }
+                }
             }
 
             /// <summary>
@@ -574,7 +592,6 @@ namespace IngameScript
             /// </summary>
             bool LongLeg(Vector3D pos, Vector3D target)
             {
-                Learn(pos);
                 DropCrumb(pos);
                 Vector3D to = target - pos;
                 double far = to.Length();
@@ -997,6 +1014,7 @@ namespace IngameScript
             void OpenSession()
             {
                 _sessionOpen = true;
+                _sessionStart = _p.Clock;
                 _depth = 0;
                 _retracting = false;
                 _shaftDone = false;
@@ -1025,6 +1043,11 @@ namespace IngameScript
                 _sessionOpen = false;
                 double mean = Site.MeanValue();
                 int status = _shaftDone ? _shaftResult : SiteMap.Partial;
+                if (status == SiteMap.Done)
+                {
+                    double s = _p.Clock - _sessionStart;
+                    ShaftSeconds = ShaftSeconds > 0 ? ShaftSeconds * 0.7 + s * 0.3 : s;
+                }
                 Site.Apply(Shaft, status, ShaftValue(), -1, _p.IGC.Me, _p.Clock);
                 ReportShaft(Shaft, status, true);
 
@@ -1327,7 +1350,39 @@ namespace IngameScript
                 _learnBatt = _grid.BatteryCharge;
                 _learnH2 = _grid.HydrogenFill;
                 _learnDist = 0;
+                _learnMass = MassTonnes();
+                _learnStart = _p.Clock;
                 _learnLast = _grid.Controller.GetPosition();
+            }
+
+            double MassTonnes()
+            {
+                var ctrl = _grid.Controller;
+                return ctrl != null ? Math.Max(0.1, ctrl.CalculateShipMass().PhysicalMass / 1000) : 1;
+            }
+
+            /// <summary>Working: blend the battery / H2 drain per second (Update100 samples).</summary>
+            void LearnWorkDrain()
+            {
+                if (_workAt >= 0)
+                {
+                    double dt = _p.Clock - _workAt;
+                    double db = (_workBatt - _grid.BatteryCharge) / dt;
+                    double dh = (_workH2 - _grid.HydrogenFill) / dt;
+                    if (dt > 0.5 && db >= 0) WorkDrainBatt = WorkDrainBatt > 0 ? WorkDrainBatt * 0.9 + db * 0.1 : db;
+                    if (dt > 0.5 && dh >= 0 && _grid.HasHydrogen) WorkDrainH2 = WorkDrainH2 > 0 ? WorkDrainH2 * 0.9 + dh * 0.1 : dh;
+                }
+                _workAt = _p.Clock;
+                _workBatt = _grid.BatteryCharge;
+                _workH2 = _grid.HydrogenFill;
+            }
+
+            /// <summary>Would we still have enough to get home after a typical shaft? (true until learned)</summary>
+            bool CanFinishShaft()
+            {
+                if (ShaftSeconds <= 0) return true;
+                if (WorkDrainBatt > 0 && _grid.BatteryCharge - WorkDrainBatt * ShaftSeconds < BatteryNeeded()) return false;
+                return !(_grid.HasHydrogen && WorkDrainH2 > 0 && _grid.HydrogenFill - WorkDrainH2 * ShaftSeconds < HydrogenNeeded());
             }
 
             void Learn(Vector3D pos)
@@ -1342,9 +1397,10 @@ namespace IngameScript
             {
                 if (!_learning) return;
                 _learning = false;
-                if (_learnDist < 200) return; // too short to say anything
-                double batt = (_learnBatt - _grid.BatteryCharge) / _learnDist;
-                double h2 = (_learnH2 - _grid.HydrogenFill) / _learnDist;
+                // Too short, or mostly hovering (holding, giving way): it would overstate the burn.
+                if (_learnDist < 200 || _learnDist / Math.Max(1, _p.Clock - _learnStart) < 3) return;
+                double batt = (_learnBatt - _grid.BatteryCharge) / _learnDist / _learnMass;
+                double h2 = (_learnH2 - _grid.HydrogenFill) / _learnDist / _learnMass;
                 if (batt > 0) BattPerMetre = BattPerMetre > 0 ? (BattPerMetre + batt) / 2 : batt;
                 if (h2 > 0) H2PerMetre = H2PerMetre > 0 ? (H2PerMetre + h2) / 2 : h2;
             }
@@ -1378,14 +1434,14 @@ namespace IngameScript
             {
                 double home = HomeDistance();
                 if (home < 0 || BattPerMetre <= 0) return _cfg.ReturnCharge;
-                return _cfg.ReserveCharge + home * BattPerMetre * _cfg.EnergyMargin;
+                return _cfg.ReserveCharge + home * BattPerMetre * MassTonnes() * _cfg.EnergyMargin;
             }
 
             public double HydrogenNeeded()
             {
                 double home = HomeDistance();
                 if (home < 0 || H2PerMetre <= 0) return _cfg.ReturnHydrogen;
-                return _cfg.ReserveCharge + home * H2PerMetre * _cfg.EnergyMargin;
+                return _cfg.ReserveCharge + home * H2PerMetre * MassTonnes() * _cfg.EnergyMargin;
             }
 
             bool EnergyLow()
@@ -1448,6 +1504,8 @@ namespace IngameScript
 
             void GoHome()
             {
+                if (!_learning && _grid.Controller != null && (State == FleetState.Working || State == FleetState.Transit))
+                    StartLearning(); // inbound leg (laden)
                 int kind = ChooseDock();
                 _recall = false;
                 if (kind == DockHauler) _p.Log.Add(_cfg.Name, LogHandoff);
@@ -1661,8 +1719,17 @@ namespace IngameScript
             {
                 _lastRequestAt = _p.Clock;
                 if (_dockAddr == 0 && _dockKind != DockHome) SetDock(DockHome);
-                _comms.Send(_dockAddr, Op.DockRequest, _slot, default(Vector3D), default(Vector3D),
-                    default(Vector3D), default(Vector3D), _dockHq);
+                _comms.Send(_dockAddr, Op.DockRequest, (_slot + 1) | (Urgent() ? 0x100 : 0), default(Vector3D),
+                    default(Vector3D), default(Vector3D), default(Vector3D), _dockHq);
+            }
+
+            /// <summary>Needs a pad first: in distress, damaged, or down to its power reserve.</summary>
+            bool Urgent()
+            {
+                return DistressReason != 0 || _grid.DrillsDamaged
+                    || _grid.Integrity < _integrityBaseline - _cfg.DamageTolerance
+                    || _grid.BatteryCharge < _cfg.ReserveCharge
+                    || (_grid.HasHydrogen && _grid.HydrogenFill < _cfg.ReserveCharge);
             }
 
             void StoreDockPose(FleetMessage m)

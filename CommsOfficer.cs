@@ -465,6 +465,76 @@ namespace IngameScript
                     MyTuple.Create(Header(_obOp[i], _obSeq[i]), _obArg[i], _obA[i], _obB[i], _obC[i], _obD[i]));
             }
 
+            // ---------------- Persistence (Save / constructor only) ----------------
+
+            /// <summary>
+            /// Unacknowledged messages and the duplicate filter, so a world reload neither loses a
+            /// delivery report nor lets a resend be counted twice. Lifetimes are saved as remaining time.
+            /// </summary>
+            public string SaveState()
+            {
+                var ic = System.Globalization.CultureInfo.InvariantCulture;
+                var sb = new StringBuilder();
+                for (int i = 0; i < OutboxSize; i++)
+                {
+                    if (_obSeq[i] == 0) continue;
+                    sb.Append(_obSeq[i]).Append(',').Append(_obDest[i].ToString(ic)).Append(',')
+                      .Append(_obOp[i]).Append(',').Append(_obArg[i]).Append(',').Append(_obHq[i] ? 1 : 0).Append(',')
+                      .Append(Math.Round(_obExpire[i] - _p.Clock).ToString(ic));
+                    Vec(sb, _obA[i]);
+                    Vec(sb, _obB[i]);
+                    Vec(sb, _obC[i]);
+                    Vec(sb, _obD[i]);
+                    sb.Append(';');
+                }
+                sb.Append('|');
+                for (int i = 0; i < SeenSize; i++)
+                    if (_seenSeq[i] != 0) sb.Append(_seenSource[i].ToString(ic)).Append(',').Append(_seenSeq[i]).Append(';');
+                return sb.ToString();
+            }
+
+            static void Vec(StringBuilder sb, Vector3D v)
+            {
+                var ic = System.Globalization.CultureInfo.InvariantCulture;
+                sb.Append(',').Append(v.X.ToString("R", ic)).Append(',').Append(v.Y.ToString("R", ic)).Append(',').Append(v.Z.ToString("R", ic));
+            }
+
+            public void LoadState(string s)
+            {
+                if (string.IsNullOrEmpty(s)) return;
+                string[] parts = s.Split('|');
+                string[] entries = parts[0].Split(';');
+                int slot = 0;
+                for (int e = 0; e < entries.Length && slot < OutboxSize; e++)
+                {
+                    string[] f = entries[e].Split(',');
+                    if (f.Length < 18) continue;
+                    long dest;
+                    long.TryParse(f[1], out dest);
+                    _obSeq[slot] = (int)SiteMap.Dbl(f[0]);
+                    _obDest[slot] = dest;
+                    _obOp[slot] = (int)SiteMap.Dbl(f[2]);
+                    _obArg[slot] = (int)SiteMap.Dbl(f[3]);
+                    _obHq[slot] = f[4] == "1";
+                    _obExpire[slot] = _p.Clock + SiteMap.Dbl(f[5]);
+                    _obA[slot] = new Vector3D(SiteMap.Dbl(f[6]), SiteMap.Dbl(f[7]), SiteMap.Dbl(f[8]));
+                    _obB[slot] = new Vector3D(SiteMap.Dbl(f[9]), SiteMap.Dbl(f[10]), SiteMap.Dbl(f[11]));
+                    _obC[slot] = new Vector3D(SiteMap.Dbl(f[12]), SiteMap.Dbl(f[13]), SiteMap.Dbl(f[14]));
+                    _obD[slot] = new Vector3D(SiteMap.Dbl(f[15]), SiteMap.Dbl(f[16]), SiteMap.Dbl(f[17]));
+                    _obNext[slot] = _p.Clock + 5; // let the world settle before resending
+                    slot++;
+                }
+                if (parts.Length < 2) return;
+                string[] seen = parts[1].Split(';');
+                for (int i = 0; i < seen.Length && _seenNext < SeenSize; i++)
+                {
+                    string[] f = seen[i].Split(',');
+                    if (f.Length < 2) continue;
+                    long.TryParse(f[0], out _seenSource[_seenNext]);
+                    _seenSeq[_seenNext++] = (int)SiteMap.Dbl(f[1]);
+                }
+            }
+
             // ---------------- UI ----------------
 
             public void AppendStatus(StringBuilder sb)

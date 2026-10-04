@@ -54,6 +54,8 @@ Docked ──(unloaded, charged, repaired, launch clearance)──▶ Undocking 
 4. **Going home:**
    - **Full hold and a site hauler has room:** it docks there instead and is back to work within a minute.
    - **Otherwise:** it heads home, gives way to other drones near the pads, and holds in a ring if all pads are full.
+   - **Priority landing:** a drone in distress, damaged, or down to its power reserve goes to the front of the holding queue, still in order among themselves.
+   - **Turning carriers:** carriers send each pad's own velocity, including the carrier's spin, so drones can dock while the carrier turns.
    - **Breadcrumbs:** it retraces its outbound path while the crumbs still lead toward the carrier.
 
 ### When it goes home
@@ -61,7 +63,7 @@ Docked ──(unloaded, charged, repaired, launch clearance)──▶ Undocking 
 | Reason | Trigger |
 |---|---|
 | Hold full | Cargo ≥ `CargoFull` (a site hauler is preferred if one has a free bay) |
-| Power | Battery or H2 below what it takes to get home: learned burn per metre × distance × `EnergyMargin`, plus `ReserveCharge` |
+| Power | Battery or H2 below what it takes to get home: learned burn per metre per tonne × current mass × distance × `EnergyMargin`, plus `ReserveCharge`. Burn is learned on both legs, outbound light and inbound laden (hover-heavy legs are ignored). The drone also learns its drain while mining and a typical shaft's duration, and won't start a shaft that would leave too little to get home. |
 | Too heavy | In gravity, lift drops below `MinLift` |
 | Drill damaged | It waits on the pad for repairs |
 | **Link lost** | Home carrier unreachable for `LinkTimeout`, and no other carrier to re-home to. It flies to where the carrier was last heard and waits there in antenna range. |
@@ -115,7 +117,7 @@ Other drones join with `assign N`. This pairs well with **Seismic Surveying** (p
 |---|---|
 | **Two channels** | `Channel` is local: a carrier and its drones. `Channel/HQ` connects carriers, the mothership and shuttle haulers. Drone chatter never reaches HQ. |
 | **Fleet key** | Set the same `FleetKey` on every ship. Messages without it are ignored, so a stranger who guesses your channel name can't read or command your fleet. |
-| **Reliable messages** | Deliveries, site charts and shaft results are acknowledged and resent until they arrive, for up to 5 minutes. Reports made out of range are delivered once the drone is back in range. Duplicates are filtered, so nothing is counted twice. |
+| **Reliable messages** | Deliveries, site charts and shaft results are acknowledged and resent until they arrive, for up to 5 minutes. Reports made out of range are delivered once the drone is back in range. Duplicates are filtered, so nothing is counted twice. Unacknowledged messages and the duplicate filter are saved with the world, so a reload loses nothing. |
 | **Best effort** | Status, claims, survey data and beacons are sent once. They repeat often, so a lost one doesn't matter. |
 | **Link awareness** | Drones check every ~2 s whether home is reachable. Out of reach for `LinkTimeout`: they **re-home to the nearest reachable carrier**, or if there is none, fly to home's last known position. An orphan drone with no home adopts the nearest carrier. |
 | **Antenna range** | With `AntennaAuto` on, drones set their antenna range to distance-home × 1.5 (short when docked, full when the link is lost). That saves power and makes them less conspicuous. Turn it off if you rely on drones relaying for each other. |
@@ -232,7 +234,7 @@ A timer triggers, and a sound block plays, when its name contains one of these t
 | `ReturnCharge` / `ReturnHydrogen` | 0.25 / 0.20 | Return thresholds until the burn rate is learned |
 | `ReserveCharge` / `EnergyMargin` | 0.10 / 1.5 | Reserve kept, safety factor on the trip home |
 | `MaxSpeed` / `ApproachSpeed` / `DockSpeed` | 40 / 8 / 1.5 | m/s |
-| `Decel` | 4 | m/s² the helm plans braking with |
+| `Decel` | 0 | Braking cap in m/s². 0 = plan stops on 70% of what the thrusters can actually do against the motion, for the current mass and gravity. Worlds that already have `Decel=4` keep that as a cap until you `set Decel 0`. |
 | `ApproachDistance` / `DockGap` | 40 / 1.5 | Staging distance / connector gap on final approach |
 | `MineSpeed` / `MineDepth` | 1.0 / 30 | m/s while cutting / m past the face |
 | `ShaftSpacing` / `MaxShafts` | 0 / 25 | 0 = from the drill bank / shafts per site (max 121) |

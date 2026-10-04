@@ -24,6 +24,7 @@ namespace IngameScript
 
             const string LogDockCleared = "cleared to dock, pad";
             const string LogHold = "docks full, holding at";
+            const string LogPriority = "priority landing, queue";
             const string LogCharted = "charted site";
             const string LogAssigned = "all drones to site";
             const string LogFleetRecall = "fleet recall";
@@ -41,6 +42,7 @@ namespace IngameScript
             // Queues keep arrival order; entries are removed by shifting (n <= 16).
             readonly long[] _dockQueue = new long[MaxQueue];
             readonly double[] _dockQueueSeen = new double[MaxQueue];
+            readonly bool[] _dockUrgent = new bool[MaxQueue];
             readonly long[] _launchQueue = new long[MaxQueue];
             readonly double[] _launchQueueSeen = new double[MaxQueue];
             public int DockQueueCount { get; private set; }
@@ -217,8 +219,11 @@ namespace IngameScript
             /// Bases: free pads go to queued drones first, in arrival order; everyone else is told
             /// their place and holds off. Site haulers: only miners working our site, no queue.
             /// </summary>
-            void OnDockRequest(long source, int preferred)
+            /// <summary>DockRequest Arg = (preferred slot + 1) | 0x100 when urgent (distress, damage, power reserve).</summary>
+            void OnDockRequest(long source, int arg)
             {
+                int preferred = (arg & 0xFF) - 1;
+                bool urgent = (arg & 0x100) != 0;
                 bool bays = !_cfg.IsBase;
                 if (bays)
                 {
@@ -230,6 +235,7 @@ namespace IngameScript
                 bool fresh = slot < 0 || _slotLeaseUntil[slot] <= _p.Clock;
                 if (slot < 0)
                 {
+                    if (!bays && urgent) QueueDock(source, true); // jump the queue before pads are handed out
                     int place = Find(_dockQueue, DockQueueCount, source);
                     if (bays || DockQueueCount == 0 || (place >= 0 && place < FreeSlots()))
                         slot = AllocateSlot(source, preferred);
@@ -243,9 +249,9 @@ namespace IngameScript
                         return;
                     }
                     bool queued = Find(_dockQueue, DockQueueCount, source) >= 0;
-                    Touch(_dockQueue, _dockQueueSeen, true, source);
+                    QueueDock(source, urgent);
                     int place = Find(_dockQueue, DockQueueCount, source) + 1;
-                    if (!queued) _p.Log.Add(_comms.NameOf(source), LogHold, place);
+                    if (!queued) _p.Log.Add(_comms.NameOf(source), urgent ? LogPriority : LogHold, place);
                     _comms.Unicast(source, Op.DockDeny, place, default(Vector3D), default(Vector3D), default(Vector3D), default(Vector3D), PadHq);
                     return;
                 }
@@ -346,9 +352,15 @@ namespace IngameScript
             void SendDockPose(long address, int op, int slot)
             {
                 MatrixD m = _grid.DockConnectors[slot].WorldMatrix;
-                Vector3D vel = _grid.Controller != null
-                    ? _grid.Controller.GetShipVelocities().LinearVelocity
-                    : Vector3D.Zero; // stations have no controller and never move
+                // The pad's own velocity: a turning carrier moves its pads faster than its centre
+                // (v + w x r), and matching that is what lets a drone dock while the carrier turns.
+                Vector3D vel = Vector3D.Zero; // stations have no controller and never move
+                var ctrl = _grid.Controller;
+                if (ctrl != null)
+                {
+                    var v = ctrl.GetShipVelocities();
+                    vel = v.LinearVelocity + Vector3D.Cross(v.AngularVelocity, m.Translation - ctrl.CenterOfMass);
+                }
                 _comms.Unicast(address, op, slot, m.Translation, m.Forward, m.Up, vel, PadHq);
             }
 
@@ -434,6 +446,39 @@ namespace IngameScript
                 seen[i] = _p.Clock;
             }
 
+            /// <summary>
+            /// Dock queue: urgent drones go ahead of everyone who isn't (in their own arrival order);
+            /// a queued drone that becomes urgent is moved up.
+            /// </summary>
+            void QueueDock(long address, bool urgent)
+            {
+                int i = Find(_dockQueue, DockQueueCount, address);
+                if (i >= 0 && (!urgent || _dockUrgent[i]))
+                {
+                    _dockQueueSeen[i] = _p.Clock;
+                    return;
+                }
+                if (i >= 0) RemoveAt(_dockQueue, _dockQueueSeen, true, i);
+                int n = DockQueueCount;
+                if (n == MaxQueue) return;
+                int at = n;
+                if (urgent)
+                {
+                    at = 0;
+                    while (at < n && _dockUrgent[at]) at++;
+                }
+                for (int k = n; k > at; k--)
+                {
+                    _dockQueue[k] = _dockQueue[k - 1];
+                    _dockQueueSeen[k] = _dockQueueSeen[k - 1];
+                    _dockUrgent[k] = _dockUrgent[k - 1];
+                }
+                _dockQueue[at] = address;
+                _dockQueueSeen[at] = _p.Clock;
+                _dockUrgent[at] = urgent;
+                DockQueueCount = n + 1;
+            }
+
             void RemoveAt(long[] q, double[] seen, bool dock, int index)
             {
                 int n = dock ? DockQueueCount : LaunchQueueCount;
@@ -442,6 +487,7 @@ namespace IngameScript
                 {
                     q[i] = q[i + 1];
                     seen[i] = seen[i + 1];
+                    if (dock) _dockUrgent[i] = _dockUrgent[i + 1];
                 }
                 if (dock) DockQueueCount = n - 1; else LaunchQueueCount = n - 1;
             }

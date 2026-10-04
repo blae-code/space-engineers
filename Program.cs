@@ -124,7 +124,7 @@ namespace IngameScript
 
             public double CargoFull = 0.90, CargoEmpty = 0.02, LaunchCharge = 0.90;
             public double ReturnCharge = 0.25, ReturnHydrogen = 0.20, ReserveCharge = 0.10, EnergyMargin = 1.5;
-            public double MaxSpeed = 40, ApproachSpeed = 8, DockSpeed = 1.5, Decel = 4;
+            public double MaxSpeed = 40, ApproachSpeed = 8, DockSpeed = 1.5, Decel = 0; // Decel: braking cap, 0 = from thrust
             public double ApproachDistance = 40, DockGap = 1.5;
             public double MineSpeed = 1.0, MineDepth = 30, ShaftSpacing = 0, MaxShafts = 25;
             public double SiteStandoff = 10, FaceMargin = 2, ScanRange = 100, StallTime = 20;

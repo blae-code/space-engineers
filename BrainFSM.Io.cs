@@ -573,8 +573,13 @@ namespace IngameScript
                     return;
                 }
                 sb.Append("-- Models --\nBurn/km: batt ");
-                Fmt.Fixed(sb, BattPerMetre * 1e5, 2).Append("%  H2 ");
-                Fmt.Fixed(sb, H2PerMetre * 1e5, 2).Append("%\nBreadcrumbs ");
+                double t = MassTonnes();
+                Fmt.Fixed(sb, BattPerMetre * t * 1e5, 2).Append("%  H2 ");
+                Fmt.Fixed(sb, H2PerMetre * t * 1e5, 2).Append("% at ");
+                Fmt.Fixed(sb, t, 1).Append(" t\nMining: batt ");
+                Fmt.Fixed(sb, WorkDrainBatt * 6000, 1).Append("%/min  shaft ");
+                Fmt.Clock(sb, ShaftSeconds).Append("\nBraking ");
+                Fmt.Fixed(sb, _helm.BrakeAccel, 1).Append(" m/s2\nBreadcrumbs ");
                 Fmt.Int(sb, CrumbCount).Append("  outbox ");
                 Fmt.Int(sb, _comms.OutboxCount).Append("\nBattery ");
                 if (double.IsInfinity(_grid.BatteryMinutes)) sb.Append("not draining");
@@ -622,10 +627,14 @@ namespace IngameScript
                 ini.Set(SaveSection, "FaceKnown", _faceKnown);
                 ini.Set(SaveSection, "FaceDepth", _faceDepth);
                 ini.Set(SaveSection, "MinedDepth", _minedDepth);
-                ini.Set(SaveSection, "BattPerMetre", BattPerMetre);
-                ini.Set(SaveSection, "H2PerMetre", H2PerMetre);
+                ini.Set(SaveSection, "BattPerMetreT", BattPerMetre);
+                ini.Set(SaveSection, "H2PerMetreT", H2PerMetre);
+                ini.Set(SaveSection, "WorkDrainBatt", WorkDrainBatt);
+                ini.Set(SaveSection, "WorkDrainH2", WorkDrainH2);
+                ini.Set(SaveSection, "ShaftSeconds", ShaftSeconds);
                 ini.Set(SaveSection, "StatsSeconds", StatsSeconds);
                 ini.Set(SaveSection, "MapSite", MapSite);
+                ini.Set(SaveSection, "Comms", _comms.SaveState());
                 ini.Set(SaveSection, "Mother", MotherAddr.ToString(ic));
                 ini.Set(SaveSection, "DockKind", _dockKind);
                 ini.Set(SaveSection, "Dock", _dockAddr.ToString(ic));
@@ -681,10 +690,14 @@ namespace IngameScript
                 _faceKnown = ini.Get(SaveSection, "FaceKnown").ToBoolean();
                 _faceDepth = ini.Get(SaveSection, "FaceDepth").ToDouble();
                 _minedDepth = ini.Get(SaveSection, "MinedDepth").ToDouble();
-                BattPerMetre = ini.Get(SaveSection, "BattPerMetre").ToDouble();
-                H2PerMetre = ini.Get(SaveSection, "H2PerMetre").ToDouble();
+                BattPerMetre = ini.Get(SaveSection, "BattPerMetreT").ToDouble();
+                H2PerMetre = ini.Get(SaveSection, "H2PerMetreT").ToDouble();
+                WorkDrainBatt = ini.Get(SaveSection, "WorkDrainBatt").ToDouble();
+                WorkDrainH2 = ini.Get(SaveSection, "WorkDrainH2").ToDouble();
+                ShaftSeconds = ini.Get(SaveSection, "ShaftSeconds").ToDouble();
                 _statsBase = ini.Get(SaveSection, "StatsSeconds").ToDouble();
                 MapSite = ini.Get(SaveSection, "MapSite").ToInt32(-1);
+                _comms.LoadState(ini.Get(SaveSection, "Comms").ToString());
                 long mother;
                 long.TryParse(ini.Get(SaveSection, "Mother").ToString("0"), System.Globalization.NumberStyles.Integer,
                     System.Globalization.CultureInfo.InvariantCulture, out mother);
