@@ -142,7 +142,7 @@ Other drones join with `assign N`. This pairs well with **Seismic Surveying** (p
 
 ## Blocks and tags
 
-A cube-exact reference build (FM-M1 Prospector: drawings, layer-by-layer slices, block schedule and a thrust/lift check) is in [`docs/blueprint.html`](blueprint.html). Open it in a browser.
+A cube-exact reference build (FM-M1 Prospector, hybrid atmospheric + ion so it works on planets and in space: drawings, layer-by-layer slices, block schedule and a thrust/lift check) is in [`docs/blueprint.html`](blueprint.html). Open it in a browser.
 
 **Drone, required:**
 - **Programmable Block.**

@@ -136,13 +136,13 @@ footer.end { margin-top: 32px; font-family: var(--mono); font-size: 0.75rem; col
 <div class="wrap">
   <header class="head">
     <div>
-      <div class="kicker">FleetMiner Core · Role = Miner · Small grid</div>
+      <div class="kicker">FleetMiner Core · Role = Miner · Small grid · Hybrid atmospheric + ion</div>
       <h1>FM-M1 Prospector</h1>
-      <p>A cube-exact reference build for the FleetMiner script: every block the script uses, where it goes, and which way it faces. Build it as drawn, or use the orientation rules on sheet 4 to adapt your own hull. Each grid square on the drawings is one small-grid block (0.5 m).</p>
+      <p>A cube-exact reference build for the FleetMiner script: every block the script uses, where it goes, and which way it faces. Atmospheric thrusters lift it on planets, and ion thrusters fly it in space and on airless moons, so one drone works everywhere on battery power alone. Build it as drawn, or use the orientation rules on sheet 4 to adapt your own hull. Each grid square on the drawings is one small-grid block (0.5 m).</p>
     </div>
     <div class="tblock" aria-label="Drawing title block">
       <div>Dwg no.</div><div>FM-M1-GA</div>
-      <div>Rev</div><div>A</div>
+      <div>Rev</div><div>B · hybrid thrust</div>
       <div>Grid</div><div>Small (0.5 m)</div>
       <div>Scale</div><div>1 square = 1 block</div>
       <div>Origin</div><div>Rear-bottom-left of hull</div>
@@ -201,9 +201,9 @@ footer.end { margin-top: 32px; font-family: var(--mono); font-size: 0.75rem; col
       <div class="rules">
         <div class="rule critical"><span class="tagline">Reference · critical</span><h3>Remote Control faces the drills</h3><p>The script flies by the Remote Control's frame, so its forward is the mining direction. The "eye" goes in front and the gap on top. If you add a cockpit, put <code>[FM Ref]</code> in the Remote Control's name so the script never picks the cockpit.</p></div>
         <div class="rule critical"><span class="tagline">Drills · critical</span><h3>All drill bits forward</h3><p>The script measures the drill bank in the Remote Control's frame. The bank's width and height set shaft spacing (here 3 m × 3 m). Its forward reach sets where cutting starts. Mixed facings break both.</p></div>
-        <div class="rule critical"><span class="tagline">Docking · critical</span><h3>One dock connector, ring outward</h3><p>Name it <code>[FM Dock]</code>. Any face of the hull works, because docking is solved from the connector's own frame. The rear keeps the drills pointing away from the carrier. Nothing may stand behind its ring. The small-grid Connector mates with a carrier's large-grid connector.</p></div>
+        <div class="rule critical"><span class="tagline">Docking · critical</span><h3>One dock connector, ring outward</h3><p>Name it <code>[FM Dock]</code>. Any face of the hull works, because docking is solved from the connector's own frame. The rear keeps the drills pointing away from the carrier. Nothing may stand behind its ring. The small-grid Connector mates with a carrier's large-grid connector. The forward thrusters fire aft while it brakes onto the pad, so mount the carrier's pad connectors on a stalk at least 5 m out from its hull.</p></div>
         <div class="rule"><span class="tagline">Camera</span><h3>Lens along the drill axis, clear view</h3><p>Name it <code>[FM Cam]</code>. It ranges the rock face, runs the survey and checks for obstacles ahead. An untagged camera is only used if it points within about 8° of forward. Mount it above the drills, not behind them.</p></div>
-        <div class="rule"><span class="tagline">Thrusters</span><h3>Every push direction covered</h3><p>The self-test fails without at least one working thruster per direction. In Space Engineers thrust doesn't twist the ship, so the layout needn't be symmetric. Only the count per direction matters. Keep flames off the drills and the camera.</p></div>
+        <div class="rule critical"><span class="tagline">Thrusters · critical</span><h3>Two sets: atmo lifts, ions fly in space</h3><p>On a planet the drone needs lift on two axes: <b>up</b> for level flight, and <b>back</b> (flames toward the drills) when it points nose-down into the ground. Both get a large atmospheric thruster per pod. Ions cover all six directions for space and moons. The self-test needs a working thruster per direction. Thrust doesn't twist the ship, so only the count per direction matters.</p></div>
         <div class="rule"><span class="tagline">Stone dump</span><h3>Sorter feeds ejector, ejector faces out</h3><p>Both carry <code>[FM Eject]</code>. The script sets the sorter to a stone whitelist with Drain All, and opens the ejector only while mining. Point the ejector away from the hull and the camera's view. The self-test's <i>Stone dump path</i> line confirms the conveyor link.</p></div>
         <div class="rule"><span class="tagline">Antenna</span><h3>Broadcasting, mast clear</h3><p>Turn broadcast on. With <code>AntennaAuto</code> the script sets its range itself (distance home × 1.5). Mount it high so the hull doesn't shade it.</p></div>
         <div class="rule"><span class="tagline">Power</span><h3>Batteries on Auto</h3><p>Leave them in <i>Auto</i>. The carrier's pad charges them through the connector. The script learns the drain per metre and per tonne, and turns home with <code>EnergyMargin</code> to spare.</p></div>
@@ -216,20 +216,21 @@ footer.end { margin-top: 32px; font-family: var(--mono); font-size: 0.75rem; col
     <div class="body">
       <div class="calc">
         <form id="calc" autocomplete="off">
-          <label for="c-empty">Empty mass, kg (Info tab)<input id="c-empty" type="number" min="100" step="100" value="12000"></label>
+          <label for="c-empty">Empty mass, kg (Info tab)<input id="c-empty" type="number" min="100" step="100" value="28000"></label>
           <label for="c-ore">Ore carried, L (cargo volume)<input id="c-ore" type="number" min="0" step="100" value="13500"></label>
-          <label for="c-thr">Thrust per thruster, N<input id="c-thr" type="number" min="1" step="100" value="14400"></label>
-          <label for="c-g">Gravity, g<input id="c-g" type="number" min="0" step="0.05" value="0"></label>
-          <div class="presets" role="group" aria-label="Gravity presets">
-            <button type="button" data-g="0">Space</button>
-            <button type="button" data-g="0.25">Moon 0.25 g</button>
-            <button type="button" data-g="0.9">Mars 0.9 g</button>
-            <button type="button" data-g="1">Earthlike 1 g</button>
+          <label for="c-g">Gravity, g<input id="c-g" type="number" min="0" step="0.05" value="1"></label>
+          <label for="c-ion">Ion effectiveness, %<input id="c-ion" type="number" min="0" max="100" step="5" value="20"></label>
+          <label for="c-atm">Atmospheric effectiveness, %<input id="c-atm" type="number" min="0" max="100" step="5" value="100"></label>
+          <div class="presets" role="group" aria-label="Environment presets">
+            <button type="button" data-env="0,100,0">Space</button>
+            <button type="button" data-env="0.25,100,0">Moon (no air)</button>
+            <button type="button" data-env="1,20,100">Earthlike surface</button>
+            <button type="button" data-env="1.1,20,100">Alien surface</button>
           </div>
-          <p class="note">14,400 N is the small-grid Small Ion Thruster in vacuum. Ion thrust falls off sharply in atmosphere, so for planet work enter your atmospheric or hydrogen figure.</p>
+          <p class="note">Ions give about 20% of their thrust at sea level and about 30% higher up. Atmospheric thrusters give 100% in dense air near the surface, less as the air thins, and nothing in vacuum. Use the effectiveness at your mining altitude.</p>
         </form>
         <div class="tbl"><table>
-          <thead><tr><th>Push direction</th><th>Thrusters</th><th>Thrust</th><th>Accel empty</th><th>Accel full</th><th>Lift full</th></tr></thead>
+          <thead><tr><th>Push direction</th><th>Thrusters</th><th>Thrust here</th><th>Accel empty</th><th>Accel full</th><th>Lift full</th></tr></thead>
           <tbody id="calcout"></tbody>
         </table></div>
       </div>
@@ -248,7 +249,7 @@ footer.end { margin-top: 32px; font-family: var(--mono); font-size: 0.75rem; col
           <li><b>Z5–Z10:</b> four drills, bits forward, each fed straight into the container behind it.</li>
           <li><b>Y6 (utility deck):</b> Remote Control (eye forward, gap up), programmable block, six gyros, camera and sensor at the front edge, lights and decoy at the rear. Fill the rest with light armor.</li>
           <li><b>Antenna</b> on the deck's rear-left corner (X0, Z0), mast up.</li>
-          <li><b>Pods:</b> 2 × 2 × 7 armor spines on both sides (Y2–Y3, Z2–Z8), then 22 thrusters per pod, as sheet 3 shows layer by layer.</li>
+          <li><b>Pods (X6–8 right, X−3…−1 left):</b> first the armor frame: top plate (Y5, Z0–10), wall (Z5, Y0–4), the block over the brake atmo (Y3–4, Z6–8) and the forward mounts (Z3, Y6–7). Then two large atmospheric thrusters, 2 small atmospheric and 27 ions per pod, as sheet 3 shows layer by layer.</li>
           <li><b>Belly:</b> small conveyor sorter under the lower-left cargo (X1, Y−1, Z3), ejector below it facing down.</li>
         </ol>
         <h3>Programmable block · Custom Data</h3>
@@ -269,14 +270,15 @@ Prefer=Platinum,Uranium,Gold</pre>
         <h3>First flight</h3>
         <ol class="steps">
           <li>Recompile and run <code>selftest</code> while docked. Fix every FAIL. <i>Flight control</i> warns until a carrier is in range.</li>
-          <li>In open space, run <code>hold</code>, then <code>turn</code>, <code>turn up</code> and <code>turn roll</code>. Each should settle 45° the right way. If an axis turns the wrong way, use <code>set InvertYaw on</code> (or Pitch / Roll).</li>
+          <li>In open space (or hovering low on a planet), run <code>hold</code>, then <code>turn</code>, <code>turn up</code> and <code>turn roll</code>. Each should settle 45° the right way. If an axis turns the wrong way, use <code>set InvertYaw on</code> (or Pitch / Roll).</li>
           <li>Aim at a rock face within 100 m and run <code>setsite</code>, then <code>start</code>. <code>return</code> brings it home.</li>
           <li>Optional: an LCD named <code>[FM Menu]</code> plus four toolbar slots running the PB with <code>up</code>, <code>down</code>, <code>select</code> and <code>back</code>.</li>
         </ol>
         <h3>Variants</h3>
         <ul class="steps" style="padding-left:18px">
-          <li><b>Planets:</b> for charted ground sites the drone points its nose straight down. The <i>back</i> thrusters (flames toward the drills) then hold it up. Check the "nose-down" lift on sheet 5: the script turns home below <code>MinLift</code> 1.25.</li>
-          <li><b>Hydrogen:</b> swap ions for hydrogen thrusters and add H2 tanks. The script tracks tank level next to battery charge.</li>
+          <li><b>Planets:</b> for charted ground sites the drone points its nose straight down, and the back-push group (the front large atmo pair) holds it up. Check both lift figures on sheet 5 at your gravity. The script turns home below <code>MinLift</code> 1.25.</li>
+          <li><b>Moons:</b> there's no air, so only the ions lift it. A full load is under 1.25 at 0.25 g with this build, so it returns part-full unless you add ions on the up and back faces.</li>
+          <li><b>Hydrogen instead:</b> one thruster set that works everywhere, refuelled from the carrier through the connector (the script stockpiles tanks while docked). It needs a large tank: hovering a full drone at 1 g burns about 440 L/s.</li>
           <li><b>Mining lasers:</b> replace the drills with forward-facing lasers. Keep the <code>[FM Cam]</code> camera next to them, because the beam only fires on a clear path.</li>
           <li><b>Evasion:</b> add an AI Defensive block named <code>[FM Flee]</code> and an AI Move block anywhere inside.</li>
         </ul>
@@ -305,11 +307,16 @@ var TYPES = {
   LT: { n: "Interior Light", c: "#f6e58d", size: "1 × 1 × 1", tag: "[FM Light]", f: "Any" },
   DC: { n: "Decoy", c: "#e1c16e", size: "1 × 1 × 1", tag: "", f: "Any" },
   AR: { n: "Light Armor Block", c: "#9fb8d9", size: "1 × 1 × 1", tag: "", f: "Any" },
-  TH: { n: "Small Ion Thruster", c: "#ff8a5c", size: "1 × 1 × 2", tag: "", f: "See flames" },
+  LA: { n: "Large Atmospheric Thruster", c: "#36c2ff", size: "3 × 3 × 5", tag: "", f: "See flames" },
+  SA: { n: "Atmospheric Thruster", c: "#8fe3ff", size: "1 × 1 × 3", tag: "", f: "See flames" },
+  TH: { n: "Ion Thruster", c: "#ff8a5c", size: "1 × 1 × 2", tag: "", f: "See flames" },
   SO: { n: "Small Conveyor Sorter", c: "#d1a36b", size: "1 × 1 × 1", tag: "[FM Eject]", f: "Arrow toward ejector" },
   EJ: { n: "Small Connector (ejector)", c: "#e8bf8a", size: "1 × 1 × 1", tag: "[FM Eject]", f: "Opening down" }
 };
-var ORDER = ["DR", "CG", "CN", "BT", "GY", "RC", "PB", "CM", "SN", "AN", "LT", "DC", "TH", "SO", "EJ", "AR"];
+var ORDER = ["DR", "CG", "CN", "BT", "GY", "RC", "PB", "CM", "SN", "AN", "LT", "DC", "LA", "SA", "TH", "SO", "EJ", "AR"];
+function isThr(t) { return t === "TH" || t === "SA" || t === "LA"; }
+// Thrust per block, N: small-grid ion (vacuum), atmospheric and large atmospheric (sea level).
+var THRUST = { TH: 14400, SA: 96000, LA: 576000 };
 var VEC = { "+x": [1, 0, 0], "-x": [-1, 0, 0], "+y": [0, 1, 0], "-y": [0, -1, 0], "+z": [0, 0, 1], "-z": [0, 0, -1] };
 var B = [];
 function add(t, x0, x1, y0, y1, z0, z1, f) { B.push({ t: t, x0: x0, x1: x1, y0: y0, y1: y1, z0: z0, z1: z1, f: f || null }); }
@@ -334,23 +341,30 @@ DECK.forEach(function (row, z) { row.forEach(function (t, x) {
   add(t, x, x, 6, 6, z, z, t === "RC" || t === "CM" || t === "SN" ? "+z" : null);
 }); });
 add("AN", 0, 0, 7, 8, 0, 0, "+y");
-// Thruster pods: a 2 x 2 x 7 armor spine each side, thrusters mounted on it.
-function pod(s) { // s = +1 right, -1 left
-  var a = s > 0 ? 6 : -2, b = s > 0 ? 7 : -1, la = s > 0 ? 8 : -4, lb = s > 0 ? 9 : -3;
-  for (var x2 = 0; x2 < 2; x2++) for (var y2 = 0; y2 < 2; y2++) for (var z2 = 2; z2 <= 8; z2++) add("AR", a + x2, a + x2, 2 + y2, 2 + y2, z2, z2);
-  [a, b].forEach(function (x) {
-    [2, 3].forEach(function (y) {
-      add("TH", x, x, y, y, 0, 1, "-z");   // pushes forward
-      add("TH", x, x, y, y, 9, 10, "+z");  // pushes back (brakes, backs out of shafts)
-    });
-    [4, 5].forEach(function (z) {
-      add("TH", x, x, 0, 1, z, z, "-y");   // pushes up
-      add("TH", x, x, 4, 5, z, z, "+y");   // pushes down
-    });
-  });
-  [2, 3].forEach(function (y) { [3, 4, 5].forEach(function (z) {
-    add("TH", la, lb, y, y, z, z, s > 0 ? "+x" : "-x"); // pushes toward the other side
-  }); });
+// Thruster pods, one each side (right pod drawn; the left mirrors it about the hull's centre).
+// Armor frame: a top plate (Y5, Z0-10), a wall (Z5) and mounts. Every thruster's back end sits
+// on armor, and no flame touches the ship within 3 blocks.
+function pod(s) {
+  function A(t, xa, xb, y0, y1, z0, z1, f) { if (s > 0) add(t, xa, xb, y0, y1, z0, z1, f); else add(t, 5 - xb, 5 - xa, y0, y1, z0, z1, f); }
+  var out = s > 0 ? "+x" : "-x";
+  for (var x = 6; x <= 8; x++) {
+    for (var z = 0; z <= 10; z++) A("AR", x, x, 5, 5, z, z);                              // top plate
+    for (var y = 0; y <= 4; y++) A("AR", x, x, y, y, 5, 5);                               // wall
+    for (var y2 = 3; y2 <= 4; y2++) for (var z2 = 6; z2 <= 8; z2++) A("AR", x, x, y2, y2, z2, z2); // block over the brake atmo
+    A("AR", x, x, 6, 6, 3, 3); A("AR", x, x, 7, 7, 3, 3);                                 // forward-thruster mounts
+  }
+  A("LA", 6, 8, 0, 4, 0, 2, "-y");   // large atmo, pushes up (level flight on planets)
+  A("LA", 6, 8, 0, 2, 6, 10, "+z");  // large atmo, pushes back (holds it up nose-down)
+  for (var x3 = 6; x3 <= 8; x3++) {
+    for (var y3 = 3; y3 <= 4; y3++) A("TH", x3, x3, y3, y3, 9, 10, "+z");  // ion, back
+    for (var z3 = 3; z3 <= 4; z3++) A("TH", x3, x3, 3, 4, z3, z3, "-y");   // ion, up
+    for (var z4 = 4; z4 <= 5; z4++) A("TH", x3, x3, 6, 7, z4, z4, "+y");   // ion, down
+    A("TH", x3, x3, 7, 7, 1, 2, "-z");                                      // ion, forward (upper row)
+  }
+  A("TH", 6, 6, 6, 6, 1, 2, "-z"); A("TH", 7, 7, 6, 6, 1, 2, "-z");         // ion, forward (lower row)
+  A("SA", 8, 8, 6, 6, 0, 2, "-z");                                          // atmo, forward
+  for (var y5 = 3; y5 <= 4; y5++) for (var z5 = 6; z5 <= 7; z5++) A("TH", 9, 10, y5, y5, z5, z5, out); // ion, sideways
+  A("SA", 9, 11, 5, 5, 1, 1, out);                                          // atmo, sideways
 }
 pod(1); pod(-1);
 // Stone dump on the belly.
@@ -358,7 +372,7 @@ add("SO", 1, 1, -1, -1, 3, 3, "-y");
 add("EJ", 1, 1, -2, -2, 3, 3, "-y");
 
 // ---------------- Voxel index ----------------
-var X = [-4, 9], Y = [-2, 8], Z = [0, 10];
+var X = [-6, 11], Y = [-2, 8], Z = [0, 10];
 var CELL = {}, OVERLAPS = [];
 B.forEach(function (b, i) {
   for (var x = b.x0; x <= b.x1; x++) for (var y = b.y0; y <= b.y1; y++) for (var z = b.z0; z <= b.z1; z++) {
@@ -369,7 +383,7 @@ B.forEach(function (b, i) {
 });
 function at(x, y, z) { var v = CELL[x + "," + y + "," + z]; return v === undefined ? -1 : v; }
 function count(t) { return B.filter(function (b) { return b.t === t; }).length; }
-function thrustCount(flame) { return B.filter(function (b) { return b.t === "TH" && b.f === flame; }).length; }
+function thrustCount(flame, t) { return B.filter(function (b) { return (t ? b.t === t : isThr(b.t)) && b.f === flame; }).length; }
 
 // ---------------- Views ----------------
 // Each view maps (u, v) on paper and a depth walk to model cells; uv(b) is a block's paper extent.
@@ -450,7 +464,7 @@ function render(viewName, layer) {
     var cx = (left + right) / 2, cy = (top + bottom) / 2, w = right - left, h = bottom - top;
     if (b.t === "AR") return;
     if (b.f) {
-      var p = view.dir(VEC[b.f]), flame = b.t === "TH", col = flame ? "#ff8a5c" : "#eaf3ff";
+      var p = view.dir(VEC[b.f]), flame = isThr(b.t), col = flame ? "#ff8a5c" : "#eaf3ff";
       if (p[2] !== 0) { // along the line of sight
         if (flame) {
           var rr = Math.min(w, h) * 0.3;
@@ -465,7 +479,7 @@ function render(viewName, layer) {
         if (flame && (w > CS || h > CS)) out.push('<line x1="' + (cx - dx * (w / 2 - 4)) + '" y1="' + (cy - dy * (h / 2 - 4)) + '" x2="' + bx + '" y2="' + by + '" stroke="' + col + '" stroke-width="1.4"/>');
       }
     }
-    if (b.t !== "TH") {
+    if (!isThr(b.t) || b.t === "LA") {
       var fs = w >= CS * 3 && h >= CS * 2 ? 13 : 8.5;
       out.push('<text x="' + cx + '" y="' + (cy + fs * 0.35) + '" font-size="' + fs + '" font-weight="600" text-anchor="middle" fill="#eaf3ff">' + b.t + "</text>");
     }
@@ -501,23 +515,26 @@ var WHERE = {
   AN: "X0, Y7–8, Z0 (on the deck's rear-left corner)",
   LT: "Deck Y6, X1 and X4, Z0",
   DC: "Deck Y6, X5, Z0",
-  TH: "Pods (X−4…−1 and X6…9), see the next rows",
+  LA: "Pods: one hanging under each plate (up), one beside each drill pair (back)",
+  SA: "Pods: forward on top at the rear, sideways on the outer face",
+  TH: "Pods (X−6…−1 and X6…11), see the rows below",
   SO: "Belly X1, Y−1, Z3 (under the lower-left cargo)",
   EJ: "Belly X1, Y−2, Z3",
-  AR: "Deck filler (Y6) + two 2 × 2 × 7 pod spines (Y2–3, Z2–8)"
+  AR: "Deck filler (Y6) + pod frames: top plate Y5 Z0–10, wall Z5, mounts"
 };
 
 function fill() {
   var mass = 12000, ore = 13500;
   var specs = [
-    ["Envelope", "7.0 × 5.5 × 5.5 m", "W × H × L incl. pods"],
+    ["Envelope", "9.0 × 5.5 × 5.5 m", "W × H × L incl. pods"],
     ["Blocks", B.reduce(function (n, b) { return n + (b.t === "AR" ? 0 : 1); }, 0) + cellsOf("AR") + "", "functional + armor"],
     ["Cargo", "13,500 L", "≈ 36.5 t of ore + drill bins"],
     ["Shaft bore", "3.0 × 3.0 m", "from the drill bank"],
     ["Drill reach", "≈ 4.25 m", "Remote Control → bit tips"],
-    ["Thrusters", count("TH") + " small ion", "8 / 8 / 8 / 8 / 6 / 6"],
-    ["Fwd thrust", (thrustCount("-z") * 14.4).toFixed(1) + " kN", "per main axis"],
-    ["Storage", "3 batteries", "auto mode, charged on the pad"]
+    ["Planet lift", (2 * 576) + " kN", "2 large atmo, up and nose-down"],
+    ["Space thrust", (thrustCount("-z", "TH") * 14.4).toFixed(0) + " kN fwd", count("TH") + " ion thrusters"],
+    ["Atmo thrusters", count("LA") + " large · " + count("SA") + " small", "dead weight in vacuum"],
+    ["Storage", "3 MWh", "3 batteries · 12 MW peak"]
   ];
   document.getElementById("specgrid").innerHTML = specs.map(function (s) { return "<div><span>" + s[0] + "</span><b>" + s[1] + "</b><span>" + s[2] + "</span></div>"; }).join("");
   void mass; void ore;
@@ -535,14 +552,15 @@ function fill() {
     return "<tr><td class='n'>" + t + "</td><td>" + T.n + "</td><td class='n'>" + q + "</td><td class='n'>" + T.size + "</td><td>" + (T.tag ? "<code>" + T.tag + "</code>" : "—") + "</td><td>" + WHERE[t] + "</td><td>" + T.f + "</td></tr>";
   });
   var TH = [
-    ["-z", "Forward", "Pod rear ends, X±(6,7) Y2–3 Z0–1, flames aft"],
-    ["+z", "Back / brake", "Pod front ends, Z9–10, flames forward"],
-    ["-y", "Up", "Under the spines, Y0–1, Z4–5, flames down"],
-    ["+y", "Down", "Over the spines, Y4–5, Z4–5, flames up"],
-    ["-x", "Right", "Left pod outboard, X−4…−3, Y2–3, Z3–5, flames left"],
-    ["+x", "Left", "Right pod outboard, X8–9, Y2–3, Z3–5, flames right"]
+    ["-z", "Forward", "Top of the pods at the rear: ions Y6–7 Z1–2, atmo Y6 Z0–2 (outboard column)"],
+    ["+z", "Back / brake", "Large atmo Y0–2 Z6–10 beside the drills; ions Y3–4 Z9–10 above it"],
+    ["-y", "Up", "Large atmo Y0–4 Z0–2 hanging under the plate; ions Y3–4 Z3–4"],
+    ["+y", "Down", "Ions standing on the plate, Y6–7 Z4–5"],
+    ["-x", "Right", "Left pod's outer face: ions Y3–4 Z6–7, atmo Y5 Z1"],
+    ["+x", "Left", "Right pod's outer face: ions Y3–4 Z6–7, atmo Y5 Z1"]
   ].map(function (r) {
-    return "<tr><td class='n'>TH</td><td>&nbsp;&nbsp;↳ pushes " + r[1] + "</td><td class='n'>" + thrustCount(r[0]) + "</td><td class='n'>1 × 1 × 2</td><td>—</td><td>" + r[2] + "</td><td>Flame " + r[0] + "</td></tr>";
+    var mix = ["LA", "SA", "TH"].map(function (t) { var n = thrustCount(r[0], t); return n ? n + " " + t : ""; }).filter(Boolean).join(" + ");
+    return "<tr><td class='n'>↳</td><td>pushes " + r[1] + "</td><td class='n'>" + mix + "</td><td class='n'>—</td><td>—</td><td>" + r[2] + "</td><td>Flame " + r[0] + "</td></tr>";
   });
   rows.splice(ORDER.indexOf("TH") + 1, 0, TH.join(""));
   document.getElementById("bom").innerHTML = rows.join("");
@@ -577,21 +595,25 @@ function fill() {
   var form = document.getElementById("calc");
   form.addEventListener("input", calc);
   form.addEventListener("submit", function (e) { e.preventDefault(); });
-  form.querySelectorAll("[data-g]").forEach(function (b) { b.addEventListener("click", function () { document.getElementById("c-g").value = b.dataset.g; calc(); }); });
+  form.querySelectorAll("[data-env]").forEach(function (b) { b.addEventListener("click", function () {
+    var e = b.dataset.env.split(",");
+    document.getElementById("c-g").value = e[0]; document.getElementById("c-ion").value = e[1]; document.getElementById("c-atm").value = e[2];
+    calc();
+  }); });
   calc();
 }
 
 var LAYER_NOTE = {
   "-2": "Ejector (small connector) facing down. Last block on the belly.",
   "-1": "Small conveyor sorter under the lower-left cargo container, arrow pointing down toward the ejector.",
-  "0": "Bottom of the hull. Pods: up-push thrusters hang from the spines here, flames down.",
-  "1": "Second half of the hanging up-push thrusters.",
-  "2": "Pod spines start. Forward-push thrusters at the rear ends, brake thrusters at the front ends, lateral thrusters outboard.",
-  "3": "Upper row of the spines and the second row of pod thrusters.",
-  "4": "Down-push thrusters stand on the spines, flames up.",
-  "5": "Top of the hull and of the down-push thrusters.",
-  "6": "Utility deck: Remote Control (eye forward, gap up), programmable block, six gyros, camera and sensor on the front edge, lights and decoy at the rear.",
-  "7": "Antenna mast, lower block.",
+  "0": "Bottom of the hull. Pods: the two large atmospheric thrusters per side start here. The rear one stands upright with its nozzle down, the front one lies beside the drills with its nozzle forward. The pod wall rises at Z5 between them.",
+  "1": "Large atmospheric thrusters continue. Nothing new starts.",
+  "2": "Large atmospheric thrusters continue. Nothing new starts.",
+  "3": "Ion thrusters: up-push pairs hanging in the gap at Z3–4, brake ions at the front (Z9–10), sideways ions on the outer face. Armor fills Z6–8 over the brake atmo.",
+  "4": "Upper half of the layer below. The upright atmo ends here.",
+  "5": "Top of the hull. Each pod's armor plate runs the full length (Z0–10). Sideways atmospheric thruster on its outer edge at Z1.",
+  "6": "Utility deck: Remote Control (eye forward, gap up), programmable block, six gyros, camera and sensor on the front edge, lights and decoy at the rear. On the pods: the forward thrusters at the rear, the down-push ions standing at Z4–5, and armor mounts at Z3.",
+  "7": "Antenna mast; upper row of forward ions with their armor mounts.",
   "8": "Antenna mast, upper block."
 };
 
@@ -603,7 +625,7 @@ function showLayer(y) {
   for (var x = X[0]; x <= X[1]; x++) for (var z = Z[0]; z <= Z[1]; z++) {
     var i = at(x, y, z); if (i < 0 || seen[i]) continue;
     seen[i] = 1;
-    var b = B[i], key = b.t === "TH" ? "TH" + b.f : b.t;
+    var b = B[i], key = isThr(b.t) ? b.t + b.f : b.t;
     if (b.y0 !== y && b.t !== "AR") continue; // only count where a block starts
     tally[key] = (tally[key] || 0) + (b.t === "AR" ? 0 : 1);
   }
@@ -611,7 +633,7 @@ function showLayer(y) {
   for (var x2 = X[0]; x2 <= X[1]; x2++) for (var z2 = Z[0]; z2 <= Z[1]; z2++) { var k = at(x2, y, z2); if (k >= 0 && B[k].t === "AR") armor++; }
   var PUSH = { "-z": "forward", "+z": "back", "-y": "up", "+y": "down", "-x": "right", "+x": "left" };
   var items = Object.keys(tally).filter(function (k) { return tally[k] > 0; }).map(function (k) {
-    if (k.indexOf("TH") === 0) return "<li>" + tally[k] + " × thruster pushing <b>" + PUSH[k.slice(2)] + "</b> (flame " + k.slice(2) + ")</li>";
+    if (isThr(k.slice(0, 2))) return "<li>" + tally[k] + " × " + TYPES[k.slice(0, 2)].n + " pushing <b>" + PUSH[k.slice(2)] + "</b> (flame " + k.slice(2) + ")</li>";
     return "<li>" + tally[k] + " × " + TYPES[k].n + (TYPES[k].tag && TYPES[k].tag[0] === "[" ? " <code>" + TYPES[k].tag + "</code>" : "") + "</li>";
   });
   if (armor) items.push("<li>" + armor + " × light armor cell" + (armor > 1 ? "s" : "") + "</li>");
@@ -622,20 +644,32 @@ function showLayer(y) {
 
 function calc() {
   var num = function (id) { var v = parseFloat(document.getElementById(id).value); return isFinite(v) ? v : 0; };
-  var empty = Math.max(1, num("c-empty")), full = empty + num("c-ore") / 0.37, F = num("c-thr"), g = num("c-g") * 9.81;
+  var empty = Math.max(1, num("c-empty")), full = empty + num("c-ore") / 0.37, g = num("c-g") * 9.81;
+  var ion = num("c-ion") / 100, atm = num("c-atm") / 100;
   var DIRS = [["-z", "Forward"], ["+z", "Back / brake"], ["-y", "Up"], ["+y", "Down"], ["-x", "Right"], ["+x", "Left"]];
+  var lifts = [];
   document.getElementById("calcout").innerHTML = DIRS.map(function (d) {
-    var n = thrustCount(d[0]), T = n * F;
+    var nTH = thrustCount(d[0], "TH"), nSA = thrustCount(d[0], "SA"), nLA = thrustCount(d[0], "LA");
+    var T = nTH * THRUST.TH * ion + (nSA * THRUST.SA + nLA * THRUST.LA) * atm;
+    var mix = [nLA ? nLA + " LA" : "", nSA ? nSA + " SA" : "", nTH ? nTH + " ion" : ""].filter(Boolean).join(" + ");
     var lift = "<span class='pill na'>—</span>";
     if (g > 0 && (d[0] === "-y" || d[0] === "+z")) {
       var r = T / (full * g);
+      lifts.push(r);
       lift = "<span class='pill " + (r >= 1.25 ? "ok" : "bad") + "'>" + r.toFixed(2) + (d[0] === "-y" ? " level" : " nose-down") + "</span>";
     }
-    return "<tr><td>" + d[1] + "</td><td class='n'>" + n + "</td><td class='n'>" + (T / 1000).toFixed(1) + " kN</td><td class='n'>" + (T / empty).toFixed(2) + " m/s²</td><td class='n'>" + (T / full).toFixed(2) + " m/s²</td><td>" + lift + "</td></tr>";
+    return "<tr><td>" + d[1] + "</td><td class='n'>" + mix + "</td><td class='n'>" + (T / 1000).toFixed(1) + " kN</td><td class='n'>" + (T / empty).toFixed(2) + " m/s²</td><td class='n'>" + (T / full).toFixed(2) + " m/s²</td><td>" + lift + "</td></tr>";
   }).join("");
-  document.getElementById("calcnote").textContent = "Full mass " + Math.round(full).toLocaleString() + " kg. " +
-    (g > 0 ? "Lift must stay at or above MinLift 1.25, or the drone heads home early. Level flight is held by the up-push group; nose-down mining by the back-push group."
-           : "In space only braking matters: with Decel = 0 the script plans its stops on 70% of the thrust actually available, so a heavy load just means gentler approaches.");
+  var note = "Full mass " + Math.round(full).toLocaleString() + " kg. ";
+  if (g > 0) {
+    note += Math.min.apply(null, lifts) >= 1.25 ? "Both lift checks pass with a full load. "
+      : "Below MinLift 1.25 the drone stops filling and heads home, so it brings back smaller loads here. Fit more upward and back thrust, or lower CargoFull. ";
+    if (atm > 0) {
+      var mw = full * g / 1000 / 240; // large atmos deliver 240 kN per MW
+      note += "Hovering full on the large atmos draws about " + mw.toFixed(1) + " MW, roughly " + Math.round(3 / mw * 60) + " minutes from 3 MWh.";
+    }
+  } else note += "In space only braking matters: with Decel = 0 the script plans its stops on 70% of the thrust actually available, so a heavy load just means gentler approaches.";
+  document.getElementById("calcnote").textContent = note;
 }
 
 if (typeof document !== "undefined") fill();
