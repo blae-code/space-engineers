@@ -23,7 +23,7 @@ Live originals on claude.ai (Blae can open them; you cannot):
 - Rig Sandbox: https://claude.ai/artifact/VjLJDoaBSC9W7dwmsCbard
 - Crawler and Mule guides (terrestrial mining subsystem, §7): https://claude.ai/code/artifact/54c534f0-673e-4612-bf9a-3c2d6aeb22fb · https://claude.ai/code/artifact/e1198451-2950-4fc2-b2b3-ea1a439ee3af
 
-If a spec here conflicts with the build guide, the guide wins. Flag the conflict; do not silently pick one.
+**Precedence (Blae, 2026-10-16): Blae's decisions are canon; the guides are guides.** Order: Blae's decisions (logged in `docs/rig/CHANGELOG.md`) > this file > the build, Crawler and Mule guides. Where a decision departs from a guide, follow the decision and log the departure; never argue a decision back toward the guide. Between this file and a guide, flag the conflict; do not silently pick one.
 
 ---
 

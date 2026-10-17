@@ -1,0 +1,15 @@
+# RIG test world mods: creative build/design testing (one vanilla EarthLike planet, no RSS).
+# id<TAB>name. Written into the world by tools/world-mods.py.
+2756894170	Definition Extension API
+2819263781	Seismic surveying landing gear
+2821219378	[QoL] Seismic Surveying
+3040438530	ToolCore
+3175774286	Simple Laser Multitools (Now with Turrets)
+758597413	Text HUD API
+1965654081	Rich HUD Master
+1697184408	Build Vision 3.0
+514062285	Build Info
+3687605561	Connector Alignment App
+2267007067	[QoL] Mechanical Keybinds
+806331071	Camera Panning
+801185519	Colorful Icons

@@ -9,3 +9,6 @@ __pycache__/
 *.backup
 *.original
 *.bak-*
+
+# brainstorm companion mockups
+.superpowers/
