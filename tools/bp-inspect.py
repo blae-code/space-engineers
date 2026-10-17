@@ -57,11 +57,10 @@ def build_defs(mod_ids):
             if "<CubeBlocks>" not in s and "CubeBlockDefinition" not in s:
                 continue
             for d in re.findall(r"<Definition\b[^>]*>([\s\S]*?)</Definition>", s):
-                t = re.search(r"<TypeId>\s*(?:MyObjectBuilder_)?(\w+)\s*</TypeId>", d)
-                if not t or "<CubeSize>" not in d:
+                idm = re.search(r"<Id>\s*<TypeId>\s*(?:MyObjectBuilder_)?(\w+)\s*</TypeId>\s*(?:<SubtypeId>\s*([^<]*?)\s*</SubtypeId>|<SubtypeId\s*/>)?", d)
+                if not idm or "<CubeSize>" not in d:
                     continue
-                st = re.search(r"<SubtypeId>\s*([^<]*?)\s*</SubtypeId>", d)
-                key = t.group(1) + "/" + (st.group(1) if st else "")
+                key = idm.group(1) + "/" + (idm.group(2) or "")
                 size = re.search(r'<Size x="(\d+)" y="(\d+)" z="(\d+)"', d)
                 dn = re.search(r"<DisplayName>([^<]*)</DisplayName>", d)
                 inv = re.search(r"<InventorySize>\s*<X>([\d.]+)</X>\s*<Y>([\d.]+)</Y>\s*<Z>([\d.]+)</Z>", d)
@@ -156,7 +155,11 @@ class Grid:
 
 
 def parse_blueprint(path):
-    root = ET.parse(path).getroot()
+    raw = open(path, "rb").read()
+    if raw[:2] == b"\x1f\x8b":  # Steam Cloud stores blueprints gzip-compressed
+        import gzip
+        raw = gzip.decompress(raw)
+    root = ET.fromstring(raw)
     bp = root.find(".//ShipBlueprint")
     title = bp.find("Id").get("Subtype") if bp is not None and bp.find("Id") is not None else os.path.basename(os.path.dirname(path))
     grids = [Grid(g) for g in root.iter("CubeGrid")]
@@ -417,11 +420,14 @@ def fmt_svg(rep):
 def resolve(arg):
     if os.path.isfile(arg):
         return arg
-    for base in (os.path.join(APPDATA, "Blueprints", "local"), os.path.join(APPDATA, "Blueprints", "cloud")):
+    bases = [os.path.join(APPDATA, "Blueprints", "local"), os.path.join(APPDATA, "Blueprints", "cloud")]
+    # cloud blueprints keep only thumb.png in AppData; the bp.sbc lives in Steam's userdata remote store
+    bases += glob.glob(os.path.expanduser("~/.local/share/Steam/userdata/*/244850/remote/Blueprints/cloud"))
+    for base in bases:
         p = os.path.join(base, arg, "bp.sbc")
         if os.path.isfile(p):
             return p
-    sys.exit(f"blueprint {arg!r} not found (looked in Blueprints/local and Blueprints/cloud)")
+    sys.exit(f"blueprint {arg!r} not found (looked in Blueprints/local, Blueprints/cloud and Steam Cloud userdata)")
 
 
 def main():
