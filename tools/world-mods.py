@@ -9,7 +9,7 @@
 refuses to run while Space Engineers is running (the game would overwrite the change on save).
 Mod list file: one mod per line, 'id<TAB>name', '#' lines ignored.
 """
-import argparse, glob, html, os, re, subprocess, sys, time
+import argparse, glob, html, os, re, sys, time
 
 SAVES = os.path.expanduser("~/.local/share/Steam/steamapps/compatdata/244850/pfx/drive_c/users/"
                            "steamuser/AppData/Roaming/SpaceEngineers/Saves")
@@ -52,8 +52,21 @@ def mods_block(mods, indent):
 
 
 def game_running():
-    r = subprocess.run(["pgrep", "-f", "SpaceEngineers.exe"], capture_output=True)
-    return r.returncode == 0
+    """True if a process has SpaceEngineers.exe as an argument (shells are skipped: a command line
+    that merely mentions the name, like this tool's caller, is not the game)."""
+    for pid in os.listdir("/proc"):
+        if not pid.isdigit() or int(pid) == os.getpid():
+            continue
+        try:
+            comm = open(f"/proc/{pid}/comm").read().strip()
+            args = open(f"/proc/{pid}/cmdline", "rb").read().split(b"\0")
+        except OSError:
+            continue
+        if comm in ("zsh", "bash", "fish", "sh", "dash"):
+            continue
+        if any(a.endswith(b"SpaceEngineers.exe") for a in args):
+            return True
+    return False
 
 
 def main():
