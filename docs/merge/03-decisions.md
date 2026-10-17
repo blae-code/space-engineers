@@ -1,6 +1,6 @@
 # Merge 03 · Decision brief
 
-2026-10-16 · CLAUDE(RIG).md §8 phase 3. **No code moves until Blae answers the open items.**
+2026-10-16 · CLAUDE(RIG).md §8 phase 3. **Answered by Blae 2026-10-16. See "Answers" below.**
 
 ## Decided (Blae, 2026-10-16)
 
@@ -30,3 +30,13 @@
 | D7 | Classes in scope now | miner (PM/OM) only · + survey · + interceptor · + cargo | **Miner only** for the first Rig slice; survey and interceptor next; cargo dropped (miners haul their own ore) |
 | D8 | Swarm size | 12 INT + 2 PKT · add combat carriers | **12 INT + 2 PKT** v1 (bay-limited, AI blocks) |
 | D9 | Order of work after the move | protocol → nav (planet-relative) → Rig.Dispatcher → Rig.OS → Displays | As listed. Nav depends on the RSS verify run in creative |
+
+## Answers (Blae, 2026-10-16)
+
+| # | Answer |
+| --- | --- |
+| D1, D2 | Agreed: `;` payloads everywhere; tags `FLT.<ch>.*`, `RIG.<ch>.*`, `TMS.*` |
+| D3, D4 | Agreed: lore as flavour only; C6 practical industrial wins |
+| D5, D7, D8 | **Superseded by a scope change: terrestrial operations first.** Order: resource extraction → refinement → materials production. Orbital tender, survey, interceptors and swarm size are deferred |
+| D6 | Claude proposes the drone fallback rungs, **illustrated** (Blae: "highly visual; anything illustrative helps") |
+| D9 | **Build order: Crawler (design + build + every script it needs) → Mule → stationary ground base (refinery/factory that builds the Rig)** |

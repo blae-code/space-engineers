@@ -35,6 +35,7 @@ Client/HUD rule: keep a mod only if it does something we cannot feasibly do bett
 | Real Solar Systems | [3351055036](https://steamcommunity.com/sharedfiles/filedetails/?id=3351055036) | moving planets + moons, /TSE editor |
 | Real Stars | [3152436752](https://steamcommunity.com/sharedfiles/filedetails/?id=3152436752) | sun rotation; RSS requires it |
 | Real Orbits | [2609118808](https://steamcommunity.com/sharedfiles/filedetails/?id=2609118808) | true orbits; ⚠ gravity falloff → inverse-square† |
+| Solar Block Override (untitled on Steam: private/unlisted) | [3240629702](https://steamcommunity.com/sharedfiles/filedetails/?id=3240629702) | RSS companion: solar panels follow the RSS sun and eclipses (identified from its scripts) |
 | Real Gas Giants | [3232085677](https://steamcommunity.com/sharedfiles/filedetails/?id=3232085677) | optional: gas giants |
 | Hubblegum Skybox | [2645964353](https://steamcommunity.com/sharedfiles/filedetails/?id=2645964353) | skybox |
 | Rotate skybox with the Sun | [2830474647](https://steamcommunity.com/sharedfiles/filedetails/?id=2830474647) | skybox follows sun |
@@ -108,7 +109,7 @@ Client/HUD rule: keep a mod only if it does something we cannot feasibly do bett
 
 **Planet packs:** keep the packs that RSS will use for 3–4 large planets with 1–10 moons each. Candidates (Cloud City set): Ravcor (Another Texture Update) (668429328) · Tohil (2296726670) · Solar System Pack - Part 1 (3376186515) · Planet Silona (2759048529) · Planet Reach: Remastered (2809550063) · Planet Anteros (2907125513) · Object-85 (Weather Update) (1662457289) · Luma (2286318683) · Komorebi (3309805284) · Dusty Desert Planet (584407944) · Demus (1813330640) · Colossus - Black Hole (3256144568) · Cauldron System (3576683005) · Kimi & Qun (2459246911). Pick before building the system; unused packs drop.
 
-Total kept (excluding planet packs): 60.
+Total kept (excluding planet packs): 61.
 
 ## Drop
 
@@ -131,7 +132,7 @@ Total kept (excluding planet packs): 60.
 
 ## Verify†
 
-- RSS: are grids near a planet carried with it? Do planets rotate or only translate? Speed?
+- RSS (answered from source 2026-10-16, confirm in game): planets are static in their zone; zone crossings teleport non-static grids. Still to measure: `PlanetSurfaceZoneRadius` per planet (the Rig must hover inside it), and whether IGC/antennas work across zones.
 - Real Orbits: gravity at the Rig altitude band under inverse-square falloff → re-derive T%, hover and power figures.
 - Defense Shields: dependencies and power draw vs the H4 budget.
 - Reavers: confirm `SmallBlockMediumCalibreGun` is vanilla Warfare 2.
