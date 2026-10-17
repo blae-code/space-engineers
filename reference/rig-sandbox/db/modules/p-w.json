@@ -1,0 +1,21 @@
+{
+  "A": 7,
+  "H": 4,
+  "R": 0,
+  "d": 8,
+  "h": 7,
+  "kind": "pylon",
+  "label": "P-W",
+  "mass": null,
+  "notes": "Straight arm: 3 MNR bays, doors alternate into T-WSW / T-WNW. Cross-head: lateral A, 2 INT bays.",
+  "online": true,
+  "phase": 1,
+  "rot": 180,
+  "shape": "box",
+  "sizeTBD": true,
+  "status": "planned",
+  "w": 22,
+  "x": -19,
+  "y": 7.5,
+  "z": 0
+}

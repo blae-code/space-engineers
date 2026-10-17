@@ -1,0 +1,502 @@
+<title>Rig Sandbox</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: full-height planning bench. Header strip, 3D viewport left, inspector rail right, lift ledger along the bottom. Single dark look by choice. */
+:root{
+  --ground:#121417; --panel:#1a1d21; --panel2:#22262b; --rule:#33383f; --ink:#e4e1d8; --ink2:#a9a69c; --ink3:#7d7b74;
+  --hazard:#e0a526; --hazard-ink:#16130b; --warn:#ff6a4d; --ok:#8fc27a;
+  --f-display:"Barlow Condensed","Arial Narrow",sans-serif; --f-body:"IBM Plex Sans",system-ui,sans-serif; --f-mono:"IBM Plex Mono",ui-monospace,monospace;
+  color-scheme:dark;
+}
+html,body{height:100%}
+body{background:var(--ground);color:var(--ink);font-family:var(--f-body);font-size:13px}
+*{box-sizing:border-box}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--hazard);outline-offset:2px}
+.app{min-height:100%;display:flex;flex-direction:column;padding-left:max(12px,env(safe-area-inset-left,0px));padding-right:max(12px,env(safe-area-inset-right,0px));padding-block:10px;gap:10px}
+header{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px}
+.stripe{width:56px;height:10px;background:repeating-linear-gradient(-45deg,var(--hazard) 0 7px,#111 7px 14px);flex-shrink:0}
+h1{font-family:var(--f-display);font-weight:700;font-size:24px;letter-spacing:.06em;margin:0;text-transform:uppercase}
+.sub{color:var(--ink2);font-size:12px}
+.chip{font-family:var(--f-mono);font-size:11px;padding:3px 8px;border:1px solid var(--rule);border-radius:3px;color:var(--ink2);white-space:nowrap}
+.chip.live{border-color:#4d6b43;color:var(--ok)}
+.chip.local{border-color:#7a3a2c;color:var(--warn)}
+.spacer{flex:1}
+.toolbar{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.seg{display:inline-flex;border:1px solid var(--rule);border-radius:4px;overflow:hidden}
+.seg button{background:var(--panel);border:0;padding:0 12px;min-height:36px;font-family:var(--f-display);font-weight:600;font-size:15px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink2)}
+.seg button+button{border-left:1px solid var(--rule)}
+.seg button[aria-pressed="true"]{background:var(--hazard);color:var(--hazard-ink)}
+.main{flex:1;display:flex;flex-wrap:wrap;gap:10px;min-height:0}
+.viewwrap{flex:999 1 560px;min-width:0;position:relative;border:1px solid var(--rule);border-radius:4px;overflow:hidden;background:#0d0f11;min-height:420px}
+#view{position:absolute;inset:0}
+#view canvas{display:block;touch-action:none}
+.hud{position:absolute;left:10px;top:10px;display:flex;flex-direction:column;gap:6px;pointer-events:none}
+.hud .tag{pointer-events:auto;background:rgba(18,20,23,.86);border:1px solid var(--rule);border-radius:3px;padding:6px 8px;font-family:var(--f-mono);font-size:11px;color:var(--ink2);line-height:1.5}
+.layers{position:absolute;left:10px;bottom:10px;right:10px;display:flex;flex-wrap:wrap;gap:6px}
+.layer{display:inline-flex;align-items:center;gap:6px;background:rgba(18,20,23,.86);border:1px solid var(--rule);border-radius:3px;padding:0 10px;min-height:32px;font-size:12px}
+.layer[aria-pressed="false"]{opacity:.45}
+.sw{width:10px;height:10px;border-radius:2px;display:inline-block}
+.empty{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:24px;text-align:center;color:var(--ink2);pointer-events:none}
+.empty div{max-width:380px;background:rgba(18,20,23,.9);border:1px dashed var(--rule);padding:16px 18px;border-radius:4px;line-height:1.5}
+.empty b{display:block;font-family:var(--f-display);font-size:18px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink);margin-bottom:4px}
+aside{flex:1 1 320px;max-width:100%;min-width:0;display:flex;flex-direction:column;gap:10px}
+.card{background:var(--panel);border:1px solid var(--rule);border-radius:4px;padding:10px 12px;display:flex;flex-direction:column;gap:8px}
+.card h2{margin:0;font-family:var(--f-display);font-weight:700;font-size:16px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink2);display:flex;align-items:center;gap:8px}
+.card h2 .k{color:var(--ink);font-size:20px;letter-spacing:.04em}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 10px}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px 10px}
+.grid4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px 8px}
+label.f{display:flex;flex-direction:column;gap:3px;font-size:11px;color:var(--ink3);text-transform:uppercase;letter-spacing:.06em;min-width:0}
+label.f input,label.f select,textarea{background:var(--panel2);border:1px solid var(--rule);border-radius:3px;padding:6px 7px;min-height:34px;font-family:var(--f-mono);font-size:13px;text-transform:none;letter-spacing:0;width:100%;min-width:0}
+textarea{font-family:var(--f-body);min-height:56px;resize:vertical;color:var(--ink)}
+.btn{background:var(--panel2);border:1px solid var(--rule);border-radius:3px;min-height:36px;padding:0 10px;font-family:var(--f-display);font-weight:600;font-size:14px;letter-spacing:.05em;text-transform:uppercase}
+.btn:hover{border-color:var(--ink3)}
+.btn.hz{background:var(--hazard);color:var(--hazard-ink);border-color:var(--hazard)}
+.btn.danger{border-color:#7a3a2c;color:var(--warn)}
+.btn.danger.armed{background:var(--warn);color:#1a0b07}
+.row{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.nudge{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+.nudge .btn{font-family:var(--f-mono);font-size:12px;padding:0 4px}
+.muted{color:var(--ink3);font-size:12px;line-height:1.45}
+.pill{font-family:var(--f-mono);font-size:11px;padding:2px 6px;border-radius:3px;border:1px solid var(--rule);color:var(--ink2)}
+.pill.warn{border-color:#7a3a2c;color:var(--warn)}
+.pill.ok{border-color:#4d6b43;color:var(--ok)}
+.toggle{display:flex;align-items:center;gap:8px;min-height:32px;font-size:13px}
+.toggle input{width:18px;height:18px;accent-color:var(--hazard)}
+.plist{display:flex;flex-direction:column;gap:2px;max-height:220px;overflow:auto}
+.plist label{display:flex;align-items:center;gap:8px;min-height:30px;font-family:var(--f-mono);font-size:12px;padding:0 4px;border-radius:3px}
+.plist label:hover{background:var(--panel2)}
+.plist .meta{margin-left:auto;color:var(--ink3)}
+.ledger{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:4px;overflow:hidden}
+.cell{background:var(--panel);padding:8px 10px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.cell .l{font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:var(--ink3)}
+.cell .v{font-family:var(--f-mono);font-size:18px;font-variant-numeric:tabular-nums;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cell .n{font-size:11px;color:var(--ink3);font-family:var(--f-mono)}
+.cell.alert .v{color:var(--warn)}
+.cell.good .v{color:var(--ok)}
+.bar{height:6px;background:var(--panel2);border-radius:2px;overflow:hidden;position:relative}
+.bar i{position:absolute;left:0;top:0;bottom:0;background:var(--hazard)}
+.bar .m{position:absolute;top:-2px;bottom:-2px;width:1px;background:var(--ink3)}
+details summary{cursor:pointer;font-family:var(--f-display);font-weight:700;font-size:16px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink2);min-height:28px;display:flex;align-items:center}
+@media (max-width:720px){.viewwrap{flex-basis:100%;min-height:380px}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="app">
+  <header>
+    <div class="stripe" aria-hidden="true"></div>
+    <h1>Rig Sandbox</h1>
+    <span class="sub">1 unit = 1 large block (2.5 m) · north = −Z</span>
+    <span id="store" class="chip">Connecting…</span>
+    <div class="spacer"></div>
+    <div class="toolbar">
+      <div class="seg" role="group" aria-label="Pointer mode">
+        <button id="mOrbit" aria-pressed="true">Orbit</button>
+        <button id="mMove" aria-pressed="false">Move</button>
+      </div>
+      <div class="seg" role="group" aria-label="Camera">
+        <button id="cIso" aria-pressed="true">Iso</button>
+        <button id="cTop" aria-pressed="false">Plan</button>
+        <button id="cSide" aria-pressed="false">Elev N</button>
+      </div>
+      <div class="seg" role="group" aria-label="Build phase">
+        <button data-ph="1" aria-pressed="false">Ph1 Core</button>
+        <button data-ph="2" aria-pressed="false">Ph2</button>
+        <button data-ph="3" aria-pressed="true">Ph3 All</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="main">
+    <div class="viewwrap">
+      <div id="view" tabindex="0" aria-label="3D model of the Rig. Use Orbit to look around, Move to drag the selected section."></div>
+      <div class="hud">
+        <div class="tag" id="hudSel">Nothing selected</div>
+        <div class="tag" id="hudHint">Orbit: drag to rotate · right-drag to pan · wheel to zoom · click a section to select</div>
+      </div>
+      <div class="layers" id="layers"></div>
+      <div class="empty" id="empty" hidden><div><b>No sections yet</b>Add a section from the panel on the right, or ask Claude to load the layout from your build guide.</div></div>
+    </div>
+
+    <aside>
+      <section class="card" id="insp" aria-label="Selected section">
+        <h2>Section <span class="k" id="iTitle">—</span></h2>
+        <p class="muted" id="iNone">Click a section in the model to edit its size, position, thrust and mass. Move mode lets you drag it on its deck plane.</p>
+        <div id="iBody" hidden>
+          <div class="grid2">
+            <label class="f">Label<input id="f_label" type="text"></label>
+            <label class="f">Type<select id="f_kind"></select></label>
+            <label class="f">Phase<select id="f_phase"><option value="1">1 · core</option><option value="2">2</option><option value="3">3</option></select></label>
+            <label class="f">Status<select id="f_status"><option value="planned">planned</option><option value="built">built</option></select></label>
+          </div>
+          <div style="height:8px"></div>
+          <div class="grid3">
+            <label class="f">W blk<input id="f_w" type="number" min="1" step="0.5"></label>
+            <label class="f">H blk<input id="f_h" type="number" min="1" step="0.5"></label>
+            <label class="f">D blk<input id="f_d" type="number" min="1" step="0.5"></label>
+            <label class="f">X<input id="f_x" type="number" step="0.5"></label>
+            <label class="f">Y<input id="f_y" type="number" step="0.5"></label>
+            <label class="f">Z<input id="f_z" type="number" step="0.5"></label>
+          </div>
+          <div style="height:8px"></div>
+          <div class="grid3">
+            <label class="f">Shape<select id="f_shape"><option value="box">box</option><option value="hex">hex (1×2 slopes)</option><option value="wedge">wedge</option></select></label>
+            <label class="f">Yaw °<input id="f_rot" type="number" step="1"></label>
+            <label class="f">Inner W blk<input id="f_wi" type="number" min="1" step="0.5"></label>
+          </div>
+          <div style="height:8px"></div>
+          <div class="nudge" aria-label="Nudge selected section one block">
+            <button class="btn" data-n="x,-1">−X W</button><button class="btn" data-n="x,1">+X E</button>
+            <button class="btn" data-n="z,-1">−Z N</button><button class="btn" data-n="z,1">+Z S</button>
+            <button class="btn" data-n="y,1">+Y up</button><button class="btn" data-n="y,-1">−Y dn</button>
+            <button class="btn" id="bRot">Rot 90°</button><button class="btn" id="bMir">Mirror</button>
+          </div>
+          <div style="height:8px"></div>
+          <div class="grid4">
+            <label class="f">Atmo LG<input id="f_A" type="number" min="0" step="1"></label>
+            <label class="f">H2 LG<input id="f_H" type="number" min="0" step="1"></label>
+            <label class="f">Reactor LG<input id="f_R" type="number" min="0" step="1"></label>
+            <label class="f">Mass t<input id="f_mass" type="number" min="0" step="10" placeholder="TBD"></label>
+          </div>
+          <div style="height:6px"></div>
+          <label class="toggle"><input id="f_online" type="checkbox"> Online (has power, thrusters running)</label>
+          <label class="toggle"><input id="f_tbd" type="checkbox"> Size is a placeholder</label>
+          <label class="f">Notes<textarea id="f_notes"></textarea></label>
+          <div style="height:6px"></div>
+          <div class="row">
+            <button class="btn" id="bDup">Duplicate</button>
+            <button class="btn danger" id="bDel">Delete</button>
+            <span class="muted" id="iDims"></span>
+          </div>
+        </div>
+      </section>
+
+      <section class="card" aria-label="Add a section">
+        <h2>Add section</h2>
+        <div class="row" id="palette"></div>
+        <p class="muted">New sections drop above the hub in the current phase. Switch to Move to place them.</p>
+      </section>
+
+      <section class="card" aria-label="Failure scenario">
+        <h2>Power state</h2>
+        <p class="muted">Untick a section to take its thrust offline and watch the lift margin change.</p>
+        <div class="plist" id="plist"></div>
+      </section>
+
+      <section class="card">
+        <details>
+          <summary>Lift assumptions</summary>
+          <div class="grid2" style="margin-top:8px">
+            <label class="f">Gravity g<input id="s_g" type="number" step="0.05" min="0.05"></label>
+            <label class="f">Atmo effect. %<input id="s_eff" type="number" step="5" min="0" max="100"></label>
+            <label class="f">Atmo LG MN<input id="s_aT" type="number" step="0.01"></label>
+            <label class="f">H2 LG MN†<input id="s_hT" type="number" step="0.1"></label>
+            <label class="f">Atmo LG MW<input id="s_aP" type="number" step="0.1"></label>
+            <label class="f">CAU line T%<input id="s_cau" type="number" step="1"></label>
+          </div>
+          <label class="toggle"><input id="s_countH" type="checkbox"> Count H2 thrusters in hover lift</label>
+          <p class="muted">† verify in game. Atmo effectiveness falls with altitude; set it once the planet and hover altitude are chosen.</p>
+        </details>
+      </section>
+    </aside>
+  </div>
+
+  <div class="ledger" id="ledger" aria-live="polite"></div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script>
+(function(){
+const KINDS={
+  hub:{name:'Hub',color:0x8b9198},
+  pylon:{name:'Pylon',color:0xb3893a},
+  wedge:{name:'Wedge',color:0x5d7488},
+  quadrant:{name:'Quadrant',color:0x52677a},
+  hangar:{name:'Hangar',color:0x6f8159},
+  pod:{name:'Thruster pod',color:0xa65a3f},
+  block:{name:'Block',color:0x77726b}
+};
+const DEFAULTS={g:1,atmoEff:100,aThrust:6.48,hThrust:7.2,aPower:16.8,cau:60,countH:true};
+const ADD={
+  pylon:{w:20,h:5,d:5,A:8,H:5,R:0},
+  wedge:{w:17,h:10,d:14.5,wi:4.4,A:0,H:0,R:0,shape:'wedge'},
+  quadrant:{w:15,h:10,d:15,A:0,H:0,R:0},
+  hangar:{w:10,h:6,d:12,A:0,H:0,R:0},
+  pod:{w:3,h:3,d:5,A:1,H:0,R:0},
+  block:{w:5,h:5,d:5,A:0,H:0,R:0},
+  hub:{w:16,h:28,d:17,A:0,H:0,R:0,shape:'hex'}
+};
+const $=id=>document.getElementById(id);
+const state={modules:new Map(),settings:{...DEFAULTS},sel:null,mode:'orbit',phase:3,layers:new Set(Object.keys(KINDS)),db:null,col:null,local:false,drag:null,ready:false};
+
+/* ---------- store ---------- */
+function setStore(kind,txt){const c=$('store');c.className='chip '+kind;c.textContent=txt;}
+async function connect(){
+  let db=null;
+  try{ if(window.claude&&window.claude.use) db=await window.claude.use('db'); }catch(e){db=null;}
+  if(!db){state.local=true;state.ready=true;setStore('local','Local only · changes are not saved');render();return;}
+  state.db=db;state.col=db.collection('modules');
+  state.col.onSnapshot(snap=>{
+    const m=new Map();
+    snap.docs.forEach(d=>{const v=Object.assign({id:d.id},d.data());m.set(d.id,v);});
+    if(state.drag&&m.has(state.drag.id)){const cur=state.modules.get(state.drag.id);const v=m.get(state.drag.id);v.x=cur.x;v.z=cur.z;}
+    state.modules=m;state.ready=true;setStore('live','Shared store · saved');render();
+  },e=>{setStore('local','Store unavailable · '+e.code);});
+  db.doc('meta/settings').onSnapshot(s=>{state.settings=Object.assign({},DEFAULTS,s.exists?s.data():{});fillSettings();render();},()=>{});
+}
+function patch(id,p){
+  const m=state.modules.get(id);if(!m)return;Object.assign(m,p);render();
+  if(state.col){state.col.doc(id).update(p).catch(e=>flash('Save failed: '+e.code));}
+}
+function create(data){
+  if(state.col){const ref=state.col.doc();const body=Object.assign({},data);ref.set(body).then(()=>{state.sel=ref.id;render();}).catch(e=>flash('Save failed: '+e.code));return ref.id;}
+  const id='local-'+Math.random().toString(36).slice(2,8);state.modules.set(id,Object.assign({id},data));state.sel=id;render();return id;
+}
+function remove(id){
+  state.modules.delete(id);if(state.sel===id)state.sel=null;render();
+  if(state.col)state.col.doc(id).delete().catch(e=>flash('Delete failed: '+e.code));
+}
+function saveSettings(p){
+  Object.assign(state.settings,p);render();
+  if(state.db)state.db.doc('meta/settings').set(Object.assign({},state.settings)).catch(e=>flash('Save failed: '+e.code));
+}
+function flash(t){$('hudHint').textContent=t;}
+
+/* ---------- geometry helpers ---------- */
+const num=(v,d)=>{const n=Number(v);return Number.isFinite(n)?n:d;};
+function dims(m){return {w:num(m.w,1),h:num(m.h,1),d:num(m.d,1)};}
+/* footprint in local x/z (before yaw). hex = near-regular with 1x2-slope faces, flat faces on local ±x */
+function foot(m){const w=num(m.w,1),d=num(m.d,1),s=m.shape||'box';
+  if(s==='hex'){const a=Math.max(0.5,d/2-w/4);return [[w/2,-a],[w/2,a],[0,d/2],[-w/2,a],[-w/2,-a],[0,-d/2]];}
+  if(s==='wedge'){const wi=num(m.wi,w*0.3);return [[-d/2,-wi/2],[d/2,-w/2],[d/2,w/2],[-d/2,wi/2]];}
+  return [[-w/2,-d/2],[w/2,-d/2],[w/2,d/2],[-w/2,d/2]];}
+function wfoot(m){const t=num(m.rot,0)*Math.PI/180,c=Math.cos(t),s=Math.sin(t),x=num(m.x,0),z=num(m.z,0);return foot(m).map(([a,b])=>[x+a*c+b*s,z-a*s+b*c]);}
+function separated(P,Q){for(const poly of [P,Q])for(let i=0;i<poly.length;i++){const a=poly[i],b=poly[(i+1)%poly.length];const nx=b[1]-a[1],nz=a[0]-b[0],L=Math.hypot(nx,nz)||1;let p0=Infinity,p1=-Infinity,q0=Infinity,q1=-Infinity;
+  P.forEach(v=>{const d=(v[0]*nx+v[1]*nz)/L;p0=Math.min(p0,d);p1=Math.max(p1,d);});Q.forEach(v=>{const d=(v[0]*nx+v[1]*nz)/L;q0=Math.min(q0,d);q1=Math.max(q1,d);});
+  if(Math.min(p1,q1)-Math.max(p0,q0)<=0.05)return true;}return false;}
+function insidePoly(P,x,z){let sg=0;for(let i=0;i<P.length;i++){const a=P[i],b=P[(i+1)%P.length];const c=(b[0]-a[0])*(z-a[1])-(b[1]-a[1])*(x-a[0]);if(Math.abs(c)>1e-9){if(!sg)sg=Math.sign(c);else if(Math.sign(c)!==sg)return false;}}return true;}
+function bbox(m){const P=wfoot(m);const xs=P.map(p=>p[0]),zs=P.map(p=>p[1]);return {x0:Math.min(...xs),x1:Math.max(...xs),z0:Math.min(...zs),z1:Math.max(...zs)};}
+function inPhase(m){return num(m.phase,1)<=state.phase;}
+function snapC(c,size){return Math.round(c-size/2)+size/2;}
+function overlaps(list){
+  const bad=new Set();
+  for(let i=0;i<list.length;i++)for(let j=i+1;j<list.length;j++){
+    const a=list[i],b=list[j],da=dims(a),dbb=dims(b);
+    const oy=Math.min(a.y+da.h/2,b.y+dbb.h/2)-Math.max(a.y-da.h/2,b.y-dbb.h/2);
+    if(oy>0.01&&!separated(wfoot(a),wfoot(b))){bad.add(a.id);bad.add(b.id);}
+  }
+  return bad;
+}
+
+/* ---------- three.js scene ---------- */
+const view=$('view');
+const renderer=new THREE.WebGLRenderer({antialias:true});
+renderer.setPixelRatio(Math.min(2,window.devicePixelRatio||1));
+renderer.setClearColor(0x0d0f11);
+view.appendChild(renderer.domElement);
+const scene=new THREE.Scene();
+scene.fog=new THREE.Fog(0x0d0f11,180,420);
+const camera=new THREE.PerspectiveCamera(42,1,0.5,2000);
+const controls=new THREE.OrbitControls(camera,renderer.domElement);
+controls.enableDamping=true;controls.dampingFactor=0.12;
+scene.add(new THREE.HemisphereLight(0xdfe6ee,0x1a1612,0.75));
+const sun=new THREE.DirectionalLight(0xfff1d6,0.85);sun.position.set(60,120,40);scene.add(sun);
+const grid=new THREE.GridHelper(200,80,0x3a4048,0x23272c);grid.position.y=-12;scene.add(grid);
+const gridMajor=new THREE.GridHelper(200,8,0x58606a,0x58606a);gridMajor.position.y=-11.98;scene.add(gridMajor);
+const world=new THREE.Group();scene.add(world);
+const labelCache=new Map();
+function labelSprite(text,color){
+  const key=text+'|'+color;let tex=labelCache.get(key);
+  if(!tex){const c=document.createElement('canvas');c.width=512;c.height=96;const g=c.getContext('2d');
+    g.font='700 56px "Barlow Condensed","Arial Narrow",sans-serif';g.textAlign='center';g.textBaseline='middle';
+    g.fillStyle='rgba(13,15,17,0.78)';const tw=Math.min(500,g.measureText(text).width+36);g.fillRect(256-tw/2,10,tw,76);
+    g.fillStyle=color;g.fillText(text,256,50);tex=new THREE.CanvasTexture(c);labelCache.set(key,tex);}
+  const s=new THREE.Sprite(new THREE.SpriteMaterial({map:tex,depthTest:false,transparent:true}));s.scale.set(16,3,1);s.renderOrder=10;return s;
+}
+function compass(){
+  const g=new THREE.Group();
+  const l=labelSprite('N','#e0a526');l.position.set(0,-11,-70);l.scale.set(10,1.9,1);g.add(l);
+  const pts=[new THREE.Vector3(0,-11.9,-30),new THREE.Vector3(0,-11.9,-62)];
+  g.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts),new THREE.LineBasicMaterial({color:0xe0a526})));
+  return g;
+}
+scene.add(compass());
+const meshes=new Map();
+function geoFor(m,pad=0){const s=m.shape||'box',d=dims(m);if(s==='box')return new THREE.BoxGeometry(d.w+pad,d.h+pad,d.d+pad);
+  const k=1+pad/Math.max(d.w,d.d),sh=new THREE.Shape();foot(m).forEach(([x,z],i)=>i?sh.lineTo(x*k,-z*k):sh.moveTo(x*k,-z*k));sh.closePath();
+  const g=new THREE.ExtrudeGeometry(sh,{depth:d.h+pad,bevelEnabled:false});g.rotateX(-Math.PI/2);g.translate(0,-(d.h+pad)/2,0);return g;}
+function nubs(m,n){const P=foot(m),xs=P.map(p=>p[0]),zs=P.map(p=>p[1]);const x0=Math.min(...xs)+0.8,x1=Math.max(...xs)-0.8,z0=Math.min(...zs)+0.8,z1=Math.max(...zs)-0.8;
+  for(let k=Math.max(1,Math.ceil(Math.sqrt(n)));k<40;k++){const pts=[];for(let i=0;i<k;i++)for(let j=0;j<k;j++){const x=x0+(x1-x0)*(i+0.5)/k,z=z0+(z1-z0)*(j+0.5)/k;if(insidePoly(P,x,z))pts.push([x,z]);}
+    if(pts.length>=n){const st=pts.length/n;return Array.from({length:n},(_,i)=>pts[Math.floor(i*st)]);}}return [];}
+function rebuild(){
+  while(world.children.length){const o=world.children.pop();o.traverse(x=>{if(x.geometry)x.geometry.dispose();if(x.material&&!x.material.map)x.material.dispose();});}
+  meshes.clear();
+  const list=[...state.modules.values()];
+  const bad=overlaps(list.filter(inPhase));
+  list.forEach(m=>{
+    const k=KINDS[m.kind]||KINDS.block, d=dims(m), on=inPhase(m), vis=state.layers.has(m.kind in KINDS?m.kind:'block');
+    if(!vis)return;
+    const grp=new THREE.Group();grp.position.set(num(m.x,0),num(m.y,0),num(m.z,0));grp.rotation.y=num(m.rot,0)*Math.PI/180;grp.userData.id=m.id;
+    const geo=geoFor(m);
+    const offline=m.online===false, sel=m.id===state.sel, planned=m.status!=='built';
+    let col=new THREE.Color(k.color);if(offline)col.lerp(new THREE.Color(0x3a1d18),0.6);
+    if(on){
+      const mat=new THREE.MeshStandardMaterial({color:col,roughness:0.85,metalness:0.25,transparent:planned,opacity:planned?0.62:1});
+      const mesh=new THREE.Mesh(geo,mat);mesh.userData.id=m.id;grp.add(mesh);meshes.set(m.id,mesh);
+    }
+    const ec=sel?0xe0a526:bad.has(m.id)&&on?0xff6a4d:on?0xc9ccd0:0x4a5058;
+    const edges=new THREE.LineSegments(new THREE.EdgesGeometry(geo),new THREE.LineBasicMaterial({color:ec,transparent:!on,opacity:on?1:0.35}));
+    grp.add(edges);
+    if(sel){const halo=new THREE.LineSegments(new THREE.EdgesGeometry(geoFor(m,0.6)),new THREE.LineBasicMaterial({color:0xe0a526,transparent:true,opacity:0.45}));grp.add(halo);}
+    if(on&&num(m.A,0)+num(m.H,0)>0){
+      const n=num(m.A,0)+num(m.H,0),spots=nubs(m,n);
+      for(let i=0;i<spots.length;i++){const isH=i>=num(m.A,0);const t=new THREE.Mesh(new THREE.CylinderGeometry(0.42,0.6,1.1,10),new THREE.MeshStandardMaterial({color:offline?0x2b2422:isH?0x7fa7c8:0xd08a4a,emissive:offline?0x000000:isH?0x14304a:0x3a1c06,roughness:0.6}));
+        t.position.set(spots[i][0],-d.h/2-0.55,spots[i][1]);grp.add(t);}
+    }
+    if(on){const lab=labelSprite((m.label||k.name)+(offline?'  OFFLINE':''),offline?'#ff6a4d':sel?'#e0a526':'#e4e1d8');lab.position.set(0,d.h/2+2.4,0);lab.userData.label=true;grp.add(lab);}
+    world.add(grp);
+  });
+  const com=centerOfMass();
+  if(com){const s=new THREE.Mesh(new THREE.OctahedronGeometry(1.2),new THREE.MeshBasicMaterial({color:0xe0a526,wireframe:true}));s.position.copy(com);world.add(s);
+    const l=labelSprite('CoM','#e0a526');l.scale.set(8,1.5,1);l.position.set(com.x+5,com.y,com.z);world.add(l);}
+}
+function centerOfMass(){
+  let M=0;const c=new THREE.Vector3();
+  state.modules.forEach(m=>{if(!inPhase(m))return;const w=num(m.mass,0);if(w>0){M+=w;c.x+=w*num(m.x,0);c.y+=w*num(m.y,0);c.z+=w*num(m.z,0);}});
+  return M>0?c.divideScalar(M):null;
+}
+function resize(){const r=view.getBoundingClientRect();renderer.setSize(Math.max(1,r.width),Math.max(1,r.height),false);renderer.domElement.style.width=r.width+'px';renderer.domElement.style.height=r.height+'px';camera.aspect=Math.max(1,r.width)/Math.max(1,r.height);camera.updateProjectionMatrix();}
+new ResizeObserver(resize).observe(view);
+function camPreset(p){
+  const t=new THREE.Vector3(0,14,0);controls.target.copy(t);
+  if(p==='top')camera.position.set(0.01,190,0.01);else if(p==='side')camera.position.set(0,14,-170);else camera.position.set(95,85,110);
+  controls.update();['cIso','cTop','cSide'].forEach(id=>$(id).setAttribute('aria-pressed',String(id===({iso:'cIso',top:'cTop',side:'cSide'})[p])));
+}
+camPreset('iso');
+(function loop(){requestAnimationFrame(loop);controls.update();renderer.render(scene,camera);})();
+
+/* ---------- picking and dragging ---------- */
+const ray=new THREE.Raycaster(),ndc=new THREE.Vector2();
+function pick(e){const r=renderer.domElement.getBoundingClientRect();ndc.x=((e.clientX-r.left)/r.width)*2-1;ndc.y=-((e.clientY-r.top)/r.height)*2+1;ray.setFromCamera(ndc,camera);const hits=ray.intersectObjects([...meshes.values()],false);return hits.length?hits[0]:null;}
+let down=null;
+renderer.domElement.addEventListener('pointerdown',e=>{
+  down={x:e.clientX,y:e.clientY};
+  const h=pick(e);
+  if(h&&state.mode==='move'&&e.button===0){
+    const id=h.object.userData.id;const m=state.modules.get(id);if(!m)return;
+    state.sel=id;const plane=new THREE.Plane(new THREE.Vector3(0,1,0),-num(m.y,0));const p=new THREE.Vector3();ray.ray.intersectPlane(plane,p);
+    state.drag={id,plane,ox:num(m.x,0)-p.x,oz:num(m.z,0)-p.z,x0:num(m.x,0),z0:num(m.z,0),moved:false};controls.enabled=false;renderer.domElement.setPointerCapture(e.pointerId);render();
+  }
+});
+renderer.domElement.addEventListener('pointermove',e=>{
+  if(!state.drag)return;const r=renderer.domElement.getBoundingClientRect();ndc.x=((e.clientX-r.left)/r.width)*2-1;ndc.y=-((e.clientY-r.top)/r.height)*2+1;ray.setFromCamera(ndc,camera);
+  const p=new THREE.Vector3();if(!ray.ray.intersectPlane(state.drag.plane,p))return;
+  const m=state.modules.get(state.drag.id);if(!m)return;const dg=state.drag;
+  const nx=dg.x0+Math.round(p.x+dg.ox-dg.x0),nz=dg.z0+Math.round(p.z+dg.oz-dg.z0);
+  if(nx!==m.x||nz!==m.z){m.x=nx;m.z=nz;state.drag.moved=true;render();}
+});
+renderer.domElement.addEventListener('pointerup',e=>{
+  if(state.drag){const dg=state.drag;state.drag=null;controls.enabled=true;const m=state.modules.get(dg.id);if(dg.moved&&m)patch(dg.id,{x:m.x,z:m.z});return;}
+  if(down&&Math.hypot(e.clientX-down.x,e.clientY-down.y)<5){const h=pick(e);state.sel=h?h.object.userData.id:null;delArmed=false;render();}
+  down=null;
+});
+
+/* ---------- UI ---------- */
+function setMode(m){state.mode=m;$('mOrbit').setAttribute('aria-pressed',String(m==='orbit'));$('mMove').setAttribute('aria-pressed',String(m==='move'));
+  $('hudHint').textContent=m==='move'?'Move: drag a section across its deck plane · moves in whole blocks · set height and yaw in the panel':'Orbit: drag to rotate · right-drag to pan · wheel to zoom · click a section to select';}
+$('mOrbit').onclick=()=>setMode('orbit');$('mMove').onclick=()=>setMode('move');
+$('cIso').onclick=()=>camPreset('iso');$('cTop').onclick=()=>camPreset('top');$('cSide').onclick=()=>camPreset('side');
+document.querySelectorAll('[data-ph]').forEach(b=>b.onclick=()=>{state.phase=Number(b.dataset.ph);document.querySelectorAll('[data-ph]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));render();});
+
+const ksel=$('f_kind');Object.keys(KINDS).forEach(k=>{const o=document.createElement('option');o.value=k;o.textContent=KINDS[k].name;ksel.appendChild(o);});
+const hex=n=>'#'+n.toString(16).padStart(6,'0');
+Object.keys(KINDS).forEach(k=>{
+  const b=document.createElement('button');b.className='layer';b.setAttribute('aria-pressed','true');
+  const s=document.createElement('span');s.className='sw';s.style.background=hex(KINDS[k].color);b.appendChild(s);b.appendChild(document.createTextNode(KINDS[k].name));
+  b.onclick=()=>{if(state.layers.has(k))state.layers.delete(k);else state.layers.add(k);b.setAttribute('aria-pressed',String(state.layers.has(k)));render();};
+  $('layers').appendChild(b);
+  if(k!=='hub'){const a=document.createElement('button');a.className='btn';a.textContent='+ '+KINDS[k].name;a.onclick=()=>{
+    const base=ADD[k];const hub=[...state.modules.values()].find(m=>m.kind==='hub');const y=hub?num(hub.y,14)+num(hub.h,28)/2+base.h/2+4:20;
+    create({kind:k,label:KINDS[k].name+' '+(1+[...state.modules.values()].filter(m=>m.kind===k).length),shape:base.shape||'box',...(base.wi?{wi:base.wi}:{}),w:base.w,h:base.h,d:base.d,x:snapC(0,base.w),y:y,z:snapC(0,base.d),rot:0,A:base.A,H:base.H,R:base.R,mass:null,phase:state.phase,status:'planned',online:true,sizeTBD:true,notes:''});
+    setMode('move');};$('palette').appendChild(a);}
+});
+
+const F=['label','kind','phase','status','shape','rot','wi','w','h','d','x','y','z','A','H','R','mass','notes'];
+const NUMF=new Set(['phase','rot','wi','w','h','d','x','y','z','A','H','R','mass']);
+F.forEach(f=>{$('f_'+f).addEventListener('change',e=>{if(!state.sel)return;let v=e.target.value;
+  if(NUMF.has(f)){if(v===''&&f==='mass')v=null;else{v=Number(v);if(!Number.isFinite(v))return;if(['w','h','d','wi'].includes(f))v=Math.max(1,Math.round(v*2)/2);if(f==='rot')v=((v%360)+360)%360;}}
+  patch(state.sel,{[f]:v});});});
+$('f_online').onchange=e=>state.sel&&patch(state.sel,{online:e.target.checked});
+$('f_tbd').onchange=e=>state.sel&&patch(state.sel,{sizeTBD:e.target.checked});
+document.querySelectorAll('[data-n]').forEach(b=>b.onclick=()=>{if(!state.sel)return;const [ax,dv]=b.dataset.n.split(',');const m=state.modules.get(state.sel);patch(state.sel,{[ax]:num(m[ax],0)+Number(dv)});});
+$('bRot').onclick=()=>{if(!state.sel)return;const m=state.modules.get(state.sel);const rot=(num(m.rot,0)+90)%360;patch(state.sel,{rot});};
+$('bMir').onclick=()=>{if(!state.sel)return;const m=state.modules.get(state.sel);const c=Object.assign({},m);delete c.id;c.x=-num(m.x,0);c.z=-num(m.z,0);c.rot=(num(m.rot,0)+180)%360;c.label=(m.label||'')+' (mirror)';create(c);};
+$('bDup').onclick=()=>{if(!state.sel)return;const m=state.modules.get(state.sel);const c=Object.assign({},m);delete c.id;const b=bbox(m);c.x=num(m.x,0)+Math.ceil(b.x1-b.x0)+1;c.label=(m.label||'')+' copy';create(c);};
+let delArmed=false;
+$('bDel').onclick=()=>{if(!state.sel)return;if(!delArmed){delArmed=true;render();return;}delArmed=false;remove(state.sel);};
+
+function fillSettings(){const s=state.settings;$('s_g').value=s.g;$('s_eff').value=s.atmoEff;$('s_aT').value=s.aThrust;$('s_hT').value=s.hThrust;$('s_aP').value=s.aPower;$('s_cau').value=s.cau;$('s_countH').checked=!!s.countH;}
+[['s_g','g'],['s_eff','atmoEff'],['s_aT','aThrust'],['s_hT','hThrust'],['s_aP','aPower'],['s_cau','cau']].forEach(([id,k])=>$(id).addEventListener('change',e=>{const v=Number(e.target.value);if(Number.isFinite(v))saveSettings({[k]:v});}));
+$('s_countH').onchange=e=>saveSettings({countH:e.target.checked});
+fillSettings();
+
+/* ---------- render panels ---------- */
+const fmt=(n,dp=0)=>Number(n).toLocaleString('en-US',{minimumFractionDigits:dp,maximumFractionDigits:dp});
+function lift(){
+  const s=state.settings,list=[...state.modules.values()].filter(inPhase);
+  let A=0,H=0,R=0,Aon=0,Hon=0,Ron=0,mass=0,unk=0;
+  list.forEach(m=>{const a=num(m.A,0),h=num(m.H,0),r=num(m.R,0);A+=a;H+=h;R+=r;if(m.online!==false){Aon+=a;Hon+=h;Ron+=r;}const w=num(m.mass,NaN);if(Number.isFinite(w)&&w>0)mass+=w;else unk++;});
+  const thrust=Aon*s.aThrust*(s.atmoEff/100)+(s.countH?Hon*s.hThrust:0);
+  const g=9.81*s.g;
+  const maxHover=thrust*1e6/g/1000;
+  const cauMass=maxHover*s.cau/100;
+  const tp=mass>0&&thrust>0?mass*1000*g/(thrust*1e6)*100:null;
+  const aShare=thrust>0?Aon*s.aThrust*(s.atmoEff/100)/thrust:0;
+  const atmoDraw=tp!=null?Aon*s.aPower*Math.min(1,tp/100):null;
+  return {list,A,H,R,Aon,Hon,Ron,mass,unk,thrust,maxHover,cauMass,tp,atmoDraw,cap:Ron*300,aShare};
+}
+function cell(l,v,n,cls){return '<div class="cell '+(cls||'')+'"><span class="l">'+l+'</span><span class="v">'+v+'</span><span class="n">'+n+'</span></div>';}
+function esc(t){return String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[c]);}
+function render(){
+  rebuild();
+  const L=lift(),s=state.settings;
+  const bad=overlaps(L.list);
+  let tpCell;
+  if(L.tp==null)tpCell=cell('Hover T%','—',L.unk?L.unk+' section'+(L.unk>1?'s':'')+' without mass':'enter masses');
+  else tpCell=cell('Hover T%',fmt(L.tp,1)+'%',(L.unk?'partial · '+L.unk+' mass TBD · ':'')+'CAU '+s.cau+'%',L.tp>=s.cau?'alert':'good');
+  $('ledger').innerHTML=
+    cell('Phase '+state.phase,L.list.length+' sections',bad.size?bad.size+' overlapping':'no overlaps',bad.size?'alert':'')+
+    cell('Thrusters online','A '+L.Aon+'/'+L.A+' · H '+L.Hon+'/'+L.H,'large grid')+
+    cell('Lift available',fmt(L.thrust,1)+' MN','atmo '+s.atmoEff+'% eff · g '+s.g+(s.countH?'':' · H excluded'))+
+    cell('Max hover mass',fmt(L.maxHover)+' t','at '+s.cau+'% T%: '+fmt(L.cauMass)+' t')+
+    cell('Mass entered',L.mass?fmt(L.mass)+' t':'—',L.unk?L.unk+' TBD':'all sections')+
+    tpCell+
+    cell('Reactors online',L.Ron+'/'+L.R+' · '+fmt(L.cap)+' MW',L.atmoDraw!=null?'atmo draw ≈'+fmt(L.atmoDraw)+' MW':'atmo full ≈'+fmt(L.Aon*s.aPower)+' MW',L.atmoDraw!=null&&L.atmoDraw>L.cap?'alert':'');
+  // inspector
+  const m=state.sel?state.modules.get(state.sel):null;
+  $('iNone').hidden=!!m;$('iBody').hidden=!m;$('iTitle').textContent=m?(m.label||KINDS[m.kind]?.name||'Section'):'—';
+  if(m){const act=document.activeElement;
+    F.forEach(f=>{const el=$('f_'+f);if(el===act)return;let v=m[f];if(f==='shape')v=v||'box';if(f==='rot')v=num(v,0);el.value=v==null?'':v;});
+    $('f_wi').disabled=(m.shape||'box')!=='wedge';
+    $('f_online').checked=m.online!==false;$('f_tbd').checked=!!m.sizeTBD;
+    const d=dims(m);$('iDims').textContent=(m.shape||'box')+' '+d.w+'×'+d.h+'×'+d.d+' blk = '+(d.w*2.5)+'×'+(d.h*2.5)+'×'+(d.d*2.5)+' m · yaw '+num(m.rot,0)+'°'+(m.sizeTBD?' · size TBD':'')+(bad.has(m.id)?' · OVERLAP':'');
+    $('bDel').textContent=delArmed?'Confirm delete':'Delete';$('bDel').classList.toggle('armed',delArmed);
+    $('hudSel').textContent=(m.label||'Section')+' · '+(KINDS[m.kind]?.name||m.kind)+' · ph '+num(m.phase,1)+' · '+(m.status||'planned')+' · ('+num(m.x,0)+', '+num(m.y,0)+', '+num(m.z,0)+')';
+  } else {$('hudSel').textContent=state.ready?(state.modules.size+' sections · nothing selected'):'Loading…';}
+  // power list
+  const pl=$('plist');const rows=[...state.modules.values()].filter(x=>num(x.A,0)+num(x.H,0)+num(x.R,0)>0).sort((a,b)=>String(a.label).localeCompare(String(b.label)));
+  pl.innerHTML='';
+  rows.forEach(x=>{const lb=document.createElement('label');const cb=document.createElement('input');cb.type='checkbox';cb.checked=x.online!==false;cb.onchange=()=>patch(x.id,{online:cb.checked});
+    lb.appendChild(cb);lb.appendChild(document.createTextNode(x.label||x.id));const sp=document.createElement('span');sp.className='meta';sp.textContent='A'+num(x.A,0)+' H'+num(x.H,0)+(num(x.R,0)?' R'+num(x.R,0):'')+(inPhase(x)?'':' · later phase');lb.appendChild(sp);pl.appendChild(lb);});
+  if(!rows.length){const p=document.createElement('p');p.className='muted';p.textContent='No sections with thrusters or reactors yet.';pl.appendChild(p);}
+  $('empty').hidden=!(state.ready&&state.modules.size===0);
+}
+document.fonts&&document.fonts.ready.then(()=>{labelCache.clear();render();});
+render();
+connect();
+})();
+</script>

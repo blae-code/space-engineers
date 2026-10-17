@@ -1,0 +1,519 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>RIG//OS bridge console</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&amp;family=VT323&amp;family=Saira+Stencil+One&amp;display=swap">
+<style>
+body{margin:0;background:#0c0d0b}
+button{-webkit-tap-highlight-color:transparent}
+button:focus-visible{outline:2px solid #ffffff;outline-offset:1px}
+</style>
+</helmet>
+<div style="width:1120px;height:800px;box-sizing:border-box;padding:20px;background:#191b18;display:flex;flex-direction:column;gap:10px;font-family:'JetBrains Mono',monospace;color:#c9c6b8">
+
+<div style="height:34px;display:flex;align-items:center;gap:14px">
+<div style="width:120px;height:12px;background:repeating-linear-gradient(-45deg,#d9a400 0 10px,#121212 10px 20px)"></div>
+<div style="font-family:'Saira Stencil One',sans-serif;font-size:20px;letter-spacing:3px;color:#b9b4a2">RIG · H1 BRIDGE · CON-01</div>
+<div style="flex-grow:1;height:1px;background:#3a3c37"></div>
+<div style="font-size:11px;letter-spacing:1px;color:#8d8a7e">LCD WIDE · PB [CMD] DISPLAYS · ARG BUS [CMD] RIG OS</div>
+<div style="width:60px;height:12px;background:repeating-linear-gradient(-45deg,#d9a400 0 10px,#121212 10px 20px)"></div>
+</div>
+
+<div style="width:1080px;height:540px;box-sizing:border-box;border:2px solid #050605;padding:8px;background:#0a0b09;border-radius:6px;box-shadow:inset 0 0 0 1px #2c2e2a">
+<div style="position:relative;width:1060px;height:520px;box-sizing:border-box;padding:10px 14px;background:{{bg}};overflow:hidden;border-radius:3px;font-size:15px;line-height:19px;color:{{fg}};text-shadow:{{glow}};display:flex;flex-direction:column;gap:6px">
+
+<div style="height:22px;line-height:22px;white-space:pre;overflow:hidden;background:{{fg}};color:{{bg}};text-shadow:none;font-weight:700"><sc-for list="{{status}}" as="sg" hint-placeholder-count="6"><span style="color:{{sg.c}};background:{{sg.b}}">{{sg.s}}</span></sc-for></div>
+
+<div style="height:19px;white-space:pre;overflow:hidden;color:{{dim}}">{{crumb}}</div>
+
+<div style="height:418px;display:flex;gap:14px">
+<div style="width:168px;flex-shrink:0;display:flex;flex-direction:column;gap:2px;border-right:1px solid {{faint}};padding-right:8px;box-sizing:border-box">
+<sc-for list="{{rail}}" as="r" hint-placeholder-count="9"><button type="button" onClick="{{r.pick}}" aria-label="{{r.aria}}" style="display:flex;justify-content:space-between;align-items:center;height:44px;margin:0;padding:0 8px;border:0;cursor:pointer;font-family:'VT323',monospace;font-size:24px;letter-spacing:1px;color:{{r.c}};background:{{r.b}};text-shadow:inherit"><span>{{r.num}} {{r.name}}</span><span style="font-size:20px">{{r.badge}}</span></button></sc-for>
+</div>
+<div style="flex-grow:1;min-width:0;overflow:hidden">
+<sc-for list="{{lines}}" as="ln" hint-placeholder-count="18">
+<sc-if value="{{ln.isBtn}}" hint-placeholder-val="{{false}}"><button type="button" onClick="{{ln.pick}}" style="display:block;width:100%;height:19px;margin:0;padding:0;border:0;background:{{ln.bg}};color:inherit;font:inherit;text-align:left;white-space:pre;overflow:hidden;cursor:pointer;text-shadow:inherit"><sc-for list="{{ln.segs}}" as="sg" hint-placeholder-count="2"><span style="color:{{sg.c}};background:{{sg.b}}">{{sg.s}}</span></sc-for></button></sc-if>
+<sc-if value="{{ln.isTxt}}" hint-placeholder-val="{{true}}"><div style="height:19px;white-space:pre;overflow:hidden"><sc-for list="{{ln.segs}}" as="sg" hint-placeholder-count="2"><sc-if value="{{sg.isBtn}}" hint-placeholder-val="{{false}}"><button type="button" onClick="{{sg.pick}}" style="margin:0;padding:0;border:0;font:inherit;line-height:19px;white-space:pre;cursor:pointer;color:{{sg.c}};background:{{sg.b}};text-shadow:inherit">{{sg.s}}</button></sc-if><sc-if value="{{sg.isTxt}}" hint-placeholder-val="{{true}}"><span style="color:{{sg.c}};background:{{sg.b}}">{{sg.s}}</span></sc-if></sc-for></div></sc-if>
+</sc-for>
+</div>
+</div>
+
+<div style="height:19px;white-space:pre;overflow:hidden;border-top:1px solid {{faint}};padding-top:2px"><sc-for list="{{footer}}" as="sg" hint-placeholder-count="3"><span style="color:{{sg.c}};background:{{sg.b}}">{{sg.s}}</span></sc-for></div>
+
+<sc-if value="{{crt}}" hint-placeholder-val="{{true}}"><div aria-hidden="true" style="position:absolute;left:0;top:0;right:0;bottom:0;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(0,0,0,0.30) 0px,rgba(0,0,0,0.30) 1px,transparent 1px,transparent 3px)"></div><div aria-hidden="true" style="position:absolute;left:0;top:0;right:0;bottom:0;pointer-events:none;background:radial-gradient(ellipse at center,rgba(0,0,0,0) 62%,rgba(0,0,0,0.55) 100%)"></div></sc-if>
+</div>
+</div>
+
+<div style="flex-grow:1;display:flex;gap:16px;align-items:stretch">
+<div style="display:flex;flex-direction:column;gap:6px;padding:10px 12px;background:#121311;border:1px solid #2f312c;border-radius:4px">
+<div style="font-family:'Saira Stencil One',sans-serif;font-size:12px;letter-spacing:2px;color:#8d8a7e">BTN PANEL A · NAV</div>
+<div style="display:flex;gap:8px">
+<sc-for list="{{padA}}" as="k" hint-placeholder-count="4"><div style="display:flex;flex-direction:column;align-items:center;gap:4px"><button type="button" onClick="{{k.press}}" aria-label="{{k.aria}}" style="width:64px;height:56px;margin:0;border:1px solid #050605;border-radius:4px;background:#22241f;box-shadow:inset 0 -4px 0 #0e0f0d,inset 0 1px 0 #3b3e37;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:700;color:{{fg}};text-shadow:{{glow}}">{{k.lbl}}</button><div style="font-size:11px;color:#9a978a">arg "{{k.arg}}"</div></div></sc-for>
+</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px;padding:10px 12px;background:#121311;border:1px solid #2f312c;border-radius:4px">
+<div style="font-family:'Saira Stencil One',sans-serif;font-size:12px;letter-spacing:2px;color:#8d8a7e">BTN PANEL B · ACT</div>
+<div style="display:flex;gap:8px">
+<sc-for list="{{padB}}" as="k" hint-placeholder-count="4"><div style="display:flex;flex-direction:column;align-items:center;gap:4px"><button type="button" onClick="{{k.press}}" aria-label="{{k.aria}}" style="width:64px;height:56px;margin:0;border:1px solid #050605;border-radius:4px;background:#22241f;box-shadow:inset 0 -4px 0 #0e0f0d,inset 0 1px 0 #3b3e37;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:15px;font-weight:700;color:{{fg}};text-shadow:{{glow}}">{{k.lbl}}</button><div style="font-size:11px;color:#9a978a">arg "{{k.arg}}"</div></div></sc-for>
+</div>
+</div>
+<div style="flex-grow:1;display:flex;flex-direction:column;gap:8px;padding:10px 12px;background:#121311;border:1px solid #2f312c;border-radius:4px">
+<div style="font-family:'Saira Stencil One',sans-serif;font-size:12px;letter-spacing:2px;color:#8d8a7e">MODE LAMPS · INTERIOR LIGHT ×7</div>
+<div style="display:grid;grid-template-columns:repeat(7, minmax(0, 1fr));gap:6px">
+<sc-for list="{{lamps}}" as="l" hint-placeholder-count="7"><div style="height:30px;display:flex;align-items:center;justify-content:center;border:1px solid #050605;border-radius:3px;font-size:13px;font-weight:700;letter-spacing:1px;background:{{l.bg}};color:{{l.c}};box-shadow:{{l.sh}}">{{l.m}}</div></sc-for>
+</div>
+<div style="font-size:11px;line-height:15px;color:#9a978a">NRM CAU SHD EMG set by T% ladder · CBT REP REC by RIG.CMD · lamps driven by native EC, live without PB</div>
+</div>
+</div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"phosphor":{"editor":"enum","options":["AMBER","GREEN","CYAN","BONE"],"default":"AMBER","section":"Display"},"crt":{"editor":"boolean","default":true,"section":"Display"},"simLoad":{"editor":"range","min":30,"max":98,"step":1,"default":58,"unit":"T%","section":"Sim feed"},"injectFault":{"editor":"boolean","default":false,"section":"Sim feed"},"$preview":{"width":1120,"height":800}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { sec: 0, cur: 0, tab: 0, det: null, ack: false, t: 0, arg: 'none', tx: null, txT: 0,
+      cfg: { cau: 1, shd: 1, emg: 1, wbr: 1, wba: 1, rbat: 1, rcar: 1, stale: 1, lost: 0, scale: 0, snd: 0 } };
+  }
+  componentDidMount() { this._iv = setInterval(() => this.setState({ t: this.state.t + 1 }), 1000); }
+  componentWillUnmount() { clearInterval(this._iv); }
+
+  pal() {
+    const m = { AMBER: ['#ffb000', '#140d02'], GREEN: ['#3dff8a', '#03120a'], CYAN: ['#62e3ff', '#03111a'], BONE: ['#ece6cf', '#0d0d0b'] };
+    const p = m[this.props.phosphor ?? 'AMBER'] || m.AMBER;
+    this.P = { fg: p[0], bg: p[1], al: '#ff5a45' };
+    return this.P;
+  }
+  tone(tn) {
+    const P = this.P, on = this.state.t % 2 === 0;
+    switch (tn) {
+      case 'd': return [P.fg + 'b8', 'transparent'];
+      case 'f': return [P.fg + '5e', 'transparent'];
+      case 'a': return [P.al, 'transparent'];
+      case 'i': return [P.bg, P.fg];
+      case 'ia': return [P.bg, P.al];
+      case 'w': return on ? [P.bg, P.fg] : [P.fg, 'transparent'];
+      case 'wa': return on ? [P.bg, P.al] : [P.al, 'transparent'];
+      default: return [P.fg, 'transparent'];
+    }
+  }
+  seg(s, tn) { const c = this.tone(tn || 'n'); return { s: s, c: c[0], b: c[1], isBtn: false, isTxt: true, pick: null }; }
+  bar(p, w) { const n = Math.max(0, Math.min(w, Math.round(p / 100 * w))); return '█'.repeat(n) + '░'.repeat(w - n); }
+  mini(p) { const n = Math.max(0, Math.min(5, Math.round(p / 20))); return '▮'.repeat(n) + '▯'.repeat(5 - n); }
+
+  cfgDefs() {
+    return [
+      { k: 'cau', label: 'LIFT  CAUTION AT T% ≥', opts: [55, 60, 65], ini: 'lift.cau' },
+      { k: 'shd', label: 'LIFT  SHED AT T% ≥', opts: [75, 80, 85], ini: 'lift.shd' },
+      { k: 'emg', label: 'LIFT  EMERGENCY AT T% ≥', opts: [85, 90, 95], ini: 'lift.emg' },
+      { k: 'wbr', label: 'PWR   WB RECHARGE AT % ≤', opts: [15, 20, 30], ini: 'pwr.wb_rch' },
+      { k: 'wba', label: 'PWR   WB AUTO AT % ≥', opts: [90, 95, 100], ini: 'pwr.wb_auto' },
+      { k: 'rbat', label: 'FLEET RECALL AT BAT % ≤', opts: [20, 25, 35], ini: 'fleet.recall_bat' },
+      { k: 'rcar', label: 'FLEET RECALL AT CRG % ≥', opts: [90, 95, 100], ini: 'fleet.recall_cargo' },
+      { k: 'stale', label: 'FLEET LINK STALE AFTER s', opts: [5, 10, 30], ini: 'fleet.stale_s' },
+      { k: 'lost', label: 'FLEET ON LINK LOST', opts: ['HOLD60>RTB', 'RTB', 'CONTINUE'], ini: 'fleet.link_lost' },
+      { k: 'scale', label: 'UI    SECTOR MAP km', opts: ['AUTO', 25, 50, 100], ini: 'ui.map_km' },
+      { k: 'snd', label: 'UI    ALARM SOUND', opts: ['ON', 'OFF'], ini: 'ui.alarm' }
+    ];
+  }
+  cv(k) { const d = this.cfgDefs().find((x) => x.k === k); return d.opts[this.state.cfg[k]]; }
+
+  sim() {
+    const t = this.state.t, fault = !!this.props.injectFault;
+    const base = Number(this.props.simLoad ?? 58);
+    const tp = Math.max(0, Math.min(100, Math.round(base + 2 * Math.sin(t / 6))));
+    const cau = this.cv('cau'), shd = this.cv('shd'), emg = this.cv('emg');
+    const mode = tp >= emg ? 'EMG' : tp >= shd ? 'SHD' : tp >= cau ? 'CAU' : 'NRM';
+    const thr = Math.round(tp / 100 * 789.6);
+    const prod = (mode === 'NRM' || mode === 'CAU') ? 34 : 0;
+    const load = thr + 18 + prod;
+    const nR = fault ? 2 : 3, cap = nR * 300;
+    const rOut = Math.min(300, Math.round(load / nR));
+    const wb = 64 + Math.round(2 * Math.sin(t / 11));
+    const u = Math.max(0, 9840 - Math.floor(t * load / 3600));
+    const uh = (u / load).toFixed(1);
+    const sw = (a, p, k) => Math.round((a + k * Math.sin(t / p)) * 10) / 10;
+    const om3age = 8 + (t % 30);
+    const drones = [
+      { id: 'PM-01', g: 'P1', cls: 'MNR-P', st: 'MINING', zone: 'SURF S-07', brg: 42, km: sw(14.2, 9, 0.2), band: 'SURF', bat: 82, crg: 61, h2: null, via: 'RIG', age: 1, job: 'J-0142', ore: 'Fe' },
+      { id: 'PM-02', g: 'P2', cls: 'MNR-P', st: 'MINING', zone: 'SURF S-11', brg: 118, km: sw(22.6, 8, 0.2), band: 'SURF', bat: 67, crg: 88, h2: null, via: 'RIG', age: 1, job: 'J-0143', ore: 'Ni' },
+      { id: 'PM-03', g: 'P3', cls: 'MNR-P', st: 'RTB', zone: 'ASCENT', brg: 201, km: sw(9.8, 5, 0.6), band: 'LOW', bat: 41, crg: 97, h2: null, via: 'RIG', age: 2, job: 'J-0139', ore: 'Si' },
+      { id: 'PM-04', g: 'P4', cls: 'MNR-P', st: 'PROSPECT', zone: 'SURF S-19', brg: 296, km: sw(61.0, 12, 0.4), band: 'SURF', bat: 74, crg: 12, h2: null, via: 'RLY-1', age: 3, job: 'J-0146', ore: 'Au' },
+      { id: 'PM-05', g: 'P5', cls: 'MNR-P', st: 'DOCKED', zone: 'HGR A5', brg: 0, km: 0, band: 'RIG', bat: 34, crg: 0, h2: null, via: 'DOCK', age: 0, job: null, ore: null },
+      { id: 'OM-01', g: 'O1', cls: 'MNR-O', st: 'MINING', zone: 'ORB ICE-A', brg: 15, km: sw(38.0, 10, 0.5), band: 'ORB', bat: 90, crg: 54, h2: 71, via: 'RLY-2', age: 2, job: 'J-0144', ore: 'Ice' },
+      { id: 'OM-02', g: 'O2', cls: 'MNR-O', st: 'TRANSIT', zone: 'ORB>RIG', brg: 340, km: sw(27.0, 4, 0.8), band: 'ATMO', bat: 76, crg: 93, h2: 48, via: 'RIG', age: 1, job: 'J-0140', ore: 'Ice' },
+      { id: 'OM-03', g: 'O3', cls: 'MNR-O', st: 'PROSPECT', zone: 'ORB U-C', brg: 160, km: sw(84.0, 14, 0.6), band: 'ORB', bat: 88, crg: 5, h2: 62, via: 'RLY-2', age: om3age, job: 'J-0145', ore: 'U' },
+      { id: 'RLY-1', g: 'R1', cls: 'RELAY', st: 'STATION', zone: 'HI-ATMO W', brg: 290, km: 35.0, band: 'RIGALT', bat: 96, crg: 0, h2: null, via: 'RIG', age: 1, job: null, ore: null },
+      { id: 'RLY-2', g: 'R2', cls: 'RELAY', st: 'STATION', zone: 'LOW ORBIT', brg: 355, km: 12.0, band: 'ORB', bat: 99, crg: 0, h2: 80, via: 'RIG', age: 1, job: null, ore: null }
+    ];
+    const stale = this.cv('stale'), rbat = this.cv('rbat'), rcar = this.cv('rcar');
+    const alerts = [];
+    if (fault) alerts.push({ sev: 'A', txt: 'PWR   R2 OUTPUT 0 MW · RB → DISCHARGE · cap ' + cap + ' MW' });
+    if (mode !== 'NRM') alerts.push({ sev: mode === 'CAU' ? 'W' : 'A', txt: 'LIFT  T% ' + tp + ' · MODE ' + mode });
+    drones.forEach((d) => {
+      if (d.via !== 'DOCK' && d.age > stale) alerts.push({ sev: 'W', txt: 'LINK  ' + d.id + ' STALE ' + d.age + ' s via ' + d.via + ' · policy ' + this.cv('lost') });
+      if (d.cls !== 'RELAY' && d.st !== 'DOCKED' && d.bat <= rbat) alerts.push({ sev: 'A', txt: 'FLEET ' + d.id + ' BAT ' + d.bat + '% ≤ ' + rbat + ' · RECALL' });
+      if (d.st !== 'DOCKED' && d.crg >= rcar) alerts.push({ sev: 'I', txt: 'FLEET ' + d.id + ' CARGO ' + d.crg + '% ≥ ' + rcar + ' · RTB' });
+    });
+    if (Number(uh) < 24) alerts.push({ sev: 'W', txt: 'PWR   U reserve ' + uh + ' h at ' + load + ' MW' });
+    return { t, fault, tp, cau, shd, emg, mode, thr, prod, load, nR, cap, rOut, wb, u, uh, drones, stale, rbat, rcar, alerts,
+      h2: Math.round(71 + Math.sin(t / 13)), o2: Math.round(88 + Math.sin(t / 17)) };
+  }
+
+  secNames() { return ['SYS', 'LIFT', 'PWR', 'GAS/LS', 'FLEET', 'HGR', 'MFG', 'ALRT', 'CFG']; }
+  tabNames() { return ['ROSTER', 'SECTOR', 'COMMS', 'JOBS']; }
+
+  build(sm) {
+    this.pal();
+    const s = this.state, P = this.P, items = [], lines = [];
+    const T = (x, tn) => this.seg(x, tn);
+    const add = (...segs) => lines.push({ segs: [T('  ')].concat(segs), isBtn: false, isTxt: true, pick: null, bg: 'transparent' });
+    const raw = (segs) => lines.push({ segs: segs, isBtn: false, isTxt: true, pick: null, bg: 'transparent' });
+    const item = (segs, act) => {
+      const i = items.length; items.push(act); const on = i === s.cur;
+      lines.push({ segs: [T(on ? '▶ ' : '  ')].concat(segs), isBtn: true, isTxt: false, bg: on ? P.fg + '2e' : 'transparent',
+        pick: () => { this.setState({ cur: i }); act(); } });
+    };
+    const iseg = (txt, act) => {
+      const i = items.length; items.push(act); const on = i === s.cur;
+      return { s: (on ? '▶' : ' ') + txt, c: on ? P.bg : P.fg, b: on ? P.fg : 'transparent', isBtn: true, isTxt: false,
+        pick: () => { this.setState({ cur: i }); act(); } };
+    };
+    const blank = () => add(T(''));
+    const head = (a, b) => add(T(' ' + a + ' ', 'i'), T('  ' + (b || ''), 'd'));
+    const jump = (sec) => () => this.setState({ sec: sec, cur: 0, det: null });
+    const D = sm.drones;
+    const linkTone = (d) => (d.via !== 'DOCK' && d.age > sm.stale) ? 'wa' : 'n';
+    const openDrone = (d) => () => this.setState({ sec: 4, det: d.id, cur: 0 });
+    let crumb = 'RIG//OS ▸ ' + this.secNames()[s.sec];
+
+    if (s.sec === 0) {
+      const logo = [
+        '██████╗ ██╗ ██████╗     ██╗ ██╗ ██████╗ ███████╗',
+        '██╔══██╗██║██╔════╝    ██╔╝██╔╝██╔═══██╗██╔════╝',
+        '██████╔╝██║██║  ███╗  ██╔╝██╔╝ ██║   ██║███████╗',
+        '██╔══██╗██║██║   ██║ ██╔╝██╔╝  ██║   ██║╚════██║',
+        '██║  ██║██║╚██████╔╝██╔╝██╔╝   ╚██████╔╝███████║',
+        '╚═╝  ╚═╝╚═╝ ╚═════╝ ╚═╝ ╚═╝     ╚═════╝ ╚══════╝'];
+      const tag = ['', '   FLOATING INDUSTRIAL PLATFORM', '   HUB · P-N P-E P-S P-W', '   Q-NW HGR · Q-SE MFG · Q-NE/SW OPEN', '   PLANET [TBD] · ALT [TBD]', '   FEED: SIM · v0.1'];
+      logo.forEach((l, i) => add(T(l), T(tag[i], 'd')));
+      blank();
+      const out = D.filter((d) => d.cls !== 'RELAY' && d.st !== 'DOCKED');
+      const surf = out.filter((d) => d.band === 'SURF' || d.band === 'LOW').length;
+      const orb = out.length - surf;
+      const stl = D.filter((d) => d.via !== 'DOCK' && d.age > sm.stale).length;
+      const mt = sm.mode === 'NRM' ? 'n' : sm.mode === 'CAU' ? 'w' : 'wa';
+      item([T('MODE   '), T(' ' + sm.mode + ' ', mt === 'n' ? 'i' : mt), T('   ladder NRM <' + sm.cau + ' CAU <' + sm.shd + ' SHD <' + sm.emg + ' EMG', 'd')], jump(1));
+      item([T('LIFT   T% ' + String(sm.tp).padStart(3) + '  '), T(this.bar(sm.tp, 40), sm.mode === 'NRM' ? 'n' : 'a')], jump(1));
+      item([T('PWR    ' + sm.load + ' / ' + sm.cap + ' MW   U ' + sm.uh + ' h   WB ' + sm.wb + '%'), T(sm.fault ? '   R2 FAULT' : '', 'a')], jump(2));
+      item([T('GAS    H2 ' + sm.h2 + '%   O2 ' + sm.o2 + '%   ICE 18.6 t   HAB PRESSURIZED')], jump(3));
+      item([T('FLEET  ' + out.length + ' out · ' + surf + ' surface · ' + orb + ' orbit · 2 relays'), T(stl ? ' · ' + stl + ' STALE' : '', 'a')], jump(4));
+      item([T('HGR    1 docked · 2 inbound · 0 launching')], jump(5));
+      item([T('MFG    quotas 3/8 met · production ' + (sm.prod ? 'RUN' : 'SHED'))], jump(6));
+      item([T('ALRT   ' + sm.alerts.length + ' active'), T(sm.alerts.length ? (s.ack ? '  ACK' : '  UNACK') : '', s.ack ? 'd' : 'w')], jump(7));
+      blank();
+      head('PB MODULES', 'watchdog TMR 30 s · native EC/TMR safety runs without PB');
+      add(T('[CMD] Rig OS      lift · modes · anchor · fleet bus     '), T('RUN', 'i'));
+      add(T('[LOG] Dispatcher  jobs · bays · IGC RIG.*               '), T('RUN', 'i'));
+      add(T('[MFG] Inventory   quotas · sort · autocraft             '), T('SLOT: CUSTOM | 3RD-PARTY', 'd'));
+      add(T('[CMD] Displays    LCD render · this console             '), T('RUN', 'i'));
+    }
+
+    if (s.sec === 1) {
+      head('LIFT MARGIN', 'T% = thrust demand / available · A = atmo LG 6.48 MN ea');
+      blank();
+      const W = 60, mt = sm.mode === 'NRM' ? 'n' : 'a';
+      add(T(' T% '), T(String(sm.tp).padStart(3) + '  ', mt), T(this.bar(sm.tp, W), mt));
+      const tick = Array(W + 1).fill('─'), lab = Array(W + 8).fill(' ');
+      const mark = (v, txt) => { const p = Math.round(v / 100 * W); tick[p] = '┴'; for (let i = 0; i < txt.length; i++) lab[p + i] = txt[i]; };
+      mark(0, '0'); mark(sm.cau, 'CAU' + sm.cau); mark(sm.shd, 'SHD' + sm.shd); mark(sm.emg, 'EMG' + sm.emg);
+      add(T('        '), T(tick.join(''), 'd'));
+      add(T('        '), T(lab.join(''), 'd'));
+      blank();
+      head('MODE LADDER', 'auto from T% · manual modes via RIG.CMD');
+      [['NRM', 'T% < ' + sm.cau], ['CAU', sm.cau + ' ≤ T% < ' + sm.shd], ['SHD', sm.shd + ' ≤ T% < ' + sm.emg], ['EMG', 'T% ≥ ' + sm.emg]].forEach((r) => {
+        const on = r[0] === sm.mode;
+        add(T(on ? '◆ ' : '· ', on ? 'n' : 'f'), T(' ' + r[0] + ' ', on ? (r[0] === 'NRM' ? 'i' : 'ia') : 'd'), T('  ' + r[1], on ? 'n' : 'd'));
+      });
+      add(T('·  CBT  REP  REC   manual · cockpit toolbar / button panel', 'd'));
+      blank();
+      head('LIFT BY SECTION', 'A = atmo LG · H = hydrogen LG');
+      [['HUB ', '15A 10H', 0], ['P-N ', ' 8A  5H', 1.5], ['P-E ', ' 8A  5H', -1], ['P-S ', ' 8A  5H', 2], ['P-W ', ' 8A  5H', -2]].forEach((r) => {
+        const v = Math.max(0, Math.min(100, Math.round(sm.tp + r[2])));
+        add(T(r[0] + ' ' + r[1] + '  '), T(this.bar(v, 30), sm.mode === 'NRM' ? 'n' : 'a'), T(' ' + String(v).padStart(3) + '%', 'n'), T('   online ' + r[1].trim().split(' ')[0] + ' / ' + r[1].trim().split(' ')[0], 'd'));
+      });
+      blank();
+      add(T('ANCHOR HOLD  dampeners ON · Δpos ' + (0.3 + 0.2 * Math.abs(Math.sin(sm.t / 5))).toFixed(1) + ' m · ALT [TBD]', 'd'));
+    }
+
+    if (s.sec === 2) {
+      head('SUPPLY', 'priority: solar/wind → batteries → reactors');
+      ['R1', 'R2', 'R3'].forEach((r) => {
+        const off = sm.fault && r === 'R2', o = off ? 0 : sm.rOut;
+        add(T(r + '  LG REACTOR   '), T(this.bar(o / 300 * 100, 30), off ? 'a' : 'n'), T(' ' + String(o).padStart(3) + ' / 300 MW'), T(off ? '  FAULT' : '', 'wa'));
+      });
+      add(T('H2E ENGINES     OFF · standby · burn H2 whenever ON', 'd'));
+      blank();
+      head('STORAGE', 'WB = working bank · RB = reserve bank');
+      add(T('WB  '), T(this.bar(sm.wb, 30)), T(' ' + sm.wb + '%  ' + (sm.wb <= this.cv('wbr') ? 'RECHARGE' : 'AUTO    ')), T('  rule RCH ≤' + this.cv('wbr') + ' / AUTO ≥' + this.cv('wba'), 'd'));
+      add(T('RB  '), T(this.bar(sm.fault ? 97 : 100, 30)), T(sm.fault ? '  97%  DISCHARGE' : ' 100%  RCH HELD ', sm.fault ? 'wa' : 'n'), T('  DIS on reactor fail', 'd'));
+      blank();
+      head('LOAD', 'hover ≈510 MW at design mass');
+      add(T('THRUST (A)   ' + String(sm.thr).padStart(4) + ' MW'));
+      add(T('HAB / LS       18 MW'));
+      add(T('PROD         ' + String(sm.prod).padStart(4) + ' MW'), T(sm.prod ? '' : '   shed by mode ' + sm.mode, 'a'));
+      add(T('TOTAL        ' + String(sm.load).padStart(4) + ' / ' + sm.cap + ' MW  '), T(this.bar(sm.load / sm.cap * 100, 30), sm.load > sm.cap * 0.8 ? 'a' : 'n'));
+      blank();
+      head('FUEL', '1 kg U ingot = 1 MWh');
+      add(T('U STOCK  ' + sm.u.toLocaleString('en-US') + ' kg   burn ≈ ' + sm.load + ' kg/h   reserve ' + sm.uh + ' h'));
+    }
+
+    if (s.sec === 3) {
+      head('GAS', 'H3 gas & utility deck');
+      add(T('H2   '), T(this.bar(sm.h2, 30)), T(' ' + sm.h2 + '%'), T('   H thrust + H2E reserve', 'd'));
+      add(T('O2   '), T(this.bar(sm.o2, 30)), T(' ' + sm.o2 + '%'), T('   H2 habitat', 'd'));
+      add(T('ICE  18.6 t in H3 cargo'), T('   ← MNR-O fleet', 'd'));
+      add(T('O2/H2 GEN  ON'), T('   ice feed via sorter', 'd'));
+      blank();
+      head('LIFE SUPPORT', 'H2 habitat deck · pressurized');
+      add(T('AIR VENTS     PRESSURIZED · room O2 OK'));
+      add(T('FARM PLOTS    [n] · IRRIGATION OK'), T('   water from ice', 'd'));
+      add(T('ALGAE FARMS   [n] · sun-dependent'));
+      add(T('FOOD PROC     ON'), T('   fallback: Survival Kit → Kelp Crisp', 'd'));
+      blank();
+      head('LINKED RULES', 'native EC rungs · fire without PB');
+      add(T('G1–G7 gas · P1–P5 power · see guide §Automation & wiring', 'd'));
+    }
+
+    if (s.sec === 4) {
+      const det = s.det ? D.find((d) => d.id === s.det) : null;
+      const tabs = [T('')];
+      this.tabNames().forEach((n, i) => {
+        const on = i === s.tab && !det;
+        tabs.push({ s: ' ' + n + ' ', c: on ? P.bg : P.fg + 'b8', b: on ? P.fg : 'transparent', isBtn: true, isTxt: false, pick: () => this.setState({ tab: i, cur: 0, det: null }) });
+        tabs.push(T(' '));
+      });
+      const out = D.filter((d) => d.st !== 'DOCKED' && d.cls !== 'RELAY').length;
+      tabs.push(T('   ' + out + ' drones out · 2 relays · stale > ' + sm.stale + ' s', 'd'));
+      add(...tabs);
+      crumb += ' ▸ ' + (det ? det.id : this.tabNames()[s.tab]);
+
+      if (det) {
+        const nm = { 'MNR-P': 'planetary miner', 'MNR-O': 'orbital ice/U miner', 'RELAY': 'antenna relay' }[det.cls];
+        head(det.id, det.cls + ' · ' + nm + ' · grid "' + det.id + '"');
+        add(T('STATE  '), T(' ' + det.st + ' ', 'i'), T('   JOB ' + (det.job || '—') + (det.ore ? '   ORE ' + det.ore : '')));
+        add(T('ZONE   ' + det.zone + '   brg ' + String(det.brg).padStart(3, '0') + '°   ' + det.km.toFixed(1) + ' km   band ' + det.band));
+        add(T('BAT    '), T(this.bar(det.bat, 30), det.bat <= sm.rbat ? 'a' : 'n'), T(' ' + det.bat + '%'));
+        add(T('CARGO  '), T(this.bar(det.crg, 30), det.crg >= sm.rcar ? 'w' : 'n'), T(' ' + det.crg + '%'));
+        add(T('H2     '), det.h2 == null ? T('n/a · battery + atmo/ion', 'd') : T(this.bar(det.h2, 30)), T(det.h2 == null ? '' : ' ' + det.h2 + '%'));
+        add(T('LINK   via ' + det.via + ' · last packet ' + det.age + ' s'), T(det.via !== 'DOCK' && det.age > sm.stale ? '  STALE' : '', 'wa'));
+        blank();
+        head('ROUTE', 'antenna hops');
+        add(T('RIG ══ ' + (det.via !== 'RIG' && det.via !== 'DOCK' ? det.via + ' ══ ' : '') + det.id + '   ' + det.zone));
+        blank();
+        head('COMMAND', 'IGC unicast · tag RIG.CMD');
+        ['RECALL', 'CLEAR', 'HOLD', 'PING'].forEach((v) => item([T(v.padEnd(8)), T(v === 'RECALL' ? 'RTB, dock on DOCK_ASSIGN' : v === 'CLEAR' ? 'drop override, resume job' : v === 'HOLD' ? 'station-keep at position' : 'request STATUS now', 'd')], () => this.setState({ tx: 'RIG.CMD ' + v + ' ' + det.id, txT: this.state.t })));
+        blank();
+        add(T('TX> ' + (s.tx || '—')));
+        add(T('RX< ' + (s.tx ? (sm.t - s.txT >= 2 ? 'ACK ' + s.tx.split(' ').slice(1).join(' ') : 'awaiting ACK …') : '—'), s.tx && sm.t - s.txT < 2 ? 'w' : 'n'));
+      } else if (s.tab === 0) {
+        add(T('ID     CLASS  STATE     ZONE         DIST     BAT        CRG        H2    LINK', 'd'));
+        D.forEach((d) => item([
+          T(d.id.padEnd(7) + d.cls.padEnd(7)), T(d.st.padEnd(10), d.st === 'RTB' ? 'w' : 'n'),
+          T(d.zone.padEnd(13) + (d.km ? d.km.toFixed(1) + 'k' : '—').padEnd(9)),
+          T(this.mini(d.bat) + ' ' + String(d.bat).padStart(3) + ' ', d.bat <= sm.rbat ? 'a' : 'n'),
+          T(this.mini(d.crg) + ' ' + String(d.crg).padStart(3) + ' ', d.crg >= sm.rcar ? 'w' : 'n'),
+          T((d.h2 == null ? '—' : d.h2 + '%').padEnd(6)),
+          T(d.via === 'DOCK' ? 'DOCKED' : (d.age > sm.stale ? 'STALE ' + d.age + 's' : d.via), linkTone(d))
+        ], openDrone(d)));
+        blank();
+        add(T('SEL opens drone · red BAT ≤ ' + sm.rbat + '% · blink CRG ≥ ' + sm.rcar + '% · STALE = no packet > ' + sm.stale + ' s', 'd'));
+      } else if (s.tab === 1) {
+        const live = D.filter((d) => d.st !== 'DOCKED');
+        live.forEach((d) => items.push(openDrone(d)));
+        const selId = live[s.cur] ? live[s.cur].id : null;
+        const R = 19, C = 51, cy = 9, cx = 25, rr = 9, rc = 20;
+        const so = this.cv('scale');
+        const far = Math.max.apply(null, live.map((d) => d.km));
+        const maxKm = so === 'AUTO' ? Math.ceil(far / 30) * 30 : so;
+        const g = [], tn = [];
+        for (let r = 0; r < R; r++) { g.push(Array(C).fill(' ')); tn.push(Array(C).fill('f')); }
+        const put = (r, c, ch, t) => { if (r >= 0 && r < R && c >= 0 && c < C) { g[r][c] = ch; tn[r][c] = t; } };
+        const pos = (brg, f) => { const a = brg * Math.PI / 180; return [Math.round(cy - f * rr * Math.cos(a)), Math.round(cx + f * rc * Math.sin(a))]; };
+        [1 / 3, 2 / 3, 1].forEach((f) => { for (let a = 0; a < 360; a += 4) { const p = pos(a, f); put(p[0], p[1], '·', 'f'); } });
+        if (50 <= maxKm) { const f = 50 / maxKm; for (let a = 0; a < 360; a += 3) { const p = pos(a, f); put(p[0], p[1], ':', 'd'); } }
+        for (let c = cx - rc; c <= cx + rc; c += 2) if (g[cy][c] === ' ') put(cy, c, '-', 'f');
+        put(0, cx, 'N', 'd');
+        put(cy, cx, '◆', 'n');
+        live.forEach((d) => {
+          const f = Math.min(1, d.km / maxKm), p = pos(d.brg, f);
+          const st = d.age > sm.stale;
+          const t = d.id === selId ? (st ? 'ia' : 'i') : (st ? 'a' : (d.km > maxKm ? 'd' : 'n'));
+          put(p[0], p[1], d.g[0], t); put(p[0], p[1] + 1, d.g[1], t);
+        });
+        const band = (b) => {
+          const o = [];
+          live.filter((d) => d.band === b).forEach((d) => { const st = d.age > sm.stale; o.push(T(' ')); o.push(T(d.g, d.id === selId ? (st ? 'ia' : 'i') : (st ? 'a' : 'n'))); o.push(T(' ' + ({ MINING: 'mine', PROSPECT: 'pros', TRANSIT: 'trns', RTB: 'rtb', STATION: 'stn' }[d.st] || ''), 'f')); });
+          return o;
+        };
+        const lad = [
+          [T('┬ LOW ORBIT · vacuum · ion/H2 only', 'd')], [T('│', 'd')].concat(band('ORB')), [T('│', 'd')],
+          [T('┼ ATMO EDGE · atmo thrust → 0', 'd')], [T('│', 'd')].concat(band('ATMO')), [T('│', 'd')],
+          [T('│', 'd')].concat(band('RIGALT')), [T('◆ RIG · HIGH ATMO · ALT [TBD]', 'n')], [T('│', 'd')],
+          [T('│', 'd')].concat(band('LOW')), [T('│', 'd')], [T('│', 'd')], [T('│', 'd')], [T('│', 'd')],
+          [T('│', 'd')].concat(band('SURF')), [T('▀▀▀ SURFACE · voxel · [PLANET TBD]', 'd')], [], [], [T('section · not to scale', 'f')]
+        ];
+        add(T(('PLAN N↑ · rings ' + Math.round(maxKm / 3) + '/' + Math.round(maxKm * 2 / 3) + '/' + maxKm + ' km · ":" antenna ≈50 km').padEnd(54)), T('SECTION'));
+        for (let r = 0; r < R; r++) {
+          const segs = []; let cur = '', ct = tn[r][0];
+          for (let c = 0; c < C; c++) { if (tn[r][c] !== ct) { segs.push(T(cur, ct)); cur = ''; ct = tn[r][c]; } cur += g[r][c]; }
+          segs.push(T(cur, ct)); segs.push(T('   '));
+          add(...segs.concat(lad[r]));
+        }
+        add(T('◆ RIG  P# MNR-P  O# MNR-O  R# RELAY · ▲▼ select · SEL open · red = stale', 'd'));
+      } else if (s.tab === 2) {
+        head('LINK TREE', 'IGC over antenna relay · tags RIG.DOCK RIG.JOB RIG.CMD');
+        add(T('RIG ── LG antenna · range ≈50 km · channel RIG.*'));
+        const kids = D.filter((d) => d.via === 'RIG');
+        kids.forEach((d, i) => {
+          const last = i === kids.length - 1, sub = D.filter((x) => x.via === d.id);
+          item([T((last ? ' └── ' : ' ├── ') + d.id.padEnd(7) + d.cls.padEnd(7) + (d.km.toFixed(1) + ' km').padEnd(10)), T(d.age > sm.stale ? 'STALE ' + d.age + ' s' : 'last ' + d.age + ' s', linkTone(d))], openDrone(d));
+          sub.forEach((x, j) => item([T((last ? '     ' : ' │   ') + (j === sub.length - 1 ? '└── ' : '├── ') + x.id.padEnd(7) + x.cls.padEnd(7) + (x.km.toFixed(1) + ' km').padEnd(10)), T(x.age > sm.stale ? 'STALE ' + x.age + ' s' : 'last ' + x.age + ' s', linkTone(x))], openDrone(x)));
+        });
+        add(T(' ' + D.filter((d) => d.via === 'DOCK').map((d) => d.id).join(' ') + '  docked · hard link via connector', 'd'));
+        blank();
+        head('PROTOCOL', 'from guide · S-chapter');
+        add(T('RIG.DOCK  DOCK_REQ · DOCK_ASSIGN · LAUNCH'));
+        add(T('RIG.JOB   JOB · STATUS'));
+        add(T('RIG.CMD   RECALL · COMBAT · CLEAR'), T('   + HOLD · PING (proposed)', 'd'));
+        add(T('stale after ' + sm.stale + ' s · on loss: ' + this.cv('lost'), 'd'));
+      } else if (s.tab === 3) {
+        head('DISPATCHER QUEUE', '[LOG] PB Dispatcher · RIG.JOB');
+        add(T('JOB      TYPE   ORE   TARGET       DRONE   STATE', 'd'));
+        D.filter((d) => d.job).forEach((d) => item([T(d.job.padEnd(9) + (d.st === 'PROSPECT' ? 'SURVEY' : 'MINE').padEnd(7) + (d.ore || '').padEnd(6) + d.zone.padEnd(13) + d.id.padEnd(8)), T(d.st, d.st === 'RTB' ? 'w' : 'n')], openDrone(d)));
+        add(T('J-0147   MINE   Fe    SURF S-07    —       QUEUED · needs MNR-P', 'd'));
+        add(T('J-0148   SURVEY U     ORB SECT-D   —       QUEUED · needs MNR-O', 'd'));
+        blank();
+        add(T('assign rule: nearest idle drone of class · cargo ≥ ' + sm.rcar + '% or BAT ≤ ' + sm.rbat + '% → RTB', 'd'));
+      }
+    }
+
+    if (s.sec === 5) {
+      head('BAYS', 'Q-NW hangars · bay per drone class');
+      add(T('BAY  CLASS  DRONE   STATE      CONN     CHG', 'd'));
+      const bays = [['A1', 'MNR-P', 'PM-01'], ['A2', 'MNR-P', 'PM-02'], ['A3', 'MNR-P', 'PM-03'], ['A4', 'MNR-P', 'PM-04'], ['A5', 'MNR-P', 'PM-05'], ['B1', 'MNR-O', 'OM-01'], ['B2', 'MNR-O', 'OM-02'], ['B3', 'MNR-O', 'OM-03'], ['C1', 'RELAY', null]];
+      bays.forEach((b) => {
+        const d = b[2] ? D.find((x) => x.id === b[2]) : null;
+        const st = !d ? 'EMPTY' : d.st === 'DOCKED' ? 'DOCKED' : (d.st === 'RTB' || d.st === 'TRANSIT') ? 'ASSIGNED' : 'OUT';
+        const segs = [T(b[0].padEnd(5) + b[1].padEnd(7) + (b[2] || '—').padEnd(8)), T(st.padEnd(11), st === 'ASSIGNED' ? 'w' : st === 'EMPTY' ? 'd' : 'n'), T((st === 'DOCKED' ? 'LOCKED' : '—').padEnd(9)), T(st === 'DOCKED' ? this.bar(d.bat, 20) + ' ' + d.bat + '%' : '', 'n')];
+        if (d) item(segs, openDrone(d)); else add(...segs);
+      });
+      blank();
+      head('DOCK TRAFFIC', 'RIG.DOCK');
+      add(T('PM-03  DOCK_REQ → DOCK_ASSIGN A3 · cargo 97%'));
+      add(T('OM-02  DOCK_REQ → DOCK_ASSIGN B2 · cargo 93%'));
+      add(T('PM-05  ready · LAUNCH on next JOB (J-0147)'));
+      blank();
+      add(T('bay EC: Connector Connected → unload + charge · rung HG1', 'd'));
+    }
+
+    if (s.sec === 6) {
+      head('QUOTAS', '[MFG] inventory module · assembler queue');
+      add(T('ITEM                  STOCK    QUOTA  FILL', 'd'));
+      [['Steel Plate', 18240, 20000], ['Construction Comp.', 10420, 10000], ['Interior Plate', 4100, 5000], ['Metal Grid', 1040, 1500], ['Large Steel Tube', 640, 800], ['Motor', 2010, 2000], ['Computer', 3300, 3000], ['Thruster Comp.', 210, 400]].forEach((q) => {
+        const p = Math.round(q[1] / q[2] * 100), ok = p >= 100;
+        add(T(q[0].padEnd(20) + q[1].toLocaleString('en-US').padStart(8) + q[2].toLocaleString('en-US').padStart(9) + '  '), T(this.bar(Math.min(100, p), 20), ok ? 'n' : 'd'), T(ok ? '  OK' : '  ' + p + '%', ok ? 'n' : 'w'));
+      });
+      blank();
+      head('ORE IN · last 60 min', 'fleet unloads at bays');
+      add(T('Fe 18.2 t   Ni 6.4 t   Si 4.1 t   Ice 22.0 t   U 0.0 t'));
+      add(T('REFINERIES [n] · ASSEMBLERS [n] · production '), T(sm.prod ? 'RUN' : 'SHED', sm.prod ? 'i' : 'ia'));
+    }
+
+    if (s.sec === 7) {
+      head('ACTIVE ALERTS', sm.alerts.length ? (s.ack ? 'acknowledged' : 'UNACK · press ACK') : 'none');
+      sm.alerts.forEach((a) => {
+        const tg = a.sev === 'A' ? '[!!]' : a.sev === 'W' ? '[ !]' : '[ i]';
+        const tt = a.sev === 'I' ? 'd' : s.ack ? (a.sev === 'A' ? 'ia' : 'i') : (a.sev === 'A' ? 'wa' : 'w');
+        add(T(tg, tt), T(' ' + a.txt, a.sev === 'A' ? 'a' : a.sev === 'I' ? 'd' : 'n'));
+      });
+      if (!sm.alerts.length) add(T('—  all clear', 'd'));
+      blank();
+      head('FAILSAFE RACK', 'H5 · native EC/TMR · PB-independent');
+      add(T('F1  F2  F3   ARMED'));
+      add(T('WATCHDOG     TMR 30 s · PB heartbeat OK'));
+      add(T('ALARM SOUND  ' + this.cv('snd')));
+    }
+
+    if (s.sec === 8) {
+      head('CONFIG', 'SEL cycles value · written to PB Custom Data');
+      add(T(''.padEnd(41)), T('│ [RigOS]', 'd'));
+      this.cfgDefs().forEach((d) => {
+        const v = d.opts[s.cfg[d.k]];
+        add(iseg((d.label.padEnd(26) + ('[' + v + ']').padStart(13)), () => { const c = Object.assign({}, this.state.cfg); c[d.k] = (c[d.k] + 1) % d.opts.length; this.setState({ cfg: c }); }), T(' │ ' + d.ini + '=' + String(v).toLowerCase().replace('>', '_'), 'd'));
+      });
+      blank();
+      add(T('arg "cfg" re-parses Custom Data · bad key → ALRT · values live on all screens', 'd'));
+    }
+
+    return { lines, items, crumb };
+  }
+
+  press(arg) {
+    const s = this.state, n = 9;
+    const model = this.build(this.sim()), k = model.items.length;
+    const p = { arg: arg };
+    if (arg === 'prev') Object.assign(p, { sec: (s.sec + n - 1) % n, cur: 0, det: null });
+    else if (arg === 'next') Object.assign(p, { sec: (s.sec + 1) % n, cur: 0, det: null });
+    else if (arg === 'up') p.cur = k ? (s.cur - 1 + k) % k : 0;
+    else if (arg === 'down') p.cur = k ? (s.cur + 1) % k : 0;
+    else if (arg === 'sel') { this.setState(p); if (k && model.items[s.cur]) model.items[s.cur](); return; }
+    else if (arg === 'back') { if (s.det) Object.assign(p, { det: null, cur: 0 }); else Object.assign(p, { sec: 0, cur: 0 }); }
+    else if (arg === 'ack') p.ack = true;
+    else if (arg === 'home') Object.assign(p, { sec: 0, cur: 0, det: null });
+    this.setState(p);
+  }
+
+  renderVals() {
+    const s = this.state, sm = this.sim();
+    const model = this.build(sm), P = this.P, T = (x, tn) => this.seg(x, tn);
+    const crt = this.props.crt ?? true;
+    const hh = 14 + Math.floor(s.t / 3600), mm = 32 + Math.floor(s.t / 60) % 60, ss = s.t % 60;
+    const clock = String(hh % 24).padStart(2, '0') + ':' + String(mm % 60).padStart(2, '0') + ':' + String(ss).padStart(2, '0');
+    const inv = (x) => ({ s: x, c: P.bg, b: 'transparent', isBtn: false, isTxt: true });
+    const status = [
+      inv(' RIG//OS 0.1 │ MODE '),
+      sm.mode === 'NRM' ? inv(sm.mode) : { s: ' ' + sm.mode + ' ', c: '#ffffff', b: P.al },
+      inv(' │ T% ' + sm.tp + ' │ PWR ' + sm.load + '/' + sm.cap + ' MW │ U ' + sm.uh + ' h │ FLEET 7 out │ ALRT '),
+      (sm.alerts.length && !s.ack && s.t % 2 === 0) ? { s: ' ' + sm.alerts.length + ' ', c: '#ffffff', b: P.al } : inv(' ' + sm.alerts.length + ' '),
+      inv(' │ SIM ' + clock)
+    ];
+    const footer = [T('◀▶ SECTION  ▲▼ CURSOR  SEL OPEN  BACK UP  ', 'd'), T('│ ARG> ', 'd'), T('"' + s.arg + '"', 'n'), T('  │ [CMD] Rig OS RUN · [CMD] Displays RUN', 'd')];
+    const rail = this.secNames().map((n, i) => {
+      const on = i === s.sec;
+      const badge = i === 7 && sm.alerts.length ? String(sm.alerts.length) : '';
+      return { num: String(i).padStart(2, '0'), name: n, badge: badge, aria: 'Open ' + n, c: on ? P.bg : (i === 7 && sm.alerts.length && !s.ack ? P.al : P.fg), b: on ? P.fg : 'transparent', pick: () => this.setState({ sec: i, cur: 0, det: null }) };
+    });
+    const mk = (lbl, arg, aria) => ({ lbl, arg, aria, press: () => this.press(arg) });
+    const lampCol = { NRM: P.fg, CAU: P.fg, SHD: P.al, EMG: P.al, CBT: P.al, REP: P.fg, REC: P.fg };
+    const lamps = ['NRM', 'CAU', 'SHD', 'EMG', 'CBT', 'REP', 'REC'].map((m) => {
+      const on = m === sm.mode;
+      return { m: m, bg: on ? lampCol[m] : '#171915', c: on ? '#0b0b0a' : '#5d6058', sh: on ? '0 0 14px ' + lampCol[m] : 'none' };
+    });
+    return {
+      fg: P.fg, bg: P.bg, dim: P.fg + 'b8', faint: P.fg + '40', glow: crt ? '0 0 6px ' + P.fg + '88' : 'none', crt: crt,
+      status, crumb: model.crumb, lines: model.lines, footer, rail, lamps,
+      padA: [mk('◀', 'prev', 'Previous section'), mk('▶', 'next', 'Next section'), mk('▲', 'up', 'Cursor up'), mk('▼', 'down', 'Cursor down')],
+      padB: [mk('SEL', 'sel', 'Select'), mk('BACK', 'back', 'Back'), mk('ACK', 'ack', 'Acknowledge alerts'), mk('HOME', 'home', 'Home')]
+    };
+  }
+}
+</script>
+</body>
+</html>

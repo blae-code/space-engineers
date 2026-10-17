@@ -1,27 +1,27 @@
-# Space Engineers MDK Project: Fleet (slices 1–2 — FleetMiner, remote console, moving carrier)
+# Space Engineers MDK Project: Floating Rig, RIG//OS and drone fleet
 
-## Project Overview
-This repository contains modular C# Ingame Scripts for Space Engineers, built with **MDK2**
-(Malware Dev Kit 2, the NuGet/`dotnet`-based successor to the Visual Studio extension). A shared engine
-drives a fleet of semi-autonomous drones (miners, cargo haulers, logistics carriers) via Intergrid
-Communication (IGC). Slice 1 is a clean-room PAM successor: a solo small-grid mining drone, plus a
-mothership **console** that sets up and commands drones remotely (spec §10 — commanded, not piloted).
+**`CLAUDE(RIG).md` governs: project scope, constraints C1–C7, the Rig design and the merge workflow
+(§8).** This file keeps the engineering workflow: the card split with the local model, build/test/deploy,
+MDK landmines and the PB sandbox rules. Where they conflict, `CLAUDE(RIG).md` wins; flag the conflict.
+
+- Canonical design: `reference/` (build guide, Crawler/Mule guides, RIG//OS prototypes, sandbox).
+- Spec changes are logged in `docs/rig/CHANGELOG.md` (`| date | change |`). Mods: `docs/rig/mods.md`.
+- The Fleet code (`Fleet.*`, PAM-successor miner, console, carrier, dispatcher) is frozen at tag
+  `fleet-freeze` and is being merged into the Rig (`docs/merge/`). Its slice specs/plans/cards stay in
+  `docs/superpowers/` until they move to `legacy/drone-fleet/`.
+- In-game build specs: `docs/build-specs/`. `mining-drone.script.cs` is a **snapshot** of the deployed
+  `script.cs`: after any drone build that changes the script, run `fish tools/snapshot.fish`
+  (`checkpoint.py` FAILs while it is stale).
 
 **This local repo is authoritative.** `origin` is `github.com/blae-code/space-engineers`; push only
 when a milestone is called, never on routine commits.
 
-- Spec: `docs/superpowers/specs/2026-09-29-slice1-core-miner-design.md`
-- Plan + card index + checkpoint log: `docs/superpowers/plans/2026-09-29-slice1-core-miner.md`
-- Task cards: `docs/superpowers/plans/slice1-cards/C01…C30`
-- Slice 2 (moving carrier): spec `docs/superpowers/specs/2026-09-30-slice2-moving-carrier-design.md`,
-  plan + in-game checklist `docs/superpowers/plans/2026-09-30-slice2-moving-carrier.md`
-- In-game build specs (parts + manual setup per ship type): `docs/build-specs/` — `mining-drone.md`,
-  plus `mining-drone.script.cs`, the paste-ready PB script. It is a **snapshot** of the deployed
-  `script.cs`: after any drone build that changes the script, run `fish tools/snapshot.fish`
-  (`checkpoint.py` FAILs while it is stale).
-
 ## Division of labour (Claude Code ↔ local model)
 Work is split to save Claude credits. **Claude writes the contract; the local model writes the code.**
+- **Bulk read work goes to the local model directly** (2026-10-16): when `lms ps` shows
+  `qwen/qwen3-coder-30b` resident, Claude may call it on `127.0.0.1:1234` for per-file extraction or
+  summaries (scripts in the session scratchpad), then spot-check the output against the source.
+  Never name a non-resident model (that JIT-loads it and evicts the resident gear).
 The **local model** (qwen3-coder-30b-a3b in Continue, Agent mode, 64k ctx) executes task cards and
 answers read-only codebase questions (`/ask`). **Claude Code** owns specs, plans, cards (interface +
 tests/case tables), game-API adapters, the gates in `tools/`, checkpoints, escalations and in-game
@@ -63,7 +63,7 @@ zero-GC in a render path and produced speculative roadmaps, so it was reverted.
   the rules below.
 
 ## Build, test & deploy (Linux / Proton — MDK2)
-The dev box is CachyOS Linux; the game runs under Proton via **Flatpak Steam**. There is no Visual
+The dev box is CachyOS Linux; the game runs under Proton via **native Steam** (`~/.local/share/Steam`; Flatpak Steam is gone, 2026-10-16). There is no Visual
 Studio — MDK2 builds and deploys through the .NET SDK; tests run on Mono.
 
 ```

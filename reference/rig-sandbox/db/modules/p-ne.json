@@ -1,0 +1,21 @@
+{
+  "A": 7,
+  "H": 4,
+  "R": 0,
+  "d": 8,
+  "h": 7,
+  "kind": "pylon",
+  "label": "P-NE",
+  "mass": null,
+  "notes": "Stepped 1:2 arm: 2 ICE + 1 RLY bays into T-N / T-ENE. Cross-head: lateral A, 2 INT bays.",
+  "online": true,
+  "phase": 1,
+  "rot": 63.435,
+  "shape": "box",
+  "sizeTBD": true,
+  "status": "planned",
+  "w": 22,
+  "x": 8.92,
+  "y": 7.5,
+  "z": -16.34
+}
