@@ -10,5 +10,8 @@ __pycache__/
 *.original
 *.bak-*
 
+# Claude Code workspace
+.claude/
+
 # brainstorm companion mockups
 .superpowers/
