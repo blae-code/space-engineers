@@ -5,13 +5,13 @@
 Lego-style, step-by-step visual build manual and hardware-to-scripting interface contract for the **MASTODON-01 MKI**.
 Each step features: an exact ASCII schematic, Spatial Locator HUD, in-game paint palette assignments, pre-step parts tray, critical joint/conveyor settings, Pre-Enclosure Inspection Gates ("Points of No Return"), and Phase-End Visual Milestones.
 
-### Design Directives & Operational Scope (Decisions 55, 56, 57, 58, 59, 60, 61 & 62)
+### Design Directives & Operational Scope (Decisions 55, 56, 57, 58, 59, 60, 61, 62 & 63)
 * **Role:** Long-range terrestrial expeditionary mining locomotive, self-contained mobile Forward Operating Base (FOB), and **Genesis Seed Fleet Mothership** running **`RIG//OS-Lite`**. In fresh survival campaigns prior to Ground Base refinery commissioning, the lead Mastodon serves as the regional C2 fleet root, commanding subordinate excavators (`MAS-02`), bulk land trains (`CAT-01`), and freight shuttles (`MUL-01`), with automated handover to Ground Base upon commissioning.
 * **Architecture:** Segmented articulated train consist:
-  1. **Carriage 1 (`MAS-01-T`): Locomotive & Excavator Unit (11 W × 20 L × 5 H B · 6 Wheels):** Heavy tractive engine, 3-operator armored panoramic C2 bridge (Helm, Boom CTC, Tactical Director), Tri-Fuel primary power plant (30 MW nuclear + 5 MW emergency H2 engine + 9 MWh battery reserve across 3× Large Batteries), dual-PB compute rack (`PB Excavator` + `PB RIG//OS-Lite`), 40 km laser comms mast, 4× hydraulic corner outriggers with differential auto-leveling and **deep seismic voxel sensors** (Mod 2819263781), dorsal 45 m long-reach articulated 5-DOF laser mining boom with **heavy magnetic crane grapple**, bow CIWS Gatling Turret (`MAS Turret Bow`), flank anti-personnel turrets, Port L3 maintenance Jefferies tube, ground-level EVA survival lockers, and aft 2-axis motorized drawbar hitch.
+  1. **Carriage 1 (`MAS-01-T`): Locomotive & Excavator Unit (11 W × 20 L × 5 H B · 6 Wheels):** Heavy tractive engine, 3-operator armored panoramic C2 bridge (Helm, Boom CTC, Tactical Director), Tri-Fuel primary power plant (30 MW nuclear + 5 MW emergency H2 engine + 9 MWh battery reserve across 3× Large Batteries), dual-PB compute rack (`PB Excavator` + `PB RIG//OS-Lite`), 40 km laser comms mast, 4× hydraulic corner outriggers with differential auto-leveling and **deep seismic voxel sensors** (Mod 2819263781), dorsal 35 m spine-stowed articulated 5-DOF laser mining boom with **heavy magnetic crane grapple**, chassis travel stow clamp (`MAS Clamp Boom Stow`), bow CIWS Gatling Turret (`MAS Turret Bow`), flank anti-personnel turrets, Port L3 maintenance Jefferies tube, ground-level EVA survival lockers, and aft 2-axis motorized drawbar hitch.
   2. **Carriage 2 (`MAS-01-U`): Modular FOB & Utility Carriage (11 W × 18 L × 5 H B · 4 Wheels):** Field workshop (1× Basic Refinery for in-situ metallurgy, 1× Large Assembler, Survival Kit / Medical Bay), free planetary atmospheric O2 intake vents, sub-floor battery vault (9 MWh across 3× Large Batteries), 4× roof flush solar panels (`≈ 640 kW` peak†), component reserve hold, atmospheric bunkering (2× Large H2 tanks, O2/H2 generators), 7 × 7 B MULE-01 Gantry Cradle Pad with motorized clamping arms, 2× KESTREL-01 scout drone landing pads with **recessed automated repair welders**, roof maintenance catwalks, 360° dorsal worksite floodlight tower, stern CIWS Gatling Turret (`MAS Turret Stern`), and stern heavy dump bumper matching CATERPILLAR-01.
 * **Grid:** Large Grid (1 B = 2.5 m) · **Consist Envelope:** 11 W × 42 L × 6 H B (27.5 × 105.0 × 15.0 m).
-* **Mass:** Consist Dry Mass `≈ 953.3 t` (Tractor: 529.7 t, Utility: 423.6 t) · Max Laden Mass `≈ 3,453 t` (Earth 1 g).
+* **Mass:** Consist Dry Mass `≈ 956.8 t` (Tractor: 531.2 t, Utility: 425.6 t) · Max Laden Mass `≈ 3,456 t` (Earth 1 g).
 * **Payload Capacity:** 2,500 t bulk ore across tractor buffer and utility holds.
 * **Mechanical & Automation Suite (Decision 57):** 5-point immersive automation: auto-leveling bedrock jacks (sloped terrain compensation up to 20°), retractable crew boarding ladder (Port flank L2), active gravity-horizon tool head leveling with 4.0 m safety proximity stop, underbelly stone tailings aggregate spreader, and smart anti-jackknife drawbar dynamics.
 * **Tri-Fuel Power & Closed-Loop Metallurgy Suite (Decision 58):** Self-sustaining field endurance without resupply: (1) 1× Basic Refinery (`MAS Field Refinery`, 1×1×2 B, 330 kW) refining raw mined Fe, Ni, Co, Si, Mg on-site into ingots for the Large Assembler; (2) Tri-Fuel Power Architecture: Tier 1 Nuclear (2× Small Reactors, 30 MW), Tier 2 Renewable (4× Roof Flush Solar Panels, `≈ 640 kW` peak†), Tier 3 Emergency Hydrogen (1× Hydrogen Engine, 5 MW) drawing from 10,000,000 L H2 tank farm; (3) Automated resource watchdogs `MAS EC Power` (uranium watchdog auto-starting H2 engine) and `MAS EC Ice` (ice intake routing).
@@ -19,6 +19,7 @@ Each step features: an exact ASCII schematic, Spatial Locator HUD, in-game paint
 * **Terrestrial Concrete Civil Engineering (Decision 60):** Solves excess quarrying aggregate through integration of the Concrete Armor Blocks mod ([303959338](https://steamcommunity.com/sharedfiles/filedetails/?id=303959338)). Gravel from stone refining is assembled into Concrete Components, producing blast-resistant pavers for Caterpillar roadbeds and Ground Base foundations while preserving 100% vanilla rule C2 on aerial fleet craft and the Rig.
 * **Perimeter Defense CIWS & Warfare 3 MKII Roadmap (Decision 61):** 360° close-in weapon system (CIWS) and anti-intrusion grid: (1) 2× Large Grid Gatling Turrets (`MAS Turret Bow` at Carriage 1 dorsal crown L5, Z +7, X 0; `MAS Turret Stern` at Carriage 2 stern gantry L5, Z −26, X 0) plumbed into conveyor spine for automated ammo feeds from `MAS Utility Assembler`; (2) 2× Flush Ground-Level Anti-Personnel Interior Turrets (`MAS Turret Flank Port/Stbd` at L2, X ±4, Z +2) covering boarding ladder and perimeter; (3) Automated combat alert integration via `RIG//OS-Lite` (`RIG.OS.MODE CBT`); (4) Pre-Warfare 3 operational baseline with architectural upgrade path to **MASTODON-02 MKII** upon Warfare 3 DLC release.
 * **5-Point Field Logistics & Recovery Suite (Decision 62):** Complete expeditionary autonomy: (1) Deep Seismic Voxel Prospecting (4× Seismic Surveying outrigger feet, Mod 2819263781, 500 m pulse); (2) Flight Deck Drone Maintenance Welders (2× recessed roof welders under Kestrel pads); (3) 45 m Boom Heavy Crane & Recovery Grapple (1× wrist magnetic plate, Macro 4 `MACRO_CRANE`); (4) Atmospheric Scavenging & Ground EVA Lockers (2× intake vents for free O2, 2× flank ground-level lockers); (5) Coordinated Worksite Floodlight Matrix (boom spotlights, 360° tower floodlights, underbelly inspection lights).
+* **Extraction Arm Kinematics & Travel Stow Architecture (Decision 63):** Symmetrical heavy excavation and overland transit: (1) Centerline Turret Pedestal at [X0, Z +6, Y = L4] on 1× Large Advanced Rotor (`MAS Turret Azimuth`), providing 360° horizontal rotation and 21.25 m physical reach (50+ m laser reach) off both Port and Starboard flanks; (2) Travel Mode (Rigid Dorsal Spine Stow): Arm slews 180° Aft along the 14-block Tractor spine trough (Z +6 to Z −8) at Level L4; tool head locks into chassis Magnetic Plate `MAS Clamp Boom Stow` at [X0, Z −7, L4] with all hinges at 0°, zero hitch overhang, zero cab obstruction, and maximum transit height 5.2 m; (3) 90° Downward Elbow Tool Adapter: Sets neutral reference to straight down (−Y) with ±60° pitch compensation, ensuring true vertical downward aim (vector [0, -1, 0]) across 100% of the operating radius (6.0 m to 35.0 m) and depth down to −25 m (−55 m with laser beams); (4) Target-Centric Vertical Column Boring (Macro 2): `[MAS] PB Excavator` translates the arm in 2D concentric circular sweeps (ΔX, ΔZ) centered on an offset target waypoint (Xt, Zt) while `MAS Wrist Roll` spins twin lasers at 5.0 rpm for cylindrical shaft coring.
 * **Operating Environment:** Earth 1 g baseline, rough terrestrial terrain.
 
 ---
@@ -210,7 +211,7 @@ Bow     │ 2-Seat Panoramic Cockpit  Nuclear Core                              
 | **Tractor Powertrain** | 6× 5×5 Heavy Suspension Wheels (Axles 1-3) | 6 | 48.0 t | 600 |
 | **Corner Outriggers** | 4× Large Pistons + 4× Seismic Surveying Feet (Palette 1 · Mod 2819263781) | 8 | 18.4 t | 260 |
 | **Tractor Power Core** | 2× Small Nuclear Reactors, 1× Hydrogen Engine, 3× Large Batteries (Palette 6) | 6 | 31.6 t | 730 |
-| **Articulated Boom & Crane** | 2× Adv Rotors, 3× Motor Hinges, 2× Lasers, 1× Crane Grapple, Girders, Spotlights (Palette 3) | 21 | 38.1 t | 995 |
+| **Articulated Boom & Crane** | 2× Adv Rotors, 3× Motor Hinges, 2× Lasers, 1× Crane Grapple, 1× Stow Clamp, 1× 90° Tool Elbow, Girders, Spotlights (Palette 3) | 23 | 39.6 t | 1,020 |
 | **Armored Bridge & C2** | 1× Cockpit, 2× Stations, 2× PBs, Laser Antenna, Glass, Detector | 18 | 15.8 t | 410 |
 | **Drawbar Hitch Assembly** | 1× Adv Rotor, 1× Motor Hinge, Heavy Armor Joint Blocks | 6 | 12.0 t | 225 |
 | **Utility Carriage Hull** | Heavy armor frames, wheel wells, deck armor (Palette 0) | 360 | 306.0 t | 360 |
@@ -222,7 +223,7 @@ Bow     │ 2-Seat Panoramic Cockpit  Nuclear Core                              
 | **Flight Decks, Welders & Solar** | 1× Mule Pad, 2× Kestrel Pads, 2× Drone Welders, Stern Dump, 4× Solar Panels, 4× Floodlights | 68 | 61.6 t | 980 |
 | **Perimeter Defense Suite** | 2× Gatling Turrets, 2× Interior Turrets, Ammunition Conveyor Feeds (Palette 7) | 12 | 9.6 t | 308 |
 | **External EVA & Running Lights** | 2× Ground-Level EVA Lockers, 3× Underbelly Inspection Lights (Palette 9) | 5 | 1.2 t | 70 |
-| **TOTAL CONSIST (DRY)** | Complete Expeditionary Mining Locomotive & Mobile FOB | **1,009** | **≈ 955.3 t** | **6,878** |
+| **TOTAL CONSIST (DRY)** | Complete Expeditionary Mining Locomotive & Mobile FOB | **1,011** | **≈ 956.8 t** | **6,903** |
 
 ---
 
@@ -589,6 +590,8 @@ To ensure field technicians can access emergency life support and tools without 
 * 4× Large Piston (Palette 1: Hazard Amber)
 * 4× Seismic Surveying Landing Gear (`MAS Seismic Outrigger 1..4`, TMS Mod 2819263781, Palette 1)
 * 1× Large Magnetic Plate (`MAS Tool Grapple`, Palette 9: High-Viz Safety Yellow)
+* 1× Large Magnetic Plate (`MAS Clamp Boom Stow`, Palette 1: Hazard Amber · Travel Cradle at Z −7)
+* 1× Large Conveyor Elbow (90° Downward Tool Head Adapter, Palette 4: Processing Teal)
 * 2× Large Advanced Rotor (Palette 3: Excavator Ochre)
 * 3× Large Motor Hinge (Palette 3)
 * 2× Simple Laser Multitool (Mining Mode, Palette 3)
@@ -660,25 +663,32 @@ Equip each of the 4 corner outrigger feet with **Seismic Surveying Landing Gear*
 
 ### Step 10.7 · Heavy Turret Pedestal & Azimuth Advanced Rotor (Z = +6, X0, L4)
 
-Mount an Advanced Rotor facing upward (+Y) on the dorsal deck at Z = +6. This serves as the azimuth turntable, providing **360° continuous horizontal rotation** for the excavation boom with an unrestricted large-conveyor pass-through:
-* Rotor Settings: Share Inertia Tensor = `ON` · Braking Torque = `50 MN·m` · Velocity = `0.75 rpm`.
+Mount an Advanced Rotor facing upward (+Y) on the dorsal deck at centerline [X0, Z +6, Y = L4]. This serves as the primary azimuth turntable, providing **360° continuous horizontal rotation** for the excavation boom with an unrestricted large-conveyor pass-through:
+* **Mounting Coordinates:** [X0, Z +6, Y = L4] (Directly behind C2 Bridge aft wall, elevated 10.0 m above terrain).
+* **Rotor Settings:** Share Inertia Tensor = `ON` · Braking Torque = `50 MN·m` · Velocity = `0.75 rpm`.
+* **Symmetrical Flank Reach:** Because the turntable is mounted on the exact centerline (X0), the arm provides identical symmetrical reach to both Port (−X) and Starboard (+X):
+  - Chassis Half-Width: 13.75 m (5.5 blocks from centerline to outer tire/skirt).
+  - Physical Boom Reach: 35.0 m (14 blocks fully extended).
+  - Reach Beyond Either Flank: **21.25 m (8.5 blocks)** of physical reach into open terrain off either side.
+  - Effective Extraction Reach: **46.25 m to 56.25 m** when including laser mining beam projection.
 
 ---
 
-### Step 10.8 · 5-DOF Articulated Boom Kinematic Chain (L4-L8)
+### Step 10.8 · 5-DOF Articulated Boom Kinematic Chain & Travel Stow Trough (L4-L8)
 
-Assemble the high-articulation robotic excavation crane:
-1. **Shoulder Pitch Hinge:** Motorized Large Hinge connected to the azimuth rotor head. Pitch limits: `−20.0°` (undercutting terrain) to `+75.0°` (high reach).
+Assemble the high-articulation robotic excavation and recovery crane:
+1. **Shoulder Pitch Hinge (`MAS Shoulder Pitch`):** Motorized Large Hinge connected to the azimuth rotor head. Pitch limits: `−20.0°` (undercutting terrain / stowed trough) to `+75.0°` (high reach). Torque: `45 MN·m`.
 2. **Main Boom Arm (7 B Span):** Boxed heavy armor casing enclosing the primary large conveyor pipe (17.5 m length).
-3. **Elbow Pitch Hinge:** Motorized Large Hinge at the mid-joint. Articulation limits: `−100.0°` (folded tuck) to `+45.0°` (extended reach).
+3. **Elbow Pitch Hinge (`MAS Elbow Pitch`):** Motorized Large Hinge at the mid-joint. Articulation limits: `−100.0°` (flexed descent) to `+45.0°` (extended reach). Torque: `45 MN·m`.
 4. **Forearm Girder (5 B Span):** Tapered structural girder carrying internal piping and utility cabling (12.5 m length).
-5. **Wrist 2-Axis Articulator:**
-   * Wrist Roll: Advanced Rotor providing `±180°` tool roll.
-   * Wrist Pitch: Motorized Large Hinge providing `−90°` to `+90°` tool attack angle leveling.
+5. **90° Downward Conveyor Elbow Adapter:** Large conveyor elbow mounted at the tip of the forearm. Sets the neutral tool orientation strictly downward (−Y) toward planetary gravity.
+6. **Wrist 2-Axis Articulator:**
+   * Wrist Pitch Hinge (`MAS Wrist Pitch`): Motorized Large Hinge connected to the 90° elbow. Provides `−60.0°` to `+60.0°` pitch compensation around true vertical.
+   * Wrist Roll Rotor (`MAS Wrist Roll`): Large Advanced Rotor providing continuous 360° tool roll (5.0 rpm) for circular column coring.
+7. **Chassis Travel Stow Cradle (`MAS Clamp Boom Stow`):** Large Magnetic Plate mounted flush in the Tractor dorsal spine trough at [X0, Z −7, Y = L4]. Flanked by twin heavy armor coamings running from Z +5 to Z −8.
 
 ```
-2.5D Isometric Callout · 45 m Long-Reach Articulated Boom Architecture
-
+2.5D Isometric Callout · 35 m Long-Reach Boom with 90° Downward Tool Head
        Chassis Pedestal (Z +6, X0, L4)
               ║
               ╠══[TURRET AZIMUTH ROTOR] ────────► 360° Continuous Horizontal Pan
@@ -687,49 +697,59 @@ Assemble the high-articulation robotic excavation crane:
               ║   [SHOULDER PITCH HINGE] ───────► Elevation: −20° to +75°
               ║        │
               ║        ▼
-              ║   [Main Boom Arm · 7 B Span] (Heavy Cased Conveyor Pipe)
+              ║   [Main Boom Arm · 7 B Span] (17.5 m Heavy Cased Pipe)
               ║        │
               ║        ▼
               ║   [ELBOW PITCH HINGE] ──────────► Articulation: −100° to +45°
               ║        │
               ║        ▼
-              ║   [Forearm Girder · 5 B Span]
+              ║   [Forearm Girder · 5 B Span] (12.5 m Tapered Casing)
               ║        │
               ║        ▼
-              ║   [WRIST ROLL ROTOR] ───────────► Tool Roll: ±180°
+              ║   [90° DOWN CONVEYOR ELBOW] ────► Neutral Reference = Straight Down (−Y)
               ║        │
               ║        ▼
-              ║   [WRIST PITCH HINGE] ──────────► Tool Pitch: −90° to +90°
+              ║   [WRIST PITCH HINGE] ──────────► Pitch Compensation: −60° to +60°
+              ║        │
+              ║        ▼
+              ║   [WRIST ROLL ROTOR] ───────────► 360° Continuous Spin (5 rpm Core Bore)
               ║        │
               ║        ▼
               ║   [LASER MINING TOOL HEAD]
-              ║   (2× Simple Laser Multitools + Camera + Floodlights)
+              ║   (2× Laser Multitools + Tool Grapple + Cam + Lights)
 ```
 
 ```
 Boom Operating Configurations:
 
-1. STOWED TRANSIT CONFIGURATION (Traveling Overland):
-   Turret Azimuth: 0.0° (Facing Forward +Z)
-   Shoulder Pitch: -15.0° (Resting on forward cab crutch)
-   Elbow Pitch:    -95.0° (Forearm folded flat along dorsal spine)
-   Wrist Pitch:     0.0° (Tool head locked in protective armored cradle)
-   Total Height:    5.2 m above ground (Fits under standard hangar gates)
+1. STOWED TRANSIT CONFIGURATION (Traveling Overland at 35 km/h):
+   Turret Azimuth: 180.0° (Slewed Aft along Centerline X0)
+   Shoulder Pitch:  -5.0° (Resting flat in armored dorsal spine trough)
+   Elbow Pitch:      0.0° (Flat inline with main boom arm)
+   Wrist Pitch:      0.0° (Tool head locked into chassis deck clamp)
+   Stow Clamp:     LOCKED (`MAS Clamp Boom Stow` at [X0, Z −7, L4] Green Lock)
+   Total Length:   14 Blocks (35.0 m) from Z +6 to Z −8 (Spans Carriage 1 only)
+   Hitch Gap:      Zero Overhang (7 blocks clear of hitch at Z −8 to −9)
+   Cab Sightlines: 100% Unobstructed (Zero forward canopy blockage)
+   Transit Height: 5.2 m above ground (Fits under 6.0 m hangar gates)
 
-2. FULL EXTENDED REACH CONFIGURATION (Max Reach Excavation):
-   Turret Azimuth: Sweeping 360°
-   Shoulder Pitch: +45.0°
-   Elbow Pitch:    +20.0°
-   Wrist Pitch:    -65.0° (Tool head leveled parallel to ground)
-   Horizontal Radius: 42.5 m from turret center · Max Depth Reach: -12.5 m
+2. TARGET-CENTRIC VERTICAL COLUMN BORING CONFIGURATION (Active Mining):
+   Turret Azimuth: Slew to Target Bearing φ = atan2(Xt, Zt)
+   Shoulder Pitch: +15.0° to +55.0° (Adjusted per radial distance R)
+   Elbow Pitch:    -10.0° to -70.0° (Adjusted per depth Y)
+   Wrist Pitch:    Counter-Pitches to lock Tool Vector strictly vertical ([0, -1, 0])
+   Wrist Roll:     Spins continuously at 5.0 rpm for circular core coring
+   Lateral Sweeps: Arm executes concentric circular orbits (ΔX, ΔZ) around target (Xt, Zt)
+   Operating Span: 6.0 m to 35.0 m from turret · Max Depth Reach: -25.0 m (-55 m with beams)
 ```
 
 ---
 
-### Step 10.8B · Active Gravity-Horizon Tool Head Leveling & Safety Proximity Buffer
+### Step 10.8B · Active Gravity-Horizon Tool Head Leveling & True Vertical Lock
 
-To prevent the laser mining head from gouging angled V-grooves during elevation changes:
-* **Horizon Auto-Leveling:** As the Shoulder Hinge elevates from −20° to +75°, the Wrist Pitch Hinge automatically counter-pitches in exact inverse ratio. This keeps the laser beam strictly parallel to the planet's gravity horizon, cutting perfectly flat terrace floors.
+To enable precision vertical column boring and flat quarry terracing:
+* **True Vertical Downward Lock (Column Boring):** With the 90° downward elbow adapter setting the tool neutral vector along −Y, the Wrist Pitch Hinge counter-articulates in exact opposite ratio to the net arm angle ($\theta_{\text{wrist}} = -(\theta_{\text{shoulder}} + \theta_{\text{elbow}})$). This locks the twin mining lasers strictly parallel to planetary gravity ($\vec{u}_{\text{tool}} = [0, -1, 0]$) across the entire radial operating envelope ($6.0\text{ m} \le R \le 35.0\text{ m}$).
+* **Horizontal Terracing Mode (Bench Quarrying):** By rotating `MAS Wrist Pitch` by $+90.0^\circ$, the laser beams deflect forward, leveled strictly parallel to the planet surface for cutting flat bench floors.
 * **Proximity Safety Buffer:** Sensor `MAS Sensor Boom` mounted on the tool head is configured with a 4.0 m forward detection sphere. If terrain voxels or vehicle blocks enter the buffer during rapid slewing, it cuts laser beam power and locks joint brakes within 1 tick, preventing tool head destruction.
 
 ```
@@ -745,44 +765,54 @@ BOOM ELEVATION WITH HORIZON-LEVELED TOOL HEAD
                        ╲  Forearm
                         ╲
                          ▼
+                  [90° DOWN ELBOW] ── (Base direction = −90° DOWN)
+                         │
+                         ▼
                   [WRIST PITCH HINGE] ── (Counter-Pitches -15° to cancel arm slope)
                          │
                          ▼
                ┌───────────────────┐
-               │  [LASER MULTI]    │ ════════════► Level Horizontal Beam Cut
-               └───────────────────┘               (Parallel to Planet Floor)
+               │  [LASER MULTI]    │ ════════════► Fires Strictly DOWN (−Y)
+               └───────────────────┘               (Parallel to Planetary Gravity)
 ```
 
 ---
 
-### Step 10.9 · Laser Mining Tool Head & Heavy Recovery Grapple Suite
+### Step 10.9 · Laser Mining Tool Head, 90° Downward Elbow & Heavy Recovery Grapple
 
 At the tip of the wrist articulator, mount the unified excavation and field recovery head:
-* 2 × Simple Laser Multitool (Mode: `Mining Beam`) · `MAS Laser 1, 2`.
+* 1 × Large Conveyor Elbow: Mounted at the tip of the forearm, routing the conveyor line 90° downward toward ground baseline.
+* 1 × Motor Hinge (`MAS Wrist Pitch`): Mounted to the elbow head, providing `±60.0°` pitch leveling around the vertical axis.
+* 1 × Large Advanced Rotor (`MAS Wrist Roll`): Providing continuous 360° axial spin (5.0 rpm) for circular column coring.
+* 2 × Simple Laser Multitool (Mode: `Mining Beam`) · `MAS Laser 1, 2` mounted on the roll face, spaced 2.5 m apart.
 * 1 × Large Magnetic Plate (`MAS Tool Grapple`, Auto-Lock = OFF, Palette 9: High-Viz Safety Yellow) mounted centrally between the laser heads. Provides heavy lifting, vehicle righting, and cargo positioning capability with 45 MN·m joint holding power.
-* 1 × Camera · `MAS Cam Boom` (high-magnification targeting crosshairs).
+* 1 × Camera · `MAS Cam Boom` (high-magnification targeting crosshairs looking directly down the drill bore).
 * 2 × Spotlight · `MAS Light Boom 1, 2` (floodlights illuminating the cutting bench and salvage targets).
 * 1 × Sensor · `MAS Sensor Boom` (4.0 m safety stop to prevent head-to-terrain collision).
 
 ```
 Front Elevation · Laser Mining Tool Head & Recovery Grapple (Tip of Forearm)
+                  [90° DOWN CONVEYOR ELBOW]
+                            │
                   [WRIST PITCH HINGE]
-                           │
-       ┌───────────────────┴───────────────────┐
-       │               [CAMERA]                │
-       │             MAS Cam Boom              │
-       ├───────────────┬───────┬───────────────┤
-       │  [LASER 1]    │[MAG]  │  [LASER 2]    │
-       │  Simple Laser │TOOL   │  Simple Laser │
-       │  Multitool    │GRAPPLE│  Multitool    │
-       ├───────────────┼───────┼───────────────┤
-       │ [SPOTLIGHT 1] │       │ [SPOTLIGHT 2] │
-       └───────────────┴───────┴───────────────┘
+                            │
+                  [WRIST ROLL ROTOR]
+                            │
+        ┌───────────────────┴───────────────────┐
+        │               [CAMERA]                │
+        │             MAS Cam Boom              │
+        ├───────────────┬───────┬───────────────┤
+        │  [LASER 1]    │[MAG]  │  [LASER 2]    │
+        │  Simple Laser │TOOL   │  Simple Laser │
+        │  Multitool    │GRAPPLE│  Multitool    │
+        ├───────────────┼───────┼───────────────┤
+        │ [SPOTLIGHT 1] │       │ [SPOTLIGHT 2] │
+        └───────────────┴───────┴───────────────┘
 ```
 
 ### Step 10.9B · Automated Excavation Macro Modes & Kinematic Sweep Sequences
 
-To maximize extraction efficiency and support uncrewed autonomous operation, `[MAS] PB Excavator` implements 4 automated sweep and crane recovery macros:
+To maximize extraction efficiency and support uncrewed autonomous operation, `[MAS] PB Excavator` implements 4 automated sweep and crane recovery macros, plus automated travel stow/deploy sequencing:
 
 ```
 [AUTOMATED BOOM EXCAVATION & CRANE SWEEP PATTERNS]
@@ -790,14 +820,16 @@ To maximize extraction efficiency and support uncrewed autonomous operation, `[M
 1. BENCH QUARRY MODE (Horizontal Terracing)
    · Azimuth Turret sweeps across horizontal face: -45.0° (Port) to +45.0° (Starboard).
    · Shoulder Hinge incrementally steps down -2.5° per pass (0.5 B bench cut depth).
-   · Wrist Pitch automatically levels tools to maintain flat, drivable terrace floors.
+   · Wrist Pitch elevates +90.0° to maintain flat, drivable terrace floors parallel to surface.
    · Produces clean stair-stepped quarry cuts into mountainsides.
 
-2. VERTICAL SHAFT BORE MODE (Subterranean Access)
-   · Azimuth Turret rotates continuously at 0.5 rpm.
-   · Shoulder and Elbow hinges articulate in synchronized descent vector.
-   · Carves a precise 12.5 m diameter circular vertical shaft down to -25.0 m depth.
-   · Enables extraction of deep uranium/platinum veins below surface overburden.
+2. TARGET-CENTRIC VERTICAL COLUMN BORE MODE (Subterranean Access)
+   · Accepts target vein waypoint (Xt, Zt) from seismic scan or Station 2 operator.
+   · Turret Azimuth slews to target bearing; Shoulder and Elbow extend tool head over target.
+   · Wrist Pitch counter-pitches to lock laser beams strictly vertical ([0, -1, 0]).
+   · Wrist Roll rotor spins twin offset lasers at 5.0 rpm, cutting an initial 3.0 m core.
+   · Motion controller translates the arm in automated 2D concentric circular sweeps (ΔX, ΔZ) around (Xt, Zt) to expand the column diameter (up to 12.5 m wide).
+   · Steps downward ΔY = -1.0 m per pass, descending down to -25.0 m physical depth (-55 m with laser beam reach) into deep rare veins.
 
 3. TRENCH & ROAD CARVE MODE (Overland Right-of-Way)
    · Boom deploys along centerline (Z+), executing downward scoop arc (-5.0 m to grade).
@@ -809,13 +841,32 @@ To maximize extraction efficiency and support uncrewed autonomous operation, `[M
    · Station 2 CTC mouse control provides direct 3-axis teleoperation of the 45 m boom arm.
    · Allows precision attachment to overturned Caterpillar trailers, scout drones, or supply skids up to 42.5 m away.
    · Utilizes the 45 MN·m joint holding torque and hydraulic outriggers to right rolled vehicles, hoist heavy cargo modules, or lift massive boulders obstructing the haul road.
+
+[AUTOMATED TRAVEL STOW & DEPLOY SEQUENCES]
+
+· TRAVEL STOW SEQUENCE (`STOW`):
+  1. Mining lasers deactivate; tool head retracts vertically clear of borehole.
+  2. Turret Azimuth slews to 180.0° (Aft centerline).
+  3. Shoulder, Elbow, and Wrist hinges align flat (0.0°).
+  4. Boom lowers into armored dorsal spine trough; `MAS Clamp Boom Stow` at [X0, Z −7, L4] engages (Green Lock).
+  5. Joint holding brakes clamp at 100% torque (50 MN·m Azimuth, 45 MN·m Hinges).
+  6. Outriggers retract; consist is cleared for 35 km/h overland transit.
+
+· WORK DEPLOY SEQUENCE (`DEPLOY`):
+  1. Consist comes to full stop; handbrake engages.
+  2. Outriggers extend and lock bedrock (verified by `MAS EC Stabilizers`).
+  3. `MAS Clamp Boom Stow` releases.
+  4. Shoulder elevates +15.0° to clear spine coamings.
+  5. Slew to target waypoint azimuth and begin commanded macro.
 ```
 
 #### Pre-Enclosure Inspection Gate 10.3A: Outrigger Locking & Boom Joint Inertia Verification
 * [ ] Verify all 4 corner outrigger seismic feet (`MAS Seismic Outrigger 1..4`) lock firmly into terrain voxels.
 * [ ] Confirm `MAS EC Seismic` triggers acoustic survey pulse upon 4/4 bedrock lock, broadcasting vein telemetry to `TMS.SCOUT.VEIN`.
-* [ ] Confirm `Share Inertia Tensor = ON` across all 6 boom joints (Turret Rotor, Shoulder Hinge, Elbow Hinge, Wrist Rotor, Wrist Hinge).
-* [ ] Test 360° pan and full extension: boom must achieve a 45.0 m reach radius without inducing chassis tip or physics jitter.
+* [ ] Confirm `Share Inertia Tensor = ON` across all boom joints (Turret Rotor, Shoulder Hinge, Elbow Hinge, Wrist Pitch Hinge, Wrist Roll Rotor).
+* [ ] Test 360° pan and verify symmetrical 21.25 m physical reach beyond both Port and Starboard flanks without chassis tip.
+* [ ] Verify `MAS Clamp Boom Stow` locks green at [X0, Z −7, L4] and rigidly secures the 35 m stowed boom with zero subgrid jitter.
+* [ ] Test Macro 2 `BORE`: verify tool head maintains true vertical downward aim ([0, -1, 0]) while executing 2D lateral concentric sweeps around offset target waypoint.
 * [ ] Verify `MAS Tool Grapple` locks onto external test block and holds suspended 50 t mass without joint sagging.
 * [ ] Test Macro 4 `CRANE_RECOVERY`: verify crane mode enables grapple teleoperation and disables mining laser fire.
 
@@ -1347,6 +1398,7 @@ State Machine: Dynamic Fleet Authority & C2 Handover
 | Magnetic Plate | `MAS Outrigger Pad 1..4` | Corner bedrock voxel locking pads · `Auto-Lock = ON` |
 | Seismic Landing Gear | `MAS Seismic Outrigger 1..4` | Deep voxel acoustic prospecting feet (TMS Mod 2819263781) |
 | Magnetic Plate (Large) | `MAS Tool Grapple` | Centerline boom recovery grapple · Vehicle righting & cargo hoisting |
+| Magnetic Plate (Large) | `MAS Clamp Boom Stow` | Chassis dorsal spine travel stow clamp at [X0, Z −7, L4] |
 | Ship Welder (Large) | `MAS Welder Pad Kestrel 1, 2` | Recessed flight deck drone maintenance welders |
 | Spotlight (Large) | `MAS Floodlight Tower 1..4` | 360° dorsal worksite illumination floodlights (L5-L6) |
 | Interior Light (Large) | `MAS Lights Underbelly` | Underbelly chassis maintenance and inspection lighting (L1) |
@@ -1358,7 +1410,7 @@ State Machine: Dynamic Fleet Authority & C2 Handover
 | Motor Hinge | `MAS Shoulder Pitch` | Boom elevation joint · −20° to +75° · `Torque = 45 MN·m` |
 | Motor Hinge | `MAS Elbow Pitch` | Boom mid-joint · −100° to +45° · `Torque = 45 MN·m` |
 | Advanced Rotor | `MAS Wrist Roll` | Tool head roll alignment · ±180° · `Torque = 20 MN·m` |
-| Motor Hinge | `MAS Wrist Pitch` | Tool head horizon leveling · −90° to +90° · `Torque = 20 MN·m` |
+| Motor Hinge | `MAS Wrist Pitch` | 90° tool elbow pitch leveling & vertical down lock · −60° to +60° · `Torque = 20 MN·m` |
 | Laser Multitool | `MAS Laser 1, 2` | Mining beam heads on tool head · Continuous extraction |
 | Sensor | `MAS Sensor Boom` | 4.0 m forward proximity collision safety buffer |
 | Connector (Large) | `MAS MP Conn` | Roof flush connector for MULE-01 shuttle docking |
@@ -1429,9 +1481,10 @@ State Machine: Dynamic Fleet Authority & C2 Handover
 
 ### B · Outrigger Anchoring & Automated Boom Macros
 * [ ] **Outrigger Bedrock Anchor:** Press hotkey 1 (`Deploy Stabilizers`). Confirm all 4 corner pistons extend downward and magnetic plates achieve 100% voxel lock. Confirm chassis is completely rigid.
-* [ ] **3D Hemispheric Sweep:** Engage CTC mouse aim. Sweep boom through 360° horizontal pan, −20° terrain undercutting, and +75° high bench cuts. Confirm zero chassis wobble or physics jitter.
+* [ ] **Travel Stow Clamp Lock (STOW/DEPLOY):** Trigger `STOW` command. Confirm turntable slews to 180° aft, shoulder/elbow/wrist hinges fold to 0° flat along dorsal spine, and tool head locks into `MAS Clamp Boom Stow` at `[X0, Z −7, L4]`. Confirm 5.2 m transit profile and zero bridge obstruction. Trigger `DEPLOY`; confirm clamp releases and boom elevates to ready position.
+* [ ] **Symmetrical 21.25 m Flank Reach:** Slew boom to Port (90°) and Starboard (270°). Confirm boom achieves identical 21.25 m physical reach beyond outer tires on both flanks with zero hull collision.
+* [ ] **Target-Centric Vertical Column Bore:** Trigger Macro 2 (`BORE <GPS>`). Confirm 90° downward tool adapter locks drills into true vertical orientation [0, -1, 0] across full reach envelope (6.0 m to 35.0 m) while boom coordinates lateral translation and plunge around target center.
 * [ ] **Bench Quarry Macro Test:** Trigger `MAS Timer Bench`. Verify boom executes automated -45° to +45° horizontal sweeps with -2.5° incremental shoulder steps and flat floor leveling.
-* [ ] **Shaft Bore Macro Test:** Trigger `MAS Timer Bore`. Verify 360° continuous rotation and synchronized helical vertical descent to -25.0 m.
 * [ ] **Collision Sensor Stop:** Drive boom tool head toward obstacle; confirm `MAS Sensor Boom` stops joint movement at 4.0 m distance.
 
 ### C · Mobile FOB & Dual Logistics Verification

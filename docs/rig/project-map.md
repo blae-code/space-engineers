@@ -75,6 +75,7 @@ Last updated: 2026-10-17
 | 60 | Concrete Armor Blocks mod added for terrestrial civil infrastructure & gravel recycling (Ground Base, roadbeds) | 2026-10-18 | CHANGELOG |
 | 61 | Mastodon MKI basic perimeter defense baseline (2× Gatling, 2× Interior turrets, CIWS) & Warfare 3 MKII roadmap | 2026-10-18 | CHANGELOG |
 | 62 | Mastodon MKI 5-Point Field Logistics Suite (Seismic prospecting, drone welders, boom crane grapple, atmo vents, floodlights) | 2026-10-18 | CHANGELOG |
+| 63 | Mastodon MKI Extraction Arm Kinematics & Travel Stow Architecture (Centerline turntable, 21.25 m flank reach, rigid spine stow, 90° tool elbow, target-centric column boring) | 2026-10-18 | CHANGELOG |
 
 ### Open (§10 + mining concept + merge)
 
@@ -130,7 +131,7 @@ TERRESTRIAL MINING (phase 1 scope)
  ├─ Mule (flying cargo ferry, 7×7 B square hull)
  │   ├─ 1 Large Cargo (3×3×3 B), 4 Large Flat Atmo (~650 t ore capacity)
  │   └─ Docks Orca roof MP ↔ Ground Base refinery terminal
- ├─ Mastodon (segmented expeditionary mining train FOB: Tractor/Excavator + Utility Carriage, 45 m boom crane, CIWS defense, seismic scan, drone welders)
+ ├─ Mastodon (segmented expeditionary mining train FOB: Tractor/Excavator + Utility Carriage, 35 m spine-stowed boom, 21.25 m flank reach, target-centric column boring, CIWS defense, seismic scan, drone welders)
  ├─ Caterpillar (heavy bulk land train, 5×5 wheeled locomotive + modular hopper cars)
  └─ Ground base (Integrated Gantry, 4 Ref / 4 Asm, C2 Hub, Rig Extruder Shipyard)
 

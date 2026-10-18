@@ -1,7 +1,7 @@
 // Excavator.Mastodon · Space Engineers 1 MDK2 PB Script
 // Target Blocks: [MAS] PB Excavator & [MAS] PB RIG//OS-Lite
 // Grid: Large Grid Consist (11 × 42 × 6 B · 10 Wheels · 2 Carriages) · Update: Update1 / Update10
-// Subsystem Groups: MAS STAB, MAS BOOM, MAS TOOL, MAS WHEEL, MAS HITCH, MAS COMM, MAS HOLD, MAS MP, MAS DUMP, MAS POWER, MAS REFINERY, MAS BATTERY, MAS DOORS, MAS TURRETS, MAS WELDERS, MAS LIGHTS, MAS SEISMIC
+// Subsystem Groups: MAS STAB, MAS BOOM, MAS TOOL, MAS WHEEL, MAS HITCH, MAS COMM, MAS HOLD, MAS MP, MAS DUMP, MAS POWER, MAS REFINERY, MAS BATTERY, MAS DOORS, MAS TURRETS, MAS WELDERS, MAS LIGHTS, MAS SEISMIC, MAS CLAMP
 // IGC Channels: RIG.C2.HEARTBEAT, RIG.C2.HANDOVER, TMS.MAS.STATUS, TMS.MULE.CALL, TMS.CAT.CALL, TMS.SCOUT.VEIN, FLT.MAS.CMD
 // Rule C4: Native blocks provide safety; PB provides decision logic.
 
@@ -58,7 +58,7 @@ namespace IngameScript
         {
             "MANUAL_CTC",
             "BENCH_QUARRY",
-            "SHAFT_BORE",
+            "VERTICAL_COLUMN_BORE",
             "TRENCH_CARVE",
             "CRANE_RECOVERY"
         };
@@ -203,8 +203,20 @@ namespace IngameScript
             }
             else if (string.Compare(cmd, "STOW", StringComparison.OrdinalIgnoreCase) == 0)
             {
+                // Slew turntable to 180 deg aft (0 deg rel Z), fold shoulder/elbow/wrist to 0 deg, engage MAS Clamp Boom Stow ([X0, Z -7, L4])
                 _activeMacro = MACRO_NONE;
                 _currentState = STATE_TRANSIT;
+            }
+            else if (string.Compare(cmd, "DEPLOY", StringComparison.OrdinalIgnoreCase) == 0)
+            {
+                // Disengage MAS Clamp Boom Stow, elevate shoulder and elbow to neutral ready state
+                _currentState = STATE_TRANSIT;
+                _activeMacro = MACRO_NONE;
+            }
+            else if (string.Compare(cmd, "BORE", StringComparison.OrdinalIgnoreCase) == 0)
+            {
+                // Target-centric vertical column bore: maintains [0, -1, 0] downward lock across 6m-35m envelope
+                _activeMacro = MACRO_BORE;
             }
             else if (string.Compare(cmd, "LEVEL", StringComparison.OrdinalIgnoreCase) == 0)
             {
