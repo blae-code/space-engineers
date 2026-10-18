@@ -1,7 +1,7 @@
 // Excavator.Mastodon · Space Engineers 1 MDK2 PB Script
 // Target Blocks: [MAS] PB Excavator & [MAS] PB RIG//OS-Lite
 // Grid: Large Grid Consist (11 × 42 × 6 B · 10 Wheels · 2 Carriages) · Update: Update1 / Update10
-// Subsystem Groups: MAS STAB, MAS BOOM, MAS TOOL, MAS WHEEL, MAS HITCH, MAS COMM, MAS HOLD, MAS MP, MAS DUMP, MAS POWER, MAS REFINERY
+// Subsystem Groups: MAS STAB, MAS BOOM, MAS TOOL, MAS WHEEL, MAS HITCH, MAS COMM, MAS HOLD, MAS MP, MAS DUMP, MAS POWER, MAS REFINERY, MAS BATTERY, MAS DOORS
 // IGC Channels: RIG.C2.HEARTBEAT, RIG.C2.HANDOVER, TMS.MAS.STATUS, TMS.MULE.CALL, TMS.CAT.CALL, TMS.SCOUT.VEIN, FLT.MAS.CMD
 // Rule C4: Native blocks provide safety; PB provides decision logic.
 
@@ -31,6 +31,12 @@ namespace IngameScript
         public const int MACRO_BORE = 2;
         public const int MACRO_TRENCH = 3;
 
+        public const int POWER_MODE_SILENT = 0;
+        public const int POWER_MODE_CRUISE = 1;
+        public const int POWER_MODE_EXCAVATE = 2;
+        public const int POWER_MODE_EMERGENCY = 3;
+        public const int POWER_MODE_SHORE = 4;
+
         static readonly string[] RoleNames = new string[]
         {
             "STANDALONE",
@@ -54,6 +60,15 @@ namespace IngameScript
             "SHAFT_BORE",
             "TRENCH_CARVE"
         };
+
+        static readonly string[] PowerModeNames = new string[]
+        {
+            "SILENT_WATCHKEEPING",
+            "TRACTIVE_CRUISE",
+            "HEAVY_EXCAVATION",
+            "EMERGENCY_FAILOVER",
+            "SHORE_RECHARGE"
+        };
         #endregion
 
         #region Telemetry & Cache
@@ -66,6 +81,7 @@ namespace IngameScript
         int _currentRole = ROLE_MOTHERSHIP; // Default genesis seed role
         int _currentState = STATE_TRANSIT;
         int _activeMacro = MACRO_NONE;
+        int _currentPowerMode = POWER_MODE_CRUISE;
         int _tickCounter;
         bool _outriggersLocked;
         #endregion
@@ -115,7 +131,7 @@ namespace IngameScript
                 _sbEcho.Append("State: ").Append(StateNames[_currentState]).Append('\n');
                 _sbEcho.Append("Macro: ").Append(MacroNames[_activeMacro]).Append('\n');
                 _sbEcho.Append("Outriggers: ").Append(_outriggersLocked ? "BEDROCK LOCKED" : "STOWED").Append('\n');
-                _sbEcho.Append("Power: TRI-FUEL (35 MW)\n");
+                _sbEcho.Append("Power: HYBRID 18 MWh (35 MW + 72 MW Peak) · ").Append(PowerModeNames[_currentPowerMode]).Append('\n');
                 _sbEcho.Append("Tick: ");
                 SbFormat.AppendInt(_sbEcho, _tickCounter);
                 Echo(_sbEcho.ToString());
@@ -190,7 +206,25 @@ namespace IngameScript
             }
             else if (string.Compare(cmd, "POWER", StringComparison.OrdinalIgnoreCase) == 0)
             {
-                // Query or toggle Tri-Fuel power mode (Nuclear, Solar, H2 Engine)
+                // Query or toggle Tri-Fuel & Hybrid 18 MWh battery power mode
+                if (_args.Count > 1)
+                {
+                    string sub = _args[1];
+                    if (string.Compare(sub, "MODE", StringComparison.OrdinalIgnoreCase) == 0 && _args.Count > 2)
+                    {
+                        string modeArg = _args[2];
+                        if (modeArg == "1" || string.Compare(modeArg, "SILENT", StringComparison.OrdinalIgnoreCase) == 0 || string.Compare(modeArg, "ECO", StringComparison.OrdinalIgnoreCase) == 0)
+                            _currentPowerMode = POWER_MODE_SILENT;
+                        else if (modeArg == "2" || string.Compare(modeArg, "CRUISE", StringComparison.OrdinalIgnoreCase) == 0)
+                            _currentPowerMode = POWER_MODE_CRUISE;
+                        else if (modeArg == "3" || string.Compare(modeArg, "EXCAVATE", StringComparison.OrdinalIgnoreCase) == 0 || string.Compare(modeArg, "HEAVY", StringComparison.OrdinalIgnoreCase) == 0)
+                            _currentPowerMode = POWER_MODE_EXCAVATE;
+                        else if (modeArg == "4" || string.Compare(modeArg, "EMERGENCY", StringComparison.OrdinalIgnoreCase) == 0 || string.Compare(modeArg, "FAILOVER", StringComparison.OrdinalIgnoreCase) == 0)
+                            _currentPowerMode = POWER_MODE_EMERGENCY;
+                        else if (modeArg == "5" || string.Compare(modeArg, "SHORE", StringComparison.OrdinalIgnoreCase) == 0 || string.Compare(modeArg, "RECHARGE", StringComparison.OrdinalIgnoreCase) == 0)
+                            _currentPowerMode = POWER_MODE_SHORE;
+                    }
+                }
             }
             else if (string.Compare(cmd, "REFINERY", StringComparison.OrdinalIgnoreCase) == 0)
             {
