@@ -3,7 +3,7 @@
 ### Version 1.0 · Canon Engineering Specification · Earth 1 g Baseline
 
 Last updated: 2026-10-18
-Authority: Blae Decisions 1-59 (Canon) · `CLAUDE(RIG).md` · `Part 1 & 2 Handoff`
+Authority: Blae Decisions 1-61 (Canon) · `CLAUDE(RIG).md` · `Part 1 & 2 Handoff`
 
 ---
 
@@ -4930,7 +4930,7 @@ This volume details the heavy wheeled surface extraction machines that form the 
 
 ## Chapter 10 · MASTODON-01 Expeditionary Mining Train & Mobile FOB (MAS-01)
 
-Source: `docs/rig/chapters/mastodon-instructions.md` · 11 × 42 × 6 B · 2-Segment Train Consist, 45 m Laser Boom, 18 MWh Hybrid Power, Jefferies Tubes, Field Metallurgy
+Source: `docs/rig/chapters/mastodon-instructions.md` · 11 × 42 × 6 B · 2-Segment Train Consist, 45 m Laser Boom, 18 MWh Hybrid Power, CIWS Defense, Concrete Infrastructure
 
 ### 0 · Reference Grid, In-Game Paint Palette & Master Consist Layout
 
@@ -5129,7 +5129,8 @@ Bow     │ 2-Seat Panoramic Cockpit  Nuclear Core                              
 | **Field Workshop & Hab** | 1× Basic Refinery, 1× Large Assembler, 1× Survival Kit, 2× O2/H2 Tanks, 2× Large H2 Tanks | 9 | 52.0 t | 630 |
 | **Utility Cargo Hold** | 1× Large Cargo Container (Components), Conveyor network | 16 | 28.0 t | 160 |
 | **Flight Decks & Solar** | 1× Mule Gantry Cradle Pad (7×7 B), 2× Kestrel Pads, Stern Dump, 4× Solar Panels | 62 | 56.0 t | 580 |
-| **TOTAL CONSIST (DRY)** | Complete Expeditionary Mining Locomotive & Mobile FOB | **981** | **≈ 934.3 t** | **5,975** |
+| **Perimeter Defense Suite** | 2× Gatling Turrets, 2× Interior Turrets, Ammunition Conveyor Feeds (Palette 7) | 12 | 9.6 t | 308 |
+| **TOTAL CONSIST (DRY)** | Complete Expeditionary Mining Locomotive & Mobile FOB | **993** | **≈ 943.9 t** | **6,283** |
 
 ---
 
@@ -5184,6 +5185,20 @@ Plan view, Y = L3 (Tractor & Utility Pressurized Walkways & Jefferies Tubes)
     Z: −26 │                               │ [STERN LADDER DOWN TO L2]     │  ◄── Stern Dump Access
            └───────────────────────────────┴───────────────────────────────┘
 ```
+
+---
+
+#### 0.9 MASTODON-02 (MKII) Warfare 3 DLC Upgrade Architecture Roadmap
+
+The current **MASTODON-01 MKI** design establishes a combat-capable survival baseline using vanilla and DLC blocks ahead of the upcoming **Warfare 3 DLC** release. Upon DLC launch, the consist will transition to the **MASTODON-02 MKII** blueprint, engineered with the following pre-allocated physical and power provisions:
+
+| Subsystem Domain | MKI Pre-Warfare 3 Baseline | Planned MKII Warfare 3 Evolution | Pre-Allocated Sockets & Headroom |
+|---|---|---|---|
+| **Primary Dorsal Armament** | 2× Large Gatling Turrets (`MAS Turret Bow / Stern`) | Warfare 3 Heavy Kinetic / Directed-Energy Turrets | Centerline L5 dorsal hardpoints plumbed to large conveyor junctions. |
+| **Close-In Anti-Personnel** | 2× Interior Turrets (`MAS Turret Flank Port/Stbd`) | Warfare 3 Point-Defense / Anti-Missile Systems | Flank L2 skirt sockets with 360° low-depression coverage. |
+| **Electronic Warfare (EW)** | Passive laser antenna + 50 km radio beacon | Warfare 3 Active ECM / Jamming / Radar Intercept | Dorsal L6 comms mast socket pre-wired for EW transceivers. |
+| **Power Grid Headroom** | 35 MW generation + 18 MWh battery reserve | Absorbs 40+ MW burst draws from heavy weapon systems | 72.0 MW peak instantaneous battery discharge (Mode 3/4). |
+| **Armor Fairing Modularity** | Heavy armor composite hull with sloped glacis | Warfare 3 Modular Composite / Reactive Armor Plating | Wheel arch skirts and hitch drawbar pre-spaced for add-on armor tiles. |
 
 ---
 
@@ -5724,6 +5739,8 @@ PHASE 10-3 VISUAL MILESTONE · OUTRIGGERS ANCHORED & BOOM DEPLOYED
 * 14× Sloped Heavy Armor Glass (Bridge canopy)
 * 6× LCD Panel (Tactical video wall and console telemetry HUDs)
 * 1× Air Vent + 1× Small O2 Tank (Pressurization)
+* 1× Large Gatling Turret (`MAS Turret Bow`, Palette 7: Fleet Command Navy)
+* 2× Large Interior Turret (`MAS Turret Flank Port`, `MAS Turret Flank Stbd`, Palette 7)
 
 ---
 
@@ -5808,12 +5825,22 @@ CREW BOARDING LADDER (Port Flank Profile)
      ════╧════════════╧══════════ Ground       L0  ═════════════╧═══▼ (Touchdown)
 ```
 
+---
+
+#### Step 10.10C · Bow CIWS Gatling Turret & Flank Anti-Personnel Sockets (Tractor Crown L5)
+
+To protect the locomotive consist against hostile MES pirate drones and ground boarding raiders while anchored or mining:
+* **Bow Gatling Turret (`MAS Turret Bow`):** Mount 1× Large Grid Gatling Turret (3×3×3 B footprint) on the centerline dorsal crown of Carriage 1 at [X0, Z +7, Y = L5], directly above the C2 compute rack rear bulkhead. Connect its bottom port directly to the tractor conveyor spine at L4. Provides full 360° hemispherical CIWS protection against aerial drones and ground gunships.
+* **Flank Anti-Personnel Turrets (`MAS Turret Flank Port/Stbd`):** Mount 2× Interior Turrets (1×1×1 B) flush on the lower armored skirts at [X −4, Z +2, Y = L2] (Port) and [X +4, Z +2, Y = L2] (Starboard). Plumbed to the lower conveyor spine to deliver automated anti-infantry and anti-wildlife perimeter fire covering the boarding ladder and ground radius.
+* **Combat Mode Integration:** Event Controller `MAS EC Combat` monitors chassis damage and enemy target acquisition. When engaged, `RIG//OS-Lite` elevates alert status to `RIG.OS.MODE CBT`, powers up all turrets, seals crew airlocks, and feeds ammunition from the assembler hold.
+
 ##### Pre-Enclosure Inspection Gate 10.4A: Bridge Airtightness & C2 Network Link Check
 * [ ] Confirm bridge cabin pressurizes to 100% O2 via air vent.
 * [ ] Verify `MAS Ore Detector` displays subterranean ore deposits out to 150 m range.
 * [ ] Confirm CTC block maps mouse yaw to `MAS Turret Azimuth` and mouse pitch to `MAS Shoulder Pitch`.
 * [ ] Confirm `MAS Comm Laser` and `MAS Comm Radio` establish two-way IGC telemetry ping.
 * [ ] Verify `MAS Crew Ladder Hinge` automatically lowers when approached on foot and retracts upon handbrake release.
+* [ ] Verify `MAS Turret Bow` and `MAS Turret Flank Port/Stbd` receive NATO 25×184mm ammunition through conveyor spine.
 
 ---
 
@@ -5964,6 +5991,7 @@ To allow physical passage from the workshop to the roof flight decks and stern t
 * 1× Large Connector (`MAS Stern Dump Conn`, Palette 2: Rail Crimson)
 * 2× Large Conveyor Sorter (`MAS MP Sorter`, `MAS Stern Sorter`, Palette 4)
 * 12× Heavy Armor Slopes & Alignment Bumpers (Palette 2)
+* 1× Large Gatling Turret (`MAS Turret Stern`, Palette 7: Fleet Command Navy)
 
 ---
 
@@ -6055,12 +6083,21 @@ Rear Elevation Cross-Section, Y = L2 (Stern Caterpillar Dump Interface)
     └────────────────┴──────────────┴───────────────┴──────────────┴─────────────┘
 ```
 
+---
+
+#### Step 10.15B · Stern Gantry CIWS Gatling Turret (Utility Stern L5)
+
+Mount the rear defense turret on the upper gantry overlooking the stern dump interface:
+* **Stern Gatling Turret (`MAS Turret Stern`):** 1× Large Grid Gatling Turret mounted at [X0, Z −26, Y = L5], elevated 7.5 m above the Caterpillar dump bumper. Connect bottom conveyor port to the stern conveyor junction at L4.
+* **Coverage:** Delivers 270° hemispherical defensive coverage over the rear quadrant, providing covering fire for incoming MULE-01 shuttles on approach to the gantry pad, protecting docked Caterpillar land trains during high-speed dump operations, and repelling pursuers from the rear.
+
 ##### Pre-Enclosure Inspection Gate 10.6A: Cradle Clamping Dynamics & Dual-Tier Sorter Routing
 * [ ] Verify `MAS MP Sorter` whitelist passes only rare ores (U, Pt, Au, Mg) to the Mule shuttle.
 * [ ] Verify `MAS Stern Sorter` whitelist passes bulk ores (Fe, Ni, Si, Stone) to the land train.
 * [ ] Test cradle clamp hinges: confirm 30° inward swing firmly holds docking craft without grid damage.
 * [ ] Confirm `MAS Solar 1..4` deliver daylight power and maintain battery float charge while nuclear reactors are toggled OFF.
 * [ ] Verify Level L6 catwalk handrails and safety walkways allow complete perimeter access around Mule and Kestrel decks.
+* [ ] Verify `MAS Turret Stern` receives NATO 25×184mm ammunition from utility cargo hold.
 
 ```
 PHASE 10-6 VISUAL MILESTONE · COMPLETE EXPEDITIONARY MINING TRAIN FOB
@@ -6128,6 +6165,7 @@ State Machine: Dynamic Fleet Authority & C2 Handover
 * `MAS Lasers`: 2× Simple Laser Multitools on the tool head.
 * `MAS Batteries`: 6× Large Batteries across Tractor Vault and Utility Sub-Floor (18.0 MWh total).
 * `MAS Doors`: All internal airlock, vault, and inter-carriage gangway sliding doors.
+* `MAS Turrets`: 2× Large Gatling Turrets (`MAS Turret Bow`, `MAS Turret Stern`) + 2× Interior Turrets (`MAS Turret Flank Port`, `MAS Turret Flank Stbd`).
 * `MAS MP Cradle`: 2× Motorized Hinges + 2× Magnetic Plates on the Mule pad.
 * `MAS Displays`: All cockpit telemetry screens and tactical video wall LCDs.
 
@@ -6141,6 +6179,10 @@ State Machine: Dynamic Fleet Authority & C2 Handover
 | Control Station | `MAS Station Fleet` | Station 3 (Stbd) · Tactical Fleet Director · Drone dispatch & C2 |
 | Laser Antenna | `MAS Comm Laser` | 40 km point-to-point line-of-sight data link (L6 mast) |
 | Radio Antenna | `MAS Comm Radio` | 50 km omnidirectional fleet broadcast & heartbeat beacon |
+| Gatling Turret | `MAS Turret Bow` | Carriage 1 dorsal crown CIWS · 360° hemispherical anti-air/ground |
+| Gatling Turret | `MAS Turret Stern` | Carriage 2 stern gantry CIWS · 270° rear hemispherical coverage |
+| Interior Turret | `MAS Turret Flank Port` | Port lower skirt L2 · Anti-personnel / anti-spider perimeter guard |
+| Interior Turret | `MAS Turret Flank Stbd` | Starboard lower skirt L2 · Anti-personnel / anti-spider perimeter guard |
 | AI Move Block | `MAS AI Move` | Autonomous pathfinding & terrain navigation (uncrewed role) |
 | AI Task Block | `MAS AI Task` | Autonomous waypoint execution & ore vein transit |
 | AI Defense Block | `MAS AI Defense` | Threat avoidance · Auto-locks outriggers and stows boom |
@@ -6180,6 +6222,7 @@ State Machine: Dynamic Fleet Authority & C2 Handover
 | Event Controller | `MAS EC Handover` | Monitors Ground Base heartbeat; triggers C2 handover |
 | Event Controller | `MAS EC Power` | Fuel watchdog: auto-starts `MAS Engine H2` on low uranium (< 1.0 kg) |
 | Event Controller | `MAS EC Ice` | Ice intake watchdog: routes raw ice to O2/H2 generators when H2 < 90% |
+| Event Controller | `MAS EC Combat` | Combat alert watchdog · Auto-triggers `RIG.OS.MODE CBT` on damage/target lock |
 
 #### 4. Event Controller Matrix
 | Controller | Monitored Target | Threshold / Condition | Action Slot 1 (On True) | Action Slot 2 (On False) |
@@ -6196,6 +6239,7 @@ State Machine: Dynamic Fleet Authority & C2 Handover
 | `MAS EC Handover` | `GND-01` Heartbeat | Signal Detected | Run PB `RIG//OS-Lite` (Argument: `HANDOVER`) | Maintain Mothership Authority |
 | `MAS EC Power` | `MAS Reactor 1, 2` Uranium | Uranium Mass $< 1.0\text{ kg}$ | `MAS Engine H2` Turn ON · Sound Fuel Horn | `MAS Engine H2` Turn OFF |
 | `MAS EC Ice` | `MAS Tank H2 1, 2` Fill | Hydrogen Fill $< 90\%$ | Enable Ice Conveyor Sorter & O2/H2 Gens | Normal Conveyor Routing |
+| `MAS EC Combat` | Hull Integrity / Target Lock | Damage Detected OR Hostile Lock | Engage `MAS Turrets` · Elevate `RIG.OS.MODE CBT` | Standby Watchkeeping |
 
 #### 5. IGC Channel Subscriptions (Ground Fleet & RIG//OS Bus)
 * Network Beacon: `RIG.C2.HEARTBEAT` (`<origin_id>;<role:MOTHERSHIP|BASE|WORKER>;<gps_coords>`).
@@ -6259,6 +6303,13 @@ State Machine: Dynamic Fleet Authority & C2 Handover
   - Test Mode 3 (Heavy Excavation): Twin reactors active; verify continuous 30 MW supply to boom lasers, outriggers, and workshop.
   - Test Mode 4 (Emergency Failover): Cut uranium; confirm `MAS EC Power` starts `MAS Engine H2` and sheds workshop loads.
   - Test Mode 5 (Shore Power Fast Charge): Connect to external grid; verify batteries switch to 100% recharge rate.
+
+#### H · Perimeter Defense, Combat Alert & Concrete Recycling Acceptance
+* [ ] **Automated Combat Mode Elevate:** Simulate hostile target acquisition or hull damage. Confirm Event Controller `MAS EC Combat` transitions alert status to `RIG.OS.MODE CBT`, powers up all turrets, seals crew airlocks, and sounds internal alarms.
+* [ ] **Bow & Stern CIWS Firing Arcs:** Confirm `MAS Turret Bow` tracks and engages targets across 360° forward/zenith hemisphere without clipping C2 bridge canopy or boom pedestal. Confirm `MAS Turret Stern` provides 270° coverage over aft hemisphere and landing approach.
+* [ ] **Flank Anti-Personnel Coverage:** Verify `MAS Turret Flank Port` and `MAS Turret Flank Stbd` suppress ground-level targets around the boarding ladder and wheel wells.
+* [ ] **Automated Ammo Delivery:** Confirm NATO 25×184mm ammunition pulls automatically from `MAS Hold Components` and `MAS Utility Assembler` through the conveyor spine.
+* [ ] **Concrete Component Recycling (Decision 60):** Laser-mine 50 t stone. Verify gravel byproduct routes into `MAS Utility Assembler`, queued to fabricate `Concrete Components` for Caterpillar roadbed slabs and Ground Base foundation blocks.
 
 
 

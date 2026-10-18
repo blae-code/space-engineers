@@ -72,6 +72,8 @@ Last updated: 2026-10-17
 | 57 | Mastodon MKI 5-Point Immersive Automation Suite (Auto-level jacks, boarding ladder, horizon tool leveling, tailings spreader, anti-jackknife) | 2026-10-18 | CHANGELOG |
 | 58 | Mastodon MKI Tri-Fuel Power Redundancy & Closed-Loop Field Metallurgy Suite (Basic Refinery + Tri-Fuel: Nuclear/Solar/H2E + Watchdogs) | 2026-10-18 | CHANGELOG |
 | 59 | Mastodon MKI Player Circulation, Jefferies Tubes & 18 MWh Hybrid Power Suite (Pressurized walkways, physical ports, 6× BAT 18 MWh, 5 modes) | 2026-10-18 | CHANGELOG |
+| 60 | Concrete Armor Blocks mod added for terrestrial civil infrastructure & gravel recycling (Ground Base, roadbeds) | 2026-10-18 | CHANGELOG |
+| 61 | Mastodon MKI basic perimeter defense baseline (2× Gatling, 2× Interior turrets, CIWS) & Warfare 3 MKII roadmap | 2026-10-18 | CHANGELOG |
 
 ### Open (§10 + mining concept + merge)
 
@@ -127,7 +129,7 @@ TERRESTRIAL MINING (phase 1 scope)
  ├─ Mule (flying cargo ferry, 7×7 B square hull)
  │   ├─ 1 Large Cargo (3×3×3 B), 4 Large Flat Atmo (~650 t ore capacity)
  │   └─ Docks Orca roof MP ↔ Ground Base refinery terminal
- ├─ Mastodon (segmented expeditionary mining train FOB: Tractor/Excavator + Utility Carriage, 45 m boom, Tri-Fuel, 18 MWh Hybrid Power, Jefferies tubes)
+ ├─ Mastodon (segmented expeditionary mining train FOB: Tractor/Excavator + Utility Carriage, 45 m boom, Tri-Fuel, 18 MWh Hybrid Power, CIWS Defense, Warfare 3 baseline)
  ├─ Caterpillar (heavy bulk land train, 5×5 wheeled locomotive + modular hopper cars)
  └─ Ground base (Integrated Gantry, 4 Ref / 4 Asm, C2 Hub, Rig Extruder Shipyard)
 

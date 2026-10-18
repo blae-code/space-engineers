@@ -1,7 +1,7 @@
 // Excavator.Mastodon · Space Engineers 1 MDK2 PB Script
 // Target Blocks: [MAS] PB Excavator & [MAS] PB RIG//OS-Lite
 // Grid: Large Grid Consist (11 × 42 × 6 B · 10 Wheels · 2 Carriages) · Update: Update1 / Update10
-// Subsystem Groups: MAS STAB, MAS BOOM, MAS TOOL, MAS WHEEL, MAS HITCH, MAS COMM, MAS HOLD, MAS MP, MAS DUMP, MAS POWER, MAS REFINERY, MAS BATTERY, MAS DOORS
+// Subsystem Groups: MAS STAB, MAS BOOM, MAS TOOL, MAS WHEEL, MAS HITCH, MAS COMM, MAS HOLD, MAS MP, MAS DUMP, MAS POWER, MAS REFINERY, MAS BATTERY, MAS DOORS, MAS TURRETS
 // IGC Channels: RIG.C2.HEARTBEAT, RIG.C2.HANDOVER, TMS.MAS.STATUS, TMS.MULE.CALL, TMS.CAT.CALL, TMS.SCOUT.VEIN, FLT.MAS.CMD
 // Rule C4: Native blocks provide safety; PB provides decision logic.
 
@@ -229,6 +229,10 @@ namespace IngameScript
             else if (string.Compare(cmd, "REFINERY", StringComparison.OrdinalIgnoreCase) == 0)
             {
                 // Toggle or check MAS Field Refinery in-situ metallurgy state
+            }
+            else if (string.Compare(cmd, "DEFENSE", StringComparison.OrdinalIgnoreCase) == 0 || string.Compare(cmd, "COMBAT", StringComparison.OrdinalIgnoreCase) == 0)
+            {
+                // Toggle or trigger 360-degree CIWS perimeter defense & combat mode
             }
             else if (string.Compare(cmd, "HANDOVER", StringComparison.OrdinalIgnoreCase) == 0)
             {

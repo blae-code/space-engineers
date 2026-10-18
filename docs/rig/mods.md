@@ -74,6 +74,12 @@ Client/HUD rule: keep a mod only if it does something we cannot feasibly do bett
 | Suppress Vanilla Cargo Ships | [888457124](https://steamcommunity.com/sharedfiles/filedetails/?id=888457124) | replaces Keen cargo ships |
 | Suppress Vanilla Encounters | [888457381](https://steamcommunity.com/sharedfiles/filedetails/?id=888457381) | replaces Keen encounters |
 
+### Terrestrial Infrastructure (confined to Ground Base & Caterpillar roadbeds, Decision 60)
+
+| Mod | ID | Note |
+| --- | --- | --- |
+| Concrete Armor Blocks (DX11/PBR) | [303959338](https://steamcommunity.com/sharedfiles/filedetails/?id=303959338) | gravel sink: concrete components for base foundations, landing pads & roadbeds; Rig & fleet craft remain 100% vanilla (C2) |
+
 ### Mechanics
 
 | Mod | ID | Note |
@@ -109,7 +115,7 @@ Client/HUD rule: keep a mod only if it does something we cannot feasibly do bett
 
 **Planet packs:** keep the packs that RSS will use for 3–4 large planets with 1–10 moons each. Candidates (Cloud City set): Ravcor (Another Texture Update) (668429328) · Tohil (2296726670) · Solar System Pack - Part 1 (3376186515) · Planet Silona (2759048529) · Planet Reach: Remastered (2809550063) · Planet Anteros (2907125513) · Object-85 (Weather Update) (1662457289) · Luma (2286318683) · Komorebi (3309805284) · Dusty Desert Planet (584407944) · Demus (1813330640) · Colossus - Black Hole (3256144568) · Cauldron System (3576683005) · Kimi & Qun (2459246911). Pick before building the system; unused packs drop.
 
-Total kept (excluding planet packs): 61.
+Total kept (excluding planet packs): 62.
 
 ## Drop
 

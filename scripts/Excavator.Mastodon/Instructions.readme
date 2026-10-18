@@ -6,7 +6,7 @@
   * `[MAS] PB RIG//OS-Lite` (Fleet Mothership C2, Asset Registry, Ground Base Handover · Update10)
 * **Grid Size:** Large Grid Consist (11 × 42 × 6 B · 10 Wheels · 2 Carriages)
 * **Update Frequency:** `Update1` (Kinematics) / `Update10` (Fleet C2)
-* **Managed Subsystem Groups:** `MAS STAB, MAS BOOM, MAS TOOL, MAS WHEEL, MAS HITCH, MAS COMM, MAS HOLD, MAS MP, MAS DUMP, MAS POWER, MAS REFINERY, MAS BATTERY, MAS DOORS`
+* **Managed Subsystem Groups:** `MAS STAB, MAS BOOM, MAS TOOL, MAS WHEEL, MAS HITCH, MAS COMM, MAS HOLD, MAS MP, MAS DUMP, MAS POWER, MAS REFINERY, MAS BATTERY, MAS DOORS, MAS TURRETS`
 * **IGC Network Channels:**
   * Network C2: `RIG.C2.HEARTBEAT, RIG.C2.HANDOVER`
   * Logistics Outbound: `TMS.MULE.CALL, TMS.CAT.CALL, TMS.MAS.STATUS`
@@ -18,6 +18,7 @@ Controls the MASTODON-01 MKI expeditionary consist and regional fleet orchestrat
 2. **Fleet Mothership Hub (`PB RIG//OS-Lite`):** Regional C2 authority coordinator in survival campaigns prior to Ground Base refinery commissioning. Coordinates subordinate worker excavators (`MAS-02`), dispatches Caterpillar land trains (`CAT-01`) and Mule shuttles (`MUL-01`), tracks ore quotas, and executes seamless dynamic handover to `GND-01` upon Ground Base commissioning.
 3. **Tri-Fuel Power & Field Metallurgy Supervision:** Real-time fuel telemetry across Tier 1 Nuclear (2× Small Reactors), Tier 2 Renewable (4× Solar Panels), and Tier 3 Emergency Hydrogen (1× H2 Engine). Supervised closed-loop field metallurgy (`MAS Field Refinery` + `MAS Utility Assembler`) and automated ice replenishment routing.
 4. **Hybrid Energy Storage & 5-Mode Management:** Monitors 18.0 MWh battery bank (6× Large Batteries) and sequences 5 operational energy modes: Silent Watchkeeping (Eco), Tractive Cruise, Heavy Excavation, Emergency Failover, and Shore Power Fast Recharge.
+5. **Perimeter Defense CIWS & Warfare 3 Baseline:** Coordinates 360° defensive perimeter across 2× Gatling Turrets (`MAS Turret Bow / Stern`) and 2× flank anti-personnel turrets. Integrates automated `RIG.OS.MODE CBT` alert sequencing upon hostile target acquisition or hull damage. Serves as pre-Warfare 3 baseline with architectural upgrade path to MASTODON-02 MKII upon Warfare 3 DLC release.
 
 ## Zero-GC PB Rules
 1. C# 6 only, nested in Program, namespace `IngameScript`.
