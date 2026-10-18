@@ -77,7 +77,7 @@ It is engineered simultaneously for two distinct audiences:
 
 ## Chapter 1 · ORCA-01 Heavy Mining Carrier
 
-Source: `docs/rig/orca-instructions.md` · 17 × 19 × 7 B · Uncrewed Atmo Drone Carrier
+Source: `docs/rig/chapters/orca-instructions.md` · 17 × 19 × 7 B · Uncrewed Atmo Drone Carrier
 
 ### 0 · Reference grid
 
@@ -1462,7 +1462,7 @@ Ladder diagram
 
 ## Chapter 2 · REMORA-01 Vertical Shaft Driller
 
-Source: `docs/rig/remora-instructions.md` · 11 × 11 sb · Small-Grid Vertical Miner (Top-Docking)
+Source: `docs/rig/chapters/remora-instructions.md` · 11 × 11 sb · Small-Grid Vertical Miner (Top-Docking)
 
 ### 0 · Reference Grid & Envelope
 
@@ -2209,7 +2209,7 @@ Tracked in [`docs/rig/verify.md`](file:///home/blae/Documents/Code/space-enginee
 
 ## Chapter 3 · MULE-01 Heavy Freight Shuttle
 
-Source: `docs/rig/mule-instructions.md` · 7 × 7 B · Pure Electric Cargo Ferry (650 t Payload)
+Source: `docs/rig/chapters/mule-instructions.md` · 7 × 7 B · Pure Electric Cargo Ferry (650 t Payload)
 
 ### 0 · Reference Grid & Envelope
 
@@ -2841,7 +2841,7 @@ Tracked in [`docs/rig/verify.md`](file:///home/blae/Documents/Code/space-enginee
 
 ## Chapter 12 · KESTREL-01 Prospector Scout Drone (KES-01)
 
-Source: `docs/rig/kestrel-instructions.md` · 7 × 9 × 5 sb · High-Speed Recon & Ore Prospector
+Source: `docs/rig/chapters/kestrel-instructions.md` · 7 × 9 × 5 sb · High-Speed Recon & Ore Prospector
 
 ### 0 · Reference Grid, In-Game Paint Palette & Drone Envelope
 
@@ -3245,7 +3245,7 @@ Visual Checkpoint Silhouette (Looking Port at Complete Drone):
 
 ## Chapter 13 · ALBATROSS-01 Utility & Field-Repair Craft (ALB-01)
 
-Source: `docs/rig/albatross-instructions.md` · 9 × 11 × 5 sb · Autonomous Field Repair & Component Ferry
+Source: `docs/rig/chapters/albatross-instructions.md` · 9 × 11 × 5 sb · Autonomous Field Repair & Component Ferry
 
 ### 0 · Reference Grid, In-Game Paint Palette & Craft Envelope
 
@@ -4930,7 +4930,7 @@ This volume details the heavy wheeled surface extraction machines that form the 
 
 ## Chapter 10 · MASTODON-01 Heavy Wheeled Excavator
 
-Source: `docs/rig/mastodon-instructions.md` · 11 × 25 × 6 B · Twin 3-DOF Laser Tusks & 10× 5×5 Wheels
+Source: `docs/rig/chapters/mastodon-instructions.md` · 11 × 25 × 6 B · Twin 3-DOF Laser Tusks & 10× 5×5 Wheels
 
 ### 0 · Reference Grid, In-Game Paint Palette & Master Envelope
 
@@ -5639,7 +5639,7 @@ Visual Checkpoint Silhouette (Looking Starboard at Complete Unit):
 
 ## Chapter 11 · CATERPILLAR-01 Land Train (CAT-01)
 
-Source: `docs/rig/caterpillar-instructions.md` · 42 B Length · Articulated Drawbar Hitch & Modular Hoppers
+Source: `docs/rig/chapters/caterpillar-instructions.md` · 42 B Length · Articulated Drawbar Hitch & Modular Hoppers
 
 ### 0 · Reference Grid, In-Game Paint Palette & Consist Envelope
 
