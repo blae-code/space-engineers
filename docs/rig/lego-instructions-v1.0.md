@@ -3,7 +3,7 @@
 ### Version 1.0 · Canon Engineering Specification · Earth 1 g Baseline
 
 Last updated: 2026-10-18
-Authority: Blae Decisions 1-65 (Canon) · `CLAUDE(RIG).md` · `Part 1 & 2 Handoff`
+Authority: Blae Decisions 1-66 (Canon) · `CLAUDE(RIG).md` · `Part 1 & 2 Handoff`
 
 ---
 
@@ -4206,9 +4206,10 @@ Elevation, looking West into C2 Bridge (X = −7, Y = L3-L5):
            ┌─────────────────────────┼─────────────────────────┐
            ▼                         ▼                         ▼
    [DESK 1: AIR OPS]         [DESK 2: GROUND OPS]      [DESK 3: YARD OPS]
-   · Orca carrier leases     · Mastodon tusk CTC       · Extruder pusher sync
-   · Remora shaft status     · Caterpillar routing     · Welder wall status
-   · Mule gantry traffic     · Terminal dump cycling   · Component inventory
+   · Orca carrier leases     · Mastodon 35m boom & CTC · Extruder pusher sync
+   · Remora shaft status     · JIT logistics dispatch  · Welder wall status
+   · Mule gantry traffic     · Caterpillar bulk dump   · Component inventory
+   · Kestrel survey vector   · Pull quotas (TMS.DEMAND)· Rig launch staging
 ```
 
 ┌──────────────────────────────────────────────────────────────────────────────────────┐
@@ -4930,7 +4931,7 @@ This volume details the heavy wheeled surface extraction machines that form the 
 
 ## Chapter 10 · MASTODON-01 Expeditionary Mining Train & Mobile FOB (MAS-01)
 
-Source: `docs/rig/chapters/mastodon-instructions.md` · 11 × 42 × 6 B · 2-Segment Consist, Custom Walk-In Bridge, 35 m Tri-Mode Laser Boom, Closed-Loop Salvage, ULSS Life Support, Failsafe Decoys & Scuttle
+Source: `docs/rig/chapters/mastodon-instructions.md` · 11 × 42 × 6 B · 2-Segment Consist, Custom Walk-In Bridge, 35 m Tri-Mode Laser Boom, Closed-Loop Salvage, ULSS Life Support, Swarm Comms & JIT Logistics
 
 ### 0 · Reference Grid, In-Game Paint Palette & Master Consist Layout
 
@@ -5967,9 +5968,9 @@ STATION 2: EXCAVATION MASTER (`MAS Station Boom`)
 ================================================================================
 STATION 3: TACTICAL FLEET DIRECTOR (`MAS Station Fleet`)
 ================================================================================
-[Hotbar 1 · Logistics Dispatch & Ore Offload Automation]
-· Slot 1: IGC Send: `TMS.MULE.CALL;MAS-01;RARE_ORE` (Call Air Cargo Ferry)
-· Slot 2: IGC Send: `TMS.CAT.CALL;MAS-01;BULK_ORE` (Call Caterpillar Land Train)
+[Hotbar 1 · Predictive JIT Logistics & Offload Automation]
+· Slot 1: PB `[MAS] PB RIG//OS-Lite` -> Run `JIT AIR` (Pre-Dispatch Mule Air Ferry)
+· Slot 2: PB `[MAS] PB RIG//OS-Lite` -> Run `JIT GND` (Pre-Dispatch Caterpillar Train)
 · Slot 3: Connector `MAS MP Conn` -> Lock/Unlock (Mule Roof Pad Connector)
 · Slot 4: Group `MAS MP Clamps` -> Switch Lock (Mule Cradle Rub Rails)
 · Slot 5: Sorter `MAS MP Sorter` -> Drain All ON/OFF (Rare Ore Fast Drain)
@@ -5978,25 +5979,25 @@ STATION 3: TACTICAL FLEET DIRECTOR (`MAS Station Fleet`)
 · Slot 8: Group `MAS Welder Pad Kestrel` -> Power ON/OFF (Drone Repair Welders)
 · Slot 9: Event Controller `MAS EC Handover` -> Trigger C2 Base Handover
 
-[Hotbar 2 · Slave Links & Subordinate Machine Teleoperation]
+[Hotbar 2 · Slave Links, Recon Tasking & Swarm Deconfliction]
 · Slot 1: Remote Control `MAS-02 Remote` -> Control (Subordinate Worker Excavator)
 · Slot 2: Remote Control `CAT-01 Remote` -> Control (Caterpillar Locomotive)
 · Slot 3: Remote Control `KES-01 Remote` -> Control (Kestrel Scout Drone)
 · Slot 4: Remote Control `ALB-01 Remote` -> Control (Albatross Repair Drone)
-· Slot 5: Ore Detector `MAS Ore Detector` -> Range +10 m
-· Slot 6: Ore Detector `MAS Ore Detector` -> Range -10 m
-· Slot 7: PB `[MAS] PB Excavator` -> Run `SEISMIC` (Trigger Voxel Prospecting Pulse)
-· Slot 8: LCD Panel `MAS LCD Video Wall 1` -> Cycle Page
-· Slot 9: LCD Panel `MAS LCD Video Wall 2` -> Cycle Page
+· Slot 5: PB `[MAS] PB RIG//OS-Lite` -> Run `TASK KESTREL` (Vector Scout Survey Sector)
+· Slot 6: PB `[MAS] PB Excavator` -> Run `SEISMIC` (Trigger 500 m Acoustic Voxel Survey)
+· Slot 7: PB `[MAS] PB RIG//OS-Lite` -> Run `CLAIM ZONE` (Broadcast Quarry Exclusion Zone)
+· Slot 8: LCD Panel `MAS LCD Video Wall 1` -> Cycle Page (Fleet Logistics Telemetry)
+· Slot 9: LCD Panel `MAS LCD Video Wall 2` -> Cycle Page (Seismic Survey Map)
 
-[Hotbar 3 · Perimeter CIWS Defense & Alert Status]
+[Hotbar 3 · Perimeter CIWS Defense & Networked Fleet Targeting]
 · Slot 1: Large Gatling Turret `MAS Turret Bow` -> Control (Direct CIWS Aim)
 · Slot 2: Large Gatling Turret `MAS Turret Stern` -> Control (Stern CIWS Aim)
 · Slot 3: Camera `MAS Cam Bow CIWS` -> View
 · Slot 4: Camera `MAS Cam Stern CIWS` -> View
 · Slot 5: Group `MAS Turrets Flank` -> Power ON/OFF (Anti-Personnel Skirt Guns)
-· Slot 6: Group `MAS Turrets All` -> Target Meteors ON/OFF
-· Slot 7: Group `MAS Turrets All` -> Target Hostiles ON/OFF
+· Slot 6: Group `MAS Turrets All` -> Target Hostiles ON/OFF
+· Slot 7: PB `[MAS] PB RIG//OS-Lite` -> Run `TARGET NET` (Synchronize Fleet CIWS Interlock)
 · Slot 8: PB `[MAS] PB RIG//OS-Lite` -> Run `ALERT CBT` (Lockdown / Combat Mode)
 · Slot 9: PB `[MAS] PB RIG//OS-Lite` -> Run `ALERT NORM` (Clear Combat Alert)
 ```
@@ -6676,6 +6677,16 @@ State Machine: Dynamic Fleet Authority & C2 Handover
 * [ ] **Reverse Metallurgy Disassembly Loop:** Queue disassembly of 100 Interior Plates in `MAS Utility Assembler`. Confirm surplus plates are reclaimed into constituent Iron Ingots and transferred into manufacturing stock.
 * [ ] **Scrap Metal Smelting Acceptance:** Route 500 kg Scrap Metal into `MAS Field Refinery`. Confirm refinery consumes 330 kW, melting scrap into pure Iron Ingots to feed ongoing component fabrication.
 * [ ] **35 m Remote Field Fabrication & Structural Welding:** Switch lasers to Mode 3: Fabrication Beam (Welder). Aim boom at projected bridge block girder 30 m across test chasm. Verify remote beam welds block to 100% completion without requiring engineer EVA in hazardous conditions.
+
+#### L · Multi-Tier Fleet Comms, Predictive JIT Logistics & Swarm Synergy Acceptance (Decision 66)
+* [ ] **Predictive JIT Transport Pre-Dispatch:** Mine ore continuously at high rate. Confirm `[MAS] PB Excavator` computes real-time extraction rate (kg/s) and remaining fill time (T_remain). At 75-80% buffer threshold, confirm `RIG//OS-Lite` automatically broadcasts `TMS.LOGISTICS.JIT`, pre-dispatching Mule or Caterpillar so transport touches down precisely as buffers reach 95%, achieving zero-downtime hot extraction.
+* [ ] **Dynamic Logistics Triage Separation:** Load mixed batch containing Uranium and Stone. Confirm rare ores route to `MAS MP Sorter` (roof Mule pad) while stone aggregate routes to `MAS Stern Sorter` (Caterpillar rail dump).
+* [ ] **Two-Tier Prospecting & Acoustic Voxel Scan:** Trigger `TASK KESTREL` via Station 3 Hotbar 2 Slot 5. Verify Kestrel flies grid survey, identifies surface anomaly, and transmits `TMS.SCOUT.VEIN`. Move Mastodon to waypoint; trigger `SEISMIC` (HB2:6); confirm 4× outriggers execute 500 m deep acoustic pulse and transmit 3D vein centroid (`TMS.SEISMIC.SURVEY`) directly into Macro 2 (`BORE`).
+* [ ] **Aerial IGC Line-of-Sight Relay Mesh:** Drive Mastodon into deep crater breaking direct laser line-of-sight to Ground Base. Confirm docked Kestrel launches to 500 m AGL, switches to Relay Mode, and maintains seamless bidirectional IGC packet delivery between Mastodon and Ground Base C2.
+* [ ] **Demand-Driven Pull Mining Protocol:** Simulate Ground Base broadcasting `TMS.BASE.DEMAND;COBALT;5;150000;250000`. Confirm Mastodon C2 automatically filters local survey database for nearest Cobalt vein and highlights target waypoint on Station 3 Tactical Video Wall.
+* [ ] **Multi-Consist Swarm Deconfliction:** Simulate sister excavator `MAS-02` within 200 m radius. Trigger `CLAIM ZONE` (HB2:7); confirm `TMS.ZONE.CLAIM` broadcasts bounding box exclusion zone, preventing boom joint interference during synchronized quarrying.
+* [ ] **Coordinated CIWS Fleet Defense Interlock:** Simulate incoming hostile pirate drone. Confirm `[MAS] PB RIG//OS-Lite` broadcasts `TMS.DEFENSE.TARGET` with threat priority, distributing target tracking between `MAS-01` and `MAS-02` turrets to prevent ammunition waste.
+
 
 
 

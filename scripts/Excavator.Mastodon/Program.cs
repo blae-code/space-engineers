@@ -88,6 +88,15 @@ namespace IngameScript
         int _currentPowerMode = POWER_MODE_CRUISE;
         int _tickCounter;
         bool _outriggersLocked;
+
+        // Decision 66: Predictive JIT Logistics & Fleet Mass Telemetry
+        double _prevCargoMassKg;
+        double _currentCargoMassKg = 0;
+        double _maxCargoMassKg = 2500000; // 2,500 t bulk payload
+        double _extractionRateKgPerSec;
+        double _secondsUntilFull = 9999;
+        bool _jitAirDispatched;
+        bool _jitGndDispatched;
         #endregion
 
         public Program()
@@ -136,7 +145,11 @@ namespace IngameScript
                 _sbEcho.Append("Macro: ").Append(MacroNames[_activeMacro]).Append('\n');
                 _sbEcho.Append("Outriggers: ").Append(_outriggersLocked ? "BEDROCK LOCKED" : "STOWED").Append('\n');
                 _sbEcho.Append("Power: HYBRID 18 MWh (35 MW + 72 MW Peak) · ").Append(PowerModeNames[_currentPowerMode]).Append('\n');
-                _sbEcho.Append("Tick: ");
+                _sbEcho.Append("Rate: ");
+                SbFormat.AppendInt(_sbEcho, (int)_extractionRateKgPerSec);
+                _sbEcho.Append(" kg/s · JIT ETA: ");
+                SbFormat.AppendInt(_sbEcho, (int)_secondsUntilFull);
+                _sbEcho.Append(" s\nTick: ");
                 SbFormat.AppendInt(_sbEcho, _tickCounter);
                 Echo(_sbEcho.ToString());
             }
@@ -146,6 +159,45 @@ namespace IngameScript
         {
             _c2Watchdog.Tick(1.666); // ≈ 100 ticks at 60 Hz
 
+            // Decision 66: Predictive JIT Logistics delta calculation
+            double deltaMass = _currentCargoMassKg - _prevCargoMassKg;
+            _prevCargoMassKg = _currentCargoMassKg;
+            if (deltaMass > 0)
+            {
+                _extractionRateKgPerSec = deltaMass / 1.666;
+                double remainingKg = _maxCargoMassKg - _currentCargoMassKg;
+                _secondsUntilFull = remainingKg / (_extractionRateKgPerSec > 1.0 ? _extractionRateKgPerSec : 1.0);
+            }
+            else
+            {
+                _extractionRateKgPerSec = 0;
+                _secondsUntilFull = 9999;
+            }
+
+            // Auto JIT pre-dispatch when buffer > 75% and time to full < 180s
+            if (_currentCargoMassKg > _maxCargoMassKg * 0.75)
+            {
+                if (!_jitAirDispatched && _secondsUntilFull < 180)
+                {
+                    _jitAirDispatched = true;
+                    _sbIgc.Clear();
+                    _sbIgc.Append("JIT;MAS-01;AIR;120;RARE_ORE;45000");
+                    IGC.SendBroadcastMessage("TMS.LOGISTICS.JIT", _sbIgc.ToString());
+                }
+                if (!_jitGndDispatched && _secondsUntilFull < 300)
+                {
+                    _jitGndDispatched = true;
+                    _sbIgc.Clear();
+                    _sbIgc.Append("JIT;MAS-01;GND;300;BULK_ORE;2500000");
+                    IGC.SendBroadcastMessage("TMS.LOGISTICS.JIT", _sbIgc.ToString());
+                }
+            }
+            else
+            {
+                _jitAirDispatched = false;
+                _jitGndDispatched = false;
+            }
+
             // In Mothership role, emit C2 beacon heartbeat
             if (_currentRole == ROLE_MOTHERSHIP)
             {
@@ -153,6 +205,15 @@ namespace IngameScript
                 _sbIgc.Append("MAS-01;ROLE=MOTHERSHIP;STATUS=ACTIVE");
                 IGC.SendBroadcastMessage("RIG.C2.HEARTBEAT", _sbIgc.ToString());
             }
+
+            // Broadcast live excavator telemetry (TMS.MAS.STATUS)
+            _sbIgc.Clear();
+            _sbIgc.Append(StateNames[_currentState]).Append(';');
+            SbFormat.AppendInt(_sbIgc, (int)_currentCargoMassKg);
+            _sbIgc.Append(';').Append(MacroNames[_activeMacro]).Append(';');
+            SbFormat.AppendInt(_sbIgc, (int)_extractionRateKgPerSec);
+            _sbIgc.Append(';').Append(PowerModeNames[_currentPowerMode]);
+            IGC.SendBroadcastMessage("TMS.MAS.STATUS", _sbIgc.ToString());
         }
 
         void HandleCommand(string argument)
@@ -208,7 +269,58 @@ namespace IngameScript
             }
             else if (string.Compare(cmd, "SEISMIC", StringComparison.OrdinalIgnoreCase) == 0)
             {
-                // Trigger acoustic subsurface survey pulse
+                // Trigger acoustic subsurface survey pulse: SURVEY;<grid_id>;<depth>;<type>;<centroid>;<volume>
+                _sbIgc.Clear();
+                _sbIgc.Append("SURVEY;MAS-01;45;URANIUM;GPS:Centroid:1200:340:560:#FF0000:;8500");
+                IGC.SendBroadcastMessage("TMS.SEISMIC.SURVEY", _sbIgc.ToString());
+            }
+            else if (string.Compare(cmd, "JIT", StringComparison.OrdinalIgnoreCase) == 0)
+            {
+                // Predictive JIT Logistics dispatch trigger: JIT;<grid>;<AIR|GND>;<eta>;<ore>;<mass>
+                _sbIgc.Clear();
+                if (_args.Count > 1 && string.Compare(_args[1], "AIR", StringComparison.OrdinalIgnoreCase) == 0)
+                {
+                    _jitAirDispatched = true;
+                    _sbIgc.Append("JIT;MAS-01;AIR;120;RARE_ORE;45000");
+                }
+                else
+                {
+                    _jitGndDispatched = true;
+                    _sbIgc.Append("JIT;MAS-01;GND;300;BULK_ORE;2500000");
+                }
+                IGC.SendBroadcastMessage("TMS.LOGISTICS.JIT", _sbIgc.ToString());
+            }
+            else if (string.Compare(cmd, "TASK", StringComparison.OrdinalIgnoreCase) == 0)
+            {
+                // Vector prospector drone to survey sector: TASK;<drone>;<pattern>;<center>;<radius>;<priority_ore>
+                _sbIgc.Clear();
+                _sbIgc.Append("TASK;KES-01;CONE;GPS:Sector-Alpha:0:0:0:#FF0000:;2500;URANIUM");
+                IGC.SendBroadcastMessage("TMS.SCOUT.TASK", _sbIgc.ToString());
+            }
+            else if (string.Compare(cmd, "CLAIM", StringComparison.OrdinalIgnoreCase) == 0 || string.Compare(cmd, "ZONE", StringComparison.OrdinalIgnoreCase) == 0)
+            {
+                // Multi-rig quarry exclusion zone broadcast: ZONE;<grid>;<state>;<min_gps>;<max_gps>;<macro>
+                _sbIgc.Clear();
+                _sbIgc.Append("ZONE;MAS-01;ACTIVE;GPS:Min:-50:-50:0:#FF0000:;GPS:Max:50:50:50:#FF0000:;BENCH_QUARRY");
+                IGC.SendBroadcastMessage("TMS.ZONE.CLAIM", _sbIgc.ToString());
+            }
+            else if (string.Compare(cmd, "TARGET", StringComparison.OrdinalIgnoreCase) == 0)
+            {
+                // Distributed CIWS defense target assignment: ENGAGE;<target_id>;<gps>;<threat>;<assigned_grid>
+                _sbIgc.Clear();
+                _sbIgc.Append("ENGAGE;TG-9901;GPS:Hostile:100:200:300:#FF0000:;HIGH;MAS-01");
+                IGC.SendBroadcastMessage("TMS.DEFENSE.TARGET", _sbIgc.ToString());
+            }
+            else if (string.Compare(cmd, "CONVOY", StringComparison.OrdinalIgnoreCase) == 0)
+            {
+                // Synchronize trailing Caterpillar land train: CONVOY;<lead_id>;<speed_ms>;<heading_deg>;<ejector_active>
+                _sbIgc.Clear();
+                _sbIgc.Append("CONVOY;MAS-01;0.55;0.0;True");
+                IGC.SendBroadcastMessage("TMS.CONVOY.SYNC", _sbIgc.ToString());
+            }
+            else if (string.Compare(cmd, "DEMAND", StringComparison.OrdinalIgnoreCase) == 0)
+            {
+                // Process refinery pull-economy demand broadcast from Ground Base (TMS.BASE.DEMAND)
             }
             else if (string.Compare(cmd, "LIGHTS", StringComparison.OrdinalIgnoreCase) == 0)
             {

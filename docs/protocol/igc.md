@@ -2,7 +2,7 @@
 
 Project-wide communication standard, channel namespaces, and payload schemas for the Space Engineers 1 **Floating Rig / RIG//OS** and **Terrestrial Logistics Fleet**.
 
-Authority: Blae Decisions 8, 38, 42, 53, 54 (Canon) · `CLAUDE(RIG).md` §8 Phase 4 · `docs/rig/lego-instructions-v1.0.md`
+Authority: Blae Decisions 8, 38, 42, 53, 54, 56, 62, 63, 65, 66 (Canon) · `CLAUDE(RIG).md` §8 Phase 4 · `docs/rig/lego-instructions-v1.0.md`
 
 ---
 
@@ -50,11 +50,18 @@ Autonomous operations across moving atmospheric carriers (Orca), vertical miners
 | `TMS.MULE.CALL` | Orca / Base -> Mule | `CALL;<requesting_grid>;<target_pad>;<priority>;<payload_type>` | Dispatches an available Mule shuttle to a specific touchdown gantry pad. |
 | `TMS.SCOUT.VEIN` | Kestrel -> Base / C2 | `VEIN;<ore_type>;<gps_x>;<gps_y>;<gps_z>;<est_depth_m>` | Broadcasts verified ore vein coordinates discovered by prospector drones. |
 | `TMS.SCOUT.STATUS` | Kestrel -> Base / Orca | `<state>;<battery_pct>;<scan_radius_m>;<current_waypoint>` | Prospector operational telemetry during geological survey passes. |
+| `TMS.SCOUT.TASK` | Mastodon / Base -> Kestrel | `TASK;<drone_id>;<pattern:GRID\|CONE>;<gps_center>;<radius_m>;<priority_ore>` | Vectors prospector scout to high-probability geological survey sectors. |
+| `TMS.SEISMIC.SURVEY` | Mastodon -> Base / Fleet | `SURVEY;<grid_id>;<depth_m>;<vein_type>;<centroid_gps>;<volume_m3>` | Shares 3D subterranean deposit geometry mapped by acoustic outriggers. |
 | `TMS.REPAIR.CALL` | Any Craft -> Albatross | `REPAIR;<grid_name>;<gps_x>;<gps_y>;<gps_z>;<damage_pct>;<severity>` | Emergency SOS call requesting automated field repair and welding dispatch. |
 | `TMS.REPAIR.STATUS` | Albatross -> Base / C2 | `<state>;<target_grid>;<parts_hold_pct>;<eta_sec>` | Field repair craft task status (`DISPATCHED`, `WELDING`, `RETURNING`). |
 | `TMS.BASE.QUOTAS` | Base C2 -> Yard / Fleet | `QUOTA;<steel_plates>;<motors>;<tubes>;<computers>;<h2_liters>` | Ground Base component manufacturing thresholds and material reserves. |
-| `TMS.MAS.STATUS` | Mastodon -> Base / Cat | `<state>;<cargo_kg>;<tusk_sweep_pct>;<wheel_speed_ms>` | Heavy wheeled excavator payload and 3-DOF trench carving telemetry. |
+| `TMS.BASE.DEMAND` | Base C2 -> Fleet | `DEMAND;<ore_type>;<priority:1..5>;<deficit_kg>;<target_stock_kg>` | Drives pull-economy quarry tasking based on live refinery consumption. |
+| `TMS.LOGISTICS.JIT` | Mastodon -> Mule / Cat | `JIT;<requesting_grid>;<tier:AIR\|GND>;<eta_target_sec>;<ore_type>;<est_mass_kg>` | Pre-dispatches transport in advance of buffer saturation (zero excavator idle). |
+| `TMS.MAS.STATUS` | Mastodon -> Base / Fleet | `<state>;<cargo_kg>;<active_macro>;<rate_kg_s>;<power_mode>` | Heavy excavator payload, extraction rate, macro, and power state telemetry. |
 | `TMS.CAT.STATUS` | Caterpillar -> Base / C2 | `<state>;<cargo_kg>;<consist_length_b>;<dump_ready_bool>` | Land train consist status, drawbar articulation, and dump queue readiness. |
+| `TMS.CONVOY.SYNC` | Mastodon -> Caterpillar | `CONVOY;<lead_id>;<speed_ms>;<heading_deg>;<ejector_active_bool>` | Synchronizes Caterpillar trailing speed behind Mastodon roadbed spreader. |
+| `TMS.ZONE.CLAIM` | Mastodon -> Peer Mastodons | `ZONE;<grid_id>;<state>;<gps_bounding_min>;<gps_bounding_max>;<macro_mode>` | Deconflicts heavy excavation envelopes in multi-rig quarry operations. |
+| `TMS.DEFENSE.TARGET` | Tactical Lead -> Fleet CIWS | `ENGAGE;<target_entity_id>;<target_gps>;<threat_level:LOW\|MED\|HIGH>;<assigned_grid>` | Distributes anti-air and counter-missile defense targets across consist turrets. |
 
 ---
 

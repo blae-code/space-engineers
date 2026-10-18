@@ -553,9 +553,10 @@ Elevation, looking West into C2 Bridge (X = −7, Y = L3-L5):
            ┌─────────────────────────┼─────────────────────────┐
            ▼                         ▼                         ▼
    [DESK 1: AIR OPS]         [DESK 2: GROUND OPS]      [DESK 3: YARD OPS]
-   · Orca carrier leases     · Mastodon tusk CTC       · Extruder pusher sync
-   · Remora shaft status     · Caterpillar routing     · Welder wall status
-   · Mule gantry traffic     · Terminal dump cycling   · Component inventory
+   · Orca carrier leases     · Mastodon 35m boom & CTC · Extruder pusher sync
+   · Remora shaft status     · JIT logistics dispatch  · Welder wall status
+   · Mule gantry traffic     · Caterpillar bulk dump   · Component inventory
+   · Kestrel survey vector   · Pull quotas (TMS.DEMAND)· Rig launch staging
 ```
 
 ┌──────────────────────────────────────────────────────────────────────────────────────┐

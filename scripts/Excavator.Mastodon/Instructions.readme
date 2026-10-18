@@ -9,8 +9,9 @@
 * **Managed Subsystem Groups:** `MAS STAB, MAS BOOM, MAS TOOL, MAS WHEEL, MAS HITCH, MAS COMM, MAS HOLD, MAS MP, MAS DUMP, MAS POWER, MAS REFINERY, MAS BATTERY, MAS DOORS, MAS TURRETS, MAS WELDERS, MAS LIGHTS, MAS SEISMIC, MAS CLAMP, MAS DECOY, MAS AIRLOCK, MAS LIFE, MAS SCUTTLE, MAS BP, MAS PROJECTOR`
 * **IGC Network Channels:**
   * Network C2: `RIG.C2.HEARTBEAT, RIG.C2.HANDOVER`
-  * Logistics Outbound: `TMS.MULE.CALL, TMS.CAT.CALL, TMS.MAS.STATUS`
-  * Inbound Fleet Bus: `TMS.SCOUT.VEIN, TMS.CAT.STATUS, FLT.MAS.CMD`
+  * Logistics Outbound: `TMS.MULE.CALL, TMS.CAT.CALL, TMS.MAS.STATUS, TMS.LOGISTICS.JIT, TMS.CONVOY.SYNC`
+  * Inbound Fleet Bus: `TMS.SCOUT.VEIN, TMS.CAT.STATUS, FLT.MAS.CMD, TMS.BASE.DEMAND`
+  * Swarm & Defense Mesh: `TMS.SCOUT.TASK, TMS.SEISMIC.SURVEY, TMS.ZONE.CLAIM, TMS.DEFENSE.TARGET`
 
 ## System Description
 Controls the MASTODON-01 MKI expeditionary consist and regional fleet orchestration:
@@ -23,6 +24,7 @@ Controls the MASTODON-01 MKI expeditionary consist and regional fleet orchestrat
 7. **Extraction Arm Travel Stow & Target-Centric Vertical Column Bore (Decision 63):** 14-block straight spine stow along dorsal trough (`STOW` / `DEPLOY`) locking into `MAS Clamp Boom Stow` (`[X0, Z -7, L4]`) at 5.2 m transit height. Centerline mounting provides symmetrical 21.25 m physical flank reach beyond tires. 90° downward elbow tool adapter locks drills in true vertical orientation `[0, -1, 0]` across 6.0 m to 35.0 m reach envelope. Target-centric column bore macro (`BORE <GPS>`) executes 2D lateral translation and plunge centered on target vein coordinates.
 8. **Custom Walk-In Bridge, ULSS & Emergency Survivability Suite (Decision 64):** Replaces cockpit with custom walk-in bridge (3× 1×1×1 control stations at L4, panoramic glass canopy, 3-page hotbars). Universal life support (ULSS) with 200,000 L O2 bank, quarantined 15,000 L ice hold, 2× cryo pods, and 4-zone hermetic isolation. Native block failsafes (Rule C4): 3× armored decoys, pyrotechnic hitch severing merge block (`HITCH DECOUPLE`), 2× keel recovery gyros, armored black box 50 km SOS beacon, Genesis self-repair projector, 2× anti-capture scuttle warheads (60 s countdown loop), and 6× in-situ Sci-Fi 4-Button Panels.
 9. **Tri-Mode Multitool Salvage & Remote Welding Suite (Decision 65):** ToolCore tri-mode operation across Mining (Drill), Salvage (Grinder / 15-30 m standoff deconstruction with 100% component retention), and Fabrication (Welder / 35 m remote engineering). Macro 5 Wreck Deconstruction (`MACRO_SALVAGE`) executes automated planar raster sweeps (ΔY, ΔX) across target structures. Supervised closed-loop recycling circuit routing components to `MAS Hold Components`, scrap metal to `MAS Field Refinery`, and surplus disassembly in `MAS Utility Assembler`.
+10. **Multi-Tier Fleet Comms, Predictive JIT Logistics & Swarm Synergy (Decision 66):** Real-time mass tracking (ΔMass / Δt) pre-dispatches transports at 75-80% capacity (`TMS.LOGISTICS.JIT`). Dual-tier logistics triage (roof Mule pad vs stern Caterpillar dump). Directed scout tasking (`TMS.SCOUT.TASK`), acoustic subsurface pulse telemetry (`TMS.SEISMIC.SURVEY`), aerial IGC relay mesh over Kestrel, pull-based demand mining (`TMS.BASE.DEMAND`), multi-consist quarry exclusion zones (`TMS.ZONE.CLAIM`), and synchronized fleet CIWS targeting (`TMS.DEFENSE.TARGET`).
 
 ## Zero-GC PB Rules
 1. C# 6 only, nested in Program, namespace `IngameScript`.

@@ -78,6 +78,7 @@ Last updated: 2026-10-17
 | 63 | Mastodon MKI Extraction Arm Kinematics & Travel Stow Architecture (Centerline turntable, 21.25 m flank reach, rigid spine stow, 90° tool elbow, target-centric column boring) | 2026-10-18 | CHANGELOG |
 | 64 | Mastodon MKI Custom Walk-In Bridge, Universal Life Support (ULSS) & Emergency Failsafes (Decoys, hitch sever, black box SOS, self-repair projector, scuttle) | 2026-10-18 | CHANGELOG |
 | 65 | Mastodon MKI Tri-Mode Multitool Salvage, Recycling & Remote Fabrication (ToolCore tri-mode laser: mining/salvage/weld, closed-loop recycling, Macro 5 deconstruct) | 2026-10-18 | CHANGELOG |
+| 66 | Mastodon MKI Multi-Tier Fleet Comms, JIT Logistics & Swarm Synergy (Predictive JIT transport call, pull economy, aerial IGC relay, swarm quarrying, CIWS net) | 2026-10-18 | CHANGELOG |
 
 ### Open (§10 + mining concept + merge)
 
@@ -133,7 +134,7 @@ TERRESTRIAL MINING (phase 1 scope)
  ├─ Mule (flying cargo ferry, 7×7 B square hull)
  │   ├─ 1 Large Cargo (3×3×3 B), 4 Large Flat Atmo (~650 t ore capacity)
  │   └─ Docks Orca roof MP ↔ Ground Base refinery terminal
- ├─ Mastodon (segmented expeditionary mining train FOB: Tractor/Excavator + Utility Carriage, custom walk-in bridge, 35 m tri-mode laser boom, closed-loop salvage recycling, ULSS life support, failsafe decoys & scuttle)
+ ├─ Mastodon (segmented expeditionary mining train FOB: Tractor/Excavator + Utility Carriage, custom walk-in bridge, 35 m tri-mode laser boom, closed-loop salvage recycling, JIT logistics & multi-fleet swarm comms, ULSS life support, failsafe decoys & scuttle)
  ├─ Caterpillar (heavy bulk land train, 5×5 wheeled locomotive + modular hopper cars)
  └─ Ground base (Integrated Gantry, 4 Ref / 4 Asm, C2 Hub, Rig Extruder Shipyard)
 
