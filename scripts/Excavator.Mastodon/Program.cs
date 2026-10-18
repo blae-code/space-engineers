@@ -1,8 +1,8 @@
 // Excavator.Mastodon · Space Engineers 1 MDK2 PB Script
 // Target Blocks: [MAS] PB Excavator & [MAS] PB RIG//OS-Lite
 // Grid: Large Grid Consist (11 × 42 × 6 B · 10 Wheels · 2 Carriages) · Update: Update1 / Update10
-// Subsystem Groups: MAS STAB, MAS BOOM, MAS TOOL, MAS WHEEL, MAS HITCH, MAS COMM, MAS HOLD, MAS MP, MAS DUMP, MAS POWER, MAS REFINERY, MAS BATTERY, MAS DOORS, MAS TURRETS, MAS WELDERS, MAS LIGHTS, MAS SEISMIC, MAS CLAMP, MAS DECOY, MAS AIRLOCK, MAS LIFE, MAS SCUTTLE, MAS BP, MAS PROJECTOR
-// IGC Channels: RIG.C2.HEARTBEAT, RIG.C2.HANDOVER, TMS.MAS.STATUS, TMS.MULE.CALL, TMS.CAT.CALL, TMS.SCOUT.VEIN, FLT.MAS.CMD
+// Subsystem Groups: MAS STAB, MAS BOOM, MAS TOOL, MAS WHEEL, MAS HITCH, MAS COMM, MAS HOLD, MAS MP, MAS DUMP, MAS POWER, MAS REFINERY, MAS BATTERY, MAS DOORS, MAS TURRETS, MAS WELDERS, MAS LIGHTS, MAS SEISMIC, MAS CLAMP, MAS DECOY, MAS AIRLOCK, MAS LIFE, MAS SCUTTLE, MAS BP, MAS PROJECTOR, MAS HITCH CLAMPS, MAS OUTRIGGERS UTILITY, MAS DPU, MAS FOB
+// IGC Channels: RIG.C2.HEARTBEAT, RIG.C2.HANDOVER, TMS.MAS.STATUS, TMS.MULE.CALL, TMS.CAT.CALL, TMS.SCOUT.VEIN, FLT.MAS.CMD, TMS.CONSIST.SYNC, TMS.CONSIST.TRACTION, TMS.CONSIST.SEVER
 // Rule C4: Native blocks provide safety; PB provides decision logic.
 
 using System;
@@ -97,6 +97,12 @@ namespace IngameScript
         double _secondsUntilFull = 9999;
         bool _jitAirDispatched;
         bool _jitGndDispatched;
+
+        // Decision 67: Consist Mechanics, 3-Axis Hitch, DPU & FOB Autonomy
+        bool _hitchClampsEngaged;
+        bool _dpuPushActive;
+        bool _utilityOutriggersLocked;
+        bool _sternDockExtended;
         #endregion
 
         public Program()
@@ -143,7 +149,11 @@ namespace IngameScript
                 _sbEcho.Append("Role: ").Append(RoleNames[_currentRole]).Append('\n');
                 _sbEcho.Append("State: ").Append(StateNames[_currentState]).Append('\n');
                 _sbEcho.Append("Macro: ").Append(MacroNames[_activeMacro]).Append('\n');
-                _sbEcho.Append("Outriggers: ").Append(_outriggersLocked ? "BEDROCK LOCKED" : "STOWED").Append('\n');
+                _sbEcho.Append("Outriggers: ").Append(_outriggersLocked ? "BEDROCK LOCKED" : "STOWED");
+                _sbEcho.Append(" · Rear: ").Append(_utilityOutriggersLocked ? "LOCKED" : "STOWED").Append('\n');
+                _sbEcho.Append("Hitch: ").Append(_hitchClampsEngaged ? "CLAMPED" : "FLEX_3AXIS");
+                _sbEcho.Append(" · DPU: ").Append(_dpuPushActive ? "PUSH_ACTIVE" : "COAST");
+                _sbEcho.Append(" · Dock: ").Append(_sternDockExtended ? "EXTENDED" : "RETRACTED").Append('\n');
                 _sbEcho.Append("Power: HYBRID 18 MWh (35 MW + 72 MW Peak) · ").Append(PowerModeNames[_currentPowerMode]).Append('\n');
                 _sbEcho.Append("Rate: ");
                 SbFormat.AppendInt(_sbEcho, (int)_extractionRateKgPerSec);
@@ -231,11 +241,13 @@ namespace IngameScript
             {
                 _currentState = STATE_ANCHORING;
                 _outriggersLocked = true;
+                _utilityOutriggersLocked = true;
             }
             else if (string.Compare(cmd, "UNSTABILIZE", StringComparison.OrdinalIgnoreCase) == 0)
             {
                 _currentState = STATE_RETRACTING;
                 _outriggersLocked = false;
+                _utilityOutriggersLocked = false;
                 _activeMacro = MACRO_NONE;
             }
             else if (string.Compare(cmd, "MACRO", StringComparison.OrdinalIgnoreCase) == 0 && _args.Count > 1)
@@ -387,9 +399,59 @@ namespace IngameScript
             {
                 // Toggle or trigger 360-degree CIWS perimeter defense & combat mode
             }
+            else if (string.Compare(cmd, "OUTRIGGERS", StringComparison.OrdinalIgnoreCase) == 0)
+            {
+                if (_args.Count > 1 && (string.Compare(_args[1], "REAR", StringComparison.OrdinalIgnoreCase) == 0 || string.Compare(_args[1], "UTILITY", StringComparison.OrdinalIgnoreCase) == 0))
+                {
+                    _utilityOutriggersLocked = !_utilityOutriggersLocked;
+                }
+                else
+                {
+                    _outriggersLocked = !_outriggersLocked;
+                    _utilityOutriggersLocked = _outriggersLocked;
+                }
+            }
+            else if (string.Compare(cmd, "HITCH", StringComparison.OrdinalIgnoreCase) == 0)
+            {
+                if (_args.Count > 1 && string.Compare(_args[1], "CLAMP", StringComparison.OrdinalIgnoreCase) == 0)
+                    _hitchClampsEngaged = true;
+                else if (_args.Count > 1 && string.Compare(_args[1], "UNCLAMP", StringComparison.OrdinalIgnoreCase) == 0)
+                    _hitchClampsEngaged = false;
+                else
+                    _hitchClampsEngaged = !_hitchClampsEngaged;
+
+                _sbIgc.Clear();
+                _sbIgc.Append("SYNC;MAS-01;HITCH;CLAMP=").Append(_hitchClampsEngaged ? "TRUE" : "FALSE");
+                IGC.SendBroadcastMessage("TMS.CONSIST.SYNC", _sbIgc.ToString());
+            }
+            else if (string.Compare(cmd, "DPU", StringComparison.OrdinalIgnoreCase) == 0)
+            {
+                if (_args.Count > 1 && (string.Compare(_args[1], "PUSH", StringComparison.OrdinalIgnoreCase) == 0 || string.Compare(_args[1], "ON", StringComparison.OrdinalIgnoreCase) == 0))
+                    _dpuPushActive = true;
+                else if (_args.Count > 1 && (string.Compare(_args[1], "COAST", StringComparison.OrdinalIgnoreCase) == 0 || string.Compare(_args[1], "OFF", StringComparison.OrdinalIgnoreCase) == 0))
+                    _dpuPushActive = false;
+                else
+                    _dpuPushActive = !_dpuPushActive;
+
+                _sbIgc.Clear();
+                _sbIgc.Append("DPU;").Append(_dpuPushActive ? "PUSH;100;0;0" : "COAST;0;0;0");
+                IGC.SendBroadcastMessage("TMS.CONSIST.TRACTION", _sbIgc.ToString());
+            }
+            else if (string.Compare(cmd, "DOCK", StringComparison.OrdinalIgnoreCase) == 0)
+            {
+                if (_args.Count > 1 && string.Compare(_args[1], "EXTEND", StringComparison.OrdinalIgnoreCase) == 0)
+                    _sternDockExtended = true;
+                else if (_args.Count > 1 && string.Compare(_args[1], "RETRACT", StringComparison.OrdinalIgnoreCase) == 0)
+                    _sternDockExtended = false;
+                else
+                    _sternDockExtended = !_sternDockExtended;
+            }
             else if (string.Compare(cmd, "DECOUPLE", StringComparison.OrdinalIgnoreCase) == 0 || string.Compare(cmd, "SEVER", StringComparison.OrdinalIgnoreCase) == 0)
             {
                 // Trigger pyrotechnic drawbar severance (MAS Hitch Sever Tongue merge block disengage)
+                _sbIgc.Clear();
+                _sbIgc.Append("SEVER;MAS-01-T;NORMAL;FALSE");
+                IGC.SendBroadcastMessage("TMS.CONSIST.SEVER", _sbIgc.ToString());
             }
             else if (string.Compare(cmd, "SCUTTLE", StringComparison.OrdinalIgnoreCase) == 0)
             {

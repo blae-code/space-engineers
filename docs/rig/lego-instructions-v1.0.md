@@ -3,7 +3,7 @@
 ### Version 1.0 · Canon Engineering Specification · Earth 1 g Baseline
 
 Last updated: 2026-10-18
-Authority: Blae Decisions 1-66 (Canon) · `CLAUDE(RIG).md` · `Part 1 & 2 Handoff`
+Authority: Blae Decisions 1-67 (Canon) · `CLAUDE(RIG).md` · `Part 1 & 2 Handoff`
 
 ---
 
@@ -5122,17 +5122,19 @@ Bow     │ 2-Seat Panoramic Cockpit  Nuclear Core                              
 | **Tractor Power Core** | 2× Small Nuclear Reactors, 1× Hydrogen Engine, 3× Large Batteries (Palette 6) | 6 | 31.6 t | 730 |
 | **Articulated Boom & Crane** | 2× Adv Rotors, 3× Motor Hinges, 2× Lasers, 1× Crane Grapple, 1× Stow Clamp, 1× 90° Tool Elbow, Girders, Spotlights (Palette 3) | 23 | 39.6 t | 1,020 |
 | **Armored Bridge & C2** | 3× Control Stations, 2× PBs, Laser Antenna, Glass, Ore Detector, 1× Scuttle Warhead, 1× Timer, 2× Button Panels | 23 | 16.2 t | 470 |
-| **Drawbar Hitch & Severance** | 1× Adv Rotor, 1× Motor Hinge, 1× Merge Block (Hitch Sever Tongue), Heavy Armor Joint Blocks | 7 | 13.5 t | 235 |
-| **Utility Carriage Hull** | Heavy armor frames, wheel wells, deck armor (Palette 0) | 360 | 306.0 t | 360 |
-| **Utility Powertrain** | 4× 5×5 Heavy Suspension Wheels (Axles 4-5) | 4 | 32.0 t | 400 |
+| **Drawbar Hitch & 3-Axis Gimbal** | 2× Adv Rotors (Yaw/Roll), 1× Motor Hinge (Pitch), 1× Merge Block (Hitch Sever Tongue), 2× Mag Clamps, 1× Mag Capture Plate, Guide Horns (Palette 2) | 11 | 23.0 t | 635 |
+| **Utility Carriage Hull & Ballast** | Heavy armor frames, wheel wells, deck armor, 40× Sub-Floor Ballast Skids (Palette 0) | 400 | 426.0 t | 400 |
+| **Utility Powertrain & DPU** | 4× 5×5 Heavy Suspension Wheels (Axles 4-5) with DPU traction | 4 | 32.0 t | 400 |
 | **Utility Sub-Floor Battery Vault** | 3× Large Batteries (9.0 MWh, Palette 6) | 3 | 13.5 t | 120 |
-| **Interior Walkways & Decoys** | Grated catwalks, sliding doors, ladder runs, interior lights, 3× Armored Decoys, 2× Keel Recovery Gyros (Palette 9) | 30 | 18.0 t | 240 |
+| **Interior Walkways, Decoys & Airlocks** | Grated catwalks, 2× Hermetic Gangway Airlocks, sliding doors, ladder runs, interior lights, 3× Armored Decoys, 2× Keel Recovery Gyros (Palette 9) | 30 | 18.0 t | 240 |
 | **Field Workshop & Universal Life Support** | 1× Basic Refinery, 1× Large Assembler, 1× Medical Room, 2× Cryo Pods, 1× Survival Kit, 2× Large O2 Tanks, 1× Quarantined Ice Hold, 2× Large H2 Tanks, 2× O2/H2 Gens, 6× Air Vents, 1× Master Projector, 1× Scuttle Warhead | 22 | 68.2 t | 815 |
-| **Utility Cargo Hold** | 1× Large Cargo Container (Components), Conveyor network | 16 | 28.0 t | 160 |
-| **Flight Decks, Welders & Solar** | 1× Mule Pad, 2× Kestrel Pads, 2× Drone Welders, Stern Dump, 4× Solar Panels, 4× Floodlights | 68 | 61.6 t | 980 |
+| **Utility Cargo Hold & Logistics Feed** | 1× Large Cargo Container (Components), 2× Munitions Sorters (`MAS Sorter Ammo Fwd / Parts Aft`), Conveyor network | 18 | 29.0 t | 210 |
+| **Flight Decks, Welders & Solar** | 1× Mule Pad, 2× Kestrel Pads, 2× Drone Welders, 4× Solar Panels, 4× Floodlights | 67 | 61.1 t | 970 |
+| **Stern Stabilizers, Telescoping Dock & Dump** | 2× Large Outrigger Pistons + 2× Mag Feet (`MAS Outrigger Utility`), 1× Telescoping Dock Piston (`MAS Piston Stern Dock`), Stern Dump Connector & Sorter, Relocated Tailings Ejector | 7 | 14.5 t | 510 |
+| **Utility FOB Autonomy & Deadman Brake** | 1× PB (`[MAS-U] PB Utility`), 1× Remote Control (`MAS-U Remote FOB`), 1× Event Controller (`MAS-U EC Breakaway`), 2× Keel Mag Skids (`MAS Utility Brake Keel 1, 2`) | 5 | 4.0 t | 350 |
 | **Perimeter Defense Suite** | 2× Gatling Turrets, 2× Interior Turrets, Ammunition Conveyor Feeds (Palette 7) | 12 | 9.6 t | 308 |
 | **External EVA, Lights & Failsafes** | 2× Ground EVA Lockers, 3× Keel Lights, 1× Black Box SOS Beacon & Isolated Battery, 4× In-Situ Button Panels (Palette 9) | 11 | 2.5 t | 110 |
-| **TOTAL CONSIST (DRY)** | Complete Expeditionary Mining Locomotive & Mobile FOB | **1,039** | **≈ 978.5 t** | **7,198** |
+| **TOTAL CONSIST (DRY)** | Complete Expeditionary Mining Locomotive & Mobile FOB | **1,095** | **≈ 1,124.0 t** | **8,538** |
 
 ---
 
@@ -5207,7 +5209,7 @@ The current **MASTODON-01 MKI** design establishes a combat-capable survival bas
 ### Phase 10-1 · Tractor Chassis & 6-Wheel Powertrain (Levels L1-L2)
 
 ```
-       [PHASE 10-1 SPATIAL LOCATOR HUD]
+       [PHASE 10-1 MASTER SPATIAL LOCATOR HUD]
        Envelope: 11 W × 20 L × 2 H B (27.5 × 50.0 × 5.0 m)
        Coordinate Range: X −5 to +5, Z −8 to +12, Y = L1 to L2
        Key Datums:
@@ -5219,94 +5221,252 @@ The current **MASTODON-01 MKI** design establishes a combat-capable survival bas
        · Outrigger Piston Sockets: [X ±5, Z +11] and [X ±5, Z −6]
 ```
 
-#### Pre-Step Parts Tray: Phase 10-1
+#### Pre-Step Master Parts Tray: Phase 10-1
 * 240× Heavy Armor Full Block (Palette 0: Industrial Dark Gray)
-* 80× Heavy Armor Slope / Corner Blocks (Palette 0)
+* 60× Heavy Armor Half-Slope Block (Palette 0)
+* 20× Heavy Armor Half Block (Palette 0)
 * 6× Wheel Suspension 5×5 (3 Port, 3 Starboard)
-* 24× Large Conveyor Pipe (Palette 4: Processing Teal)
-* 6× Large Conveyor Junction (Palette 4)
-* 4× Large Piston (Palette 1: Hazard Amber)
-* 4× Large Magnetic Plate (Palette 9: High-Viz Safety Yellow)
+* 16× Large Conveyor Pipe (Palette 4: Processing Teal)
+* 5× Large Conveyor Junction (Palette 4: Processing Teal)
+* 1× Large Conveyor Sorter (Palette 4: Processing Teal)
+* 2× Conveyor Ejector / Connector (Palette 4: Processing Teal)
+* 2× Curved Conveyor Tube (Palette 4: Processing Teal)
 
 ---
 
-#### Step 10.1 · Twin Longitudinal Chassis Box Girders & Belly Skids (L1-L2)
+#### Step 10.1 · Twin Longitudinal Chassis Box Girders & Transverse Ties (L2)
 
-Weld two continuous, reinforced heavy-armor box girders spanning 20 blocks from Aft Bulkhead (Z −8) to Bow Bulkhead (Z +12) at X = ±3. Connect them with transverse beam ties at each axle datum to form the central conveyor raceway channel:
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ [LOCATOR] Subsystem: Tractor Chassis Backbone  ·  Grid Zone: [X ±3, Z −8 to +12]     │
+│ [VIEWPORT] Level: L2 (Deck)  ·  Orientation: ▲ BOW (+Z) · ◄ PORT (−X) · STBD (+X)►   │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+##### Step 10.1 Parts Tray
+| Block Type | Qty | Palette Slot | Mass / PCU | Critical Placement & Facing |
+|---|---|---|---|---|
+| Heavy Armor Full Block | 40 | Slot 0 (`#2B303A`) | 34.0 t / 40 | 2× parallel 20 B longitudinal runs at X = ±3, Z −8 to +12 |
+| Heavy Armor Full Block | 15 | Slot 0 (`#2B303A`) | 12.8 t / 15 | Transverse cross-ties (5 B each) at Z = +9, +4, −1 |
+| Heavy Armor Full Block | 10 | Slot 0 (`#2B303A`) | 8.5 t / 10 | Bow Bulkhead cap (Z +12) and Aft Bulkhead cap (Z −8) |
 
 ```
 Plan view, Y = L2 (Tractor Chassis Box Girder Deck)
-        X: −3          0          +3
-    Z: +12 ■═══════════╤═══════════■  BOW BULKHEAD (Z +12 Datum)
-           ║           │           ║  Central Conveyor Trough (X0)
-    Z:  +9 ║  BEAM TIE │  BEAM TIE ║  ◄── Axle 1 Cross-Tie (X = ±3, Z +9)
-           ║═══════════╪═══════════║
-    Z:  +4 ║  BEAM TIE │  BEAM TIE ║  ◄── Axle 2 Cross-Tie (X = ±3, Z +4)
-           ║═══════════╪═══════════║
-    Z:  −1 ║  BEAM TIE │  BEAM TIE ║  ◄── Axle 3 Cross-Tie (X = ±3, Z −1)
-           ║           │           ║
-    Z:  −8 ■═══════════╧═══════════■  AFT HITCH BULKHEAD (Z −8 Datum)
+        X: −3           X0           X: +3
+    Z: +12 ■════════════╤════════════■  BOW BULKHEAD (Z +12 Datum)
+           ║            │            ║  Central Conveyor Trough (X0)
+    Z:  +9 ║  BEAM TIE  │  BEAM TIE  ║  ◄── Axle 1 Cross-Tie (X = ±3, Z +9)
+           ║════════════╪════════════║
+    Z:  +4 ║  BEAM TIE  │  BEAM TIE  ║  ◄── Axle 2 Cross-Tie (X = ±3, Z +4)
+           ║════════════╪════════════║
+    Z:  −1 ║  BEAM TIE  │  BEAM TIE  ║  ◄── Axle 3 Cross-Tie (X = ±3, Z −1)
+           ║            │            ║
+    Z:  −8 ■════════════╧════════════■  AFT HITCH BULKHEAD (Z −8 Datum)
+
+    Legend:
+    ■ Heavy Armor Corner / Bulkhead Node
+    ║ Heavy Armor Full Block (Longitudinal Box Girder at X = ±3)
+    ═ Heavy Armor Full Block (Transverse Axle Cross-Tie)
+    │ Centerline Open Raceway (X0, 5-block internal gap)
 ```
 
-1. Lay 2 parallel runs of Heavy Armor Full Blocks at X = −3 and X = +3 from Z −8 to Z +12 at Level L2.
-2. At Level L1 (underside), install continuous Heavy Armor Half-Slopes facing downward along X0 to form a beveled belly skid channel that deflects boulders during overland travel.
-3. Install transverse Heavy Armor Ties connecting the box girders at Z = +9, Z = +4, and Z = −1.
-4. Route the large conveyor raceway along X0 at Level L1, securing pipes with conveyor junctions at Z = +9, Z = +4, and Z = −1 for future branch taps.
+##### Placement Instructions
+1. Lay two parallel 20-block runs of Heavy Armor Full Blocks at X = −3 (Port) and X = +3 (Starboard) from Z −8 to Z +12 at Level L2.
+2. Weld transverse 5-block Heavy Armor ties bridging between X −3 and X +3 at three axle datums: Z = +9 (Axle 1), Z = +4 (Axle 2), and Z = −1 (Axle 3).
+3. Cap the forward end at Z = +12 with a solid transverse bulkhead tie (X −3 to +3).
+4. Cap the aft end at Z = −8 with a solid transverse bulkhead tie (X −3 to +3) to anchor the future drawbar hitch.
+5. Paint all structural armor blocks with Palette Slot 0 (`#2B303A` Industrial Dark Gray).
+
+**✓ Check:** Two rigid parallel box girders at X = ±3 running exactly 20 blocks (50.0 m) from Z −8 to Z +12, with an open 5-block wide central trough along X0 bridged by 3 heavy cross-ties.
 
 ---
 
-#### Step 10.2 · 5×5 Off-Road Suspension Wheel Mounts & Master 3-Axle Tuning (L1)
+#### Step 10.2 · Underside Half-Slopes & V-Bevel Belly Skid Channel (L1)
 
-Mount 3 pairs of 5×5 large suspension wheel units outward along the chassis girders at X = ±4. Configure steering geometry: front two axles steer in proportion to wheel turn; rear axle 3 remains locked at 0° to prevent sideways tire scrub:
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ [LOCATOR] Subsystem: Tractor Belly Deflector  ·  Grid Zone: [X −2 to +2, Z −8 to +12] │
+│ [VIEWPORT] Level: L1 (Underside)  ·  Orientation: ▲ BOW (+Z) · ◄ PORT · STBD ►        │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+##### Step 10.2 Parts Tray
+| Block Type | Qty | Palette Slot | Mass / PCU | Critical Placement & Facing |
+|---|---|---|---|---|
+| Heavy Armor Half-Slope | 40 | Slot 0 (`#2B303A`) | 17.0 t / 40 | Slopes placed at X = ±1, Z −8 to +12, facing inward toward X0 |
+| Heavy Armor Half Block | 20 | Slot 0 (`#2B303A`) | 8.5 t / 20 | Centerline flush belly skid plates along X0, Z −8 to +12 |
+| Heavy Armor Slope 2×1 | 12 | Slot 0 (`#2B303A`) | 7.2 t / 12 | Bow deflector bevels at Z = +11 to +12 |
+
+```
+Front Elevation Cross-Section, Y = L1-L2 (Belly Skid Channel Geometry)
+    Port [−X]                                                          Starboard [+X]
+    X: −3             X: −1            X0             X: +1             X: +3
+    ┌───────────────┐ ┌───────────────────────────────────────────────┐ ┌───────────────┐
+    │ L2 BOX GIRDER │ │            LEVEL L2 SUB-FLOOR DECK            │ │ L2 BOX GIRDER │
+    └───────┬───────┘ └───────┬───────────────────────────────┬───────┘ └───────┬───────┘
+            │                 │   [CENTRAL CONVEYOR PIPE]     │                 │
+    Level L1│                 ▼             X0                ▼                 │Level L1
+            │         ┌───────────────┐               ┌───────────────┐         │
+            │         │   HALF-SLOPE  │   HALF-BLOCK  │   HALF-SLOPE  │         │
+            │         │  (Slopes In)  │  (Skid Plate) │  (Slopes In)  │         │
+            └─────────┴───────▲───────┴───────▲───────┴───────▲───────┴─────────┘
+                              └───────────────┴───────────────┘
+                                   1.25 m Belly Ground Clearance
+    ═════════════════════════════════════════════════════════════════════════════ Terrain L0
+```
+
+##### Placement Instructions
+1. Position Heavy Armor Half-Slope blocks along X = −1 from Z −8 to Z +12 at Level L1, angled so the sloped face bevels inward toward centerline X0.
+2. Mirror on the starboard flank: place Heavy Armor Half-Slopes along X = +1 from Z −8 to Z +12 at Level L1, sloping inward toward X0.
+3. Install continuous Heavy Armor Half Blocks along centerline X0 between the slopes, forming a flat skid keel 1.25 m above ground.
+4. At the bow (Z = +11 to +12), install Heavy Armor Slope 2×1 blocks angled upward (+Y) to guide the belly smoothly over boulders during forward travel.
+
+**✓ Check:** Underside forms an inverted, continuous trapezoidal trough along X0, providing 1.25 m (0.5 block) clearance to terrain with 45° beveled deflector flanks.
+
+---
+
+#### Step 10.3 · Central Ore Conveyor Raceway & Manifold Junctions (L1)
+
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ [LOCATOR] Subsystem: Primary Ore Trunk  ·  Grid Zone: [X0, Z −8 to +12]              │
+│ [VIEWPORT] Level: L1  ·  Orientation: Looking Port (−X) Longitudinal Elevation        │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+##### Step 10.3 Parts Tray
+| Block Type | Qty | Palette Slot | Mass / PCU | Critical Placement & Facing |
+|---|---|---|---|---|
+| Large Conveyor Junction | 5 | Slot 4 (`#1ABC9C`) | 7.5 t / 30 | Taps at Z +12 (Bow), Z +9 (Axle 1), Z +4 (Axle 2), Z 0 (Tailings), Z −1 (Axle 3), Z −8 (Hitch) |
+| Large Conveyor Pipe | 15 | Slot 4 (`#1ABC9C`) | 11.2 t / 15 | Straight pipe runs connecting junctions along X0 at Level L1 |
+
+```
+Longitudinal Elevation, Looking Port (Centerline X0, Level L1 Conveyor Trunk)
+    [BOW]                                                                                             [STERN]
+    Z: +12          Z: +9          Z: +4             Z: 0          Z: −1                           Z: −8
+      ■═══════════════■══════════════■════════════════■══════════════■═══════════════════════════════■
+      │               │              │                │              │                               │
+    [BOW INTAKE]  [AXLE 1 TAP]   [AXLE 2 TAP]   [TAILINGS TAP]   [AXLE 3 TAP]                    [HITCH TAP]
+    (From Boom)   (Upward Riser) (Upward Riser) (Downward Flow)  (Upward to Power Core)          (To Drawbar)
+
+    Legend:
+    ■ Large Conveyor Junction (6-way connection hub, Palette 4: Processing Teal)
+    ═ Large Conveyor Pipe (Straight 2.5 m run along X0)
+```
+
+##### Placement Instructions
+1. Place a Large Conveyor Junction on centerline [X0, Z +12, Y = L1] facing forward (+Z) for future bow boom connection.
+2. Route Large Conveyor Pipes along X0 aft to Z = +9; install Large Conveyor Junction at [X0, Z +9, Y = L1] with top port facing upward (+Y).
+3. Continue pipes aft to Z = +4; install Large Conveyor Junction at [X0, Z +4, Y = L1] with top port facing upward (+Y).
+4. Continue pipes aft to Z = 0; install Large Conveyor Junction at [X0, Z 0, Y = L1] with bottom port facing downward (−Y) for tailings ejectors.
+5. Continue pipes aft to Z = −1; install Large Conveyor Junction at [X0, Z −1, Y = L1] with top port facing upward (+Y) for power vault fuel lines.
+6. Run continuous pipes aft to Z = −8; terminate with Large Conveyor Junction at [X0, Z −8, Y = L1] with aft port facing −Z for the drawbar hitch.
+7. Paint all conveyor junctions and pipes with Palette Slot 4 (`#1ABC9C` Processing Teal).
+
+**✓ Check:** Unbroken, continuous large conveyor trunk from [X0, Z +12, L1] to [X0, Z −8, L1]. Upward ports clear at Z +9, +4, −1; downward port clear at Z 0.
+
+---
+
+#### Step 10.4 · 5×5 Off-Road Suspension Wheel Mounts & Master 3-Axle Geometry (L1)
+
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ [LOCATOR] Subsystem: Tractor 6-Wheel Powertrain  ·  Grid Zone: [X ±4 to ±5, Z −1..+9]│
+│ [VIEWPORT] Level: L1  ·  Orientation: ▲ BOW (+Z) · ◄ PORT (−X) · STBD (+X)►          │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+##### Step 10.4 Parts Tray
+| Block Type | Qty | Palette Slot | Mass / PCU | Critical Placement & Facing |
+|---|---|---|---|---|
+| Wheel Suspension 5×5 Left | 3 | Slot 0 (`#2B303A`) | 24.0 t / 300 | Mount on Port outer girder face at X = −4 (Z +9, +4, −1), hub outward (−X) |
+| Wheel Suspension 5×5 Right | 3 | Slot 0 (`#2B303A`) | 24.0 t / 300 | Mount on Stbd outer girder face at X = +4 (Z +9, +4, −1), hub outward (+X) |
 
 ```
 Plan view, Y = L1 (Tractor Wheel Suspension Layout)
-        X: −5          0          +5
-    Z:  +9 [WH 1 (P)] ═══════════ [WH 2 (S)]   ◄── Axle 1 (+30.0° Steer)
-    Z:  +4 [WH 3 (P)] ═══════════ [WH 4 (S)]   ◄── Axle 2 (+15.0° Steer)
-    Z:  −1 [WH 5 (P)] ═══════════ [WH 6 (S)]   ◄── Axle 3 (0.0° Locked Drive)
+        X: −5             X: −4          X0          X: +4             X: +5
+    Z:  +9 [WH 1 (P)] ──── [GIRDER] ═════════════════ [GIRDER] ──── [WH 2 (S)]   ◄── Axle 1 (+30.0° Steer)
+    Z:  +4 [WH 3 (P)] ──── [GIRDER] ═════════════════ [GIRDER] ──── [WH 4 (S)]   ◄── Axle 2 (+15.0° Steer)
+    Z:  −1 [WH 5 (P)] ──── [GIRDER] ═════════════════ [GIRDER] ──── [WH 6 (S)]   ◄── Axle 3 (0.0° Locked Drive)
+
+    Legend:
+    [WH 1..6] 5×5 Heavy Suspension Wheel Unit (Hub at X ±5, Tire extends X ±4.5 to ±6.5)
+    [GIRDER]  Heavy Armor Box Girder side wall (X = ±4 mounting face)
 ```
 
-```
-Front Elevation Cross-Section, Y = L1 (Axle 1 Wheel Hub & Ground Clearance)
-    Port [-X]                                                          Starboard [+X]
-    X: -5            X: -3            X0              X: +3            X: +5
-    [WHEEL 1] ────── [GIRDER] ─── [CONVEYOR] ─── [GIRDER] ────── [WHEEL 2]
-    │ 5x5 Hub        │ Heavy      │ Large Pipe   │ Heavy        │ 5x5 Hub
-    │                └────────────┴──────────────┴──────────────┘
-    ▼                             ▼ Belly Skid (1.25 m Clearance)
-    ════════════════════════════════════════════════════════════════════ Terrain
-```
+##### Placement Instructions
+1. Position Wheel Suspension 5×5 Left units on the outer face of the Port girder (X = −4) at Z = +9 (`WH 1`), Z = +4 (`WH 3`), and Z = −1 (`WH 5`). Align the top mounting bracket flush with Level L2.
+2. Mirror on the starboard girder face (X = +4): install Wheel Suspension 5×5 Right units at Z = +9 (`WH 2`), Z = +4 (`WH 4`), and Z = −1 (`WH 6`).
+3. Ensure suspension stators orient with steering pivot pins strictly vertical (Y-axis) and wheel hub axles horizontal.
+4. Verify tire bounding boxes extend from X −4.5 to −6.5 (Port) and X +4.5 to +6.5 (Starboard), leaving 5.0 blocks clearance along the chassis flank.
 
-| Axle Index | Z-Datum | Wheel Pair | Steering Angle | Steering Invert | Propulsion Torque | Strength (Empty / Laden) | Friction |
-|---|---|---|---|---|---|---|---|
-| **Axle 1** | Z = +9  | `WH 1, 2` | `30.0°` | Normal | `100%` | `50% / 85%` | `70%` |
-| **Axle 2** | Z = +4  | `WH 3, 4` | `15.0°` | Normal | `100%` | `50% / 85%` | `70%` |
-| **Axle 3** | Z = −1  | `WH 5, 6` | `0.0°`  | OFF (Locked) | `100%` | `55% / 90%` | `75%` |
+##### Terminal Configuration & Sliders
+* Terminal Group: `MAS Tractor Wheels` (Select all 6 wheel blocks).
+* Terminal Subgroup: `MAS Wheels Steer` (`WH 1`, `WH 2`, `WH 3`, `WH 4`).
+* Terminal Subgroup: `MAS Wheels Drive` (`WH 1` through `WH 6`).
+
+| Terminal Name | Axle Index | Z-Datum | Max Steer Angle | Steering Invert | Propulsion Torque | Strength (Empty / Laden) | Friction | Height Offset |
+|---|---|---|---|---|---|---|---|---|
+| `MAS Wheel A1-P` | Axle 1 | Z = +9 | `30.0°` | Normal | `100%` | `50% / 85%` | `70%` | `−32 cm` |
+| `MAS Wheel A1-S` | Axle 1 | Z = +9 | `30.0°` | Normal | `100%` | `50% / 85%` | `70%` | `−32 cm` |
+| `MAS Wheel A2-P` | Axle 2 | Z = +4 | `15.0°` | Normal | `100%` | `50% / 85%` | `70%` | `−32 cm` |
+| `MAS Wheel A2-S` | Axle 2 | Z = +4 | `15.0°` | Normal | `100%` | `50% / 85%` | `70%` | `−32 cm` |
+| `MAS Wheel A3-P` | Axle 3 | Z = −1 | `0.0°` (Locked) | OFF | `100%` | `55% / 90%` | `75%` | `−32 cm` |
+| `MAS Wheel A3-S` | Axle 3 | Z = −1 | `0.0°` (Locked) | OFF | `100%` | `55% / 90%` | `75%` | `−32 cm` |
+
+**✓ Check:** All 6 wheel hubs rotate freely; steering test confirms Axle 1 turns 30°, Axle 2 turns 15°, and Axle 3 remains locked rigid at 0°. Chassis rests at 1.25 m belly clearance.
 
 ---
 
-#### Step 10.2B · Tailings Aggregate & Roadbed Spreader Underbelly Manifold (L1)
+#### Step 10.5 · Tailings Aggregate Sorter & Underbelly Roadbed Ejectors (L1)
 
-To prevent cargo holds from clogging with thousands of tons of low-value crushed stone, install a selective tailings venting manifold beneath the chassis along centerline X0 at Z = 0:
-* **Conveyor Tap:** 1× Conveyor Sorter (`MAS Sorter Tailings`) tapped into the central conveyor trunk at [X0, Z0, Y = L1] facing downward.
-* **Discharge Nozzles:** 2× Conveyor Ejectors (`MAS Ejector Tailings 1, 2`) angled 45° aft (−Z) beneath Axle 3.
-* **Sorter Filter:** Whitelist set to `Stone` and `Gravel` · `Drain All = ON`.
-* **Automation:** Managed by Event Controller `MAS EC Tailings`. When Tractor ore buffer fill exceeds 50%, ejectors activate, laying down a smooth gravel roadbed behind the driving wheels while retaining high-value ores (Fe, Ni, Co, U).
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ [LOCATOR] Subsystem: Tailings Venting Manifold  ·  Grid Zone: [X0, Z0 to −1]         │
+│ [VIEWPORT] Level: L1  ·  Orientation: Underside looking Bow (+Z)                      │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+##### Step 10.5 Parts Tray
+| Block Type | Qty | Palette Slot | Mass / PCU | Critical Placement & Facing |
+|---|---|---|---|---|
+| Large Conveyor Sorter | 1 | Slot 4 (`#1ABC9C`) | 2.5 t / 15 | Plumbed under junction at [X0, Z0, Y = L1], flow arrow pointing DOWN (−Y) |
+| Conveyor Ejector / Connector | 2 | Slot 4 (`#1ABC9C`) | 0.8 t / 20 | Angled 45° aft (−Z) beneath Axle 3 at [X ±1, Z −1, Y = L1] |
+| Curved Conveyor Tube | 2 | Slot 4 (`#1ABC9C`) | 0.6 t / 6 | Directing sorter outlet horizontally to twin ejectors |
 
 ```
 Underbelly Profile · Tailings Aggregate Spreader (Z0, L1)
-     Central Conveyor Raceway (L1)
-                  │
-                  ▼
-       [MAS Sorter Tailings] (Filter: Stone / Gravel)
-                  │
-                  ▼
-       [MAS Ejector Tailings 1, 2] ──► Angled Aft (−Z)
-                  │
-                  ▼ (Vents Stone Tailings Behind Axle 3)
+     Central Conveyor Raceway Junction [X0, Z0, L1]
+                          │
+                          ▼ (Flow Arrow DOWN)
+               [MAS Sorter Tailings]
+                          │
+                 ┌────────┴────────┐
+                 ▼                 ▼
+          [Curved Tube]      [Curved Tube]
+                 │                 │
+                 ▼                 ▼
+       [MAS Ejector 1 (P)]   [MAS Ejector 2 (S)]  ◄── Angled 45° Aft (−Z)
+                 │                 │
+                 ▼                 ▼ (Vents Stone Tailings Behind Axle 3)
      ══════════════════════════════════════════════════ Crushed Stone Roadbed
 ```
+
+##### Placement Instructions
+1. Connect the top large port of Large Conveyor Sorter `MAS Sorter Tailings` to the downward port of junction [X0, Z0, Y = L1]. Ensure the directional arrow points downward (−Y).
+2. Attach a conveyor splitter or Curved Conveyor Tubes to the sorter outlet, routing lines to [X −1, Z −1, L1] and [X +1, Z −1, L1].
+3. Install twin Conveyor Ejectors `MAS Ejector Tailings 1` and `MAS Ejector Tailings 2` angled 45° aft (−Z), discharging crushed stone directly behind Axle 3's tire contact patch.
+4. Paint sorter and ejectors with Palette Slot 4 (`#1ABC9C` Processing Teal).
+
+##### Terminal Configuration & Sliders
+* Block: `MAS Sorter Tailings`
+  * Whitelist: `Stone`, `Gravel`
+  * Drain All: `ON`
+* Blocks: `MAS Ejector Tailings 1, 2`
+  * Throw Out: `ON`
+  * Collect All: `ON`
+* Event Controller: `MAS EC Tailings`
+  * Monitored Target: `MAS Tractor Buffer`
+  * Condition: Cargo Fill $\ge 50\%$
+  * Action Slot 1 (True): `MAS Sorter Tailings` -> Drain All ON; `MAS Ejectors Tailings` -> Power ON
+  * Action Slot 2 (False): `MAS Sorter Tailings` -> Drain All OFF; `MAS Ejectors Tailings` -> Power OFF
+
+##### Operational Clearance Note (Consist vs Standalone Mode)
+When operating with Carriage 2 hitched, venting stone aggregate directly beneath Axle 3 (Z −1) causes loose stone chunks to collide with Carriage 2 trailing wheels (Axles 4 & 5 at Z −13 and Z −22). In consist operations, the active roadbed spreader is routed to the stern bumper of Carriage 2 ([X0, Z −26, Y = L1], Step 10.15E). The underbelly ejectors at [X ±1, Z −1] serve as standalone cleanout ports when the Tractor operates decoupled from the trailer.
+
+**✓ Check:** Sorter whitelist passes only Stone and Gravel; high-value ores (Fe, Ni, Co, U) remain in the central spine. In consist travel, underbelly ejectors remain toggled OFF, routing crushed stone aft to the Carriage 2 stern spreader.
+
+---
 
 ##### Pre-Enclosure Inspection Gate 10.1A: Tractor Powertrain & Belly Clearance Check
 * [ ] Verify uninterrupted large conveyor pipe flow from Bow Throat (Z +12) to Aft Hitch (Z −8).
@@ -5327,161 +5487,432 @@ PHASE 10-1 VISUAL MILESTONE · TRACTOR CHASSIS & POWERTRAIN COMPLETE
 ### Phase 10-2 · Tractor Power Core, Ore Buffer & 2-Axis Drawbar Hitch (Levels L2-L4)
 
 ```
-       [PHASE 10-2 SPATIAL LOCATOR HUD]
+       [PHASE 10-2 MASTER SPATIAL LOCATOR HUD]
        Envelope: 7 W × 14 L × 3 H B (17.5 × 35.0 × 7.5 m)
        Coordinate Range: X −3 to +3, Z −8 to +6, Y = L2 to L4
        Subsystem Datums:
        · Ore Buffer Hold: Z +1 to +3, centered at X0
        · Primary Power Core: Z −4 to −2, centered at X0
        · 2-Axis Drawbar Hitch Center: [X0, Z −8, Y = L2]
+       · Port Maintenance Crawlway: X −2, Z −7 to +6, Y = L3
 ```
 
-#### Pre-Step Parts Tray: Phase 10-2
+#### Pre-Step Master Parts Tray: Phase 10-2
+* 1× Large Cargo Container (3×3×3 B, Palette 5: Logistics Emerald)
 * 2× Small Nuclear Reactor (15 MW each, Palette 6: High-Voltage Red)
 * 1× Hydrogen Engine (5 MW, 1×1×2 B, Palette 6: High-Voltage Red)
-* 3× Large Battery (3 MWh each, 9.0 MWh total, Palette 6)
-* 1× Large Cargo Container (3×3×3 B, Palette 5: Logistics Emerald)
+* 3× Large Battery (3 MWh each, 9.0 MWh total, Palette 6: High-Voltage Red)
 * 1× Large Advanced Rotor (Palette 2: Heavy Rail Crimson)
-* 1× Large Motor Hinge (Palette 2)
-* 12× Grated Catwalk Block & 2× Sliding Door (Palette 9: High-Viz Yellow)
-* 18× Large Conveyor Pipe & 6× Curved Conveyor Tube (Palette 4: Processing Teal)
-* 120× Heavy Armor Full Block & Slopes (Palette 0)
+* 1× Large Motor Hinge (Palette 2: Heavy Rail Crimson)
+* 1× Large Merge Block (`MAS Hitch Sever Tongue`, Palette 2)
+* 14× Grated Catwalk Block (Palette 9: High-Viz Safety Yellow)
+* 3× Sliding Door (Palette 9: High-Viz Safety Yellow)
+* 2× Small Cargo Container (`MAS Locker Port/Stbd`, Palette 9)
+* 3× Decoy Block (Palette 0: Industrial Dark Gray)
+* 2× Large Gyroscope (`MAS Gyro Recovery 1, 2`, Palette 0)
+* 1× Radio Antenna / Beacon (`MAS Beacon Distress`, Palette 7)
+* 1× Small Battery (`MAS Battery BlackBox`, Palette 6)
+* 1× Large Warhead (`MAS Warhead Scuttle Power`, Palette 6)
+* 1× Sci-Fi 4-Button Panel (`MAS BP Power Vault`, Palette 9)
+* 6× Large Conveyor Pipe & 4× Curved Conveyor Tube (Palette 4)
+* 120× Heavy Armor Full Block & Slopes (Palette 0 & Palette 6)
 
 ---
 
-#### Step 10.3 · Primary Power Core Vault & Electrical Shielding (Z −4 to −2, L2-L4)
+#### Step 10.6 · Tractor Ore Buffer Hold (3×3×3 Large Cargo) & Intake Riser (L2-L4)
 
-Install 2 Small Nuclear Reactors, 1 Hydrogen Engine, and 3 Large Batteries behind the ore buffer hold. Enclose the plant in double-walled heavy armor bulkheads (Palette 6):
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ [LOCATOR] Subsystem: Tractor Ore Buffer  ·  Grid Zone: [X −1..+1, Z +1..+3]          │
+│ [VIEWPORT] Level: L2 to L4  ·  Orientation: Plan view Y = L3 (▲ Bow +Z)              │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+##### Step 10.6 Parts Tray
+| Block Type | Qty | Palette Slot | Mass / PCU | Critical Placement & Facing |
+|---|---|---|---|---|
+| Large Cargo Container | 1 | Slot 5 (`#27AE60`) | 18.0 t / 50 | Centered at [X0, Z +2, L3], spanning X −1 to +1, Z +1 to +3, Y L2 to L4 |
+| Large Conveyor Pipe | 2 | Slot 4 (`#1ABC9C`) | 1.5 t / 2 | Vertical riser from L1 junction up to cargo bottom port |
+| Heavy Armor Full Block | 16 | Slot 0 (`#2B303A`) | 13.6 t / 16 | Structural foundation saddle wrapping bottom edges at L2 |
+
+```
+Plan view, Y = L3 (Tractor Ore Buffer Hold & Jefferies Crawlway)
+        X: −2             X: −1             X0             X: +1             X: +2
+    Z: +3 ┌─────────────┐ ┌───────────────────────────────────────────────┐ ┌─────────────┐
+          │ JEFFERIES   │ │                                               │ │ SOLID       │
+    Z: +2 │ CRAWLWAY    │ │        MAS TRACTOR BUFFER (3×3×3 B)           │ │ ARMOR       │
+          │ [CATWALK]   │ │         (Palette Slot 5: Logistics Emerald)   │ │ BULKHEAD    │
+    Z: +1 │ [HATCH] ◄───┼─┤ (Manual Port)                                 │ │             │
+          └─────────────┘ └───────────────────────────────────────────────┘ └─────────────┘
+
+    Legend:
+    [MAS TRACTOR BUFFER] 3×3×3 B Large Cargo Container (Receives boom ore)
+    [HATCH]              Manual inventory access port facing Port Jefferies tube [X −2, Z +2, L3]
+    [CATWALK]            Grated Catwalk Block along maintenance crawlway
+```
+
+##### Placement Instructions
+1. Position 1 Large Cargo Container centered at [X0, Z +2, Y = L3], extending from X −1 to +1, Z +1 to +3, and vertically from Level L2 to L4.
+2. Align the bottom 3×3 large conveyor port with the vertical conveyor riser from junction [X0, Z +4, L1].
+3. Ensure the top 3×3 large conveyor port aligns at Level L4 for the future dorsal boom turret riser.
+4. Align the Port face so its built-in conveyor/inventory access door faces into the Port Jefferies tube at [X −2, Z +2, L3].
+5. Plumb the aft large conveyor port along X0 to feed the power core vault.
+6. Paint the container exterior with Palette Slot 5 (`#27AE60` Logistics Emerald).
+
+##### Terminal Configuration & Sliders
+* Name: `MAS Tractor Buffer`
+* Custom Data: `[Inventory] Buffer=True; Role=RawOreBuffer; MaxTonnage=1000`
+* Show in Terminal: `ON` · Show on HUD: `ON`
+
+**✓ Check:** Large Cargo Container securely seated between box girders. Bottom port plumbed to L1 raceway; top port ready at L4; Port inspection hatch accessible from crawlway.
+
+---
+
+#### Step 10.7 · Primary Nuclear Power Core Vault & Electrical Shielding (L3)
+
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ [LOCATOR] Subsystem: Tractor Baseload Nuclear Power  ·  Grid Zone: [X −2..+2, Z −4..−2]│
+│ [VIEWPORT] Level: L3  ·  Orientation: Plan view Y = L3 (▲ Bow +Z)                    │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+##### Step 10.7 Parts Tray
+| Block Type | Qty | Palette Slot | Mass / PCU | Critical Placement & Facing |
+|---|---|---|---|---|
+| Small Nuclear Reactor | 2 | Slot 6 (`#C0392B`) | 5.2 t / 50 | Mounted inline at [X0, Z −2, L3] and [X0, Z −3, L3], ports along X0 |
+| Large Battery | 3 | Slot 6 (`#C0392B`) | 13.5 t / 120 | Mounted at [X −2, Z −2], [X +2, Z −2], and [X −2, Z −3] |
+| Heavy Armor Full Block | 24 | Slot 6 (`#C0392B`) | 20.4 t / 24 | Double-walled radiation containment bulkheads surrounding vault |
+| Sliding Door | 1 | Slot 9 (`#F1C40F`) | 1.2 t / 15 | Vault maintenance entrance door at [X −2, Z −2, L3] |
 
 ```
 Plan view, Y = L3 (Tractor Power Core Vault)
-        X: −2     0    +2
-    Z: −2  ┌───────────────┐
-           │[BAT 1][R 1][BAT 2]│  ◄── Reactor 1 (15 MW) flanked by Large Batteries
-    Z: −3  │[BAT 3][R 2][Armor]│  ◄── Reactor 2 (15 MW) flanked by Battery 3
-    Z: −4  │[Armor][H2E][Armor]│  ◄── Hydrogen Engine (5 MW standby failover)
-           └───────────────┘
-           Nuclear + H2 Baseload Total: 35.0 MW · Tractor Battery Reserve: 9.0 MWh (36 MW Peak)
+        X: −2             X0              X: +2
+    Z: −2  ┌───────────────┬───────────────┬───────────────┐
+           │ [MAS BAT 1]   │ [MAS RCT 1]   │ [MAS BAT 2]   │  ◄── Reactor 1 (15 MW) flanked by Batteries
+    Z: −3  │ [MAS BAT 3]   │ [MAS RCT 2]   │ [HEAVY ARMOR] │  ◄── Reactor 2 (15 MW) flanked by Battery 3
+    Z: −4  │ [HEAVY ARMOR] │ [MAS ENG H2]  │ [HEAVY ARMOR] │  ◄── Hydrogen Engine (5 MW Standby Failover)
+           └───────────────┴───────────────┴───────────────┘
+           Nuclear + H2 Baseload: 35.0 MW · Tractor Battery Reserve: 9.0 MWh (36.0 MW Peak)
 ```
 
-1. Place Reactor 1 (`MAS Reactor 1`) at [X0, Y = L3, Z −2] and Reactor 2 (`MAS Reactor 2`) at [X0, Y = L3, Z −3].
-2. Flank the reactors with Large Batteries (`MAS Battery 1, 2, 3`) at [X −2, Z −2], [X +2, Z −2], and [X −2, Z −3].
-3. Connect reactor conveyor ports directly to the central conveyor spine along X0 for automated uranium fuel feeding.
-4. Encase the compartment in Heavy Armor blocks painted Palette Slot 6 (High-Voltage Alert Red).
-5. Install armored sliding door `MAS Door Vault` at [X −2, Z −2, L3] accessing the Port Jefferies tube.
+##### Placement Instructions
+1. Place Small Nuclear Reactor 1 (`MAS Reactor 1`) at [X0, Z −2, Y = L3] with conveyor ports aligned along centerline X0.
+2. Place Small Nuclear Reactor 2 (`MAS Reactor 2`) directly aft at [X0, Z −3, Y = L3], connected in series with Reactor 1.
+3. Place Large Battery 1 (`MAS Battery 1`) at [X −2, Z −2, L3] and Large Battery 2 (`MAS Battery 2`) at [X +2, Z −2, L3].
+4. Place Large Battery 3 (`MAS Battery 3`) at [X −2, Z −3, L3].
+5. Plumb the reactor conveyor line forward into the aft port of `MAS Tractor Buffer` for automated Uranium fuel feeding.
+6. Install Sliding Door `MAS Door Vault` at [X −2, Z −2, L3] opening into the Port Jefferies crawlway.
+7. Encase the entire vault perimeter in Heavy Armor blocks painted Palette Slot 6 (`#C0392B` High-Voltage Red).
+
+##### Terminal Configuration & Sliders
+* Group: `MAS Reactors` (`MAS Reactor 1`, `MAS Reactor 2`)
+  * Role: 30.0 MW continuous baseload nuclear generation
+* Group: `MAS Batteries Tractor` (`MAS Battery 1`, `MAS Battery 2`, `MAS Battery 3`)
+  * Initial State: `Auto` (Peak Shaving) · Output: 36.0 MW peak discharge
+* Door: `MAS Door Vault` (Closed by default)
+
+**✓ Check:** 30 MW nuclear baseload + 9 MWh battery buffer verified in control terminal. Uranium supply line connected; vault door provides walk-in access from crawlway.
 
 ---
 
-#### Step 10.3B · Standby Emergency Hydrogen Engine Installation (Z = −4, X0, L3)
+#### Step 10.8 · Standby Emergency Hydrogen Engine Installation (L3)
 
-Install 1 Large Grid Hydrogen Engine (`MAS Engine H2`, 1×1×2 B, 5.0 MW) directly aft of Reactor 2 on centerline X0. Connect its conveyor port to the central spine to draw fuel from Carriage 2's 10,000,000 L hydrogen reserve hold:
-* **Function:** Standby cold-start generator providing instantaneous 5.0 MW electrical failover upon uranium fuel depletion, reactor maintenance, or peak tractive climbs.
-* **Automation:** Supervised by Event Controller `MAS EC Power` (configured to auto-ignite `MAS Engine H2` when nuclear reactor fuel mass drops below 1.0 kg or battery state of charge drops below 20%).
-* **Manual Port:** Features an exposed aft sump inspection port and fuel shutoff valve accessible from the vault interior.
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ [LOCATOR] Subsystem: Tier 3 Emergency Generator  ·  Grid Zone: [X0, Z −4]            │
+│ [VIEWPORT] Level: L3  ·  Orientation: Looking Port (−X) Longitudinal Elevation        │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+##### Step 10.8 Parts Tray
+| Block Type | Qty | Palette Slot | Mass / PCU | Critical Placement & Facing |
+|---|---|---|---|---|
+| Hydrogen Engine (Large Grid) | 1 | Slot 6 (`#C0392B`) | 4.8 t / 25 | 1×1×2 B footprint centered at [X0, Z −4, L3] extending aft to Z −5 |
+| Large Conveyor Pipe | 1 | Slot 4 (`#1ABC9C`) | 0.8 t / 1 | Connects engine front conveyor port to reactor spine along X0 |
+
+```
+Longitudinal Elevation, Looking Port (Power Vault Centerline X0, Level L3)
+    [FORWARD]                                                           [AFT]
+    Z: +1              Z: −2             Z: −3             Z: −4 to −5
+    ┌───────────────┐  ┌───────────────┐  ┌───────────────┐  ┌───────────────────────────────┐
+    │  MAS TRACTOR  │  │  MAS REACTOR  │  │  MAS REACTOR  │  │    MAS ENGINE H2 (5.0 MW)     │
+    │  BUFFER       │══╡       1       │══╡       2       │══╡ (1×1×2 B Hydrogen Generator)  │
+    │  (3×3×3 Hold) │  │  (15.0 MW)    │  │  (15.0 MW)    │  │ [Sump Port]    [Manual Valve] │
+    └───────────────┘  └───────────────┘  └───────────────┘  └───────────────────────────────┘
+```
+
+##### Placement Instructions
+1. Place 1 Large Grid Hydrogen Engine (`MAS Engine H2`, 1×1×2 B) at [X0, Z −4, Y = L3], extending aft to Z −5.
+2. Connect its forward conveyor port directly to the aft conveyor port of `MAS Reactor 2`.
+3. Route the aft conveyor port toward the drawbar hitch conduit at Z −8 to draw fuel from Carriage 2's 10,000,000 L hydrogen reserve.
+4. Verify the manual fuel shutoff valve and crank sump port face the interior aisle for manual field maintenance.
+5. Paint engine with Palette Slot 6 (`#C0392B` High-Voltage Alert Red).
+
+##### Terminal Configuration & Sliders
+* Name: `MAS Engine H2`
+* Enabled: `OFF` (Cold-standby reserve)
+* Supervised by: Event Controller `MAS EC Power`
+  * Monitored: `MAS Reactor 1, 2` Uranium Inventory
+  * Threshold: $< 1.0\text{ kg}$
+  * Action: Turn `MAS Engine H2` ON; sound fuel alert chime
+
+**✓ Check:** Hydrogen engine securely mounted behind Reactor 2; plumbed to central conveyor spine; verified 5.0 MW failover output when toggled ON.
 
 ---
 
-#### Step 10.3C · Port Maintenance Jefferies Tube & Physical Buffer Access Hatch (Z +6 to −7, X −2, L3)
+#### Step 10.9 · Port Maintenance Jefferies Tube & Physical Buffer Access Hatch (L3)
 
-Construct a continuous, pressurized 1-block wide maintenance crawlway running along the Port side of Carriage 1 at Level L3:
-* **Circulation Route:** Runs from the forward airlock vestibule at Z +6 aft to the gangway door at Z −7, bypassing the Large Cargo buffer and Power Vault.
-* **Catwalk Decking:** Paved with Grated Catwalk blocks painted Palette Slot 9 (High-Viz Safety Yellow) with recessed amber bulkhead lighting.
-* **Physical Buffer Hatch:** Mount an exposed cargo access port on the Port face of `MAS Tractor Buffer` at [X −2, Z +2, L3]. Allows an engineer to manually inspect ore contents, clear conveyor clogs, or withdraw small hand tools.
-* **Power Vault Access:** Sliding door `MAS Door Vault` at [X −2, Z −2, L3] provides direct walk-in access to the reactor and battery bank.
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ [LOCATOR] Subsystem: Crew Maintenance Crawlway  ·  Grid Zone: [X −2..−3, Z −7..+6]   │
+│ [VIEWPORT] Level: L3  ·  Orientation: Plan view Y = L3 looking down (▲ Bow +Z)       │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+##### Step 10.9 Parts Tray
+| Block Type | Qty | Palette Slot | Mass / PCU | Critical Placement & Facing |
+|---|---|---|---|---|
+| Grated Catwalk Block | 14 | Slot 9 (`#F1C40F`) | 4.2 t / 14 | Floor tiles along X −2, Z −7 to +6 |
+| Interior Light | 4 | Slot 9 (`#F1C40F`) | 0.2 t / 12 | Amber bulkhead lamps mounted along crawlway ceiling at L4 |
+| Sci-Fi 4-Button Panel | 1 | Slot 9 (`#F1C40F`) | 0.1 t / 5 | Mounted on vault outer bulkhead at [X −2, Z −1, L3] |
+| Heavy Armor Full Block | 28 | Slot 0 (`#2B303A`) | 23.8 t / 28 | Outer armored hull skirt running along X = −3 |
+
+```
+Plan view, Y = L3 (Port Jefferies Tube Maintenance Corridor)
+        X: −3 (Outer Skirt)       X: −2 (Walkway)           X: −1 (Inner Machinery)
+    Z:  +6 ┌─────────────────────┬─────────────────────────┬─────────────────────────────┐
+           │ HEAVY ARMOR SKIRT   │ [FORWARD AIRLOCK VEST]  │ TO C2 BRIDGE CABIN          │
+    Z:  +2 │ HEAVY ARMOR SKIRT   │ [CATWALK] ──► [HATCH]   │ MAS TRACTOR BUFFER (3×3×3)  │
+    Z:  −1 │ HEAVY ARMOR SKIRT   │ [MAS BP POWER VAULT]    │ MAS DOOR VAULT (Sliding)    │
+    Z:  −3 │ HEAVY ARMOR SKIRT   │ [CATWALK]               │ POWER CORE VAULT BULKHEAD   │
+    Z:  −7 │ HEAVY ARMOR SKIRT   │ [AFT GANGWAY AIRLOCK]   │ TO ACCORDION GANGWAY        │
+           └─────────────────────┴─────────────────────────┴─────────────────────────────┘
+```
+
+##### Placement Instructions
+1. Lay Grated Catwalk Blocks along X = −2 from Z +6 (Airlock Vestibule) aft to Z −7 (Gangway Bulkhead) at Level L3.
+2. Build the outer heavy armor hull skirt at X = −3 enclosing the walkway.
+3. Ensure the physical cargo maintenance port on the Port face of `MAS Tractor Buffer` at [X −2, Z +2, L3] remains completely unobstructed.
+4. Mount Sci-Fi 4-Button Panel `MAS BP Power Vault` on the vault bulkhead at [X −2, Z −1, L3].
+5. Install 4 amber Interior Lights in the crawlway ceiling spaced 3 blocks apart.
+
+##### Terminal Configuration & Sliders
+* Panel: `MAS BP Power Vault`
+  * Button 1: Sliding Door `MAS Door Vault` -> Open/Close
+  * Button 2: Group `MAS Reactors` -> Power ON/OFF (Nuclear SCRAM)
+  * Button 3: Generator `MAS Engine H2` -> Power ON/OFF (Cold-Start)
+  * Button 4: Group `MAS Batteries Tractor` -> Recharge ON/OFF
+
+**✓ Check:** Unobstructed 1-block wide pressurized crawlway. Cargo hatch opens for manual inventory access; button panel toggles vault door and power systems.
 
 ---
 
-#### Step 10.4 · Tractor Ore Buffer Hold (Z +1 to +3, L2-L4)
+#### Step 10.10 · Heavy Motorized 2-Axis Drawbar Hitch & Pyrotechnic Severance Merge Block (L2)
 
-Mount 1 standard 3×3×3 B Large Cargo Container (`MAS Tractor Buffer`) on centerline X0. It receives raw ore directly from the boom intake pipe and buffers material during active excavation before routing to the trailing utility carriage:
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ [LOCATOR] Subsystem: 3-Axis Gimbal Drawbar Hitch  ·  Grid Zone: [X0, Z −8 to −9.5]   │
+│ [VIEWPORT] Level: L2  ·  Orientation: Profile looking Port & Plan view (▲ Bow +Z)    │
+└──────────────────────────────────────────────────────────────────────────────────────┘
 
-```
-Plan view, Y = L3 (Tractor Buffer Hold)
-        X: −1    0   +1
-    Z: +3  ┌───────────┐
-           │MAS TRACTOR│  ◄── Large Cargo Container (3×3×3 B)
-    Z: +1  │  BUFFER   │      (Palette Slot 5: Logistics Emerald)
-           └───────────┘
-```
-
-1. Position the Large Cargo Container between Z +1 and Z +3, spanning X −1 to +1 and Y = L2 to L4.
-2. Align bottom and top 3×3 large conveyor ports:
-   * Bottom port connects directly to the central chassis conveyor trough (L1).
-   * Top port aligns with the dorsal boom turret riser (L4).
-   * Aft port connects to the power core uranium supply line and drawbar hitch pipe.
-
----
-
-#### Step 10.5 · Heavy Motorized 2-Axis Drawbar Hitch & Pyrotechnic Severance (Z = −8, X0, L2)
-
-At the aft bulkhead of the tractor, install a heavy-duty 2-axis articulated drawbar hitch that connects the tractor to the utility carriage mechanically and routes the main large conveyor line:
-1. **Azimuth (Yaw) Joint:** 1× Large Advanced Rotor mounted at Z = −8 facing Aft (−Z). Allows the consist to articulate horizontally when turning.
-2. **Pitch Joint:** 1× Motorized Large Hinge connected directly to the rotor head. Allows the consist to traverse crests and dips over rough terrain without lifting wheels.
-3. **Pyrotechnic Severance Merge Block (`MAS Hitch Sever Tongue`):** Mount 1× Large Grid Merge Block directly on the drawbar tongue at [X0, Z −8, Y = L2]. In emergency catastrophic events (runaway fire, trailer rolling over a cliff, nuclear containment breach), triggering `Hitch Eject` physically decouples Carriage 1 and Carriage 2 instantly, allowing the tractor to escape as an independent 6×6 unit or leaving the utility carriage as a self-powered static FOB.
-4. **Settings:** Share Inertia Tensor = `ON` · Braking Torque = `45 MN·m`.
+##### Step 10.10 Parts Tray
+| Block Type | Qty | Palette Slot | Mass / PCU | Critical Placement & Facing |
+|---|---|---|---|---|
+| Large Advanced Rotor | 2 | Slot 2 (`#9E2A2B`) | 17.6 t / 30 | `MAS Hitch Yaw` [X0, Z −8, L2] facing −Z; `MAS Hitch Roll` [X0, Z −9, L2] inline on Z-axis |
+| Large Motor Hinge | 1 | Slot 2 (`#9E2A2B`) | 3.5 t / 15 | `MAS Hitch Pitch` [X0, Z −8.5, L2] horizontal pin for vertical pitch |
+| Merge Block (Large Grid) | 1 | Slot 2 (`#9E2A2B`) | 1.2 t / 15 | `MAS Hitch Sever Tongue` mounted on drawbar tongue at Z −9.5 facing Aft (−Z) |
+| Large Magnetic Plate | 3 | Slot 2 (`#9E2A2B`) | 4.2 t / 90 | 2× `MAS Hitch Clamp Port/Stbd` [X ±2, Z −8.5, L2]; 1× `MAS Hitch Capture Plate` on trailer nose |
+| Camera | 1 | Slot 7 (`#1B263B`) | 0.2 t / 10 | `MAS Cam Hitch` facing aft with cockpit guidance crosshairs |
+| Heavy Armor Full Block & Slopes | 8 | Slot 2 (`#9E2A2B`) | 6.8 t / 8 | Alignment guide horns and structural wishbone tongue frame |
 
 ```
-2.5D Isometric Callout · 2-Axis Articulated Drawbar Hitch & Severance
-    Tractor Aft Bulkhead (Z −8)
+2.5D Isometric Callout · 3-Axis Articulated Gimbal Tow Hitch & Hard-Lock
+    Tractor Aft Bulkhead [X0, Z −8, L2]
            ║
-           ╠══[ADVANCED ROTOR] (Horizontal Yaw Articulation: −45° to +45°)
+           ╠══[ADVANCED ROTOR: MAS Hitch Yaw] ──► Horizontal Steering Articulation (±45.0°)
+           ║        │ (Aft-Facing Large Port)
+           ║        ▼
+           ╠══[MOTOR HINGE: MAS Hitch Pitch] ────► Vertical Terrain Grade Pitch (±25.0°)
+           ║        │ (Horizontal Pin)
+           ║        ▼
+           ╠══[ADVANCED ROTOR: MAS Hitch Roll] ──► Longitudinal Torsional Roll (±20.0°)
+           ║        │ (Z-Axis Rotational Pass-Thru)
+           ║        ▼
+           ╠══[MERGE BLOCK: MAS Hitch Sever Tongue] ──► Structural Hard-Lock & Emergency Decouple
            ║        │
            ║        ▼
-           ║   [MOTOR HINGE] (Vertical Pitch Articulation: −25° to +25°)
-           ║        │
-           ║        ▼
-           ║   [MERGE BLOCK: MAS HITCH SEVER TONGUE] (Emergency Decoupling)
-           ║        │
-           ║        ▼
-           ╚════════╪═════════════════════════════════════════► To Utility Carriage (Carriage 2)
+           ╚════════╪════════════════════════════► To Utility Carriage (Carriage 2)
                     ▼
            [LARGE CONVEYOR PASS-THROUGH PIPE]
+
+    Anti-Oscillation High-Speed Clamps:
+    [MAS Hitch Clamp Port (X −2)] ────► Locks onto Trailer Strike Plate (> 30 km/h)
+    [MAS Hitch Clamp Stbd (X +2)] ────► Locks onto Trailer Strike Plate (Rigid Transit)
 ```
 
+##### Placement Instructions
+1. Mount the stator of Large Advanced Rotor `MAS Hitch Yaw` on the Tractor Aft Bulkhead at [X0, Z −8, Y = L2], facing directly Aft (−Z). Connect its front port to the central conveyor raceway.
+2. Attach the Large Advanced Rotor Head. Connect the internal large conveyor passage.
+3. Mount the stator of Large Motor Hinge `MAS Hitch Pitch` at [X0, Z −8.5, L2] directly onto the yaw rotor head with the hinge barrel oriented horizontally (X-axis) for vertical pitch.
+4. Mount the stator of Large Advanced Rotor `MAS Hitch Roll` at [X0, Z −9, L2] on the pitch hinge head, aligned horizontally along the Z-axis to permit up to ±20.0° torsional roll rotation.
+5. Build the drawbar tongue using Heavy Armor blocks and mount Large Grid Merge Block `MAS Hitch Sever Tongue` at [X0, Z −9.5, L2] facing Aft (−Z) to connect with Carriage 2.
+6. Install 2× Large Magnetic Plates (`MAS Hitch Clamp Port/Stbd`) at [X −2, Z −8.5, L2] and [X +2, Z −8.5, L2] facing Aft to clamp onto trailer strike plates during high-speed travel.
+7. Install camera `MAS Cam Hitch` above the drawbar facing Aft with HUD crosshairs for docking alignment.
+8. Construct beveled Heavy Armor guide horns on Carriage 2's nose to funnel the tongue within a ±1.2 m alignment tolerance.
+9. Paint all drawbar components with Palette Slot 2 (`#9E2A2B` Heavy Rail Crimson).
+
+##### Terminal Configuration & Sliders
+* Rotor: `MAS Hitch Yaw`
+  * Velocity: `0.5 rpm` · Braking Torque: `50 MN·m`
+  * Lower Limit: `−45.0°` · Upper Limit: `+45.0°` · Share Inertia Tensor: `ON`
+* Hinge: `MAS Hitch Pitch`
+  * Velocity: `0.5 rpm` · Braking Torque: `45 MN·m`
+  * Lower Limit: `−25.0°` · Upper Limit: `+25.0°` · Share Inertia Tensor: `ON`
+* Rotor: `MAS Hitch Roll`
+  * Velocity: `0.5 rpm` · Braking Torque: `30 MN·m`
+  * Lower Limit: `−20.0°` · Upper Limit: `+20.0°` · Share Inertia Tensor: `ON`
+* Group: `MAS Hitch Clamps` (`MAS Hitch Clamp Port`, `MAS Hitch Clamp Stbd`)
+  * Auto-Lock: `OFF` · Proximity Sensor Interlock: Active
+* Merge Block: `MAS Hitch Sever Tongue`
+  * Enabled: `ON` (Structural hard-lock)
+
+**✓ Check:** Drawbar articulates freely in 3 axes (Yaw ±45°, Pitch ±25°, Roll ±20°) without chassis armor clipping. Clamps rigidly lock tongue straight when energized.
+
+---
+
+#### Step 10.11 · Smart Anti-Jackknife Lockout & Inter-Carriage Flexible Weather Bellows with Dual Hermetic Airlocks (L2-L3)
+
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ [LOCATOR] Subsystem: Anti-Jackknife Logic & Gangway  ·  Grid Zone: [X0, Z −9 to −8]  │
+│ [VIEWPORT] Level: L2-L3  ·  Orientation: Looking Port (−X) Longitudinal Section       │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+##### Step 10.11 Parts Tray
+| Block Type | Qty | Palette Slot | Mass / PCU | Critical Placement & Facing |
+|---|---|---|---|---|
+| Sliding Door | 2 | Slot 9 (`#F1C40F`) | 2.4 t / 30 | `MAS Door Gangway Fwd` [X0, Z −8, L3] and `MAS Door Gangway Aft` [X0, Z −9, L3] |
+| Grated Catwalk Block | 2 | Slot 9 (`#F1C40F`) | 0.6 t / 2 | Articulated gangway walkway plates spanning Z −8 to −9 |
+| Heavy Armor Slope Block | 8 | Slot 0 (`#2B303A`) | 6.8 t / 8 | Bellows perimeter weather fairings surrounding gangway gap |
+
 ```
-Hitch Articulation Kinematic Envelope:
-· Horizontal Yaw (Turning): Rotor limits set to Min: -45.0°, Max: +45.0°.
-  Torque: 45 MN·m · Velocity: 0.5 rpm · Damping: 85%.
-· Vertical Pitch (Crest / Dip): Hinge limits set to Min: -25.0°, Max: +25.0°.
-  Torque: 45 MN·m · Velocity: 0.5 rpm · Damping: 90%.
-· Roll (Twist): Locked rigid via structural heavy armor wishbone; terrain twist absorbed by wheel suspension travel.
+Longitudinal Section through Flexible Gangway (Looking Port, X0, Level L3)
+    CARRIAGE 1 (TRACTOR)                                          CARRIAGE 2 (UTILITY)
+    Aft Bulkhead (Z −8)                                           Fwd Bulkhead (Z −9)
+    ┌──────────────────────┐                                      ┌──────────────────────┐
+    │ [PORT JEFFERIES]     │                                      │ [FIELD WORKSHOP]     │
+    │                      │                                      │                      │
+    │ [MAS DOOR GANG FWD]  │ ═════════ [CATWALK] ════════════════ │ [MAS DOOR GANG AFT]  │
+    └──────────┬───────────┘    (Flexible Weather Bellows)        └──────────┬───────────┘
+    ═══════════╧═════════════════════════════════════════════════════════════╧═══════════ Level L2
+               [3-AXIS GIMBAL DRAWBAR: YAW ROTOR + PITCH HINGE + ROLL ROTOR]
 ```
 
----
+##### Placement Instructions
+1. Install Tractor Aft Gangway door `MAS Door Gangway Fwd` at [X0, Z −8, Y = L3].
+2. Install Utility Forward Gangway door `MAS Door Gangway Aft` at [X0, Z −9, Y = L3].
+3. Bridge the 1-block mechanical gap with slip-resistant Grated Catwalks, enclosed within flexible heavy armor bellows.
+4. **Hermetic Protocol:** In Space Engineers, subgrids cannot share an airtight seal across mechanical joints. The gangway enclosure serves as a dust/weather shield. In vacuum environments, crew members cycle through the dual sliding doors as an airlock vestibule, or traverse with sealed EVA helmets.
+5. Configure Event Controllers `MAS EC Hitch Speed` and `MAS EC Hitch Rev`.
 
-#### Step 10.5B · Smart Anti-Jackknife Dynamics & High-Speed Sway Lockout
+##### Terminal Configuration & Sliders
+* Event Controller: `MAS EC Hitch Speed`
+  * Monitored: Vehicle Speedometer
+  * Threshold: $> 30.0\text{ km/h}$
+  * Action Slot 1 (True): Group `MAS Hitch Clamps` -> Lock ON; `MAS Hitch Yaw` -> Braking Torque = `100 MN·m` (Rigid Anti-Sway Lock)
+  * Action Slot 2 (False): Group `MAS Hitch Clamps` -> Lock OFF; `MAS Hitch Yaw` -> Braking Torque = `50 MN·m` (Active Flex Articulation)
+* Event Controller: `MAS EC Hitch Rev`
+  * Monitored: Transmission Gear
+  * Condition: Gear = Reverse
+  * Action Slot 1 (True): `MAS Hitch Yaw` -> Clamp Limits to `±15.0°`; Axle 5 -> Invert Steering OFF
+  * Action Slot 2 (False): `MAS Hitch Yaw` -> Restore Limits to `±45.0°`; Axle 5 -> Invert Steering ON
 
-To eliminate trailer sway during high-speed transit and prevent destructive jackknifing when reversing down steep slopes:
-* **High-Speed Cruising Mode (> 35 km/h):** Event Controller `MAS EC Hitch Speed` monitors vehicle speedometer. When velocity exceeds 35 km/h, `MAS Hitch Rotor` braking torque increases dynamically to `100 MN·m`, locking the drawbar straight and eliminating harmonic trailer snaking.
-* **Reversing Jackknife Prevention:** When transmission shifts into reverse, Event Controller `MAS EC Hitch Rev` clamps rotor yaw limits from `±45.0°` down to `±15.0°` and commands Axle 5 to track in positive alignment, physically preventing the utility carriage from folding sideways.
-
----
-
-#### Step 10.5C · Inter-Carriage Articulated Enclosed Accordion Gangway (Z −9 to −8, L3)
-
-Directly above the mechanical drawbar hitch, construct a heavy-duty flexible pressurized accordion gangway spanning the 1-block mechanical gap between Tractor Aft Bulkhead (Z −8) and Utility Forward Bulkhead (Z −9):
-* **Structure:** Heavy-duty reinforced canvas and rubber bellows backed by sliding armor plates, accommodating up to ±45° yaw and ±25° pitch articulation without breaking airtight seal.
-* **Isolation Doors:** Sliding door `MAS Door Gangway Fwd` at [X0, Z −8, L3] and sliding door `MAS Door Gangway Aft` at [X0, Z −9, L3]. Allows either carriage to maintain full atmosphere even if the other carriage is breached.
-* **Walkway Deck:** Paved with slip-resistant flexible grated catwalks, allowing crew members to safely walk between carriages at full travel speed without exposure to drawbar pinch hazards or external dust storms.
-
----
-
-#### Step 10.5D · Ground-Level EVA Survival Lockers & Underbelly Inspection Lights (L1-L2)
-
-To ensure field technicians can access emergency life support and tools without entering the pressurized habitat:
-* **Flank EVA Lockers:** Mount 2× Small Cargo Containers (`MAS Locker Port` at [X −5, Z −4, Y = L2] and `MAS Locker Stbd` at [X +5, Z −4, Y = L2]), recessed flush into the lower armored skirts. Painted Palette Slot 9 (High-Viz Safety Yellow). Accessible directly from ground level; pre-stocked with emergency hydrogen suit bottles, oxygen bottles, tool welders, and 5.56mm/25mm ammunition. Plumbed with auto-refill bottle feeds.
-* **Underbelly Keel Lighting:** Mount 3× Interior Lights (`MAS Lights Underbelly`) along the centerline chassis keel at [X0, Z +5], [X0, Z0], and [X0, Z −5] at Level L1. Casts low-intensity amber illumination across wheel suspension hubs, outrigger cylinders, and the tailings aggregate manifold for night maintenance.
+**✓ Check:** Dual airlock doors cycle with active gas reclamation. Above 30 km/h, magnetic clamps energize, locking drawbar rigid and eliminating harmonic trailer snaking.
 
 ---
 
-#### Step 10.5E · Native Threat Decoys, Recovery Gyros & Black Box SOS Cell (L1-L3)
+#### Step 10.12 · Ground-Level EVA Survival Lockers & Underbelly Keel Lights (L1-L2)
 
-To guarantee survival and asset protection under severe attack or total vehicle immobilization (Rule C4 native block compliance):
-* **Ballistic Decoy Sponsons (`MAS Decoy Flank Port/Stbd`, `MAS Decoy Stern`):** Mount 3× Decoys encased within heavy armor and blast door blocks at [X −5, Z −4, Y = L2] (Port skirt), [X +5, Z −4, Y = L2] (Starboard skirt), and [X0, Z −26, Y = L2] (Stern bumper). In Space Engineers, automated turret AI targets Decoys first, diverting artillery, rockets, and gatling rounds into the heavily armored lower chassis skirts away from the bridge canopy and reactors.
-* **Self-Righting Keel Gyroscopes (`MAS Gyro Recovery 1, 2`):** Mount 2× Large Grid Gyroscopes in the lower chassis keel at [X0, Z0, Y = L1]. During normal transit, `Override = OFF`. If the consist rolls onto its side or inverts on steep terrain, toggling `Override = ON` (Roll +100%) applies instant angular torque to roll the consist back onto its wheels.
-* **Armored Black Box & SOS Distress Beacon (`MAS Beacon Distress`):** Encase 1× Radio Antenna / Beacon (`MAS Beacon Distress`, 50 km broadcast) and 1× Small Battery (`MAS Battery BlackBox`, isolated, `Recharge = OFF`) in a 6-sided heavy armor capsule at [X0, Z +7, Y = L1]. Native Event Controller `MAS EC BlackBox` monitors main grid power: upon total electrical blackout (0.0 MW), the isolated battery auto-activates, broadcasting an emergency GPS distress ping `SOS-MASTODON-01-LOST`.
-* **Power Vault Scuttle Charge (`MAS Warhead Scuttle Power`):** Mount 1× Large Grid Warhead between the two nuclear reactors at [X0, Z −3, Y = L3]. Disarmed by default. Linked to the bridge scuttle countdown loop for anti-capture asset destruction.
-* **Power Vault In-Situ Control Panel (`MAS BP Power Vault`):** Mount 1× Sci-Fi 4-Button Panel on the Jefferies tube wall at [X −2, Z −1, Y = L3] (Button 1: Vault Door Toggle, Button 2: Reactor SCRAM, Button 3: H2 Engine Cold-Start, Button 4: Battery Bank Shore Charge).
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ [LOCATOR] Subsystem: Ground EVA & Keel Lighting  ·  Grid Zone: [X ±5, Z −4] (Lockers) │
+│ [VIEWPORT] Level: L1-L2  ·  Orientation: Looking Bow (+Z) Cross-Section at Z −4      │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+##### Step 10.12 Parts Tray
+| Block Type | Qty | Palette Slot | Mass / PCU | Critical Placement & Facing |
+|---|---|---|---|---|
+| Small Cargo Container | 2 | Slot 9 (`#F1C40F`) | 1.2 t / 20 | Recessed at [X −5, Z −4, L2] (Port) and [X +5, Z −4, L2] (Stbd) |
+| Interior Light | 3 | Slot 9 (`#F1C40F`) | 0.2 t / 9 | Mounted along centerline keel at [X0, Z +5, L1], [X0, Z 0, L1], [X0, Z −5, L1] |
+
+```
+Front Elevation Cross-Section at Z −4 (Ground EVA Lockers & Keel Lighting)
+    Port [−X]                                                          Starboard [+X]
+    X: −5             X: −3            X0              X: +3            X: +5
+    ┌───────────────┐ ┌──────────────┐ ┌─────────────┐ ┌──────────────┐ ┌───────────────┐
+    │ MAS LOCKER P  │ │ BOX GIRDER   │ │ CONVEYOR    │ │ BOX GIRDER   │ │ MAS LOCKER S  │
+    │ [EVA Supplies]│ │ (Heavy Armor)│ │ (Central)   │ │ (Heavy Armor)│ │ [EVA Supplies]│
+    └───────┬───────┘ └──────┬───────┘ └──────┬──────┘ └──────┬───────┘ └───────┬───────┘
+            │                │                │               │                 │
+    Level L1│                │         [KEEL LIGHT]           │                 │Level L1
+            │                │         (Amber LED ↓)          │                 │
+    ════════╧════════════════╧════════════════╧═══════════════╧═════════════════╧════════ Ground L0
+     ▲ Ground-Level Human Reach (1.8 m)                                          ▲
+```
+
+##### Placement Instructions
+1. Recess Small Cargo Container `MAS Locker Port` flush into the lower Port armor skirt at [X −5, Z −4, Y = L2]. Plumb its conveyor port into the lower raceway.
+2. Mirror on Starboard: install Small Cargo Container `MAS Locker Stbd` at [X +5, Z −4, Y = L2].
+3. Mount 3 Interior Lights `MAS Lights Underbelly` facing downward along the chassis keel at [X0, Z +5, L1], [X0, Z 0, L1], and [X0, Z −5, L1].
+4. Paint lockers with Palette Slot 9 (`#F1C40F` High-Viz Safety Yellow).
+
+##### Terminal Configuration & Sliders
+* Blocks: `MAS Locker Port`, `MAS Locker Stbd`
+  * Stocking: 4× O2 Bottles, 4× H2 Bottles, 2× Welder Tools, 500× NATO 25×184mm ammo
+* Group: `MAS Lights Underbelly`
+  * Color: Amber (`R: 255, G: 180, B: 50`) · Radius: `5.0 m` · Intensity: `1.5`
+
+**✓ Check:** Lockers can be opened by an engineer standing on planet terrain (Level L0) without jetpack; amber lights illuminate suspension hubs and tailings manifold.
+
+---
+
+#### Step 10.13 · Native Threat Decoys, Keel Recovery Gyros & Armored Black Box SOS Cell (L1-L3)
+
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ [LOCATOR] Subsystem: Failsafes & Asset Protection  ·  Grid Zone: [X0, Z0 to +7]      │
+│ [VIEWPORT] Level: L1-L3  ·  Orientation: Plan view Y = L1 (▲ Bow +Z)                  │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+##### Step 10.13 Parts Tray
+| Block Type | Qty | Palette Slot | Mass / PCU | Critical Placement & Facing |
+|---|---|---|---|---|
+| Decoy Block | 3 | Slot 0 (`#2B303A`) | 3.6 t / 60 | Enclosed in lower armor skirts: [X −5, Z −4, L2], [X +5, Z −4, L2], [X0, Z −26, L2] |
+| Large Gyroscope | 2 | Slot 0 (`#2B303A`) | 24.0 t / 100 | Mounted in lower chassis keel at [X0, Z 0, Y = L1] |
+| Radio Antenna / Beacon | 1 | Slot 7 (`#1B263B`) | 0.8 t / 15 | `MAS Beacon Distress` encased in heavy armor at [X0, Z +7, L1] |
+| Small Battery | 1 | Slot 6 (`#C0392B`) | 0.5 t / 10 | `MAS Battery BlackBox` (cold isolated standby) at [X0, Z +7, L1] |
+| Large Warhead | 1 | Slot 6 (`#C0392B`) | 1.6 t / 20 | `MAS Warhead Scuttle Power` in power vault at [X0, Z −3, L3] |
+
+```
+Plan view, Y = L1 (Keel Failsafes & SOS Black Box Cell)
+        X: −5              X0              X: +5
+    Z:  +7 ┌───────────────┬───────────────┬───────────────┐
+           │               │[BLACK BOX CELL│               │  ◄── Armored SOS Beacon + Isolated Battery
+           │               │ 50 km Distress│               │
+    Z:   0 │               │[MAS GYRO 1, 2]│               │  ◄── Self-Righting Roll Override Gyroscopes
+           │               │(Recovery Core)│               │
+    Z:  −4 │[DECOY PORT]   │               │[DECOY STBD]   │  ◄── Ballistic Decoy Skirts (Divert Fire)
+           └───────────────┴───────────────┴───────────────┘
+```
+
+##### Placement Instructions
+1. Install Ballistic Decoys `MAS Decoy Flank Port` at [X −5, Z −4, L2] and `MAS Decoy Flank Stbd` at [X +5, Z −4, L2], encased within heavy armor skirt blocks.
+2. Install 2 Large Gyroscopes `MAS Gyro Recovery 1` and `MAS Gyro Recovery 2` in the lower keel at [X0, Z 0, L1].
+3. Construct a 6-sided heavy armor capsule at [X0, Z +7, L1] housing Radio Beacon `MAS Beacon Distress` (50 km) and isolated Small Battery `MAS Battery BlackBox`.
+4. Install Large Grid Warhead `MAS Warhead Scuttle Power` between the reactors at [X0, Z −3, L3] (disarmed by default).
+
+##### Terminal Configuration & Sliders
+* Gyroscopes: `MAS Gyro Recovery 1, 2`
+  * Override: `OFF` (Normal transit) · Roll Override: `+100%` (Ready for righting toggle)
+* Beacon & Battery: `MAS Beacon Distress` & `MAS Battery BlackBox`
+  * Battery: `Recharge = OFF` · `Auto = OFF` (Isolated cold standby)
+* Event Controller: `MAS EC BlackBox`
+  * Monitored: Main Grid Power Output
+  * Condition: Total MW $= 0.0\text{ MW}$ (Total blackout)
+  * Action: Activate `MAS Battery BlackBox` -> Broadcast `SOS-MASTODON-01-LOST` (50 km)
+
+**✓ Check:** Hostile turrets target decoys away from bridge and reactors; isolated black box fires distress ping upon power cut; recovery gyros right vehicle from 90° lateral rollover.
+
+---
 
 ##### Pre-Enclosure Inspection Gate 10.2A: Power Core Isolation, Jefferies Tube & Gangway Test
 * [ ] Verify reactor automated uranium pull through the central conveyor trunk.
@@ -5498,15 +5929,23 @@ To guarantee survival and asset protection under severe attack or total vehicle 
 * [ ] Verify `MAS EC Hitch Speed` dynamically raises rotor braking torque to 100 MN·m when speed exceeds 35 km/h.
 * [ ] Verify `MAS Locker Port/Stbd` are accessible from ground level (L0) and `MAS Lights Underbelly` illuminate suspension hubs.
 
----
+```
+PHASE 10-2 VISUAL MILESTONE · POWER CORE, BUFFER & DRAWBAR HITCH COMPLETE
+       Z: −8 (Drawbar)        Z: −4 (Power Vault)    Z: +2 (Ore Buffer)
+      [HITCH SEVER TONGUE]    [35 MW TIER 1 CORE]    [3×3×3 BUFFER HOLD]
+             ║                         │                      │
+       ══════╩═════════════════════════╧══════════════════════╧═══════
+                    PORT JEFFERIES CRAWLWAY RUN (Z −7 to +6, L3)
+```
 
-### Phase 10-3 · Hydraulic Bedrock Outriggers & 45 m Long-Reach Excavation Boom (Levels L2-L8)
+### Phase 10-3 · Hydraulic Bedrock Outriggers & 45 m Long-Reach Excavation Boom (Levels L1-L8)
 
 ```
-       [PHASE 10-3 SPATIAL LOCATOR HUD]
+       [PHASE 10-3 MASTER SPATIAL LOCATOR HUD]
        Envelope: 15 W × 22 L × 6 H B (37.5 × 55.0 × 15.0 m operating envelope)
-       Coordinate Range: X −7 to +7, Z +5 to +22, Y = L2 to L8
+       Coordinate Range: X −7 to +7, Z +5 to +22, Y = L1 to L8
        Pedestal Datum: [X0, Z +6, Y = L4] (Dorsal Turret Ring)
+       Travel Stow Clamp Datum: [X0, Z −7, Y = L4] (Dorsal Spine Trough)
        Outrigger Locations:
        · Port Forward Outrigger: [X −5, Z +11, Y = L1]
        · Starboard Forward Outrigger: [X +5, Z +11, Y = L1]
@@ -5514,295 +5953,362 @@ To guarantee survival and asset protection under severe attack or total vehicle 
        · Starboard Aft Outrigger: [X +5, Z −6, Y = L1]
 ```
 
-#### Pre-Step Parts Tray: Phase 10-3
+#### Pre-Step Master Parts Tray: Phase 10-3
 * 4× Large Piston (Palette 1: Hazard Amber)
 * 4× Seismic Surveying Landing Gear (`MAS Seismic Outrigger 1..4`, TMS Mod 2819263781, Palette 1)
+* 1× Large Advanced Rotor (`MAS Turret Azimuth`, Palette 3: Excavator Ochre)
+* 1× Large Motor Hinge (`MAS Shoulder Pitch`, Palette 3: Excavator Ochre)
+* 1× Large Motor Hinge (`MAS Elbow Pitch`, Palette 3: Excavator Ochre)
+* 1× Large Conveyor Elbow (90° Downward Tool Head Adapter, Palette 4: Processing Teal)
+* 1× Large Motor Hinge (`MAS Wrist Pitch`, Palette 3: Excavator Ochre)
+* 1× Large Advanced Rotor (`MAS Wrist Roll`, Palette 3: Excavator Ochre)
+* 2× Simple Laser Multitool (`MAS Laser 1, 2`, Palette 3: Excavator Ochre)
 * 1× Large Magnetic Plate (`MAS Tool Grapple`, Palette 9: High-Viz Safety Yellow)
 * 1× Large Magnetic Plate (`MAS Clamp Boom Stow`, Palette 1: Hazard Amber · Travel Cradle at Z −7)
-* 1× Large Conveyor Elbow (90° Downward Tool Head Adapter, Palette 4: Processing Teal)
-* 2× Large Advanced Rotor (Palette 3: Excavator Ochre)
-* 3× Large Motor Hinge (Palette 3)
-* 2× Simple Laser Multitool (Mining Mode, Palette 3)
-* 1× Camera + 2× Spotlight + 1× Sensor (Tool Head)
-* 40× Large Conveyor Pipe (Palette 4: Processing Teal)
-* 80× Heavy Armor Slope & Box Girder Blocks (Palette 3)
+* 1× Camera · `MAS Cam Boom` (High-magnification targeting crosshairs)
+* 2× Spotlight · `MAS Light Boom 1, 2` (Palette 3)
+* 1× Sensor · `MAS Sensor Boom` (4.0 m proximity stop)
+* 12× Large Conveyor Pipe (Palette 4: Processing Teal)
+* 24× Heavy Armor Slope & Box Girder Blocks (Palette 3)
 
 ---
 
-#### Step 10.6 · 4× Corner Bedrock Hydraulic Outriggers (L1-L2)
+#### Step 10.14 · 4× Corner Bedrock Hydraulic Outriggers & Seismic Landing Gear (L1-L2)
 
-Install 4 hydraulic stabilizer legs at the outer corners of the tractor chassis. Each outrigger consists of a downward-facing Large Piston capped with a Large Magnetic Plate:
-* Piston Settings: Velocity = `0.2 m/s` · Share Inertia Tensor = `ON`.
-* Magnetic Plate: Auto-Lock = `ON`.
-* Group: `MAS Outriggers`.
-* **Operating Logic:** When deployed on site, pistons extend downward, pressing the magnetic plates into planet voxels and locking rigidly. This completely isolates the suspension, preventing any tipping or chassis flex during boom sweeps.
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ [LOCATOR] Subsystem: Bedrock Outriggers & Seismic Prospecting  ·  Level: L1-L2       │
+│ [VIEWPORT] Grid Zone: [X ±5, Z +11] & [X ±5, Z −6]  ·  Looking Bow (+Z) Front Section│
+└──────────────────────────────────────────────────────────────────────────────────────┘
 
-```
-Front Cross-Section, Outriggers Deployed at Bedrock Baseline:
-     [OUTRIGGER PORT]                                            [OUTRIGGER STBD]
-       [PISTON ↓]                                                  [PISTON ↓]
-     [MAG PLATE P] ─── [WH 1] ─── [BELLY SKIDS] ─── [WH 2] ─── [MAG PLATE S]
-    ══════════════════════════════════════════════════════════════════════════ Terrain
-```
+##### Step 10.14 Parts Tray
+| Block Type | Qty | Palette Slot | Mass / PCU | Critical Placement & Facing |
+|---|---|---|---|---|
+| Large Piston | 4 | Slot 1 (`#E6A100`) | 12.8 t / 100 | Mounted vertically at [X ±5, Z +11] and [X ±5, Z −6], shaft pointing DOWN (−Y) |
+| Seismic Surveying Landing Gear | 4 | Slot 1 (`#E6A100`) | 5.6 t / 160 | `MAS Seismic Outrigger 1..4` (Mod 2819263781) attached to piston heads |
+| Heavy Armor Full Block | 8 | Slot 0 (`#2B303A`) | 6.8 t / 8 | Reinforced outrigger corner corner socket ties |
 
 ```
-Outrigger Deployment Sequence:
-1. Chassis comes to complete stop. Handbrake = ON.
-2. Wheel suspensions override: Strength = 100%, Friction = 100%.
-3. Outrigger Pistons extend: Max distance = 2.5 m (1 B stroke).
-4. Magnetic Plates contact terrain: Auto-Lock triggers (Green lock state).
-5. Event Controller `MAS EC Stabilizers` verifies 4/4 locks -> releases Boom Joint brakes.
+Front Cross-Section at Axle 1 (Outriggers Deployed to Bedrock Baseline)
+     [OUTRIGGER PORT: PISTON 1]                                  [OUTRIGGER STBD: PISTON 2]
+     [X −5, Z +11, L2]                                           [X +5, Z +11, L2]
+            │                                                           │
+            ▼ (Shaft Extends Down)                                      ▼ (Shaft Extends Down)
+     ┌──────────────┐                                            ┌──────────────┐
+     │ LARGE PISTON │                                            │ LARGE PISTON │
+     └──────┬───────┘ ─── [WH 1] ─── [BELLY SKIDS] ─── [WH 2] ─── └──────┬───────┘
+            │                                                           │
+            ▼                                                           ▼
+     [SEISMIC FOOT P]                                            [SEISMIC FOOT S]
+     (Acoustic Pulse)                                            (Acoustic Pulse)
+    ════════╧═══════════════════════════════════════════════════════════╧════════ Terrain Baseline
 ```
+
+##### Placement Instructions
+1. Position 4 downward-facing Large Pistons in reinforced corner sockets at:
+   * Port Forward: [X −5, Z +11, Y = L2] (`MAS Outrigger Piston 1`)
+   * Starboard Forward: [X +5, Z +11, Y = L2] (`MAS Outrigger Piston 2`)
+   * Port Aft: [X −5, Z −6, Y = L2] (`MAS Outrigger Piston 3`)
+   * Starboard Aft: [X +5, Z −6, Y = L2] (`MAS Outrigger Piston 4`)
+2. Attach Seismic Surveying Landing Gear (`MAS Seismic Outrigger 1..4`, Mod 2819263781) to each piston head facing downward toward planet voxels.
+3. Paint pistons and landing gear with Palette Slot 1 (`#E6A100` Hazard Amber).
+
+##### Terminal Configuration & Sliders
+* Group: `MAS Outriggers` (Pistons 1..4)
+  * Velocity: `0.2 m/s` · Max Distance: `2.5 m` (1 block stroke) · Share Inertia Tensor: `ON`
+* Group: `MAS Outrigger Pads` (`MAS Seismic Outrigger 1..4`)
+  * Auto-Lock: `ON`
+* Event Controller: `MAS EC Level` (Auto-Leveling)
+  * Monitored: `MAS Helm` Artificial Horizon Pitch and Roll
+  * Condition: Deck Pitch/Roll $> 0.5^\circ$ -> Differential extension to achieve $0.0^\circ$ Level
+* Event Controller: `MAS EC Seismic`
+  * Monitored: `MAS Outrigger Pads` Lock State
+  * Condition: All 4 Pads = Locked -> Trigger 500 m Acoustic Pulse -> Broadcast `TMS.SCOUT.VEIN`
+
+**✓ Check:** All 4 outrigger pistons extend smoothly; magnetic landing gear lock green upon voxel contact; acoustic survey pulse triggers upon 4/4 lock.
 
 ---
 
-#### Step 10.6B · Auto-Leveling Bedrock Jacks (Sloped Terrain Pitch & Roll Compensation)
+#### Step 10.15 · Centerline Turret Pedestal & Azimuth Advanced Rotor (L4)
 
-When parking on sloped hillsides (up to 20° grade), the 4 corner outrigger pistons execute an automated differential extension cycle to bring the vehicle deck to true horizontal:
-* **Level Sensing:** Event Controller `MAS EC Level` (or `[MAS] PB Excavator`) monitors the artificial horizon pitch and roll angles from `MAS Helm`.
-* **Differential Stroke:** Downhill pistons extend further (up to 2.5 m stroke) while uphill pistons extend only until initial voxel contact, bringing the deck to $0.0^\circ \text{ Roll}$ and $0.0^\circ \text{ Pitch}$.
-* **Lock State:** Once leveled, all 4 Magnetic Plates lock into bedrock simultaneously, creating a perfectly level, rigid foundation on hillsides.
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ [LOCATOR] Subsystem: Dorsal Boom Turntable Pedestal  ·  Grid Zone: [X0, Z +6, Y = L4]│
+│ [VIEWPORT] Level: L4  ·  Orientation: Plan view Y = L4 looking down (▲ Bow +Z)       │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+##### Step 10.15 Parts Tray
+| Block Type | Qty | Palette Slot | Mass / PCU | Critical Placement & Facing |
+|---|---|---|---|---|
+| Large Advanced Rotor | 1 | Slot 3 (`#E67E22`) | 8.8 t / 15 | Stator mounted at [X0, Z +6, L4] facing UP (+Y), large port aligned to L3 riser |
+| Heavy Armor Slope Block | 8 | Slot 0 (`#2B303A`) | 6.8 t / 8 | Collar ring reinforcement wrapping the rotor stator |
+| Large Conveyor Pipe | 1 | Slot 4 (`#1ABC9C`) | 0.8 t / 1 | Vertical riser connecting top of `MAS Tractor Buffer` at L3 to stator |
 
 ```
-TERRAIN-TILT AUTO-LEVELING (Looking Bow, Y = L1-L2)
-
- [UNLEVELED ON 15° SLOPE]                         [AUTO-LEVELED DECK (0.0° ROLL)]
-      Chassis Tilted 15° Downhill                     Chassis Leveled to Gravity Horizon
-         ┌───────────────────┐                           ┌───────────────────┐
-        ╱                   ╱                           │     MAIN DECK     │ (0.0° Roll)
-       ╱    TILTED CAB     ╱                            └─┬───────────────┬─┘
-      └──────┬───────┬────┘                               │ [Piston 0.8m] │ [Piston 2.2m]
-     [Piston]│       │[Piston]                           ▼               ▼
-      (Short)▼       ▼(Short)                       [MAG LOCK]      [MAG LOCK]
-      ═════════════════════════ 15° Hillside        ═════════════════════════ 15° Hillside
+Plan view, Y = L4 (Turret Pedestal Turntable Deck)
+        X: −2             X0              X: +2
+    Z:  +7 ┌───────────────┬───────────────┬───────────────┐
+           │ HEAVY ARMOR   │ C2 BRIDGE AFT │ HEAVY ARMOR   │  ◄── Bridge Aft Bulkhead
+    Z:  +6 ├───────────────┼───────────────┼───────────────┤
+           │ SLOPE RING    │[ADV ROTOR: MAS│ SLOPE RING    │  ◄── 360° Azimuth Turntable Ring
+           │ (Reinforced)  │ TURRET AZIMUTH│ (Reinforced)  │      (Palette Slot 3: Ochre)
+    Z:  +5 ├───────────────┼───────────────┼───────────────┤
+           │ SLOPE RING    │ DORSAL TROUGH │ SLOPE RING    │  ◄── Trough leading aft to stow clamp
+           └───────────────┴───────────────┴───────────────┘
 ```
+
+##### Placement Instructions
+1. Position the stator of Large Advanced Rotor `MAS Turret Azimuth` at [X0, Z +6, Y = L4], facing directly UP (+Y).
+2. Plumb the bottom 3×3 large conveyor port directly into the top port of `MAS Tractor Buffer` at Level L3.
+3. Attach the Large Advanced Rotor Head facing UP (+Y).
+4. Surround the stator base with 8 Heavy Armor Slope blocks forming a reinforced structural collar.
+5. Paint the rotor with Palette Slot 3 (`#E67E22` Excavator Ochre).
+
+##### Terminal Configuration & Sliders
+* Name: `MAS Turret Azimuth`
+* Velocity: `0.75 rpm` · Braking Torque: `50 MN·m`
+* Rotor Limits: Lower Limit: `−180.0°` · Upper Limit: `+180.0°` (360° Continuous Pan)
+* Share Inertia Tensor: `ON`
+* Symmetrical Reach: Centerline mounting guarantees identical **21.25 m physical reach (8.5 blocks)** beyond outer tires on both Port and Starboard flanks.
+
+**✓ Check:** Turntable stator seated rigidly behind bridge canopy. Head spins 360° with 50 MN·m braking torque; large conveyor conduit passes through rotor center.
 
 ---
 
-#### Step 10.6C · Deep Seismic Subsurface Voxel Prospecting Array (TMS Mod Integration)
+#### Step 10.16 · Shoulder Pitch Hinge & 7-Block Main Boom Arm Casing (L4-L6)
 
-Equip each of the 4 corner outrigger feet with **Seismic Surveying Landing Gear** from the active TMS mod suite (`docs/rig/mods.md`, Mod ID `2819263781`):
-* **Hardware Integration:** Replace standard magnetic plate heads with `MAS Seismic Outrigger 1..4` (Palette 1: Hazard Amber).
-* **Automated Resonance Pulse:** When `MAS EC Level` locks the outriggers into bedrock at $0.0^\circ$ pitch and roll, Event Controller `MAS EC Seismic` triggers an active acoustic survey pulse.
-* **Subsurface Detection:** Maps subterranean mineral density down to $500\text{ m}$† depth in a 300 m radius beneath the anchored consist, identifying deep rare ore deposits (Uranium, Platinum, Gold) far beyond the 150 m range of standard ore detectors.
-* **IGC Telemetry:** Coordinates, estimated depth, and deposit signatures are automatically formatted and published over IGC to `TMS.SCOUT.VEIN` and populated on Station 3 Tactical Video Wall.
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ [LOCATOR] Subsystem: Shoulder Elevation & Main Arm  ·  Level: L4 to L6               │
+│ [VIEWPORT] Grid Zone: Spanning 7 B from pedestal  ·  Looking Port (−X) Profile       │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+##### Step 10.16 Parts Tray
+| Block Type | Qty | Palette Slot | Mass / PCU | Critical Placement & Facing |
+|---|---|---|---|---|
+| Large Motor Hinge | 1 | Slot 3 (`#E67E22`) | 3.5 t / 15 | Stator mounted on Rotor Head; hinge barrel horizontal along X-axis (Pitch) |
+| Large Conveyor Pipe | 7 | Slot 4 (`#1ABC9C`) | 5.2 t / 7 | Continuous 7-block (17.5 m) internal conveyor pipe line |
+| Heavy Armor Full Block / Slope | 14 | Slot 3 (`#E67E22`) | 11.9 t / 14 | Boxed structural armor casing enclosing the conveyor pipe |
+
+```
+Longitudinal Profile · Shoulder Joint & Main Boom Arm (Looking Port)
+                                                               [ELBOW JOINT]
+                                                               (To Step 10.17)
+                                                                      ▲
+                                                                     ╱
+                                           [MAIN BOOM ARM · 7 B]    ╱
+                                           (17.5 m Heavy Casing)   ╱
+                                                                  ╱
+                               [SHOULDER PITCH HINGE] ───────────┘
+                               (Horizontal Pin along X-axis)
+                                     │
+                                     ▼
+                        [TURRET AZIMUTH ROTOR HEAD]
+                        [Chassis Pedestal: X0, Z +6, L4]
+```
+
+##### Placement Instructions
+1. Mount the stator of Large Motor Hinge `MAS Shoulder Pitch` directly onto the top face of the Azimuth Rotor Head.
+2. **Critical Orientation:** Orient the hinge stator so the barrel pivot pin is strictly horizontal along the X-axis (Port-Starboard), enabling vertical pitch elevation.
+3. Attach the Large Motor Hinge Head.
+4. Plumb 7 Large Conveyor Pipes in a straight run extending from the hinge head (17.5 m span).
+5. Encase the pipes in Heavy Armor Full and Slope blocks, forming a boxed girder casing painted Palette Slot 3 (`#E67E22` Excavator Ochre).
+
+##### Terminal Configuration & Sliders
+* Name: `MAS Shoulder Pitch`
+* Velocity: `0.5 rpm` · Braking Torque: `45 MN·m`
+* Lower Limit: `−20.0°` (Undercutting terrain / spine stow) · Upper Limit: `+75.0°` (High reach)
+* Share Inertia Tensor: `ON`
+
+**✓ Check:** Shoulder elevates cleanly between −20° and +75°; 17.5 m main boom arm holds elevation under 45 MN·m torque with zero droop.
 
 ---
 
-#### Step 10.7 · Heavy Turret Pedestal & Azimuth Advanced Rotor (Z = +6, X0, L4)
+#### Step 10.17 · Elbow Pitch Hinge & 5-Block Forearm Girder (L6-L8)
 
-Mount an Advanced Rotor facing upward (+Y) on the dorsal deck at centerline [X0, Z +6, Y = L4]. This serves as the primary azimuth turntable, providing **360° continuous horizontal rotation** for the excavation boom with an unrestricted large-conveyor pass-through:
-* **Mounting Coordinates:** [X0, Z +6, Y = L4] (Directly behind C2 Bridge aft wall, elevated 10.0 m above terrain).
-* **Rotor Settings:** Share Inertia Tensor = `ON` · Braking Torque = `50 MN·m` · Velocity = `0.75 rpm`.
-* **Symmetrical Flank Reach:** Because the turntable is mounted on the exact centerline (X0), the arm provides identical symmetrical reach to both Port (−X) and Starboard (+X):
-  - Chassis Half-Width: 13.75 m (5.5 blocks from centerline to outer tire/skirt).
-  - Physical Boom Reach: 35.0 m (14 blocks fully extended).
-  - Reach Beyond Either Flank: **21.25 m (8.5 blocks)** of physical reach into open terrain off either side.
-  - Effective Extraction Reach: **46.25 m to 56.25 m** when including laser mining beam projection.
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ [LOCATOR] Subsystem: Elbow Joint & Forearm Reach  ·  Level: L6 to L8                 │
+│ [VIEWPORT] Grid Zone: Forearm extension (5 B span)  ·  Looking Port (−X) Profile    │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+##### Step 10.17 Parts Tray
+| Block Type | Qty | Palette Slot | Mass / PCU | Critical Placement & Facing |
+|---|---|---|---|---|
+| Large Motor Hinge | 1 | Slot 3 (`#E67E22`) | 3.5 t / 15 | Stator mounted at tip of main boom arm; hinge barrel horizontal (Pitch) |
+| Large Conveyor Pipe | 5 | Slot 4 (`#1ABC9C`) | 3.7 t / 5 | Continuous 5-block (12.5 m) internal conveyor pipe line |
+| Structural Girder / Slope | 10 | Slot 3 (`#E67E22`) | 6.5 t / 10 | Tapered lightweight girder casing enclosing forearm |
+
+```
+Longitudinal Profile · Elbow Joint & Forearm Girder (Looking Port)
+                                             [FOREARM GIRDER · 5 B]
+                                             (12.5 m Tapered Casing)
+                                             ═══════════════════════► To Wrist (Step 10.18)
+                                            ╱
+                      [ELBOW PITCH HINGE] ─┘
+                      (Horizontal Pin)
+                             │
+                             ▼
+               [From Main Boom Arm (Step 10.16)]
+```
+
+##### Placement Instructions
+1. Mount the stator of Large Motor Hinge `MAS Elbow Pitch` at the forward tip of the 7-block main boom arm.
+2. **Critical Orientation:** Align the hinge barrel strictly horizontal along the X-axis (Pitch), parallel to the shoulder hinge.
+3. Attach the Large Motor Hinge Head.
+4. Plumb 5 Large Conveyor Pipes extending from the hinge head (12.5 m span).
+5. Encase the piping in tapered Structural Girder and slope blocks painted Palette Slot 3 (`#E67E22` Excavator Ochre).
+
+##### Terminal Configuration & Sliders
+* Name: `MAS Elbow Pitch`
+* Velocity: `0.5 rpm` · Braking Torque: `45 MN·m`
+* Lower Limit: `−100.0°` (Descent into deep pits) · Upper Limit: `+45.0°` (Extended reach)
+* Share Inertia Tensor: `ON`
+
+**✓ Check:** Elbow articulates from −100° to +45°; combined main arm + forearm delivers 35.0 m physical reach from turret center without structural flex.
 
 ---
 
-#### Step 10.8 · 5-DOF Articulated Boom Kinematic Chain & Travel Stow Trough (L4-L8)
+#### Step 10.18 · 90° Downward Tool Elbow, Wrist Pitch Hinge & Wrist Roll Rotor (L7-L8)
 
-Assemble the high-articulation robotic excavation and recovery crane:
-1. **Shoulder Pitch Hinge (`MAS Shoulder Pitch`):** Motorized Large Hinge connected to the azimuth rotor head. Pitch limits: `−20.0°` (undercutting terrain / stowed trough) to `+75.0°` (high reach). Torque: `45 MN·m`.
-2. **Main Boom Arm (7 B Span):** Boxed heavy armor casing enclosing the primary large conveyor pipe (17.5 m length).
-3. **Elbow Pitch Hinge (`MAS Elbow Pitch`):** Motorized Large Hinge at the mid-joint. Articulation limits: `−100.0°` (flexed descent) to `+45.0°` (extended reach). Torque: `45 MN·m`.
-4. **Forearm Girder (5 B Span):** Tapered structural girder carrying internal piping and utility cabling (12.5 m length).
-5. **90° Downward Conveyor Elbow Adapter:** Large conveyor elbow mounted at the tip of the forearm. Sets the neutral tool orientation strictly downward (−Y) toward planetary gravity.
-6. **Wrist 2-Axis Articulator:**
-   * Wrist Pitch Hinge (`MAS Wrist Pitch`): Motorized Large Hinge connected to the 90° elbow. Provides `−60.0°` to `+60.0°` pitch compensation around true vertical.
-   * Wrist Roll Rotor (`MAS Wrist Roll`): Large Advanced Rotor providing continuous 360° tool roll (5.0 rpm) for circular column coring.
-7. **Chassis Travel Stow Cradle (`MAS Clamp Boom Stow`):** Large Magnetic Plate mounted flush in the Tractor dorsal spine trough at [X0, Z −7, Y = L4]. Flanked by twin heavy armor coamings running from Z +5 to Z −8.
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ [LOCATOR] Subsystem: 2-Axis Wrist Articulator  ·  Level: L7-L8                       │
+│ [VIEWPORT] Grid Zone: Forearm Tip  ·  Looking Port (−X) & Front Elevation            │
+└──────────────────────────────────────────────────────────────────────────────────────┘
 
-```
-2.5D Isometric Callout · 35 m Long-Reach Boom with 90° Downward Tool Head
-       Chassis Pedestal (Z +6, X0, L4)
-              ║
-              ╠══[TURRET AZIMUTH ROTOR] ────────► 360° Continuous Horizontal Pan
-              ║        │
-              ║        ▼
-              ║   [SHOULDER PITCH HINGE] ───────► Elevation: −20° to +75°
-              ║        │
-              ║        ▼
-              ║   [Main Boom Arm · 7 B Span] (17.5 m Heavy Cased Pipe)
-              ║        │
-              ║        ▼
-              ║   [ELBOW PITCH HINGE] ──────────► Articulation: −100° to +45°
-              ║        │
-              ║        ▼
-              ║   [Forearm Girder · 5 B Span] (12.5 m Tapered Casing)
-              ║        │
-              ║        ▼
-              ║   [90° DOWN CONVEYOR ELBOW] ────► Neutral Reference = Straight Down (−Y)
-              ║        │
-              ║        ▼
-              ║   [WRIST PITCH HINGE] ──────────► Pitch Compensation: −60° to +60°
-              ║        │
-              ║        ▼
-              ║   [WRIST ROLL ROTOR] ───────────► 360° Continuous Spin (5 rpm Core Bore)
-              ║        │
-              ║        ▼
-              ║   [LASER MINING TOOL HEAD]
-              ║   (2× Laser Multitools + Tool Grapple + Cam + Lights)
-```
+##### Step 10.18 Parts Tray
+| Block Type | Qty | Palette Slot | Mass / PCU | Critical Placement & Facing |
+|---|---|---|---|---|
+| Large Conveyor Elbow | 1 | Slot 4 (`#1ABC9C`) | 0.8 t / 1 | 90° downward adapter mounted at forearm tip, outlet facing strictly DOWN (−Y) |
+| Large Motor Hinge | 1 | Slot 3 (`#E67E22`) | 3.5 t / 15 | `MAS Wrist Pitch` stator mounted to elbow outlet, pin horizontal (Pitch) |
+| Large Advanced Rotor | 1 | Slot 3 (`#E67E22`) | 8.8 t / 15 | `MAS Wrist Roll` stator mounted to hinge head, rotating face facing DOWN (−Y) |
 
 ```
-Boom Operating Configurations:
-
-1. STOWED TRANSIT CONFIGURATION (Traveling Overland at 35 km/h):
-   Turret Azimuth: 180.0° (Slewed Aft along Centerline X0)
-   Shoulder Pitch:  -5.0° (Resting flat in armored dorsal spine trough)
-   Elbow Pitch:      0.0° (Flat inline with main boom arm)
-   Wrist Pitch:      0.0° (Tool head locked into chassis deck clamp)
-   Stow Clamp:     LOCKED (`MAS Clamp Boom Stow` at [X0, Z −7, L4] Green Lock)
-   Total Length:   14 Blocks (35.0 m) from Z +6 to Z −8 (Spans Carriage 1 only)
-   Hitch Gap:      Zero Overhang (7 blocks clear of hitch at Z −8 to −9)
-   Cab Sightlines: 100% Unobstructed (Zero forward canopy blockage)
-   Transit Height: 5.2 m above ground (Fits under 6.0 m hangar gates)
-
-2. TARGET-CENTRIC VERTICAL COLUMN BORING CONFIGURATION (Active Mining):
-   Turret Azimuth: Slew to Target Bearing φ = atan2(Xt, Zt)
-   Shoulder Pitch: +15.0° to +55.0° (Adjusted per radial distance R)
-   Elbow Pitch:    -10.0° to -70.0° (Adjusted per depth Y)
-   Wrist Pitch:    Counter-Pitches to lock Tool Vector strictly vertical ([0, -1, 0])
-   Wrist Roll:     Spins continuously at 5.0 rpm for circular core coring
-   Lateral Sweeps: Arm executes concentric circular orbits (ΔX, ΔZ) around target (Xt, Zt)
-   Operating Span: 6.0 m to 35.0 m from turret · Max Depth Reach: -25.0 m (-55 m with beams)
+Longitudinal Callout · 2-Axis Wrist Articulator (Forearm Tip)
+              [Forearm Girder Tip]
+                       │
+                       ▼
+             [90° DOWN CONVEYOR ELBOW] ──► Sets neutral reference to straight down (−Y)
+                       │
+                       ▼
+             [MOTOR HINGE: MAS Wrist Pitch] ──► Pitch Compensation: −60° to +60°
+                       │
+                       ▼
+             [ADV ROTOR: MAS Wrist Roll] ────► 360° Continuous Axial Spin (5 rpm Core Bore)
+                       │
+                       ▼
+             [TOOL MOUNTING FLANGE] ─────────► (To Step 10.19)
 ```
+
+##### Placement Instructions
+1. Attach Large Conveyor Elbow to the tip of the forearm piping, orienting its outlet port facing strictly DOWN (−Y) toward planetary gravity.
+2. Mount the stator of Large Motor Hinge `MAS Wrist Pitch` to the elbow outlet. Orient its barrel horizontal for pitch compensation.
+3. Attach the hinge head. Mount the stator of Large Advanced Rotor `MAS Wrist Roll` to the hinge head with its rotor head facing downward (−Y).
+4. Attach the Large Advanced Rotor Head. This head serves as the universal mounting plate for the tool head.
+5. Paint wrist blocks with Palette Slot 3 (`#E67E22` Excavator Ochre).
+
+##### Terminal Configuration & Sliders
+* Hinge: `MAS Wrist Pitch`
+  * Limits: `−60.0°` to `+60.0°` · Braking Torque: `20 MN·m` · Velocity: `1.0 rpm`
+  * Share Inertia Tensor: `ON`
+  * Active Gravity Horizon Leveling: Counter-pitches to offset arm angle ($\theta_{\text{wrist}} = -(\theta_{\text{shoulder}} + \theta_{\text{elbow}})$), locking tool vector strictly vertical ($[0, -1, 0]$).
+* Rotor: `MAS Wrist Roll`
+  * Rotor Limits: Lower Limit: OFF · Upper Limit: OFF (Continuous 360° Roll)
+  * Velocity: `5.0 rpm` · Braking Torque: `20 MN·m` · Share Inertia Tensor: `ON`
+
+**✓ Check:** Wrist counter-rotates to maintain strictly downward tool orientation regardless of arm elevation; roll rotor spins smoothly at 5.0 rpm.
 
 ---
 
-#### Step 10.8B · Active Gravity-Horizon Tool Head Leveling & True Vertical Lock
+#### Step 10.19 · Laser Mining Tool Head, Heavy Recovery Grapple & Travel Stow Cradle Clamp (L4)
 
-To enable precision vertical column boring and flat quarry terracing:
-* **True Vertical Downward Lock (Column Boring):** With the 90° downward elbow adapter setting the tool neutral vector along −Y, the Wrist Pitch Hinge counter-articulates in exact opposite ratio to the net arm angle ($\theta_{\text{wrist}} = -(\theta_{\text{shoulder}} + \theta_{\text{elbow}})$). This locks the twin mining lasers strictly parallel to planetary gravity ($\vec{u}_{\text{tool}} = [0, -1, 0]$) across the entire radial operating envelope ($6.0\text{ m} \le R \le 35.0\text{ m}$).
-* **Horizontal Terracing Mode (Bench Quarrying):** By rotating `MAS Wrist Pitch` by $+90.0^\circ$, the laser beams deflect forward, leveled strictly parallel to the planet surface for cutting flat bench floors.
-* **Proximity Safety Buffer:** Sensor `MAS Sensor Boom` mounted on the tool head is configured with a 4.0 m forward detection sphere. If terrain voxels or vehicle blocks enter the buffer during rapid slewing, it cuts laser beam power and locks joint brakes within 1 tick, preventing tool head destruction.
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ [LOCATOR] Subsystem: Excavation Tool Head & Chassis Travel Stow  ·  Level: L4        │
+│ [VIEWPORT] Grid Zone: Tool Head at Wrist Roll Head; Stow Clamp at [X0, Z −7, L4]     │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+##### Step 10.19 Parts Tray
+| Block Type | Qty | Palette Slot | Mass / PCU | Critical Placement & Facing |
+|---|---|---|---|---|
+| Simple Laser Multitool | 2 | Slot 3 (`#E67E22`) | 6.0 t / 200 | `MAS Laser 1, 2` (ToolCore) mounted on roll face, spaced 2.5 m apart |
+| Large Magnetic Plate | 1 | Slot 9 (`#F1C40F`) | 2.4 t / 25 | `MAS Tool Grapple` mounted centrally between lasers, face pointing DOWN (−Y) |
+| Large Magnetic Plate | 1 | Slot 1 (`#E6A100`) | 2.4 t / 25 | `MAS Clamp Boom Stow` mounted flush in Tractor dorsal spine trough at [X0, Z −7, L4] |
+| Camera | 1 | Slot 7 (`#1B263B`) | 0.1 t / 10 | `MAS Cam Boom` centered looking straight down drill bore |
+| Spotlight | 2 | Slot 3 (`#E67E22`) | 0.4 t / 16 | `MAS Light Boom 1, 2` flanking tool head |
+| Sensor | 1 | Slot 7 (`#1B263B`) | 0.1 t / 10 | `MAS Sensor Boom` (4.0 m forward collision safety buffer) |
 
 ```
-BOOM ELEVATION WITH HORIZON-LEVELED TOOL HEAD
-
-                  [SHOULDER ELEVATED +35°]
-                         ╱
-                        ╱  Main Arm
-                       ╱
-                      ▼
-               [ELBOW FLEXED -20°]
-                      ╲
-                       ╲  Forearm
-                        ╲
-                         ▼
-                  [90° DOWN ELBOW] ── (Base direction = −90° DOWN)
-                         │
-                         ▼
-                  [WRIST PITCH HINGE] ── (Counter-Pitches -15° to cancel arm slope)
-                         │
-                         ▼
-               ┌───────────────────┐
-               │  [LASER MULTI]    │ ════════════► Fires Strictly DOWN (−Y)
-               └───────────────────┘               (Parallel to Planetary Gravity)
+Front Elevation · Tool Head Mounting Face (Looking Up at Roll Face)
+                  ┌───────────────────────────────────────────────┐
+                  │                 MAS Cam Boom                  │
+                  ├───────────────┬───────────────┬───────────────┤
+                  │  MAS Laser 1  │   MAS TOOL    │  MAS Laser 2  │
+                  │ (Simple Laser │    GRAPPLE    │ (Simple Laser │
+                  │  Multitool)   │  (Mag Plate)  │  Multitool)   │
+                  ├───────────────┼───────────────┼───────────────┤
+                  │ MAS Light 1   │MAS Sensor Boom│ MAS Light 2   │
+                  └───────────────┴───────────────┴───────────────┘
 ```
+
+##### Placement Instructions
+1. Mount 2 Simple Laser Multitools (`MAS Laser 1` and `MAS Laser 2`) onto the outer flanks of the Wrist Roll Head, spaced 2.5 m apart with conveyor ports plumbed into the rotor pass-through.
+2. Mount 1 Large Magnetic Plate `MAS Tool Grapple` centrally between the two laser emitters, facing outward along the tool head axis.
+3. Install Camera `MAS Cam Boom` centered directly down the drill bore; flank with Spotlights `MAS Light Boom 1` and `MAS Light Boom 2`.
+4. Install Sensor `MAS Sensor Boom` calibrated for a 4.0 m forward safety buffer.
+5. On the Tractor chassis dorsal deck, install Large Magnetic Plate `MAS Clamp Boom Stow` flush in the spine trough at [X0, Z −7, Y = L4] facing UP (+Y), flanked by twin heavy armor guide coamings running from Z +5 to Z −8.
+
+##### Terminal Configuration & Sliders
+* Lasers: `MAS Laser 1, 2` (ToolCore Tri-Mode: Mining Drill <-> Salvage Grinder <-> Fabrication Welder)
+* Grapple: `MAS Tool Grapple` (Auto-Lock: `OFF` · Mag Strength: `100%`)
+* Stow Clamp: `MAS Clamp Boom Stow` (Auto-Lock: `ON` · Mag Strength: `100%`)
+* Sensor: `MAS Sensor Boom` (Front: `4.0 m`, Left/Right: `2.0 m`, Up/Down: `2.0 m` -> Action: Cut Lasers & Clamp Joint Brakes)
+
+**✓ Check:** Lasers fire in Mining, Salvage, and Fabrication modes; grapple locks onto test block; boom slews 180° aft into dorsal trough and locks green into `MAS Clamp Boom Stow` at 5.2 m transit height.
 
 ---
 
-#### Step 10.9 · Laser Mining Tool Head, 90° Downward Elbow & Heavy Recovery Grapple
+#### Step 10.20 · Automated Excavation Macro Modes & Kinematic Sweep Sequences
 
-At the tip of the wrist articulator, mount the unified excavation and field recovery head:
-* 1 × Large Conveyor Elbow: Mounted at the tip of the forearm, routing the conveyor line 90° downward toward ground baseline.
-* 1 × Motor Hinge (`MAS Wrist Pitch`): Mounted to the elbow head, providing `±60.0°` pitch leveling around the vertical axis.
-* 1 × Large Advanced Rotor (`MAS Wrist Roll`): Providing continuous 360° axial spin (5.0 rpm) for circular column coring.
-* 2 × Simple Laser Multitool (`MAS Laser 1, 2`, Mod 3175774286 / ToolCore 3040438530): Mounted on the roll face, spaced 2.5 m apart. Powered by ToolCore, these units operate dynamically as tri-mode energy emitters:
-  1. `Mode 1: Mining Beam (Drill)`: Voxel pulverization and continuous raw ore intake.
-  2. `Mode 2: Salvage Beam (Grinder)`: Non-contact thermal deconstruction of target grids at 15 to 30 m standoff, yielding 100% component recovery without physical blade collision damage or tension snagging.
-  3. `Mode 3: Fabrication Beam (Welder)`: High-speed remote structural welding from up to 35 m away, enabling chasm bridge assembly and fleet craft repair without crew EVA.
-* 1 × Large Magnetic Plate (`MAS Tool Grapple`, Auto-Lock = OFF, Palette 9: High-Viz Safety Yellow) mounted centrally between the laser heads. Provides heavy lifting, vehicle righting, and cargo positioning capability with 45 MN·m joint holding power.
-* 1 × Camera · `MAS Cam Boom` (high-magnification targeting crosshairs looking directly down the drill bore).
-* 2 × Spotlight · `MAS Light Boom 1, 2` (floodlights illuminating the cutting bench and salvage targets).
-* 1 × Sensor · `MAS Sensor Boom` (4.0 m safety stop to prevent head-to-terrain collision).
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ [LOCATOR] Subsystem: Excavator Kinematic Macro Engine  ·  Software/Hardware Layer    │
+│ [VIEWPORT] Supervised by: `[MAS] PB Excavator` (Update1 / 60 Hz)                     │
+└──────────────────────────────────────────────────────────────────────────────────────┘
 
-```
-Front Elevation · Laser Mining Tool Head & Recovery Grapple (Tip of Forearm)
-                  [90° DOWN CONVEYOR ELBOW]
-                            │
-                  [WRIST PITCH HINGE]
-                            │
-                  [WRIST ROLL ROTOR]
-                            │
-        ┌───────────────────┴───────────────────┐
-        │               [CAMERA]                │
-        │             MAS Cam Boom              │
-        ├───────────────┬───────┬───────────────┤
-        │  [LASER 1]    │[MAG]  │  [LASER 2]    │
-        │  Simple Laser │TOOL   │  Simple Laser │
-        │  Multitool    │GRAPPLE│  Multitool    │
-        ├───────────────┼───────┼───────────────┤
-        │ [SPOTLIGHT 1] │       │ [SPOTLIGHT 2] │
-        └───────────────┴───────┴───────────────┘
-```
+##### 5 Standard Excavation & Recovery Macros
+1. **Macro 1: Bench Quarrying (Horizontal Terracing):**
+   * Azimuth Turret sweeps across face: `−45.0°` (Port) to `+45.0°` (Starboard).
+   * Shoulder Hinge incrementally steps down `−2.5°` per pass (0.5 B cut depth).
+   * Wrist Pitch elevates `+90.0°` to maintain flat, drivable terrace floors parallel to surface.
+2. **Macro 2: Target-Centric Vertical Column Bore (Subterranean Shaft):**
+   * Accepts target vein waypoint $(X_t, Z_t)$ from seismic scan or Station 2 operator.
+   * Turret Azimuth slews to target bearing; Shoulder and Elbow extend tool head over target.
+   * Wrist Pitch counter-pitches to lock laser beams strictly vertical ($[0, -1, 0]$).
+   * Wrist Roll spins twin offset lasers at 5.0 rpm, cutting an initial 3.0 m core.
+   * Motion controller translates arm in automated 2D concentric circular sweeps ($\Delta X, \Delta Z$) around $(X_t, Z_t)$ to expand shaft diameter (up to 12.5 m wide).
+   * Steps downward $\Delta Y = -1.0\text{ m}$ per pass down to $-25.0\text{ m}$ physical depth ($-55\text{ m}$ with laser beams).
+3. **Macro 3: Trench & Road Carve (Overland Right-of-Way):**
+   * Boom deploys along centerline ($Z+$), executing downward scoop arc ($-5.0\text{ m}$ to grade).
+   * Tractor crawls forward at 2.0 km/h; automatically grades a level 15.0 m wide roadbed for Caterpillar land trains.
+4. **Macro 4: Crane & Vehicle Recovery (`MACRO_CRANE`):**
+   * Lasers deactivated; `MAS Tool Grapple` energized.
+   * Station 2 CTC mouse control provides direct 3-axis teleoperation up to 42.5 m away.
+   * Utilizes 45 MN·m joint holding torque and hydraulic outriggers to right rolled vehicles or hoist heavy cargo modules.
+5. **Macro 5: Wreck Deconstruction (`MACRO_SALVAGE`):**
+   * Lasers switch to Mode: Salvage Beam (Grinder).
+   * Positions tool head at 15 to 30 m standoff; executes automated planar raster sweeps ($\Delta Y, \Delta X$) across target bounding box, disassembling enemy hulls layer-by-layer with 100% component retention into `MAS Hold Components`.
 
-#### Step 10.9B · Automated Excavation Macro Modes & Kinematic Sweep Sequences
-
-To maximize extraction efficiency and support uncrewed autonomous operation, `[MAS] PB Excavator` implements 5 automated sweep, crane recovery, and salvage macros, plus automated travel stow/deploy sequencing:
-
-```
-[AUTOMATED BOOM EXCAVATION & CRANE SWEEP PATTERNS]
-
-1. BENCH QUARRY MODE (Horizontal Terracing)
-   · Azimuth Turret sweeps across horizontal face: -45.0° (Port) to +45.0° (Starboard).
-   · Shoulder Hinge incrementally steps down -2.5° per pass (0.5 B bench cut depth).
-   · Wrist Pitch elevates +90.0° to maintain flat, drivable terrace floors parallel to surface.
-   · Produces clean stair-stepped quarry cuts into mountainsides.
-
-2. TARGET-CENTRIC VERTICAL COLUMN BORE MODE (Subterranean Access)
-   · Accepts target vein waypoint (Xt, Zt) from seismic scan or Station 2 operator.
-   · Turret Azimuth slews to target bearing; Shoulder and Elbow extend tool head over target.
-   · Wrist Pitch counter-pitches to lock laser beams strictly vertical ([0, -1, 0]).
-   · Wrist Roll rotor spins twin offset lasers at 5.0 rpm, cutting an initial 3.0 m core.
-   · Motion controller translates the arm in automated 2D concentric circular sweeps (ΔX, ΔZ) around (Xt, Zt) to expand the column diameter (up to 12.5 m wide).
-   · Steps downward ΔY = -1.0 m per pass, descending down to -25.0 m physical depth (-55 m with laser beam reach) into deep rare veins.
-
-3. TRENCH & ROAD CARVE MODE (Overland Right-of-Way)
-   · Boom deploys along centerline (Z+), executing downward scoop arc (-5.0 m to grade).
-   · Tractor crawls forward at 2.0 km/h; outriggers cycle in creeping advance pattern.
-   · Automatically clears and grades a level 15.0 m wide roadbed for Caterpillar land trains.
-
-4. CRANE & VEHICLE RECOVERY MODE (Overland Field Salvage)
-   · Laser Multitools deactivated; `MAS Tool Grapple` energized.
-   · Station 2 CTC mouse control provides direct 3-axis teleoperation of the 45 m boom arm.
-   · Allows precision attachment to overturned Caterpillar trailers, scout drones, or supply skids up to 42.5 m away.
-   · Utilizes the 45 MN·m joint holding torque and hydraulic outriggers to right rolled vehicles, hoist heavy cargo modules, or lift massive boulders obstructing the haul road.
-
-5. SALVAGE & WRECK DECONSTRUCTION MODE (Macro 5: MACRO_SALVAGE)
-   · Simple Laser Multitools cycle to Mode: Salvage Beam (Grinder).
-   · Accepts target wreck/structure perimeter or bounding box coordinates.
-   · Turret Azimuth, Shoulder, and Elbow position tool head at optimal 15 to 30 m standoff.
-   · [MAS] PB Excavator executes automated planar raster sweeps (ΔY, ΔX) across target profile.
-   · Non-contact laser grinder rapidly peels armor plates and disassembles internal blocks layer-by-layer.
-   · 100% of disassembled components are drawn through the tool head conveyor vacuum into onboard storage.
-   · Wrist roll spins at 2.0 rpm to widen deconstruction swath.
-
-[REMOTE FIELD FABRICATION & INFRASTRUCTURE WELDING]
-· Station 2 operator or [MAS] PB Excavator switches lasers to Mode 3: Fabrication Beam (Welder).
-· Transforms the 35 m arm into a mobile construction gantry for remote chasm bridge building, retaining wall assembly, and fleet craft repair without crew EVA.
-
-[AUTOMATED TRAVEL STOW & DEPLOY SEQUENCES]
-
-· TRAVEL STOW SEQUENCE (`STOW`):
+##### Automated Travel Stow & Deploy Sequences
+* **Travel Stow Sequence (`STOW`):**
   1. Mining/salvage lasers deactivate; tool head retracts vertically clear of worksite.
   2. Turret Azimuth slews to 180.0° (Aft centerline).
   3. Shoulder, Elbow, and Wrist hinges align flat (0.0°).
   4. Boom lowers into armored dorsal spine trough; `MAS Clamp Boom Stow` at [X0, Z −7, L4] engages (Green Lock).
   5. Joint holding brakes clamp at 100% torque (50 MN·m Azimuth, 45 MN·m Hinges).
   6. Outriggers retract; consist is cleared for 35 km/h overland transit.
-
-· WORK DEPLOY SEQUENCE (`DEPLOY`):
+* **Work Deploy Sequence (`DEPLOY`):**
   1. Consist comes to full stop; handbrake engages.
   2. Outriggers extend and lock bedrock (verified by `MAS EC Stabilizers`).
   3. `MAS Clamp Boom Stow` releases.
   4. Shoulder elevates +15.0° to clear spine coamings.
   5. Slew to target waypoint azimuth and begin commanded macro.
-```
+
+---
 
 ##### Pre-Enclosure Inspection Gate 10.3A: Outrigger Locking & Boom Joint Inertia Verification
 * [ ] Verify all 4 corner outrigger seismic feet (`MAS Seismic Outrigger 1..4`) lock firmly into terrain voxels.
@@ -5831,7 +6337,7 @@ PHASE 10-3 VISUAL MILESTONE · OUTRIGGERS ANCHORED & BOOM DEPLOYED
 ### Phase 10-4 · Forward Armored C2 Bridge & Fleet Avionics (Levels L3-L5)
 
 ```
-       [PHASE 10-4 SPATIAL LOCATOR HUD]
+       [PHASE 10-4 MASTER SPATIAL LOCATOR HUD]
        Envelope: 7 W × 6 L × 3 H B (17.5 × 15.0 × 7.5 m)
        Coordinate Range: X −3 to +3, Z +7 to +12, Y = L3 to L5
        Station Datums:
@@ -5844,33 +6350,86 @@ PHASE 10-3 VISUAL MILESTONE · OUTRIGGERS ANCHORED & BOOM DEPLOYED
        · Survival Kit: [X −2, Z +8, Y = L4]
 ```
 
-#### Pre-Step Parts Tray: Phase 10-4
+#### Pre-Step Master Parts Tray: Phase 10-4
 * 3× Control Station (`MAS Helm`, `MAS Station Boom`, `MAS Station Fleet`, Palette 7: Fleet Command Navy)
 * 2× Programmable Block (`[MAS] PB Excavator`, `[MAS] PB RIG//OS-Lite`, Palette 7)
-* 3× AI Automaton Block (`MAS AI Move`, `MAS AI Task`, `MAS AI Defense`)
-* 1× Laser Antenna (`MAS Comm Laser`, Palette 7)
+* 3× AI Automaton Block (`MAS AI Move`, `MAS AI Task`, `MAS AI Defense`, Palette 7)
+* 1× Laser Antenna (`MAS Comm Laser`, 40 km, Palette 7)
 * 1× Radio Antenna (`MAS Comm Radio`, 50 km broadcast, Palette 7)
-* 1× Large Ore Detector (150 m subterranean range, Palette 4)
-* 1× Survival Kit (Tractor Field Respawn, Palette 7)
-* 14× Sloped Heavy Armor Glass (Bridge canopy)
-* 6× LCD Panel (Tactical video wall and console telemetry HUDs)
+* 1× Large Ore Detector (150 m subterranean range, Palette 4: Processing Teal)
+* 1× Survival Kit (Tractor Field Respawn & Med Station, Palette 7)
+* 14× Sloped Heavy Armor Glass (45° Panoramic Canopy)
+* 6× LCD Panel (Tactical Video Wall & Console HUDs, Palette 7)
 * 1× Air Vent (`MAS Vent Bridge`, Hermetic Zone 1)
 * 1× Large Warhead (`MAS Warhead Scuttle Bridge`, disarmed anti-capture charge)
 * 1× Timer Block (`MAS Timer Scuttle`, 60-second scuttle loop)
-* 2× Sci-Fi 4-Button Panel (`MAS BP Scuttle Bridge`, `MAS BP Airlock Vestibule`)
+* 6× Sci-Fi 4-Button Panel (`MAS BP Ground Boarding`, `MAS BP Airlock Vestibule`, etc.)
+* 1× Motor Hinge (`MAS Crew Ladder Hinge`, Palette 9: High-Viz Safety Yellow)
+* 2× Narrow Ladder Block (Palette 9)
+* 1× Sensor (`MAS Sensor Ladder`, 2.5 m proximity trigger)
 * 1× Large Gatling Turret (`MAS Turret Bow`, Palette 7: Fleet Command Navy)
-* 2× Large Interior Turret (`MAS Turret Flank Port`, `MAS Turret Flank Stbd`, Palette 7)
+* 2× Interior Turret (`MAS Turret Flank Port/Stbd`, Palette 7)
 
 ---
 
-#### Step 10.10 · 3-Operator Custom Walk-In Armored Bridge & Multi-Page Hotbars
+#### Step 10.21 · Forward Bridge Foundation Deck, Walkways & Airlock Vestibule (L3)
 
-Construct the forward command bridge overlooking the terrain. Instead of a cramped 3×3×2 enclosed cockpit prefab, the Mastodon utilizes a **Custom Walk-In Armored Bridge Cabin** (7 W × 6 L × 3 H B):
-1. **Station 1 (Port): Helm Pilot (`MAS Helm`):** Open 1×1×1 Control Station at [X −2, Z +10, Y = L4]. Controls chassis traction, 3-axle steering, outrigger deploy/retract sequences, hill-climbing crawl, power modes, and worksite lights.
-2. **Station 2 (Center): Excavation Master (`MAS Station Boom`):** Open 1×1×1 Control Station at [X0, Z +10, Y = L4]. Controls the 35 m articulated boom via Custom Turret Controller (CTC) mouse aim, tool head camera, and automated macro sweep execution.
-3. **Station 3 (Starboard): Tactical Fleet Director (`MAS Station Fleet`):** Open 1×1×1 Control Station at [X +2, Z +10, Y = L4]. Runs `RIG//OS-Lite` fleet coordination, dispatching Caterpillar land trains, calling Mule shuttles, receiving Kestrel scout coordinates, and monitoring ore quotas.
-4. **C2 Compute Rack (Level L3):** Houses dual Programmable Blocks (`[MAS] PB Excavator` and `[MAS] PB RIG//OS-Lite`) along with AI Automaton blocks for uncrewed autonomous operation.
-5. **Dorsal Comms Mast (Level L6):** Houses the 40 km Laser Antenna (`MAS Comm Laser`) and 50 km Radio Antenna (`MAS Comm Radio`).
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ [LOCATOR] Subsystem: Bridge Foundation & Entry Vestibule  ·  Level: L3              │
+│ [VIEWPORT] Grid Zone: [X −3 to +3, Z +7 to +12]  ·  Plan view Y = L3 (▲ Bow +Z)       │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+##### Step 10.21 Parts Tray
+| Block Type | Qty | Palette Slot | Mass / PCU | Critical Placement & Facing |
+|---|---|---|---|---|
+| Heavy Armor Full Block | 24 | Slot 0 (`#2B303A`) | 20.4 t / 24 | Foundation floor deck across X −3 to +3, Z +7 to +12 at Level L3 |
+| Grated Catwalk Block | 12 | Slot 9 (`#F1C40F`) | 3.6 t / 12 | Walkway aisle floor along X0 and Port entry lane |
+| Sliding Door | 1 | Slot 9 (`#F1C40F`) | 1.2 t / 15 | `MAS Door Airlock` at [X −2, Z +7, L3], opening into Jefferies tube |
+| Air Vent | 1 | Slot 7 (`#1B263B`) | 0.5 t / 25 | `MAS Vent Bridge` mounted in ceiling at [X0, Z +9, L4] |
+| Survival Kit | 1 | Slot 7 (`#1B263B`) | 2.1 t / 25 | Mounted against Port aft bulkhead at [X −2, Z +8, L4] |
+
+```
+Plan view, Y = L3 (Bridge Sub-Deck & Airlock Vestibule)
+        X: −3             X: −2             X0              X: +2             X: +3
+    Z: +12 ┌─────────────────────────────────────────────────────────────────────────────┐
+           │ HEAVY ARMOR FOUNDATION DECK (Under Canopy Glazing)                          │
+    Z: +10 │ [SUB-FLOOR C2 RACK] ── (Dual PBs + AI Blocks beneath Deck L4 Walkway)       │
+    Z:  +8 ├─────────────────────┬─────────────────────────┬─────────────────────────────┤
+           │ [MAS DOOR AIRLOCK]  │ [AIRLOCK VESTIBULE]     │ [LADDER UP TO ROOF CROWN]   │
+    Z:  +7 └───────▲─────────────┴─────────────────────────┴─────────────────────────────┘
+                   │
+         From Port Jefferies Tube (X −2)
+```
+
+##### Placement Instructions
+1. Lay Heavy Armor Full Blocks across X −3 to +3, Z +7 to +12 at Level L3, forming the foundation deck.
+2. Install Sliding Door `MAS Door Airlock` at [X −2, Z +7, Y = L3], creating the hermetic seal between the Port Jefferies tube and the Bridge cabin.
+3. Lay Grated Catwalk Blocks along the vestibule threshold and central walkway.
+4. Mount Survival Kit on the Port bulkhead at [X −2, Z +8, Y = L4] with conveyor port plumbed to the tractor oxygen trunk.
+5. Install Air Vent `MAS Vent Bridge` in the vestibule ceiling to manage cabin pressurization.
+
+##### Terminal Configuration & Sliders
+* Door: `MAS Door Airlock` (Auto-Close: `ON` · Delay: `3.0 s`)
+* Vent: `MAS Vent Bridge` (Depressurize: `OFF` · Maintains 100% O2 cabin pressure)
+* Block: `MAS Survival Kit Tractor` (Spawn point enabled)
+
+**✓ Check:** Foundation deck sealed airtight; airlock sliding door cycles cleanly; survival kit powered and pressurized.
+
+---
+
+#### Step 10.22 · 3-Operator Console Stations (Helm, Boom CTC, Fleet Director) & LCD Wall (L4)
+
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ [LOCATOR] Subsystem: 3-Operator C2 Command Bridge  ·  Level: L4                      │
+│ [VIEWPORT] Grid Zone: [X −2 to +2, Z +10 to +11]  ·  Plan view Y = L4 (▲ Bow +Z)     │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+##### Step 10.22 Parts Tray
+| Block Type | Qty | Palette Slot | Mass / PCU | Critical Placement & Facing |
+|---|---|---|---|---|
+| Control Station (1×1×1 Open) | 3 | Slot 7 (`#1B263B`) | 1.8 t / 45 | Stations placed side-by-side at X −2, X0, X +2 (Z +10), facing Bow (+Z) |
+| LCD Panel (Normal) | 4 | Slot 7 (`#1B263B`) | 0.4 t / 20 | Tactical Video Wall mounted on bridge aft bulkhead at Z +8 |
+| Curved LCD Panel | 2 | Slot 7 (`#1B263B`) | 0.2 t / 10 | Side HUD repeaters flanking helm and tactical director |
 
 ```
 Plan view, Y = L4 (Custom Walk-In Bridge Deck & Tactical Video Wall)
@@ -5885,27 +6444,36 @@ Plan view, Y = L4 (Custom Walk-In Bridge Deck & Tactical Video Wall)
     Z: +9  ├───────────────────────────┬─────────────┬───────────────────┤
            │ [SURVIVAL KIT]            │ [LCD WALL 1]│ [LCD WALL 2]      │
     Z: +8  │ Field Respawn / O2-H2     │ Consist Sys │ Tactical Fleet    │
-           ├───────────────────────────┴──────┬──────┴───────────────────┤
-    Z: +7  │ [AIRLOCK SLIDING DOOR]           │ [LADDER UP TO ROOF CROWN]│
+    Z: +7  ├───────────────────────────┴──────┬──────┴───────────────────┤
+           │ [AIRLOCK SLIDING DOOR]           │ [LADDER UP TO ROOF CROWN]│
            └──────────────────────────────────┴──────────────────────────┘
 ```
 
-```
-3-Operator Multi-Page Manual Hotbar Architecture:
+##### Placement Instructions
+1. Mount 3 open 1×1×1 Control Stations side-by-side along Z = +10, facing forward (+Z):
+   * Station 1 (Port): `MAS Helm` at [X −2, Z +10, Y = L4] (Traction, steering, power, outriggers).
+   * Station 2 (Center): `MAS Station Boom` at [X0, Z +10, Y = L4] (CTC mouse aim, macros, camera).
+   * Station 3 (Starboard): `MAS Station Fleet` at [X +2, Z +10, Y = L4] (Fleet coordination, JIT dispatch).
+2. Maintain a clear 1-block wide walk-around aisle at Z = +9 behind the seats.
+3. Mount 4 LCD Panels on the aft bulkhead at Z +8 forming the Tactical Video Wall (`MAS LCD Video Wall 1..4`).
+4. Paint consoles and video wall frames with Palette Slot 7 (`#1B263B` Fleet Command Navy).
 
+##### 3-Operator Multi-Page Manual Hotbar Architecture
+
+```
 ================================================================================
 STATION 1: HELM PILOT (`MAS Helm`)
 ================================================================================
 [Hotbar 1 · Tractive Powertrain & Bedrock Anchoring]
-· Slot 1: Group `MAS Outriggers` -> Reverse (Deploy / Retract)
-· Slot 2: Group `MAS Outrigger Pads` -> Switch Lock (Bedrock 100% Voxel Lock)
+· Slot 1: Group `MAS Outriggers` -> Reverse (Deploy / Retract Tractor Outriggers)
+· Slot 2: Group `MAS Outriggers Utility` -> Reverse (Deploy / Retract Stern Outriggers)
 · Slot 3: Handbrake -> Toggle
 · Slot 4: Group `MAS Wheels Drive` -> Propulsion ON/OFF
 · Slot 5: Group `MAS Wheels All` -> Increase Strength (+5%)
 · Slot 6: Group `MAS Wheels All` -> Decrease Strength (-5%)
 · Slot 7: Event Controller `MAS EC Level` -> Trigger Auto-Leveling
-· Slot 8: Group `MAS Sorter Tailings` -> Power ON/OFF (Gravel Dump)
-· Slot 9: Group `MAS Ejectors Tailings` -> Throw Out ON/OFF
+· Slot 8: Group `MAS Hitch Clamps` -> Switch Lock (Anti-Oscillation Magnetic Clamping)
+· Slot 9: PB `[MAS] PB Excavator` -> Run `DPU TOGGLE` (DPU Push / Dynamic Braking)
 
 [Hotbar 2 · Consist Dynamics & Power Management]
 · Slot 1: Rotor `MAS Hitch Yaw` -> Increase Braking Torque (Anti-Jackknife Lock)
@@ -5974,10 +6542,10 @@ STATION 3: TACTICAL FLEET DIRECTOR (`MAS Station Fleet`)
 · Slot 3: Connector `MAS MP Conn` -> Lock/Unlock (Mule Roof Pad Connector)
 · Slot 4: Group `MAS MP Clamps` -> Switch Lock (Mule Cradle Rub Rails)
 · Slot 5: Sorter `MAS MP Sorter` -> Drain All ON/OFF (Rare Ore Fast Drain)
-· Slot 6: Connector `MAS Stern Dump Conn` -> Lock/Unlock (Caterpillar Stern Rail)
-· Slot 7: Sorter `MAS Stern Sorter` -> Drain All ON/OFF (Bulk Hopper Dump)
-· Slot 8: Group `MAS Welder Pad Kestrel` -> Power ON/OFF (Drone Repair Welders)
-· Slot 9: Event Controller `MAS EC Handover` -> Trigger C2 Base Handover
+· Slot 6: Piston `MAS Piston Stern Dock` -> Reverse (Extend / Retract Telescoping Soft Dock)
+· Slot 7: Connector `MAS Stern Dump Conn` -> Lock/Unlock (Caterpillar Stern Rail)
+· Slot 8: Sorter `MAS Stern Sorter` -> Drain All ON/OFF (Bulk Hopper Dump)
+· Slot 9: Group `MAS Tailings Ejectors` -> Throw Out ON/OFF (Stern Roadbed Aggregate Dump)
 
 [Hotbar 2 · Slave Links, Recon Tasking & Swarm Deconfliction]
 · Slot 1: Remote Control `MAS-02 Remote` -> Control (Subordinate Worker Excavator)
@@ -6002,40 +6570,167 @@ STATION 3: TACTICAL FLEET DIRECTOR (`MAS Station Fleet`)
 · Slot 9: PB `[MAS] PB RIG//OS-Lite` -> Run `ALERT NORM` (Clear Combat Alert)
 ```
 
----
-
-#### Step 10.10D · Bridge Anti-Capture Scuttle System & Countdown Loop (L3-L4)
-
-To prevent advanced technology, refining assets, and encryption keys from falling into enemy hands if the vehicle is overrun:
-* **Bridge Scuttle Charge (`MAS Warhead Scuttle Bridge`):** Mount 1× Large Grid Warhead beneath the C2 compute rack at [X0, Z +8, Y = L3]. Disarmed by default.
-* **Scuttle Control Panel (`MAS BP Scuttle Bridge`):** Mount 1× Sci-Fi 4-Button Panel on the bridge aft bulkhead at [X +1, Z +8, Y = L4] (Button 1: Arm Scuttle System, Button 2: Start 60 s Countdown, Button 3: Broadcast Abandon Ship SOS, Button 4: Emergency Scuttle Abort).
-* **Native Timer Countdown Loop (`MAS Timer Scuttle`):** Set countdown to 60 seconds.
-  * T − 60 s: Triggers bridge siren, switches interior lights to flashing red, and broadcasts `MASTODON-01 SCUTTLE INITIATED`.
-  * T − 5 s: Arms both `MAS Warhead Scuttle Bridge` and `MAS Warhead Scuttle Power`.
-  * T − 0 s: Simultaneous detonation, destroying the avionics, reactors, and C2 core.
-  * Pressing Button 4 before T − 5 s stops the timer and returns warheads to safety disarm.
+**✓ Check:** All 3 stations face forward with clear view of the forward terrain; all 9 hotbar pages mapped and functioning.
 
 ---
 
-#### Step 10.10E · Physical In-Situ Interfaces (Sci-Fi 4-Button Panels)
+#### Step 10.23 · 45° Sloped Heavy Armor Glass Panoramic Canopy & Roof Crown (L4-L5)
 
-To support foot operations without requiring cockpit entry, 6 wall-mounted Sci-Fi 4-Button Panels (1×1×1 B) provide physical local control:
-* **`MAS BP Ground Boarding` (Port Skirt [X −4, Z +7, L1]):** Button 1: Ladder Lower/Raise · Button 2: Keel Lights · Button 3: Outer Airlock Door · Button 4: Beacon Toggle.
-* **`MAS BP Airlock Vestibule` (Airlock [X −2, Z +7, L3]):** Button 1: Outer Door Cycle · Button 2: Inner Door Cycle · Button 3: Cabin Pressurize/Depress · Button 4: EVA Locker Access.
-* **`MAS BP Power Vault` (Jefferies [X −2, Z −1, L3]):** Button 1: Vault Door Toggle · Button 2: Reactor SCRAM · Button 3: H2 Engine Cold-Start · Button 4: Battery Shore Charge.
-* **`MAS BP Field Workshop` (Workshop [X0, Z −14, L3]):** Button 1: Assembler Repeat (Plates) · Button 2: Refinery Ore Flush · Button 3: O2/H2 Gen Toggle · Button 4: Workshop Lights.
-* **`MAS BP Flight Deck` (Roof Hatch [X +2, Z −10, L6]):** Button 1: Mule Clamps Toggle · Button 2: Mule Connector Toggle · Button 3: Kestrel Welders Pulse · Button 4: Deck Floodlights.
-* **`MAS BP Stern Dump` (Rear Platform [X +2, Z −25, L2]):** Button 1: Stern Connector Toggle · Button 2: Stern Bulk Sorter Drain All · Button 3: Cat Train Ping · Button 4: Rear Worksite Light.
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ [LOCATOR] Subsystem: Armored Glazing & Roof Crown  ·  Level: L4 to L5                │
+│ [VIEWPORT] Grid Zone: [X −3 to +3, Z +11 to +12]  ·  Looking Starboard (+X) Elevation│
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+##### Step 10.23 Parts Tray
+| Block Type | Qty | Palette Slot | Mass / PCU | Critical Placement & Facing |
+|---|---|---|---|---|
+| Sloped Heavy Armor Glass | 14 | Transparent / Tint | 8.4 t / 14 | 45° forward glacis slopes (X −3 to +3, Z +11 to +12, L4-L5) |
+| Heavy Armor Slope Block | 12 | Slot 0 (`#2B303A`) | 10.2 t / 12 | Roof crown frame connecting glass tops to Level L5 deck |
+| Narrow Ladder Block | 2 | Slot 9 (`#F1C40F`) | 0.2 t / 2 | Vertical ladder at [X +2, Z +7, L4-L5] climbing to roof crown hatch |
+
+```
+Longitudinal Elevation · Bridge Glazing Profile (Looking Starboard, X0)
+    Level L5 Crown ──────────■═══════════════════════════■  (Dorsal Crown Deck)
+                             ╲                           ║  Aft Bulkhead (Z +7)
+                              ╲  45° SLOPED HEAVY       ║
+    Level L4 Bridge Deck       ╲  ARMOR GLASS CANOPY     ║  [STATION 2: BOOM]
+    ════════════════════════════■────────────────────────╨  [C2 Server Rack Under]
+    Level L3 Foundation                                      Level L3 (Z +7)
+    ═══════════════════════════════════════════════════════
+```
+
+##### Placement Instructions
+1. Install Sloped Heavy Armor Glass blocks along the forward glacis edge (Z = +11 to +12) angled at 45°, spanning X −3 to +3 across Levels L4 to L5.
+2. Install corner glass transitions on Port (X = −3) and Starboard (X = +3) to provide 180° horizontal field of view.
+3. Tie the upper edge of the glass into Heavy Armor Slope blocks forming the Level L5 roof crown.
+4. Install vertical ladder blocks at [X +2, Z +7] climbing from the bridge deck up through an armored hatch to the roof crown.
+
+**✓ Check:** Cabin completely enclosed and pressurized (100% O2); panoramic forward sightlines provide unobstructed view of the cutting zone and ground terrain.
 
 ---
 
-#### Step 10.10B · Retractable Crew Boarding Ladder & Proximity Walkway (Port Flank L2)
+#### Step 10.24 · C2 Compute Server Rack, Deep Ore Detector & Comms Mast (L3, L6)
 
-To allow the player to enter and exit the 3.5 m high bridge cabin without consuming limited jetpack hydrogen fuel:
-* **Hinge Mounting:** Install 1× Motor Hinge (`MAS Crew Ladder Hinge`) flush on the Port hull skirt at [X −4, Z +7, Y = L2] (between Axles 1 and 2).
-* **Ladder Run:** Attach a 2-block narrow ladder run to the hinge head, painted Palette Slot 9 (High-Viz Safety Yellow).
-* **Proximity Automation:** Sensor `MAS Sensor Ladder` set to 2.5 m radius at the Port flank. When a crew member on foot approaches, the hinge rotates downward 90° to touch ground level (L0).
-* **Drive Interlock:** Event Controller `MAS EC Ladder` monitors the handbrake and wheel propulsion. When the handbrake is released or speed exceeds 0 km/h, the ladder automatically retracts flush into the armored hull recess.
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ [LOCATOR] Subsystem: Avionics, Sensors & Comms Spire  ·  Level: L3 & L6              │
+│ [VIEWPORT] Grid Zone: Rack [X0, Z +7, L3]; Detector [X0, Z +8, L3]; Mast [X −2, Z +7, L6]│
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+##### Step 10.24 Parts Tray
+| Block Type | Qty | Palette Slot | Mass / PCU | Critical Placement & Facing |
+|---|---|---|---|---|
+| Programmable Block | 2 | Slot 7 (`#1B263B`) | 1.0 t / 50 | `[MAS] PB Excavator` & `[MAS] PB RIG//OS-Lite` in L3 rack |
+| AI Automaton Block | 3 | Slot 7 (`#1B263B`) | 0.9 t / 75 | `MAS AI Move`, `MAS AI Task`, `MAS AI Defense` in L3 rack |
+| Large Ore Detector | 1 | Slot 4 (`#1ABC9C`) | 4.8 t / 15 | Centered in sub-deck keel at [X0, Z +8, Y = L3], range: 150 m |
+| Laser Antenna | 1 | Slot 7 (`#1B263B`) | 2.5 t / 15 | `MAS Comm Laser` (40 km line-of-sight) on dorsal mast [X −2, Z +7, L6] |
+| Radio Antenna | 1 | Slot 7 (`#1B263B`) | 0.8 t / 15 | `MAS Comm Radio` (50 km fleet broadcast) on dorsal mast |
+
+```
+Longitudinal Section · C2 Server Rack & Comms Mast Placement
+         [MAS COMM LASER (40 km)]     [BOW CIWS GATLING]
+         [MAS COMM RADIO (50 km)]     [X0, Z +7, Y = L5]
+                 │                           │
+                 ▼ (Mast at X −2, L6)        ▼
+    Level L5 ════■═══════════════════════════■═══════ (Crown Deck)
+                 │                           │
+    Level L4 ────┼── [3-STATION C2 BRIDGE] ──┼─────── (Bridge Deck)
+                 │                           │
+                 ▼                           ▼
+    Level L3 ┌───────────────────────────┐ ┌────────┐
+             │ [C2 SERVER RACK: DUAL PB] │ │ ORE    │ (150 m Deep Range)
+             │ [AI AUTOMATON SUITE]      │ │ DETECT │
+             └───────────────────────────┘ └────────┘
+```
+
+##### Placement Instructions
+1. In the sub-bridge compartment at Level L3, mount Programmable Block `[MAS] PB Excavator` and Programmable Block `[MAS] PB RIG//OS-Lite` side-by-side at [X0, Z +7, Y = L3].
+2. Flank with AI Automaton blocks: `MAS AI Move`, `MAS AI Task`, and `MAS AI Defense`.
+3. Mount Large Ore Detector `MAS Ore Detector` in the centerline keel cavity at [X0, Z +8, Y = L3].
+4. Erect the dorsal comms spire at [X −2, Z +7, Y = L6], mounting Laser Antenna `MAS Comm Laser` and Radio Antenna `MAS Comm Radio`.
+
+##### Terminal Configuration & Sliders
+* Programmable Block: `[MAS] PB Excavator` (Update rate: `Update1` / 60 Hz · Kinematics engine)
+* Programmable Block: `[MAS] PB RIG//OS-Lite` (Update rate: `Update10` · Fleet C2 & IGC router)
+* Antenna: `MAS Comm Radio` (Range: `50,000 m` · Broadcast: `ON`)
+* Laser Antenna: `MAS Comm Laser` (Range: `40,000 m`)
+* Ore Detector: `MAS Ore Detector` (Range: `150 m`)
+
+**✓ Check:** Dual PBs initialize; ore detector displays subterranean ore signatures out to 150 m; laser antenna and 50 km radio establish network link.
+
+---
+
+#### Step 10.25 · Bridge Anti-Capture Scuttle System & Native Countdown Timer (L3-L4)
+
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ [LOCATOR] Subsystem: Asset Denial & Scuttle Loop  ·  Level: L3-L4                    │
+│ [VIEWPORT] Grid Zone: Warhead [X0, Z +8, L3]; Panel [X +1, Z +8, L4]                 │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+##### Step 10.25 Parts Tray
+| Block Type | Qty | Palette Slot | Mass / PCU | Critical Placement & Facing |
+|---|---|---|---|---|
+| Large Grid Warhead | 1 | Slot 6 (`#C0392B`) | 1.6 t / 20 | `MAS Warhead Scuttle Bridge` mounted beneath server rack at [X0, Z +8, L3] |
+| Timer Block | 1 | Slot 7 (`#1B263B`) | 0.5 t / 25 | `MAS Timer Scuttle` (60-second native countdown loop) |
+| Sci-Fi 4-Button Panel | 1 | Slot 6 (`#C0392B`) | 0.1 t / 5 | `MAS BP Scuttle Bridge` mounted on bridge aft bulkhead at [X +1, Z +8, L4] |
+
+##### Placement Instructions
+1. Mount 1 Large Grid Warhead `MAS Warhead Scuttle Bridge` directly beneath the C2 compute rack at [X0, Z +8, Y = L3]. Disarmed by default.
+2. Mount Timer Block `MAS Timer Scuttle` in the avionics rack.
+3. Install Sci-Fi 4-Button Panel `MAS BP Scuttle Bridge` on the bridge aft wall at [X +1, Z +8, Y = L4].
+
+##### Terminal Configuration & Sliders
+* Panel: `MAS BP Scuttle Bridge`
+  * Button 1: Timer Block `MAS Timer Scuttle` -> Start (Initiate 60 s Countdown)
+  * Button 2: Timer Block `MAS Timer Scuttle` -> Stop (Emergency Abort)
+  * Button 3: Group `MAS Warheads Scuttle` -> Safety OFF (Manual Arm)
+  * Button 4: Group `MAS Warheads Scuttle` -> Safety ON (Manual Disarm)
+* Timer Block: `MAS Timer Scuttle`
+  * Delay: `60.0 s`
+  * Actions at T = 0 s: `MAS Warhead Scuttle Bridge` -> Detonate; `MAS Warhead Scuttle Power` -> Detonate
+
+**✓ Check:** Warhead disarmed by default; button panel triggers countdown; manual abort halts timer and returns warheads to safety lock.
+
+---
+
+#### Step 10.26 · Physical In-Situ Interfaces (Sci-Fi 4-Button Panels) (L1-L6)
+
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ [LOCATOR] Subsystem: Physical Foot Control Network  ·  Levels: L1 to L6              │
+│ [VIEWPORT] Grid Zone: 6 Cardinal Crew Stations across Consist                        │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+##### Step 10.26 Parts Tray
+| Block Type | Qty | Palette Slot | Mass / PCU | Critical Placement & Facing |
+|---|---|---|---|---|
+| Sci-Fi 4-Button Panel | 6 | Slot 9 (`#F1C40F`) | 0.6 t / 30 | Distributed across ground skirts, airlocks, workshop, flight deck, stern |
+
+##### Master Button Panel Mapping Table
+| Terminal Name | Grid Coordinates | Functional Location | Button 1 Action | Button 2 Action | Button 3 Action | Button 4 Action |
+|---|---|---|---|---|---|---|
+| `MAS BP Ground Boarding`| [X −4, Z +7, L1] | Port lower skirt | Ladder Lower/Raise | Keel Lights ON/OFF | Outer Airlock Cycle | Radio Beacon Toggle |
+| `MAS BP Airlock Vestibule`| [X −2, Z +7, L3] | Bridge airlock entry | Outer Door Cycle | Inner Door Cycle | Cabin Pressurize | EVA Locker Refill |
+| `MAS BP Power Vault` | [X −2, Z −1, L3] | Jefferies tube wall | Vault Door Toggle | Reactor SCRAM | H2 Engine Cold-Start | Battery Shore Charge |
+| `MAS BP Field Workshop` | [X0, Z −14, L3] | Utility central aisle | Assembler Queue Plates | Refinery Flush | O2/H2 Gen Toggle | Workshop Lights |
+| `MAS BP Flight Deck` | [X +2, Z −10, L6]| Roof hatch landing | Mule Clamps Toggle | Mule Conn Lock | Kestrel Welders Pulse | Deck Floodlights |
+| `MAS BP Stern Dump` | [X +2, Z −25, L2]| Rear dump platform | Stern Conn Lock | Sorter Drain All | Land Train Ping | Rear Worksite Light |
+
+**✓ Check:** All 6 button panels powered, named, and mapped to local subsystem toggles for foot operation.
+
+---
+
+#### Step 10.27 · Retractable Port Crew Boarding Ladder & Proximity Walkway (L2)
+
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ [LOCATOR] Subsystem: Boarding Ladder & Drive Interlock  ·  Level: L2                 │
+│ [VIEWPORT] Grid Zone: [X −4, Z +7, Y = L2]  ·  Looking Bow (+Z) Profile               │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+##### Step 10.27 Parts Tray
+| Block Type | Qty | Palette Slot | Mass / PCU | Critical Placement & Facing |
+|---|---|---|---|---|
+| Large Motor Hinge | 1 | Slot 9 (`#F1C40F`) | 3.5 t / 15 | `MAS Crew Ladder Hinge` mounted flush in Port hull skirt at [X −4, Z +7, L2] |
+| Narrow Ladder Block | 2 | Slot 9 (`#F1C40F`) | 0.2 t / 2 | Attached to hinge head, extending downward when deployed |
+| Sensor | 1 | Slot 7 (`#1B263B`) | 0.1 t / 10 | `MAS Sensor Ladder` set to 2.5 m crew proximity detection radius |
 
 ```
 CREW BOARDING LADDER (Port Flank Profile)
@@ -6050,14 +6745,47 @@ CREW BOARDING LADDER (Port Flank Profile)
      ════╧════════════╧══════════ Ground       L0  ═════════════╧═══▼ (Touchdown)
 ```
 
+##### Placement Instructions
+1. Install Large Motor Hinge `MAS Crew Ladder Hinge` flush in the Port hull skirt at [X −4, Z +7, Y = L2]. Orient barrel horizontally along Z-axis so it pivots outward/downward.
+2. Attach 2 Narrow Ladder blocks to the hinge head.
+3. Install Sensor `MAS Sensor Ladder` calibrated to a 2.5 m radius covering the Port flank ground zone.
+
+##### Terminal Configuration & Sliders
+* Hinge: `MAS Crew Ladder Hinge` (Limits: `0.0°` flush stowed to `90.0°` down · Torque: `10 MN·m`)
+* Sensor: `MAS Sensor Ladder` (Detect Players: `ON` · Range: `2.5 m`)
+* Event Controller: `MAS EC Ladder`
+  * Condition: Player within 2.5 m AND Speed $= 0\text{ km/h}$ -> Deploy Ladder (90°)
+  * Condition: Handbrake OFF OR Speed $> 0\text{ km/h}$ -> Retract Ladder (0° Flush)
+
+**✓ Check:** Ladder automatically swings down to ground when engineer approaches on foot; auto-retracts flush upon releasing handbrake.
+
 ---
 
-#### Step 10.10C · Bow CIWS Gatling Turret & Flank Anti-Personnel Sockets (Tractor Crown L5)
+#### Step 10.28 · Bow CIWS Gatling Turret & Flank Anti-Personnel Sockets (L2, L5)
 
-To protect the locomotive consist against hostile MES pirate drones and ground boarding raiders while anchored or mining:
-* **Bow Gatling Turret (`MAS Turret Bow`):** Mount 1× Large Grid Gatling Turret (3×3×3 B footprint) on the centerline dorsal crown of Carriage 1 at [X0, Z +7, Y = L5], directly above the C2 compute rack rear bulkhead. Connect its bottom port directly to the tractor conveyor spine at L4. Provides full 360° hemispherical CIWS protection against aerial drones and ground gunships.
-* **Flank Anti-Personnel Turrets (`MAS Turret Flank Port/Stbd`):** Mount 2× Interior Turrets (1×1×1 B) flush on the lower armored skirts at [X −4, Z +2, Y = L2] (Port) and [X +4, Z +2, Y = L2] (Starboard). Plumbed to the lower conveyor spine to deliver automated anti-infantry and anti-wildlife perimeter fire covering the boarding ladder and ground radius.
-* **Combat Mode Integration:** Event Controller `MAS EC Combat` monitors chassis damage and enemy target acquisition. When engaged, `RIG//OS-Lite` elevates alert status to `RIG.OS.MODE CBT`, powers up all turrets, seals crew airlocks, and feeds ammunition from the assembler hold.
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ [LOCATOR] Subsystem: Locomotive Defensive CIWS  ·  Levels: L2 & L5                   │
+│ [VIEWPORT] Grid Zone: Bow Crown [X0, Z +7, L5]; Flank Skirts [X ±4, Z +2, L2]        │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+##### Step 10.28 Parts Tray
+| Block Type | Qty | Palette Slot | Mass / PCU | Critical Placement & Facing |
+|---|---|---|---|---|
+| Large Gatling Turret | 1 | Slot 7 (`#1B263B`) | 4.8 t / 125 | `MAS Turret Bow` mounted on dorsal crown at [X0, Z +7, L5] |
+| Interior Turret | 2 | Slot 7 (`#1B263B`) | 0.8 t / 50 | `MAS Turret Flank Port/Stbd` mounted flush on skirts at [X ±4, Z +2, L2] |
+
+##### Placement Instructions
+1. Mount Large Grid Gatling Turret `MAS Turret Bow` on the centerline dorsal crown of Carriage 1 at [X0, Z +7, Y = L5]. Plumb bottom port to tractor conveyor spine at L4.
+2. Mount 2 Interior Turrets flush on the lower armored skirts at [X −4, Z +2, Y = L2] (Port) and [X +4, Z +2, Y = L2] (Starboard).
+3. Connect ammo feed lines to the main conveyor trunk to draw NATO 25×184mm and 5.56mm ammo from internal storage.
+
+##### Terminal Configuration & Sliders
+* Group: `MAS Turrets Defense` (`MAS Turret Bow`, `MAS Turret Flank Port`, `MAS Turret Flank Stbd`)
+* Event Controller: `MAS EC Combat`
+  * Condition: Hull Damage Detected OR Hostile Lock Acquired
+  * Action Slot 1: Elevate `RIG.OS.MODE CBT` -> Power ON Turrets -> Seal Compartment Doors
+
+---
 
 ##### Pre-Enclosure Inspection Gate 10.4A: Bridge Airtightness & C2 Network Link Check
 * [ ] Confirm bridge cabin pressurizes to 100% O2 via air vent.
@@ -6067,168 +6795,488 @@ To protect the locomotive consist against hostile MES pirate drones and ground b
 * [ ] Verify `MAS Crew Ladder Hinge` automatically lowers when approached on foot and retracts upon handbrake release.
 * [ ] Verify `MAS Turret Bow` and `MAS Turret Flank Port/Stbd` receive NATO 25×184mm ammunition through conveyor spine.
 
+```
+PHASE 10-4 VISUAL MILESTONE · C2 BRIDGE & AVIONICS COMPLETE
+       Z: +7 (Crown CIWS)     Z: +10 (3-Seat Bridge)    Z: +12 (Glass Bow)
+       [MAS TURRET BOW]       [HELM / BOOM / FLEET]     [45° PANORAMIC CANOPY]
+             │                         │                        │
+       ══════╧═════════════════════════╧════════════════════════╧══════
+                    C2 COMPUTE RACK & ORE DETECTOR IN SUB-DECK (L3)
+```
+
 ---
 
 ### Phase 10-5 · Modular FOB & Utility Carriage Chassis & Workshop (Carriage 2)
 
 ```
-       [PHASE 10-5 SPATIAL LOCATOR HUD]
+       [PHASE 10-5 MASTER SPATIAL LOCATOR HUD]
        Envelope: 11 W × 18 L × 5 H B (27.5 × 45.0 × 12.5 m)
        Coordinate Range: X −5 to +5, Z −26 to −8, Y = L1 to L5
        Carriage Datums:
-       · Front Drawbar Tongue: [X0, Z −8, Y = L2]
-       · Field Workshop Core: Z −18 to −14, X −3 to +3
-       · Component Hold: Z −22 to −19, X0
-       · Axle 4 (Mid Drive): Z −13 (Locked: 0.0°)
-       · Axle 5 (Aft Steer): Z −22 (Counter-Steer: −25.0°)
+       · Front Drawbar Hitch Receiver: [X0, Z −8, Y = L2]
+       · Axle 4 (Mid Drive Suspension): [X ±5, Z −13, Y = L1] (0.0° Steer)
+       · Sub-Floor Battery Vault: [X −1 to +1, Z −16, Y = L2] (9.0 MWh)
+       · Field Workshop Core: [X −3 to +3, Z −18 to −12, Y = L3]
+       · Axle 5 (Aft Counter-Steer Suspension): [X ±5, Z −22, Y = L1] (−25.0° Steer)
+       · Component Hold (3×3×3 Large Cargo): [X0, Z −22, Y = L3-L4]
+       · Stern Caterpillar Dump Bumper: [X0, Z −26, Y = L2]
 ```
 
-#### Pre-Step Parts Tray: Phase 10-5
-* 200× Heavy Armor Full Block (Palette 0: Industrial Dark Gray)
-* 4× Wheel Suspension 5×5 (2 Port, 2 Starboard)
-* 3× Large Battery (3 MWh each, 9.0 MWh total, Palette 6: High-Voltage Red)
-* 1× Basic Refinery (1×1×2 B, 330 kW, Palette 4: Processing Teal)
-* 1× Large Assembler (Palette 4: Processing Teal)
-* 1× Medical Bay + 2× Cryo Chamber (Palette 7: Fleet Command Navy)
-* 2× Large Oxygen Tank (200,000 L O2, Palette 4: Processing Teal)
+#### Pre-Step Master Parts Tray: Phase 10-5
+* 240× Heavy Armor Full Block (Palette 0: Industrial Dark Gray)
+* 40× Heavy Armor Ballast Plates (Palette 0: Keel CoM Balancer)
+* 4× Wheel Suspension 5×5 (2 Port, 2 Starboard · Palette 0)
+* 3× Large Battery (`MAS Battery 4, 5, 6`, 9.0 MWh total, Palette 6: High-Voltage Red)
+* 2× Magnetic Plate (`MAS Utility Brake Keel 1, 2`, Palette 0)
+* 1× Basic Refinery (`MAS Field Refinery`, 1×1×2 B, 330 kW, Palette 4: Processing Teal)
+* 1× Large Assembler (`MAS Utility Assembler`, Palette 4: Processing Teal)
+* 1× Medical Room (`MAS Medical Bay`, Palette 7: Fleet Command Navy)
+* 2× Cryo Chamber (`MAS Cryo Pod 1, 2`, Palette 7: Fleet Command Navy)
+* 2× Large Oxygen Tank (`MAS Tank O2 1, 2`, 200,000 L O2, Palette 4: Processing Teal)
 * 1× Small Cargo Container (`MAS Hold Ice LifeSupport`, 15,000 L Quarantined Ice, Palette 4)
-* 2× Large Hydrogen Tank (Palette 6)
-* 2× O2/H2 Generator (Palette 4)
-* 4× Air Vent (`MAS Vent Workshop`, `MAS Vent Crawlway`, `MAS Vent Airlock Roof`, `MAS Vent Airlock Stern`)
-* 1× Large Cargo Container (3×3×3 B, Palette 5: Logistics Emerald)
-* 1× Large Projector (`MAS Projector Master`, Palette 7)
-* 2× Sci-Fi 4-Button Panel (`MAS BP Flight Deck`, `MAS BP Stern Dump`)
-* 14× Grated Catwalk Block, 4× Ladder Block, 2× Sliding Door (Palette 9)
-* 16× Large Conveyor Pipe & 6× Conveyor Junction (Palette 4)
+* 2× Large Hydrogen Tank (`MAS Tank H2 1, 2`, 10,000,000 L H2, Palette 6)
+* 2× O2/H2 Generator (`MAS Gen O2/H2 1, 2`, Palette 4)
+* 2× Air Vent (`MAS Vent Atmo Intake Port/Stbd`, Palette 0: Ambient Intake)
+* 1× Large Cargo Container (3×3×3 B, `MAS Hold Components`, Palette 5: Logistics Emerald)
+* 1× Large Projector (`MAS Projector Master`, Palette 7: Fleet Command Navy)
+* 1× Programmable Block (`[MAS-U] PB Utility`, Palette 7)
+* 1× Remote Control (`MAS-U Remote FOB`, Palette 7)
+* 2× Large Conveyor Sorter (`MAS Sorter Ammo Fwd`, `MAS Sorter Parts Aft`, Palette 4)
+* 2× Sliding Door (`MAS Door Gangway Aft`, `MAS Door Stern Airlock`, Palette 9)
+* 14× Grated Catwalk Block, 6× Narrow Ladder Block (Palette 9: High-Viz Safety Yellow)
 
 ---
 
-#### Step 10.11 · Utility Carriage Box Girders & 4-Wheel Powertrain (L1-L2)
+#### Step 10.29 · Utility Carriage Box Girders, Keel Ballast Skids & Breakaway Deadman (L1-L2)
 
-Construct the trailing chassis frame connected to the tractor hitch tongue at Z = −8. Mount 2 pairs of 5×5 large suspension wheels:
-* **Axle 4 (Z −13):** Fixed drive axle (0.0° steer).
-* **Axle 5 (Z −22):** Counter-steering axle (−25.0° inverted) to eliminate trailer corner-cutting during tight turns.
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ [LOCATOR] Subsystem: Utility Chassis Box Girders & Ballast  ·  Level: L1-L2          │
+│ [VIEWPORT] Grid Zone: [X −5 to +5, Z −26 to −8]  ·  Plan view Y = L1-L2 (▲ Bow +Z)     │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+##### Step 10.29 Parts Tray
+| Block Type | Qty | Palette Slot | Mass / PCU | Critical Placement & Facing |
+|---|---|---|---|---|
+| Heavy Armor Full Block | 72 | Slot 0 (`#2B303A`) | 61.2 t / 72 | Longitudinal twin box girders at X ±1 from Z −8 to −26; transverse ties at Z −8, −13, −18, −22, −26 |
+| Heavy Armor Full Block (Ballast) | 40 | Slot 0 (`#2B303A`) | 120.0 t / 40 | Sub-floor keel ballast plates between girders along L1 from Z −12 to −22 |
+| Magnetic Plate (Large) | 2 | Slot 0 (`#2B303A`) | 5.8 t / 50 | `MAS Utility Brake Keel 1, 2` at [X ±2, Z −18, Y = L1] facing downward to terrain |
+| Radio Antenna | 1 | Slot 7 (`#1B263B`) | 0.8 t / 25 | `MAS-FOB-01 [EMERGENCY BREAKAWAY]` in protected keel recess [X0, Z −18, L1] |
+| Event Controller | 1 | Slot 7 (`#1B263B`) | 0.2 t / 25 | `MAS-U EC Breakaway` at [X0, Z −10, L2] monitoring drawbar hitch handshake |
 
 ```
-Plan view, Y = L1 (Utility Carriage 4-Wheel Layout)
-        X: −5          0          +5
-    Z: −13 [WH 7 (P)] ═══════════ [WH 8 (S)]   ◄── Axle 4 (0.0° Locked Drive)
-    Z: −22 [WH 9 (P)] ═══════════ [WH 10 (S)]  ◄── Axle 5 (−25.0° Inverted Counter-Steer)
+Plan view, Y = L1-L2 (Utility Chassis Frame, Ballast Plates & Ground Keel Skids)
+        X: −3           X: −1      0      X: +1           X: +3
+    Z:  −8 ┌───────────────┬───────╤───────┬───────────────┐
+           │ AFT HITCH TONGUE RECEIVER & DRAWBAR INTERFACE │  ◄── Y = L2 Drawbar Tongue
+    Z: −10 ├───────────────┼───────┴───────┼───────────────┤
+           │               │ [MAS-U EC BRK]│               │  ◄── Breakaway Event Controller
+    Z: −12 ├───────────────┼───────────────┼───────────────┤
+           │ [BALLAST 1]   │ 40× HEAVY ARMOR BALLAST       │  ◄── 120 t Low-Slung Keel Deadweight
+    Z: −15 │ [BALLAST 2]   │ CO-LOCATED BETWEEN GIRDERS    │      Lowers CoM to Level L2.4
+    Z: −18 │ [KEEL SKID 1] │ [BREAKAWAY BEACON] [KEEL 2]   │  ◄── Downward Ground Clamping Skids
+    Z: −20 │ [BALLAST 3]   │ EXPANDS ROLLOVER TO 34°       │
+    Z: −22 ├───────────────┼───────────────┼───────────────┤
+           │               │ AFT SUSPENSION TIE BEAM       │  ◄── Axle 5 Cross-Member
+    Z: −26 └───────────────┴───────────────┴───────────────┘  ◄── Stern Collision Push Bumper
 ```
 
+##### Placement Instructions
+1. Establish longitudinal box girders at X = −1 and X = +1 spanning continuously from Z = −8 to Z = −26 at Level L2.
+2. Fabricate transverse cross-ties at Z = −8 (tongue header), Z = −13 (Axle 4 bolster), Z = −18 (mid-keel bolster), Z = −22 (Axle 5 bolster), and Z = −26 (stern push-bumper).
+3. Lay 40× Heavy Armor Full Blocks into the Level L1 central trough between X = −1 and X = +1 from Z = −12 to Z = −22. This concentrated 120.0 t ballast counteracts the elevated roof Mule cradle pad (15.0 m above terrain) and lowers Carriage 2 Center of Mass from L3.8 to L2.4.
+4. Mount 2× Large Grid Magnetic Plates (`MAS Utility Brake Keel 1, 2`) at [X −2, Z −18, Y = L1] and [X +2, Z −18, Y = L1] pointing directly downward toward ground voxels.
+5. Install Radio Antenna `MAS-FOB-01 [EMERGENCY BREAKAWAY]` in the armored keel pocket at [X0, Z −18, Y = L1].
+6. Place Event Controller `MAS-U EC Breakaway` at [X0, Z −10, Y = L2] inside the forward chassis sill.
+
+##### Terminal Configuration & Sliders
+* Magnetic Plates: `MAS Utility Brake Keel 1, 2` (Auto-Lock: `OFF` · Proximity Sensor: `ON` · Lock Strength: `100%`)
+* Antenna: `MAS-FOB-01 [EMERGENCY BREAKAWAY]` (Broadcast Radius: `50 km` · Enable Broadcasting: `OFF` · Show in HUD: `ON`)
+* Event Controller: `MAS-U EC Breakaway`
+  - Monitored Event: `Grid Connection / Handshake`
+  - Monitored Target: `MAS Hitch Sever Tongue` or Carriage 1 electrical bus
+  - Condition: Connection lost (0.0 V terminal handshake)
+  - Slot 1 (Severance Detected):
+    - Group `MAS Utility Wheels` -> `Power OFF`
+    - Group `MAS Utility Wheels` -> `Handbrake ON`
+    - `MAS Utility Brake Keel 1, 2` -> `Auto-Lock ON`
+    - `MAS Utility Brake Keel 1, 2` -> `Lock`
+    - `MAS-FOB-01 [EMERGENCY BREAKAWAY]` -> `Enable Broadcasting ON`
+  - Slot 2 (Normal Coupled): Keel Skids `Auto-Lock OFF` · Keel Skids `Unlock` · Antenna `Broadcasting OFF`
+
+✓ Check: Keel ballast plates lower CoM to Level L2.4; magnetic keel skids clear ground plane by 0.5 m under normal ride height; breakaway event controller engages emergency lockdown on simulated drawbar disconnect.
+
+---
+
+#### Step 10.30 · Axles 4 & 5 Suspension Wheels & DPU Smart Traction / Braking (L1)
+
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ [LOCATOR] Subsystem: Utility Powertrain & DPU Kinematics  ·  Level: L1               │
+│ [VIEWPORT] Grid Zone: [X ±5, Z −13 and Z −22]  ·  Plan view Y = L1 (▲ Bow +Z)         │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+##### Step 10.30 Parts Tray
+| Block Type | Qty | Palette Slot | Mass / PCU | Critical Placement & Facing |
+|---|---|---|---|---|
+| Wheel Suspension 5×5 (Port) | 2 | Slot 0 (`#2B303A`) | 19.8 t / 200 | `MAS Wheel L4 (Port)` at [X −5, Z −13, L1] and `MAS Wheel L5 (Port)` at [X −5, Z −22, L1] |
+| Wheel Suspension 5×5 (Stbd) | 2 | Slot 0 (`#2B303A`) | 19.8 t / 200 | `MAS Wheel R4 (Stbd)` at [X +5, Z −13, L1] and `MAS Wheel R5 (Stbd)` at [X +5, Z −22, L1] |
+| Event Controller | 1 | Slot 7 (`#1B263B`) | 0.2 t / 25 | `MAS EC DPU Drive` at [X0, Z −11, L2] coordinating tractive push & descent tension |
+
+```
+Plan view, Y = L1 (Utility Carriage 4-Wheel Powertrain Geometry)
+        X: −5          X: −1      0      X: +1          X: +5
+    Z: −13 [WH 7 (PORT)] ═════╦═══════════╦═════ [WH 8 (STBD)]  ◄── Axle 4 (0.0° Locked Drive)
+           │                  │           │                  │
+    Z: −17 │                  │   KEEL    │                  │
+           │                  │  BALLAST  │                  │
+    Z: −22 [WH 9 (PORT)] ═════╩═══════════╩═════ [WH 10 (STBD)] ◄── Axle 5 (−25.0° Counter-Steer)
+```
+
+##### Detailed Axle Kinematics Specification
 | Axle Index | Z-Datum | Wheel Pair | Steering Angle | Steering Invert | Propulsion Torque | Strength (Empty / Laden) | Friction |
 |---|---|---|---|---|---|---|---|
 | **Axle 4** | Z = −13 | `WH 7, 8`  | `0.0°`  | OFF (Locked) | `100%` | `50% / 90%` | `75%` |
 | **Axle 5** | Z = −22 | `WH 9, 10` | `25.0°` | INVERTED     | `100%` | `55% / 90%` | `80%` |
 
+##### Placement Instructions
+1. Weld 5×5 Wheel Suspension units at [X −5, Z −13, Y = L1] (Port) and [X +5, Z −13, Y = L1] (Starboard), designating this assembly as Axle 4. Configure as fixed drive (0.0° steering angle).
+2. Weld 5×5 Wheel Suspension units at [X −5, Z −22, Y = L1] (Port) and [X +5, Z −22, Y = L1] (Starboard), designating this assembly as Axle 5. Configure with inverted counter-steering (−25.0°).
+3. Assign all 4 suspension blocks to terminal group `MAS Utility Wheels`.
+4. Install Event Controller `MAS EC DPU Drive` at [X0, Z −11, Y = L2].
+
+##### Terminal Configuration & Sliders
+* Group: `MAS Utility Wheels`
+  - Max Speed: `50 km/h`
+  - Speed Limit: `ON`
+  - Propulsion: `100%`
+  - Brake Multiplier: `100%`
+* Dynamic Traction & Braking Rules (`MAS EC DPU Drive` / `[MAS] PB Excavator`):
+  - Hill-Climb Traction: When ascending grades > 5°, Axles 4 and 5 apply 100% matching tractive push synchronized with Tractor throttle, distributing load evenly across all 10 wheels.
+  - Dynamic Tension Braking: When descending grades or decelerating, Carriage 2 wheels dynamically apply counter-braking torque 100 ms prior to Tractor braking bite, keeping the hitch in continuous longitudinal tension and preventing trailer jackknifing.
+  - Automatic Traction Control (ATC): On loose voxel detection, wheel torque drops by 20% increments until slip ceases.
+
+✓ Check: Axle 4 tracks dead-ahead; Axle 5 pivots opposite to Tractor front steering wheels; consist achieves 35 m turning radius without trailer scrubbing or wheel lift.
+
 ---
 
-#### Step 10.11B · Sub-Floor Utility Battery Vault (Z −17 to −15, L2)
+#### Step 10.31 · Sub-Floor Utility Battery Vault & Shore Power Bus (L2)
 
-Install 3 Large Batteries (`MAS Battery 4, 5, 6`) in the Level L2 sub-floor cavity beneath the Field Workshop:
-* **Storage Capacity:** Adds 9.0 MWh energy storage buffer (36.0 MW peak discharge) to Carriage 2, bringing total consist energy reserve to 18.0 MWh (72.0 MW peak discharge).
-* **Electrical Integration:** Plumbed directly into the Utility carriage tractive bus, supplying float-charge buffer for the Mule Gantry Pad, Basic Refinery, Large Assembler, and rear steering axle.
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ [LOCATOR] Subsystem: Sub-Floor Utility Battery Vault  ·  Level: L2                   │
+│ [VIEWPORT] Grid Zone: [X −1 to +1, Z −17 to −15]  ·  Plan view Y = L2 (▲ Bow +Z)       │
+└──────────────────────────────────────────────────────────────────────────────────────┘
 
----
-
-#### Step 10.12 · Mobile FOB Field Workshop, Medical Suite & Universal Life Support (L2-L4)
-
-Outfit Carriage 2 as a self-sustaining expeditionary base centered along the Level L3 central aisle:
-1. **Field Workshop Assembler (`MAS Utility Assembler`):** Large Assembler at [X −2, Z −14] configured to fabricate replacement plates, drill components, and motors directly in the field. Dual physical inventory panels face the central aisle for manual blueprint access.
-2. **Medical & Crew Habitat Bay (`MAS Medical Bay`, `MAS Cryo Pod 1, 2`):** Pressurized crew habitat at [X +2, Z −12 to −14] with Medical Room, Survival Kit, and 2× Cryo Chambers plumbed directly to the life support oxygen line for long-distance transit hibernation.
-3. **200,000 L Strategic Oxygen Tank Bank (`MAS Tank O2 1, 2`):** Mount 2× Large Grid Oxygen Tanks at [X −2, Z −16, Y = L3-L4]. Stores 200,000 L of pressurized breathing oxygen, enabling over 120 hours of vacuum surface operations.
-4. **Quarantined Emergency Ice Reserve (`MAS Hold Ice LifeSupport`):** 1× Small Cargo Container (15,000 L capacity) at [X0, Z −16, L3] isolated by a one-way filter. Guarantees emergency ice reserves for life support even if bulk cargo holds are completely dumped.
-5. **Atmospheric Tank Farm:** 2× Large Hydrogen Tanks (refuels Kestrel scouts and Mule ferries) + 2× O2/H2 Generators at [X ±2, Z −18]. Manual shutoff valves exposed in the corridor wall.
-6. **Field Component Storage (`MAS Hold Components`):** 1× Large Cargo Container (3×3×3 B) dedicated to stocking construction parts at Z −22. Features a physical terminal port facing the aisle at [X0, Z −21, L3].
+##### Step 10.31 Parts Tray
+| Block Type | Qty | Palette Slot | Mass / PCU | Critical Placement & Facing |
+|---|---|---|---|---|
+| Large Battery | 3 | Slot 6 (`#C0392B`) | 25.5 t / 240 | `MAS Battery 4, 5, 6` in sub-floor well at [X −1, 0, +1, Z −16, L2] |
+| Heavy Armor Full Block | 12 | Slot 0 (`#2B303A`) | 10.2 t / 12 | Armored vault perimeter enclosure and structural top ceiling deck |
 
 ```
-Plan view, Y = L3 (Utility Carriage Interior Deck with Closed-Loop Metallurgy & Life Support)
-        X: −3          0          +3
-    Z: −10 ═══════[DRAWBAR TONGUE]═══════  ◄── Articulated Hitch & Merge Block
-           │                             │
-    Z: −12 │ [REFINERY]  │ [CRYO POD 1]  │  ◄── Basic Refinery & 2-Crew Cryo Hibernation
-           ├─────────────┤ [CRYO POD 2]  │
-    Z: −14 │ [ASSEMBLER] │ [MEDICAL BAY] │  ◄── Large Assembler & Medical Trauma Center
-           ├─────────────┼───────────────┤
-    Z: −16 │ [O2 TANK 1] │ [O2 TANK 2]   │  ◄── 200,000 L Oxygen Bank & Quarantined Ice
-           ├─────────────┼───────────────┤
-    Z: −18 │ [H2 TANK 1] │ [H2 TANK 2]   │  ◄── Fuel Bunkering Farm (10,000,000 L H2)
-           ├─────────────┴───────────────┤
-    Z: −22 │ [MAS HOLD COMPONENTS (3×3×3)│  ◄── Spare Parts Storage (Palette 5)
-    Z: −26 └─────────────────────────────┘
+Plan view, Y = L2 (Utility Sub-Floor Battery Vault & Electrical Spine)
+        X: −1             0             X: +1
+    Z: −15 ┌─────────────────────────────────────────┐
+           │ HEAVY ARMOR VAULT BULKHEAD (Ceiling L3) │
+    Z: −16 │ [MAS BATTERY 4] [BATTERY 5] [BATTERY 6] │  ◄── 9.0 MWh Energy Storage Buffer
+    Z: −17 │ (3.0 MWh)       (3.0 MWh)   (3.0 MWh)   │      36.0 MW Peak Discharge Bus
+           └─────────────────────────────────────────┘
 ```
+
+##### Placement Instructions
+1. Excavate and frame a 3-block wide by 1-block long by 1-block deep recessed bay at [X −1 to +1, Z −16, Y = L2] directly beneath the Level L3 workshop floor.
+2. Install 3× Large Batteries side-by-side:
+   - `MAS Battery 4` at [X −1, Z −16, Y = L2]
+   - `MAS Battery 5` at [X0, Z −16, Y = L2]
+   - `MAS Battery 6` at [X +1, Z −16, Y = L2]
+3. Enclose the battery well perimeter with Heavy Armor Full Blocks. The top faces form the foundation walkway for Level L3.
+4. Tie battery terminals into the consist high-voltage tractive bus, supplying instantaneous float charge to the Basic Refinery, Large Assembler, and Axles 4-5 drive motors.
+
+##### Terminal Configuration & Sliders
+* Batteries: `MAS Battery 4, 5, 6`
+  - Initial Mode: `Auto`
+  - Max Stored Energy: `3.0 MWh each (9.0 MWh vault total)`
+  - Peak Power Output: `12.0 MW each (36.0 MW vault total)`
+  - Low Power Threshold: `15%` (Triggers audio alert on Bridge console)
+* Consist Power Totals: Vault brings total Mastodon MKI energy storage to 18.0 MWh across 6 Large Batteries with 72.0 MW combined instantaneous discharge.
+
+✓ Check: Batteries deliver 36.0 MW peak output; total consist energy reaches 18.0 MWh; battery well remains fully armored beneath workshop floor plate.
 
 ---
 
-#### Step 10.12B · Closed-Loop In-Situ Field Metallurgy & Component Recycling Circuit (Decision 65)
+#### Step 10.32 · Mobile FOB Field Workshop Core, Medical Bay & Life Support (L3)
 
-In Space Engineers, an Assembler cannot convert raw ore directly into components; it requires refined ingots. Install 1 Basic Refinery (`MAS Field Refinery`, 1×1×2 B, 330 kW, 13.5 t) adjacent to `MAS Utility Assembler` at [X −2, Y = L3, Z −12]:
-* **Conveyor Routing:** Directly plumbed to the central conveyor spine. Ingests raw ore (Fe, Ni, Co, Si, Mg) delivered from `MAS Tractor Buffer` via the articulated drawbar pipe.
-* **Closed-Loop Ore Smelting:** Outputs refined ingots directly into `MAS Utility Assembler` and `MAS Hold Components`, enabling complete autonomous field fabrication of replacement parts (steel plates, construction components, motors, bulletproof glass) without returning to base.
-* **Manual Hopper Port:** Top maintenance door accessible from the central aisle allows manual dumping of rare ore batches.
-* **Ice Automation:** Event Controller `MAS EC Ice` monitors raw ice levels, automatically prioritizing ice routing to the twin O2/H2 generators to replenish the 10,000,000 L hydrogen reserve.
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ [LOCATOR] Subsystem: FOB Workshop Core & Life Support  ·  Level: L3                  │
+│ [VIEWPORT] Grid Zone: [X −3 to +3, Z −18 to −12]  ·  Plan view Y = L3 (▲ Bow +Z)       │
+└──────────────────────────────────────────────────────────────────────────────────────┘
 
-##### Closed-Loop Salvage & Component Recycling Circuit:
-When `MAS Laser 1, 2` deconstruct target grids via Macro 5 (`MACRO_SALVAGE`), the FOB workshop operates as a closed-loop parts reclamation facility:
-1. **Intact Component Intake:** Undamaged functional components (Large Steel Tubes, Motors, Computers, Thruster Components, Metal Grids) route through the drawbar pipe into `MAS Hold Components` (3×3×3 Large Cargo, Palette 5) to replenish fleet repair inventories.
-2. **Scrap Metal Smelting:** Damaged scrap metal recovered during deconstruction is routed to `MAS Field Refinery`, melting down at 330 kW into pure Iron Ingots.
-3. **Assembler Disassembly (Reverse Metallurgy):** Surplus or obsolete salvaged parts are routed into `MAS Utility Assembler` configured in Disassemble Mode, breaking them down into constituent ingots (Fe, Ni, Co, Si, Pt, Au) to feed immediate NATO 25mm ammo fabrication or repair plates.
+##### Step 10.32 Parts Tray
+| Block Type | Qty | Palette Slot | Mass / PCU | Critical Placement & Facing |
+|---|---|---|---|---|
+| Large Assembler | 1 | Slot 4 (`#16A085`) | 39.5 t / 40 | `MAS Utility Assembler` at [X −2, Z −14, L3]; dual inventory doors face aisle |
+| Medical Room | 1 | Slot 7 (`#1B263B`) | 12.8 t / 30 | `MAS Medical Bay` at [X +2, Z −14, L3] plumbed to O2 life support trunk |
+| Cryo Chamber | 2 | Slot 7 (`#1B263B`) | 3.2 t / 40 | `MAS Cryo Pod 1, 2` at [X +2, Z −12 to −13, L3] facing central aisle |
+| Large Oxygen Tank | 2 | Slot 4 (`#16A085`) | 6.4 t / 50 | `MAS Tank O2 1, 2` at [X −2, Z −16 to −17, L3-L4]; stores 200,000 L O2 |
+| Small Cargo Container | 1 | Slot 4 (`#16A085`) | 0.8 t / 10 | `MAS Hold Ice LifeSupport` at [X0, Z −16, L3]; 15,000 L Quarantined Ice |
+| Large Hydrogen Tank | 2 | Slot 6 (`#C0392B`) | 16.2 t / 50 | `MAS Tank H2 1, 2` at [X ±2, Z −18, L3]; stores 10,000,000 L H2 fuel |
+| O2/H2 Generator | 2 | Slot 4 (`#16A085`) | 5.4 t / 44 | `MAS Gen O2/H2 1, 2` at [X0, Z −18, L3]; converts ice to fuel and air |
+| Sliding Door | 1 | Slot 9 (`#F1C40F`) | 1.2 t / 15 | `MAS Door Gangway Aft` at [X0, Z −9, L3] sealing forward workshop bulkhead |
+
+```
+Plan view, Y = L3 (Mobile FOB Workshop Core, Medical Bay & Life Support Farm)
+        X: −3           X: −2           0           X: +2           X: +3
+    Z:  −9 ┌───────────────────────────[DOOR GANGWAY AFT]──────────────────────────┐
+    Z: −10 │ FORWARD WORKSHOP ENTRY & FLIGHT LADDERWELL AISLE                      │
+    Z: −12 │ [REFINERY L3]             │ [AISLE]    │ [MAS CRYO POD 1]             │
+    Z: −13 │ (Smelting Core)           │ [AISLE]    │ [MAS CRYO POD 2]             │
+    Z: −14 │ [MAS UTILITY ASSEMBLER]   │ [AISLE]    │ [MAS MEDICAL BAY]            │
+    Z: −15 │ (Dual Ports Face Aisle)   │ [AISLE]    │ (Trauma Respawn Station)     │
+    Z: −16 │ [MAS TANK O2 1]           │ [ICE HOLD] │ [MAS TANK O2 2]              │
+    Z: −17 │ (100,000 L O2)            │ (15,000 L) │ (100,000 L O2)               │
+    Z: −18 │ [MAS TANK H2 1 (5,000kL)] │ [O2/H2 1,2]│ [MAS TANK H2 2 (5,000kL)]    │
+           └───────────────────────────┴────────────┴──────────────────────────────┘
+```
+
+##### Placement Instructions
+1. Install Sliding Door `MAS Door Gangway Aft` at [X0, Z −9, Y = L3], providing the hermetic barrier between the accordion drawbar gangway and the workshop cabin.
+2. Install Large Assembler `MAS Utility Assembler` at [X −2, Z −14, Y = L3] oriented so its dual physical conveyor/inventory doors face the central aisle at X0.
+3. Install Medical Room `MAS Medical Bay` at [X +2, Z −14, Y = L3] with conveyor port connected to the life support trunk.
+4. Mount 2× Cryo Chambers (`MAS Cryo Pod 1, 2`) at [X +2, Z −12, L3] and [X +2, Z −13, L3] facing inward toward the central walkway.
+5. Install 2× Large Oxygen Tanks (`MAS Tank O2 1, 2`) at [X −2, Z −16, L3] and [X +2, Z −16, L3].
+6. Place Small Cargo Container `MAS Hold Ice LifeSupport` at [X0, Z −16, Y = L3] directly between the O2 tanks, isolated by a one-way conveyor check to safeguard emergency ice.
+7. Install 2× Large Hydrogen Tanks (`MAS Tank H2 1, 2`) at [X −2, Z −18, L3] and [X +2, Z −18, L3] with twin O2/H2 Generators (`MAS Gen O2/H2 1, 2`) mounted at [X0, Z −18, L3].
+
+##### Terminal Configuration & Sliders
+* Assembler: `MAS Utility Assembler` (Cooperative Mode: `ON` · Repeat: `OFF`)
+* Medical Bay: `MAS Medical Bay` (Respawn: `Enabled` · Healing: `Enabled`)
+* Cryo Chambers: `MAS Cryo Pod 1, 2` (Conveyor Connection: `ON`)
+* Oxygen Tanks: `MAS Tank O2 1, 2` (Auto-Refill: `ON` · Stockpile: `OFF` · Total Volume: `200,000 L`)
+* Hydrogen Tanks: `MAS Tank H2 1, 2` (Stockpile: `OFF` · Total Volume: `10,000,000 L`)
+* Ice Buffer: `MAS Hold Ice LifeSupport` (Custom Name: `[QUARANTINED] MAS Hold Ice LifeSupport`)
+
+✓ Check: Workshop core maintains 100% airtight pressure; assembler inventory accessible from central aisle; medical bay and cryo chambers operational; ice buffer quarantined.
+
+---
+
+#### Step 10.33 · Closed-Loop In-Situ Field Metallurgy & Component Recycling Circuit (L3)
+
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ [LOCATOR] Subsystem: Closed-Loop Field Metallurgy & Reclamation  ·  Level: L2-L3    │
+│ [VIEWPORT] Grid Zone: [X −3 to 0, Z −17 to −9]  ·  Plan view Y = L3 (▲ Bow +Z)       │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+##### Step 10.33 Parts Tray
+| Block Type | Qty | Palette Slot | Mass / PCU | Critical Placement & Facing |
+|---|---|---|---|---|
+| Basic Refinery | 1 | Slot 4 (`#16A085`) | 13.5 t / 90 | `MAS Field Refinery` at [X −2, Z −12, L3]; top manual hopper accessible from aisle |
+| Large Conveyor Sorter | 1 | Slot 4 (`#16A085`) | 4.9 t / 25 | `MAS Sorter Ammo Fwd` at [X0, Z −9, L3] pointing forward (+Z) toward Tractor spine |
+| Large Conveyor Sorter | 1 | Slot 4 (`#16A085`) | 4.9 t / 25 | `MAS Sorter Parts Aft` at [X0, Z −17, L2] pointing aft (−Z) toward workshop |
+| Large Conveyor Pipe | 6 | Slot 4 (`#16A085`) | 1.8 t / 6 | Interconnecting refinery, assembler, and sorting raceways |
+| Event Controller | 1 | Slot 7 (`#1B263B`) | 0.2 t / 25 | `MAS EC Ice` at [X0, Z −15, L3] prioritizing raw ice flow to O2/H2 generators |
 
 ```
 [SALVAGE EXTRACTION & CLOSED-LOOP RECYCLING CIRCUIT]
 
-   [PIRATE WRECK / TARGET GRID]
+   [PIRATE WRECK / MINED VEIN]
          │
-         ▼ (Laser Deconstruction Beam · Mode: Grinder)
+         ▼ (Laser Multitool Head · Drill or Grinder Beam)
    [MAS LASER 1, 2]
          │
-         ▼ (Forearm & Turntable Conveyor Conduit)
+         ▼ (Articulated Boom Conveyor Raceway)
    [CARRIAGE 1 CENTRAL CONVEYOR SPINE]
          │
-         ▼ (Flexible Articulated Drawbar Pipe)
-   ┌────────────────────────────────────────────────────────┐
-   │ CARRIAGE 2 FOB WORKSHOP CORE                           │
-   │                                                        │
-   │  ┌──────────────────┐   ┌───────────────────────────┐  │
-   │  │ INTACT COMPONENTS│──►│ MAS HOLD COMPONENTS (3×3) │  │
-   │  └──────────────────┘   └─────────────┬─────────────┘  │
-   │                                       │ (Parts Pull)   │
-   │  ┌──────────────────┐                 ▼                │
-   │  │ DAMAGED SCRAP    │──►[MAS FIELD REFINERY] (Ingots)  │
-   │  └──────────────────┘                 │                │
-   │                                       ▼                │
-   │  ┌──────────────────┐   [MAS UTILITY ASSEMBLER]        │
-   │  │ SURPLUS BLOCKS   │──►(Disassembly or Ammo Fab)      │
-   │  └──────────────────┘                                  │
-   └────────────────────────────────────────────────────────┘
+         ▼ (Drawbar Flexible Inter-Carriage Conduit)
+   ┌─────────────────────────────────────────────────────────────────┐
+   │ CARRIAGE 2 FOB RECLAMATION CORE                                 │
+   │                                                                 │
+   │ ┌──────────────────────┐        ┌────────────────────────────┐  │
+   │ │ INTACT SPARE PARTS   │───────►│ MAS HOLD COMPONENTS (3×3×3)│  │
+   │ └──────────────────────┘        └─────────────┬──────────────┘  │
+   │                                               │ (Munitions Pull)│
+   │ ┌──────────────────────┐                      ▼                 │
+   │ │ DAMAGED SCRAP METAL  │──►[MAS FIELD REFINERY]                 │
+   │ └──────────────────────┘   (330 kW Iron Smelter)                │
+   │                                    │ (Ingots)                   │
+   │ ┌──────────────────────┐           ▼                            │
+   │ │ OBSOLETE COMPONENTS  │──►[MAS UTILITY ASSEMBLER]              │
+   │ └──────────────────────┘   (Disassemble / Ammo Fabrication)     │
+   │                                    │                            │
+   │                                    ▼                            │
+   │                            [MAS SORTER AMMO FWD] ──► (CIWS Guns)│
+   └─────────────────────────────────────────────────────────────────┘
 ```
 
+##### Placement Instructions
+1. Install Basic Refinery `MAS Field Refinery` at [X −2, Z −12, Y = L3] immediately forward of the Large Assembler. Plumb bottom and side conveyor ports to the central conveyor spine. Ensure top hatch faces inward toward the aisle for manual batch dumping.
+2. Install Large Conveyor Sorter `MAS Sorter Ammo Fwd` at [X0, Z −9, Y = L3] oriented pointing forward (+Z) directly into the gangway drawbar conduit. Configure whitelist for NATO 25×184mm and 5.56mm munitions with Drain All = ON to keep Tractor turrets continuously supplied.
+3. Install Large Conveyor Sorter `MAS Sorter Parts Aft` at [X0, Z −17, Y = L2] oriented pointing aft (−Z). Configure whitelist for Scrap Metal and damaged salvage components with Drain All = ON, diverting incoming salvage directly into `MAS Field Refinery` before it reaches raw ore bins.
+4. Mount Event Controller `MAS EC Ice` at [X0, Z −15, Y = L3] on the central bulkhead.
+
+##### Terminal Configuration & Sliders
+* Basic Refinery: `MAS Field Refinery` (Use Conveyor System: `ON` · Smelting: Fe, Ni, Co, Si, Mg)
+* Sorter: `MAS Sorter Ammo Fwd` (Mode: `Whitelist` · Items: `NATO_25x184mm`, `NATO_5_56x45mm` · Drain All: `ON`)
+* Sorter: `MAS Sorter Parts Aft` (Mode: `Whitelist` · Items: `Scrap` · Drain All: `ON`)
+* Event Controller: `MAS EC Ice`
+  - Monitored Target: `MAS Tank H2 1, 2` (Hydrogen Fill Level)
+  - Condition: Fill $< 90\%$
+  - Action Slot 1: Enable Ice Sorter & Power ON `MAS Gen O2/H2 1, 2`
+  - Action Slot 2: Standby mode when tanks $\ge 95\%$
+
+✓ Check: Mined raw ore automatically smelts into ingots; scrap metal routes straight to refinery; assembler pulls ingots autonomously; forward sorter keeps bow and flank turrets fully loaded with ammo.
+
 ---
 
-#### Step 10.12C · Vertical Flight Ladderwell & Stern Maintenance Descent (L3 to L6 & L3 to L2)
+#### Step 10.34 · Vertical Flight Ladderwell & Stern Maintenance Descent (L2-L6)
 
-To allow physical passage from the workshop to the roof flight decks and stern train dump bumper:
-* **Flight Deck Airlock & Ladderwell (L3 → L6):** Install an enclosed vertical ladder at [X +2, Z −10] climbing from the forward workshop corner up through an armored hatch to the Level L6 Flight Deck. Equipped with `MAS Vent Airlock Roof` and button panel `MAS BP Flight Deck` for active vacuum gas reclamation.
-* **Stern Dump Airlock & Descent (L3 → L2):** Install a descending ladderwell at [X +2, Z −25] passing through an armored hatch down to Level L2. Allows an engineer on foot to physically inspect and service `MAS Stern Dump Conn`, `MAS Stern Sorter`, and rear guide wedges without venting vehicle atmosphere.
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ [LOCATOR] Subsystem: Crew Inter-Deck Vertical Circulation  ·  Level: L2-L6           │
+│ [VIEWPORT] Grid Zone: [X +2, Z −25 to −10]  ·  Profile view facing Port (▲ Zenith +Y)│
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+##### Step 10.34 Parts Tray
+| Block Type | Qty | Palette Slot | Mass / PCU | Critical Placement & Facing |
+|---|---|---|---|---|
+| Narrow Ladder Block | 6 | Slot 9 (`#F1C40F`) | 0.6 t / 6 | 4× ladder segments at [X +2, Z −10, L3-L5]; 2× segments at [X +2, Z −25, L2-L3] |
+| Sliding Door | 2 | Slot 9 (`#F1C40F`) | 2.4 t / 30 | `MAS Door Flight Deck Airlock` at [X +2, Z −10, L5]; `MAS Door Stern Airlock` at [X +2, Z −25, L3] |
+| Air Vent | 2 | Slot 7 (`#1B263B`) | 1.0 t / 50 | `MAS Vent Airlock Roof` at [X +2, Z −10, L5]; `MAS Vent Airlock Stern` at [X +2, Z −25, L3] |
+| Sci-Fi 4-Button Panel | 2 | Slot 9 (`#F1C40F`) | 0.2 t / 16 | `MAS BP Flight Deck` at [X +2, Z −10, L6]; `MAS BP Stern Dump` at [X +2, Z −25, L2] |
+
+```
+Profile elevation looking Starboard, X = +2 (Dual Vertical Airlock Circulation)
+       Z: −10 (Forward Flight Deck Ascent)             Z: −25 (Aft Stern Dump Descent)
+  L6   [HATCH] ── [MAS BP FLIGHT DECK]                 ═══════════════════════════════
+       │                                                                │
+  L5   [AIRLOCK DOOR] · [MAS VENT AIRLOCK ROOF]        ═══════════════════════════════
+       │ (Vertical Ladderwell)                                          │
+  L4   │                                               ═══════════════════════════════
+       │                                                                │
+  L3   [WORKSHOP ENTRY THRESHOLD]                      [AIRLOCK DOOR] · [MAS VENT STERN]
+                                                       │ (Vertical Ladderwell)
+  L2   ═══════════════════════════════════════════════ [HATCH] ── [MAS BP STERN DUMP]
+```
+
+##### Placement Instructions
+1. Install an enclosed vertical ladder trunk at [X +2, Z −10] ascending from the forward workshop floor (Level L3) through Level L4 up to Level L5.
+2. Install Sliding Door `MAS Door Flight Deck Airlock` and Air Vent `MAS Vent Airlock Roof` at Level L5, forming a sealed airlock chamber before the roof hatch at Level L6. Mount button panel `MAS BP Flight Deck` on the exterior gantry coaming.
+3. Install a descending ladder trunk at [X +2, Z −25] descending from Level L3 down to Level L2 through Sliding Door `MAS Door Stern Airlock`.
+4. Install Air Vent `MAS Vent Airlock Stern` at Level L3 inside the descent vestibule and mount button panel `MAS BP Stern Dump` at Level L2 adjacent to the rear dump bumper.
+
+##### Terminal Configuration & Sliders
+* Doors: `MAS Door Flight Deck Airlock`, `MAS Door Stern Airlock` (Auto-Close: `ON` · Delay: `2.5 s`)
+* Vents: `MAS Vent Airlock Roof`, `MAS Vent Airlock Stern` (Depressurize: `OFF` · Cycle airlock pressure before outer hatch unlatches)
+* Button Panels:
+  - `MAS BP Flight Deck`: Btn 1 = Cycle Flight Deck Hatch · Btn 2 = Toggle Roof Floodlights · Btn 3 = Mule Cradle Clamp
+  - `MAS BP Stern Dump`: Btn 1 = Cycle Stern Hatch · Btn 2 = Toggle Stern Sorter Drain · Btn 3 = Lock/Unlock Stern Conn
+
+✓ Check: Engineer on foot ascends to Level L6 flight deck without venting workshop atmosphere; stern airlock provides safe descent to Level L2 dump bumper in vacuum.
 
 ---
 
-#### Step 10.12D · Ambient Atmospheric Oxygen Scavenging Vents (Carriage 2 Flank L4)
+#### Step 10.35 · Ambient Atmospheric Oxygen Scavenging Vents & Multi-Atmosphere Control (L4)
 
-To achieve indefinite planetary life support without consuming raw ice or running energy-intensive O2/H2 generators:
-* **Hardware Integration:** Mount 2× Air Vents (`MAS Vent Atmo Intake Port` at [X −3, Z −16, Y = L4] and `MAS Vent Atmo Intake Stbd` at [X +3, Z −16, Y = L4]) recessed flush into the upper exterior flank armor.
-* **Operating Configuration:** Set `Depressurize = ON`. In breathable planetary atmospheres, the vents pull ambient oxygen directly from outside air into the central life support trunk.
-* **Closed-Loop Storage:** Fills internal oxygen tanks and pressurized crew compartments automatically at zero ice consumption and minimal parasitic power (30 kW per vent), preserving onboard ice stocks strictly for hydrogen fuel synthesis.
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ [LOCATOR] Subsystem: Universal Life Support & Scavenging  ·  Level: L4              │
+│ [VIEWPORT] Grid Zone: [X ±3, Z −16]  ·  Flank profile looking Inward (▲ Zenith +Y)    │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+##### Step 10.35 Parts Tray
+| Block Type | Qty | Palette Slot | Mass / PCU | Critical Placement & Facing |
+|---|---|---|---|---|
+| Air Vent | 2 | Slot 0 (`#2B303A`) | 1.0 t / 50 | `MAS Vent Atmo Intake Port` at [X −3, Z −16, L4]; `MAS Vent Atmo Intake Stbd` at [X +3, Z −16, L4] |
+| Event Controller | 1 | Slot 7 (`#1B263B`) | 0.2 t / 25 | `MAS EC Atmosphere Mode` at [X0, Z −15, L3] monitoring external atmospheric O2 |
+| Heavy Armor Slope | 4 | Slot 0 (`#2B303A`) | 3.4 t / 4 | Recessed protective cowl surrounding exterior intake louvers |
+
+```
+Flank elevation cross-section, Y = L4, Z = −16 (Exterior Scavenging Vent Recesses)
+    Port Flank (X −3)                                               Starboard Flank (X +3)
+    [EXTERIOR HULL]                                                 [EXTERIOR HULL]
+          │                                                               │
+    ┌─────┴──────────────────┐                               ┌────────────┴─────────────┐
+    │ [MAS VENT ATMO PORT]   │ ◄── Depressurize: ON          │ [MAS VENT ATMO STBD]     │
+    │ (Recessed Flush Vent)  │     Draws Ambient O2          │ (Recessed Flush Vent)    │
+    └─────┬──────────────────┘     Free Ice-Free Life Support└────────────┬─────────────┘
+          │                                                               │
+          └────────────────────────► [MAS TANK O2 1, 2] ◄─────────────────┘
+                                   (200,000 L O2 Bunkers)
+```
+
+##### Placement Instructions
+1. Cut flush recesses into the Level L4 exterior armor flanks at [X −3, Z −16] (Port) and [X +3, Z −16] (Starboard).
+2. Install Air Vents `MAS Vent Atmo Intake Port` and `MAS Vent Atmo Intake Stbd` facing outward toward the planetary environment, plumbed directly into the utility oxygen line.
+3. Frame vent openings with Heavy Armor Slopes to protect delicate intake louvers from ballistic ricochets and tree branch strikes during transit.
+4. Install Event Controller `MAS EC Atmosphere Mode` at [X0, Z −15, Y = L3] inside the central life support bay.
+
+##### Terminal Configuration & Sliders
+* Air Vents: `MAS Vent Atmo Intake Port`, `MAS Vent Atmo Intake Stbd`
+  - Depressurize: `ON`
+  - Power: `ON` (in breathable atmospheres)
+  - Parasitic Draw: `30 kW each`
+* Event Controller: `MAS EC Atmosphere Mode`
+  - Monitored Event: `Natural Gravity & Atmospheric Oxygen`
+  - Target: Ambient Atmosphere
+  - Condition: Breathable O2 $\ge 1.0\%$
+  - Slot 1 (Breathable Atmosphere):
+    - `MAS Vent Atmo Intake Port` -> `Power ON`
+    - `MAS Vent Atmo Intake Stbd` -> `Power ON`
+    - `MAS Gen O2/H2 1, 2` -> `Power OFF` (Saves ice reserves)
+  - Slot 2 (Vacuum / Toxic World):
+    - `MAS Vent Atmo Intake Port` -> `Power OFF`
+    - `MAS Vent Atmo Intake Stbd` -> `Power OFF`
+    - Compartment Doors -> `Auto-Seal ON`
+    - Life Support -> Switched to 100% closed-loop tank draw (`MAS Tank O2 1, 2`)
+
+✓ Check: In planetary atmosphere, vents pull free oxygen to refill 200,000 L O2 storage with zero ice consumption; in vacuum, vents automatically power down and hermetic seals isolate all 4 interior zones.
 
 ---
 
-#### Step 10.12E · Genesis Master Projector & Multi-Zone Environmental Control (L3-L4)
+#### Step 10.36 · Genesis Master Projector, Standalone FOB C2 & Field Component Hold (L3-L4)
 
-To ensure field self-repair and complete multi-planetary survival:
-* **Master Projector Self-Repair Core (`MAS Projector Master`):** Mount 1× Large Grid Projector inside the workshop ceiling at [X0, Z −14, Y = L4]. Pre-loaded with the complete 1,039-block blueprint of `MASTODON-01 MKI`, perfectly aligned to the physical chassis grid. When damaged, the projected blueprint allows repair drones (`ALBATROSS-01`) or crew to rebuild damaged blocks using parts from `MAS Hold Components`.
-* **Universal Multi-Atmosphere Environmental Control:** Event Controller `MAS EC Atmosphere Mode` manages atmospheric adaptation:
-  * On breathable worlds (Earthlike): Exterior vents set to `Depressurize = ON` to harvest free oxygen.
-  * On airless moons (Moon, Europa) or toxic worlds (Mars, Alien): Exterior vents set to `Power = OFF`. Internal life support switches to closed-loop mode, feeding 100% O2 from `MAS Tank O2 1, 2` into all 4 sealed zones while airlocks cycle with zero-gas venting.
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ [LOCATOR] Subsystem: Master Blueprint Projector & FOB C2  ·  Level: L3-L4           │
+│ [VIEWPORT] Grid Zone: [X −1 to +1, Z −22 to −13]  ·  Plan view Y = L3 (▲ Bow +Z)     │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+##### Step 10.36 Parts Tray
+| Block Type | Qty | Palette Slot | Mass / PCU | Critical Placement & Facing |
+|---|---|---|---|---|
+| Large Cargo Container | 1 | Slot 5 (`#27AE60`) | 23.4 t / 50 | `MAS Hold Components` at [X0, Z −22, L3-L4] (3×3×3 B); terminal port faces aisle |
+| Projector (Large Grid) | 1 | Slot 7 (`#1B263B`) | 2.4 t / 100 | `MAS Projector Master` in workshop ceiling at [X0, Z −14, L4] facing forward (+Z) |
+| Programmable Block | 1 | Slot 7 (`#1B263B`) | 0.8 t / 25 | `[MAS-U] PB Utility` at [X −1, Z −13, L3] running autonomous FOB watchkeeping logic |
+| Remote Control | 1 | Slot 7 (`#1B263B`) | 0.6 t / 25 | `MAS-U Remote FOB` at [X +1, Z −13, L3] facing forward (+Z) for uncrewed remote control |
+
+```
+Plan view, Y = L3 (Aft Component Hold, Genesis Projector & Autonomous FOB Core)
+        X: −2           X: −1             0             X: +1           X: +2
+    Z: −13 ┌───────────────┬───────────────╤───────────────┬───────────────┐
+           │ [ASSEMBLER]   │ [MAS-U PB UT] │ [AISLE]       │ [MAS-U REMOTE]│
+    Z: −14 │ (Dual Ports)  ├───────────────┴───────────────┤ (Medical Bay) │
+           │               │ [MAS PROJECTOR MASTER (L4)]   │               │  ◄── Ceiling Ghost Projection
+    Z: −16 ├───────────────┼───────────────────────────────┼───────────────┤
+           │ [O2 TANK 1]   │ [QUARANTINED ICE HOLD (15kL)] │ [O2 TANK 2]   │
+    Z: −18 ├───────────────┼───────────────────────────────┼───────────────┤
+           │ [H2 TANK 1]   │ [CONVEYOR RISER JUNCTION]     │ [H2 TANK 2]   │
+    Z: −19 ├───────────────┴───────────────────────────────┴───────────────┤
+    Z: −20 │                                                               │
+    Z: −22 │             [MAS HOLD COMPONENTS (3×3×3 LARGE CARGO)]         │  ◄── Spare Construction Parts
+    Z: −24 │             (Palette Slot 5: Logistics Emerald)               │      Pulls Salvage & Welder Stock
+    Z: −25 └───────────────────────────────────────────────────────────────┘
+```
+
+##### Placement Instructions
+1. Install Large Cargo Container `MAS Hold Components` (3×3×3 Large Grid) centered at [X0, Z −22, Y = L3-L4]. Ensure front lower conveyor port and physical terminal access door face forward into the central workshop aisle at [X0, Z −20, Y = L3].
+2. Mount Large Grid Projector `MAS Projector Master` flush inside the Level L4 ceiling at [X0, Z −14, Y = L4] with top facing zenith (+Y) and front facing forward (+Z).
+3. Load the complete 1,039-block reference blueprint of `MASTODON-01 MKI` into `MAS Projector Master`. Set coordinate offsets to exactly X = 0, Y = 0, Z = 0, aligning the holographic ghost projection 1:1 with the physical chassis.
+4. Mount Programmable Block `[MAS-U] PB Utility` at [X −1, Z −13, Y = L3].
+5. Mount Remote Control `MAS-U Remote FOB` at [X +1, Z −13, Y = L3] aligned facing forward (+Z).
+
+##### Terminal Configuration & Sliders
+* Projector: `MAS Projector Master`
+  - Pitch: `0.0°` · Roll: `0.0°` · Yaw: `0.0°`
+  - Offset X: `0` · Offset Y: `0` · Offset Z: `0`
+  - Show Only Buildable: `ON`
+* Autonomous FOB C2 (`[MAS-U] PB Utility` / `MAS-U Remote FOB`):
+  - Standalone Drop-and-Mine Decouple: Upon severance or hitch uncoupling, `[MAS-U] PB Utility` immediately assumes local command authority.
+  - Broadcasts regional status `RIG.C2.HEARTBEAT;ORIGIN=MAS-01-U;ROLE=FOB`.
+  - Coordinates automated workshop manufacturing, life support recycling, battery management, and rear CIWS defense independently from the Tractor.
 
 ##### Pre-Enclosure Inspection Gate 10.5A: Field Workshop Fabrication, Sub-Floor Batteries & Circulation Check
 * [ ] Confirm Utility sub-floor battery bank (`MAS Battery 4, 5, 6`) delivers 9.0 MWh storage and 36.0 MW discharge.
@@ -6245,6 +7293,19 @@ To ensure field self-repair and complete multi-planetary survival:
 * [ ] Confirm O2/H2 tanks maintain airtight seals and supply hydrogen lines.
 * [ ] Verify `MAS EC Ice` automatically feeds ice to O2/H2 generators when H2 tanks drop below 90%.
 * [ ] Verify ambient air vents (`MAS Vent Atmo Intake Port/Stbd`) pull oxygen from atmosphere when Depressurize = ON.
+* [ ] Confirm `[MAS-U] PB Utility` boots into standalone FOB mode upon hitch decouple.
+* [ ] Confirm `MAS-U EC Breakaway` engages deadman brake and drops keel skids on signal loss.
+* [ ] Verify `MAS Sorter Ammo Fwd` draws ammunition to forward turrets without manual handling.
+* [ ] Verify `MAS Sorter Parts Aft` routes scrap metal directly into `MAS Field Refinery`.
+
+```
+PHASE 10-5 VISUAL MILESTONE · EXPEDITIONARY WORKSHOP & FOB CORE COMPLETE
+       Z: −9 (Gangway Bulkhead)    Z: −14 (Refinery/Assembler)   Z: −22 (Hold & Projector)
+       [MAS DOOR GANGWAY AFT]      [METALLURGY & LIFE SUPPORT]   [3×3×3 COMPONENT HOLD]
+                 │                              │                          │
+       ══════════╧══════════════════════════════╧══════════════════════════╧═════════
+                    9.0 MWh SUB-FLOOR BATTERY VAULT & KEEL BALLAST (L1-L2)
+```
 
 ---
 
@@ -6391,6 +7452,47 @@ Mount the rear defense turret on the upper gantry overlooking the stern dump int
 * **Stern Gatling Turret (`MAS Turret Stern`):** 1× Large Grid Gatling Turret mounted at [X0, Z −26, Y = L5], elevated 7.5 m above the Caterpillar dump bumper. Connect bottom conveyor port to the stern conveyor junction at L4.
 * **Coverage:** Delivers 270° hemispherical defensive coverage over the rear quadrant, providing covering fire for incoming MULE-01 shuttles on approach to the gantry pad, protecting docked Caterpillar land trains during high-speed dump operations, and repelling pursuers from the rear.
 
+---
+
+#### Step 10.15C · Telescoping Soft-Capture Docking Tongue for Caterpillar Trains (Z −26, L2)
+
+To eliminate hard docking collisions and ease coupling with trailing Caterpillar land trains on uneven terrain:
+* **Telescoping Extension Piston (`MAS Piston Stern Dock`):** Mount 1× Large Grid Piston horizontally at [X0, Z −25, Y = L2] with head facing aft (−Z). Maximum stroke: 2.5 m (extend to Z −27.5).
+* **Soft-Capture Dock Connector (`MAS Stern Dump Conn`):** Mount 1× Large Grid Connector on the piston head at [X0, Z −26, Y = L2]. Connect through piston internal conveyor duct to the main trailer conveyor trunk.
+* **Soft-Capture Protocol:**
+  1. Caterpillar train halts 2.0 to 2.5 m behind the Mastodon stern bumper.
+  2. Station 3 Pilot extends `MAS Piston Stern Dock` (Velocity: 0.2 m/s).
+  3. Connector magnetic pull locks without requiring delicate locomotive reverse maneuvering.
+  4. Piston gently retracts to 0.5 m standoff, absorbing dynamic drawbar lash.
+  5. Sorter `MAS Stern Sorter` engages (Drain All = ON), transferring 2,500 t bulk ore at high speed.
+
+```
+TELESCOPING STERN DOCK PROFILE (Z -25 to -27.5, L2)
+       [CARRIAGE 2 STERN]                             [CATERPILLAR BOW]
+       ┌───────────────┐                               ┌───────────────┐
+   L2  │ CONVEYOR DUCT ├──[PISTON 2.5 m]──[CONNECTOR]══╡ CONNECTOR     │
+       └───────────────┘  (MAS Piston     (MAS Stern   └───────────────┘
+                           Stern Dock)     Dump Conn)
+```
+
+---
+
+#### Step 10.15D · Stern Bedrock Hydraulic Outriggers & 42 m Seismic Baseline (Z −25, L1-L2)
+
+To stabilize Carriage 2 during dynamic 650 t Mule touchdowns and extend acoustic surveying baseline:
+* **Twin Stern Hydraulic Outriggers (`MAS Outrigger Utility Port/Stbd`):** Mount 2× Large Grid Pistons vertically at [X −3, Z −25, Y = L2] (Port) and [X +3, Z −25, Y = L2] (Starboard) extending downward through L1.
+* **Seismic Footpads (`MAS Seismic Pad Rear Port/Stbd`):** Mount 2× Large Magnetic Plates (TMS Mod 2819263781 Seismic Landing Gear) on the piston heads at Y = L1 facing ground.
+* **Mule Landing Isolation:** When a 650 t MULE-01 lands on the Level L6 Gantry Cradle Pad, dynamic touchdown forces transfer through the vertical chassis pillars directly into bedrock via the locked stern outriggers, eliminating suspension bounce, chassis bucking, and hitch fatigue.
+* **42 m Seismic Baseline:** Combined with Tractor forward outriggers at Z +12, the stern outriggers expand the seismic prospecting acoustic baseline from 12 m to 42 m, quadrupling the triangulation precision of deep subsurface ore scans down to 500 m† depth.
+
+---
+
+#### Step 10.15E · Relocated Stone Tailings Aggregate Discharge Manifold (Stern Bumper L1)
+
+Relocating tailings ejection from Tractor underbelly (Z 0) to Carriage 2 stern bumper ([X0, Z −26, Y = L1]):
+* **Stern Roadbed Ejector Manifold:** Plumb 1× Large Conveyor Sorter (`MAS Sorter Tailings Stern`) and 4× Ejectors (`MAS Ejector Tailings Stern 1..4`) along the rear bumper centerline at [X0, Z −26, Y = L1], angled 45° downward/aft.
+* **Operational Benefit:** Vents stone tailings safely behind Axles 4 and 5, laying a compacted roadbed aggregate trail behind the entire consist rather than ejecting gravel directly into trailer wheel wells or under intermediate suspension tires.
+
 ##### Pre-Enclosure Inspection Gate 10.6A: Cradle Clamping Dynamics & Dual-Tier Sorter Routing
 * [ ] Verify `MAS MP Sorter` whitelist passes only rare ores (U, Pt, Au, Mg) to the Mule shuttle.
 * [ ] Verify `MAS Stern Sorter` whitelist passes bulk ores (Fe, Ni, Si, Stone) to the land train.
@@ -6400,6 +7502,9 @@ Mount the rear defense turret on the upper gantry overlooking the stern dump int
 * [ ] Verify `MAS Turret Stern` receives NATO 25×184mm ammunition from utility cargo hold.
 * [ ] Verify recessed drone welders (`MAS Welder Pad Kestrel 1, 2`) auto-repair docked Kestrel drones upon touchdown.
 * [ ] Confirm worksite floodlight matrix (`MAS Floodlight Tower 1..4`) casts 360° illumination across mining zone and flight decks.
+* [ ] Confirm `MAS Piston Stern Dock` extends 2.5 m and soft-couples with Caterpillar land train.
+* [ ] Verify `MAS Outrigger Utility Port/Stbd` achieve 100% bedrock lock and isolate chassis during Mule touchdown.
+* [ ] Verify `MAS Sorter Tailings Stern` discharges stone aggregate safely behind stern bumper.
 
 ```
 PHASE 10-6 VISUAL MILESTONE · COMPLETE EXPEDITIONARY MINING TRAIN FOB
@@ -6462,23 +7567,30 @@ State Machine: Dynamic Fleet Authority & C2 Handover
 #### 2. Group Taxonomy
 * `MAS Tractor Wheels`: 6× 5×5 suspension wheel units on Carriage 1.
 * `MAS Utility Wheels`: 4× 5×5 suspension wheel units on Carriage 2.
-* `MAS Outriggers`: 4× Hydraulic stabilizer pistons + magnetic plates / seismic feet.
+* `MAS Outriggers`: 4× Hydraulic stabilizer pistons + magnetic plates / seismic feet on Tractor.
+* `MAS Outriggers Utility`: 2× Hydraulic stabilizer pistons + seismic feet at Carriage 2 stern.
 * `MAS Boom Joints`: 5× Rotors and Hinges articulating the long-reach arm.
 * `MAS Lasers`: 2× Simple Laser Multitools on the tool head.
 * `MAS Welders`: 2× Flush Large Grid Ship Welders (`MAS Welder Pad Kestrel 1, 2`) on Kestrel flight pads.
 * `MAS Lights`: Worksite floodlights (`MAS Floodlight Tower 1..4`), boom spotlights (`MAS Light Boom 1, 2`), and underbelly lamps (`MAS Lights Underbelly`).
-* `MAS Seismic`: 4× Seismic Surveying Landing Gear units (`MAS Seismic Outrigger 1..4`).
+* `MAS Seismic`: 6× Seismic Surveying Landing Gear units (`MAS Seismic Outrigger 1..4`, `MAS Seismic Pad Rear Port/Stbd`).
 * `MAS Batteries`: 6× Large Batteries across Tractor Vault and Utility Sub-Floor (18.0 MWh total).
 * `MAS Doors`: All internal airlock, vault, and inter-carriage gangway sliding doors.
 * `MAS Turrets`: 2× Large Gatling Turrets (`MAS Turret Bow`, `MAS Turret Stern`) + 2× Interior Turrets (`MAS Turret Flank Port`, `MAS Turret Flank Stbd`).
 * `MAS MP Cradle`: 2× Motorized Hinges + 2× Magnetic Plates on the Mule pad.
 * `MAS Displays`: All cockpit telemetry screens and tactical video wall LCDs.
+* `MAS Hitch Clamps`: 2× Large Magnetic Plates (`MAS Hitch Clamp Port`, `MAS Hitch Clamp Stbd`) on hitch drawbar.
+* `MAS DPU`: Axles 4 and 5 suspension wheels on Carriage 2 running distributed traction logic.
+* `MAS FOB`: Carriage 2 autonomous command blocks (`[MAS-U] PB Utility`, `MAS-U Remote FOB`, `MAS-U EC Breakaway`).
+* `MAS Tailings Ejectors`: 4× Ejectors on stern bumper (`MAS Ejector Tailings Stern 1..4`).
 
 #### 3. Block Naming & Terminal Dictionary
 | Block Type | Exact Terminal Name | Subsystem Role & Functional Configuration |
 |---|---|---|
 | Programmable Block | `[MAS] PB Excavator` | Kinematics & machine control · Update1 · Zero-GC |
 | Programmable Block | `[MAS] PB RIG//OS-Lite` | Regional Fleet C2 Mothership engine · Update10 · IGC router |
+| Programmable Block | `[MAS-U] PB Utility` | Autonomous Carriage 2 FOB supervisory core · Update10 |
+| Remote Control | `MAS-U Remote FOB` | Carriage 2 autonomous waypoint, defense, and antenna link |
 | Control Station | `MAS Helm` | Station 1 (Port) · Pilot traction, steering, outrigger, power control |
 | Control Station | `MAS Station Boom` | Station 2 (Center) · Excavation Master · CTC mouse aim & macros |
 | Control Station | `MAS Station Fleet` | Station 3 (Stbd) · Tactical Fleet Director · Drone dispatch & C2 |
@@ -6486,6 +7598,10 @@ State Machine: Dynamic Fleet Authority & C2 Handover
 | Radio Antenna | `MAS Comm Radio` | 50 km omnidirectional fleet broadcast & heartbeat beacon |
 | Radio Antenna | `MAS Beacon Distress` | 50 km blackout SOS distress beacon in sub-bridge keel |
 | Battery (Small) | `MAS Battery BlackBox` | Isolated cold-standby power cell for distress beacon |
+| Advanced Rotor | `MAS Hitch Yaw` | Articulated hitch yaw joint at [X0, Z −8, L2] · ±45° yaw |
+| Motor Hinge | `MAS Hitch Pitch` | Articulated hitch pitch joint at [X0, Z −8, L2] · ±25° pitch |
+| Advanced Rotor | `MAS Hitch Roll` | Articulated hitch roll joint at [X0, Z −8, L2] · ±20° roll along Z-axis |
+| Magnetic Plate (Large) | `MAS Hitch Clamp Port/Stbd` | Twin anti-oscillation drawbar lock clamps (engaged > 30 km/h) |
 | Merge Block | `MAS Hitch Sever Tongue` | Emergency pyrotechnic consist decoupling at [X0, Z −8, L2] |
 | Decoy | `MAS Decoy Flank Port/Stbd`, `MAS Decoy Stern` | Lower armor skirt ballistic decoys diverting turret fire |
 | Gyroscope (Large) | `MAS Gyro Recovery 1, 2` | Chassis roll override self-righting gyros at [X0, Z0, L1] |
@@ -6508,7 +7624,10 @@ State Machine: Dynamic Fleet Authority & C2 Handover
 | AI Defense Block | `MAS AI Defense` | Threat avoidance · Auto-locks outriggers and stows boom |
 | Piston (Large) | `MAS Outrigger Piston 1..4` | Corner bedrock stabilizer cylinders · `Share Inertia Tensor = ON` |
 | Magnetic Plate | `MAS Outrigger Pad 1..4` | Corner bedrock voxel locking pads · `Auto-Lock = ON` |
+| Piston (Large) | `MAS Outrigger Utility Port/Stbd`| Stern vertical hydraulic outriggers at [X ±3, Z −25, L2] |
+| Magnetic Plate | `MAS Seismic Pad Rear Port/Stbd`| Stern bedrock voxel locking pads · `Auto-Lock = ON` |
 | Seismic Landing Gear | `MAS Seismic Outrigger 1..4` | Deep voxel acoustic prospecting feet (TMS Mod 2819263781) |
+| Magnetic Plate (Large) | `MAS Utility Brake Keel 1, 2` | Keel emergency terrain skids at [X ±2, Z −18, L1] |
 | Magnetic Plate (Large) | `MAS Tool Grapple` | Centerline boom recovery grapple · Vehicle righting & cargo hoisting |
 | Magnetic Plate (Large) | `MAS Clamp Boom Stow` | Chassis dorsal spine travel stow clamp at [X0, Z −7, L4] |
 | Ship Welder (Large) | `MAS Welder Pad Kestrel 1, 2` | Recessed flight deck drone maintenance welders |
@@ -6526,11 +7645,14 @@ State Machine: Dynamic Fleet Authority & C2 Handover
 | Laser Multitool | `MAS Laser 1, 2` | Tri-mode Simple Laser Multitools (ToolCore) · Dynamic switching: Mining (Drill) / Salvage (Grinder, 15 to 30 m standoff) / Fabrication (Welder, 35 m reach) |
 | Sensor | `MAS Sensor Boom` | 4.0 m forward proximity collision safety buffer |
 | Connector (Large) | `MAS MP Conn` | Roof flush connector for MULE-01 shuttle docking |
-| Connector (Large) | `MAS Stern Dump Conn` | Stern bumper connector for CATERPILLAR-01 bulk train docking |
+| Piston (Large) | `MAS Piston Stern Dock` | Stern horizontal telescoping docking piston (2.5 m stroke) |
+| Connector (Large) | `MAS Stern Dump Conn` | Stern telescoping connector for CATERPILLAR-01 bulk train docking |
 | Conveyor Sorter | `MAS MP Sorter` | High-priority rare ore drain sorter (U, Pt, Au, Mg) |
 | Conveyor Sorter | `MAS Stern Sorter` | High-volume bulk ore drain sorter (Fe, Ni, Si, Stone) |
-| Conveyor Sorter | `MAS Sorter Tailings` | Underbelly stone & gravel purge filter (selective venting) |
-| Conveyor Ejector | `MAS Ejector Tailings 1, 2` | Angled underbelly nozzles laying aggregate roadbed |
+| Conveyor Sorter | `MAS Sorter Ammo Fwd` | Dedicated forward munitions sorter to bow CIWS |
+| Conveyor Sorter | `MAS Sorter Parts Aft` | Dedicated aft scrap metal sorter into field refinery |
+| Conveyor Sorter | `MAS Sorter Tailings Stern` | Relocated stern roadbed aggregate sorter at Z −26 |
+| Conveyor Ejector | `MAS Ejector Tailings Stern 1..4`| Angled stern bumper nozzles laying aggregate roadbed |
 | Basic Refinery | `MAS Field Refinery` | Closed-loop field metallurgy · 330 kW · Ingests raw ore, outputs ingots |
 | Hydrogen Engine | `MAS Engine H2` | Standby cold-start emergency generator · 5.0 MW failover |
 | Solar Panel | `MAS Solar 1..4` | Flush roof solar array · 640 kW peak† · Zero-fuel watchkeeping |
@@ -6543,9 +7665,11 @@ State Machine: Dynamic Fleet Authority & C2 Handover
 | Event Controller | `MAS EC Stabilizers` | Blocks boom arm deployment until outriggers report locked |
 | Event Controller | `MAS EC Level` | Auto-leveling bedrock jack sequence on sloped terrain |
 | Event Controller | `MAS EC Ladder` | Auto-deploys crew ladder on approach; retracts on drive |
-| Event Controller | `MAS EC Tailings` | Pulses stone ejectors when tractor ore buffer > 50% |
-| Event Controller | `MAS EC Hitch Speed` | Locks hitch yaw (100 MN·m torque) at speeds > 35 km/h |
+| Event Controller | `MAS EC Tailings` | Pulses stern stone ejectors when ore buffers > 50% |
+| Event Controller | `MAS EC Hitch Speed` | Locks hitch yaw (100 MN·m) and clamps drawbar straight at speeds > 30 km/h |
 | Event Controller | `MAS EC Hitch Rev` | Clamps hitch yaw to ±15° and inverts Axle 5 when reversing |
+| Event Controller | `MAS EC DPU Drive` | Synchronizes Axles 4 & 5 traction and dynamic descent braking |
+| Event Controller | `MAS-U EC Breakaway` | Deadman breakaway watchdog: drops keel skids and handbrake on hitch sever |
 | Event Controller | `MAS EC Holds` | Monitors payload mass; alerts at 2,500 t limit |
 | Event Controller | `MAS EC Handover` | Monitors Ground Base heartbeat; triggers C2 handover |
 | Event Controller | `MAS EC Power` | Fuel watchdog: auto-starts `MAS Engine H2` on low uranium (< 1.0 kg) |
@@ -6563,9 +7687,11 @@ State Machine: Dynamic Fleet Authority & C2 Handover
 | `MAS EC Stabilizers`| `MAS Outrigger Pad 1..4` | All 4 Pads = Locked | Enable `MAS Boom Joints` · Sound Ready Chime | Lock `MAS Boom Joints` · Fold Boom |
 | `MAS EC Level` | `MAS Helm` Roll & Pitch | Roll / Pitch $> 1.0^\circ$ | Differential Piston Extension | Lock Mag Plates (0.0° Level) |
 | `MAS EC Ladder` | `MAS Sensor Ladder` | Player within 2.5 m | Deploy Ladder (Hinge 90° Down) | Retract Ladder (Hinge 0° Flush) |
-| `MAS EC Tailings` | Tractor Ore Buffer | Ore Fill $\ge 50\%$ | `MAS Sorter Tailings` Drain ON · Ejectors ON | Sorter & Ejectors OFF |
-| `MAS EC Hitch Speed`| Consist Speedometer | Speed $> 35\text{ km/h}$ | Hitch Torque = 100 MN·m (Anti-Sway) | Normal Hitch Torque (45 MN·m) |
+| `MAS EC Tailings` | Tractor Ore Buffer | Ore Fill $\ge 50\%$ | `MAS Sorter Tailings Stern` Drain ON · Ejectors ON | Sorter & Ejectors OFF |
+| `MAS EC Hitch Speed`| Consist Speedometer | Speed $> 30\text{ km/h}$ | Hitch Torque = 100 MN·m · Lock `MAS Hitch Clamps` | Normal Hitch Torque (45 MN·m) · Unclamp |
 | `MAS EC Hitch Rev` | Transmission Gear | Gear = Reverse | Clamp Yaw ±15° · Axle 5 Positive Tracking | Normal Yaw ±45° · Counter-Steer |
+| `MAS EC DPU Drive` | Helm Throttle / Grade | Incline $> 5^\circ$ AND Throttle ON | Axles 4 & 5 Matching Push Torque (100%) | Neutral Tractive Balance |
+| `MAS-U EC Breakaway`| Consist Handshake | Electrical / Merge Link = Lost | Deploy `MAS Utility Brake Keel` · Handbrake ON · SOS Beacon | Standby Isolation |
 | `MAS EC Holds` | Combined Ore Mass | Ore Mass $\ge 2,500\text{ t}$ | Sound Payload Horn · IGC `TMS.MULE.CALL` | Normal Extraction Mode |
 | `MAS EC MP` | `MAS MP Conn` | Status = Connected | `MAS MP Sorter` Drain ON · Cradle Clamp | Sorter OFF · Cradle Retract (0°) |
 | `MAS EC Train` | `MAS Stern Dump Conn` | Status = Connected | `MAS Stern Sorter` Drain ON | Sorter OFF |
@@ -6573,7 +7699,7 @@ State Machine: Dynamic Fleet Authority & C2 Handover
 | `MAS EC Power` | `MAS Reactor 1, 2` Uranium | Uranium Mass $< 1.0\text{ kg}$ | `MAS Engine H2` Turn ON · Sound Fuel Horn | `MAS Engine H2` Turn OFF |
 | `MAS EC Ice` | `MAS Tank H2 1, 2` Fill | Hydrogen Fill $< 90\%$ | Enable Ice Conveyor Sorter & O2/H2 Gens | Normal Conveyor Routing |
 | `MAS EC Combat` | Hull Integrity / Target Lock | Damage Detected OR Hostile Lock | Engage `MAS Turrets` · Elevate `RIG.OS.MODE CBT` | Standby Watchkeeping |
-| `MAS EC Seismic` | `MAS Seismic Outrigger 1..4` | All 4 Pads = Locked | Pulse Seismic Scan · Publish `TMS.SCOUT.VEIN` | Standby |
+| `MAS EC Seismic` | `MAS Seismic Outrigger 1..4` | All Outriggers = Locked | Pulse Seismic Scan · Publish `TMS.SCOUT.VEIN` | Standby |
 | `MAS EC Drone Repair` | `MAS Kestrel Dock 1, 2` | Either Pad = Connected | Pulse `MAS Welders` ON (5.0 s timer) | `MAS Welders` OFF |
 | `MAS EC LifeSupport` | `MAS Tank O2 1, 2` / Pressure | O2 $< 25\%$ OR Pressure $< 0.5$ atm | Sound O2 Alarm · Seal Compartment Doors | Normal Atmospheric Circulation |
 | `MAS EC BlackBox` | Consist Power Output | Total MW Output $= 0.0$ MW | Activate `MAS Battery BlackBox` & SOS Beacon | Standby Isolation |
@@ -6584,6 +7710,9 @@ State Machine: Dynamic Fleet Authority & C2 Handover
 * Network Handover: `RIG.C2.HANDOVER` (`<source_id>;<target_id>;<asset_registry_payload>`).
 * Logistics Outbound: `TMS.MULE.CALL` (`CALL;<requesting_pad>;<priority>;<payload_type>`).
 * Logistics Outbound: `TMS.CAT.CALL` (`CALL;<consist_id>;<bulk_ore_t>;<gps_coords>`).
+* Consist Telemetry: `TMS.CONSIST.SYNC` (`SYNC;<source_id>;<hitch_torque>;<clamp_state>;<airlock_state>`).
+* Powertrain DPU: `TMS.CONSIST.TRACTION` (`DPU;<mode:PUSH|BRAKE|COAST>;<torque_pct>;<axle4_slip>;<axle5_slip>`).
+* Emergency Breakaway: `TMS.CONSIST.SEVER` (`SEVER;<source_id>;<reason>;<keel_skids_engaged>`).
 * Fleet Telemetry: `TMS.MAS.STATUS` (`<consist_id>;<ore_mass_t>;<payload_pct>;<gps_coords>;<fob_status>`).
 * Geological Inbound: `TMS.SCOUT.VEIN` (Receives target ore vein coordinates from Kestrel drones).
 * Subordinate Dispatch: `FLT.MAS.CMD` (`<target_id>;<command>;<waypoint_gps>`).
@@ -6686,6 +7815,19 @@ State Machine: Dynamic Fleet Authority & C2 Handover
 * [ ] **Demand-Driven Pull Mining Protocol:** Simulate Ground Base broadcasting `TMS.BASE.DEMAND;COBALT;5;150000;250000`. Confirm Mastodon C2 automatically filters local survey database for nearest Cobalt vein and highlights target waypoint on Station 3 Tactical Video Wall.
 * [ ] **Multi-Consist Swarm Deconfliction:** Simulate sister excavator `MAS-02` within 200 m radius. Trigger `CLAIM ZONE` (HB2:7); confirm `TMS.ZONE.CLAIM` broadcasts bounding box exclusion zone, preventing boom joint interference during synchronized quarrying.
 * [ ] **Coordinated CIWS Fleet Defense Interlock:** Simulate incoming hostile pirate drone. Confirm `[MAS] PB RIG//OS-Lite` broadcasts `TMS.DEFENSE.TARGET` with threat priority, distributing target tracking between `MAS-01` and `MAS-02` turrets to prevent ammunition waste.
+
+#### M · Consist Mechanics, 3-Axis Hitch, DPU Powertrain & FOB Autonomy Acceptance (Decision 67)
+* [ ] **3-Axis Gimbal Hitch Compliance:** Drive consist across boulder-strewn terrain and steep dune ridges. Confirm hitch articulates freely across yaw (±45°), pitch (±25°), and torsional roll (±20°) without subgrid binding, Clang physics glitching, or wheel lift.
+* [ ] **Anti-Oscillation Magnetic Clamping:** Accelerate consist above 30 km/h on flat salt flats. Confirm Event Controller `MAS EC Hitch Speed` locks twin magnetic clamps (`MAS Hitch Clamp Port/Stbd`), freezing hitch oscillation and stabilizing high-speed highway transit.
+* [ ] **Distributed Power Unit (DPU) Hill-Climb Push:** Drive loaded consist up a 20° mountain grade. Confirm `[MAS] PB Excavator` engages DPU traction, driving Axles 4 and 5 at 100% matching torque to eliminate dead-drag on the drawbar hitch.
+* [ ] **Predictive Regenerative Descent Braking:** Drive down a steep 25° incline. Confirm Carriage 2 wheels dynamically apply counter-braking before Tractor brakes bite, maintaining drawbar tension and preventing trailer jackknifing.
+* [ ] **Autonomous FOB Detachment ("Drop-and-Mine"):** Trigger `Hitch Decouple`. Drive Tractor away as an independent 6×6 extraction vehicle. Confirm Carriage 2 computer core (`[MAS-U] PB Utility` and `MAS-U Remote FOB`) initializes, maintaining continuous life support, refinery recycling, battery charging, and stern CIWS watchkeeping.
+* [ ] **Runaway Breakaway Deadman Brake:** Sever merge connection while on a 15° slope without tractor attached. Confirm `MAS-U EC Breakaway` instantly engages handbrakes and drops keel magnetic skids (`MAS Utility Brake Keel 1, 2`) into the terrain, halting runaway trailer slide within 1 tick.
+* [ ] **Sub-Floor Ballast Low-CoM Verification:** Execute high-speed 35 km/h evasive slalom maneuvers. Confirm 40× Heavy Armor sub-floor ballast skids maintain Carriage 2 Center of Mass below Level L2.4, preventing rollover up to 34° side tilt.
+* [ ] **Stern Bedrock Outrigger Mule Touchdown Shock Isolation:** Extend stern outriggers (`MAS Outrigger Utility Port/Stbd`) to bedrock lock. Land fully-laden 650 t MULE-01 onto Level L6 gantry pad. Confirm touchdown impact forces transfer directly into terrain with zero suspension deflection or chassis bucking.
+* [ ] **42 m Triangulated Seismic Prospecting Baseline:** Deploy all 6 outriggers (4 forward, 2 aft). Trigger `SEISMIC`. Confirm 42 m acoustic baseline achieves sub-meter centroid accuracy on deep ore scans down to 500 m† depth.
+* [ ] **Telescoping Soft-Capture Caterpillar Docking:** Back Caterpillar train to 2.0 m standoff behind stern bumper. Extend `MAS Piston Stern Dock`; confirm magnetic capture locks cleanly without vehicle impact. Retract piston and verify 2,500 t bulk ore dumps at high speed.
+* [ ] **Relocated Stern Roadbed Aggregate Trail:** Mine stone with buffer > 50%. Confirm `MAS Sorter Tailings Stern` and 4× ejectors vent stone aggregate safely behind the stern bumper ([X0, Z −26, L1]), laying a continuous compacted roadbed without gravel impacting wheels.
 
 
 
