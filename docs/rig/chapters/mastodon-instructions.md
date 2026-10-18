@@ -5,15 +5,15 @@
 Lego-style, step-by-step visual build manual and hardware-to-scripting interface contract for the **MASTODON-01 MKI**.
 Each step features: an exact ASCII schematic, Spatial Locator HUD, in-game paint palette assignments, pre-step parts tray, critical joint/conveyor settings, Pre-Enclosure Inspection Gates ("Points of No Return"), and Phase-End Visual Milestones.
 
-### Design Directives & Operational Scope (Decisions 55 & 56)
+### Design Directives & Operational Scope (Decisions 55, 56 & 57)
 * **Role:** Long-range terrestrial expeditionary mining locomotive, self-contained mobile Forward Operating Base (FOB), and **Genesis Seed Fleet Mothership** running **`RIG//OS-Lite`**. In fresh survival campaigns prior to Ground Base refinery commissioning, the lead Mastodon serves as the regional C2 fleet root, commanding subordinate excavators (`MAS-02`), bulk land trains (`CAT-01`), and freight shuttles (`MUL-01`), with automated handover to Ground Base upon commissioning.
 * **Architecture:** Segmented articulated train consist:
-  1. **Carriage 1 (`MAS-01-T`): Locomotive & Excavator Unit (11 W × 20 L × 5 H B · 6 Wheels):** Heavy tractive engine, 3-operator armored panoramic C2 bridge (Helm, Boom CTC, Tactical Director), primary power plant (30 MW nuclear), dual-PB compute rack (`PB Excavator` + `PB RIG//OS-Lite`), 40 km laser comms mast, 4× hydraulic corner outrigger stabilizers (bedrock voxel clamps), dorsal 45 m long-reach articulated 5-DOF laser mining boom, and aft 2-axis motorized drawbar hitch.
+  1. **Carriage 1 (`MAS-01-T`): Locomotive & Excavator Unit (11 W × 20 L × 5 H B · 6 Wheels):** Heavy tractive engine, 3-operator armored panoramic C2 bridge (Helm, Boom CTC, Tactical Director), primary power plant (30 MW nuclear), dual-PB compute rack (`PB Excavator` + `PB RIG//OS-Lite`), 40 km laser comms mast, 4× hydraulic corner outrigger stabilizers with differential auto-leveling jacks, dorsal 45 m long-reach articulated 5-DOF laser mining boom, and aft 2-axis motorized drawbar hitch.
   2. **Carriage 2 (`MAS-01-U`): Modular FOB & Utility Carriage (11 W × 18 L × 5 H B · 4 Wheels):** Field workshop (1× Large Assembler, Survival Kit / Medical Bay), component reserve hold, atmospheric bunkering (2× Large H2 tanks, O2/H2 generators), 7 × 7 B MULE-01 Gantry Cradle Pad with motorized clamping arms, 2× KESTREL-01 scout drone landing pads, and stern heavy dump bumper matching CATERPILLAR-01.
 * **Grid:** Large Grid (1 B = 2.5 m) · **Consist Envelope:** 11 W × 42 L × 6 H B (27.5 × 105.0 × 15.0 m).
-* **Mass:** Consist Dry Mass `≈ 876.2 t` (Tractor: 499.8 t, Utility: 376.4 t) · Max Laden Mass `≈ 3,375 t` (Earth 1 g).
+* **Mass:** Consist Dry Mass `≈ 879.5 t` (Tractor: 503.1 t, Utility: 376.4 t) · Max Laden Mass `≈ 3,380 t` (Earth 1 g).
 * **Payload Capacity:** 2,500 t bulk ore across tractor buffer and utility holds.
-* **Extraction Gear:** Dorsal 5-DOF articulated boom with 2× Simple Laser Multitools (mining mode) supporting manual CTC aim and 3 automated macro modes (Bench quarry, shaft bore, trench carve).
+* **Mechanical & Automation Suite (Decision 57):** 5-point immersive automation: auto-leveling bedrock jacks (sloped terrain compensation up to 20°), retractable crew boarding ladder (Port flank L2), active gravity-horizon tool head leveling with 4.0 m safety proximity stop, underbelly stone tailings aggregate spreader, and smart anti-jackknife drawbar dynamics.
 * **Operating Environment:** Earth 1 g baseline, rough terrestrial terrain.
 
 ---
@@ -143,6 +143,11 @@ Bow     │ 2-Seat Panoramic Cockpit  Nuclear Core                              
 
 ```
              TRACTOR POWER CORE (2× Small Nuclear Reactors + 2× Large Batteries)
+## Phase 10-5 · Modular FOB & Utility Carriage Chassis & Workshop (Carriage 2)
+
+```
+       [PHASE 10-5 SPATIAL LOCATOR HUD]
+       Envelope: 11 W × 18 L × 5 H B (27.5 × 45.0 × 12.5 m)
                                 30 MW Nuclear · 6 MWh Battery
                                               │
                                               ▼
@@ -259,8 +264,33 @@ Front Elevation Cross-Section, Y = L1 (Axle 1 Wheel Hub & Ground Clearance)
 | **Axle 2** | Z = +4  | `WH 3, 4` | `15.0°` | Normal | `100%` | `50% / 85%` | `70%` |
 | **Axle 3** | Z = −1  | `WH 5, 6` | `0.0°`  | OFF (Locked) | `100%` | `55% / 90%` | `75%` |
 
+---
+
+### Step 10.2B · Tailings Aggregate & Roadbed Spreader Underbelly Manifold (L1)
+
+To prevent cargo holds from clogging with thousands of tons of low-value crushed stone, install a selective tailings venting manifold beneath the chassis along centerline X0 at Z = 0:
+* **Conveyor Tap:** 1× Conveyor Sorter (`MAS Sorter Tailings`) tapped into the central conveyor trunk at [X0, Z0, Y = L1] facing downward.
+* **Discharge Nozzles:** 2× Conveyor Ejectors (`MAS Ejector Tailings 1, 2`) angled 45° aft (−Z) beneath Axle 3.
+* **Sorter Filter:** Whitelist set to `Stone` and `Gravel` · `Drain All = ON`.
+* **Automation:** Managed by Event Controller `MAS EC Tailings`. When Tractor ore buffer fill exceeds 50%, ejectors activate, laying down a smooth gravel roadbed behind the driving wheels while retaining high-value ores (Fe, Ni, Co, U).
+
+```
+Underbelly Profile · Tailings Aggregate Spreader (Z0, L1)
+     Central Conveyor Raceway (L1)
+                  │
+                  ▼
+       [MAS Sorter Tailings] (Filter: Stone / Gravel)
+                  │
+                  ▼
+       [MAS Ejector Tailings 1, 2] ──► Angled Aft (−Z)
+                  │
+                  ▼ (Vents Stone Tailings Behind Axle 3)
+     ══════════════════════════════════════════════════ Crushed Stone Roadbed
+```
+
 #### Pre-Enclosure Inspection Gate 10.1A: Tractor Powertrain & Belly Clearance Check
 * [ ] Verify uninterrupted large conveyor pipe flow from Bow Throat (Z +12) to Aft Hitch (Z −8).
+* [ ] Verify `MAS Sorter Tailings` drains stone and gravel without leaking metal ores.
 * [ ] Verify exactly 1.25 m (0.5 B) ground clearance under belly skids at 50% suspension travel.
 * [ ] Confirm steering response in `MAS Tractor Wheels`: Axles 1 and 2 pivot smoothly with zero wheel well binding.
 
@@ -370,10 +400,19 @@ Hitch Articulation Kinematic Envelope:
 · Roll (Twist): Locked rigid via structural heavy armor wishbone; terrain twist absorbed by wheel suspension travel.
 ```
 
+---
+
+### Step 10.5B · Smart Anti-Jackknife Dynamics & High-Speed Sway Lockout
+
+To eliminate trailer sway during high-speed transit and prevent destructive jackknifing when reversing down steep slopes:
+* **High-Speed Cruising Mode (> 35 km/h):** Event Controller `MAS EC Hitch Speed` monitors vehicle speedometer. When velocity exceeds 35 km/h, `MAS Hitch Rotor` braking torque increases dynamically to `100 MN·m`, locking the drawbar straight and eliminating harmonic trailer snaking.
+* **Reversing Jackknife Prevention:** When transmission shifts into reverse, Event Controller `MAS EC Hitch Rev` clamps rotor yaw limits from `±45.0°` down to `±15.0°` and commands Axle 5 to track in positive alignment, physically preventing the utility carriage from folding sideways.
+
 #### Pre-Enclosure Inspection Gate 10.2A: Power Core Isolation & Hitch Articulation Test
 * [ ] Verify reactor automated uranium pull through the central conveyor trunk.
 * [ ] Confirm total tractor power capacity reads `54.0 MW` peak (30 MW nuclear + 24 MW battery).
 * [ ] Test 2-axis drawbar hitch: ensure rotor and hinge pivot freely without clashing with the chassis frame.
+* [ ] Verify `MAS EC Hitch Speed` dynamically raises rotor braking torque to 100 MN·m when speed exceeds 35 km/h.
 
 ---
 
@@ -426,6 +465,29 @@ Outrigger Deployment Sequence:
 3. Outrigger Pistons extend: Max distance = 2.5 m (1 B stroke).
 4. Magnetic Plates contact terrain: Auto-Lock triggers (Green lock state).
 5. Event Controller `MAS EC Stabilizers` verifies 4/4 locks -> releases Boom Joint brakes.
+```
+
+---
+
+### Step 10.6B · Auto-Leveling Bedrock Jacks (Sloped Terrain Pitch & Roll Compensation)
+
+When parking on sloped hillsides (up to 20° grade), the 4 corner outrigger pistons execute an automated differential extension cycle to bring the vehicle deck to true horizontal:
+* **Level Sensing:** Event Controller `MAS EC Level` (or `[MAS] PB Excavator`) monitors the artificial horizon pitch and roll angles from `MAS Helm`.
+* **Differential Stroke:** Downhill pistons extend further (up to 2.5 m stroke) while uphill pistons extend only until initial voxel contact, bringing the deck to $0.0^\circ \text{ Roll}$ and $0.0^\circ \text{ Pitch}$.
+* **Lock State:** Once leveled, all 4 Magnetic Plates lock into bedrock simultaneously, creating a perfectly level, rigid foundation on hillsides.
+
+```
+TERRAIN-TILT AUTO-LEVELING (Looking Bow, Y = L1-L2)
+
+ [UNLEVELED ON 15° SLOPE]                         [AUTO-LEVELED DECK (0.0° ROLL)]
+      Chassis Tilted 15° Downhill                     Chassis Leveled to Gravity Horizon
+         ┌───────────────────┐                           ┌───────────────────┐
+        ╱                   ╱                           │     MAIN DECK     │ (0.0° Roll)
+       ╱    TILTED CAB     ╱                            └─┬───────────────┬─┘
+      └──────┬───────┬────┘                               │ [Piston 0.8m] │ [Piston 2.2m]
+     [Piston]│       │[Piston]                           ▼               ▼
+      (Short)▼       ▼(Short)                       [MAG LOCK]      [MAG LOCK]
+      ═════════════════════════ 15° Hillside        ═════════════════════════ 15° Hillside
 ```
 
 ---
@@ -494,6 +556,35 @@ Boom Operating Configurations:
    Elbow Pitch:    +20.0°
    Wrist Pitch:    -65.0° (Tool head leveled parallel to ground)
    Horizontal Radius: 42.5 m from turret center · Max Depth Reach: -12.5 m
+```
+
+---
+
+### Step 10.8B · Active Gravity-Horizon Tool Head Leveling & Safety Proximity Buffer
+
+To prevent the laser mining head from gouging angled V-grooves during elevation changes:
+* **Horizon Auto-Leveling:** As the Shoulder Hinge elevates from −20° to +75°, the Wrist Pitch Hinge automatically counter-pitches in exact inverse ratio. This keeps the laser beam strictly parallel to the planet's gravity horizon, cutting perfectly flat terrace floors.
+* **Proximity Safety Buffer:** Sensor `MAS Sensor Boom` mounted on the tool head is configured with a 4.0 m forward detection sphere. If terrain voxels or vehicle blocks enter the buffer during rapid slewing, it cuts laser beam power and locks joint brakes within 1 tick, preventing tool head destruction.
+
+```
+BOOM ELEVATION WITH HORIZON-LEVELED TOOL HEAD
+
+                  [SHOULDER ELEVATED +35°]
+                         ╱
+                        ╱  Main Arm
+                       ╱
+                      ▼
+               [ELBOW FLEXED -20°]
+                      ╲
+                       ╲  Forearm
+                        ╲
+                         ▼
+                  [WRIST PITCH HINGE] ── (Counter-Pitches -15° to cancel arm slope)
+                         │
+                         ▼
+               ┌───────────────────┐
+               │  [LASER MULTI]    │ ════════════► Level Horizontal Beam Cut
+               └───────────────────┘               (Parallel to Planet Floor)
 ```
 
 ---
@@ -655,11 +746,35 @@ Station 3: Tactical Fleet Director (`MAS Station Fleet`)
 · Slot 9: Event Controller `MAS EC Handover` -> Trigger C2 Base Handover
 ```
 
+---
+
+### Step 10.10B · Retractable Crew Boarding Ladder & Proximity Walkway (Port Flank L2)
+
+To allow the player to enter and exit the 3.5 m high bridge cabin without consuming limited jetpack hydrogen fuel:
+* **Hinge Mounting:** Install 1× Motor Hinge (`MAS Crew Ladder Hinge`) flush on the Port hull skirt at [X −4, Z +7, Y = L2] (between Axles 1 and 2).
+* **Ladder Run:** Attach a 2-block narrow ladder run to the hinge head, painted Palette Slot 9 (High-Viz Safety Yellow).
+* **Proximity Automation:** Sensor `MAS Sensor Ladder` set to 2.5 m radius at the Port flank. When a crew member on foot approaches, the hinge rotates downward 90° to touch ground level (L0).
+* **Drive Interlock:** Event Controller `MAS EC Ladder` monitors the handbrake and wheel propulsion. When the handbrake is released or speed exceeds 0 km/h, the ladder automatically retracts flush into the armored hull recess.
+
+```
+CREW BOARDING LADDER (Port Flank Profile)
+
+     [TRANSIT: FLUSH STOWED]                   [BOARDING: DEPLOYED TO GROUND]
+           Deck L3                                   Deck L3
+         ┌─────────┐                               ┌─────────┐
+         │ CAB WALL│                               │ CAB WALL│
+     L2  ├─────────┴─ [HINGE 0°]               L2  ├─────────┴─ [HINGE 90° ↓]
+         │ WHEEL WELL │ [LADDER FOLDED]            │ WHEEL WELL │
+     L1  │            │                            │            │   │ [LADDER RUN]
+     ════╧════════════╧══════════ Ground       L0  ═════════════╧═══▼ (Touchdown)
+```
+
 #### Pre-Enclosure Inspection Gate 10.4A: Bridge Airtightness & C2 Network Link Check
 * [ ] Confirm bridge cabin pressurizes to 100% O2 via air vent.
 * [ ] Verify `MAS Ore Detector` displays subterranean ore deposits out to 150 m range.
 * [ ] Confirm CTC block maps mouse yaw to `MAS Turret Azimuth` and mouse pitch to `MAS Shoulder Pitch`.
 * [ ] Confirm `MAS Comm Laser` and `MAS Comm Radio` establish two-way IGC telemetry ping.
+* [ ] Verify `MAS Crew Ladder Hinge` automatically lowers when approached on foot and retracts upon handbrake release.
 
 ---
 
@@ -909,17 +1024,27 @@ State Machine: Dynamic Fleet Authority & C2 Handover
 | AI Defense Block | `MAS AI Defense` | Threat avoidance · Auto-locks outriggers and stows boom |
 | Piston (Large) | `MAS Outrigger Piston 1..4` | Corner bedrock stabilizer cylinders · `Share Inertia Tensor = ON` |
 | Magnetic Plate | `MAS Outrigger Pad 1..4` | Corner bedrock voxel locking pads · `Auto-Lock = ON` |
+| Motor Hinge | `MAS Crew Ladder Hinge` | Port flank boarding ladder articulator · 0° stowed to 90° down |
+| Sensor | `MAS Sensor Ladder` | 2.5 m crew proximity sensor on Port flank (auto-deploy) |
 | Advanced Rotor | `MAS Turret Azimuth` | Dorsal boom turntable · 360° pan · `Torque = 50 MN·m` |
 | Motor Hinge | `MAS Shoulder Pitch` | Boom elevation joint · −20° to +75° · `Torque = 45 MN·m` |
 | Motor Hinge | `MAS Elbow Pitch` | Boom mid-joint · −100° to +45° · `Torque = 45 MN·m` |
 | Advanced Rotor | `MAS Wrist Roll` | Tool head roll alignment · ±180° · `Torque = 20 MN·m` |
-| Motor Hinge | `MAS Wrist Pitch` | Tool head angle leveling · −90° to +90° · `Torque = 20 MN·m` |
+| Motor Hinge | `MAS Wrist Pitch` | Tool head horizon leveling · −90° to +90° · `Torque = 20 MN·m` |
 | Laser Multitool | `MAS Laser 1, 2` | Mining beam heads on tool head · Continuous extraction |
+| Sensor | `MAS Sensor Boom` | 4.0 m forward proximity collision safety buffer |
 | Connector (Large) | `MAS MP Conn` | Roof flush connector for MULE-01 shuttle docking |
 | Connector (Large) | `MAS Stern Dump Conn` | Stern bumper connector for CATERPILLAR-01 bulk train docking |
 | Conveyor Sorter | `MAS MP Sorter` | High-priority rare ore drain sorter (U, Pt, Au, Mg) |
 | Conveyor Sorter | `MAS Stern Sorter` | High-volume bulk ore drain sorter (Fe, Ni, Si, Stone) |
+| Conveyor Sorter | `MAS Sorter Tailings` | Underbelly stone & gravel purge filter (selective venting) |
+| Conveyor Ejector | `MAS Ejector Tailings 1, 2` | Angled underbelly nozzles laying aggregate roadbed |
 | Event Controller | `MAS EC Stabilizers` | Blocks boom arm deployment until outriggers report locked |
+| Event Controller | `MAS EC Level` | Auto-leveling bedrock jack sequence on sloped terrain |
+| Event Controller | `MAS EC Ladder` | Auto-deploys crew ladder on approach; retracts on drive |
+| Event Controller | `MAS EC Tailings` | Pulses stone ejectors when tractor ore buffer > 50% |
+| Event Controller | `MAS EC Hitch Speed` | Locks hitch yaw (100 MN·m torque) at speeds > 35 km/h |
+| Event Controller | `MAS EC Hitch Rev` | Clamps hitch yaw to ±15° and inverts Axle 5 when reversing |
 | Event Controller | `MAS EC Holds` | Monitors payload mass; alerts at 2,500 t limit |
 | Event Controller | `MAS EC Handover` | Monitors Ground Base heartbeat; triggers C2 handover |
 
@@ -927,6 +1052,11 @@ State Machine: Dynamic Fleet Authority & C2 Handover
 | Controller | Monitored Target | Threshold / Condition | Action Slot 1 (On True) | Action Slot 2 (On False) |
 |---|---|---|---|---|
 | `MAS EC Stabilizers`| `MAS Outrigger Pad 1..4` | All 4 Pads = Locked | Enable `MAS Boom Joints` · Sound Ready Chime | Lock `MAS Boom Joints` · Fold Boom |
+| `MAS EC Level` | `MAS Helm` Roll & Pitch | Roll / Pitch $> 1.0^\circ$ | Differential Piston Extension | Lock Mag Plates (0.0° Level) |
+| `MAS EC Ladder` | `MAS Sensor Ladder` | Player within 2.5 m | Deploy Ladder (Hinge 90° Down) | Retract Ladder (Hinge 0° Flush) |
+| `MAS EC Tailings` | Tractor Ore Buffer | Ore Fill $\ge 50\%$ | `MAS Sorter Tailings` Drain ON · Ejectors ON | Sorter & Ejectors OFF |
+| `MAS EC Hitch Speed`| Consist Speedometer | Speed $> 35\text{ km/h}$ | Hitch Torque = 100 MN·m (Anti-Sway) | Normal Hitch Torque (45 MN·m) |
+| `MAS EC Hitch Rev` | Transmission Gear | Gear = Reverse | Clamp Yaw ±15° · Axle 5 Positive Tracking | Normal Yaw ±45° · Counter-Steer |
 | `MAS EC Holds` | Combined Ore Mass | Ore Mass $\ge 2,500\text{ t}$ | Sound Payload Horn · IGC `TMS.MULE.CALL` | Normal Extraction Mode |
 | `MAS EC MP` | `MAS MP Conn` | Status = Connected | `MAS MP Sorter` Drain ON · Cradle Clamp | Sorter OFF · Cradle Retract (0°) |
 | `MAS EC Train` | `MAS Stern Dump Conn` | Status = Connected | `MAS Stern Sorter` Drain ON | Sorter OFF |
@@ -955,7 +1085,7 @@ State Machine: Dynamic Fleet Authority & C2 Handover
 * [ ] **3D Hemispheric Sweep:** Engage CTC mouse aim. Sweep boom through 360° horizontal pan, −20° terrain undercutting, and +75° high bench cuts. Confirm zero chassis wobble or physics jitter.
 * [ ] **Bench Quarry Macro Test:** Trigger `MAS Timer Bench`. Verify boom executes automated -45° to +45° horizontal sweeps with -2.5° incremental shoulder steps and flat floor leveling.
 * [ ] **Shaft Bore Macro Test:** Trigger `MAS Timer Bore`. Verify 360° continuous rotation and synchronized helical vertical descent to -25.0 m.
-* [ ] **Collision Sensor Stop:** Drive boom tool head toward obstacle; confirm `MAS Sensor Boom` stops joint movement at 5.0 m distance.
+* [ ] **Collision Sensor Stop:** Drive boom tool head toward obstacle; confirm `MAS Sensor Boom` stops joint movement at 4.0 m distance.
 
 ### C · Mobile FOB & Dual Logistics Verification
 * [ ] **Mule Air Offload:** Land MULE-01 on utility roof pad. Verify cradle arms swing 30° inward, magnetic plates clamp, and rare ores drain at $> 150\text{ t/min}$.
@@ -967,4 +1097,12 @@ State Machine: Dynamic Fleet Authority & C2 Handover
 * [ ] **Subordinate Worker Binding:** Simulate subordinate worker `MAS-02`; confirm it binds to `MAS-01` and appears on Station 3 Tactical Video Wall.
 * [ ] **Logistics Task Dispatch:** Trigger 90% ore buffer threshold; verify `RIG//OS-Lite` autonomously broadcasts `TMS.MULE.CALL` and `TMS.CAT.CALL`.
 * [ ] **Ground Base Handover Protocol:** Simulate `GND-01` Ground Base C2 boot; verify `MAS-01` detects `ROLE=MASTER_BASE`, transmits fleet registry, and steps down to `FIELD_LEADER` without human intervention.
+
+### E · 5-Point Immersive Automation Verification
+* [ ] **Auto-Leveling Bedrock Jacks:** Stop consist on 15° slope; trigger `MAS EC Level`. Verify downhill pistons extend further and deck achieves 0.0° pitch and 0.0° roll before mag plates lock.
+* [ ] **Retractable Boarding Ladder:** Approach Port flank on foot; verify ladder swings down 90°. Release handbrake; verify ladder auto-retracts flush with armor skirt.
+* [ ] **Active Gravity-Horizon Tool Head:** Elevate shoulder hinge to +45°; confirm wrist pitch automatically counter-rotates -15° to maintain level cutting beam.
+* [ ] **Tailings Aggregate Spreader:** Mine stone until buffer > 50%; verify `MAS Sorter Tailings` and ejectors vent gravel behind wheels.
+* [ ] **Smart Anti-Jackknife Drawbar:** Accelerate above 35 km/h; verify rotor braking torque jumps to 100 MN·m. Shift to reverse; verify yaw clamp limits to ±15°.
+
 

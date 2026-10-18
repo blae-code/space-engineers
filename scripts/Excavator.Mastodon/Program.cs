@@ -173,6 +173,20 @@ namespace IngameScript
                 _activeMacro = MACRO_NONE;
                 _currentState = STATE_TRANSIT;
             }
+            else if (string.Compare(cmd, "LEVEL", StringComparison.OrdinalIgnoreCase) == 0)
+            {
+                // Trigger differential outrigger auto-leveling
+                _currentState = STATE_ANCHORING;
+                _outriggersLocked = true;
+            }
+            else if (string.Compare(cmd, "LADDER", StringComparison.OrdinalIgnoreCase) == 0)
+            {
+                // Toggle crew boarding ladder
+            }
+            else if (string.Compare(cmd, "PURGE", StringComparison.OrdinalIgnoreCase) == 0)
+            {
+                // Trigger stone tailings ejector purge
+            }
             else if (string.Compare(cmd, "HANDOVER", StringComparison.OrdinalIgnoreCase) == 0)
             {
                 // Yield C2 root to Ground Base

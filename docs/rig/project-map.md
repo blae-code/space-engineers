@@ -69,8 +69,10 @@ Last updated: 2026-10-17
 | 54 | Utility and field-repair craft specification: ALBATROSS-01 (9×11×5 sb, ship welder, Medium cargo, 640 kN lift) | 2026-10-17 | CHANGELOG |
 | 55 | Mastodon MKI expeditionary mining locomotive & mobile FOB (segmented 2-car train, 45 m articulated laser boom, outriggers) | 2026-10-18 | CHANGELOG |
 | 56 | Mastodon MKI Genesis Seed & RIG//OS-Lite Mothership architecture (Dual PB, 3-operator bridge, automated macros, C2 handover) | 2026-10-18 | CHANGELOG |
+| 57 | Mastodon MKI 5-Point Immersive Automation Suite (Auto-level jacks, boarding ladder, horizon tool leveling, tailings spreader, anti-jackknife) | 2026-10-18 | CHANGELOG |
 
 ### Open (§10 + mining concept + merge)
+
 
 
 | # | Question | Blocking | Notes |
