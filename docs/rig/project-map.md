@@ -67,6 +67,7 @@ Last updated: 2026-10-17
 | 52 | Dual-tier logistics architecture (Air tier rare/fast + Ground tier bulk/mass) | 2026-10-17 | CHANGELOG |
 | 53 | Prospector scout drone specification: KESTREL-01 (7×9×5 sb, ore detector, T/W 6.8, belly dock) | 2026-10-17 | CHANGELOG |
 | 54 | Utility and field-repair craft specification: ALBATROSS-01 (9×11×5 sb, ship welder, Medium cargo, 640 kN lift) | 2026-10-17 | CHANGELOG |
+| 55 | Mastodon MKI expeditionary mining locomotive & mobile FOB (segmented 2-car train, 45 m articulated laser boom, outriggers) | 2026-10-18 | CHANGELOG |
 
 ### Open (§10 + mining concept + merge)
 
@@ -120,7 +121,7 @@ TERRESTRIAL MINING (phase 1 scope)
  ├─ Mule (flying cargo ferry, 7×7 B square hull)
  │   ├─ 1 Large Cargo (3×3×3 B), 4 Large Flat Atmo (~650 t ore capacity)
  │   └─ Docks Orca roof MP ↔ Ground Base refinery terminal
- ├─ Mastodon (heavy wheeled excavator, twin laser tusks, 10× 5×5 wheels, 3× Large Cargo)
+ ├─ Mastodon (segmented expeditionary mining train FOB: Tractor/Excavator + Utility Carriage, 45 m boom)
  ├─ Caterpillar (heavy bulk land train, 5×5 wheeled locomotive + modular hopper cars)
  └─ Ground base (Integrated Gantry, 4 Ref / 4 Asm, C2 Hub, Rig Extruder Shipyard)
 

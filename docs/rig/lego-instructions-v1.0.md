@@ -2,8 +2,8 @@
 ## Master Lego-Style Build Manual & RIG//OS Interface Contract
 ### Version 1.0 · Canon Engineering Specification · Earth 1 g Baseline
 
-Last updated: 2026-10-17
-Authority: Blae Decisions 1-54 (Canon) · `CLAUDE(RIG).md` · `Part 1 & 2 Handoff`
+Last updated: 2026-10-18
+Authority: Blae Decisions 1-55 (Canon) · `CLAUDE(RIG).md` · `Part 1 & 2 Handoff`
 
 ---
 
@@ -30,7 +30,7 @@ It is engineered simultaneously for two distinct audiences:
   * [Chapter 4 · Ground Base, Refinery Complex & Fleet Command Center (C2)](#chapter-4-ground-base-refinery-complex-fleet-command-center-c2)
   * [Chapter 5 · Rig Linear Extruder Ring Shipyard](#chapter-5-rig-linear-extruder-ring-shipyard)
 * [Volume V · Terrestrial Surface Heavy Extraction (Ground Tier · Bulk / Mass)](#volume-v-terrestrial-surface-heavy-extraction-ground-tier-bulk-mass)
-  * [Chapter 10 · MASTODON-01 Heavy Wheeled Excavator (11 × 25 × 6 B)](#chapter-10-mastodon-01-heavy-wheeled-excavator)
+  * [Chapter 10 · MASTODON-01 Expeditionary Mining Train & Mobile FOB (MAS-01)](#chapter-10-mastodon-01-expeditionary-mining-train-mobile-fob-mas-01)
   * [Chapter 11 · CATERPILLAR-01 Land Train (CAT-01)](#chapter-11-caterpillar-01-land-train-cat-01)
 * [Volume III · Floating Rig Structure (25 kt Fortress)](#volume-iii-floating-rig-structure-25-kt-fortress)
   * [Chapter 6 · Section S0: HUB Base (H4-H6)](#chapter-6-section-s0-hub-base-h4-h6)
@@ -59,7 +59,7 @@ It is engineered simultaneously for two distinct audiences:
 | `MUL` | Large | MULE-01 Freight Shuttle | `HOLD` cargo core, `LIFT` flat atmos, `BAT` power, `DOCK` belly port, `CLAMP` rub rails |
 | `KES` | Small | KESTREL-01 Prospector Drone | `AV` avionics, `DET` ore detector, `PW` power, `DOCK` belly port |
 | `ALB` | Small | ALBATROSS-01 Utility Craft | `TOOL` welder head, `HOLD` components, `PW` power, `DOCK` belly port |
-| `MAS` | Large | MASTODON-01 Heavy Excavator | `TUSK` booms, `HOLD` triple cargo, `WHEEL` 5×5 axles, `MP` mule pad, `DUMP` stern bumper |
+| `MAS` | Large | MASTODON-01 Mining Train & FOB | `T` lead locomotive, `U` utility carriage, `BOOM` 5-DOF arm, `STAB` outriggers, `MP` mule pad, `DUMP` stern bumper |
 | `CAT` | Large | CATERPILLAR-01 Land Train | `LOCO` tractor, `HITCH` drawbar, `CAR` modular hoppers, `UNLOAD` stern drain |
 | `GND` | Large | Ground Base & C2 Terminal | `PAD` gantry cradle, `CAT` unload dock, `REF` refinery array, `ASM` assembler core, `C2` bridge |
 | `EXT` | Large | Rig Linear Extruder Ring | `RING` welder wall, `HYD` feed piston, `PRJ` projector head, `RAMP` launch way |
@@ -4928,23 +4928,23 @@ All shipyard PB control scripts authored by Claude Code or human engineers MUST 
 
 This volume details the heavy wheeled surface extraction machines that form the high-volume bulk industrial tier of the terrestrial extraction loop.
 
-## Chapter 10 · MASTODON-01 Heavy Wheeled Excavator
+## Chapter 10 · MASTODON-01 Expeditionary Mining Train & Mobile FOB (MAS-01)
 
-Source: `docs/rig/chapters/mastodon-instructions.md` · 11 × 25 × 6 B · Twin 3-DOF Laser Tusks & 10× 5×5 Wheels
+Source: `docs/rig/chapters/mastodon-instructions.md` · 11 × 42 × 6 B · 2-Segment Train Consist, 45 m Laser Boom, Outriggers
 
-### 0 · Reference Grid, In-Game Paint Palette & Master Envelope
+### 0 · Reference Grid, In-Game Paint Palette & Master Consist Layout
 
 #### 0.1 Coordinate Triad & Axis Conventions
-* **Origin (X0, Y0, Z0):** Intersection of vehicle midline (Z0), belly foundation (L1), and center conveyor spine (X0).
+* **Origin (X0, Y0, Z0):** Geometric center of the Tractor belly foundation at Level L1, along centerline X0.
 * **X (Beam / Transverse):** Port is negative (−), Starboard is positive (+), Centerline is 0.
-* **Y (Elevation):** Wheel hubs / belly skid deck is Level L1, advancing upward to Flight Roof at Level L6.
-* **Z (Length / Longitudinal):** Stern bumper is negative (−), Bow excavator throat is positive (+), Midline axle is 0.
+* **Y (Elevation):** Wheel hubs and belly skid line are Level L1 (Y = 0), advancing upward to Flight Roof at Level L6.
+* **Z (Length / Longitudinal):** Stern is negative (−), Bow is positive (+), Tractor center axle is Z0.
 
 ```
 Spatial Alignment Triad:
        [+Y: Zenith / Flight Roof L6]
               │
-              │   [+Z: Bow / Tusk Excavator Heads]
+              │   [+Z: Bow / Tractor Bridge & Arm]
               │   /
               │  /
               │ /
@@ -4952,44 +4952,44 @@ Spatial Alignment Triad:
              /│
             / │
            /  │
-  [−Z: Stern / Train Dump Bumper]
+  [−Z: Stern / Utility Carriage & Cat Dump]
               │
        [−Y: Ground Contact / Level L0]
 ```
 
 #### 0.2 In-Game Paint Palette & Functional Color Coding
 
-To prevent disorientation across this 62.5 m mobile behemoth, all structural armor and functional blocks MUST be painted during assembly using standard Space Engineers palette slots:
+To prevent builder disorientation across a 105 m long articulated consist, all structural armor and functional blocks MUST be painted during assembly using standard Space Engineers palette slots:
 
 | Palette Slot | Color Name | Hex Code | Visual Swatch | Functional Zone / System Component |
 |---|---|---|---|---|
 | **Slot 0** | Industrial Dark Gray | `#2B303A` | Dark Slate | Lower chassis box girders, wheel arch frames, belly skid plates |
-| **Slot 1** | Hazard Amber | `#E6A100` | Bright Amber | Roof Mule Gantry Pad (7×7 B), cradle arms, deck edge borders |
-| **Slot 2** | Heavy Rail Crimson | `#9E2A2B` | Deep Crimson | Stern train dump bumper, rear alignment push-blocks |
-| **Slot 3** | Excavator Ochre | `#E67E22` | Deep Orange | Twin 3-DOF Tusk Booms, arm casings, laser tool heads |
+| **Slot 1** | Hazard Amber | `#E6A100` | Bright Amber | Roof Mule Gantry Pad (7×7 B), cradle arms, outrigger warning chevrons |
+| **Slot 2** | Heavy Rail Crimson | `#9E2A2B` | Deep Crimson | Stern train dump bumper, rear alignment push-blocks, drawbar hitches |
+| **Slot 3** | Excavator Ochre | `#E67E22` | Deep Orange | 45 m Long-Reach Articulated Boom, arm casings, laser tool head |
 | **Slot 4** | Processing Teal | `#1ABC9C` | Bright Teal | Central Ore Conveyor Spine, bow intake throat, manifold junctions |
-| **Slot 5** | Logistics Emerald | `#27AE60` | Rich Green | Triple Large Cargo Container holds (`MAS Hold 1, 2, 3`) |
-| **Slot 6** | High-Voltage Alert Red | `#C0392B` | Alert Red | Power Core Vault (2× Small Nuclear Reactors, 4× Large Batteries) |
-| **Slot 7** | Fleet Command Navy | `#1B263B` | Deep Navy | Forward Armored Bridge exterior shell, operator consoles |
-| **Slot 8** | Scout Flight White | `#ECF0F1` | Clean White | Forward twin Kestrel scout drone landing pads (P1, S1) |
-| **Slot 9** | High-Viz Safety Yellow | `#F1C40F` | Canary Yellow | Exterior catwalks, maintenance ladders, side rub rails |
+| **Slot 5** | Logistics Emerald | `#27AE60` | Rich Green | Tractor ore buffer and Utility component storage holds |
+| **Slot 6** | High-Voltage Alert Red | `#C0392B` | Alert Red | Tractor Power Vault (2× Small Nuclear Reactors, 2× Large Batteries) |
+| **Slot 7** | Fleet Command Navy | `#1B263B` | Deep Navy | Forward Armored C2 Bridge exterior shell, operator consoles |
+| **Slot 8** | Scout Flight White | `#ECF0F1` | Clean White | Forward twin Kestrel scout drone landing pads (P1, S1) on Utility roof |
+| **Slot 9** | High-Viz Safety Yellow | `#F1C40F` | Canary Yellow | Exterior catwalks, maintenance ladders, corner outrigger pads |
 
 ---
 
-#### 0.3 Master Profile Elevation (Looking Starboard, X = 0)
+#### 0.3 Master Profile Elevation (Looking Starboard, X = 0 Plane)
 
 ```
-        Z:  −12 (Stern)      −6          0          +6        +12 (Bow)
-    L6      ┌─────────────────┬──────────────────────┬──────────────────┐  Flight Roof
-            │ MULE GANTRY PAD │ [Roof Armor Walkway] │ 2× KESTREL PADS  │  (Palette 1 & 8)
-    L5      ├─────────────────┼──────────────────────┼──────────────────┤
-            │ [MAS STR Sorter]│ Large Cargo Hold 1   │ Armored Bridge   │  (Palette 7)
-    L4      │ Power Core (2×R)│ Large Cargo Hold 2   │ [ORE DETECTOR]   │
-    L3      │ 4× Batteries    │ Large Cargo Hold 3   │ Tusk Shoulder    │  (Palette 3)
-    L2      ├─────────────────┴──────────────────────┴──────────────────┤  Chassis Frame
-            │ [STERN DUMP] ◄── Continuous Conveyor Spine ──► [BOW THROAT│  (Palette 4)
-    L1      └───[WH 9..10]──────[WH 7..8]──[WH 5..6]──[WH 3..4]──[WH 1..2]──┘  Belly Skids
-             Axle 5 (−30°)  Axle 4 (−15°) Axle 3 (0°) Axle 2 (+15°) Axle 1 (+30°)
+        ◄────────── CARRIAGE 1: LOCOMOTIVE / EXCAVATOR ──────────►     ◄────────── CARRIAGE 2: FOB / UTILITY MODULE ──────────►
+                    (11 W × 20 L × 5 H B · 6 Wheels)                               (11 W × 18 L × 5 H B · 4 Wheels)
+                     ┌─[ARTICULATED LASER BOOM]                                   ┌─────────────────┬─────────────────┐
+                     │ (Deployed Reach: 35-45 m)                                  │ MULE GANTRY PAD │ 2× KESTREL PADS │  Flight Roof (L6)
+        ┌────────────┴───┐                                                        │ (7×7 B Blast)   │ (Scout Wings)   │
+        │ ARMORED BRIDGE │                                     [DRAWBAR HITCH]    ├─────────────────┴─────────────────┤
+        │ (Panoramic C2) │   [POWER CORE]    [ORE BUFFER]     2-Axis Hinge Joint  │ FIELD WORKSHOP  │ COMPONENT HOLD  │  Main Deck (L3-L5)
+[BOW]   │ [ORE DETECTOR] │   (2× Reactors)   (L Cargo Hold)    Conveyor Pass-Thru │ (Assembler/Med) │ (Spare Parts)   │  [STERN DUMP]
+════════╧════════════════╧═══════════════════╧═════════════════════════╦══════════╧═════════════════╧═════════════════╧═══════════► (To Cat Train)
+[STABILIZER]           [WH 1..2]           [WH 3..4]        [WH 5..6]  ║        [WH 7..8]         [WH 9..10]      [STABILIZER]
+(Voxel Clamp)         (Steer +30°)        (Steer +15°)     (Drive 0°)  ║       (Drive 0°)        (Steer −25°)     (Voxel Clamp)
 ```
 
 ---
@@ -4997,28 +4997,22 @@ To prevent disorientation across this 62.5 m mobile behemoth, all structural arm
 #### 0.4 Master Conveyor Routing Schematic
 
 ```
-               TWIN ARTICULATED TUSK BOOMS (3-DOF Booms · Bow)
-      [Port Head: 2× Lasers]                 [Stbd Head: 2× Lasers]
-                 │                                      │
-                 ▼ (Internal Large Hinge Pipe)          ▼ (Internal Large Hinge Pipe)
-       ┌─────────────────────────────────────────────────────────────┐
-       │ Bow Collector Manifold & Riser (L2, Z +12, X0)              │
-       └──────────────────────────────┬──────────────────────────────┘
-                                      │
-                                      ▼
-       ┌─────────────────────────────────────────────────────────────┐
-       │ TRIPLE ORE HOLD (3× Large Cargo Containers · In-Line Spine) │
-       │ Hold 1 (Z +2..+4) ──► Hold 2 (Z −2..0) ──► Hold 3 (Z −6..−4)│
-       └──────────────────────────────┬──────────────────────────────┘
-                                      │
-         ┌────────────────────────────┴────────────────────────────┐
-         │ (Upward Riser Trunk)                                    │ (Stern Bumper Pipe)
-         ▼                                                         ▼
-  [MAS MP Sorter] (Drain ON)                                [MAS Stern Sorter] (Drain ON)
-         │                                                         │
-         ▼                                                         ▼
-  [MAS MP Conn] (Roof Flush L6)                             [MAS Stern Dump Conn] (L2 Bumper)
-  (Offloads 650 t rare ore to Mule)                         (Offloads 2,500 t bulk ore to Train)
+               45 m ARTICULATED LASER EXCAVATION BOOM (Dorsal Pedestal)
+                     [Tool Head: 1-2× Simple Laser Multitools]
+                                         │
+                                         ▼ (Internal Large Hinge / Rotor Pass-Thru)
+                       [TRACTOR ORE BUFFER & SUMP] (Large Container)
+                                         │
+                                         ▼ (2-Axis Drawbar Articulated Conveyor Pipe)
+                       [UTILITY FOB CONVEYOR DISTRIBUTION MANIFOLD]
+                                         │
+        ┌────────────────────────────────┼────────────────────────────────┐
+        ▼ (Upward Riser Trunk)           ▼ (Internal Workshop Loop)       ▼ (Stern Bumper Pipe)
+ [MAS MP Sorter] (Drain ON)       [Field Assembler & Tanks]        [MAS Stern Sorter] (Drain ON)
+        │                                │                                │
+        ▼                                ▼                                ▼
+ [MAS MP Conn] (Roof Flush L6)    [O2/H2 Fueling Line]             [MAS Stern Dump Conn] (L2 Bumper)
+ (650 t rare ore to Mule)                                          (2,500 t bulk ore to Cat Train)
 ```
 
 ---
@@ -5026,613 +5020,491 @@ To prevent disorientation across this 62.5 m mobile behemoth, all structural arm
 #### 0.5 Master Electrical Single-Line Schematic
 
 ```
-               POWER CORE (2× Small Nuclear Reactors + 4× Large Batteries)
-                    30 MW Nuclear · 12 MWh Battery · 48 MW Max Discharge
-                                      │
-                                      ▼
-                              PRIMARY POWER BUS
-        ┌─────────────────────────────┼─────────────────────────────┐
-        │                             │                             │
-        ▼                             ▼                             ▼
-  WHEEL DRIVE POWERTRAIN        TUSK MINING HEADS             FLIGHT & AUXILIARY
-  10× 5×5 Wheel Drive Motors    4× Simple Laser Multitools    Mule Float Charger (12 MW)
-  (18.0 MW Max Hill Climb)      (8.0 MW Continuous Beam)      2× Kestrel Dock Chargers (2 MW)
-  [Cruising Load: 4.5 MW]       2× CTC Control Units          Ore Detector + Comms (0.2 MW)
+             TRACTOR POWER CORE (2× Small Nuclear Reactors + 2× Large Batteries)
+                                30 MW Nuclear · 6 MWh Battery
+                                              │
+                                              ▼
+                                     PRIMARY TRACTIVE BUS
+        ┌─────────────────────────────────────┼─────────────────────────────────────┐
+        │                                     │                                     │
+        ▼                                     ▼                                     ▼
+ TRACTOR POWERTRAIN & HYD              ARTICULATED BOOM                   UTILITY CARRIAGE UMBILICAL
+ 6× 5×5 Wheel Drive Motors             Turret Pan Rotor (Azimuth)         2× Auxiliary Batteries (6 MWh)
+ 4× Corner Outrigger Cylinders         Shoulder & Elbow Pitch Hinges      Deployable Solar Wing Racks
+ Steering Actuators (Axles 1 & 2)      Laser Mining Head (4.0 MW)         Field Assembler Core (560 kW)
+                                                                          Mule Float Charger (12 MW)
 ```
 
 ---
 
-#### 0.6 Master Pre-Flight Bill of Materials (BOM)
+#### 0.6 Master Consist Bill of Materials (BOM) & Mass Budget
 
-| System Category | Block Types & Specifications | Total Qty | Est. Mass | PCU |
+| System Subassembly | Block Types & Specifications | Total Qty | Est. Mass | PCU |
 |---|---|---|---|---|
-| **Chassis & Hull** | Heavy armor full blocks, slopes, half-blocks (Palette 0) | 520 | 442.0 t | 520 |
-| **Powertrain** | 10× 5×5 Heavy Suspension Wheels (large grid) | 10 | 80.0 t | 1,000 |
-| **Tusk Booms** | 2× Adv Rotors, 4× Hinges, 4× Laser Multitools (Palette 3) | 10 | 28.0 t | 850 |
-| **Cargo Holds** | 3× Large Cargo (3×3×3 B), Conveyor Tubes (Palette 5) | 42 | 88.5 t | 780 |
-| **Power Core** | 2× Small Reactors, 4× Large Batteries (Palette 6) | 6 | 33.2 t | 170 |
-| **Flight Decks** | 1× Mule Gantry Cradle, 2× Small Connectors (Palette 1 & 8) | 7 | 12.5 t | 250 |
-| **Control & C2** | 1× Bridge Cockpit, 2× CTCs, 1× PB, 1× Antenna (Palette 7) | 8 | 10.2 t | 320 |
-| **TOTAL (DRY)** | Complete Mobile Excavator (MASTODON-01) | **603** | **≈ 694.4 t** | **3,890** |
+| **Tractor Chassis & Hull** | Heavy armor full blocks, half-blocks, slopes (Palette 0) | 440 | 374.0 t | 440 |
+| **Tractor Powertrain** | 6× 5×5 Heavy Suspension Wheels (Axles 1-3) | 6 | 48.0 t | 600 |
+| **Corner Outriggers** | 4× Large Pistons + 4× Large Magnetic Plates (Palette 1) | 8 | 18.4 t | 260 |
+| **Tractor Power Core** | 2× Small Nuclear Reactors, 2× Large Batteries (Palette 6) | 4 | 16.6 t | 90 |
+| **Articulated Boom** | 2× Adv Rotors, 3× Motor Hinges, 2× Lasers, Girders (Palette 3) | 18 | 34.5 t | 920 |
+| **Armored Bridge & Helm** | 1× Cockpit, 1× Station, Glass, Ore Detector, Antenna (Palette 7) | 12 | 11.2 t | 280 |
+| **Drawbar Hitch Assembly** | 1× Adv Rotor, 1× Motor Hinge, Heavy Armor Joint Blocks | 6 | 12.0 t | 225 |
+| **Utility Carriage Hull** | Heavy armor frames, wheel wells, deck armor (Palette 0) | 360 | 306.0 t | 360 |
+| **Utility Powertrain** | 4× 5×5 Heavy Suspension Wheels (Axles 4-5) | 4 | 32.0 t | 400 |
+| **Field Workshop & Hab** | 1× Large Assembler, 1× Survival Kit, 2× O2/H2 Tanks | 8 | 38.5 t | 540 |
+| **Utility Cargo Hold** | 1× Large Cargo Container (Components), Conveyor network | 16 | 28.0 t | 160 |
+| **Flight Decks & Dumps** | 1× Mule Gantry Cradle Pad (7×7 B), 2× Kestrel Pads, Stern Dump | 58 | 52.4 t | 480 |
+| **TOTAL CONSIST (DRY)** | Complete Expeditionary Mining Locomotive & Mobile FOB | **940** | **≈ 871.6 t** | **4,755** |
 
 ---
 
-### Phase 1 · Lower Chassis & 10-Wheel Suspension (Levels L1-L2)
+### Phase 10-1 · Tractor Chassis & 6-Wheel Powertrain (Levels L1-L2)
 
 ```
-       [PHASE 1 SPATIAL LOCATOR HUD]
-       Envelope: 11 W × 25 L × 2 H B (27.5 × 62.5 × 5.0 m)
-       Coordinate Range: X −5 to +5, Z −12 to +12, Y = L1 to L2
+       [PHASE 10-1 SPATIAL LOCATOR HUD]
+       Envelope: 11 W × 20 L × 2 H B (27.5 × 50.0 × 5.0 m)
+       Coordinate Range: X −5 to +5, Z −8 to +12, Y = L1 to L2
        Key Datums:
-       · Centerline Spine: X0, spanning Z −12 to +12
-       · Longitudinal Girder Port: X = −3
-       · Longitudinal Girder Starboard: X = +3
-       · Axle Spacing: 5 B (12.5 m) between adjacent wheel centers
+       · Tractor Centerline: X0, spanning Z −8 to +12
+       · Longitudinal Box Girders: X = ±3
+       · Axle 1 (Bow Steer): Z = +9 (Steer Angle: +30.0°)
+       · Axle 2 (Mid Steer): Z = +4 (Steer Angle: +15.0°)
+       · Axle 3 (Aft Drive): Z = −1 (Locked Drive: 0.0°)
 ```
 
-#### Step 1 · Twin Longitudinal Chassis Box Girders (L1-L2)
+#### Step 10.1 · Twin Longitudinal Chassis Box Girders (L1-L2)
 
-Weld two rigid, continuous heavy-armor box girders spanning 25 blocks from Stern (Z −12) to Bow (Z +12) at X = ±3. Connect them with transverse beam ties at each axle datum.
+Weld two continuous, reinforced heavy-armor box girders spanning 20 blocks from Aft Bulkhead (Z −8) to Bow Bulkhead (Z +12) at X = ±3. Connect them with transverse beam ties at each axle datum to form the central conveyor raceway channel.
 
 ```
-Plan view, Y = L2 (Chassis Box Girder Deck)
+Plan view, Y = L2 (Tractor Chassis Box Girder Deck)
         X: −3          0          +3
     Z: +12 ■═══════════╤═══════════■  BOW BULKHEAD (r0 Datum)
            ║           │           ║
-    Z:  +6 ║  BEAM TIE │  BEAM TIE ║  (Center Conveyor Raceway Channel)
+    Z:  +9 ║  BEAM TIE │  BEAM TIE ║  ◄── Axle 1 Cross-Tie
            ║═══════════╪═══════════║
-    Z:   0 ║  BEAM TIE │  BEAM TIE ║  ◄── Vehicle Center Midline Datum
+    Z:  +4 ║  BEAM TIE │  BEAM TIE ║  ◄── Axle 2 Cross-Tie
            ║═══════════╪═══════════║
-    Z:  −6 ║  BEAM TIE │  BEAM TIE ║
+    Z:  −1 ║  BEAM TIE │  BEAM TIE ║  ◄── Axle 3 Cross-Tie
            ║           │           ║
-    Z: −12 ■═══════════╧═══════════■  STERN BULKHEAD (r24 Datum)
+    Z:  −8 ■═══════════╧═══════════■  AFT HITCH BULKHEAD (r20 Datum)
 ```
 
-┌──────────────────────────────────────────────────────────────────────────────────────┐
-│ STEP 1 PARTS TRAY                                                                    │
-├─────────────────────┬─────┬───────────────┬──────────────────────────────────────────┤
-│ Block Type          │ Qty │ Mass / PCU    │ Critical Placement & Alignment           │
-├─────────────────────┼─────┼───────────────┼──────────────────────────────────────────┤
-│ Heavy Armor Block   │ 50  │ 150.0 t / 50  │ Palette Slot 0 (Slate); 2 rails × 25 B   │
-│ Heavy Armor Slope   │ 24  │  36.0 t / 24  │ Wheel well arch outward reinforcement    │
-│ Beam Block Straight │ 16  │  12.8 t / 16  │ Transverse cross-ties between girders    │
-└─────────────────────┴─────┴───────────────┴──────────────────────────────────────────┘
+#### Step 10.2 · 5×5 Off-Road Suspension Wheel Mounts & Master 3-Axle Tuning (L1)
 
----
-
-#### Step 2 · 5×5 Off-Road Suspension Wheel Mounts & Master Steering Rig (L1)
-
-Mount 5 pairs of 5×5 suspension wheel units outward along the chassis girders at X = ±4. Configure the 5-axle counter-steering geometry: front two axles steer with steering input; rear two axles counter-steer in the opposite direction; center axle 3 remains locked at 0° to prevent tire scrub.
+Mount 3 pairs of 5×5 large suspension wheel units outward along the chassis girders at X = ±4. Configure steering geometry: front two axles steer in proportion to wheel turn; rear axle 3 remains locked at 0° to prevent sideways tire scrub:
 
 ```
-Plan view, Y = L1 (Wheel Suspension Placement & Steering Limits)
+Plan view, Y = L1 (Tractor Wheel Suspension Layout)
         X: −5          0          +5
-    Z: +10 [WH 1 (P)] ═══════════ [WH 2 (S)]   ◄── Axle 1 (Steering Angle: +30°)
-    Z:  +5 [WH 3 (P)] ═══════════ [WH 4 (S)]   ◄── Axle 2 (Steering Angle: +15°)
-    Z:   0 [WH 5 (P)] ═══════════ [WH 6 (S)]   ◄── Axle 3 (Neutral 0° · Fixed Drive)
-    Z:  −5 [WH 7 (P)] ═══════════ [WH 8 (S)]   ◄── Axle 4 (Counter-Steer: −15°)
-    Z: −10 [WH 9 (P)] ═══════════ [WH 10(S)]   ◄── Axle 5 (Counter-Steer: −30°)
+    Z:  +9 [WH 1 (P)] ═══════════ [WH 2 (S)]   ◄── Axle 1 (+30.0° Steer)
+    Z:  +4 [WH 3 (P)] ═══════════ [WH 4 (S)]   ◄── Axle 2 (+15.0° Steer)
+    Z:  −1 [WH 5 (P)] ═══════════ [WH 6 (S)]   ◄── Axle 3 (0.0° Locked Drive)
 ```
-
-┌──────────────────────────────────────────────────────────────────────────────────────┐
-│ STEP 2 PARTS TRAY & MASTER 5-AXLE TUNING GUIDE                                       │
-├─────────────────────┬─────┬───────────────┬──────────────────────────────────────────┤
-│ Block Type          │ Qty │ Mass / PCU    │ Axle Geometry & Tuning Settings          │
-├─────────────────────┼─────┼───────────────┼──────────────────────────────────────────┤
-│ Wheel 5×5 Susp (L)  │ 5   │ 40.0 t / 500  │ Port flank (X = −4), face outward (−X)   │
-│ Wheel 5×5 Susp (R)  │ 5   │ 40.0 t / 500  │ Stbd flank (X = +4), face outward (+X)   │
-└─────────────────────┴─────┴───────────────┴──────────────────────────────────────────┘
-
-##### Master 5-Axle Suspension Parameter Table
 
 | Axle Index | Z-Datum | Wheel Pair | Steering Angle | Steering Invert | Propulsion Torque | Strength (Empty / Laden) | Friction |
 |---|---|---|---|---|---|---|---|
-| **Axle 1** | Z = +10 | `WH 1, 2` | `30.0°` | Normal | `100%` | `45% / 85%` | `65%` |
-| **Axle 2** | Z = +5  | `WH 3, 4` | `15.0°` | Normal | `100%` | `45% / 85%` | `65%` |
-| **Axle 3** | Z = 0   | `WH 5, 6` | `0.0°`  | OFF (Locked) | `100%` | `50% / 90%` | `70%` |
-| **Axle 4** | Z = −5  | `WH 7, 8` | `15.0°` | INVERTED | `100%` | `45% / 85%` | `65%` |
-| **Axle 5** | Z = −10 | `WH 9, 10`| `30.0°` | INVERTED | `100%` | `45% / 85%` | `65%` |
+| **Axle 1** | Z = +9  | `WH 1, 2` | `30.0°` | Normal | `100%` | `50% / 85%` | `70%` |
+| **Axle 2** | Z = +4  | `WH 3, 4` | `15.0°` | Normal | `100%` | `50% / 85%` | `70%` |
+| **Axle 3** | Z = −1  | `WH 5, 6` | `0.0°`  | OFF (Locked) | `100%` | `55% / 90%` | `75%` |
+
+##### Pre-Enclosure Inspection Gate 10.1A: Tractor Powertrain & Belly Clearance Check
+* [ ] Verify uninterrupted large conveyor pipe flow from Bow Throat (Z +12) to Aft Hitch (Z −8).
+* [ ] Verify exactly 1.25 m (0.5 B) ground clearance under belly skids at 50% suspension travel.
+* [ ] Confirm steering response in `MAS Tractor Wheels`: Axles 1 and 2 pivot smoothly with zero wheel well binding.
+
+```
+PHASE 10-1 VISUAL MILESTONE · TRACTOR CHASSIS & POWERTRAIN COMPLETE
+       Z: −1 (Axle 3)         Z: +4 (Axle 2)         Z: +9 (Axle 1)
+           [WH 5]                 [WH 3]                 [WH 1]
+     ═══════╧══════════════════════╧══════════════════════╧═══════
+                 20 B CONTINUOUS HEAVY ARMOR BOX GIRDER RUN (L2)
+```
 
 ---
 
-#### Step 3 · Underbody Skid Plates & Voxel Deflectors (L1)
-
-Install heavy armor half-blocks along the belly centerline (X = −1 to +1) to shield the primary conveyor spine and prevent high-centering on rocky outcrops.
+### Phase 10-2 · Tractor Power Core, Ore Buffer & 2-Axis Drawbar Hitch (Levels L2-L4)
 
 ```
-Cross-section, looking Bow (Z = 0)
-    L2   [GIRDER P] ─── [CONVEYOR SPARK LINE] ─── [GIRDER S]
-    L1   [WHEEL P] ─── [BLAST HALF][BLAST HALF] ─── [WHEEL S]  ◄── 1.25 m Ground Clearance
-    L0   ═══════════════════════════════════════════════════  Terrain Surface
+       [PHASE 10-2 SPATIAL LOCATOR HUD]
+       Envelope: 7 W × 14 L × 3 H B (17.5 × 35.0 × 7.5 m)
+       Coordinate Range: X −3 to +3, Z −8 to +6, Y = L2 to L4
+       Subsystem Datums:
+       · Ore Buffer Hold: Z +1 to +3, centered at X0
+       · Primary Power Core: Z −4 to −2, centered at X0
+       · 2-Axis Drawbar Hitch Center: [X0, Z −8, Y = L2]
 ```
 
-> [!CAUTION]
-> **PRE-ENCLOSURE INSPECTION GATE 10.1A: BELLY CONVEYOR CONTINUITY & CLEARANCE**
-> Before welding the lower blast skid plates:
-> 1. Verify uninterrupted large conveyor pipe flow from Bow Throat (Z +12) to Stern Dump (Z −12).
-> 2. Ensure exactly 1.25 m (0.5 B) ground clearance under belly skids at 50% suspension travel.
-> 3. Verify all 10 suspension wheel hubs respond to propulsion and handbrake commands in group `MAS Wheels`.
+#### Step 10.3 · Primary Power Core Vault & Electrical Shielding (Z −4 to −2, L2-L4)
 
----
-
-##### Visual Milestone 10-1 · Lower Chassis & 10-Wheel Suspension Complete
+Install 2 Small Nuclear Reactors and 2 Large Batteries behind the ore buffer hold. Enclose the plant in double-walled heavy armor bulkheads (Palette 6):
 
 ```
-Visual Checkpoint Silhouette (Looking Port Side at Ground Baseline):
-       Z: −10 (Axle 5)   Z: −5 (Axle 4)   Z: 0 (Axle 3)   Z: +5 (Axle 2)   Z: +10 (Axle 1)
-           [WH 9]           [WH 7]           [WH 5]          [WH 3]           [WH 1]
-     ═══════╧════════════════╧════════════════╧═══════════════╧════════════════╧═══════
-                 25 B CONTINUOUS HEAVY ARMOR BOX GIRDER RUN (L2)
-```
-
-* [ ] Turning steering wheel causes front and rear wheels to pivot symmetrically in opposite directions.
-* [ ] Turning radius measures approximately 35 m on flat ground without wheel hop or sideways dragging.
-* [ ] Belly skid plates completely enclose the central conveyor tube raceway.
-
----
-
-### Phase 2 · Triple Large Cargo Hold & Central Spine (Levels L2-L4)
-
-```
-       [PHASE 2 SPATIAL LOCATOR HUD]
-       Envelope: 7 W × 16 L × 3 H B (17.5 × 40.0 × 7.5 m)
-       Coordinate Range: X −3 to +3, Z −10 to +6, Y = L2 to L4
-       Hold Positions:
-       · Hold 1: Z +2 to +4, centered at X0 (Forward Cargo)
-       · Hold 2: Z −2 to 0, centered at X0 (Mid Cargo)
-       · Hold 3: Z −6 to −4, centered at X0 (Aft Cargo)
-       · Power Core Vault: Z −10 to −7, X −2 to +2
-```
-
-#### Step 4 · Triple In-Line Large Cargo Hold (L2-L4)
-
-Mount three standard 3×3×3 B Large Cargo Containers end-to-end along the vehicle centerline (X = −1 to +1). Join their forward and rear large conveyor ports directly with intermediate Conveyor Junction cubes.
-
-```
-Plan view, Y = L3 (Hold Mid-line Layout)
-        X: −1    0   +1
-    Z: +4  ┌───────────┐
-           │  HOLD 1   │  ◄── Large Cargo Container 1 (Z +2 to +4)
-    Z: +2  ├───────────┤      (Palette Slot 5: Logistics Emerald)
-    Z:  0  │  HOLD 2   │  ◄── Large Cargo Container 2 (Z −2 to 0)
-    Z: −2  ├───────────┤
-    Z: −4  │  HOLD 3   │  ◄── Large Cargo Container 3 (Z −6 to −4)
-    Z: −6  └───────────┘
-```
-
-┌──────────────────────────────────────────────────────────────────────────────────────┐
-│ STEP 4 PARTS TRAY & CONVEYOR PORT ORIENTATION GUIDE                                  │
-├─────────────────────┬─────┬───────────────┬──────────────────────────────────────────┤
-│ Block Type          │ Qty │ Mass / PCU    │ Critical Conveyor Port Orientation       │
-├─────────────────────┼─────┼───────────────┼──────────────────────────────────────────┤
-│ Large Cargo (3×3×3) │ 3   │ 85.5 t / 750  │ Palette Slot 5; large ports facing N/S/U │
-│ Conveyor Junction   │ 6   │  7.8 t / 78   │ Tie junctions between containers & spine │
-│ Heavy Armor Slopes  │ 36  │ 54.0 t / 36   │ Lateral sponson protection over holds    │
-└─────────────────────┴─────┴───────────────┴──────────────────────────────────────────┘
-
----
-
-#### Step 5 · Power Core Vault & Electrical Isolation (Z −10 to −7, L2-L4)
-
-Install 2 Small Nuclear Reactors and 4 Large Batteries directly aft of Hold 3. Enclose them in double-walled heavy armor bulkheads to shield the power plant from kinetic collision and debris.
-
-```
-Plan view, Y = L3 (Power Core Vault)
+Plan view, Y = L3 (Tractor Power Core Vault)
         X: −2     0    +2
-    Z: −8  [BAT 1][R 1][BAT 2]   ◄── 2× Small Reactors (15 MW each = 30 MW)
-    Z: −9  [BAT 3][R 2][BAT 4]   ◄── 4× Large Batteries (3 MWh each = 12 MWh)
-                                     (Palette Slot 6: High-Voltage Red)
+    Z: −3  [BAT 1][R 1][BAT 2]   ◄── 2× Small Nuclear Reactors (15 MW each = 30 MW)
+    Z: −4  [Armor][R 2][Armor]   ◄── 2× Large Batteries (3 MWh each = 6 MWh)
 ```
 
-┌──────────────────────────────────────────────────────────────────────────────────────┐
-│ STEP 5 PARTS TRAY                                                                    │
-├─────────────────────┬─────┬───────────────┬──────────────────────────────────────────┤
-│ Block Type          │ Qty │ Mass / PCU    │ Output & Operating Parameters            │
-├─────────────────────┼─────┼───────────────┼──────────────────────────────────────────┤
-│ Small Reactor       │ 2   │   3.2 t / 50  │ `MAS Reactor 1, 2` (30 MW total baseline)│
-│ Large Battery       │ 4   │  20.0 t / 80  │ `MAS Battery 1..4` (12 MWh, 48 MW burst)†│
-│ Heavy Armor Bulkhead│ 16  │  24.0 t / 16  │ Airtight shielding isolating power vault │
-└─────────────────────┴─────┴───────────────┴──────────────────────────────────────────┘
+#### Step 10.4 · Tractor Ore Buffer Hold (Z +1 to +3, L2-L4)
 
-> [!IMPORTANT]
-> **PRE-ENCLOSURE INSPECTION GATE 10.2A: CARGO VOLUME & POWER SEAL CHECK**
-> 1. Check inventory terminal: verify combined hold capacity reads exactly `4,158,000 L` (3× Inventory).
-> 2. Ensure `MAS Reactor 1 & 2` have automated uranium pull enabled via the center conveyor trunk.
-> 3. Verify total electrical output capacity reads `78.0 MW` peak with zero battery drain at idle.
+Mount 1 standard 3×3×3 B Large Cargo Container (`MAS Tractor Buffer`) on centerline X0. It receives raw ore directly from the boom intake pipe and buffers material during active excavation before routing to the trailing utility carriage:
+
+```
+Plan view, Y = L3 (Tractor Buffer Hold)
+        X: −1    0   +1
+    Z: +3  ┌───────────┐
+           │MAS TRACTOR│  ◄── Large Cargo Container (3×3×3 B)
+    Z: +1  │  BUFFER   │      (Palette Slot 5: Logistics Emerald)
+           └───────────┘
+```
+
+#### Step 10.5 · Heavy Motorized 2-Axis Drawbar Hitch (Z = −8, X0, L2)
+
+At the aft bulkhead of the tractor, install a heavy-duty 2-axis articulated drawbar hitch that connects the tractor to the utility carriage mechanically and routes the main large conveyor line:
+1. **Azimuth (Yaw) Joint:** 1× Large Advanced Rotor mounted at Z = −8 facing Aft (−Z). Allows the consist to articulate horizontally when turning.
+2. **Pitch Joint:** 1× Motorized Large Hinge connected directly to the rotor head. Allows the consist to traverse crests and dips over rough terrain without lifting wheels.
+3. **Settings:** Share Inertia Tensor = `ON` · Braking Torque = `45 MN·m`.
+
+```
+2.5D Isometric Callout · 2-Axis Articulated Drawbar Hitch
+    Tractor Aft Bulkhead (Z −8)
+           ║
+           ╠══[ADVANCED ROTOR] (Horizontal Yaw Articulation: −45° to +45°)
+           ║        │
+           ║        ▼
+           ║   [MOTOR HINGE] (Vertical Pitch Articulation: −25° to +25°)
+           ║        │
+           ║        ▼
+           ╚════════╪═════════════════════════════════════════► To Utility Carriage (Carriage 2)
+                    ▼
+           [LARGE CONVEYOR PASS-THROUGH PIPE]
+```
+
+##### Pre-Enclosure Inspection Gate 10.2A: Power Core Isolation & Hitch Articulation Test
+* [ ] Verify reactor automated uranium pull through the central conveyor trunk.
+* [ ] Confirm total tractor power capacity reads `54.0 MW` peak (30 MW nuclear + 24 MW battery).
+* [ ] Test 2-axis drawbar hitch: ensure rotor and hinge pivot freely without clashing with the chassis frame.
 
 ---
 
-##### Visual Milestone 10-2 · Cargo Spine & Power Core Vault Enclosed
+### Phase 10-3 · Hydraulic Bedrock Outriggers & 45 m Long-Reach Excavation Boom (Levels L2-L6)
 
 ```
-Visual Checkpoint Silhouette (Looking West at Mid-Section Sponsons):
-        L4  ┌─────────────────────────┬──────────────┐
-            │ TRIPLE LARGE CARGO HOLD │ POWER VAULT  │
-        L3  │   (HOLD 1 · 2 · 3)      │ [2×R] [4×BAT]│
-        L2  ├─────────────────────────┴──────────────┤
-            │ CONTINUOUS RUNNING BOARD & SIDE RUB RAIL
-     ═══════╧════════════════════════════════════════╧═══════
-                 10-WHEEL DRIVE POWERTRAIN ACTIVE (L1)
+       [PHASE 10-3 SPATIAL LOCATOR HUD]
+       Envelope: 15 W × 22 L × 6 H B (37.5 × 55.0 × 15.0 m operating envelope)
+       Coordinate Range: X −7 to +7, Z +5 to +22, Y = L2 to L8
+       Pedestal Datum: [X0, Z +6, Y = L4] (Dorsal Turret Ring)
+       Outrigger Locations:
+       · Port Forward Outrigger: [X −5, Z +11, Y = L1]
+       · Starboard Forward Outrigger: [X +5, Z +11, Y = L1]
+       · Port Aft Outrigger: [X −5, Z −6, Y = L1]
+       · Starboard Aft Outrigger: [X +5, Z −6, Y = L1]
 ```
 
-* [ ] Triple cargo hold passes conveyor pressure test from bow throat to power vault.
-* [ ] Battery bank and reactor output register green status on diagnostic LCDs.
-* [ ] Lateral heavy armor sponsons flush-mounted at X = ±3.
+#### Step 10.6 · 4× Corner Bedrock Hydraulic Outriggers (L1-L2)
+
+Install 4 hydraulic stabilizer legs at the outer corners of the tractor chassis. Each outrigger consists of a downward-facing Large Piston capped with a Large Magnetic Plate:
+* Piston Settings: Velocity = `0.2 m/s` · Share Inertia Tensor = `ON`.
+* Magnetic Plate: Auto-Lock = `ON`.
+* Group: `MAS Outriggers`.
+* **Operating Logic:** When deployed on site, pistons extend downward, pressing the magnetic plates into planet voxels and locking rigidly. This completely isolates the suspension, preventing any tipping or chassis flex during boom sweeps.
+
+```
+Front Cross-Section, Outriggers Deployed at Bedrock Baseline:
+     [OUTRIGGER PORT]                                            [OUTRIGGER STBD]
+       [PISTON ↓]                                                  [PISTON ↓]
+     [MAG PLATE P] ─── [WH 1] ─── [BELLY SKIDS] ─── [WH 2] ─── [MAG PLATE S]
+    ══════════════════════════════════════════════════════════════════════════ Terrain
+```
+
+#### Step 10.7 · Heavy Turret Pedestal & Azimuth Advanced Rotor (Z = +6, X0, L4)
+
+Mount an Advanced Rotor facing upward (+Y) on the dorsal deck at Z = +6. This serves as the azimuth turntable, providing **360° continuous horizontal rotation** for the excavation boom with an unrestricted large-conveyor pass-through.
+* Rotor Settings: Share Inertia Tensor = `ON` · Braking Torque = `50 MN·m`.
+
+#### Step 10.8 · 5-DOF Articulated Boom Kinematic Chain (L4-L8)
+
+Assemble the high-articulation robotic excavation crane:
+1. **Shoulder Pitch Hinge:** Motorized Large Hinge connected to the azimuth rotor head. Pitch limits: `−20.0°` (undercutting terrain) to `+75.0°` (high reach).
+2. **Main Boom Arm (7 B Span):** Boxed heavy armor casing enclosing the primary large conveyor pipe.
+3. **Elbow Pitch Hinge:** Motorized Large Hinge at the mid-joint. Articulation limits: `−100.0°` (folded tuck) to `+45.0°` (extended reach).
+4. **Forearm Girder (5 B Span):** Tapered structural girder carrying internal piping and utility cabling.
+5. **Wrist 2-Axis Articulator:**
+   * Wrist Roll: Advanced Rotor providing `±180°` tool roll.
+   * Wrist Pitch: Motorized Large Hinge providing `−90°` to `+90°` tool attack angle leveling.
+
+```
+2.5D Isometric Callout · 45 m Long-Reach Articulated Boom Architecture
+
+       Chassis Pedestal (Z +6, X0, L4)
+              ║
+              ╠══[TURRET AZIMUTH ROTOR] ────────► 360° Continuous Horizontal Pan
+              ║        │
+              ║        ▼
+              ║   [SHOULDER PITCH HINGE] ───────► Elevation: −20° to +75°
+              ║        │
+              ║        ▼
+              ║   [Main Boom Arm · 7 B Span] (Heavy Cased Conveyor Pipe)
+              ║        │
+              ║        ▼
+              ║   [ELBOW PITCH HINGE] ──────────► Articulation: −100° to +45°
+              ║        │
+              ║        ▼
+              ║   [Forearm Girder · 5 B Span]
+              ║        │
+              ║        ▼
+              ║   [WRIST ROLL ROTOR] ───────────► Tool Roll: ±180°
+              ║        │
+              ║        ▼
+              ║   [WRIST PITCH HINGE] ──────────► Tool Pitch: −90° to +90°
+              ║        │
+              ║        ▼
+              ║   [LASER MINING TOOL HEAD]
+              ║   (1-2× Simple Laser Multitools + Camera + Floodlights)
+```
+
+#### Step 10.9 · Laser Mining Tool Head & Sensor Suite
+
+At the tip of the wrist articulator, mount the unified excavation head:
+* 2 × Simple Laser Multitool (Mode: `Mining Beam`) · `MAS Laser 1, 2`.
+* 1 × Camera · `MAS Cam Boom` (high-magnification targeting crosshairs).
+* 2 × Spotlight · `MAS Light Boom 1, 2` (floodlights illuminating the cutting bench).
+* 1 × Sensor · `MAS Sensor Boom` (5 m safety stop to prevent head-to-terrain collision).
+
+##### Pre-Enclosure Inspection Gate 10.3A: Outrigger Locking & Boom Joint Inertia Verification
+* [ ] Verify all 4 corner outrigger magnetic plates lock firmly into terrain voxels.
+* [ ] Confirm `Share Inertia Tensor = ON` across all 6 boom joints (Turret Rotor, Shoulder Hinge, Elbow Hinge, Wrist Rotor, Wrist Hinge).
+* [ ] Test 360° pan and full extension: boom must achieve a 45.0 m reach radius without inducing chassis tip or physics jitter.
+
+```
+PHASE 10-3 VISUAL MILESTONE · OUTRIGGERS ANCHORED & BOOM DEPLOYED
+                             ▲ 45 m Elevation Reach
+                           ╱   ╲
+     [ARMORED BRIDGE]    ╱       ╲  [ELBOW HINGE]
+           ║           ╱           ╲
+           ╠══[TURRET AZIMUTH]       ╲
+           ║                           ╲ ──► [LASER MINING HEAD]
+     ══════╩═════════════════════════════╩═════════════════════════
+     [OUTRIGGER PAD: LOCKED]           [OUTRIGGER PAD: LOCKED]
+```
 
 ---
 
-### Phase 3 · Twin Articulated "Tusk" Booms & CTC Rigging (Levels L2-L4)
+### Phase 10-4 · Forward Armored C2 Bridge & Helm Cabin (Levels L3-L5)
 
 ```
-       [PHASE 3 SPATIAL LOCATOR HUD]
-       Envelope: 15 W × 10 L × 4 H B (37.5 × 25.0 × 10.0 m articulated reach)
-       Coordinate Range: X −6 to +6, Z +12 to +18, Y = L2 to L5
-       Shoulder Datums:
-       · Port Shoulder Rotor: [X −3, Z +12, Y = L2]
-       · Starboard Shoulder Rotor: [X +3, Z +12, Y = L2]
-       · Bow Conveyor Throat: [X0, Z +12, Y = L2]
-```
-
-#### Step 6 · Tusk Shoulder Advanced Rotors (Z = +12, X = ±3, L2)
-
-Mount two Advanced Rotors on the forward bow frame facing forward (+Z). These provide the horizontal pan axis (azimuth sweep) for the excavator tusks and feed ore directly into the bow manifold.
-
-```
-Plan view, Y = L2 (Bow Shoulder Mounts)
-        X: −3          0          +3
-    Z: +12 [ROTOR PORT] ═[CONV THROAT]═ [ROTOR STBD]  ◄── Advanced Rotors face +Z
-           (Pan Axis)    (Intake Line)  (Pan Axis)        (Palette Slot 3: Ochre)
-```
-
-┌──────────────────────────────────────────────────────────────────────────────────────┐
-│ STEP 6 PARTS TRAY & ROTOR CONFIGURATION                                              │
-├─────────────────────┬─────┬───────────────┬──────────────────────────────────────────┤
-│ Block Type          │ Qty │ Mass / PCU    │ Critical Joint Settings                  │
-├─────────────────────┼─────┼───────────────┼──────────────────────────────────────────┤
-│ Advanced Rotor      │ 2   │ 18.0 t / 200  │ Share Inertia Tensor = ON · Torque: 40 MN│
-└─────────────────────┴─────┴───────────────┴──────────────────────────────────────────┘
-
-**Settings for `MAS Rotor Pan Port / Stbd`:**
-* Share Inertia Tensor = `ON` (MANDATORY: prevents arm wobble and chassis rocking)
-* `MAS Rotor Pan Port` Limits: Min = `−30.0°` (inward toward center), Max = `+60.0°` (outboard)
-* `MAS Rotor Pan Stbd` Limits: Min = `−60.0°` (outboard), Max = `+30.0°` (inward toward center)
-* Braking Torque: `40 MN·m`
-
----
-
-#### Step 7 · Boom & Forearm Articulation Hinges (L2-L4)
-
-Construct the articulated boom arms using motorized hinges for elevation pitch and wrist tilt.
-
-```
-2.5D Isometric Callout · Boom Articulation Kinematics (Per Arm)
-
-     Bow Bulkhead (Z +12, X ±3)
-            ║
-            ╠══[ADVANCED ROTOR] (Pan: Horizontal Sweep −60° to +60°)
-            ║        │
-            ║        ▼
-            ║   [Upper Boom Arm 4 B] (Heavy Armor Casing · Palette 3)
-            ║        │
-            ║        ▼
-            ║   [MOTOR HINGE 1] (Pitch: Elevation −45° Dig to +60° Raise)
-            ║        │
-            ║        ▼
-            ║   [Forearm Girder 3 B]
-            ║        │
-            ║        ▼
-            ║   [MOTOR HINGE 2] (Wrist: Tool Tilt −45° to +45°)
-            ║        │
-            ║        ▼
-            ║   [MINING HEAD] (Twin Laser Multitools)
-```
-
-┌──────────────────────────────────────────────────────────────────────────────────────┐
-│ STEP 7 PARTS TRAY                                                                    │
-├─────────────────────┬─────┬───────────────┬──────────────────────────────────────────┤
-│ Block Type          │ Qty │ Mass / PCU    │ Critical Joint Settings & Limits         │
-├─────────────────────┼─────┼───────────────┼──────────────────────────────────────────┤
-│ Motor Hinge (Large) │ 4   │ 16.0 t / 400  │ Share Inertia Tensor = ON · Torque: 45 MN│
-│ Heavy Armor Block   │ 14  │ 42.0 t / 14   │ Palette Slot 3 (Ochre); arm shell casing │
-│ Conveyor Tube (Lrg) │ 8   │  4.8 t / 48   │ Internal flexible conveyor feed line     │
-└─────────────────────┴─────┴───────────────┴──────────────────────────────────────────┘
-
----
-
-#### Step 8 · Twin Laser Mining Tool Heads (Head Assembly)
-
-Mount 2 Simple Laser Multitools in mining mode, 1 camera, 1 spotlight, and 1 sensor on each wrist tip.
-
-```
-Front view, looking at Tool Head Face
-        ┌───────────────────────────────────┐
-        │ [LASER 1]   [CAM]   [LASER 2]     │  ◄── 2× Simple Laser Multitools
-        │ [SPOTLIGHT]         [SENSOR 5 m]  │      (Mode: Mining Beam)
-        └───────────────────────────────────┘
-```
-
-**Blocks per Head (×2 Heads):**
-* 2 × Simple Laser Multitool · `MAS Laser Port 1, 2` / `MAS Laser Stbd 1, 2` (Mode: `Mining Beam`)
-* 1 × Camera · `MAS Cam Tusk Port / Stbd` (aiming crosshairs)
-* 1 × Spotlight · `MAS Light Tusk Port / Stbd` (high-intensity beam)
-* 1 × Sensor · `MAS Sensor Tusk Port / Stbd` (range: 5 m forward terrain detection)
-
----
-
-#### Step 9 · Custom Turret Controller (CTC) Mouse-Aim Rigging
-
-Configure two Custom Turret Controller blocks on the bridge to allow instantaneous, smooth mouse aiming of each excavator arm directly from the operator stations.
-
-```
-Custom Turret Controller (CTC) Mapping Architecture:
-   [OPERATOR DESK MOUSE] ──► [CTC BLOCK] ──► Azimuth Rotor: `MAS Rotor Pan`
-                                         └──► Elevation Hinge: `MAS Hinge Pitch`
-                                         └──► Tool Trigger: `MAS Lasers`
-```
-
-> [!NOTE]
-> **PRE-ENCLOSURE INSPECTION GATE 10.3A: TUSK BOOM MECHANICAL ALIGNMENT**
-> 1. Set `Share Inertia Tensor = ON` across all 6 articulation joints (Rotors and Hinges).
-> 2. Verify pitch range allows digging down to −45° (undercutting terrain 12.5 m below wheels) and raising to +60° (clearing high walls).
-> 3. Verify laser multitool extraction feeds directly through internal hinge conveyor ports into Hold 1.
-
----
-
-##### Visual Milestone 10-3 · Twin Articulated Tusks Rigged & Calibrated
-
-```
-Visual Checkpoint Silhouette (Top-Down View of Tusk Sweep Arc):
-        X: −7 (Port Outboard)     X0 (Center)     X: +7 (Stbd Outboard)
-                 \                                     /
-                  \                                   /
-                   [PORT TUSK BOOM]   [STBD TUSK BOOM]  ◄── 37.5 m Total Swath Width
-                          \                   /
-     ══════════════════════[BOW BULKHEAD (Z +12)]══════════════════════
-```
-
-* [ ] CTC mouse control provides silky, zero-recoil arm movement without chassis tilt.
-* [ ] Both booms synchronized to dig a continuous 37.5 m wide, 12.5 m deep trench.
-* [ ] Lasers extract raw ore and stone with 100% conveyor collection efficiency.
-
----
-
-### Phase 4 · Control Bridge & Operating Deck (Levels L3-L5)
-
-```
-       [PHASE 4 SPATIAL LOCATOR HUD]
+       [PHASE 10-4 SPATIAL LOCATOR HUD]
        Envelope: 7 W × 6 L × 3 H B (17.5 × 15.0 × 7.5 m)
-       Coordinate Range: X −3 to +3, Z +6 to +11, Y = L3 to L5
-       Key Datums:
-       · Helm Station: [X0, Z +9, Y = L4]
-       · Tusk Operator Port: [X −2, Z +8, Y = L4]
-       · Tusk Operator Starboard: [X +2, Z +8, Y = L4]
-       · Deep Ore Detector: [X0, Z +6, Y = L3]
+       Coordinate Range: X −3 to +3, Z +7 to +12, Y = L3 to L5
+       Station Datums:
+       · Helm Pilot Station: [X −1, Z +10, Y = L4]
+       · Excavation Master Station: [X +1, Z +10, Y = L4]
+       · Deep Ore Detector: [X0, Z +8, Y = L3]
 ```
 
-#### Step 10 · Forward Armored Bridge & Sensor Core (Z +6 to +11, L3-L5)
+#### Step 10.10 · 2-Seat Panoramic Armored Bridge & Sensor Core
 
-Construct the forward panoramic bridge cantilevering over the chassis girders. Level L3 houses the heavy ore detector and avionics; Level L4 accommodates the 3-seat operator flight bridge.
+Construct the forward command bridge overlooking the terrain. Level L3 accommodates the deep ore detector and avionics; Level L4 accommodates the dual-operator flight deck:
+1. **Helm Pilot Station (`MAS Helm`):** Controls chassis traction, 3-axle steering, outrigger deploy/retract sequences, and hill-climbing crawl.
+2. **Excavation Master Station (`MAS Station Boom`):** Controls the 45 m articulated boom via Custom Turret Controller (CTC) mouse aim or automated sweep script.
+3. **Deep Ore Detector (`MAS Ore Detector`):** Large-grid ore detector set to 150 m range for subterranean deposit mapping.
 
 ```
 Plan view, Y = L4 (Bridge Operator Deck)
-        X: −3   −1    0   +1   +3
-    Z: +10 ┌─────┬───────────┬─────┐
-           │     │  [HELM]   │     │  ◄── Master Driver / Helm Station
-    Z: +8  │     ├───────────┤     │      (Palette Slot 7: Navy Blue)
-           │CTC-P│ [COCKPIT] │CTC-S│  ◄── Dedicated Tusk Operator Consoles
-    Z: +6  └─────┴───────────┴─────┘
-                 │ [ORE DET] │        ◄── Large Grid Ore Detector (L3)
+        X: −2    0    +2
+    Z: +11 ┌─────────────┐
+           │[HELM] [BOOM]│  ◄── Dual Operator Stations (Navy Blue)
+    Z: +9  │PILOT   CTC  │      Reinforced 45° Sloped Armor Glass
+           └──────┬──────┘
+    Z: +7         │ [ORE DETECTOR] (L3 Core · 150 m Sub-surface)
 ```
 
-┌──────────────────────────────────────────────────────────────────────────────────────┐
-│ STEP 10 PARTS TRAY                                                                   │
-├─────────────────────┬─────┬───────────────┬──────────────────────────────────────────┤
-│ Block Type          │ Qty │ Mass / PCU    │ Role & Operating Configuration           │
-├─────────────────────┼─────┼───────────────┼──────────────────────────────────────────┤
-│ Cockpit (Armored)   │ 1   │   3.5 t / 15  │ `MAS Helm` (Master wheel steering & drive│
-│ Control Station     │ 2   │   1.2 t / 30  │ `MAS Station Tusk Port`, `Stbd` (CTC aim)│
-│ Ore Detector (Lrg)  │ 1   │   2.5 t / 25  │ `MAS Ore Detector` (150 m sub-surface)   │
-│ Sloped Armor Glass  │ 14  │   2.8 t / 14  │ Forward 45° reinforced viewports         │
-│ Radio Antenna (Lrg) │ 1   │   8.0 t / 100 │ `MAS Antenna` (Range: 25,000 m regional) │
-└─────────────────────┴─────┴───────────────┴──────────────────────────────────────────┘
-
-> [!TIP]
-> **PRE-ENCLOSURE INSPECTION GATE 10.4A: BRIDGE AIRTIGHTNESS & SENSOR REACH**
-> 1. Seal bridge glass frame; confirm air vent pressurizes cabin to 100% O2.
-> 2. Verify `MAS Ore Detector` is set to 150 m maximum scan range.
-> 3. Verify hotkey bar in `MAS Helm` has toggles for: Handbrake, Group `MAS Wheels`, CTC Port Control, CTC Stbd Control.
+##### Pre-Enclosure Inspection Gate 10.4A: Bridge Airtightness & Sensor Reach Check
+* [ ] Confirm bridge cabin pressurizes to 100% O2 via air vent.
+* [ ] Verify `MAS Ore Detector` displays subterranean ore deposits out to 150 m range.
+* [ ] Confirm CTC block maps mouse yaw to `MAS Turret Azimuth` and mouse pitch to `MAS Shoulder Pitch`.
 
 ---
 
-### Phase 5 · Flight Decks & Air Extraction Interfaces (Levels L5-L6)
+### Phase 10-5 · Modular FOB & Utility Carriage Chassis & Workshop (Carriage 2)
 
 ```
-       [PHASE 5 SPATIAL LOCATOR HUD]
-       Envelope: 7 W × 20 L × 2 H B (17.5 × 50.0 × 5.0 m)
-       Coordinate Range: X −3 to +3, Z −11 to +9, Y = L5 to L6
-       Landing Pad Datums:
-       · Kestrel Scout Pad Port: [X −3, Z +8, Y = L5]
-       · Kestrel Scout Pad Starboard: [X +3, Z +8, Y = L5]
-       · Mule Gantry Pad Center: [X0, Z −8, Y = L6]
+       [PHASE 10-5 SPATIAL LOCATOR HUD]
+       Envelope: 11 W × 18 L × 5 H B (27.5 × 45.0 × 12.5 m)
+       Coordinate Range: X −5 to +5, Z −26 to −8, Y = L1 to L5
+       Carriage Datums:
+       · Front Drawbar Tongue: [X0, Z −8, Y = L2]
+       · Field Workshop Core: Z −18 to −14, X −3 to +3
+       · Component Hold: Z −22 to −19, X0
+       · Axle 4 (Mid Drive): Z −13 (Locked: 0.0°)
+       · Axle 5 (Aft Steer): Z −22 (Counter-Steer: −25.0°)
 ```
 
-#### Step 11 · Forward Kestrel Scout Drone Landing Pads (Z +7 to +9, L5)
+#### Step 10.11 · Utility Carriage Box Girders & 4-Wheel Powertrain (L1-L2)
 
-Recess two small landing pads into the roof flanks forward of the cargo holds to host two KESTREL prospecting drones.
+Construct the trailing chassis frame connected to the tractor hitch tongue at Z = −8. Mount 2 pairs of 5×5 large suspension wheels:
+* **Axle 4 (Z −13):** Fixed drive axle (0.0° steer).
+* **Axle 5 (Z −22):** Counter-steering axle (−25.0° inverted) to eliminate trailer corner-cutting during tight turns.
+
+#### Step 10.12 · Mobile FOB Field Workshop & Medical Suite (L2-L4)
+
+Outfit Carriage 2 as a self-sustaining expeditionary base:
+1. **Field Workshop Assembler (`MAS Utility Assembler`):** Large Assembler configured to fabricate replacement plates, drill components, and motors directly in the field.
+2. **Medical & Survival Room (`MAS Medical Bay`):** Pressurized crew habitat with Survival Kit, Cryo Chamber, and Medical Room for expedition respawn.
+3. **Atmospheric Tank Farm:** 2× Large Hydrogen Tanks (refuels Kestrel scouts and Mule ferries) + 2× O2/H2 Generators.
+4. **Field Component Storage (`MAS Hold Components`):** 1× Large Cargo Container (3×3×3 B) dedicated to stocking construction parts.
 
 ```
-Plan view, Y = L5 (Forward Flight Roof)
-        X: −3     0    +3
-    Z: +9  [KESTREL 1] ··· [KESTREL 2]  ◄── Small-grid docking connectors
-    Z: +7  (Port Pad)  ··· (Stbd Pad)       flush with deck (Palette Slot 8: White)
+Plan view, Y = L3 (Utility Carriage Interior Deck)
+        X: −3          0          +3
+    Z: −10 ═══════[DRAWBAR TONGUE]═══════  ◄── Articulated Hitch from Tractor
+           │                             │
+    Z: −14 │ [ASSEMBLER] │ [MEDICAL BAY] │  ◄── Field Workshop Core
+           ├─────────────┼───────────────┤
+    Z: −18 │ [H2 TANK 1] │ [H2 TANK 2]   │  ◄── Fuel Bunkering Farm
+           ├─────────────┴───────────────┤
+    Z: −22 │ [MAS HOLD COMPONENTS (3×3×3)│  ◄── Spare Parts Storage (Palette 5)
+    Z: −26 └─────────────────────────────┘
 ```
 
-**Blocks:**
-* 2 × Small Grid Connector (adapted via rotor head) · `MAS Kestrel Dock 1, 2`
-* 2 × Sorter · `MAS Kestrel Feeder 1, 2` (pulls uranium and spare parts for scouts)
+##### Pre-Enclosure Inspection Gate 10.5A: Field Workshop Fabrication & Component Flow Check
+* [ ] Verify `MAS Utility Assembler` pulls ingots and queues components without manual transfer.
+* [ ] Confirm crew medical bay allows successful respawn and O2/H2 replenishment.
+* [ ] Confirm O2/H2 tanks maintain airtight seals and supply hydrogen lines.
 
 ---
 
-#### Step 12 · Aft Mule Receiving Gantry Cradle Pad (Z −11 to −5, L6)
-
-Per **Decision 45**, install a standardized 7 × 7 B Heavy Armor blast deck on the roof, equipped with twin motorized cradle arms and magnetic clamping plates matching the Orca and Ground Base standards.
+### Phase 10-6 · Flight Decks & Logistics Offload Interfaces (Levels L5-L6)
 
 ```
-Plan view, Y = L6 (Aft Flight Deck)
-        X: −3   −2   −1     0    +1   +2   +3
-    Z: −5  ■─────────────────────────────────■
-           │   [CRADLE P]       [CRADLE S]   │
-           │   (Hinge Arm)      (Hinge Arm)  │
-           │        │                │       │
-    Z: −8  │        ▼     [MAS CON]  ▼       │   ◄── Center Belly Connector
-           │        │     (Facing ↑) │       │        (Palette Slot 1: Amber)
-           │   [MAG P]          [MAG S]      │
-    Z: −11 ■─────────────────────────────────■
+       [PHASE 10-6 SPATIAL LOCATOR HUD]
+       Envelope: 7 W × 18 L × 2 H B (17.5 × 45.0 × 5.0 m)
+       Coordinate Range: X −3 to +3, Z −26 to −8, Y = L5 to L6
+       Deck Datums:
+       · Mule Gantry Cradle Pad: [X0, Z −22, Y = L6] (7×7 B Deck)
+       · Kestrel Scout Pad Port: [X −3, Z −12, Y = L5]
+       · Kestrel Scout Pad Starboard: [X +3, Z −12, Y = L5]
+       · Stern Dump Connector: [X0, Z −26, Y = L2] (Centerline height = 2.5 m)
 ```
 
+#### Step 10.13 · Roof Mule Receiving Gantry Cradle Pad (Z −25 to −19, L6)
+
+Install the standardized 7 × 7 B Heavy Armor blast deck on the utility carriage roof. Equipped with twin motorized hinge arms and magnetic plates matching Decision 45:
+* Inbound MULE-01 touches down; cradle arms swing 30° inward, clamping the Mule's chassis rub rails.
+* Center belly connector (`MAS MP Conn`) locks. Sorter `MAS MP Sorter` (Drain All = ON) drains rare ores (U, Pt, Au, Mg) into the Mule's hold for immediate air transport to base.
+
 ```
-2.5D Isometric Callout · Mule Gantry Cradle on Mastodon Roof
-
-                        [MULE-01 HULL 7×7 B]
-                                 │
-     Port Flank                  ▼               Starboard Flank
-   [CLAMP RUB RAIL]                        [CLAMP RUB RAIL]
-          ▲                                       ▲
-          │                                       │
-     [MAG PLATE]  ◄── 30° Swing Inward ──►  [MAG PLATE]
-          │                                       │
-     [MOTOR HINGE]                           [MOTOR HINGE]
-     (Base: X −3, Z −8)                      (Base: X +3, Z −8)
-   ═══════╧═══════════════════════════════════════╧═══════
-                     FLUSH HEAVY BLAST ROOF (L6)
-                            [MAS MP Conn]
+2.5D Isometric Callout · Mule Gantry Cradle on Utility Roof (L6)
+                         [MULE-01 HULL 7×7 B]
+                                  │
+      Port Flank                  ▼               Starboard Flank
+    [CLAMP RUB RAIL]                        [CLAMP RUB RAIL]
+           ▲                                       ▲
+           │                                       │
+      [MAG PLATE]  ◄── 30° Swing Inward ──►  [MAG PLATE]
+           │                                       │
+      [MOTOR HINGE]                           [MOTOR HINGE]
+      (Base: X −3, Z −22)                     (Base: X +3, Z −22)
+    ═══════╧═══════════════════════════════════════╧═══════
+                      FLUSH HEAVY BLAST ROOF (L6)
+                             [MAS MP Conn]
 ```
 
-┌──────────────────────────────────────────────────────────────────────────────────────┐
-│ STEP 12 PARTS TRAY                                                                   │
-├─────────────────────┬─────┬───────────────┬──────────────────────────────────────────┤
-│ Block Type          │ Qty │ Mass / PCU    │ Critical Joint Settings                  │
-├─────────────────────┼─────┼───────────────┼──────────────────────────────────────────┤
-│ Heavy Armor Block   │ 49  │  41.6 t / 49  │ Palette Slot 1 (Amber); 7×7 B blast deck │
-│ Connector (Large)   │ 1   │   3.1 t / 150 │ `MAS MP Conn` (Facing UP at X0, Z−8)     │
-│ Motor Hinge (Large) │ 2   │   8.0 t / 200 │ Share Inertia Tensor = ON · Limit: 30°   │
-│ Magnetic Plate (Lrg)│ 2   │   4.8 t / 50  │ Auto-lock enabled; strength 100%         │
-│ Conveyor Sorter     │ 1   │   1.2 t / 40  │ `MAS MP Sorter` (Drain All = ON)         │
-└─────────────────────┴─────┴───────────────┴──────────────────────────────────────────┘
+#### Step 10.14 · Twin Kestrel Prospector Scout Drone Landing Pads (Z −13 to −11, L5)
 
-> [!IMPORTANT]
-> **PRE-ENCLOSURE INSPECTION GATE 10.5A: CRADLE CLAMP RIGGING ON MOBILE DECK**
-> 1. Set `Share Inertia Tensor = ON` on both `MAS MP Cradle Port` and `Stbd`.
-> 2. Verify hinge limits: `0.0°` (retracted flush) to `30.0°` (inward clamp).
-> 3. Verify `MAS MP Sorter` whitelist contains only rare ores (`Uranium`, `Platinum`, `Gold`, `Magnesium`).
+Recess two small landing pads forward of the Mule pad on the utility roof:
+* `MAS Kestrel Dock 1` (Port, X −3) & `MAS Kestrel Dock 2` (Starboard, X +3).
+* Small-grid connectors flush with deck for recharging and downloading geological vein scans.
+
+#### Step 10.15 · Stern Bumper & Caterpillar Land Train High-Speed Dump Port (Z = −26, L2)
+
+Install the rear collision push-bumper and large connector (`MAS Stern Dump Conn`) at Level L2:
+* Mates directly with the bow connector of the CATERPILLAR-01 tractor locomotive.
+* Sorter `MAS Stern Sorter` drains bulk ores (Fe, Ni, Si, Stone) at ultra-high transfer rates (< 90 seconds for 2,500 t bulk payload).
+
+##### Pre-Enclosure Inspection Gate 10.6A: Cradle Clamping Dynamics & Dual-Tier Sorter Routing
+* [ ] Verify `MAS MP Sorter` whitelist passes only rare ores (U, Pt, Au, Mg) to the Mule shuttle.
+* [ ] Verify `MAS Stern Sorter` whitelist passes bulk ores (Fe, Ni, Si, Stone) to the land train.
+* [ ] Test cradle clamp hinges: confirm 30° inward swing firmly holds docking craft without grid damage.
+
+```
+PHASE 10-6 VISUAL MILESTONE · COMPLETE EXPEDITIONARY MINING TRAIN FOB
+                        [KESTREL PADS]         [MULE GANTRY PAD]
+                              │                        │
+                    [TRACTOR BRIDGE L4]       [UTILITY WORKSHOP L3]
+                              │                        │
+       [45 m BOOM L4]         │         [HITCH L2]     │         [STERN DUMP L2]
+              \               │              ║         │                /
+      ═════════╧══════════════╧══════════════╩═════════╧════════════════╩════════
+           CARRIAGE 1: LOCOMOTIVE / EXCAVATOR   CARRIAGE 2: FOB / UTILITY MODULE
+```
 
 ---
 
-### Phase 6 · Stern Bumper & Land Train Interface (Levels L1-L3)
+### Phase 10-7 · Master Control Logic & Hardware Scripting Contract (`[MAS] PB Excavator`)
 
-```
-       [PHASE 6 SPATIAL LOCATOR HUD]
-       Envelope: 5 W × 3 L × 3 H B (12.5 × 7.5 × 7.5 m)
-       Coordinate Range: X −2 to +2, Z −13 to −11, Y = L1 to L3
-       Docking Datum:
-       · Rear Dump Connector: [X0, Z −12, Y = L2] (Centerline height = 2.5 m above ground)
-```
+Every automated system on the Mastodon MKI conforms to this exact naming and grouping dictionary:
 
-#### Step 13 · Rear Train Dump Port & Push Bumper (Z = −12, X = 0, L2)
+#### 1. Group Taxonomy
+* `MAS Tractor Wheels`: 6× 5×5 suspension wheel units on Carriage 1.
+* `MAS Utility Wheels`: 4× 5×5 suspension wheel units on Carriage 2.
+* `MAS Outriggers`: 4× Hydraulic stabilizer pistons + magnetic plates.
+* `MAS Boom Joints`: 5× Rotors and Hinges articulating the long-reach arm.
+* `MAS Lasers`: 2× Simple Laser Multitools on the tool head.
+* `MAS MP Cradle`: 2× Motorized Hinges + 2× Magnetic Plates on the Mule pad.
+* `MAS Displays`: All cockpit telemetry screens and diagnostic LCDs.
 
-Construct the reinforced rear collision bumper and high-speed dump connector. It allows the Caterpillar train's tractor locomotive to mate directly with the Mastodon's stern to offload bulk ore.
+#### 2. Block Naming & Terminal Dictionary
+| Block Type | Exact Terminal Name | Subsystem Role & Functional Configuration |
+|---|---|---|
+| Cockpit (Armored) | `MAS Helm` | Pilot station · Master traction, steering, outrigger control |
+| Control Station | `MAS Station Boom` | Excavation Master station · CTC mouse aim & sweep sequencing |
+| Piston (Large) | `MAS Outrigger Piston 1..4` | Corner bedrock stabilizer cylinders · `Share Inertia Tensor = ON` |
+| Magnetic Plate | `MAS Outrigger Pad 1..4` | Corner bedrock voxel locking pads · `Auto-Lock = ON` |
+| Advanced Rotor | `MAS Turret Azimuth` | Dorsal boom turntable · 360° pan · `Torque = 50 MN·m` |
+| Motor Hinge | `MAS Shoulder Pitch` | Boom elevation joint · −20° to +75° · `Torque = 45 MN·m` |
+| Motor Hinge | `MAS Elbow Pitch` | Boom mid-joint · −100° to +45° · `Torque = 45 MN·m` |
+| Advanced Rotor | `MAS Wrist Roll` | Tool head roll alignment · ±180° · `Torque = 20 MN·m` |
+| Motor Hinge | `MAS Wrist Pitch` | Tool head angle leveling · −90° to +90° · `Torque = 20 MN·m` |
+| Laser Multitool | `MAS Laser 1, 2` | Mining beam heads on tool head · Continuous extraction |
+| Connector (Large) | `MAS MP Conn` | Roof flush connector for MULE-01 shuttle docking |
+| Connector (Large) | `MAS Stern Dump Conn` | Stern bumper connector for CATERPILLAR-01 bulk train docking |
+| Conveyor Sorter | `MAS MP Sorter` | High-priority rare ore drain sorter (U, Pt, Au, Mg) |
+| Conveyor Sorter | `MAS Stern Sorter` | High-volume bulk ore drain sorter (Fe, Ni, Si, Stone) |
+| Event Controller | `MAS EC Stabilizers` | Blocks boom arm deployment until outriggers report locked |
+| Event Controller | `MAS EC Holds` | Monitors payload mass; alerts at 2,500 t limit |
 
-```
-Rear elevation, looking Bow at Stern Bumper (Z = −12)
-        X: −2     0    +2
-    L3     ■═════╤═════■  ◄── Heavy Bumper Armor (Palette Slot 2: Crimson)
-    L2     │ [MAS DUMP]│  ◄── Large Connector (Faces Stern −Z, Height = Level L2)
-    L1     ■═════╧═════■
-           ◄── 1.25 m Ground Clearance ──►
-```
-
-┌──────────────────────────────────────────────────────────────────────────────────────┐
-│ STEP 13 PARTS TRAY                                                                   │
-├─────────────────────┬─────┬───────────────┬──────────────────────────────────────────┤
-│ Block Type          │ Qty │ Mass / PCU    │ System Role & Placement                  │
-├─────────────────────┼─────┼───────────────┼──────────────────────────────────────────┤
-│ Connector (Large)   │ 1   │   3.1 t / 150 │ `MAS Stern Dump Conn` (Facing Stern −Z)  │
-│ Conveyor Sorter     │ 1   │   1.2 t / 40  │ `MAS Stern Sorter` (Drain All = ON)      │
-│ Heavy Armor Slopes  │ 12  │  18.0 t / 12  │ Sloped collision deflection push-blocks  │
-└─────────────────────┴─────┴───────────────┴──────────────────────────────────────────┘
-
-> [!NOTE]
-> **PRE-ENCLOSURE INSPECTION GATE 10.6A: TRAIN DUMP DISCHARGE FLOW**
-> 1. Ensure `MAS Stern Dump Conn` centerline is mounted at exactly Level L2 (matches Caterpillar locomotive bow height).
-> 2. Verify `MAS Stern Sorter` whitelist contains: `Iron`, `Nickel`, `Silicon`, `Cobalt`, and `Stone`.
-> 3. Verify dump line draws from all 3 Large Cargo containers without bottleneck.
-
----
-
-##### Visual Milestone 10-4 · Complete Mobile Excavator Commissioned
-
-```
-Visual Checkpoint Silhouette (Looking Starboard at Complete Unit):
-                        [KESTREL PADS]       [MULE GANTRY PAD]
-                               │                     │
-                     [ARMORED BRIDGE L4]     [POWER VAULT L3]
-                               │                     │
-      [TUSK BOOMS L2]          │                     │          [STERN DUMP L2]
-             \                 │                     │                 /
-     ═════════╧════════════════╧═════════════════════╧═════════════════╧═════════
-                 11 × 25 × 6 B HEAVY MOBILE MINING BEHEMOTH (MASTODON-01)
-```
-
-* [ ] Vehicle dry mass verified: `≈ 694.4 t` via terminal info tab.
-* [ ] All 10 suspension wheels, 6 tusk articulation joints, and 2 roof clamp hinges functional.
-* [ ] Both aerial flight decks (Kestrel/Mule) and rear land train dump port operational.
-
----
-
-### Phase 7 · Master Control Logic & Hardware Scripting Contract (Claude Code)
-
-#### Step 14 · Terminal Namespace & Group Taxonomy
-
-##### 1. Group Taxonomy
-* `MAS Wheels` : All 10× 5×5 heavy off-road suspension wheel units.
-* `MAS Tusks` : 6× Hinge and Rotor articulation blocks across both boom arms.
-* `MAS Lasers` : 4× Simple Laser Multitools in mining mode.
-* `MAS Holds` : 3× Large Cargo Containers (`MAS Hold 1, 2, 3`).
-* `MAS Reactors` : 2× Small Nuclear Reactors.
-* `MAS Batteries` : 4× Large Batteries.
-* `MAS MP Cradle` : 2× Motorized Hinges + 2× Magnetic Plates on the roof pad.
-
-##### 2. Event Controller Matrix
+#### 3. Event Controller Matrix
 | Controller | Monitored Target | Threshold / Condition | Action Slot 1 (On True) | Action Slot 2 (On False) |
 |---|---|---|---|---|
-| `MAS EC Holds` | `MAS Holds` Total Mass | Total Mass $\ge 2,500\text{ t}$ | Chime Alert · IGC `TMS.MAST.FULL` | Normal mining |
-| `MAS EC MP` | `MAS MP Conn` | Connector: Connected | `MAS MP Sorter` Drain ON · Cradle Clamp | Sorter OFF · Cradle 0° |
-| `MAS EC Train` | `MAS Stern Dump Conn` | Connector: Connected | `MAS Stern Sorter` Drain ON | Sorter OFF |
-| `MAS EC Speed` | Vehicle Speed | Speed $> 45\text{ km/h}$ | Wheel Strength $\rightarrow 80\%$ (Anti-roll) | Wheel Strength $\rightarrow 50\%$ |
+| `MAS EC Stabilizers`| `MAS Outrigger Pad 1..4` | All 4 Pads = Locked | Enable `MAS Boom Joints` · Sound Ready Chime | Lock `MAS Boom Joints` · Fold Boom |
+| `MAS EC Holds` | Combined Ore Mass | Ore Mass $\ge 2,500\text{ t}$ | Sound Payload Horn · IGC `TMS.MULE.CALL` | Normal Extraction Mode |
+| `MAS EC MP` | `MAS MP Conn` | Status = Connected | `MAS MP Sorter` Drain ON · Cradle Clamp | Sorter OFF · Cradle Retract (0°) |
+| `MAS EC Train` | `MAS Stern Dump Conn` | Status = Connected | `MAS Stern Sorter` Drain ON | Sorter OFF |
 
-##### 3. IGC Channel Subscriptions (Ground Fleet Bus)
-* Outbound: `TMS.MAST.STATUS`: `mastodon_id;ore_mass_t;payload_pct;gps_coords;active_drones`
-  * Example: `MAS-01;2150.4;86.0;GPS:DepositAlpha:...:;2`
-* Outbound: `TMS.MULE.CALL`: `requester_id;pad_id;payload_type;urgency`
-* Inbound: `TMS.CATER.ARRIVED`: signals land train is locked into stern bumper.
+#### 4. IGC Channel Subscriptions (Ground Fleet Bus)
+* Outbound: `TMS.MAS.STATUS` (`<consist_id>;<ore_mass_t>;<payload_pct>;<gps_coords>;<fob_status>`).
+* Outbound: `TMS.MULE.CALL` (`CALL;<requesting_pad>;<priority>;<payload_type>`).
+* Inbound: `TMS.SCOUT.VEIN` (Receives target ore vein coordinates from Kestrel drones).
+* Inbound: `TMS.CAT.STATUS` (Monitors approaching Caterpillar train for stern docking).
 
 ---
 
-### Phase 8 · Commissioning & Field Acceptance Checklist (RIG Test)
+### Phase 10-8 · Commissioning & Field Acceptance Checklist (RIG Test)
 
-#### A · Powertrain & Maneuvering Trials
-* [ ] **Dry Mass Verification:** Confirm empty mass reads `≈ 694.4 t` in info tab.
-* [ ] **5-Axle Counter-Steer Trial:** Drive forward at 30 km/h; verify Axles 1 & 2 steer, Axle 3 tracks straight, and Axles 4 & 5 counter-steer. Confirm zero lateral tire scrub.
-* [ ] **Laden Grade Climb:** Fill holds with 2,500 t stone; verify all 10 wheels climb a 25° voxel incline at $> 25\text{ km/h}$ without power stalling.
+#### A · Articulated Consist Powertrain Trials
+* [ ] **Tractive Articulation Test:** Drive consist across rolling dunes at 35 km/h. Verify 2-axis drawbar hitch pivots smoothly in yaw and pitch without jackknifing or lifting carriage wheels.
+* [ ] **Counter-Steer Tracking:** Verify Axle 5 counter-steers, pulling the utility carriage cleanly through tight 35 m radius curves with zero curb clipping.
 
-#### B · Tusk Boom & Laser Excavation Trials
-* [ ] **Kinematic Envelope Verification:** Articulate tusks through full 105° vertical pitch arc (−45° to +60°) and 90° azimuth sweep (−30° to +60°).
-* [ ] **CTC Mouse-Aim Response:** Sit in bridge control seats; engage CTC; verify smooth, instantaneous mouse aiming of both arms.
-* [ ] **37.5 m Swath Excavation:** Drive forward at 0.5 m/s while carving with all 4 laser beams; confirm a clean 37.5 m wide by 12.5 m deep trench is cleared with zero un-mined pillars.
+#### B · Outrigger Anchoring & 45 m Boom Excavation
+* [ ] **Outrigger Bedrock Anchor:** Press hotkey 1 (`Deploy Stabilizers`). Confirm all 4 corner pistons extend downward and magnetic plates achieve 100% voxel lock. Confirm chassis is completely rigid.
+* [ ] **3D Hemispheric Sweep:** Engage CTC mouse aim. Sweep boom through 360° horizontal pan, −20° terrain undercutting, and +75° high bench cuts. Confirm zero chassis wobble or physics jitter.
+* [ ] **Laser Extraction Rate:** Fire `MAS Laser 1 & 2`. Verify raw ore transfers seamlessly through internal boom piping into the buffer hold.
 
-#### C · Dual Logistics Offload Acceptance
-* [ ] **Roof Mule Landing:** Land MULE-01 on roof deck; verify cradle arms swing 30° inward and clamp rub rails; verify rare ores drain into Mule hold.
-* [ ] **Stern Train Fast-Dump:** Mate Caterpillar tractor into rear bumper connector; verify `MAS Stern Sorter` discharges 2,500 t bulk ore in $< 90\text{ seconds}$.
+#### C · Mobile FOB & Dual Logistics Verification
+* [ ] **Mule Air Offload:** Land MULE-01 on utility roof pad. Verify cradle arms swing 30° inward, magnetic plates clamp, and rare ores drain at $> 150\text{ t/min}$.
+* [ ] **Caterpillar Train Rail Dump:** Reverse Caterpillar train into stern bumper. Verify large connector locks and 2,500 t bulk ore dumps in $< 90\text{ seconds}$.
+* [ ] **Field Workshop Operations:** Queue 1,000 Steel Plates in `MAS Utility Assembler`. Verify autonomous fabrication using mined iron ingots.
 
 
 ---

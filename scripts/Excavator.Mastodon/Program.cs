@@ -1,8 +1,8 @@
 // Excavator.Mastodon · Space Engineers 1 MDK2 PB Script
 // Target Block: [MAS] PB Excavator
-// Grid: Large Grid (11 × 25 × 6 B · 10 Wheels) · Update: Update1
-// Subsystem Groups: MAS TUSK, MAS HOLD, MAS WHEEL, MAS MP, MAS DUMP
-// IGC Channels: TMS.MAS.STATUS (out), TMS.MULE.CALL (out), FLT.MAS.CMD (in)
+// Grid: Large Grid Consist (11 × 42 × 6 B · 10 Wheels · 2 Carriages) · Update: Update1
+// Subsystem Groups: MAS STAB, MAS BOOM, MAS TOOL, MAS WHEEL, MAS HITCH, MAS HOLD, MAS MP, MAS DUMP
+// IGC Channels: TMS.MAS.STATUS (out), TMS.MULE.CALL (out), TMS.CAT.CALL (out), TMS.SCOUT.VEIN (in), FLT.MAS.CMD (in)
 // Rule C4: Native blocks provide safety; PB provides decision logic.
 
 using System;

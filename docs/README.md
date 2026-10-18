@@ -79,3 +79,4 @@ docs/
 ### Workflow & Governance
 * **Review Queue ([`docs/review-queue.md`](file:///home/blae/Documents/Code/space-engineers/docs/review-queue.md)):** Multi-agent coordination board. Gemini drafts and logs commits with `pending` status; Claude Code reviews and signs off; Qwen executes reviewed task cards.
 * **Ideas Backlog ([`docs/ideas.md`](file:///home/blae/Documents/Code/space-engineers/docs/ideas.md)):** Unscheduled brainstorm ideas awaiting specification or carding.
+

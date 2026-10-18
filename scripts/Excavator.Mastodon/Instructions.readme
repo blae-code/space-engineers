@@ -1,14 +1,14 @@
 # Excavator.Mastodon · In-Game MDK2 Script Project
 
-## Subsystem: MASTODON-01 Heavy Wheeled Excavator Subsystem
+## Subsystem: MASTODON-01 Expeditionary Mining Locomotive & Mobile FOB
 * **Target Block:** `[MAS] PB Excavator`
-* **Grid Size:** Large Grid (11 × 25 × 6 B · 10 Wheels)
+* **Grid Size:** Large Grid Consist (11 × 42 × 6 B · 10 Wheels · 2 Carriages)
 * **Update Frequency:** `Update1`
-* **Managed Subsystem Groups:** `MAS TUSK, MAS HOLD, MAS WHEEL, MAS MP, MAS DUMP`
-* **IGC Network Channels:** `TMS.MAS.STATUS (out), TMS.MULE.CALL (out), FLT.MAS.CMD (in)`
+* **Managed Subsystem Groups:** `MAS STAB, MAS BOOM, MAS TOOL, MAS WHEEL, MAS HITCH, MAS HOLD, MAS MP, MAS DUMP`
+* **IGC Network Channels:** `TMS.MAS.STATUS (out), TMS.MULE.CALL (out), TMS.CAT.CALL (out), TMS.SCOUT.VEIN (in), FLT.MAS.CMD (in)`
 
 ## System Description
-Controls twin articulated 3-DOF laser tusk booms for 37.5 m wide trench carving, 5-axle 4-wheel counter-steering, roof Mule pad gantry, and rear dump conveyor chute.
+Controls the MASTODON-01 MKI expeditionary train consist: 4× hydraulic bedrock outrigger stabilizers (piston + magnetic plate), dorsal 45 m 5-DOF articulated laser mining boom (azimuth, shoulder, elbow, wrist roll/pitch), 2-axis motorized hitch articulation dampening, multi-axle counter-steering, roof Mule gantry cradle, and stern dump bumper to Caterpillar train.
 
 ## Zero-GC PB Rules
 1. C# 6 only, nested in Program, namespace `IngameScript`.
@@ -16,3 +16,4 @@ Controls twin articulated 3-DOF laser tusk booms for 37.5 m wide trench carving,
 3. Strings formatted via `SbFormat`.
 4. Strict grid scoping: `b => b.CubeGrid == Me.CubeGrid`.
 5. Minifier safe: never use `enum.ToString()` or `nameof()`.
+
