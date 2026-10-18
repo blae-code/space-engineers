@@ -25,7 +25,8 @@ docs/
 │
 ├── rig/                           # Active Floating Rig & Terrestrial Fleet Engineering Specs
 │   ├── lego-instructions-v1.0.md  # AUTHORITATIVE MASTER BUILD MANUAL (All 13 Chapters)
-│   ├── CHANGELOG.md               # Canon decisions log (Decisions 1-54)
+│   ├── cascading-workflow.md      # Autonomous cascading workflow & 12-pillar Mastodon benchmark
+│   ├── CHANGELOG.md               # Canon decisions log (Decisions 1-70)
 │   ├── project-map.md             # Living system breakdown, status map & build order
 │   ├── verify.md                  # In-game verification tracking checklist (†)
 │   ├── mods.md                    # Active mod whitelist & configuration rules
@@ -68,7 +69,8 @@ docs/
 ## 3. Core Working Documents Summary
 
 ### Active Specifications & Manuals
-* **Master Build Manual ([`docs/rig/lego-instructions-v1.0.md`](file:///home/blae/Documents/Code/space-engineers/docs/rig/lego-instructions-v1.0.md)):** Unified 6,400+ line visual construction manual covering all terrestrial vehicles, installations, the 25 kt floating station, and AI terminal contracts.
+* **Master Build Manual ([`docs/rig/lego-instructions-v1.0.md`](file:///home/blae/Documents/Code/space-engineers/docs/rig/lego-instructions-v1.0.md)):** Unified 9,200+ line visual construction manual covering all terrestrial vehicles, installations, the 25 kt floating station, and AI terminal contracts.
+* **Cascading Workflow Engine ([`docs/rig/cascading-workflow.md`](file:///home/blae/Documents/Code/space-engineers/docs/rig/cascading-workflow.md)):** Autonomous cascading refinement workflow using Chapter 10 as the 12-pillar standard across all chapters.
 * **Canon Decisions Log ([`docs/rig/CHANGELOG.md`](file:///home/blae/Documents/Code/space-engineers/docs/rig/CHANGELOG.md)):** Historical and active rulings by Blae. Every decision logged here overrides any previous guide or specification.
 * **Project Status Map ([`docs/rig/project-map.md`](file:///home/blae/Documents/Code/space-engineers/docs/rig/project-map.md)):** High-level view of all active, open, and deferred components across air, ground, and orbital tiers.
 * **Verification Checklist ([`docs/rig/verify.md`](file:///home/blae/Documents/Code/space-engineers/docs/rig/verify.md)):** Itemized list of physics assumptions, thrust ratings, and game values tagged with `†` awaiting testing in the RIG Test creative world.

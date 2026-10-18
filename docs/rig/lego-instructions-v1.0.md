@@ -4982,6 +4982,38 @@ To prevent builder disorientation across a 105 m long articulated consist, all s
 
 ---
 
+#### 0.2B Exterior Livery & Two-Tone Color Blocking Map
+
+To achieve an authentic brutalist industrial locomotive aesthetic and maintain spatial orientation during field construction, paint must follow strict functional zone lines across the hull:
+
+```
+[EXTERIOR ELEVATION LIVERY MAP · PORT PROFILE (LOOKING STARBOARD)]
+Level
+L7  │                                                                 [SLOT 7: NAVY CIWS / MT]
+L6  │                      [SLOT 7: NAVY COMM SPIRE]                  [SLOT 1: AMBER MULE CRADLE]
+L5  │                     /   [SLOT 7: NAVY CAB]    \                /  [SLOT 8: WHITE KESTREL]  \
+L4  │ ═══════════════════[SLOT 0: INDUSTRIAL DARK GRAY MAIN HULL & WORKSHOP ARMOR]═════════════════
+L3  │ ───────────────────[SLOT 2: HEAVY RAIL CRIMSON BELTLINE STRIPE (Z +12 to Z −26)]──────────
+L2  │ ═══════════════════[SLOT 0: INDUSTRIAL DARK GRAY LOWER CHASSIS & SPONSONS]══════════════════
+L1  │      (O)====(O)====(O)           [SLOT 2: DRAWBAR]           (O)====(O)   [SLOT 2: BUMPER]
+        Axle 1  Axle 2  Axle 3        [SLOT 9: GANGWAY]          Axle 4  Axle 5
+```
+
+| Zone / Component | Primary Palette Slot | Hex Code | Visual Application & Boundaries |
+| :--- | :--- | :--- | :--- |
+| **Lower Keel & Skids (L1)** | Slot 0 · Dark Slate | `#2B303A` | Underside belly channel, skid plates, wheel hubs, axle mount blocks |
+| **Running Gear Fenders (L2)** | Slot 0 · Dark Slate | `#2B303A` | Flared mudguards, wheel well sponsons, chassis box girders |
+| **Hull Beltline Accent (L3)** | Slot 2 · Rail Crimson | `#9E2A2B` | Continuous 1-block perimeter racing stripe from bow glacis to stern |
+| **Superstructure Walls (L3-L5)** | Slot 0 · Dark Slate | `#2B303A` | Main hull armor slabs, workshop sidewalls, reactor vault casing |
+| **C2 Armored Bridge Cab (L4-L5)**| Slot 7 · Fleet Navy | `#1B263B` | Armored cab visor, window mullions, console pedestals, comms spire |
+| **Articulated Excavation Arm** | Slot 3 · Ochre Orange | `#E67E22` | 45 m boom arm girders, elbow hinges, laser tool head casing |
+| **Mule Gantry Cradle Pad (L6)** | Slot 1 · Hazard Amber | `#E6A100` | 7×7 blast deck border, motorized cradle rub rails, alignment arrows |
+| **Kestrel Scout Pads (L5-L6)** | Slot 8 · Scout White | `#ECF0F1` | 4×4 drone landing squares (P1, S1) on forward utility carriage roof |
+| **Personnel Walkways & Catwalks**| Slot 9 · Safety Yellow | `#F1C40F` | Grated catwalks, ladders, stair runs, boarding thresholds |
+| **Emergency & High-Voltage** | Slot 6 · Alert Red | `#C0392B` | Nuclear reactor access hatches, battery vault markings, scuttle panels |
+
+---
+
 #### 0.3 Master Consist Top Plan View (Level L3-L6)
 
 ```
@@ -5027,6 +5059,137 @@ Bow     │ 2-Seat Panoramic Cockpit  Nuclear Core                              
 ════════╧════════════════╧═══════════════════╧═════════════════════════╦══════════╧═════════════════╧═════════════════╧═══════════► (To Cat Train)
 [STABILIZER]           [WH 1..2]           [WH 3..4]        [WH 5..6]  ║        [WH 7..8]         [WH 9..10]      [STABILIZER]
 (Voxel Clamp)         (Steer +30°)        (Steer +15°)     (Drive 0°)  ║       (Drive 0°)        (Steer −25°)     (Voxel Clamp)
+```
+
+---
+
+#### 0.4B Consist 3/4 Isometric Profiles & Stance Wireframes
+
+```
+[3/4 ISOMETRIC PERSPECTIVE · TRACTOR BOW & DORSAL SPINE]
+Looking Down & Aft from Forward Starboard Vantage
+
+                 [LASER COMM SPIRE L6]
+                         │
+                 [BOW CIWS L5]   [BOOM AZIMUTH PEDESTAL L4]
+                       │                 │
+                ┌──────┴──────┐          ▼
+               ╱  CAB VISOR   ╲     ┌─────────┐
+              ╱   CANOPY 45°   ╲════╡  TURRET ╞══════[DORSAL SPINE TROUGH]════►
+             │  PANORAMIC C2    │   └────┬────┘      (14-Block Recessed Canal)
+             ├──────────────────┤        │
+       ┌─────┴──────────────────┴─────┐  │
+      ╱   FORWARD CHIN PLOW / GLACIS   ╲ │
+     │  [X0, Z +12 HEAVY ARMOR PROW]    ││
+     └──────┬────────────────────┬──────┘│
+            │                    │       │
+       [AXLE 1-P]           [AXLE 1-S]   │
+       (5×5 Off-Road)       (5×5 Off-Road)
+```
+
+```
+[3/4 ISOMETRIC PERSPECTIVE · CARRIAGE 2 STERN GANTRY & FLIGHT DECK]
+Looking Down & Forward from Aft Starboard Vantage
+
+               [STERN CIWS L7]     [GANTRY REPAIR TURRET L7]
+                      │                     │
+               ┌──────┴─────────────────────┴──────┐
+               │    HEAVY GANTRY CLEARANCE ARCH    │ (L7, Height: 17.5 m)
+               └───┬───────────────────────────┬───┘
+                   │  [MULE-01 CRADLE PAD L6]  │
+                   │   7×7 B Flush Heavy Deck  │
+        ┌──────────┴───────────────────────────┴──────────┐
+       ╱  [KESTREL PAD P]                 [KESTREL PAD S]  ╲
+      │    4×4 Recon Pad                   4×4 Recon Pad    │
+      ├─────────────────────────────────────────────────────┤
+      │            STERN DUMP OVERHANG & PUSH-BLOCK         │ (L2-L3)
+      └─────────┬─────────────────────────────────┬─────────┘
+                │                                 │
+           [AXLE 5-P]                        [AXLE 5-S]
+           (5×5 Off-Road)                    (5×5 Off-Road)
+```
+
+---
+
+#### 0.4C Transverse Hull Station Profiles & Chamfer Specifications
+
+To avoid uniform "shoebox" cross-sections, the Mastodon utilizes specific Space Engineers armor block morphologies (`Armor Slope 2×1×1 Base/Tip`, `Half-Slope`, `Inverted Corner`, `Half-Block`) across 5 critical hull stations:
+
+##### Station 1 · Bow Prow & Cab Glacis (Z = +11, Looking Aft)
+```
+           X: −3       X: −2        X0         X: +2       X: +3
+L5 Crown         ┌───────────┬──────────────┬───────────┐
+                 │ 2×1 SLP \ │ FLAT ROOF L5 │ / 2×1 SLP │   ◄── Cab Brow Visor (Inward Chamfer)
+L4 Bridge        ├───────────┴──────────────┴───────────┤
+                 │ 45° SLOPED HEAVY GLASS CANOPY (7 W)  │   ◄── Panoramic Glacis (L4 Deck)
+L3 Sills   ┌─────┴──────────────────────────────────────┴─────┐
+           │ 2×1 INV \      WALKWAY AISLE L3      / 2×1 INV   │   ◄── Outward Flare to Main Hull
+L2 Spons   ├─────────┬──────────────────────────────┬─────────┤
+           │ HALF-SLP│     CHASSIS BOX GIRDERS      │ HALF-SLP│   ◄── Mudguards over Axle 1
+L1 Keel    └────┬────┴───────┬──────────────┬───────┴────┬────┘
+                │            │ BELLY TROUGH │            │
+                ▼            └──────────────┘            ▼
+          [WHEEL 5×5 P1]       (1.25 m Keel)       [WHEEL 5×5 S1]
+```
+
+##### Station 2 · Mid-Tractor & Boom Pedestal (Z = +4, Looking Aft)
+```
+           X: −4       X: −2        X0         X: +2       X: +4
+L4 Pedestal      ┌───────────┬──────────────┬───────────┐
+                 │ 2×1 SLP \ │ AZIMUTH BASE │ / 2×1 SLP │   ◄── Turret Pedestal Coamings
+L3 Hull    ┌─────┴───────────┴──────────────┴───────────┴─────┐
+           │ SLP 45° \   JEFFERIES    BUFFER     SIDE ARMOR   │   ◄── Symmetrical Flank Chamfers
+L2 Deck    ├─────────┬──────────────────────────────┬─────────┤
+           │ HALF-BLK│   PRIMARY CHASSIS LONGERONS  │ HALF-BLK│   ◄── Axle 2 Wheel Arches
+L1 Keel    └────┬────┴───────┬──────────────┬───────┴────┬────┘
+                │            │ ORE CONVEYOR │            │
+                ▼            └──────────────┘            ▼
+          [WHEEL 5×5 P2]       (Processing)        [WHEEL 5×5 S2]
+```
+
+##### Station 3 · Inter-Carriage Hitch & Gangway (Z = −8 to −9, Looking Aft)
+```
+           X: −3       X: −1        X0         X: +1       X: +3
+L4 Roof          ┌───────────┬──────────────┬───────────┐
+                 │ 2×1 SLP \ │ HULL COAMING │ / 2×1 SLP │   ◄── Spine Trough Termination
+L3 Gangway ┌─────┴───────────┴──────────────┴───────────┴─────┐
+           │ SLP 45° \   FLEXIBLE ACCORDION GANGWAY   / SLP 45│   ◄── Hermetic Bellows Collar
+L2 Drawbar ├─────────┬──────────────────────────────┬─────────┤
+           │ 2×1 BASE│ 3-AXIS GIMBAL DRAWBAR HITCH  │ 2×1 BASE│   ◄── Heavy Articulated Tongue
+L1 Skids   └─────────┴───────┬──────────────┬───────┴─────────┘
+                             │ MAGNETIC PAD │
+                             └──────────────┘ (Emergency Breakaway Keel Skid)
+```
+
+##### Station 4 · Workshop & Radiation Citadel (Z = −14, Looking Aft)
+```
+           X: −4       X: −2        X0         X: +2       X: +4
+L6 Catwalk       ┌───────────┬──────────────┬───────────┐
+                 │ CATWALK   │ KESTREL WING │  CATWALK  │   ◄── Flight Deck Walkways
+L5 Roof    ┌─────┴───────────┴──────────────┴───────────┴─────┐
+           │ 2×1 SLP \   FLIGHT DECK BLOCKED HULL   / 2×1 SLP │   ◄── Upper Superstructure
+L4 Upper   │ VERTICAL│    REFINERY     ASSEMBLER    │ VERTICAL│
+L3 Deck    │ 2×1 INV \   CORRIDOR     CITADEL VLT   / 2×1 INV │   ◄── Radiation Citadel Armor
+L2 Vault   ├─────────┬──────────────────────────────┬─────────┤
+           │ HALF-SLP│ SUB-FLOOR BATTERIES & AMMO   │ HALF-SLP│   ◄── Mudguards over Axle 4
+L1 Keel    └────┬────┴───────┬──────────────┬───────┴────┬────┘
+                │            │ BALLAST SKID │            │
+                ▼            └──────────────┘            ▼
+          [WHEEL 5×5 P4]       (40× Plates)        [WHEEL 5×5 S4]
+```
+
+##### Station 5 · Stern Gantry Arch & Caterpillar Dump (Z = −23 to −26, Looking Aft)
+```
+           X: −3       X: −1        X0         X: +1       X: +3
+L7 Arch          ┌───────────┬──────────────┬───────────┐
+                 │ CIWS MOUNT│ GANTRY ARCH  │ REPAIR MT │   ◄── Overhead Clearance Arch
+L6 Flight  ┌─────┴───────────┴──────────────┴───────────┴─────┐
+                 │ MULE-01 ELEVATED CRADLE BED (7×7)│             ◄── Heavy Blast Deck
+L4 Stern   │ 2×1 SLP \   COMPONENT STERN HOLD       / 2×1 SLP │
+L3 Mezz    │ VERTICAL│   LADDER & DECON AIRLOCK     │ VERTICAL│
+L2 Bumper  ├─────────┴──────────────────────────────┴─────────┤
+           │ HEAVY RAIL CRASH BUFFER & TAILINGS CHUTE (X0)    │   ◄── Caterpillar Push-Dock
+L1 Skids   └──────────────────────────────────────────────────┘
 ```
 
 ---
