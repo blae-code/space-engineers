@@ -39,6 +39,15 @@ namespace IngameScript
         public const int POWER_MODE_EMERGENCY = 3;
         public const int POWER_MODE_SHORE = 4;
 
+        public const int ENV_EARTH_SCAVENGE = 0;
+        public const int ENV_CLOSED_LOOP_VACUUM = 1;
+        public const int ENV_CORROSIVE_ISOLATION = 2;
+
+        public const int AIRLOCK_IDLE = 0;
+        public const int AIRLOCK_EGRESS = 1;
+        public const int AIRLOCK_INGRESS = 2;
+        public const int AIRLOCK_DECON = 3;
+
         static readonly string[] RoleNames = new string[]
         {
             "STANDALONE",
@@ -72,6 +81,21 @@ namespace IngameScript
             "HEAVY_EXCAVATION",
             "EMERGENCY_FAILOVER",
             "SHORE_RECHARGE"
+        };
+
+        static readonly string[] EnvModeNames = new string[]
+        {
+            "EARTH_SCAVENGE",
+            "CLOSED_LOOP_VACUUM",
+            "CORROSIVE_ISOLATION"
+        };
+
+        static readonly string[] AirlockStateNames = new string[]
+        {
+            "IDLE",
+            "EGRESS_EVACUATE",
+            "INGRESS_PRESSURIZE",
+            "DECON_WASH"
         };
         #endregion
 
@@ -125,6 +149,11 @@ namespace IngameScript
             "KIT_MUNITIONS",
             "KIT_HULL_REPAIR"
         };
+
+        // Decision 69: Environmental Mode & Airlock State
+        int _currentEnvMode = ENV_EARTH_SCAVENGE;
+        int _airlockState = AIRLOCK_IDLE;
+        bool _uvDeconActive;
         #endregion
 
         public Program()
@@ -184,6 +213,9 @@ namespace IngameScript
                 _sbEcho.Append(" s\nMT Turrets: ").Append(_mtTurretsEnabled ? (_mtTurretsWelding ? "REPAIR_WELD" : "SALVAGE_GRIND") : "OFF");
                 _sbEcho.Append(" · SML: ").Append(_smlAutoProdEnabled ? "ACTIVE" : "STANDBY");
                 _sbEcho.Append(" · Resupply: ").Append(ResupplyKitNames[_resupplyKitType]);
+                _sbEcho.Append("\nEnv Mode: ").Append(EnvModeNames[_currentEnvMode]);
+                _sbEcho.Append(" · Airlock: ").Append(AirlockStateNames[_airlockState]);
+                _sbEcho.Append(" · UV Decon: ").Append(_uvDeconActive ? "PULSING" : "STANDBY");
                 _sbEcho.Append("\nTick: ");
                 SbFormat.AppendInt(_sbEcho, _tickCounter);
                 Echo(_sbEcho.ToString());
@@ -249,6 +281,11 @@ namespace IngameScript
             SbFormat.AppendInt(_sbIgc, (int)_extractionRateKgPerSec);
             _sbIgc.Append(';').Append(PowerModeNames[_currentPowerMode]);
             IGC.SendBroadcastMessage("TMS.MAS.STATUS", _sbIgc.ToString());
+
+            // Broadcast planetary environmental mode telemetry (TMS.ENV.MODE)
+            _sbIgc.Clear();
+            _sbIgc.Append("ENV;MAS-01;").Append(EnvModeNames[_currentEnvMode]);
+            IGC.SendBroadcastMessage("TMS.ENV.MODE", _sbIgc.ToString());
         }
 
         void HandleCommand(string argument)
@@ -484,7 +521,54 @@ namespace IngameScript
             }
             else if (string.Compare(cmd, "AIRLOCK", StringComparison.OrdinalIgnoreCase) == 0)
             {
-                // Trigger active gas-reclamation decompression cycle on designated airlock
+                // Trigger active gas-reclamation decompression cycle: AIRLOCK <CHAMBER> <EGRESS|INGRESS|DECON>
+                string chamber = (_args.Count > 1) ? _args[1] : "PORT";
+                string action = (_args.Count > 2) ? _args[2] : "CYCLE";
+
+                if (string.Compare(action, "EGRESS", StringComparison.OrdinalIgnoreCase) == 0)
+                    _airlockState = AIRLOCK_EGRESS;
+                else if (string.Compare(action, "INGRESS", StringComparison.OrdinalIgnoreCase) == 0)
+                    _airlockState = AIRLOCK_INGRESS;
+                else if (string.Compare(action, "DECON", StringComparison.OrdinalIgnoreCase) == 0)
+                    _airlockState = AIRLOCK_DECON;
+                else
+                    _airlockState = (_airlockState == AIRLOCK_IDLE) ? AIRLOCK_EGRESS : AIRLOCK_IDLE;
+
+                _sbIgc.Clear();
+                _sbIgc.Append("CYCLE;").Append(chamber).Append(';').Append(AirlockStateNames[_airlockState]);
+                IGC.SendBroadcastMessage("TMS.AIRLOCK.CYCLE", _sbIgc.ToString());
+            }
+            else if (string.Compare(cmd, "ENV_MODE", StringComparison.OrdinalIgnoreCase) == 0 || string.Compare(cmd, "ENV", StringComparison.OrdinalIgnoreCase) == 0)
+            {
+                // Toggle or set planetary environmental mode: ENV <EARTH|VACUUM|CORROSIVE>
+                if (_args.Count > 1)
+                {
+                    string mode = _args[1];
+                    if (string.Compare(mode, "EARTH", StringComparison.OrdinalIgnoreCase) == 0 || string.Compare(mode, "SCAVENGE", StringComparison.OrdinalIgnoreCase) == 0)
+                        _currentEnvMode = ENV_EARTH_SCAVENGE;
+                    else if (string.Compare(mode, "VACUUM", StringComparison.OrdinalIgnoreCase) == 0 || string.Compare(mode, "CLOSED", StringComparison.OrdinalIgnoreCase) == 0)
+                        _currentEnvMode = ENV_CLOSED_LOOP_VACUUM;
+                    else if (string.Compare(mode, "CORROSIVE", StringComparison.OrdinalIgnoreCase) == 0 || string.Compare(mode, "TOXIC", StringComparison.OrdinalIgnoreCase) == 0)
+                        _currentEnvMode = ENV_CORROSIVE_ISOLATION;
+                }
+                else
+                {
+                    _currentEnvMode = (_currentEnvMode + 1) % 3;
+                }
+
+                _sbIgc.Clear();
+                _sbIgc.Append("ENV;MAS-01;").Append(EnvModeNames[_currentEnvMode]);
+                IGC.SendBroadcastMessage("TMS.ENV.MODE", _sbIgc.ToString());
+            }
+            else if (string.Compare(cmd, "DECON", StringComparison.OrdinalIgnoreCase) == 0)
+            {
+                // Trigger UV decontamination washdown: DECON <ON|OFF|PULSE>
+                if (_args.Count > 1 && string.Compare(_args[1], "OFF", StringComparison.OrdinalIgnoreCase) == 0)
+                    _uvDeconActive = false;
+                else if (_args.Count > 1 && string.Compare(_args[1], "ON", StringComparison.OrdinalIgnoreCase) == 0)
+                    _uvDeconActive = true;
+                else
+                    _uvDeconActive = !_uvDeconActive;
             }
             else if (string.Compare(cmd, "LIFE", StringComparison.OrdinalIgnoreCase) == 0)
             {

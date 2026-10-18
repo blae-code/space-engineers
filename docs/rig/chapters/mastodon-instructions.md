@@ -5,13 +5,13 @@
 Lego-style, step-by-step visual build manual and hardware-to-scripting interface contract for the **MASTODON-01 MKI**.
 Each step features: an exact ASCII schematic, Spatial Locator HUD, in-game paint palette assignments, pre-step parts tray, critical joint/conveyor settings, Pre-Enclosure Inspection Gates ("Points of No Return"), and Phase-End Visual Milestones.
 
-### Design Directives & Operational Scope (Decisions 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67 & 68)
+### Design Directives & Operational Scope (Decisions 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68 & 69)
 * **Role:** Long-range terrestrial expeditionary mining locomotive, self-contained mobile Forward Operating Base (FOB), and **Genesis Seed Fleet Mothership** running **`RIG//OS-Lite`**. In fresh survival campaigns prior to Ground Base refinery commissioning, the lead Mastodon serves as the regional C2 fleet root, commanding subordinate excavators (`MAS-02`), bulk land trains (`CAT-01`), and freight shuttles (`MUL-01`), with automated handover to Ground Base upon commissioning.
 * **Architecture:** Segmented articulated train consist:
   1. **Carriage 1 (`MAS-01-T`): Locomotive & Excavator Unit (11 W × 20 L × 5 H B · 6 Wheels):** Heavy tractive engine, 3-operator armored panoramic C2 bridge (Helm, Boom CTC, Tactical Director), Tri-Fuel primary power plant (30 MW nuclear + 5 MW emergency H2 engine + 9 MWh battery reserve across 3× Large Batteries), dual-PB compute rack (`PB Excavator` + `PB RIG//OS-Lite`), 40 km laser comms mast, 4× hydraulic corner outriggers with differential auto-leveling and **deep seismic voxel sensors** (Mod 2819263781), dorsal 35 m spine-stowed articulated 5-DOF laser mining boom with **heavy magnetic crane grapple**, chassis travel stow clamp (`MAS Clamp Boom Stow`), bow CIWS Gatling Turret (`MAS Turret Bow`), forward Multitool Repair Turret (`MAS MT Turret Bow`), flank anti-personnel turrets, Port L3 maintenance Jefferies tube, ground-level EVA survival lockers, and aft 3-axis heavy gimbal drawbar hitch.
   2. **Carriage 2 (`MAS-01-U`): Modular FOB & Utility Carriage (11 W × 18 L × 5 H B · 4 Wheels):** Field workshop (1× Basic Refinery for in-situ metallurgy, 1× Large Assembler, Survival Kit / Medical Bay), standalone FOB compute core (`[MAS-U] PB Utility` + `MAS-U Remote FOB`), DPU smart wheel traction and dynamic regenerative descent braking, runaway breakaway deadman brake (`MAS-U EC Breakaway` + 2× keel magnetic skids), 40× Heavy Armor sub-floor ballast skids, free planetary atmospheric O2 intake vents, sub-floor battery vault (9 MWh across 3× Large Batteries), 4× roof flush solar panels (`≈ 640 kW` peak†), component reserve hold, atmospheric bunkering (2× Large H2 tanks, O2/H2 generators), 7 × 7 B MULE-01 Gantry Cradle Pad with motorized clamping arms, elevated stern Multitool Repair Turret (`MAS MT Turret Stern` on L7 gantry arch), twin flank Multitool Repair Turrets (`MAS MT Turret Port/Stbd` on L4 forward shoulders), dedicated outbound resupply export hopper (`MAS Hold Resupply Export`), 2× KESTREL-01 scout drone landing pads with **recessed automated repair welders**, roof maintenance catwalks, 360° dorsal worksite floodlight tower, stern CIWS Gatling Turret (`MAS Turret Stern`), 2× stern hydraulic bedrock outriggers (`MAS Outrigger Utility Port/Stbd`), telescoping soft-capture docking tongue (`MAS Piston Stern Dock`), and stern heavy dump bumper with relocated stone tailings ejector chute matching CATERPILLAR-01.
 * **Grid:** Large Grid (1 B = 2.5 m) · **Consist Envelope:** 11 W × 42 L × 7 H B (27.5 × 105.0 × 17.5 m with L7 gantry arch).
-* **Mass:** Consist Dry Mass `≈ 1,145.0 t` (Tractor: 558.2 t, Utility: 586.8 t) · Max Laden Mass `≈ 3,650 t` (Earth 1 g).
+* **Mass:** Consist Dry Mass `≈ 1,150.7 t` (Tractor: 561.4 t, Utility: 589.3 t) · Max Laden Mass `≈ 3,650 t` (Earth 1 g).
 * **Payload Capacity:** 2,500 t bulk ore across tractor buffer and utility holds.
 * **Mechanical & Automation Suite (Decision 57):** 5-point immersive automation: auto-leveling bedrock jacks (sloped terrain compensation up to 20°), retractable crew boarding ladder (Port flank L2), active gravity-horizon tool head leveling with 4.0 m safety proximity stop, underbelly stone tailings aggregate spreader, and smart anti-jackknife drawbar dynamics.
 * **Tri-Fuel Power & Closed-Loop Metallurgy Suite (Decision 58):** Self-sustaining field endurance without resupply: (1) 1× Basic Refinery (`MAS Field Refinery`, 1×1×2 B, 330 kW) refining raw mined Fe, Ni, Co, Si, Mg on-site into ingots for the Large Assembler; (2) Tri-Fuel Power Architecture: Tier 1 Nuclear (2× Small Reactors, 30 MW), Tier 2 Renewable (4× Roof Flush Solar Panels, `≈ 640 kW` peak†), Tier 3 Emergency Hydrogen (1× Hydrogen Engine, 5 MW) drawing from 10,000,000 L H2 tank farm; (3) Automated resource watchdogs `MAS EC Power` (uranium watchdog auto-starting H2 engine) and `MAS EC Ice` (ice intake routing).
@@ -25,6 +25,7 @@ Each step features: an exact ASCII schematic, Spatial Locator HUD, in-game paint
 * **Multi-Tier Fleet Comms, Predictive JIT Logistics & Swarm Synergy (Decision 66):** Strengthens inter-grid communication (IGC) and cross-fleet operations across Mastodon, support drones (Kestrel, Albatross), cargo transports (Mule, Caterpillar), Ground Base (GND-01), and peer Mastodons: (1) Predictive Just-In-Time (JIT) Logistics Dispatch: Real-time mass tracking (ΔMass / Δt) computes buffer time-to-full (T_remain) and pre-dispatches transports at 75-80% capacity via `TMS.LOGISTICS.JIT`, eliminating excavator idle waiting time; (2) Dynamic Logistics Triage: Segregates high-value rare ores (U, Pt, Au, Mg) and salvaged high-tech components to fast Air Tier (Mule gantry cradle pad) while routing bulk ores (Fe, Ni, Si, stone) to mass Ground Tier (Caterpillar stern dump bumper); (3) Two-Tier Geological Triangulation & Aerial IGC Relay: Mastodon tasks Kestrel via `TMS.SCOUT.TASK` for wide-area sweeps, followed by Mastodon 500 m deep acoustic seismic survey (`TMS.SEISMIC.SURVEY`) to lock 3D drill centroids; airborne Kestrels serve as dynamic line-of-sight (LOS) IGC repeaters when Mastodons operate in deep pits; (4) Demand-Driven Pull Economy: Ground Base C2 broadcasts refinery deficit matrix via `TMS.BASE.DEMAND`; Mastodon automatically vectors quarry operations to match base mineral deficits; (5) Multi-Mastodon Swarm Quarrying & Coordinated CIWS: Spatial exclusion zone broadcast via `TMS.ZONE.CLAIM` deconflicts bench quarrying envelopes, while distributed targeting via `TMS.DEFENSE.TARGET` synchronizes anti-air/missile defense across consists.
 * **Consist Mechanics, 3-Axis Hitch & FOB Autonomy (Decision 67):** Optimizes cross-carriage cooperation and mechanical coupling: (1) 3-Axis Heavy Gimbal Tow Hitch: Upgrades articulated drawbar at Z −8 with 3 degrees of freedom (Yaw Advanced Rotor ±45°, Pitch Motor Hinge ±25°, Roll Advanced Rotor ±20° on Z-axis) for full 3D terrain compliance with zero subgrid shear, backed by twin magnetic stabilizer clamps (`MAS Hitch Clamp Port/Stbd`) to eliminate high-speed harmonic oscillation; (2) Distributed Power Unit (DPU) Smart Traction & Dynamic Braking: Synchronizes Carriage 2 Axles 4 and 5 with tractor throttle input for active hill-climb pushing, paired with predictive regenerative descent braking to keep the hitch in tension and prevent jackknifing; (3) Autonomous FOB Detachment ("Drop-and-Mine"): Equips Carriage 2 with standalone compute core (`[MAS-U] PB Utility`, `MAS-U Remote FOB`) and runaway deadman brake (`MAS-U EC Breakaway` + 2× keel magnetic skids), allowing the tractor to decouple as an agile 6×6 extraction unit while the trailer operates as an independent stationary outpost; (4) Stabilized Hauler Interchange: Adds 2× hydraulic stern outriggers (`MAS Outrigger Utility Port/Stbd` at Z −25) to isolate the chassis during 650 t Mule touchdowns, a telescoping soft-capture docking tongue (`MAS Piston Stern Dock`) for effortless Caterpillar coupling, and relocates the stone tailings aggregate ejector to the stern bumper; (5) Environmental & Ballast Hardening: Formalizes the inter-carriage gangway as an unpressurized flexible bellows flanked by dual hermetic airlocks (`MAS Door Gangway Fwd/Aft`) and adds 40× Heavy Armor ballast skids in Carriage 2 sub-floor; (6) Updated BOM: 1,095 blocks (+56 blocks), dry mass ≈ 1,124.0 t, 8,538 PCU.
 * **4× Multitool Repair Turrets, SML Auto-Production & Mule Peer Resupply Sorties (Decision 68):** Comprehensive self-repair, docked drone maintenance, autonomous component queuing, and inter-rig peer assistance: (1) 4× Laser Multitool Turrets (Simple Laser Multitools Mod 3175774286 / ToolCore 3040438530) positioned for overlapping 360° consist and flight deck coverage (`MAS MT Turret Bow` on Tractor crown L5 Z +9, `MAS MT Turret Port/Stbd` on Carriage 2 forward shoulders L4 Z −10, `MAS MT Turret Stern` on elevated gantry arch L7 Z −23); turrets draw components from `MAS Hold Components` and reference `MAS Projector Master` to automatically repair damaged blocks on the Tractor, Carriage 2, docked Kestrel drones (L5 pads), docked Mule shuttle (L6 gantry pad), docked Caterpillar train, or external ground vehicles without engineer EVA; (2) Standard Mission Loadout (SML) Autonomous Production Queuing: `[MAS-U] PB Utility` monitors component inventory in `MAS Hold Components`; whenever stock falls below 75% of SML quotas (e.g. 1,500 Steel Plates, 500 Construction Comps, 200 Motors, 100 NATO 25mm ammo boxes), it automatically queues production deltas in `MAS Utility Assembler`, fed continuously by iron ingots from `MAS Field Refinery`; (3) Dedicated Outbound Resupply Staging Hopper: Adds 1× Small Cargo Container `MAS Hold Resupply Export` and Conveyor Sorter `MAS Sorter Resupply Export` directly below `MAS MP Conn` at [X0, Z −20, L5], allowing pre-packaging of standardized resupply kits without mixing into main hold; (4) Standardized Mule Peer Resupply Sortie Protocol: Implements 4 standardized mission pallets (`KIT_MOBILITY`, `KIT_POWER`, `KIT_MUNITIONS`, `KIT_HULL_REPAIR`) and IGC channels (`TMS.RESUPPLY.REQUEST`, `TMS.RESUPPLY.OFFER`, `TMS.RESUPPLY.DISPATCH`, `TMS.RESUPPLY.COMPLETE`); upon receiving an emergency call from a disabled sister rig (`MAS-02`), Mastodon pre-packs the kit into the export hopper, summons MULE-01 for an immediate top-deck transfer (< 10 s), and dispatches the shuttle on a rapid delivery flight; (5) Updated BOM: 1,110 blocks (+15 blocks), dry mass ≈ 1,145.0 t, 9,475 PCU.
+* **Extended Survival Life Support & Planetary Environmental Hardening (Decision 69):** Complete survival player ergonomics, automated multi-zone ventilation, active gas-reclamation decontamination airlocks, and extreme planetary hazard protection: (1) Extended Survival Player Needs & Mobile Armory: Integrates 2× Large Grid Armory Lockers (`MAS Armory Bridge` at [X +2, Z +10, L4], `MAS Armory Workshop` at [X −2, Z −13, L3]) and 1× Equipment Locker (`MAS Locker Survival Gear` at [X +2, Z +9, L4]), pre-stocked with complete Tier 4 Elite toolsets (welder, grinder, drill), automatic rifles, ammo, and spare suit O2/H2 bottles; adds dedicated suit recharge stations adjacent to `MAS Survival Kit` (Bridge) and `MAS Medical Bay` (Workshop); formalizes 15,000 L emergency ice reserve in `MAS Hold Ice LifeSupport` supplying continuous breathing O2 and hydrogen fuel for 120+ hours offline; (2) Airtight Multi-Zone Ventilation & Dual-Atmosphere Automation: Establishes 4 fully isolated hermetic zones with dedicated ceiling air vents (`MAS Vent Bridge` [X0, Z +9, L4], `MAS Vent Crawlway` [X −2, Z 0, L3], `MAS Vent Gangway` [X0, Z −8, L4], `MAS Vent Workshop` [X0, Z −13, L4]); automated dual-atmosphere sequencing via `MAS EC Atmosphere Mode`: on Earth-like worlds (ambient O2 ≥ 100%), exterior vents `MAS Vent Atmo Intake Port/Stbd` scavenge atmospheric oxygen into main tanks with zero ice consumption, while on vacuum/toxic/corrosive planets (Pertam, Mars, Alien, Moon), exterior vents immediately isolate and lock, engaging 100% closed-loop recirculation from internal O2 reserves; (3) Automated Active Gas-Reclamation & Decontamination Airlocks: Converts all 4 consist egress points (Port Boarding L2/L3, Inter-Carriage Gangway L3, Flight Deck Roof L5/L6, Stern Dump Bumper L2/L3) into true dual-door sealed airlock chambers; equipped with active depressurization air vents (`MAS Vent Airlock Port/Roof/Stern/Gangway`), cyan UV decontamination lights (`MAS Light Decon Port/Roof/Stern/Gangway`), and automated interlocks (`MAS EC Airlock Port/Roof/Stern`): outbound cycle evacuates 100% of chamber O2 into storage tanks before outer hatch opens (zero gas loss in vacuum), while inbound cycle pulses positive pressure and 3.0 s UV decontamination washdown before inner cabin doors unseal; (4) Non-Earthlike Planetary Environmental Hardening: Faraday Lightning Diverter Grid with dorsal mast decoy `MAS Decoy Mast` at [X0, Z +6, L6] safely intercepting violent planetary lightning strikes on Pertam/Alien away from bridge glass, flight decks, and hydrogen tanks; zero-tolerance toxic air sensor shutoff prevents chemical/acidic gas ingress; hydronic thermal trace heating & waste heat recovery jackets `MAS Hold Ice LifeSupport` with 330 kW refinery reject heat to prevent emergency ice freeze-up in cryogenic environments (Europa, Triton); radiation storm citadel in central workshop corridor [X0, Z −13 to −18, L3] enclosed between twin 4.5 m liquid hydrogen tanks and 40× heavy steel ballast plates; automated meteor defense hardwired to `Target Meteors = ON`; (5) Updated BOM: 1,123 blocks (+13 blocks), dry mass ≈ 1,150.7 t, 9,880 PCU.
 * **Operating Environment:** Universal planetary & terrestrial surface operations (Earth 1 g baseline, airless vacuum moons, thin-atmosphere deserts, and hostile alien terrain).
 
 ---
@@ -222,7 +223,7 @@ Bow     │ 2-Seat Panoramic Cockpit  Nuclear Core                              
 | **Utility Carriage Hull & Ballast** | Heavy armor frames, wheel wells, deck armor, 40× Sub-Floor Ballast Skids (Palette 0) | 400 | 426.0 t | 400 |
 | **Utility Powertrain & DPU** | 4× 5×5 Heavy Suspension Wheels (Axles 4-5) with DPU traction | 4 | 32.0 t | 400 |
 | **Utility Sub-Floor Battery Vault** | 3× Large Batteries (9.0 MWh, Palette 6) | 3 | 13.5 t | 120 |
-| **Interior Walkways, Decoys & Airlocks** | Grated catwalks, 2× Hermetic Gangway Airlocks, sliding doors, ladder runs, interior lights, 3× Armored Decoys, 2× Keel Recovery Gyros (Palette 9) | 30 | 18.0 t | 240 |
+| **Interior Walkways, Decoys, Lockers & Decon Airlocks** | Grated catwalks, 4× Hermetic Dual-Door Airlocks, sliding doors, ladder runs, interior & UV decon lights, 3× Armored Decoys, 1× Dorsal Lightning Mast, 2× Keel Recovery Gyros, 2× Armory Lockers, 1× Survival Locker, 3× Airlock ECs (Palette 9) | 43 | 23.7 t | 645 |
 | **Field Workshop & Universal Life Support** | 1× Basic Refinery, 1× Large Assembler, 1× Medical Room, 2× Cryo Pods, 1× Survival Kit, 2× Large O2 Tanks, 1× Quarantined Ice Hold, 2× Large H2 Tanks, 2× O2/H2 Gens, 6× Air Vents, 1× Master Projector, 1× Scuttle Warhead | 22 | 68.2 t | 815 |
 | **Utility Cargo Hold & Logistics Feed** | 1× Large Cargo Container (Components), 2× Munitions Sorters (`MAS Sorter Ammo Fwd / Parts Aft`), Conveyor network | 18 | 29.0 t | 210 |
 | **Flight Decks, Welders & Solar** | 1× Mule Pad, 2× Kestrel Pads, 2× Drone Welders, 4× Solar Panels, 4× Floodlights | 67 | 61.1 t | 970 |
@@ -232,7 +233,7 @@ Bow     │ 2-Seat Panoramic Cockpit  Nuclear Core                              
 | **Multitool Repair Turrets** | 4× Large Laser Multitool Turrets (Bow L5, Port/Stbd L4 shoulders, Stern L7 arch · Mod 3175774286) | 4 | 18.0 t | 900 |
 | **Peer Resupply Export Staging** | 1× Small Cargo (`MAS Hold Resupply Export`), 1× Conveyor Sorter (`MAS Sorter Resupply Export`), 9× Gantry Arch Heavy Armor blocks (Palette 0/3) | 11 | 3.0 t | 37 |
 | **External EVA, Lights & Failsafes** | 2× Ground EVA Lockers, 3× Keel Lights, 1× Black Box SOS Beacon & Isolated Battery, 4× In-Situ Button Panels (Palette 9) | 11 | 2.5 t | 110 |
-| **TOTAL CONSIST (DRY)** | Complete Expeditionary Mining Locomotive & Mobile FOB | **1,110** | **≈ 1,145.0 t** | **9,475** |
+| **TOTAL CONSIST (DRY)** | Complete Expeditionary Mining Locomotive & Mobile FOB | **1,123** | **≈ 1,150.7 t** | **9,880** |
 
 ---
 
@@ -259,13 +260,17 @@ Plan view, Y = L3 (Tractor & Utility Pressurized Walkways & Jefferies Tubes)
         X: −3           X: −2            X0              X: +2           X: +3
     Z: +12 ┌───────────────┬───────────────────────────────┬───────────────┐
            │ [C2 BRIDGE]   │ [STATION 1]   [STATION 2]     │ [STATION 3]   │  ◄── Forward Bridge Deck
+    Z: +10 │ [ARMORY BRG]  │ [SURVIVAL KIT][SUIT CHARGER]  │ [LOCKER GEAR] │  ◄── Emergency Armory & Medical
     Z:  +8 ├───────────────┴───────────────┬───────────────┴───────────────┤
-           │ [AIRLOCK DOOR]                │ [BOOM PEDESTAL LADDER UP]     │  ◄── Airlock Vestibule
+           │ [AIRLOCK INNER DOOR]          │ [BOOM PEDESTAL LADDER UP]     │  ◄── Dual-Door Airlock Vestibule
+    Z:  +7 │ [DECON CHAMBER (UV / VENT)]   │ [SOLID ARMOR]                 │
     Z:  +6 ├───────────────┬───────────────┴───────────────┬───────────────┤
-           │ [PORT JEFF-   │                               │ [SOLID ARMOR] │
-    Z:  +3 │  ERIES TUBE]  │ [MAS TRACTOR BUFFER (3×3×3)]  │               │  ◄── Ore Buffer Pass
-           │ (Catwalk &    │ (Manual Port on Port Flank)   │               │
-    Z:  +1 │  Lighting)    │                               │               │
+           │ [AIRLOCK OUTER│
+           │  DOOR & LADDER│
+    Z:  +3 │ [PORT JEFF-   │ [MAS TRACTOR BUFFER (3×3×3)]  │ [SOLID ARMOR] │  ◄── Ore Buffer Pass
+           │  ERIES TUBE]  │ (Manual Port on Port Flank)   │               │
+    Z:  +1 │ (Catwalk &    │                               │               │
+           │  Lighting)    │                               │               │
            ├───────────────┼───────────────┬───────────────┼───────────────┤
     Z:  −2 │ [VAULT DOOR]  │ [BAT 1]       │ [REACTOR 1]   │ [BAT 2]       │
     Z:  −3 │               │ [BAT 3]       │ [REACTOR 2]   │ [ARMOR]       │  ◄── Power Core Vault
@@ -273,18 +278,19 @@ Plan view, Y = L3 (Tractor & Utility Pressurized Walkways & Jefferies Tubes)
     Z:  −7 ├───────────────┴───────────────┴───────────────┴───────────────┤
     Z:  −8 │ ══════════════ [GANGWAY FORWARD SLIDING DOOR] ═══════════════ │  ◄── Aft Bulkhead
            ╞═══════════════════════════════════════════════════════════════╡
-           │  [INTER-CARRIAGE ARTICULATED ENCLOSED GANGWAY (Z −9 to −8)]   │  ◄── Flexible Walkway
+           │  [INTER-CARRIAGE ARTICULATED ENCLOSED GANGWAY (Z −9 to −8)]   │  ◄── Flexible Walkway (UV Wash)
            ╞═══════════════════════════════════════════════════════════════╡
     Z:  −9 │ ══════════════ [GANGWAY AFT SLIDING DOOR] ═══════════════════ │  ◄── Utility Fwd Bulkhead
            ├───────────────┬───────────────┬───────────────┬───────────────┤
-    Z: −10 │ [SOLID ARMOR] │               │ [FLIGHT LADDER UP]            │  ◄── Stair/Ladder to L6
+    Z: −10 │ [SOLID ARMOR] │               │ [FLIGHT LADDER UP TO L6]      │  ◄── Stair/Ladder to L6
            ├───────────────┤ [CENTRAL      ├───────────────┬───────────────┤
-    Z: −12 │ [REFINERY]    │  WORKSHOP     │ [MEDICAL BAY] │ [CRYO POD]    │  ◄── Field Metallurgy
-    Z: −14 │ [ASSEMBLER]   │  AISLE]       │ [O2/H2 GEN 1] │ [O2/H2 GEN 2] │  ◄── Fabrication & O2
-    Z: −18 │ [H2 TANK 1]   │ (X0 Walkway)  │ [H2 TANK 2]   │ [ARMOR]       │  ◄── Fuel Bunkering
+    Z: −12 │ [REFINERY]    │  WORKSHOP     │ [MEDICAL BAY] │ [CRYO POD 1]  │  ◄── Field Metallurgy
+    Z: −13 │ [ARMORY WRK]  │  AISLE &      │ [SUIT CHARGE] │ [CRYO POD 2]  │  ◄── Workshop Armory & Recharger
+    Z: −14 │ [ASSEMBLER]   │  RADIATION    │ [O2/H2 GEN 1] │ [O2/H2 GEN 2] │  ◄── Fabrication & O2 Reserves
+    Z: −18 │ [H2 TANK 1]   │  CITADEL]     │ [H2 TANK 2]   │ [ARMOR]       │  ◄── Fuel Bunkering & Storm Shield
     Z: −22 │ [ARMOR]       │ [MAS HOLD COMPONENTS (3×3×3)] │ [ARMOR]       │  ◄── Parts Hold
     Z: −25 ├───────────────┴───────────────┬───────────────┴───────────────┤
-    Z: −26 │                               │ [STERN LADDER DOWN TO L2]     │  ◄── Stern Dump Access
+    Z: −26 │                               │ [STERN DUAL-DOOR AIRLOCK L2]  │  ◄── Stern Dump Egress & Decon
            └───────────────────────────────┴───────────────────────────────┘
 ```
 
@@ -1470,10 +1476,10 @@ PHASE 10-3 VISUAL MILESTONE · OUTRIGGERS ANCHORED & BOOM DEPLOYED
 
 ---
 
-### Step 10.21 · Forward Bridge Foundation Deck, Walkways & Airlock Vestibule (L3)
+### Step 10.21 · Forward Bridge Foundation Deck & Dual-Door Decon Boarding Airlock (L3)
 
 ┌──────────────────────────────────────────────────────────────────────────────────────┐
-│ [LOCATOR] Subsystem: Bridge Foundation & Entry Vestibule  ·  Level: L3              │
+│ [LOCATOR] Subsystem: Bridge Foundation & Port Decon Airlock  ·  Level: L3            │
 │ [VIEWPORT] Grid Zone: [X −3 to +3, Z +7 to +12]  ·  Plan view Y = L3 (▲ Bow +Z)       │
 └──────────────────────────────────────────────────────────────────────────────────────┘
 
@@ -1482,36 +1488,51 @@ PHASE 10-3 VISUAL MILESTONE · OUTRIGGERS ANCHORED & BOOM DEPLOYED
 |---|---|---|---|---|
 | Heavy Armor Full Block | 24 | Slot 0 (`#2B303A`) | 20.4 t / 24 | Foundation floor deck across X −3 to +3, Z +7 to +12 at Level L3 |
 | Grated Catwalk Block | 12 | Slot 9 (`#F1C40F`) | 3.6 t / 12 | Walkway aisle floor along X0 and Port entry lane |
-| Sliding Door | 1 | Slot 9 (`#F1C40F`) | 1.2 t / 15 | `MAS Door Airlock` at [X −2, Z +7, L3], opening into Jefferies tube |
-| Air Vent | 1 | Slot 7 (`#1B263B`) | 0.5 t / 25 | `MAS Vent Bridge` mounted in ceiling at [X0, Z +9, L4] |
+| Sliding Door | 1 | Slot 9 (`#F1C40F`) | 1.2 t / 15 | `MAS Door Boarding Outer` at [X −3, Z +7, L2/L3], exterior boarding seal |
+| Sliding Door | 1 | Slot 9 (`#F1C40F`) | 1.2 t / 15 | `MAS Door Boarding Inner` at [X −2, Z +7, L3], cabin interior seal |
+| Air Vent | 1 | Slot 7 (`#1B263B`) | 0.5 t / 25 | `MAS Vent Airlock Port` at [X −3, Z +7, L4], depressurization / gas reclamation |
+| Air Vent | 1 | Slot 7 (`#1B263B`) | 0.5 t / 25 | `MAS Vent Bridge` mounted in ceiling at [X0, Z +9, L4] (Zone 1 cabin pressure) |
+| Interior Light | 1 | Slot 9 (`#F1C40F`) | 0.02 t / 25 | `MAS Light Decon Port` at [X −3, Z +7, L4] (Cyan `#00FFFF`, UV Decontamination) |
+| Event Controller | 1 | Slot 7 (`#1B263B`) | 0.1 t / 25 | `MAS EC Airlock Port` at [X −3, Z +8, L3], automated interlock sequencer |
 | Survival Kit | 1 | Slot 7 (`#1B263B`) | 2.1 t / 25 | Mounted against Port aft bulkhead at [X −2, Z +8, L4] |
 
 ```
-Plan view, Y = L3 (Bridge Sub-Deck & Airlock Vestibule)
+Plan view, Y = L3 (Bridge Sub-Deck & Dual-Door Decontamination Airlock)
         X: −3             X: −2             X0              X: +2             X: +3
     Z: +12 ┌─────────────────────────────────────────────────────────────────────────────┐
            │ HEAVY ARMOR FOUNDATION DECK (Under Canopy Glazing)                          │
     Z: +10 │ [SUB-FLOOR C2 RACK] ── (Dual PBs + AI Blocks beneath Deck L4 Walkway)       │
     Z:  +8 ├─────────────────────┬─────────────────────────┬─────────────────────────────┤
-           │ [MAS DOOR AIRLOCK]  │ [AIRLOCK VESTIBULE]     │ [LADDER UP TO ROOF CROWN]   │
-    Z:  +7 └───────▲─────────────┴─────────────────────────┴─────────────────────────────┘
+           │ [MAS DOOR INNER]    │ [AIRLOCK VESTIBULE]     │ [LADDER UP TO ROOF CROWN]   │
+    Z:  +7 │ [PORT DECON CHAMBER]│                         │                             │
+           │ (UV Light / Vent)   │                         │                             │
+           │ [MAS DOOR OUTER]    │                         │                             │
+    Z:  +6 └───────▲─────────────┴─────────────────────────┴─────────────────────────────┘
                    │
-         From Port Jefferies Tube (X −2)
+         From Port Boarding Ladder (X −3)
 ```
 
 #### Placement Instructions
-1. Lay Heavy Armor Full Blocks across X −3 to +3, Z +7 to +12 at Level L3, forming the foundation deck.
-2. Install Sliding Door `MAS Door Airlock` at [X −2, Z +7, Y = L3], creating the hermetic seal between the Port Jefferies tube and the Bridge cabin.
-3. Lay Grated Catwalk Blocks along the vestibule threshold and central walkway.
-4. Mount Survival Kit on the Port bulkhead at [X −2, Z +8, Y = L4] with conveyor port plumbed to the tractor oxygen trunk.
-5. Install Air Vent `MAS Vent Bridge` in the vestibule ceiling to manage cabin pressurization.
+1. Lay Heavy Armor Full Blocks across X −3 to +3, Z +7 to +12 at Level L3, forming the airtight foundation deck.
+2. Install exterior Sliding Door `MAS Door Boarding Outer` at [X −3, Z +7, L2/L3], sealing the boarding threshold from the exterior ladder.
+3. Install interior Sliding Door `MAS Door Boarding Inner` at [X −2, Z +7, L3], creating the hermetic dual-door chamber isolating the Bridge cabin from external atmosphere.
+4. Mount Air Vent `MAS Vent Airlock Port` and UV Decon Light `MAS Light Decon Port` in the airlock ceiling at [X −3, Z +7, L4]. Plumb vent to the primary oxygen conveyor trunk.
+5. Install Event Controller `MAS EC Airlock Port` on the chamber bulkhead at [X −3, Z +8, L3].
+6. Install Air Vent `MAS Vent Bridge` in the main bridge ceiling at [X0, Z +9, L4] to maintain 100% O2 cabin pressurization (Hermetic Zone 1).
+7. Mount Survival Kit `MAS Survival Kit Tractor` at [X −2, Z +8, L4] with dedicated suit recharge port facing the central walkway.
 
 #### Terminal Configuration & Sliders
-* Door: `MAS Door Airlock` (Auto-Close: `ON` · Delay: `3.0 s`)
-* Vent: `MAS Vent Bridge` (Depressurize: `OFF` · Maintains 100% O2 cabin pressure)
-* Block: `MAS Survival Kit Tractor` (Spawn point enabled)
+* Outer Door: `MAS Door Boarding Outer` (Auto-Close: `ON` · Delay: `2.0 s`)
+* Inner Door: `MAS Door Boarding Inner` (Auto-Close: `ON` · Delay: `2.0 s`)
+* Airlock Vent: `MAS Vent Airlock Port` (Depressurize: `ON` on exit, `OFF` on entry)
+* Cabin Vent: `MAS Vent Bridge` (Depressurize: `OFF` · Maintains 100% O2 pressure in Zone 1)
+* Decon Light: `MAS Light Decon Port` (Color: `#00FFFF` Cyan · Radius: `3.0 m` · Intensity: `5.0`)
+* Event Controller: `MAS EC Airlock Port` (Automated Interlock Sequencing):
+  - Outbound Egress: Outer door lock engaged; Vent sets `Depressurize = ON` (100% gas reclamation into main tanks); once chamber pressure reaches 0.0 atm, `MAS Door Boarding Outer` unlocks and opens (zero gas lost in vacuum).
+  - Inbound Ingress: Outer door closes and locks; `MAS Light Decon Port` flashes cyan for 3.0 s (UV decontamination washdown); Vent sets `Depressurize = OFF` (pressurizes to 1.0 atm); once chamber pressure reaches 100%, `MAS Door Boarding Inner` unlocks and opens into the cabin.
+* Survival Kit: `MAS Survival Kit Tractor` (Spawn point enabled · Suit recharging active)
 
-**✓ Check:** Foundation deck sealed airtight; airlock sliding door cycles cleanly; survival kit powered and pressurized.
+**✓ Check:** Foundation deck sealed airtight; airlock dual doors never open simultaneously; gas reclamation reclaims 100% air before outer hatch unseals; UV decon washdown triggers on inbound cycle; survival kit powered and pressurized.
 
 ---
 
@@ -1525,22 +1546,24 @@ Plan view, Y = L3 (Bridge Sub-Deck & Airlock Vestibule)
 #### Step 10.22 Parts Tray
 | Block Type | Qty | Palette Slot | Mass / PCU | Critical Placement & Facing |
 |---|---|---|---|---|
-| Control Station (1×1×1 Open) | 3 | Slot 7 (`#1B263B`) | 1.8 t / 45 | Stations placed side-by-side at X −2, X0, X +2 (Z +10), facing Bow (+Z) |
+| Control Station (1×1×1 Open) | 3 | Slot 7 (`#1B263B`) | 1.8 t / 45 | Stations placed side-by-side at X −2, X0, X +2 (Z +11), facing Bow (+Z) |
+| Armory Locker | 1 | Slot 7 (`#1B263B`) | 0.8 t / 10 | `MAS Armory Bridge` at [X +2, Z +10, L4], Starboard bridge wall |
+| Equipment Locker | 1 | Slot 7 (`#1B263B`) | 0.8 t / 10 | `MAS Locker Survival Gear` at [X +2, Z +9, L4], Starboard bridge walkway |
 | LCD Panel (Normal) | 4 | Slot 7 (`#1B263B`) | 0.4 t / 20 | Tactical Video Wall mounted on bridge aft bulkhead at Z +8 |
 | Curved LCD Panel | 2 | Slot 7 (`#1B263B`) | 0.2 t / 10 | Side HUD repeaters flanking helm and tactical director |
 
 ```
-Plan view, Y = L4 (Custom Walk-In Bridge Deck & Tactical Video Wall)
+Plan view, Y = L4 (Custom Walk-In Bridge Deck, Armory & Tactical Video Wall)
         X: −3          X: −2           X0            X: +2          X: +3
     Z: +12 ┌─────────────────────────────────────────────────────────────┐
            │        45° SLOPED HEAVY ARMOR GLASS CANOPY (PANORAMIC)      │
     Z: +11 │   [STATION 1]             [STATION 2]           [STATION 3] │
            │   HELM / PILOT            BOOM EXCAVATOR        FLEET DIR   │
            │  (Control Station)       (Control Station)    (Control Stn) │
-    Z: +10 │        │                      │                     │       │
+    Z: +10 │        │                      │               [ARMORY BRG]  │
            │   ◄────┴──────── OPEN WALKWAY AISLE (Palette 9) ────┴────►  │
-    Z: +9  ├───────────────────────────┬─────────────┬───────────────────┤
-           │ [SURVIVAL KIT]            │ [LCD WALL 1]│ [LCD WALL 2]      │
+    Z: +9  ├───────────────────────────┬─────────────┬─────[LOCKER GEAR]─┤
+           │ [SURVIVAL KIT & CHARGER]  │ [LCD WALL 1]│ [LCD WALL 2]      │
     Z: +8  │ Field Respawn / O2-H2     │ Consist Sys │ Tactical Fleet    │
     Z: +7  ├───────────────────────────┴──────┬──────┴───────────────────┤
            │ [AIRLOCK SLIDING DOOR]           │ [LADDER UP TO ROOF CROWN]│
@@ -1548,13 +1571,16 @@ Plan view, Y = L4 (Custom Walk-In Bridge Deck & Tactical Video Wall)
 ```
 
 #### Placement Instructions
-1. Mount 3 open 1×1×1 Control Stations side-by-side along Z = +10, facing forward (+Z):
-   * Station 1 (Port): `MAS Helm` at [X −2, Z +10, Y = L4] (Traction, steering, power, outriggers).
-   * Station 2 (Center): `MAS Station Boom` at [X0, Z +10, Y = L4] (CTC mouse aim, macros, camera).
-   * Station 3 (Starboard): `MAS Station Fleet` at [X +2, Z +10, Y = L4] (Fleet coordination, JIT dispatch).
-2. Maintain a clear 1-block wide walk-around aisle at Z = +9 behind the seats.
-3. Mount 4 LCD Panels on the aft bulkhead at Z +8 forming the Tactical Video Wall (`MAS LCD Video Wall 1..4`).
-4. Paint consoles and video wall frames with Palette Slot 7 (`#1B263B` Fleet Command Navy).
+1. Mount 3 open 1×1×1 Control Stations side-by-side along Z = +11, facing forward (+Z):
+   * Station 1 (Port): `MAS Helm` at [X −2, Z +11, Y = L4] (Traction, steering, power, outriggers).
+   * Station 2 (Center): `MAS Station Boom` at [X0, Z +11, Y = L4] (CTC mouse aim, macros, camera).
+   * Station 3 (Starboard): `MAS Station Fleet` at [X +2, Z +11, Y = L4] (Fleet coordination, JIT dispatch).
+2. Install Large Grid Armory Locker `MAS Armory Bridge` against the Starboard bulkhead at [X +2, Z +10, Y = L4], pre-stocked with Tier 4 Elite tools (welder, grinder, drill), automatic rifles, and ammunition boxes.
+3. Install Large Grid Equipment Locker `MAS Locker Survival Gear` at [X +2, Z +9, Y = L4], stocked with spare suit O2/H2 bottles, data pads, and emergency survival kits.
+4. Mount dedicated suit recharging terminal adjacent to `MAS Survival Kit Tractor` at [X −2, Z +8, Y = L4] for immediate pilot suit replenishment upon bridge entry.
+5. Maintain a clear 1-block wide walk-around aisle at Z = +10 behind the seats.
+6. Mount 4 LCD Panels on the aft bulkhead at Z +8 forming the Tactical Video Wall (`MAS LCD Video Wall 1..4`).
+7. Paint consoles, lockers, and video wall frames with Palette Slot 7 (`#1B263B` Fleet Command Navy).
 
 #### 3-Operator Multi-Page Manual Hotbar Architecture
 
@@ -2115,6 +2141,7 @@ Plan view, Y = L2 (Utility Sub-Floor Battery Vault & Electrical Spine)
 | Block Type | Qty | Palette Slot | Mass / PCU | Critical Placement & Facing |
 |---|---|---|---|---|
 | Large Assembler | 1 | Slot 4 (`#16A085`) | 39.5 t / 40 | `MAS Utility Assembler` at [X −2, Z −14, L3]; dual inventory doors face aisle |
+| Armory Locker | 1 | Slot 7 (`#1B263B`) | 0.8 t / 10 | `MAS Armory Workshop` at [X −2, Z −13, L3]; Port workshop bulkhead facing aisle |
 | Medical Room | 1 | Slot 7 (`#1B263B`) | 12.8 t / 30 | `MAS Medical Bay` at [X +2, Z −14, L3] plumbed to O2 life support trunk |
 | Cryo Chamber | 2 | Slot 7 (`#1B263B`) | 3.2 t / 40 | `MAS Cryo Pod 1, 2` at [X +2, Z −12 to −13, L3] facing central aisle |
 | Large Oxygen Tank | 2 | Slot 4 (`#16A085`) | 6.4 t / 50 | `MAS Tank O2 1, 2` at [X −2, Z −16 to −17, L3-L4]; stores 200,000 L O2 |
@@ -2129,8 +2156,8 @@ Plan view, Y = L3 (Mobile FOB Workshop Core, Medical Bay & Life Support Farm)
     Z:  −9 ┌───────────────────────────[DOOR GANGWAY AFT]──────────────────────────┐
     Z: −10 │ FORWARD WORKSHOP ENTRY & FLIGHT LADDERWELL AISLE                      │
     Z: −12 │ [REFINERY L3]             │ [AISLE]    │ [MAS CRYO POD 1]             │
-    Z: −13 │ (Smelting Core)           │ [AISLE]    │ [MAS CRYO POD 2]             │
-    Z: −14 │ [MAS UTILITY ASSEMBLER]   │ [AISLE]    │ [MAS MEDICAL BAY]            │
+    Z: −13 │ [MAS ARMORY WRK]          │ [AISLE]    │ [MAS CRYO POD 2]             │
+    Z: −14 │ [MAS UTILITY ASSEMBLER]   │ [AISLE]    │ [MAS MEDICAL BAY & CHARGER]  │
     Z: −15 │ (Dual Ports Face Aisle)   │ [AISLE]    │ (Trauma Respawn Station)     │
     Z: −16 │ [MAS TANK O2 1]           │ [ICE HOLD] │ [MAS TANK O2 2]              │
     Z: −17 │ (100,000 L O2)            │ (15,000 L) │ (100,000 L O2)               │
@@ -2141,21 +2168,23 @@ Plan view, Y = L3 (Mobile FOB Workshop Core, Medical Bay & Life Support Farm)
 #### Placement Instructions
 1. Install Sliding Door `MAS Door Gangway Aft` at [X0, Z −9, Y = L3], providing the hermetic barrier between the accordion drawbar gangway and the workshop cabin.
 2. Install Large Assembler `MAS Utility Assembler` at [X −2, Z −14, Y = L3] oriented so its dual physical conveyor/inventory doors face the central aisle at X0.
-3. Install Medical Room `MAS Medical Bay` at [X +2, Z −14, Y = L3] with conveyor port connected to the life support trunk.
-4. Mount 2× Cryo Chambers (`MAS Cryo Pod 1, 2`) at [X +2, Z −12, L3] and [X +2, Z −13, L3] facing inward toward the central walkway.
-5. Install 2× Large Oxygen Tanks (`MAS Tank O2 1, 2`) at [X −2, Z −16, L3] and [X +2, Z −16, L3].
-6. Place Small Cargo Container `MAS Hold Ice LifeSupport` at [X0, Z −16, Y = L3] directly between the O2 tanks, isolated by a one-way conveyor check to safeguard emergency ice.
-7. Install 2× Large Hydrogen Tanks (`MAS Tank H2 1, 2`) at [X −2, Z −18, L3] and [X +2, Z −18, L3] with twin O2/H2 Generators (`MAS Gen O2/H2 1, 2`) mounted at [X0, Z −18, L3].
+3. Install Large Grid Armory Locker `MAS Armory Workshop` at [X −2, Z −13, Y = L3] on the Port bulkhead, pre-stocked with Tier 4 Elite toolsets, automatic rifles, 5.56mm ammo, and spare suit bottles.
+4. Install Medical Room `MAS Medical Bay` at [X +2, Z −14, Y = L3] with conveyor port connected to the life support trunk, equipped with a dedicated suit recharging terminal.
+5. Mount 2× Cryo Chambers (`MAS Cryo Pod 1, 2`) at [X +2, Z −12, L3] and [X +2, Z −13, L3] facing inward toward the central walkway.
+6. Install 2× Large Oxygen Tanks (`MAS Tank O2 1, 2`) at [X −2, Z −16, L3] and [X +2, Z −16, L3].
+7. Place Small Cargo Container `MAS Hold Ice LifeSupport` at [X0, Z −16, Y = L3] directly between the O2 tanks, isolated by a one-way conveyor check to safeguard emergency ice (15,000 L reserve supplying 120+ hours offline).
+8. Install 2× Large Hydrogen Tanks (`MAS Tank H2 1, 2`) at [X −2, Z −18, L3] and [X +2, Z −18, L3] with twin O2/H2 Generators (`MAS Gen O2/H2 1, 2`) mounted at [X0, Z −18, L3].
 
 #### Terminal Configuration & Sliders
 * Assembler: `MAS Utility Assembler` (Cooperative Mode: `ON` · Repeat: `OFF`)
-* Medical Bay: `MAS Medical Bay` (Respawn: `Enabled` · Healing: `Enabled`)
+* Armory Locker: `MAS Armory Workshop` (Pre-stocked: Tier 4 Tools, Rifles, Ammo, O2/H2 Bottles)
+* Medical Bay: `MAS Medical Bay` (Respawn: `Enabled` · Healing: `Enabled` · Suit Recharging: `Active`)
 * Cryo Chambers: `MAS Cryo Pod 1, 2` (Conveyor Connection: `ON`)
 * Oxygen Tanks: `MAS Tank O2 1, 2` (Auto-Refill: `ON` · Stockpile: `OFF` · Total Volume: `200,000 L`)
 * Hydrogen Tanks: `MAS Tank H2 1, 2` (Stockpile: `OFF` · Total Volume: `10,000,000 L`)
 * Ice Buffer: `MAS Hold Ice LifeSupport` (Custom Name: `[QUARANTINED] MAS Hold Ice LifeSupport`)
 
-✓ Check: Workshop core maintains 100% airtight pressure; assembler inventory accessible from central aisle; medical bay and cryo chambers operational; ice buffer quarantined.
+✓ Check: Workshop core maintains 100% airtight pressure; assembler inventory accessible from central aisle; armory locker pre-stocked; medical bay and cryo chambers operational; ice buffer quarantined.
 
 ---
 
@@ -2227,10 +2256,10 @@ Plan view, Y = L3 (Mobile FOB Workshop Core, Medical Bay & Life Support Farm)
 
 ---
 
-### Step 10.34 · Vertical Flight Ladderwell & Stern Maintenance Descent (L2-L6)
+### Step 10.34 · Vertical Flight Deck & Stern Dump Dual-Door Decon Airlocks (L2-L6)
 
 ┌──────────────────────────────────────────────────────────────────────────────────────┐
-│ [LOCATOR] Subsystem: Crew Inter-Deck Vertical Circulation  ·  Level: L2-L6           │
+│ [LOCATOR] Subsystem: Vertical Egress & Decon Airlocks  ·  Level: L2-L6               │
 │ [VIEWPORT] Grid Zone: [X +2, Z −25 to −10]  ·  Profile view facing Port (▲ Zenith +Y)│
 └──────────────────────────────────────────────────────────────────────────────────────┘
 
@@ -2238,38 +2267,49 @@ Plan view, Y = L3 (Mobile FOB Workshop Core, Medical Bay & Life Support Farm)
 | Block Type | Qty | Palette Slot | Mass / PCU | Critical Placement & Facing |
 |---|---|---|---|---|
 | Narrow Ladder Block | 6 | Slot 9 (`#F1C40F`) | 0.6 t / 6 | 4× ladder segments at [X +2, Z −10, L3-L5]; 2× segments at [X +2, Z −25, L2-L3] |
-| Sliding Door | 2 | Slot 9 (`#F1C40F`) | 2.4 t / 30 | `MAS Door Flight Deck Airlock` at [X +2, Z −10, L5]; `MAS Door Stern Airlock` at [X +2, Z −25, L3] |
-| Air Vent | 2 | Slot 7 (`#1B263B`) | 1.0 t / 50 | `MAS Vent Airlock Roof` at [X +2, Z −10, L5]; `MAS Vent Airlock Stern` at [X +2, Z −25, L3] |
+| Sliding Door | 1 | Slot 9 (`#F1C40F`) | 1.2 t / 15 | `MAS Door Flight Deck Inner` at [X +2, Z −10, L5], sealing workshop ascent |
+| Sliding Door | 1 | Slot 9 (`#F1C40F`) | 1.2 t / 15 | `MAS Door Roof Outer` at [X +2, Z −10, L6], outer flight deck hatch seal |
+| Sliding Door | 1 | Slot 9 (`#F1C40F`) | 1.2 t / 15 | `MAS Door Stern Inner` at [X +2, Z −25, L3], sealing workshop aft bulkhead |
+| Air Vent | 1 | Slot 7 (`#1B263B`) | 0.5 t / 25 | `MAS Vent Airlock Roof` at [X +2, Z −10, L5], active gas reclamation |
+| Air Vent | 1 | Slot 7 (`#1B263B`) | 0.5 t / 25 | `MAS Vent Airlock Stern` at [X +2, Z −25, L3], active gas reclamation |
+| Interior Light | 2 | Slot 9 (`#F1C40F`) | 0.04 t / 50 | `MAS Light Decon Roof` [X +2, Z −10, L5], `MAS Light Decon Stern` [X +2, Z −25, L3] (Cyan `#00FFFF`, UV Decontamination) |
+| Event Controller | 2 | Slot 7 (`#1B263B`) | 0.2 t / 50 | `MAS EC Airlock Roof` [X +2, Z −10, L5], `MAS EC Airlock Stern` [X +2, Z −25, L3] |
 | Sci-Fi 4-Button Panel | 2 | Slot 9 (`#F1C40F`) | 0.2 t / 16 | `MAS BP Flight Deck` at [X +2, Z −10, L6]; `MAS BP Stern Dump` at [X +2, Z −25, L2] |
 
 ```
 Profile elevation looking Starboard, X = +2 (Dual Vertical Airlock Circulation)
        Z: −10 (Forward Flight Deck Ascent)             Z: −25 (Aft Stern Dump Descent)
-  L6   [HATCH] ── [MAS BP FLIGHT DECK]                 ═══════════════════════════════
+  L6   [MAS DOOR ROOF OUTER] ── [MAS BP FLIGHT DECK]   ═══════════════════════════════
        │                                                                │
-  L5   [AIRLOCK DOOR] · [MAS VENT AIRLOCK ROOF]        ═══════════════════════════════
-       │ (Vertical Ladderwell)                                          │
+  L5   [MAS DOOR FLIGHT INNER] · [VENT ROOF] · [UV]    ═══════════════════════════════
+       │ (Vertical Ladderwell Trunk)                                    │
   L4   │                                               ═══════════════════════════════
        │                                                                │
-  L3   [WORKSHOP ENTRY THRESHOLD]                      [AIRLOCK DOOR] · [MAS VENT STERN]
-                                                       │ (Vertical Ladderwell)
-  L2   ═══════════════════════════════════════════════ [HATCH] ── [MAS BP STERN DUMP]
+  L3   [WORKSHOP ENTRY THRESHOLD]                      [MAS DOOR STERN INNER] · [VENT] · [UV]
+                                                       │ (Vertical Ladderwell Trunk)
+  L2   ═══════════════════════════════════════════════ [STERN EGRESS THRESHOLD] ── [MAS BP]
 ```
 
 #### Placement Instructions
 1. Install an enclosed vertical ladder trunk at [X +2, Z −10] ascending from the forward workshop floor (Level L3) through Level L4 up to Level L5.
-2. Install Sliding Door `MAS Door Flight Deck Airlock` and Air Vent `MAS Vent Airlock Roof` at Level L5, forming a sealed airlock chamber before the roof hatch at Level L6. Mount button panel `MAS BP Flight Deck` on the exterior gantry coaming.
-3. Install a descending ladder trunk at [X +2, Z −25] descending from Level L3 down to Level L2 through Sliding Door `MAS Door Stern Airlock`.
-4. Install Air Vent `MAS Vent Airlock Stern` at Level L3 inside the descent vestibule and mount button panel `MAS BP Stern Dump` at Level L2 adjacent to the rear dump bumper.
+2. Install inner Sliding Door `MAS Door Flight Deck Inner` at Level L5. Frame the upper chamber at Level L6 with outer Sliding Door `MAS Door Roof Outer`, forming a true hermetic dual-door airlock chamber.
+3. Mount Air Vent `MAS Vent Airlock Roof`, UV Decon Light `MAS Light Decon Roof`, and Event Controller `MAS EC Airlock Roof` inside the Level L5 chamber. Mount button panel `MAS BP Flight Deck` on the exterior gantry coaming at Level L6.
+4. Install a descending ladder trunk at [X +2, Z −25] descending from Level L3 down to Level L2 through inner Sliding Door `MAS Door Stern Inner`.
+5. Install Air Vent `MAS Vent Airlock Stern`, UV Decon Light `MAS Light Decon Stern`, and Event Controller `MAS EC Airlock Stern` at Level L3 inside the descent vestibule. Mount button panel `MAS BP Stern Dump` at Level L2 adjacent to the rear dump bumper.
 
 #### Terminal Configuration & Sliders
-* Doors: `MAS Door Flight Deck Airlock`, `MAS Door Stern Airlock` (Auto-Close: `ON` · Delay: `2.5 s`)
-* Vents: `MAS Vent Airlock Roof`, `MAS Vent Airlock Stern` (Depressurize: `OFF` · Cycle airlock pressure before outer hatch unlatches)
+* Doors: `MAS Door Flight Deck Inner`, `MAS Door Roof Outer`, `MAS Door Stern Inner` (Auto-Close: `ON` · Delay: `2.0 s`)
+* Vents: `MAS Vent Airlock Roof`, `MAS Vent Airlock Stern` (Active Gas Reclamation: `Depressurize = ON` before outer doors open; `OFF` before inner doors open)
+* Decon Lights: `MAS Light Decon Roof`, `MAS Light Decon Stern` (Color: `#00FFFF` Cyan · Radius: `3.0 m` · 3.0 s pulse on inbound cycle)
+* Event Controllers: `MAS EC Airlock Roof`, `MAS EC Airlock Stern`
+  - Manages dual-door interlock: prevents both doors opening concurrently.
+  - On outbound egress: evacuates chamber O2 into main tanks to 0.0 atm before outer hatch unlocks.
+  - On inbound ingress: flashes cyan UV decon light for 3.0 s and pressurizes chamber to 100% before inner door unseals.
 * Button Panels:
-  - `MAS BP Flight Deck`: Btn 1 = Cycle Flight Deck Hatch · Btn 2 = Toggle Roof Floodlights · Btn 3 = Mule Cradle Clamp
-  - `MAS BP Stern Dump`: Btn 1 = Cycle Stern Hatch · Btn 2 = Toggle Stern Sorter Drain · Btn 3 = Lock/Unlock Stern Conn
+  - `MAS BP Flight Deck`: Btn 1 = Cycle Flight Deck Hatch · Btn 2 = Toggle Roof Floodlights · Btn 3 = Mule Cradle Clamp · Btn 4 = Emergency Suit Recharge
+  - `MAS BP Stern Dump`: Btn 1 = Cycle Stern Hatch · Btn 2 = Toggle Stern Sorter Drain · Btn 3 = Lock/Unlock Stern Conn · Btn 4 = Decon Cycle
 
-✓ Check: Engineer on foot ascends to Level L6 flight deck without venting workshop atmosphere; stern airlock provides safe descent to Level L2 dump bumper in vacuum.
+✓ Check: Engineer ascends to Level L6 flight deck without venting workshop atmosphere; stern airlock provides safe descent to Level L2 dump bumper in vacuum; zero oxygen lost during cycling.
 
 ---
 
@@ -2327,6 +2367,70 @@ Flank elevation cross-section, Y = L4, Z = −16 (Exterior Scavenging Vent Reces
     - Life Support -> Switched to 100% closed-loop tank draw (`MAS Tank O2 1, 2`)
 
 ✓ Check: In planetary atmosphere, vents pull free oxygen to refill 200,000 L O2 storage with zero ice consumption; in vacuum, vents automatically power down and hermetic seals isolate all 4 interior zones.
+
+---
+
+### Step 10.35B · Non-Earthlike Planetary Environmental Hardening, Radiation Citadel & Faraday Lightning Mast (L3-L6)
+
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ [LOCATOR] Subsystem: Planetary Hazard Hardening & Radiation Citadel  ·  Level: L3-L6 │
+│ [VIEWPORT] Grid Zone: [X −2 to +2, Z −18 to +6]  ·  Consist Profile & Plan View      │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+#### Step 10.35B Parts Tray
+| Block Type | Qty | Palette Slot | Mass / PCU | Critical Placement & Facing |
+|---|---|---|---|---|
+| Decoy Block | 1 | Slot 0 (`#2B303A`) | 0.5 t / 170 | `MAS Decoy Mast` at [X0, Z +6, L6], dorsal lightning diverter mast |
+| Interior Light | 1 | Slot 9 (`#F1C40F`) | 0.02 t / 25 | `MAS Light Decon Gangway` at [X0, Z −8, L4] (Cyan `#00FFFF`, UV Decontamination) |
+
+```
+[PLANETARY ENVIRONMENTAL HARDENING & RADIATION CITADEL SCHEMATIC]
+
+              [DORSAL LIGHTNING MAST · MAS DECOY MAST] (Level L6 · X0, Z +6)
+              (Draws 100% Planetary Lightning Strikes Away From Bridge & H2 Tanks)
+                                      │
+            ┌─────────────────────────┴─────────────────────────┐
+            │ Grounding Conductor: Heavy Armor Backbone Spine   │
+            │ Discharges harmlessly into terrain via iron skids │
+            └───────────────────────────────────────────────────┘
+
+     CARRIAGE 2 FOB RADIATION CITADEL & STORM SHELTER (Level L3 · Z −13 to −18)
+     ┌────────────────────────────────────────────────────────────────────────┐
+     │ Port Flank Shielding:    5.0 ML Liquid Hydrogen Tank 1 (4.5 m liquid)  │
+     │ Starboard Flank Shield:  5.0 ML Liquid Hydrogen Tank 2 (4.5 m liquid)  │
+     │ Deck Floor Shielding:    40× Sub-Floor Heavy Armor Ballast Skids       │
+     │ Ceiling Overhead Shield: Mule Pad Heavy Armor Blast Plates             │
+     │                                                                        │
+     │ [CREW CITADEL CORRIDOR] ── Zero-Dose Safe Haven during Solar Storms   │
+     └────────────────────────────────────────────────────────────────────────┘
+
+     CRYOGENIC THERMAL FREEZE PROTECTION JACKET (Level L3 · Z −16)
+     ┌────────────────────────────────────────────────────────────────────────┐
+     │ 330 kW Basic Refinery Waste Heat Exchanger Jacketing                   │
+     │ Hydronic thermal trace circulating to `MAS Hold Ice LifeSupport`       │
+     │ Prevents emergency ice buffer freeze-lock at sub-zero cryogenic temps  │
+     └────────────────────────────────────────────────────────────────────────┘
+```
+
+#### Placement Instructions
+1. Install Decoy Block `MAS Decoy Mast` on the dorsal locomotive crown at [X0, Z +6, Y = L6], forming an elevated Faraday lightning rod. This structural decoy intercepts violent atmospheric lightning strikes on Pertam and Alien, conducting current safely through the heavy armor spine down to the grounded wheel hubs and away from the glass canopy and hydrogen fuel cells.
+2. Formalize the central workshop aisle between Z −13 and Z −18 (Level L3) as the designated Radiation Storm Citadel. Enclosed symmetrically between the two 4.5 m liquid hydrogen tanks (`MAS Tank H2 1, 2`) and buffered below by 40× heavy steel ballast plates, this corridor provides complete cosmic ray, solar proton storm, and coronal mass ejection (CME) attenuation for the crew.
+3. Plumb hydronic thermal trace lines from `MAS Field Refinery` (330 kW heat rejection) to jacket `MAS Hold Ice LifeSupport` at [X0, Z −16, L3]. This waste heat loop prevents emergency ice crystallization and freezing in sub-cryogenic planetary environments (Europa, Triton).
+4. Install UV Decon Light `MAS Light Decon Gangway` in the inter-carriage flexible accordion gangway at [X0, Z −8, L4] adjacent to `MAS Vent Gangway`, providing active decontamination and isolation between the tractor locomotive and utility carriage.
+5. Hardwire perimeter CIWS turrets (`MAS Turret Bow / Stern`) with `Target Meteors = ON` to provide automated planetary meteor storm intercept.
+
+#### Terminal Configuration & Sliders
+* Lightning Mast: `MAS Decoy Mast` (Functional: `ON` · Target Priority: High)
+* Gangway Vent: `MAS Vent Gangway` (Depressurize: `OFF` · Maintains positive pressure in bellows)
+* Gangway Decon Light: `MAS Light Decon Gangway` (Color: `#00FFFF` Cyan · Radius: `3.0 m`)
+* CIWS Turrets: `MAS Turret Bow`, `MAS Turret Stern`
+  - Target Meteors: `ON`
+  - Target Missiles: `ON`
+  - Target Small Ships / Characters: `ON`
+* Environmental Watchdog: `MAS EC Atmosphere Mode` (Toxic Atmosphere Protection):
+  - On detecting toxic/corrosive gas or zero O2: instantly locks exterior vents, prevents toxic gas ingress, and locks cabin doors to 100% closed-loop recirculation.
+
+✓ Check: Lightning strikes safely arc to dorsal mast decoy without damage to bridge glass or fuel tanks; crew sheltered in radiation citadel during solar storm; ice buffer jacketed against cryogenic freeze; gangway decon cycle active; meteor defense armed.
 
 ---
 
@@ -3036,6 +3140,11 @@ State Machine: Dynamic Fleet Authority & C2 Handover
 * `MAS Tailings Ejectors`: 4× Ejectors on stern bumper (`MAS Ejector Tailings Stern 1..4`).
 * `MAS Multitool Turrets`: 4× Large Laser Multitool Turrets (`MAS MT Turret Bow`, `MAS MT Turret Port`, `MAS MT Turret Stbd`, `MAS MT Turret Stern`).
 * `MAS Resupply`: `MAS Hold Resupply Export`, `MAS Sorter Resupply Export`, `MAS MP Conn`.
+* `MAS Armory`: `MAS Armory Bridge`, `MAS Armory Workshop`, `MAS Locker Survival Gear`.
+* `MAS Airlocks`: All dual-door airlock sliding doors (`MAS Door Boarding Outer`, `MAS Door Boarding Inner`, `MAS Door Flight Deck Inner`, `MAS Door Roof Outer`, `MAS Door Stern Inner`, `MAS Door Gangway Fwd`, `MAS Door Gangway Aft`).
+* `MAS Decon`: 4× UV decontamination washdown lights (`MAS Light Decon Port`, `MAS Light Decon Roof`, `MAS Light Decon Stern`, `MAS Light Decon Gangway`).
+* `MAS Vents Cabin`: Multi-zone cabin air circulation vents (`MAS Vent Bridge`, `MAS Vent Crawlway`, `MAS Vent Gangway`, `MAS Vent Workshop`).
+* `MAS Vents Airlock`: Active gas-reclamation decompression vents (`MAS Vent Airlock Port`, `MAS Vent Airlock Roof`, `MAS Vent Airlock Stern`).
 
 ### 3. Block Naming & Terminal Dictionary
 | Block Type | Exact Terminal Name | Subsystem Role & Functional Configuration |
@@ -3111,16 +3220,24 @@ State Machine: Dynamic Fleet Authority & C2 Handover
 | Solar Panel | `MAS Solar 1..4` | Flush roof solar array · 640 kW peak† · Zero-fuel watchkeeping |
 | Battery (Large) | `MAS Battery 1..3` | Tractor Power Core Battery Bank · 9.0 MWh · 36 MW discharge |
 | Battery (Large) | `MAS Battery 4..6` | Utility Sub-Floor Battery Bank · 9.0 MWh · 36 MW discharge |
-| Sliding Door | `MAS Door Airlock` | Port L2/L3 entry airlock door |
+| Sliding Door | `MAS Door Boarding Outer`, `MAS Door Boarding Inner` | Port dual-door boarding airlock threshold and cabin isolation |
+| Sliding Door | `MAS Door Flight Deck Inner`, `MAS Door Roof Outer` | Utility flight deck dual-door ascent airlock (L5-L6) |
+| Sliding Door | `MAS Door Stern Inner` | Utility stern dump descent airlock (L2-L3) |
 | Sliding Door | `MAS Door Vault` | Power Core Vault maintenance entrance from Jefferies tube |
 | Sliding Door | `MAS Door Gangway Fwd` | Tractor Aft Bulkhead gangway isolation door |
 | Sliding Door | `MAS Door Gangway Aft` | Utility Forward Bulkhead gangway isolation door |
+| Armory Locker | `MAS Armory Bridge` | Large Grid armory locker at [X +2, Z +10, L4] · Tier 4 tools & munitions |
+| Armory Locker | `MAS Armory Workshop` | Large Grid armory locker at [X −2, Z −13, L3] · Tier 4 tools & spare bottles |
+| Equipment Locker | `MAS Locker Survival Gear` | Equipment locker at [X +2, Z +9, L4] · Suit O2/H2 bottles & emergency packs |
+| Decoy | `MAS Decoy Mast` | Dorsal lightning rod mast at [X0, Z +6, L6] · Faraday lightning diverter |
+| Interior Light | `MAS Light Decon Port/Roof/Stern/Gangway` | Cyan `#00FFFF` UV decontamination washdown lamps (4 chambers) |
 | Laser Multitool Turret | `MAS MT Turret Bow` | Forward crown repair turret at [X0, Z +9, L5] · 360° bow & tire repair |
 | Laser Multitool Turret | `MAS MT Turret Port` | Forward port shoulder repair turret at [X −3, Z −10, L4] · Kestrel pad & hitch repair |
 | Laser Multitool Turret | `MAS MT Turret Stbd` | Forward stbd shoulder repair turret at [X +3, Z −10, L4] · Kestrel pad & hitch repair |
 | Laser Multitool Turret | `MAS MT Turret Stern` | Elevated gantry arch repair turret at [X0, Z −23, L7] · Mule pad & aft consist repair |
 | Small Cargo Container | `MAS Hold Resupply Export` | Outbound peer resupply staging hopper at [X0, Z −20, L5] directly under `MAS MP Conn` |
 | Conveyor Sorter | `MAS Sorter Resupply Export` | SML resupply kit staging sorter at [X0, Z −20, L4] |
+| Event Controller | `MAS EC Airlock Port/Roof/Stern` | Automated dual-door interlock and active gas-reclamation sequencers |
 | Event Controller | `MAS EC Resupply` | Outbound resupply staging watchdog · Monitors `MAS Hold Resupply Export` |
 | Event Controller | `MAS EC Stabilizers` | Blocks boom arm deployment until outriggers report locked |
 | Event Controller | `MAS EC Level` | Auto-leveling bedrock jack sequence on sloped terrain |
@@ -3144,6 +3261,9 @@ State Machine: Dynamic Fleet Authority & C2 Handover
 ### 4. Event Controller Matrix
 | Controller | Monitored Target | Threshold / Condition | Action Slot 1 (On True) | Action Slot 2 (On False) |
 |---|---|---|---|---|
+| `MAS EC Airlock Port`| Airlock Cycle Trigger | Egress / Ingress Cycle | Egress: Evacuate O2 -> Unlock outer door | Ingress: 3.0 s UV Decon -> Pressurize -> Unlock inner door |
+| `MAS EC Airlock Roof`| Airlock Cycle Trigger | Egress / Ingress Cycle | Egress: Evacuate O2 -> Unlock outer hatch | Ingress: 3.0 s UV Decon -> Pressurize -> Unlock inner door |
+| `MAS EC Airlock Stern`| Airlock Cycle Trigger | Egress / Ingress Cycle | Egress: Evacuate O2 -> Unlock outer hatch | Ingress: 3.0 s UV Decon -> Pressurize -> Unlock inner door |
 | `MAS EC Stabilizers`| `MAS Outrigger Pad 1..4` | All 4 Pads = Locked | Enable `MAS Boom Joints` · Sound Ready Chime | Lock `MAS Boom Joints` · Fold Boom |
 | `MAS EC Level` | `MAS Helm` Roll & Pitch | Roll / Pitch $> 1.0^\circ$ | Differential Piston Extension | Lock Mag Plates (0.0° Level) |
 | `MAS EC Ladder` | `MAS Sensor Ladder` | Player within 2.5 m | Deploy Ladder (Hinge 90° Down) | Retract Ladder (Hinge 0° Flush) |
@@ -3169,6 +3289,8 @@ State Machine: Dynamic Fleet Authority & C2 Handover
 ### 5. IGC Channel Subscriptions (Ground Fleet & RIG//OS Bus)
 * Network Beacon: `RIG.C2.HEARTBEAT` (`<origin_id>;<role:MOTHERSHIP|BASE|WORKER>;<gps_coords>`).
 * Network Handover: `RIG.C2.HANDOVER` (`<source_id>;<target_id>;<asset_registry_payload>`).
+* Environmental Mode: `TMS.ENV.MODE` (Broadcasts planetary atmosphere state: `<EARTH_SCAVENGE|CLOSED_LOOP_VACUUM|CORROSIVE_ISOLATION>`).
+* Airlock Telemetry: `TMS.AIRLOCK.CYCLE` (Telemetry packet: `<chamber_id>;<state:DEPRESSURIZING|EVACUATING|DECON_PULSE|PRESSURIZED>`).
 * Logistics Outbound: `TMS.MULE.CALL` (`CALL;<requesting_pad>;<priority>;<payload_type>`).
 * Logistics Outbound: `TMS.CAT.CALL` (`CALL;<consist_id>;<bulk_ore_t>;<gps_coords>`).
 * Consist Telemetry: `TMS.CONSIST.SYNC` (`SYNC;<source_id>;<hitch_torque>;<clamp_state>;<airlock_state>`).
@@ -3302,6 +3424,20 @@ State Machine: Dynamic Fleet Authority & C2 Handover
 * [ ] **Resupply Kit Assembly & Staging:** Issue command `RESUPPLY KIT_MOBILITY`. Confirm `MAS Sorter Resupply Export` powers ON with Drain All = ON, pulling exactly 200 Steel Plates, 100 Motors, 50 Large Tubes, and 50 Small Tubes into `MAS Hold Resupply Export` ([X0, Z −20, L5]), then shuts OFF.
 * [ ] **High-Speed Mule Resupply Transfer:** Land MULE-01 on `MAS MP Conn`. Confirm `MAS Hold Resupply Export` empties completely into Mule cargo hold in $< 10\text{ seconds}$ flat without drawing from or sorting through the main 3×3×3 cargo hold.
 * [ ] **Inter-Rig Peer Assistance IGC Handshake:** Simulate emergency distress transmission `TMS.RESUPPLY.REQUEST;MAS-02;KIT_POWER;<gps>`. Confirm Mastodon C2 automatically stages `KIT_POWER`, broadcasts `TMS.RESUPPLY.OFFER`, summons MULE-01, and issues `TMS.RESUPPLY.DISPATCH` upon shuttle takeoff.
+
+### O · Extended Survival Ergonomics, Automated Decontamination Airlocks & Non-Earthlike Environmental Acceptance (Decision 69)
+* [ ] **Bridge & Workshop Armory Loadout:** Verify `MAS Armory Bridge` ([X +2, Z +10, L4]) and `MAS Armory Workshop` ([X −2, Z −13, L3]) are fully stocked with Tier 4 Elite tools (welder, grinder, drill), automatic rifles, 5.56mm ammo, and spare suit bottles. Verify `MAS Locker Survival Gear` ([X +2, Z +9, L4]) is stocked with emergency O2/H2 suit bottles and data pads.
+* [ ] **Dedicated Suit Recharge Turnaround:** Connect engineer suit to recharge ports adjacent to `MAS Survival Kit Tractor` (Bridge) and `MAS Medical Bay` (Workshop). Confirm suit oxygen, hydrogen, and battery power recharge from 0% to 100% in $< 15\text{ seconds}$ without entering cryo pods.
+* [ ] **120+ Hour Quarantined Emergency Ice Reserve:** Verify `MAS Hold Ice LifeSupport` retains its 15,000 L emergency ice reserve isolated from general cargo transfers. Calculate melt rate: confirm reserve sustains continuous breathing air and hydrogen engine failover for $> 120\text{ hours}$ in unpowered drift.
+* [ ] **4-Zone Hermetic Cabin Circulation:** Cycle vents in Zone 1 (Bridge), Zone 2 (Crawlway/Vault), Zone 3 (Gangway Bellows), and Zone 4 (Workshop). Confirm each zone maintains independent 100% airtight pressure and isolates immediately upon bulkhead door closure.
+* [ ] **Dual-Atmosphere Ambient Scavenging Automation:** Land Mastodon in 100% Earth-like atmosphere. Confirm Event Controller `MAS EC Atmosphere Mode` enables `MAS Vent Atmo Intake Port/Stbd` with `Depressurize = ON`, refilling 200,000 L O2 reserves with zero ice consumption. Transition to vacuum/toxic planetary environment; confirm exterior vents instantly shut off, cabin auto-seals, and closed-loop recirculation engages.
+* [ ] **Active Gas-Reclamation Port Airlock Cycling:** Cycle Port boarding airlock outbound into vacuum. Verify vent evacuates 100% of chamber O2 back into storage tanks (0.0 atm) before `MAS Door Boarding Outer` unlocks (zero gas venting). Cycle inbound: confirm `MAS Light Decon Port` pulses cyan UV washdown for 3.0 s, chamber pressurizes to 1.0 atm, and `MAS Door Boarding Inner` unlocks into the bridge.
+* [ ] **Dual-Door Flight Deck & Stern Airlock Interlocks:** Test roof flight deck airlock (L5-L6) and stern dump airlock (L2-L3). Confirm `MAS EC Airlock Roof` and `MAS EC Airlock Stern` enforce strict interlocks preventing inner and outer sliding doors from opening simultaneously. Verify UV decon pulse on every inbound cycle.
+* [ ] **Faraday Lightning Diverter Grid:** Subject Mastodon to planetary lightning storm on Pertam. Confirm dorsal mast decoy `MAS Decoy Mast` ([X0, Z +6, L6]) attracts 100% of ground strikes, dissipating electrical discharge through the heavy armor spine to the terrain without damaging glass canopy, solar panels, or hydrogen tanks.
+* [ ] **Radiation Storm Citadel Shelter:** Simulate planetary coronal mass ejection / cosmic ray storm. Station crew in the central workshop corridor ([X0, Z −13 to −18, L3]). Confirm lateral shielding from twin 4.5 m liquid hydrogen tanks and 40× heavy steel ballast plates attenuates radiation dose to 0.0 mSv/h.
+* [ ] **Cryogenic Thermal Trace Freeze Protection:** Park consist in sub-zero cryogenic environment (Europa / Triton). Confirm 330 kW waste heat from `MAS Field Refinery` jackets `MAS Hold Ice LifeSupport`, maintaining ice liquidity and preventing hopper freeze-up.
+* [ ] **Automated Meteor Intercept Defense:** Trigger incoming meteor shower. Confirm CIWS turrets (`MAS Turret Bow / Stern`) track and neutralize inbound meteors before ground impact (`Target Meteors = ON`).
+
 
 
 
