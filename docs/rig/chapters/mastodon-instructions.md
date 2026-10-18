@@ -5,15 +5,16 @@
 Lego-style, step-by-step visual build manual and hardware-to-scripting interface contract for the **MASTODON-01 MKI**.
 Each step features: an exact ASCII schematic, Spatial Locator HUD, in-game paint palette assignments, pre-step parts tray, critical joint/conveyor settings, Pre-Enclosure Inspection Gates ("Points of No Return"), and Phase-End Visual Milestones.
 
-### Design Directives & Operational Scope (Decisions 55, 56 & 57)
+### Design Directives & Operational Scope (Decisions 55, 56, 57 & 58)
 * **Role:** Long-range terrestrial expeditionary mining locomotive, self-contained mobile Forward Operating Base (FOB), and **Genesis Seed Fleet Mothership** running **`RIG//OS-Lite`**. In fresh survival campaigns prior to Ground Base refinery commissioning, the lead Mastodon serves as the regional C2 fleet root, commanding subordinate excavators (`MAS-02`), bulk land trains (`CAT-01`), and freight shuttles (`MUL-01`), with automated handover to Ground Base upon commissioning.
 * **Architecture:** Segmented articulated train consist:
-  1. **Carriage 1 (`MAS-01-T`): Locomotive & Excavator Unit (11 W × 20 L × 5 H B · 6 Wheels):** Heavy tractive engine, 3-operator armored panoramic C2 bridge (Helm, Boom CTC, Tactical Director), primary power plant (30 MW nuclear), dual-PB compute rack (`PB Excavator` + `PB RIG//OS-Lite`), 40 km laser comms mast, 4× hydraulic corner outrigger stabilizers with differential auto-leveling jacks, dorsal 45 m long-reach articulated 5-DOF laser mining boom, and aft 2-axis motorized drawbar hitch.
-  2. **Carriage 2 (`MAS-01-U`): Modular FOB & Utility Carriage (11 W × 18 L × 5 H B · 4 Wheels):** Field workshop (1× Large Assembler, Survival Kit / Medical Bay), component reserve hold, atmospheric bunkering (2× Large H2 tanks, O2/H2 generators), 7 × 7 B MULE-01 Gantry Cradle Pad with motorized clamping arms, 2× KESTREL-01 scout drone landing pads, and stern heavy dump bumper matching CATERPILLAR-01.
+  1. **Carriage 1 (`MAS-01-T`): Locomotive & Excavator Unit (11 W × 20 L × 5 H B · 6 Wheels):** Heavy tractive engine, 3-operator armored panoramic C2 bridge (Helm, Boom CTC, Tactical Director), Tri-Fuel primary power plant (30 MW nuclear + 5 MW emergency H2 engine + 6 MWh battery reserve), dual-PB compute rack (`PB Excavator` + `PB RIG//OS-Lite`), 40 km laser comms mast, 4× hydraulic corner outrigger stabilizers with differential auto-leveling jacks, dorsal 45 m long-reach articulated 5-DOF laser mining boom, and aft 2-axis motorized drawbar hitch.
+  2. **Carriage 2 (`MAS-01-U`): Modular FOB & Utility Carriage (11 W × 18 L × 5 H B · 4 Wheels):** Field workshop (1× Basic Refinery for in-situ metallurgy, 1× Large Assembler, Survival Kit / Medical Bay), 4× roof flush solar panels (`≈ 640 kW` peak†), component reserve hold, atmospheric bunkering (2× Large H2 tanks, O2/H2 generators), 7 × 7 B MULE-01 Gantry Cradle Pad with motorized clamping arms, 2× KESTREL-01 scout drone landing pads, and stern heavy dump bumper matching CATERPILLAR-01.
 * **Grid:** Large Grid (1 B = 2.5 m) · **Consist Envelope:** 11 W × 42 L × 6 H B (27.5 × 105.0 × 15.0 m).
-* **Mass:** Consist Dry Mass `≈ 879.5 t` (Tractor: 503.1 t, Utility: 376.4 t) · Max Laden Mass `≈ 3,380 t` (Earth 1 g).
+* **Mass:** Consist Dry Mass `≈ 903.8 t` (Tractor: 513.6 t, Utility: 390.2 t) · Max Laden Mass `≈ 3,404 t` (Earth 1 g).
 * **Payload Capacity:** 2,500 t bulk ore across tractor buffer and utility holds.
 * **Mechanical & Automation Suite (Decision 57):** 5-point immersive automation: auto-leveling bedrock jacks (sloped terrain compensation up to 20°), retractable crew boarding ladder (Port flank L2), active gravity-horizon tool head leveling with 4.0 m safety proximity stop, underbelly stone tailings aggregate spreader, and smart anti-jackknife drawbar dynamics.
+* **Tri-Fuel Power & Closed-Loop Metallurgy Suite (Decision 58):** Self-sustaining field endurance without resupply: (1) 1× Basic Refinery (`MAS Field Refinery`, 1×1×2 B, 330 kW) refining raw mined Fe, Ni, Co, Si, Mg on-site into ingots for the Large Assembler; (2) Tri-Fuel Power Architecture: Tier 1 Nuclear (2× Small Reactors, 30 MW), Tier 2 Renewable (4× Roof Flush Solar Panels, `≈ 640 kW` peak†), Tier 3 Emergency Hydrogen (1× Hydrogen Engine, 5 MW) drawing from 10,000,000 L H2 tank farm; (3) Automated resource watchdogs `MAS EC Power` (uranium watchdog auto-starting H2 engine) and `MAS EC Ice` (ice intake routing).
 * **Operating Environment:** Earth 1 g baseline, rough terrestrial terrain.
 
 ---
@@ -130,11 +131,14 @@ Bow     │ 2-Seat Panoramic Cockpit  Nuclear Core                              
                                          │
         ┌────────────────────────────────┼────────────────────────────────┐
         ▼ (Upward Riser Trunk)           ▼ (Internal Workshop Loop)       ▼ (Stern Bumper Pipe)
- [MAS MP Sorter] (Drain ON)       [Field Assembler & Tanks]        [MAS Stern Sorter] (Drain ON)
-        │                                │                                │
-        ▼                                ▼                                ▼
- [MAS MP Conn] (Roof Flush L6)    [O2/H2 Fueling Line]             [MAS Stern Dump Conn] (L2 Bumper)
- (650 t rare ore to Mule)                                          (2,500 t bulk ore to Cat Train)
+ [MAS MP Sorter] (Drain ON)       [Field Basic Refinery]           [MAS Stern Sorter] (Drain ON)
+        │                         (330 kW · In-Situ Metallurgy)           │
+        ▼                                │ (Ingots)                       ▼
+ [MAS MP Conn] (Roof Flush L6)    [Field Large Assembler]          [MAS Stern Dump Conn] (L2 Bumper)
+ (650 t rare ore to Mule)         (560 kW · Spare Parts/Repair)    (2,500 t bulk ore to Cat Train)
+                                         │
+                                  [O2/H2 Gen & 2× H2 Tanks]
+                                  (10,000,000 L Fueling Line)
 ```
 
 ---
@@ -142,24 +146,26 @@ Bow     │ 2-Seat Panoramic Cockpit  Nuclear Core                              
 ### 0.6 Master Electrical Single-Line Schematic
 
 ```
-             TRACTOR POWER CORE (2× Small Nuclear Reactors + 2× Large Batteries)
-## Phase 10-5 · Modular FOB & Utility Carriage Chassis & Workshop (Carriage 2)
-
-```
-       [PHASE 10-5 SPATIAL LOCATOR HUD]
-       Envelope: 11 W × 18 L × 5 H B (27.5 × 45.0 × 12.5 m)
-                                30 MW Nuclear · 6 MWh Battery
-                                              │
-                                              ▼
-                                     PRIMARY TRACTIVE BUS
-        ┌─────────────────────────────────────┼─────────────────────────────────────┐
-        │                                     │                                     │
-        ▼                                     ▼                                     ▼
- TRACTOR POWERTRAIN & HYD              ARTICULATED BOOM                   UTILITY CARRIAGE UMBILICAL
- 6× 5×5 Wheel Drive Motors             Turret Pan Rotor (Azimuth)         2× Auxiliary Batteries (6 MWh)
- 4× Corner Outrigger Cylinders         Shoulder & Elbow Pitch Hinges      Deployable Solar Wing Racks
- Steering Actuators (Axles 1 & 2)      Laser Mining Head (4.0 MW)         Field Assembler Core (560 kW)
-                                                                          Mule Float Charger (12 MW)
+               TRI-FUEL POWER GENERATION & ENERGY STORAGE ARCHITECTURE
+   [TIER 1: NUCLEAR BASELOAD]       [TIER 2: RENEWABLE LIFELINE]      [TIER 3: EMERGENCY H2]
+   2× Small Nuclear Reactors        4× Roof Flush Solar Panels        1× Hydrogen Engine
+   (30.0 MW Continuous)             (≈ 640 kW Peak Daylight†)         (5.0 MW Standby / Failover)
+               │                                │                                │
+               └───────────────────────┬────────┴────────────────────────────────┘
+                                       ▼
+                       ENERGY STORAGE BUFFER (12.0 MWh Total)
+               2× Tractor Large Batteries (6 MWh) + 2× Utility Large Batteries (6 MWh)
+                                       │
+                                       ▼
+                              PRIMARY TRACTIVE BUS
+        ┌──────────────────────────────┼──────────────────────────────┐
+        │                              │                              │
+        ▼                              ▼                              ▼
+ TRACTOR POWERTRAIN & HYD       ARTICULATED BOOM               UTILITY CARRIAGE UMBILICAL
+ 6× 5×5 Wheel Drive Motors      Turret Pan Rotor (Azimuth)     Field Basic Refinery (330 kW)
+ 4× Corner Outrigger Cylinders  Shoulder & Elbow Pitch Hinges  Field Assembler Core (560 kW)
+ Steering Actuators (Axles 1-2) Laser Mining Head (4.0 MW)     Mule Float Charger (12 MW)
+ Retractable Crew Ladder Hinge  Tool Head Wrist Roll / Pitch   Kestrel Fast Chargers (2× 1 MW)
 ```
 
 ---
@@ -171,16 +177,16 @@ Bow     │ 2-Seat Panoramic Cockpit  Nuclear Core                              
 | **Tractor Chassis & Hull** | Heavy armor full blocks, half-blocks, slopes (Palette 0) | 440 | 374.0 t | 440 |
 | **Tractor Powertrain** | 6× 5×5 Heavy Suspension Wheels (Axles 1-3) | 6 | 48.0 t | 600 |
 | **Corner Outriggers** | 4× Large Pistons + 4× Large Magnetic Plates (Palette 1) | 8 | 18.4 t | 260 |
-| **Tractor Power Core** | 2× Small Nuclear Reactors, 2× Large Batteries (Palette 6) | 4 | 16.6 t | 90 |
+| **Tractor Power Core** | 2× Small Nuclear Reactors, 1× Hydrogen Engine, 2× Large Batteries (Palette 6) | 5 | 27.1 t | 690 |
 | **Articulated Boom** | 2× Adv Rotors, 3× Motor Hinges, 2× Lasers, Girders (Palette 3) | 18 | 34.5 t | 920 |
 | **Armored Bridge & C2** | 1× Cockpit, 2× Stations, 2× PBs, Laser Antenna, Glass, Detector | 18 | 15.8 t | 410 |
 | **Drawbar Hitch Assembly** | 1× Adv Rotor, 1× Motor Hinge, Heavy Armor Joint Blocks | 6 | 12.0 t | 225 |
 | **Utility Carriage Hull** | Heavy armor frames, wheel wells, deck armor (Palette 0) | 360 | 306.0 t | 360 |
 | **Utility Powertrain** | 4× 5×5 Heavy Suspension Wheels (Axles 4-5) | 4 | 32.0 t | 400 |
-| **Field Workshop & Hab** | 1× Large Assembler, 1× Survival Kit, 2× O2/H2 Tanks | 8 | 38.5 t | 540 |
+| **Field Workshop & Hab** | 1× Basic Refinery, 1× Large Assembler, 1× Survival Kit, 2× O2/H2 Tanks, 2× Large H2 Tanks | 9 | 52.0 t | 630 |
 | **Utility Cargo Hold** | 1× Large Cargo Container (Components), Conveyor network | 16 | 28.0 t | 160 |
-| **Flight Decks & Dumps** | 1× Mule Gantry Cradle Pad (7×7 B), 2× Kestrel Pads, Stern Dump | 58 | 52.4 t | 480 |
-| **TOTAL CONSIST (DRY)** | Complete Expeditionary Mining Locomotive & Mobile FOB | **946** | **≈ 876.2 t** | **4,885** |
+| **Flight Decks & Solar** | 1× Mule Gantry Cradle Pad (7×7 B), 2× Kestrel Pads, Stern Dump, 4× Solar Panels | 62 | 56.0 t | 580 |
+| **TOTAL CONSIST (DRY)** | Complete Expeditionary Mining Locomotive & Mobile FOB | **952** | **≈ 903.8 t** | **5,595** |
 
 ---
 
@@ -318,6 +324,7 @@ PHASE 10-1 VISUAL MILESTONE · TRACTOR CHASSIS & POWERTRAIN COMPLETE
 
 ### Pre-Step Parts Tray: Phase 10-2
 * 2× Small Nuclear Reactor (15 MW each, Palette 6: High-Voltage Red)
+* 1× Hydrogen Engine (5 MW, 1×1×2 B, Palette 6: High-Voltage Red)
 * 2× Large Battery (3 MWh each, Palette 6)
 * 1× Large Cargo Container (3×3×3 B, Palette 5: Logistics Emerald)
 * 1× Large Advanced Rotor (Palette 2: Heavy Rail Crimson)
@@ -345,6 +352,25 @@ Plan view, Y = L3 (Tractor Power Core Vault)
 2. Flank the reactors with Large Batteries (`MAS Battery 1, 2`) at X = −2 and X = +2.
 3. Connect reactor conveyor ports directly to the central conveyor spine along X0 for automated uranium fuel feeding.
 4. Encase the compartment in Heavy Armor blocks painted Palette Slot 6 (High-Voltage Alert Red).
+
+---
+
+### Step 10.3B · Standby Emergency Hydrogen Engine Installation (Z = −4, X0, L3)
+
+Install 1 Large Grid Hydrogen Engine (`MAS Engine H2`, 1×1×2 B, 5.0 MW) directly aft of Reactor 2 on centerline X0. Connect its conveyor port to the central spine to draw fuel from Carriage 2's 10,000,000 L hydrogen reserve hold:
+* **Function:** Standby cold-start generator providing instantaneous 5.0 MW electrical failover upon uranium fuel depletion, reactor maintenance, or peak tractive climbs.
+* **Automation:** Supervised by Event Controller `MAS EC Power` (configured to auto-ignite `MAS Engine H2` when nuclear reactor fuel mass drops below 1.0 kg or battery state of charge drops below 20%).
+
+```
+Plan view, Y = L3 (Tractor Power Core Vault with Emergency H2 Engine)
+        X: −2     0    +2
+    Z: −2  ┌───────────────┐
+           │[BAT 1][R 1][BAT 2]│  ◄── Reactor 1 (15 MW) flanked by Large Batteries
+    Z: −3  │[Armor][R 2][Armor]│  ◄── Reactor 2 (15 MW) enclosed in blast plate
+    Z: −4  │[Armor][H2E][Armor]│  ◄── Hydrogen Engine (5 MW standby failover)
+           └───────────────┘
+           Nuclear + H2 Baseload Total: 35.0 MW · Battery Reserve: 6.0 MWh
+```
 
 ---
 
@@ -410,7 +436,8 @@ To eliminate trailer sway during high-speed transit and prevent destructive jack
 
 #### Pre-Enclosure Inspection Gate 10.2A: Power Core Isolation & Hitch Articulation Test
 * [ ] Verify reactor automated uranium pull through the central conveyor trunk.
-* [ ] Confirm total tractor power capacity reads `54.0 MW` peak (30 MW nuclear + 24 MW battery).
+* [ ] Confirm `MAS Engine H2` cold-starts and delivers 5.0 MW upon manual toggle or simulated uranium depletion.
+* [ ] Confirm total tractor power capacity reads `59.0 MW` peak (30 MW nuclear + 5 MW H2 engine + 24 MW battery).
 * [ ] Test 2-axis drawbar hitch: ensure rotor and hinge pivot freely without clashing with the chassis frame.
 * [ ] Verify `MAS EC Hitch Speed` dynamically raises rotor braking torque to 100 MN·m when speed exceeds 35 km/h.
 
@@ -795,6 +822,7 @@ CREW BOARDING LADDER (Port Flank Profile)
 ### Pre-Step Parts Tray: Phase 10-5
 * 200× Heavy Armor Full Block (Palette 0: Industrial Dark Gray)
 * 4× Wheel Suspension 5×5 (2 Port, 2 Starboard)
+* 1× Basic Refinery (1×1×2 B, 330 kW, Palette 4: Processing Teal)
 * 1× Large Assembler (Palette 4: Processing Teal)
 * 1× Medical Bay + 1× Cryo Chamber (Palette 7)
 * 2× Large Hydrogen Tank (Palette 6)
@@ -845,10 +873,36 @@ Plan view, Y = L3 (Utility Carriage Interior Deck)
     Z: −26 └─────────────────────────────┘
 ```
 
+---
+
+### Step 10.12B · Closed-Loop In-Situ Field Metallurgy (Basic Refinery Integration)
+
+In Space Engineers, an Assembler cannot convert raw ore directly into components; it requires refined ingots. Install 1 Basic Refinery (`MAS Field Refinery`, 1×1×2 B, 330 kW, 13.5 t) adjacent to `MAS Utility Assembler` at [X −2, Y = L3, Z −12]:
+* **Conveyor Routing:** Directly plumbed to the central conveyor spine. Ingests raw ore (Fe, Ni, Co, Si, Mg) delivered from `MAS Tractor Buffer` via the articulated drawbar pipe.
+* **Closed Loop:** Outputs refined ingots directly into `MAS Utility Assembler` and `MAS Hold Components`, enabling complete autonomous field fabrication of replacement parts (steel plates, construction components, motors, bulletproof glass) without returning to base.
+* **Ice Automation:** Event Controller `MAS EC Ice` monitors raw ice levels, automatically prioritizing ice routing to the twin O2/H2 generators to replenish the 10,000,000 L hydrogen reserve.
+
+```
+Plan view, Y = L3 (Utility Carriage Interior Deck with Closed-Loop Metallurgy)
+        X: −3          0          +3
+    Z: −10 ═══════[DRAWBAR TONGUE]═══════  ◄── Articulated Hitch from Tractor
+           │                             │
+    Z: −12 │ [REFINERY]  │               │  ◄── Basic Refinery (330 kW In-Situ Metallurgy)
+           ├─────────────┤ [MEDICAL BAY] │
+    Z: −14 │ [ASSEMBLER] │               │  ◄── Large Assembler & Crew Medical Core
+           ├─────────────┼───────────────┤
+    Z: −18 │ [H2 TANK 1] │ [H2 TANK 2]   │  ◄── Fuel Bunkering Farm (10,000,000 L H2)
+           ├─────────────┴───────────────┤
+    Z: −22 │ [MAS HOLD COMPONENTS (3×3×3)│  ◄── Spare Parts Storage (Palette 5)
+    Z: −26 └─────────────────────────────┘
+```
+
 #### Pre-Enclosure Inspection Gate 10.5A: Field Workshop Fabrication & Component Flow Check
+* [ ] Verify `MAS Field Refinery` ingests raw mined ore and deposits refined ingots into `MAS Utility Assembler`.
 * [ ] Verify `MAS Utility Assembler` pulls ingots and queues components without manual transfer.
 * [ ] Confirm crew medical bay allows successful respawn and O2/H2 replenishment.
 * [ ] Confirm O2/H2 tanks maintain airtight seals and supply hydrogen lines.
+* [ ] Verify `MAS EC Ice` automatically feeds ice to O2/H2 generators when H2 tanks drop below 90%.
 
 ---
 
@@ -867,6 +921,7 @@ Plan view, Y = L3 (Utility Carriage Interior Deck)
 
 ### Pre-Step Parts Tray: Phase 10-6
 * 49× Heavy Armor Full Block (Palette 1: Hazard Amber · Mule Pad Deck)
+* 4× Solar Panel (Palette 0: Industrial Dark Gray · Flush Roof Array)
 * 2× Motor Hinge + 2× Large Magnetic Plate (Palette 1 · Cradle Clamp Arms)
 * 1× Large Connector (`MAS MP Conn`, Palette 4)
 * 2× Small-Grid Connector (`MAS Kestrel Dock 1, 2`, Palette 8: Scout White)
@@ -911,6 +966,24 @@ Plan view, Y = L6 (7×7 B Mule Gantry Blast Deck)
 
 ---
 
+### Step 10.13B · Flush Solar Array for Autonomous Watchkeeping (Carriage 2 Roof L6)
+
+Mount 4 Large Grid Solar Panels (`MAS Solar 1..4`, 1×4 B) flush with the Heavy Armor roof deck at Level L6, flanking the Mule Gantry Cradle Pad:
+* **Positioning:** 2 Port panels at X = −4 (Z −24 to −20) and 2 Starboard panels at X = +4 (Z −24 to −20), keeping a 1-block clear buffer from the 7×7 B Mule landing footprint to avoid thruster plume erosion.
+* **Output & Role:** Delivers `≈ 640 kW` peak daylight power† (160 kW per panel† under optimal solar alignment). Provides continuous zero-fuel watchkeeping power, maintaining life support, event controllers, communications, and float-charging the 12.0 MWh battery reserve without consuming nuclear fuel or hydrogen.
+
+```
+Plan view, Y = L6 (Mule Blast Deck Flanked by Flush Solar Array)
+        X: −4     X: −3           0          +3     X: +4
+    Z: −19 ┌────┐ ■════════════╤═══════════■ ┌────┐
+           │SOL1│ ║  Hazard    │  Hazard   ║ │SOL3│  ◄── Flush Solar Array (≈ 640 kW Peak†)
+    Z: −22 │    │ [CLAMP P] [MAS MP CONN] [CLAMP S]  │    │  ◄── Mule Clamping Rails
+           │SOL2│ ║  Chevrons  │  Chevrons ║ │SOL4│
+    Z: −25 └────┘ ■════════════╧═══════════■ └────┘
+```
+
+---
+
 ### Step 10.14 · Twin Kestrel Prospector Scout Drone Landing Pads (Z −13 to −11, L5)
 
 Recess two small landing pads forward of the Mule pad on the utility roof:
@@ -941,6 +1014,7 @@ Rear Elevation Cross-Section, Y = L2 (Stern Caterpillar Dump Interface)
 * [ ] Verify `MAS MP Sorter` whitelist passes only rare ores (U, Pt, Au, Mg) to the Mule shuttle.
 * [ ] Verify `MAS Stern Sorter` whitelist passes bulk ores (Fe, Ni, Si, Stone) to the land train.
 * [ ] Test cradle clamp hinges: confirm 30° inward swing firmly holds docking craft without grid damage.
+* [ ] Confirm `MAS Solar 1..4` deliver daylight power and maintain battery float charge while nuclear reactors are toggled OFF.
 
 ```
 PHASE 10-6 VISUAL MILESTONE · COMPLETE EXPEDITIONARY MINING TRAIN FOB
@@ -1039,6 +1113,9 @@ State Machine: Dynamic Fleet Authority & C2 Handover
 | Conveyor Sorter | `MAS Stern Sorter` | High-volume bulk ore drain sorter (Fe, Ni, Si, Stone) |
 | Conveyor Sorter | `MAS Sorter Tailings` | Underbelly stone & gravel purge filter (selective venting) |
 | Conveyor Ejector | `MAS Ejector Tailings 1, 2` | Angled underbelly nozzles laying aggregate roadbed |
+| Basic Refinery | `MAS Field Refinery` | Closed-loop field metallurgy · 330 kW · Ingests raw ore, outputs ingots |
+| Hydrogen Engine | `MAS Engine H2` | Standby cold-start emergency generator · 5.0 MW failover |
+| Solar Panel | `MAS Solar 1..4` | Flush roof solar array · 640 kW peak† · Zero-fuel watchkeeping |
 | Event Controller | `MAS EC Stabilizers` | Blocks boom arm deployment until outriggers report locked |
 | Event Controller | `MAS EC Level` | Auto-leveling bedrock jack sequence on sloped terrain |
 | Event Controller | `MAS EC Ladder` | Auto-deploys crew ladder on approach; retracts on drive |
@@ -1047,6 +1124,8 @@ State Machine: Dynamic Fleet Authority & C2 Handover
 | Event Controller | `MAS EC Hitch Rev` | Clamps hitch yaw to ±15° and inverts Axle 5 when reversing |
 | Event Controller | `MAS EC Holds` | Monitors payload mass; alerts at 2,500 t limit |
 | Event Controller | `MAS EC Handover` | Monitors Ground Base heartbeat; triggers C2 handover |
+| Event Controller | `MAS EC Power` | Fuel watchdog: auto-starts `MAS Engine H2` on low uranium (< 1.0 kg) |
+| Event Controller | `MAS EC Ice` | Ice intake watchdog: routes raw ice to O2/H2 generators when H2 < 90% |
 
 ### 4. Event Controller Matrix
 | Controller | Monitored Target | Threshold / Condition | Action Slot 1 (On True) | Action Slot 2 (On False) |
@@ -1061,6 +1140,8 @@ State Machine: Dynamic Fleet Authority & C2 Handover
 | `MAS EC MP` | `MAS MP Conn` | Status = Connected | `MAS MP Sorter` Drain ON · Cradle Clamp | Sorter OFF · Cradle Retract (0°) |
 | `MAS EC Train` | `MAS Stern Dump Conn` | Status = Connected | `MAS Stern Sorter` Drain ON | Sorter OFF |
 | `MAS EC Handover` | `GND-01` Heartbeat | Signal Detected | Run PB `RIG//OS-Lite` (Argument: `HANDOVER`) | Maintain Mothership Authority |
+| `MAS EC Power` | `MAS Reactor 1, 2` Uranium | Uranium Mass $< 1.0\text{ kg}$ | `MAS Engine H2` Turn ON · Sound Fuel Horn | `MAS Engine H2` Turn OFF |
+| `MAS EC Ice` | `MAS Tank H2 1, 2` Fill | Hydrogen Fill $< 90\%$ | Enable Ice Conveyor Sorter & O2/H2 Gens | Normal Conveyor Routing |
 
 ### 5. IGC Channel Subscriptions (Ground Fleet & RIG//OS Bus)
 * Network Beacon: `RIG.C2.HEARTBEAT` (`<origin_id>;<role:MOTHERSHIP|BASE|WORKER>;<gps_coords>`).
@@ -1104,5 +1185,11 @@ State Machine: Dynamic Fleet Authority & C2 Handover
 * [ ] **Active Gravity-Horizon Tool Head:** Elevate shoulder hinge to +45°; confirm wrist pitch automatically counter-rotates -15° to maintain level cutting beam.
 * [ ] **Tailings Aggregate Spreader:** Mine stone until buffer > 50%; verify `MAS Sorter Tailings` and ejectors vent gravel behind wheels.
 * [ ] **Smart Anti-Jackknife Drawbar:** Accelerate above 35 km/h; verify rotor braking torque jumps to 100 MN·m. Shift to reverse; verify yaw clamp limits to ±15°.
+
+### F · Tri-Fuel Power Redundancy & Closed-Loop Field Metallurgy Acceptance
+* [ ] **Closed-Loop Metallurgy Cycle:** Laser-mine 50 t Iron Ore with articulated boom. Verify ore flows into `MAS Field Refinery`, refines into Iron Ingots, and transfers into `MAS Utility Assembler` to fabricate 250 Steel Plates with zero manual inventory handling.
+* [ ] **Tier 1 to Tier 3 Power Failover:** Cut uranium supply to `MAS Reactor 1, 2`. Confirm `MAS EC Power` triggers, cold-starts `MAS Engine H2` within 2.0 s, and maintains full tractive and boom operational capability (5.0 MW).
+* [ ] **Tier 2 Zero-Fuel Watchkeeping:** Turn off nuclear reactors and H2 engine during daylight. Confirm `MAS Solar 1..4` deliver daylight power, maintaining life support, telemetry, and battery float-charging.
+* [ ] **Automated Ice Replenishment:** Mine 20 t Ice. Confirm `MAS EC Ice` routes ice to O2/H2 generators and begins refilling the 10,000,000 L hydrogen reserve.
 
 

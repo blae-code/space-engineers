@@ -70,6 +70,7 @@ Last updated: 2026-10-17
 | 55 | Mastodon MKI expeditionary mining locomotive & mobile FOB (segmented 2-car train, 45 m articulated laser boom, outriggers) | 2026-10-18 | CHANGELOG |
 | 56 | Mastodon MKI Genesis Seed & RIG//OS-Lite Mothership architecture (Dual PB, 3-operator bridge, automated macros, C2 handover) | 2026-10-18 | CHANGELOG |
 | 57 | Mastodon MKI 5-Point Immersive Automation Suite (Auto-level jacks, boarding ladder, horizon tool leveling, tailings spreader, anti-jackknife) | 2026-10-18 | CHANGELOG |
+| 58 | Mastodon MKI Tri-Fuel Power Redundancy & Closed-Loop Field Metallurgy Suite (Basic Refinery + Tri-Fuel: Nuclear/Solar/H2E + Watchdogs) | 2026-10-18 | CHANGELOG |
 
 ### Open (§10 + mining concept + merge)
 
@@ -125,7 +126,7 @@ TERRESTRIAL MINING (phase 1 scope)
  ├─ Mule (flying cargo ferry, 7×7 B square hull)
  │   ├─ 1 Large Cargo (3×3×3 B), 4 Large Flat Atmo (~650 t ore capacity)
  │   └─ Docks Orca roof MP ↔ Ground Base refinery terminal
- ├─ Mastodon (segmented expeditionary mining train FOB: Tractor/Excavator + Utility Carriage, 45 m boom)
+ ├─ Mastodon (segmented expeditionary mining train FOB: Tractor/Excavator + Utility Carriage, 45 m boom, Tri-Fuel, Basic Refinery)
  ├─ Caterpillar (heavy bulk land train, 5×5 wheeled locomotive + modular hopper cars)
  └─ Ground base (Integrated Gantry, 4 Ref / 4 Asm, C2 Hub, Rig Extruder Shipyard)
 

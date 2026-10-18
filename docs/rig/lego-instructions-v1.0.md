@@ -3,7 +3,7 @@
 ### Version 1.0 · Canon Engineering Specification · Earth 1 g Baseline
 
 Last updated: 2026-10-18
-Authority: Blae Decisions 1-57 (Canon) · `CLAUDE(RIG).md` · `Part 1 & 2 Handoff`
+Authority: Blae Decisions 1-58 (Canon) · `CLAUDE(RIG).md` · `Part 1 & 2 Handoff`
 
 ---
 
@@ -4930,7 +4930,7 @@ This volume details the heavy wheeled surface extraction machines that form the 
 
 ## Chapter 10 · MASTODON-01 Expeditionary Mining Train & Mobile FOB (MAS-01)
 
-Source: `docs/rig/chapters/mastodon-instructions.md` · 11 × 42 × 6 B · 2-Segment Train Consist, 45 m Laser Boom, Outriggers
+Source: `docs/rig/chapters/mastodon-instructions.md` · 11 × 42 × 6 B · 2-Segment Train Consist, 45 m Laser Boom, Tri-Fuel, Basic Refinery
 
 ### 0 · Reference Grid, In-Game Paint Palette & Master Consist Layout
 
@@ -5044,11 +5044,14 @@ Bow     │ 2-Seat Panoramic Cockpit  Nuclear Core                              
                                          │
         ┌────────────────────────────────┼────────────────────────────────┐
         ▼ (Upward Riser Trunk)           ▼ (Internal Workshop Loop)       ▼ (Stern Bumper Pipe)
- [MAS MP Sorter] (Drain ON)       [Field Assembler & Tanks]        [MAS Stern Sorter] (Drain ON)
-        │                                │                                │
-        ▼                                ▼                                ▼
- [MAS MP Conn] (Roof Flush L6)    [O2/H2 Fueling Line]             [MAS Stern Dump Conn] (L2 Bumper)
- (650 t rare ore to Mule)                                          (2,500 t bulk ore to Cat Train)
+ [MAS MP Sorter] (Drain ON)       [Field Basic Refinery]           [MAS Stern Sorter] (Drain ON)
+        │                         (330 kW · In-Situ Metallurgy)           │
+        ▼                                │ (Ingots)                       ▼
+ [MAS MP Conn] (Roof Flush L6)    [Field Large Assembler]          [MAS Stern Dump Conn] (L2 Bumper)
+ (650 t rare ore to Mule)         (560 kW · Spare Parts/Repair)    (2,500 t bulk ore to Cat Train)
+                                         │
+                                  [O2/H2 Gen & 2× H2 Tanks]
+                                  (10,000,000 L Fueling Line)
 ```
 
 ---
@@ -5056,49 +5059,51 @@ Bow     │ 2-Seat Panoramic Cockpit  Nuclear Core                              
 #### 0.6 Master Electrical Single-Line Schematic
 
 ```
-             TRACTOR POWER CORE (2× Small Nuclear Reactors + 2× Large Batteries)
-## Phase 10-5 · Modular FOB & Utility Carriage Chassis & Workshop (Carriage 2)
-
-```
-       [PHASE 10-5 SPATIAL LOCATOR HUD]
-       Envelope: 11 W × 18 L × 5 H B (27.5 × 45.0 × 12.5 m)
-                                30 MW Nuclear · 6 MWh Battery
-                                              │
-                                              ▼
-                                     PRIMARY TRACTIVE BUS
-        ┌─────────────────────────────────────┼─────────────────────────────────────┐
-        │                                     │                                     │
-        ▼                                     ▼                                     ▼
- TRACTOR POWERTRAIN & HYD              ARTICULATED BOOM                   UTILITY CARRIAGE UMBILICAL
- 6× 5×5 Wheel Drive Motors             Turret Pan Rotor (Azimuth)         2× Auxiliary Batteries (6 MWh)
- 4× Corner Outrigger Cylinders         Shoulder & Elbow Pitch Hinges      Deployable Solar Wing Racks
- Steering Actuators (Axles 1 & 2)      Laser Mining Head (4.0 MW)         Field Assembler Core (560 kW)
-                                                                          Mule Float Charger (12 MW)
+               TRI-FUEL POWER GENERATION & ENERGY STORAGE ARCHITECTURE
+   [TIER 1: NUCLEAR BASELOAD]       [TIER 2: RENEWABLE LIFELINE]      [TIER 3: EMERGENCY H2]
+   2× Small Nuclear Reactors        4× Roof Flush Solar Panels        1× Hydrogen Engine
+   (30.0 MW Continuous)             (≈ 640 kW Peak Daylight†)         (5.0 MW Standby / Failover)
+               │                                │                                │
+               └───────────────────────┬────────┴────────────────────────────────┘
+                                       ▼
+                       ENERGY STORAGE BUFFER (12.0 MWh Total)
+               2× Tractor Large Batteries (6 MWh) + 2× Utility Large Batteries (6 MWh)
+                                       │
+                                       ▼
+                              PRIMARY TRACTIVE BUS
+        ┌──────────────────────────────┼──────────────────────────────┐
+        │                              │                              │
+        ▼                              ▼                              ▼
+ TRACTOR POWERTRAIN & HYD       ARTICULATED BOOM               UTILITY CARRIAGE UMBILICAL
+ 6× 5×5 Wheel Drive Motors      Turret Pan Rotor (Azimuth)     Field Basic Refinery (330 kW)
+ 4× Corner Outrigger Cylinders  Shoulder & Elbow Pitch Hinges  Field Assembler Core (560 kW)
+ Steering Actuators (Axles 1-2) Laser Mining Head (4.0 MW)     Mule Float Charger (12 MW)
+ Retractable Crew Ladder Hinge  Tool Head Wrist Roll / Pitch   Kestrel Fast Chargers (2× 1 MW)
 ```
 
 ---
 
-### 0.7 Master Consist Bill of Materials (BOM) & Mass Budget
+#### 0.7 Master Consist Bill of Materials (BOM) & Mass Budget
 
 | System Subassembly | Block Types & Specifications | Total Qty | Est. Mass | PCU |
 |---|---|---|---|---|
 | **Tractor Chassis & Hull** | Heavy armor full blocks, half-blocks, slopes (Palette 0) | 440 | 374.0 t | 440 |
 | **Tractor Powertrain** | 6× 5×5 Heavy Suspension Wheels (Axles 1-3) | 6 | 48.0 t | 600 |
 | **Corner Outriggers** | 4× Large Pistons + 4× Large Magnetic Plates (Palette 1) | 8 | 18.4 t | 260 |
-| **Tractor Power Core** | 2× Small Nuclear Reactors, 2× Large Batteries (Palette 6) | 4 | 16.6 t | 90 |
+| **Tractor Power Core** | 2× Small Nuclear Reactors, 1× Hydrogen Engine, 2× Large Batteries (Palette 6) | 5 | 27.1 t | 690 |
 | **Articulated Boom** | 2× Adv Rotors, 3× Motor Hinges, 2× Lasers, Girders (Palette 3) | 18 | 34.5 t | 920 |
 | **Armored Bridge & C2** | 1× Cockpit, 2× Stations, 2× PBs, Laser Antenna, Glass, Detector | 18 | 15.8 t | 410 |
 | **Drawbar Hitch Assembly** | 1× Adv Rotor, 1× Motor Hinge, Heavy Armor Joint Blocks | 6 | 12.0 t | 225 |
 | **Utility Carriage Hull** | Heavy armor frames, wheel wells, deck armor (Palette 0) | 360 | 306.0 t | 360 |
 | **Utility Powertrain** | 4× 5×5 Heavy Suspension Wheels (Axles 4-5) | 4 | 32.0 t | 400 |
-| **Field Workshop & Hab** | 1× Large Assembler, 1× Survival Kit, 2× O2/H2 Tanks | 8 | 38.5 t | 540 |
+| **Field Workshop & Hab** | 1× Basic Refinery, 1× Large Assembler, 1× Survival Kit, 2× O2/H2 Tanks, 2× Large H2 Tanks | 9 | 52.0 t | 630 |
 | **Utility Cargo Hold** | 1× Large Cargo Container (Components), Conveyor network | 16 | 28.0 t | 160 |
-| **Flight Decks & Dumps** | 1× Mule Gantry Cradle Pad (7×7 B), 2× Kestrel Pads, Stern Dump | 58 | 52.4 t | 480 |
-| **TOTAL CONSIST (DRY)** | Complete Expeditionary Mining Locomotive & Mobile FOB | **946** | **≈ 876.2 t** | **4,885** |
+| **Flight Decks & Solar** | 1× Mule Gantry Cradle Pad (7×7 B), 2× Kestrel Pads, Stern Dump, 4× Solar Panels | 62 | 56.0 t | 580 |
+| **TOTAL CONSIST (DRY)** | Complete Expeditionary Mining Locomotive & Mobile FOB | **952** | **≈ 903.8 t** | **5,595** |
 
 ---
 
-## Phase 10-1 · Tractor Chassis & 6-Wheel Powertrain (Levels L1-L2)
+### Phase 10-1 · Tractor Chassis & 6-Wheel Powertrain (Levels L1-L2)
 
 ```
        [PHASE 10-1 SPATIAL LOCATOR HUD]
@@ -5113,7 +5118,7 @@ Bow     │ 2-Seat Panoramic Cockpit  Nuclear Core                              
        · Outrigger Piston Sockets: [X ±5, Z +11] and [X ±5, Z −6]
 ```
 
-### Pre-Step Parts Tray: Phase 10-1
+#### Pre-Step Parts Tray: Phase 10-1
 * 240× Heavy Armor Full Block (Palette 0: Industrial Dark Gray)
 * 80× Heavy Armor Slope / Corner Blocks (Palette 0)
 * 6× Wheel Suspension 5×5 (3 Port, 3 Starboard)
@@ -5124,7 +5129,7 @@ Bow     │ 2-Seat Panoramic Cockpit  Nuclear Core                              
 
 ---
 
-### Step 10.1 · Twin Longitudinal Chassis Box Girders & Belly Skids (L1-L2)
+#### Step 10.1 · Twin Longitudinal Chassis Box Girders & Belly Skids (L1-L2)
 
 Weld two continuous, reinforced heavy-armor box girders spanning 20 blocks from Aft Bulkhead (Z −8) to Bow Bulkhead (Z +12) at X = ±3. Connect them with transverse beam ties at each axle datum to form the central conveyor raceway channel:
 
@@ -5149,7 +5154,7 @@ Plan view, Y = L2 (Tractor Chassis Box Girder Deck)
 
 ---
 
-### Step 10.2 · 5×5 Off-Road Suspension Wheel Mounts & Master 3-Axle Tuning (L1)
+#### Step 10.2 · 5×5 Off-Road Suspension Wheel Mounts & Master 3-Axle Tuning (L1)
 
 Mount 3 pairs of 5×5 large suspension wheel units outward along the chassis girders at X = ±4. Configure steering geometry: front two axles steer in proportion to wheel turn; rear axle 3 remains locked at 0° to prevent sideways tire scrub:
 
@@ -5180,7 +5185,7 @@ Front Elevation Cross-Section, Y = L1 (Axle 1 Wheel Hub & Ground Clearance)
 
 ---
 
-### Step 10.2B · Tailings Aggregate & Roadbed Spreader Underbelly Manifold (L1)
+#### Step 10.2B · Tailings Aggregate & Roadbed Spreader Underbelly Manifold (L1)
 
 To prevent cargo holds from clogging with thousands of tons of low-value crushed stone, install a selective tailings venting manifold beneath the chassis along centerline X0 at Z = 0:
 * **Conveyor Tap:** 1× Conveyor Sorter (`MAS Sorter Tailings`) tapped into the central conveyor trunk at [X0, Z0, Y = L1] facing downward.
@@ -5202,7 +5207,7 @@ Underbelly Profile · Tailings Aggregate Spreader (Z0, L1)
      ══════════════════════════════════════════════════ Crushed Stone Roadbed
 ```
 
-#### Pre-Enclosure Inspection Gate 10.1A: Tractor Powertrain & Belly Clearance Check
+##### Pre-Enclosure Inspection Gate 10.1A: Tractor Powertrain & Belly Clearance Check
 * [ ] Verify uninterrupted large conveyor pipe flow from Bow Throat (Z +12) to Aft Hitch (Z −8).
 * [ ] Verify `MAS Sorter Tailings` drains stone and gravel without leaking metal ores.
 * [ ] Verify exactly 1.25 m (0.5 B) ground clearance under belly skids at 50% suspension travel.
@@ -5218,7 +5223,7 @@ PHASE 10-1 VISUAL MILESTONE · TRACTOR CHASSIS & POWERTRAIN COMPLETE
 
 ---
 
-## Phase 10-2 · Tractor Power Core, Ore Buffer & 2-Axis Drawbar Hitch (Levels L2-L4)
+### Phase 10-2 · Tractor Power Core, Ore Buffer & 2-Axis Drawbar Hitch (Levels L2-L4)
 
 ```
        [PHASE 10-2 SPATIAL LOCATOR HUD]
@@ -5230,8 +5235,9 @@ PHASE 10-1 VISUAL MILESTONE · TRACTOR CHASSIS & POWERTRAIN COMPLETE
        · 2-Axis Drawbar Hitch Center: [X0, Z −8, Y = L2]
 ```
 
-### Pre-Step Parts Tray: Phase 10-2
+#### Pre-Step Parts Tray: Phase 10-2
 * 2× Small Nuclear Reactor (15 MW each, Palette 6: High-Voltage Red)
+* 1× Hydrogen Engine (5 MW, 1×1×2 B, Palette 6: High-Voltage Red)
 * 2× Large Battery (3 MWh each, Palette 6)
 * 1× Large Cargo Container (3×3×3 B, Palette 5: Logistics Emerald)
 * 1× Large Advanced Rotor (Palette 2: Heavy Rail Crimson)
@@ -5241,7 +5247,7 @@ PHASE 10-1 VISUAL MILESTONE · TRACTOR CHASSIS & POWERTRAIN COMPLETE
 
 ---
 
-### Step 10.3 · Primary Power Core Vault & Electrical Shielding (Z −4 to −2, L2-L4)
+#### Step 10.3 · Primary Power Core Vault & Electrical Shielding (Z −4 to −2, L2-L4)
 
 Install 2 Small Nuclear Reactors and 2 Large Batteries behind the ore buffer hold. Enclose the plant in double-walled heavy armor bulkheads (Palette 6):
 
@@ -5262,7 +5268,26 @@ Plan view, Y = L3 (Tractor Power Core Vault)
 
 ---
 
-### Step 10.4 · Tractor Ore Buffer Hold (Z +1 to +3, L2-L4)
+#### Step 10.3B · Standby Emergency Hydrogen Engine Installation (Z = −4, X0, L3)
+
+Install 1 Large Grid Hydrogen Engine (`MAS Engine H2`, 1×1×2 B, 5.0 MW) directly aft of Reactor 2 on centerline X0. Connect its conveyor port to the central spine to draw fuel from Carriage 2's 10,000,000 L hydrogen reserve hold:
+* **Function:** Standby cold-start generator providing instantaneous 5.0 MW electrical failover upon uranium fuel depletion, reactor maintenance, or peak tractive climbs.
+* **Automation:** Supervised by Event Controller `MAS EC Power` (configured to auto-ignite `MAS Engine H2` when nuclear reactor fuel mass drops below 1.0 kg or battery state of charge drops below 20%).
+
+```
+Plan view, Y = L3 (Tractor Power Core Vault with Emergency H2 Engine)
+        X: −2     0    +2
+    Z: −2  ┌───────────────┐
+           │[BAT 1][R 1][BAT 2]│  ◄── Reactor 1 (15 MW) flanked by Large Batteries
+    Z: −3  │[Armor][R 2][Armor]│  ◄── Reactor 2 (15 MW) enclosed in blast plate
+    Z: −4  │[Armor][H2E][Armor]│  ◄── Hydrogen Engine (5 MW standby failover)
+           └───────────────┘
+           Nuclear + H2 Baseload Total: 35.0 MW · Battery Reserve: 6.0 MWh
+```
+
+---
+
+#### Step 10.4 · Tractor Ore Buffer Hold (Z +1 to +3, L2-L4)
 
 Mount 1 standard 3×3×3 B Large Cargo Container (`MAS Tractor Buffer`) on centerline X0. It receives raw ore directly from the boom intake pipe and buffers material during active excavation before routing to the trailing utility carriage:
 
@@ -5283,7 +5308,7 @@ Plan view, Y = L3 (Tractor Buffer Hold)
 
 ---
 
-### Step 10.5 · Heavy Motorized 2-Axis Drawbar Hitch (Z = −8, X0, L2)
+#### Step 10.5 · Heavy Motorized 2-Axis Drawbar Hitch (Z = −8, X0, L2)
 
 At the aft bulkhead of the tractor, install a heavy-duty 2-axis articulated drawbar hitch that connects the tractor to the utility carriage mechanically and routes the main large conveyor line:
 1. **Azimuth (Yaw) Joint:** 1× Large Advanced Rotor mounted at Z = −8 facing Aft (−Z). Allows the consist to articulate horizontally when turning.
@@ -5316,21 +5341,22 @@ Hitch Articulation Kinematic Envelope:
 
 ---
 
-### Step 10.5B · Smart Anti-Jackknife Dynamics & High-Speed Sway Lockout
+#### Step 10.5B · Smart Anti-Jackknife Dynamics & High-Speed Sway Lockout
 
 To eliminate trailer sway during high-speed transit and prevent destructive jackknifing when reversing down steep slopes:
 * **High-Speed Cruising Mode (> 35 km/h):** Event Controller `MAS EC Hitch Speed` monitors vehicle speedometer. When velocity exceeds 35 km/h, `MAS Hitch Rotor` braking torque increases dynamically to `100 MN·m`, locking the drawbar straight and eliminating harmonic trailer snaking.
 * **Reversing Jackknife Prevention:** When transmission shifts into reverse, Event Controller `MAS EC Hitch Rev` clamps rotor yaw limits from `±45.0°` down to `±15.0°` and commands Axle 5 to track in positive alignment, physically preventing the utility carriage from folding sideways.
 
-#### Pre-Enclosure Inspection Gate 10.2A: Power Core Isolation & Hitch Articulation Test
+##### Pre-Enclosure Inspection Gate 10.2A: Power Core Isolation & Hitch Articulation Test
 * [ ] Verify reactor automated uranium pull through the central conveyor trunk.
-* [ ] Confirm total tractor power capacity reads `54.0 MW` peak (30 MW nuclear + 24 MW battery).
+* [ ] Confirm `MAS Engine H2` cold-starts and delivers 5.0 MW upon manual toggle or simulated uranium depletion.
+* [ ] Confirm total tractor power capacity reads `59.0 MW` peak (30 MW nuclear + 5 MW H2 engine + 24 MW battery).
 * [ ] Test 2-axis drawbar hitch: ensure rotor and hinge pivot freely without clashing with the chassis frame.
 * [ ] Verify `MAS EC Hitch Speed` dynamically raises rotor braking torque to 100 MN·m when speed exceeds 35 km/h.
 
 ---
 
-## Phase 10-3 · Hydraulic Bedrock Outriggers & 45 m Long-Reach Excavation Boom (Levels L2-L8)
+### Phase 10-3 · Hydraulic Bedrock Outriggers & 45 m Long-Reach Excavation Boom (Levels L2-L8)
 
 ```
        [PHASE 10-3 SPATIAL LOCATOR HUD]
@@ -5344,7 +5370,7 @@ To eliminate trailer sway during high-speed transit and prevent destructive jack
        · Starboard Aft Outrigger: [X +5, Z −6, Y = L1]
 ```
 
-### Pre-Step Parts Tray: Phase 10-3
+#### Pre-Step Parts Tray: Phase 10-3
 * 4× Large Piston (Palette 1: Hazard Amber)
 * 4× Large Magnetic Plate (Palette 9: High-Viz Safety Yellow)
 * 2× Large Advanced Rotor (Palette 3: Excavator Ochre)
@@ -5356,7 +5382,7 @@ To eliminate trailer sway during high-speed transit and prevent destructive jack
 
 ---
 
-### Step 10.6 · 4× Corner Bedrock Hydraulic Outriggers (L1-L2)
+#### Step 10.6 · 4× Corner Bedrock Hydraulic Outriggers (L1-L2)
 
 Install 4 hydraulic stabilizer legs at the outer corners of the tractor chassis. Each outrigger consists of a downward-facing Large Piston capped with a Large Magnetic Plate:
 * Piston Settings: Velocity = `0.2 m/s` · Share Inertia Tensor = `ON`.
@@ -5383,7 +5409,7 @@ Outrigger Deployment Sequence:
 
 ---
 
-### Step 10.6B · Auto-Leveling Bedrock Jacks (Sloped Terrain Pitch & Roll Compensation)
+#### Step 10.6B · Auto-Leveling Bedrock Jacks (Sloped Terrain Pitch & Roll Compensation)
 
 When parking on sloped hillsides (up to 20° grade), the 4 corner outrigger pistons execute an automated differential extension cycle to bring the vehicle deck to true horizontal:
 * **Level Sensing:** Event Controller `MAS EC Level` (or `[MAS] PB Excavator`) monitors the artificial horizon pitch and roll angles from `MAS Helm`.
@@ -5406,14 +5432,14 @@ TERRAIN-TILT AUTO-LEVELING (Looking Bow, Y = L1-L2)
 
 ---
 
-### Step 10.7 · Heavy Turret Pedestal & Azimuth Advanced Rotor (Z = +6, X0, L4)
+#### Step 10.7 · Heavy Turret Pedestal & Azimuth Advanced Rotor (Z = +6, X0, L4)
 
 Mount an Advanced Rotor facing upward (+Y) on the dorsal deck at Z = +6. This serves as the azimuth turntable, providing **360° continuous horizontal rotation** for the excavation boom with an unrestricted large-conveyor pass-through:
 * Rotor Settings: Share Inertia Tensor = `ON` · Braking Torque = `50 MN·m` · Velocity = `0.75 rpm`.
 
 ---
 
-### Step 10.8 · 5-DOF Articulated Boom Kinematic Chain (L4-L8)
+#### Step 10.8 · 5-DOF Articulated Boom Kinematic Chain (L4-L8)
 
 Assemble the high-articulation robotic excavation crane:
 1. **Shoulder Pitch Hinge:** Motorized Large Hinge connected to the azimuth rotor head. Pitch limits: `−20.0°` (undercutting terrain) to `+75.0°` (high reach).
@@ -5474,7 +5500,7 @@ Boom Operating Configurations:
 
 ---
 
-### Step 10.8B · Active Gravity-Horizon Tool Head Leveling & Safety Proximity Buffer
+#### Step 10.8B · Active Gravity-Horizon Tool Head Leveling & Safety Proximity Buffer
 
 To prevent the laser mining head from gouging angled V-grooves during elevation changes:
 * **Horizon Auto-Leveling:** As the Shoulder Hinge elevates from −20° to +75°, the Wrist Pitch Hinge automatically counter-pitches in exact inverse ratio. This keeps the laser beam strictly parallel to the planet's gravity horizon, cutting perfectly flat terrace floors.
@@ -5503,7 +5529,7 @@ BOOM ELEVATION WITH HORIZON-LEVELED TOOL HEAD
 
 ---
 
-### Step 10.9 · Laser Mining Tool Head & Sensor Suite
+#### Step 10.9 · Laser Mining Tool Head & Sensor Suite
 
 At the tip of the wrist articulator, mount the unified excavation head:
 * 2 × Simple Laser Multitool (Mode: `Mining Beam`) · `MAS Laser 1, 2`.
@@ -5527,7 +5553,7 @@ Front Elevation · Laser Mining Tool Head (Tip of Forearm)
        └───────────────────┴───────────────────┘
 ```
 
-### Step 10.9B · Automated Excavation Macro Modes & Kinematic Sweep Sequences
+#### Step 10.9B · Automated Excavation Macro Modes & Kinematic Sweep Sequences
 
 To maximize extraction efficiency and support uncrewed autonomous operation, `[MAS] PB Excavator` implements 3 automated excavation sweep macros:
 
@@ -5552,7 +5578,7 @@ To maximize extraction efficiency and support uncrewed autonomous operation, `[M
    · Automatically clears and grades a level 15.0 m wide roadbed for Caterpillar land trains.
 ```
 
-#### Pre-Enclosure Inspection Gate 10.3A: Outrigger Locking & Boom Joint Inertia Verification
+##### Pre-Enclosure Inspection Gate 10.3A: Outrigger Locking & Boom Joint Inertia Verification
 * [ ] Verify all 4 corner outrigger magnetic plates lock firmly into terrain voxels.
 * [ ] Confirm `Share Inertia Tensor = ON` across all 6 boom joints (Turret Rotor, Shoulder Hinge, Elbow Hinge, Wrist Rotor, Wrist Hinge).
 * [ ] Test 360° pan and full extension: boom must achieve a 45.0 m reach radius without inducing chassis tip or physics jitter.
@@ -5571,7 +5597,7 @@ PHASE 10-3 VISUAL MILESTONE · OUTRIGGERS ANCHORED & BOOM DEPLOYED
 
 ---
 
-## Phase 10-4 · Forward Armored C2 Bridge & Fleet Avionics (Levels L3-L5)
+### Phase 10-4 · Forward Armored C2 Bridge & Fleet Avionics (Levels L3-L5)
 
 ```
        [PHASE 10-4 SPATIAL LOCATOR HUD]
@@ -5587,7 +5613,7 @@ PHASE 10-3 VISUAL MILESTONE · OUTRIGGERS ANCHORED & BOOM DEPLOYED
        · Survival Kit: [X −2, Z +8, Y = L4]
 ```
 
-### Pre-Step Parts Tray: Phase 10-4
+#### Pre-Step Parts Tray: Phase 10-4
 * 1× Cockpit (`MAS Helm`, Palette 7: Fleet Command Navy)
 * 2× Control Station (`MAS Station Boom`, `MAS Station Fleet`, Palette 7)
 * 2× Programmable Block (`[MAS] PB Excavator`, `[MAS] PB RIG//OS-Lite`, Palette 7)
@@ -5602,7 +5628,7 @@ PHASE 10-3 VISUAL MILESTONE · OUTRIGGERS ANCHORED & BOOM DEPLOYED
 
 ---
 
-### Step 10.10 · 3-Operator Panoramic C2 Command Bridge & Tactical Avionics
+#### Step 10.10 · 3-Operator Panoramic C2 Command Bridge & Tactical Avionics
 
 Construct the forward command bridge overlooking the terrain. Level L3 accommodates the deep ore detector and avionics compute rack; Level L4 accommodates the 3-operator command deck:
 1. **Station 1 (Port): Helm Pilot (`MAS Helm`):** Controls chassis traction, 3-axle steering, outrigger deploy/retract sequences, and hill-climbing crawl.
@@ -5662,7 +5688,7 @@ Station 3: Tactical Fleet Director (`MAS Station Fleet`)
 
 ---
 
-### Step 10.10B · Retractable Crew Boarding Ladder & Proximity Walkway (Port Flank L2)
+#### Step 10.10B · Retractable Crew Boarding Ladder & Proximity Walkway (Port Flank L2)
 
 To allow the player to enter and exit the 3.5 m high bridge cabin without consuming limited jetpack hydrogen fuel:
 * **Hinge Mounting:** Install 1× Motor Hinge (`MAS Crew Ladder Hinge`) flush on the Port hull skirt at [X −4, Z +7, Y = L2] (between Axles 1 and 2).
@@ -5683,7 +5709,7 @@ CREW BOARDING LADDER (Port Flank Profile)
      ════╧════════════╧══════════ Ground       L0  ═════════════╧═══▼ (Touchdown)
 ```
 
-#### Pre-Enclosure Inspection Gate 10.4A: Bridge Airtightness & C2 Network Link Check
+##### Pre-Enclosure Inspection Gate 10.4A: Bridge Airtightness & C2 Network Link Check
 * [ ] Confirm bridge cabin pressurizes to 100% O2 via air vent.
 * [ ] Verify `MAS Ore Detector` displays subterranean ore deposits out to 150 m range.
 * [ ] Confirm CTC block maps mouse yaw to `MAS Turret Azimuth` and mouse pitch to `MAS Shoulder Pitch`.
@@ -5692,7 +5718,7 @@ CREW BOARDING LADDER (Port Flank Profile)
 
 ---
 
-## Phase 10-5 · Modular FOB & Utility Carriage Chassis & Workshop (Carriage 2)
+### Phase 10-5 · Modular FOB & Utility Carriage Chassis & Workshop (Carriage 2)
 
 ```
        [PHASE 10-5 SPATIAL LOCATOR HUD]
@@ -5706,9 +5732,10 @@ CREW BOARDING LADDER (Port Flank Profile)
        · Axle 5 (Aft Steer): Z −22 (Counter-Steer: −25.0°)
 ```
 
-### Pre-Step Parts Tray: Phase 10-5
+#### Pre-Step Parts Tray: Phase 10-5
 * 200× Heavy Armor Full Block (Palette 0: Industrial Dark Gray)
 * 4× Wheel Suspension 5×5 (2 Port, 2 Starboard)
+* 1× Basic Refinery (1×1×2 B, 330 kW, Palette 4: Processing Teal)
 * 1× Large Assembler (Palette 4: Processing Teal)
 * 1× Medical Bay + 1× Cryo Chamber (Palette 7)
 * 2× Large Hydrogen Tank (Palette 6)
@@ -5718,7 +5745,7 @@ CREW BOARDING LADDER (Port Flank Profile)
 
 ---
 
-### Step 10.11 · Utility Carriage Box Girders & 4-Wheel Powertrain (L1-L2)
+#### Step 10.11 · Utility Carriage Box Girders & 4-Wheel Powertrain (L1-L2)
 
 Construct the trailing chassis frame connected to the tractor hitch tongue at Z = −8. Mount 2 pairs of 5×5 large suspension wheels:
 * **Axle 4 (Z −13):** Fixed drive axle (0.0° steer).
@@ -5738,7 +5765,7 @@ Plan view, Y = L1 (Utility Carriage 4-Wheel Layout)
 
 ---
 
-### Step 10.12 · Mobile FOB Field Workshop & Medical Suite (L2-L4)
+#### Step 10.12 · Mobile FOB Field Workshop & Medical Suite (L2-L4)
 
 Outfit Carriage 2 as a self-sustaining expeditionary base:
 1. **Field Workshop Assembler (`MAS Utility Assembler`):** Large Assembler configured to fabricate replacement plates, drill components, and motors directly in the field.
@@ -5759,14 +5786,40 @@ Plan view, Y = L3 (Utility Carriage Interior Deck)
     Z: −26 └─────────────────────────────┘
 ```
 
-#### Pre-Enclosure Inspection Gate 10.5A: Field Workshop Fabrication & Component Flow Check
+---
+
+#### Step 10.12B · Closed-Loop In-Situ Field Metallurgy (Basic Refinery Integration)
+
+In Space Engineers, an Assembler cannot convert raw ore directly into components; it requires refined ingots. Install 1 Basic Refinery (`MAS Field Refinery`, 1×1×2 B, 330 kW, 13.5 t) adjacent to `MAS Utility Assembler` at [X −2, Y = L3, Z −12]:
+* **Conveyor Routing:** Directly plumbed to the central conveyor spine. Ingests raw ore (Fe, Ni, Co, Si, Mg) delivered from `MAS Tractor Buffer` via the articulated drawbar pipe.
+* **Closed Loop:** Outputs refined ingots directly into `MAS Utility Assembler` and `MAS Hold Components`, enabling complete autonomous field fabrication of replacement parts (steel plates, construction components, motors, bulletproof glass) without returning to base.
+* **Ice Automation:** Event Controller `MAS EC Ice` monitors raw ice levels, automatically prioritizing ice routing to the twin O2/H2 generators to replenish the 10,000,000 L hydrogen reserve.
+
+```
+Plan view, Y = L3 (Utility Carriage Interior Deck with Closed-Loop Metallurgy)
+        X: −3          0          +3
+    Z: −10 ═══════[DRAWBAR TONGUE]═══════  ◄── Articulated Hitch from Tractor
+           │                             │
+    Z: −12 │ [REFINERY]  │               │  ◄── Basic Refinery (330 kW In-Situ Metallurgy)
+           ├─────────────┤ [MEDICAL BAY] │
+    Z: −14 │ [ASSEMBLER] │               │  ◄── Large Assembler & Crew Medical Core
+           ├─────────────┼───────────────┤
+    Z: −18 │ [H2 TANK 1] │ [H2 TANK 2]   │  ◄── Fuel Bunkering Farm (10,000,000 L H2)
+           ├─────────────┴───────────────┤
+    Z: −22 │ [MAS HOLD COMPONENTS (3×3×3)│  ◄── Spare Parts Storage (Palette 5)
+    Z: −26 └─────────────────────────────┘
+```
+
+##### Pre-Enclosure Inspection Gate 10.5A: Field Workshop Fabrication & Component Flow Check
+* [ ] Verify `MAS Field Refinery` ingests raw mined ore and deposits refined ingots into `MAS Utility Assembler`.
 * [ ] Verify `MAS Utility Assembler` pulls ingots and queues components without manual transfer.
 * [ ] Confirm crew medical bay allows successful respawn and O2/H2 replenishment.
 * [ ] Confirm O2/H2 tanks maintain airtight seals and supply hydrogen lines.
+* [ ] Verify `MAS EC Ice` automatically feeds ice to O2/H2 generators when H2 tanks drop below 90%.
 
 ---
 
-## Phase 10-6 · Flight Decks & Logistics Offload Interfaces (Levels L5-L6)
+### Phase 10-6 · Flight Decks & Logistics Offload Interfaces (Levels L5-L6)
 
 ```
        [PHASE 10-6 SPATIAL LOCATOR HUD]
@@ -5779,8 +5832,9 @@ Plan view, Y = L3 (Utility Carriage Interior Deck)
        · Stern Dump Connector: [X0, Z −26, Y = L2] (Centerline height = 2.5 m)
 ```
 
-### Pre-Step Parts Tray: Phase 10-6
+#### Pre-Step Parts Tray: Phase 10-6
 * 49× Heavy Armor Full Block (Palette 1: Hazard Amber · Mule Pad Deck)
+* 4× Solar Panel (Palette 0: Industrial Dark Gray · Flush Roof Array)
 * 2× Motor Hinge + 2× Large Magnetic Plate (Palette 1 · Cradle Clamp Arms)
 * 1× Large Connector (`MAS MP Conn`, Palette 4)
 * 2× Small-Grid Connector (`MAS Kestrel Dock 1, 2`, Palette 8: Scout White)
@@ -5790,7 +5844,7 @@ Plan view, Y = L3 (Utility Carriage Interior Deck)
 
 ---
 
-### Step 10.13 · Roof Mule Receiving Gantry Cradle Pad (Z −25 to −19, L6)
+#### Step 10.13 · Roof Mule Receiving Gantry Cradle Pad (Z −25 to −19, L6)
 
 Install the standardized 7 × 7 B Heavy Armor blast deck on the utility carriage roof. Equipped with twin motorized hinge arms and magnetic plates matching Decision 45:
 * Inbound MULE-01 touches down; cradle arms swing 30° inward, clamping the Mule's chassis rub rails.
@@ -5825,7 +5879,25 @@ Plan view, Y = L6 (7×7 B Mule Gantry Blast Deck)
 
 ---
 
-### Step 10.14 · Twin Kestrel Prospector Scout Drone Landing Pads (Z −13 to −11, L5)
+#### Step 10.13B · Flush Solar Array for Autonomous Watchkeeping (Carriage 2 Roof L6)
+
+Mount 4 Large Grid Solar Panels (`MAS Solar 1..4`, 1×4 B) flush with the Heavy Armor roof deck at Level L6, flanking the Mule Gantry Cradle Pad:
+* **Positioning:** 2 Port panels at X = −4 (Z −24 to −20) and 2 Starboard panels at X = +4 (Z −24 to −20), keeping a 1-block clear buffer from the 7×7 B Mule landing footprint to avoid thruster plume erosion.
+* **Output & Role:** Delivers `≈ 640 kW` peak daylight power† (160 kW per panel† under optimal solar alignment). Provides continuous zero-fuel watchkeeping power, maintaining life support, event controllers, communications, and float-charging the 12.0 MWh battery reserve without consuming nuclear fuel or hydrogen.
+
+```
+Plan view, Y = L6 (Mule Blast Deck Flanked by Flush Solar Array)
+        X: −4     X: −3           0          +3     X: +4
+    Z: −19 ┌────┐ ■════════════╤═══════════■ ┌────┐
+           │SOL1│ ║  Hazard    │  Hazard   ║ │SOL3│  ◄── Flush Solar Array (≈ 640 kW Peak†)
+    Z: −22 │    │ [CLAMP P] [MAS MP CONN] [CLAMP S]  │    │  ◄── Mule Clamping Rails
+           │SOL2│ ║  Chevrons  │  Chevrons ║ │SOL4│
+    Z: −25 └────┘ ■════════════╧═══════════■ └────┘
+```
+
+---
+
+#### Step 10.14 · Twin Kestrel Prospector Scout Drone Landing Pads (Z −13 to −11, L5)
 
 Recess two small landing pads forward of the Mule pad on the utility roof:
 * `MAS Kestrel Dock 1` (Port, X −3) & `MAS Kestrel Dock 2` (Starboard, X +3).
@@ -5834,7 +5906,7 @@ Recess two small landing pads forward of the Mule pad on the utility roof:
 
 ---
 
-### Step 10.15 · Stern Bumper & Caterpillar Land Train High-Speed Dump Port (Z = −26, L2)
+#### Step 10.15 · Stern Bumper & Caterpillar Land Train High-Speed Dump Port (Z = −26, L2)
 
 Install the rear collision push-bumper and large connector (`MAS Stern Dump Conn`) at Level L2:
 * Mates directly with the bow connector of the CATERPILLAR-01 tractor locomotive.
@@ -5851,10 +5923,11 @@ Rear Elevation Cross-Section, Y = L2 (Stern Caterpillar Dump Interface)
     └────────────────┴──────────────┴───────────────┴──────────────┴─────────────┘
 ```
 
-#### Pre-Enclosure Inspection Gate 10.6A: Cradle Clamping Dynamics & Dual-Tier Sorter Routing
+##### Pre-Enclosure Inspection Gate 10.6A: Cradle Clamping Dynamics & Dual-Tier Sorter Routing
 * [ ] Verify `MAS MP Sorter` whitelist passes only rare ores (U, Pt, Au, Mg) to the Mule shuttle.
 * [ ] Verify `MAS Stern Sorter` whitelist passes bulk ores (Fe, Ni, Si, Stone) to the land train.
 * [ ] Test cradle clamp hinges: confirm 30° inward swing firmly holds docking craft without grid damage.
+* [ ] Confirm `MAS Solar 1..4` deliver daylight power and maintain battery float charge while nuclear reactors are toggled OFF.
 
 ```
 PHASE 10-6 VISUAL MILESTONE · COMPLETE EXPEDITIONARY MINING TRAIN FOB
@@ -5870,11 +5943,11 @@ PHASE 10-6 VISUAL MILESTONE · COMPLETE EXPEDITIONARY MINING TRAIN FOB
 
 ---
 
-## Phase 10-7 · Master Control Logic, Dual-PB Architecture & RIG//OS-Lite Contract
+### Phase 10-7 · Master Control Logic, Dual-PB Architecture & RIG//OS-Lite Contract
 
 Every automated system on the Mastodon MKI conforms to this dual-compute and dynamic C2 hierarchy contract:
 
-### 1. Dual-PB Compute Architecture (Tractor L3)
+#### 1. Dual-PB Compute Architecture (Tractor L3)
 1. **`[MAS] PB Excavator` (Real-Time Machine Kinematics · Update1 / 60 Hz):**
    * Manages 3-axle tractive counter-steering and 2-axis motorized drawbar dampening.
    * Manages 4× corner bedrock outrigger deployment, auto-leveling, and voxel lock verification.
@@ -5914,7 +5987,7 @@ State Machine: Dynamic Fleet Authority & C2 Handover
                     └─► Role = FIELD_LEADER (Expeditionary Sub-Node)
 ```
 
-### 2. Group Taxonomy
+#### 2. Group Taxonomy
 * `MAS Tractor Wheels`: 6× 5×5 suspension wheel units on Carriage 1.
 * `MAS Utility Wheels`: 4× 5×5 suspension wheel units on Carriage 2.
 * `MAS Outriggers`: 4× Hydraulic stabilizer pistons + magnetic plates.
@@ -5923,7 +5996,7 @@ State Machine: Dynamic Fleet Authority & C2 Handover
 * `MAS MP Cradle`: 2× Motorized Hinges + 2× Magnetic Plates on the Mule pad.
 * `MAS Displays`: All cockpit telemetry screens and tactical video wall LCDs.
 
-### 3. Block Naming & Terminal Dictionary
+#### 3. Block Naming & Terminal Dictionary
 | Block Type | Exact Terminal Name | Subsystem Role & Functional Configuration |
 |---|---|---|
 | Programmable Block | `[MAS] PB Excavator` | Kinematics & machine control · Update1 · Zero-GC |
@@ -5953,6 +6026,9 @@ State Machine: Dynamic Fleet Authority & C2 Handover
 | Conveyor Sorter | `MAS Stern Sorter` | High-volume bulk ore drain sorter (Fe, Ni, Si, Stone) |
 | Conveyor Sorter | `MAS Sorter Tailings` | Underbelly stone & gravel purge filter (selective venting) |
 | Conveyor Ejector | `MAS Ejector Tailings 1, 2` | Angled underbelly nozzles laying aggregate roadbed |
+| Basic Refinery | `MAS Field Refinery` | Closed-loop field metallurgy · 330 kW · Ingests raw ore, outputs ingots |
+| Hydrogen Engine | `MAS Engine H2` | Standby cold-start emergency generator · 5.0 MW failover |
+| Solar Panel | `MAS Solar 1..4` | Flush roof solar array · 640 kW peak† · Zero-fuel watchkeeping |
 | Event Controller | `MAS EC Stabilizers` | Blocks boom arm deployment until outriggers report locked |
 | Event Controller | `MAS EC Level` | Auto-leveling bedrock jack sequence on sloped terrain |
 | Event Controller | `MAS EC Ladder` | Auto-deploys crew ladder on approach; retracts on drive |
@@ -5961,8 +6037,10 @@ State Machine: Dynamic Fleet Authority & C2 Handover
 | Event Controller | `MAS EC Hitch Rev` | Clamps hitch yaw to ±15° and inverts Axle 5 when reversing |
 | Event Controller | `MAS EC Holds` | Monitors payload mass; alerts at 2,500 t limit |
 | Event Controller | `MAS EC Handover` | Monitors Ground Base heartbeat; triggers C2 handover |
+| Event Controller | `MAS EC Power` | Fuel watchdog: auto-starts `MAS Engine H2` on low uranium (< 1.0 kg) |
+| Event Controller | `MAS EC Ice` | Ice intake watchdog: routes raw ice to O2/H2 generators when H2 < 90% |
 
-### 4. Event Controller Matrix
+#### 4. Event Controller Matrix
 | Controller | Monitored Target | Threshold / Condition | Action Slot 1 (On True) | Action Slot 2 (On False) |
 |---|---|---|---|---|
 | `MAS EC Stabilizers`| `MAS Outrigger Pad 1..4` | All 4 Pads = Locked | Enable `MAS Boom Joints` · Sound Ready Chime | Lock `MAS Boom Joints` · Fold Boom |
@@ -5975,8 +6053,10 @@ State Machine: Dynamic Fleet Authority & C2 Handover
 | `MAS EC MP` | `MAS MP Conn` | Status = Connected | `MAS MP Sorter` Drain ON · Cradle Clamp | Sorter OFF · Cradle Retract (0°) |
 | `MAS EC Train` | `MAS Stern Dump Conn` | Status = Connected | `MAS Stern Sorter` Drain ON | Sorter OFF |
 | `MAS EC Handover` | `GND-01` Heartbeat | Signal Detected | Run PB `RIG//OS-Lite` (Argument: `HANDOVER`) | Maintain Mothership Authority |
+| `MAS EC Power` | `MAS Reactor 1, 2` Uranium | Uranium Mass $< 1.0\text{ kg}$ | `MAS Engine H2` Turn ON · Sound Fuel Horn | `MAS Engine H2` Turn OFF |
+| `MAS EC Ice` | `MAS Tank H2 1, 2` Fill | Hydrogen Fill $< 90\%$ | Enable Ice Conveyor Sorter & O2/H2 Gens | Normal Conveyor Routing |
 
-### 5. IGC Channel Subscriptions (Ground Fleet & RIG//OS Bus)
+#### 5. IGC Channel Subscriptions (Ground Fleet & RIG//OS Bus)
 * Network Beacon: `RIG.C2.HEARTBEAT` (`<origin_id>;<role:MOTHERSHIP|BASE|WORKER>;<gps_coords>`).
 * Network Handover: `RIG.C2.HANDOVER` (`<source_id>;<target_id>;<asset_registry_payload>`).
 * Logistics Outbound: `TMS.MULE.CALL` (`CALL;<requesting_pad>;<priority>;<payload_type>`).
@@ -5987,37 +6067,43 @@ State Machine: Dynamic Fleet Authority & C2 Handover
 
 ---
 
-## Phase 10-8 · Commissioning & Field Acceptance Checklist (RIG Test)
+### Phase 10-8 · Commissioning & Field Acceptance Checklist (RIG Test)
 
-### A · Articulated Consist Powertrain Trials
+#### A · Articulated Consist Powertrain Trials
 * [ ] **Tractive Articulation Test:** Drive consist across rolling dunes at 35 km/h. Verify 2-axis drawbar hitch pivots smoothly in yaw and pitch without jackknifing or lifting carriage wheels.
 * [ ] **Counter-Steer Tracking:** Verify Axle 5 counter-steers, pulling the utility carriage cleanly through tight 35 m radius curves with zero curb clipping.
 * [ ] **Slope Holding:** Stop consist on 25° incline. Confirm wheel handbrakes and 100% friction settings prevent downslope roll.
 
-### B · Outrigger Anchoring & Automated Boom Macros
+#### B · Outrigger Anchoring & Automated Boom Macros
 * [ ] **Outrigger Bedrock Anchor:** Press hotkey 1 (`Deploy Stabilizers`). Confirm all 4 corner pistons extend downward and magnetic plates achieve 100% voxel lock. Confirm chassis is completely rigid.
 * [ ] **3D Hemispheric Sweep:** Engage CTC mouse aim. Sweep boom through 360° horizontal pan, −20° terrain undercutting, and +75° high bench cuts. Confirm zero chassis wobble or physics jitter.
 * [ ] **Bench Quarry Macro Test:** Trigger `MAS Timer Bench`. Verify boom executes automated -45° to +45° horizontal sweeps with -2.5° incremental shoulder steps and flat floor leveling.
 * [ ] **Shaft Bore Macro Test:** Trigger `MAS Timer Bore`. Verify 360° continuous rotation and synchronized helical vertical descent to -25.0 m.
 * [ ] **Collision Sensor Stop:** Drive boom tool head toward obstacle; confirm `MAS Sensor Boom` stops joint movement at 4.0 m distance.
 
-### C · Mobile FOB & Dual Logistics Verification
+#### C · Mobile FOB & Dual Logistics Verification
 * [ ] **Mule Air Offload:** Land MULE-01 on utility roof pad. Verify cradle arms swing 30° inward, magnetic plates clamp, and rare ores drain at $> 150\text{ t/min}$.
 * [ ] **Caterpillar Train Rail Dump:** Reverse Caterpillar train into stern bumper. Verify large connector locks and 2,500 t bulk ore dumps in $< 90\text{ seconds}$.
 * [ ] **Field Workshop Operations:** Queue 1,000 Steel Plates in `MAS Utility Assembler`. Verify autonomous fabrication using mined iron ingots.
 
-### D · C2 Fleet Orchestration & Handover Trials
+#### D · C2 Fleet Orchestration & Handover Trials
 * [ ] **Mothership Heartbeat Broadcast:** Confirm `MAS-01` broadcasts `RIG.C2.HEARTBEAT;ROLE=MOTHERSHIP` on 50 km radio and laser comms.
 * [ ] **Subordinate Worker Binding:** Simulate subordinate worker `MAS-02`; confirm it binds to `MAS-01` and appears on Station 3 Tactical Video Wall.
 * [ ] **Logistics Task Dispatch:** Trigger 90% ore buffer threshold; verify `RIG//OS-Lite` autonomously broadcasts `TMS.MULE.CALL` and `TMS.CAT.CALL`.
 * [ ] **Ground Base Handover Protocol:** Simulate `GND-01` Ground Base C2 boot; verify `MAS-01` detects `ROLE=MASTER_BASE`, transmits fleet registry, and steps down to `FIELD_LEADER` without human intervention.
 
-### E · 5-Point Immersive Automation Verification
+#### E · 5-Point Immersive Automation Verification
 * [ ] **Auto-Leveling Bedrock Jacks:** Stop consist on 15° slope; trigger `MAS EC Level`. Verify downhill pistons extend further and deck achieves 0.0° pitch and 0.0° roll before mag plates lock.
 * [ ] **Retractable Boarding Ladder:** Approach Port flank on foot; verify ladder swings down 90°. Release handbrake; verify ladder auto-retracts flush with armor skirt.
 * [ ] **Active Gravity-Horizon Tool Head:** Elevate shoulder hinge to +45°; confirm wrist pitch automatically counter-rotates -15° to maintain level cutting beam.
 * [ ] **Tailings Aggregate Spreader:** Mine stone until buffer > 50%; verify `MAS Sorter Tailings` and ejectors vent gravel behind wheels.
 * [ ] **Smart Anti-Jackknife Drawbar:** Accelerate above 35 km/h; verify rotor braking torque jumps to 100 MN·m. Shift to reverse; verify yaw clamp limits to ±15°.
+
+#### F · Tri-Fuel Power Redundancy & Closed-Loop Field Metallurgy Acceptance
+* [ ] **Closed-Loop Metallurgy Cycle:** Laser-mine 50 t Iron Ore with articulated boom. Verify ore flows into `MAS Field Refinery`, refines into Iron Ingots, and transfers into `MAS Utility Assembler` to fabricate 250 Steel Plates with zero manual inventory handling.
+* [ ] **Tier 1 to Tier 3 Power Failover:** Cut uranium supply to `MAS Reactor 1, 2`. Confirm `MAS EC Power` triggers, cold-starts `MAS Engine H2` within 2.0 s, and maintains full tractive and boom operational capability (5.0 MW).
+* [ ] **Tier 2 Zero-Fuel Watchkeeping:** Turn off nuclear reactors and H2 engine during daylight. Confirm `MAS Solar 1..4` deliver daylight power, maintaining life support, telemetry, and battery float-charging.
+* [ ] **Automated Ice Replenishment:** Mine 20 t Ice. Confirm `MAS EC Ice` routes ice to O2/H2 generators and begins refilling the 10,000,000 L hydrogen reserve.
 
 
 
