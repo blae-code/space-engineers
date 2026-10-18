@@ -1,0 +1,18 @@
+# Train.Caterpillar · In-Game MDK2 Script Project
+
+## Subsystem: CATERPILLAR-01 Land Train Subsystem
+* **Target Block:** `[CAT] PB Train`
+* **Grid Size:** Large Grid (42 B Consist · 16 Wheels)
+* **Update Frequency:** `Update1`
+* **Managed Subsystem Groups:** `CAT LOCO, CAT HITCH, CAT CAR, CAT UNLOAD`
+* **IGC Network Channels:** `TMS.CAT.STATUS (out), TMS.CAT.CMD (in), GND.CAT.DOCK (in)`
+
+## System Description
+Articulated land train management: 2-axis motorized drawbar hinge dampening, active traction control, and high-speed (< 90 s) 2,500 t bulk dump sequencing.
+
+## Zero-GC PB Rules
+1. C# 6 only, nested in Program, namespace `IngameScript`.
+2. Zero allocations in hot paths (`Main`, `Update1`, `Update10`, `Update100`).
+3. Strings formatted via `SbFormat`.
+4. Strict grid scoping: `b => b.CubeGrid == Me.CubeGrid`.
+5. Minifier safe: never use `enum.ToString()` or `nameof()`.

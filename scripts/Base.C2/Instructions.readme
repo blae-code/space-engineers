@@ -1,0 +1,18 @@
+# Base.C2 · In-Game MDK2 Script Project
+
+## Subsystem: Ground Base & Central Fleet Command (C2) Subsystem
+* **Target Block:** `[GND] PB FleetOps`
+* **Grid Size:** Large Grid (24 × 28 B Surface Station)
+* **Update Frequency:** `Update10`
+* **Managed Subsystem Groups:** `GND PAD, GND CAT, GND REF, GND ASM, GND C2`
+* **IGC Network Channels:** `TMS.BASE.QUOTAS (out), TMS.MULE.CALL (out), RIG.C2.STATUS (out)`
+
+## System Description
+Coordinates dual-tier terrestrial intake (Air Mule Pad + Ground Cat Dock), manages 4-Refinery / 4-Assembler industrial quotas, and drives 6-panel panoramic C2 video wall.
+
+## Zero-GC PB Rules
+1. C# 6 only, nested in Program, namespace `IngameScript`.
+2. Zero allocations in hot paths (`Main`, `Update1`, `Update10`, `Update100`).
+3. Strings formatted via `SbFormat`.
+4. Strict grid scoping: `b => b.CubeGrid == Me.CubeGrid`.
+5. Minifier safe: never use `enum.ToString()` or `nameof()`.

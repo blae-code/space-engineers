@@ -1,0 +1,18 @@
+# Rig.OS · In-Game MDK2 Script Project
+
+## Subsystem: RIG//OS Floating Rig Central Operating System
+* **Target Block:** `[RIG] PB Rig OS`
+* **Grid Size:** Large Grid (25 kt Floating Rig Fortress)
+* **Update Frequency:** `Update10`
+* **Managed Subsystem Groups:** `All Atmo Lift, All H2 Lift, All Reserve Tanks, Ops, Shed, Repair`
+* **IGC Network Channels:** `RIG.OS.HEARTBEAT (out), RIG.OS.MODE (out), RIG.DISP.STATUS (in)`
+
+## System Description
+Primary station operating core: 52 Large Atmo hover allocation (245 MN lift), 3x Large Reactor power management, Defense Shields monitor, and 6 pylon socket coordination.
+
+## Zero-GC PB Rules
+1. C# 6 only, nested in Program, namespace `IngameScript`.
+2. Zero allocations in hot paths (`Main`, `Update1`, `Update10`, `Update100`).
+3. Strings formatted via `SbFormat`.
+4. Strict grid scoping: `b => b.CubeGrid == Me.CubeGrid`.
+5. Minifier safe: never use `enum.ToString()` or `nameof()`.

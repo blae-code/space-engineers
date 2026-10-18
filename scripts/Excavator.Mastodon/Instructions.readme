@@ -1,0 +1,18 @@
+# Excavator.Mastodon · In-Game MDK2 Script Project
+
+## Subsystem: MASTODON-01 Heavy Wheeled Excavator Subsystem
+* **Target Block:** `[MAS] PB Excavator`
+* **Grid Size:** Large Grid (11 × 25 × 6 B · 10 Wheels)
+* **Update Frequency:** `Update1`
+* **Managed Subsystem Groups:** `MAS TUSK, MAS HOLD, MAS WHEEL, MAS MP, MAS DUMP`
+* **IGC Network Channels:** `TMS.MAS.STATUS (out), TMS.MULE.CALL (out), FLT.MAS.CMD (in)`
+
+## System Description
+Controls twin articulated 3-DOF laser tusk booms for 37.5 m wide trench carving, 5-axle 4-wheel counter-steering, roof Mule pad gantry, and rear dump conveyor chute.
+
+## Zero-GC PB Rules
+1. C# 6 only, nested in Program, namespace `IngameScript`.
+2. Zero allocations in hot paths (`Main`, `Update1`, `Update10`, `Update100`).
+3. Strings formatted via `SbFormat`.
+4. Strict grid scoping: `b => b.CubeGrid == Me.CubeGrid`.
+5. Minifier safe: never use `enum.ToString()` or `nameof()`.
