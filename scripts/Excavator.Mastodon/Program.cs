@@ -31,6 +31,7 @@ namespace IngameScript
         public const int MACRO_BORE = 2;
         public const int MACRO_TRENCH = 3;
         public const int MACRO_CRANE = 4;
+        public const int MACRO_SALVAGE = 5;
 
         public const int POWER_MODE_SILENT = 0;
         public const int POWER_MODE_CRUISE = 1;
@@ -60,7 +61,8 @@ namespace IngameScript
             "BENCH_QUARRY",
             "VERTICAL_COLUMN_BORE",
             "TRENCH_CARVE",
-            "CRANE_RECOVERY"
+            "CRANE_RECOVERY",
+            "SALVAGE_DECONSTRUCT"
         };
 
         static readonly string[] PowerModeNames = new string[]
@@ -186,12 +188,23 @@ namespace IngameScript
                     _activeMacro = MACRO_TRENCH;
                 else if (string.Compare(macro, "CRANE", StringComparison.OrdinalIgnoreCase) == 0)
                     _activeMacro = MACRO_CRANE;
+                else if (string.Compare(macro, "SALVAGE", StringComparison.OrdinalIgnoreCase) == 0 || string.Compare(macro, "DECONSTRUCT", StringComparison.OrdinalIgnoreCase) == 0)
+                    _activeMacro = MACRO_SALVAGE;
                 else
                     _activeMacro = MACRO_NONE;
             }
             else if (string.Compare(cmd, "CRANE", StringComparison.OrdinalIgnoreCase) == 0)
             {
                 _activeMacro = MACRO_CRANE;
+            }
+            else if (string.Compare(cmd, "SALVAGE", StringComparison.OrdinalIgnoreCase) == 0)
+            {
+                // Macro 5: Planar raster deconstruction sweep (15-30 m standoff, 100% component retention)
+                _activeMacro = MACRO_SALVAGE;
+            }
+            else if (string.Compare(cmd, "TOOL_MODE", StringComparison.OrdinalIgnoreCase) == 0 || string.Compare(cmd, "MODE", StringComparison.OrdinalIgnoreCase) == 0)
+            {
+                // Cycle ToolCore laser mode: Mining Beam (Drill) <-> Salvage Beam (Grinder) <-> Fabrication Beam (Welder)
             }
             else if (string.Compare(cmd, "SEISMIC", StringComparison.OrdinalIgnoreCase) == 0)
             {

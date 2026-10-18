@@ -5,13 +5,13 @@
 Lego-style, step-by-step visual build manual and hardware-to-scripting interface contract for the **MASTODON-01 MKI**.
 Each step features: an exact ASCII schematic, Spatial Locator HUD, in-game paint palette assignments, pre-step parts tray, critical joint/conveyor settings, Pre-Enclosure Inspection Gates ("Points of No Return"), and Phase-End Visual Milestones.
 
-### Design Directives & Operational Scope (Decisions 55, 56, 57, 58, 59, 60, 61, 62 & 63)
+### Design Directives & Operational Scope (Decisions 55, 56, 57, 58, 59, 60, 61, 62, 63, 64 & 65)
 * **Role:** Long-range terrestrial expeditionary mining locomotive, self-contained mobile Forward Operating Base (FOB), and **Genesis Seed Fleet Mothership** running **`RIG//OS-Lite`**. In fresh survival campaigns prior to Ground Base refinery commissioning, the lead Mastodon serves as the regional C2 fleet root, commanding subordinate excavators (`MAS-02`), bulk land trains (`CAT-01`), and freight shuttles (`MUL-01`), with automated handover to Ground Base upon commissioning.
 * **Architecture:** Segmented articulated train consist:
   1. **Carriage 1 (`MAS-01-T`): Locomotive & Excavator Unit (11 W × 20 L × 5 H B · 6 Wheels):** Heavy tractive engine, 3-operator armored panoramic C2 bridge (Helm, Boom CTC, Tactical Director), Tri-Fuel primary power plant (30 MW nuclear + 5 MW emergency H2 engine + 9 MWh battery reserve across 3× Large Batteries), dual-PB compute rack (`PB Excavator` + `PB RIG//OS-Lite`), 40 km laser comms mast, 4× hydraulic corner outriggers with differential auto-leveling and **deep seismic voxel sensors** (Mod 2819263781), dorsal 35 m spine-stowed articulated 5-DOF laser mining boom with **heavy magnetic crane grapple**, chassis travel stow clamp (`MAS Clamp Boom Stow`), bow CIWS Gatling Turret (`MAS Turret Bow`), flank anti-personnel turrets, Port L3 maintenance Jefferies tube, ground-level EVA survival lockers, and aft 2-axis motorized drawbar hitch.
   2. **Carriage 2 (`MAS-01-U`): Modular FOB & Utility Carriage (11 W × 18 L × 5 H B · 4 Wheels):** Field workshop (1× Basic Refinery for in-situ metallurgy, 1× Large Assembler, Survival Kit / Medical Bay), free planetary atmospheric O2 intake vents, sub-floor battery vault (9 MWh across 3× Large Batteries), 4× roof flush solar panels (`≈ 640 kW` peak†), component reserve hold, atmospheric bunkering (2× Large H2 tanks, O2/H2 generators), 7 × 7 B MULE-01 Gantry Cradle Pad with motorized clamping arms, 2× KESTREL-01 scout drone landing pads with **recessed automated repair welders**, roof maintenance catwalks, 360° dorsal worksite floodlight tower, stern CIWS Gatling Turret (`MAS Turret Stern`), and stern heavy dump bumper matching CATERPILLAR-01.
 * **Grid:** Large Grid (1 B = 2.5 m) · **Consist Envelope:** 11 W × 42 L × 6 H B (27.5 × 105.0 × 15.0 m).
-* **Mass:** Consist Dry Mass `≈ 956.8 t` (Tractor: 531.2 t, Utility: 425.6 t) · Max Laden Mass `≈ 3,456 t` (Earth 1 g).
+* **Mass:** Consist Dry Mass `≈ 978.5 t` (Tractor: 543.2 t, Utility: 435.3 t) · Max Laden Mass `≈ 3,456 t` (Earth 1 g).
 * **Payload Capacity:** 2,500 t bulk ore across tractor buffer and utility holds.
 * **Mechanical & Automation Suite (Decision 57):** 5-point immersive automation: auto-leveling bedrock jacks (sloped terrain compensation up to 20°), retractable crew boarding ladder (Port flank L2), active gravity-horizon tool head leveling with 4.0 m safety proximity stop, underbelly stone tailings aggregate spreader, and smart anti-jackknife drawbar dynamics.
 * **Tri-Fuel Power & Closed-Loop Metallurgy Suite (Decision 58):** Self-sustaining field endurance without resupply: (1) 1× Basic Refinery (`MAS Field Refinery`, 1×1×2 B, 330 kW) refining raw mined Fe, Ni, Co, Si, Mg on-site into ingots for the Large Assembler; (2) Tri-Fuel Power Architecture: Tier 1 Nuclear (2× Small Reactors, 30 MW), Tier 2 Renewable (4× Roof Flush Solar Panels, `≈ 640 kW` peak†), Tier 3 Emergency Hydrogen (1× Hydrogen Engine, 5 MW) drawing from 10,000,000 L H2 tank farm; (3) Automated resource watchdogs `MAS EC Power` (uranium watchdog auto-starting H2 engine) and `MAS EC Ice` (ice intake routing).
@@ -20,7 +20,8 @@ Each step features: an exact ASCII schematic, Spatial Locator HUD, in-game paint
 * **Perimeter Defense CIWS & Warfare 3 MKII Roadmap (Decision 61):** 360° close-in weapon system (CIWS) and anti-intrusion grid: (1) 2× Large Grid Gatling Turrets (`MAS Turret Bow` at Carriage 1 dorsal crown L5, Z +7, X 0; `MAS Turret Stern` at Carriage 2 stern gantry L5, Z −26, X 0) plumbed into conveyor spine for automated ammo feeds from `MAS Utility Assembler`; (2) 2× Flush Ground-Level Anti-Personnel Interior Turrets (`MAS Turret Flank Port/Stbd` at L2, X ±4, Z +2) covering boarding ladder and perimeter; (3) Automated combat alert integration via `RIG//OS-Lite` (`RIG.OS.MODE CBT`); (4) Pre-Warfare 3 operational baseline with architectural upgrade path to **MASTODON-02 MKII** upon Warfare 3 DLC release.
 * **5-Point Field Logistics & Recovery Suite (Decision 62):** Complete expeditionary autonomy: (1) Deep Seismic Voxel Prospecting (4× Seismic Surveying outrigger feet, Mod 2819263781, 500 m pulse); (2) Flight Deck Drone Maintenance Welders (2× recessed roof welders under Kestrel pads); (3) 45 m Boom Heavy Crane & Recovery Grapple (1× wrist magnetic plate, Macro 4 `MACRO_CRANE`); (4) Atmospheric Scavenging & Ground EVA Lockers (2× intake vents for free O2, 2× flank ground-level lockers); (5) Coordinated Worksite Floodlight Matrix (boom spotlights, 360° tower floodlights, underbelly inspection lights).
 * **Extraction Arm Kinematics & Travel Stow Architecture (Decision 63):** Symmetrical heavy excavation and overland transit: (1) Centerline Turret Pedestal at [X0, Z +6, Y = L4] on 1× Large Advanced Rotor (`MAS Turret Azimuth`), providing 360° horizontal rotation and 21.25 m physical reach (50+ m laser reach) off both Port and Starboard flanks; (2) Travel Mode (Rigid Dorsal Spine Stow): Arm slews 180° Aft along the 14-block Tractor spine trough (Z +6 to Z −8) at Level L4; tool head locks into chassis Magnetic Plate `MAS Clamp Boom Stow` at [X0, Z −7, L4] with all hinges at 0°, zero hitch overhang, zero cab obstruction, and maximum transit height 5.2 m; (3) 90° Downward Elbow Tool Adapter: Sets neutral reference to straight down (−Y) with ±60° pitch compensation, ensuring true vertical downward aim (vector [0, -1, 0]) across 100% of the operating radius (6.0 m to 35.0 m) and depth down to −25 m (−55 m with laser beams); (4) Target-Centric Vertical Column Boring (Macro 2): `[MAS] PB Excavator` translates the arm in 2D concentric circular sweeps (ΔX, ΔZ) centered on an offset target waypoint (Xt, Zt) while `MAS Wrist Roll` spins twin lasers at 5.0 rpm for cylindrical shaft coring.
-* **Custom Bridge, ULSS & Emergency Survivability Suite (Decision 64):** Comprehensive interior spaces, multi-planetary life support, and native block failsafes (Rule C4): (1) Custom Walk-In Armored Bridge replacing prefab cockpit with three 1×1×1 open Control Stations (`MAS Helm`, `MAS Station Boom`, `MAS Station Fleet`) side-by-side at L4 within a 45° sloped heavy armor glass canopy, walk-around deck, 3-panel Tactical Video Wall, and 3 fully populated 9-slot hotbars per station (Hotbars 1-3); (2) Universal Closed-Loop Life Support (ULSS): Upgrades consist for vacuum (Moon, Europa) and toxic (Mars, Alien) worlds with 2× Large Oxygen Tanks (200,000 L O2), 1× Quarantined Emergency Ice Hold (`MAS Hold Ice LifeSupport`, 15,000 L), 2× Cryo Chambers (`MAS Cryo Pod 1, 2`), 4-zone hermetic isolation with automated breach seals, and 3 active gas-reclamation decompression airlocks; (3) Native Threat & Mobility Failsafes (Rule C4): 3× Armored Decoys (`MAS Decoy Flank Port/Stbd`, `MAS Decoy Stern`), 1× Pyrotechnic Hitch Severing Merge Block (`MAS Hitch Sever Tongue`), 2× Inverted Counter-Weight Gyros (`MAS Gyro Recovery 1, 2`), and an armored Black Box 50 km SOS Beacon (`MAS Beacon Distress`) with isolated cold battery (`MAS Battery BlackBox`); (4) Genesis Reconstruction & Anti-Capture Scuttle: 1× Master Projector (`MAS Projector Master`) for field self-repair from internal parts hold, plus 2× Armored Warheads (`MAS Warhead Scuttle Bridge/Power`) with 60 s native countdown timer and manual abort; (5) Physical In-Situ Controls: 6× wall-mounted Sci-Fi 4-Button Panels.
+* **Custom Bridge, ULSS & Emergency Survivability Suite (Decision 64):** Comprehensive interior spaces, multi-planetary life support, and native block failsafes (Rule C4): (1) Custom Walk-In Armored Bridge replacing prefab cockpit with three 1×1×1 open Control Stations (`MAS Helm`, `MAS Station Boom`, `MAS Station Fleet`) side-by-side at L4 within a 45° sloped heavy armor glass canopy, walk-around deck, 3-panel Tactical Video Wall, and 3 fully populated 9-slot hotbars per station (Hotbars 1-3); (2) Universal Closed-Loop Life Support (ULSS): Upgrades consist for vacuum (Moon, Europa) and toxic (Mars, Alien) worlds with 2× Large Oxygen Tanks (200,000 L O2), 1× Quarantined Emergency Ice Hold (`MAS Hold Ice LifeSupport`, 15,000 L), 2× Cryo Chambers (`MAS Cryo Pod 1, 2`), 4-zone hermetic isolation with automated breach seals, and 3 active gas-reclamation decompression airlocks; (3) Native Threat & Mobility Failsafes (Rule C4): 3× Armored Decoys (`MAS Decoy Flank Port/Stbd`, `MAS Decoy Stern`), 1× Pyrotechnic Hitch Severing Merge Block (`MAS Hitch Sever Tongue`), 2× Inverted Counter-Weight Gyros (`MAS Gyro Recovery 1, 2`), and an armored Black Box 50 km SOS Beacon (`MAS Beacon Distress`) with isolated cold battery (`MAS Battery BlackBox`); (4) Genesis Reconstruction & Anti-Capture Scuttle: 1× Master Projector (`MAS Projector Master`) for field self-repair from internal parts hold, plus 2× Armored Warheads (`MAS Warhead Scuttle Bridge/Power`) with 60 s native countdown timer and manual abort; (5) Physical In-Situ Controls: 6× wall-mounted Sci-Fi 4-Button Panels; (6) Updated BOM: 1,039 blocks, dry mass ≈ 978.5 t, 7,198 PCU.
+* **Tri-Mode Laser Multitool Salvage & Remote Welding Suite (Decision 65):** Full lifecycle deconstruction and remote engineering via ToolCore mod (Mods 3175774286 / 3040438530): (1) Tri-Mode Operation: 2× Simple Laser Multitools (`MAS Laser 1, 2`) switch between Mining (Drill / raw ore intake), Salvage (Grinder / non-contact wreck deconstruction at 15-30 m standoff with 100% component retention), and Fabrication (Welder / remote structural welding and bridge assembly at 35 m); (2) Closed-Loop Field Recycling Circuit: Salvaged components route across drawbar hitch into `MAS Hold Components` (3×3×3 Large Cargo), scrap metal melts into pure iron ingots in `MAS Field Refinery` (1×1×2 B, 330 kW), and surplus parts disassemble in `MAS Utility Assembler` to constituent ingots (Fe, Ni, Co, Si, Pt, Au) for immediate ammo and repair plate fabrication; (3) Macro 5 Wreck Deconstruction (`MACRO_SALVAGE`): `[MAS] PB Excavator` executes planar raster sweeps (ΔY, ΔX) across target bounding boxes, peeling enemy wrecks and obsolete structures layer-by-layer; (4) Station 2 Hotbar updates (HB1:8 Next Mode, HB2:8 Macro 5 SALVAGE); (5) Zero hardware impact: 0 new blocks, 0 additional PCU, 0 additional mass (BOM remains 1,039 blocks, ≈ 978.5 t, 7,198 PCU).
 * **Operating Environment:** Universal planetary & terrestrial surface operations (Earth 1 g baseline, airless vacuum moons, thin-atmosphere deserts, and hostile alien terrain).
 
 ---
@@ -804,7 +805,10 @@ At the tip of the wrist articulator, mount the unified excavation and field reco
 * 1 × Large Conveyor Elbow: Mounted at the tip of the forearm, routing the conveyor line 90° downward toward ground baseline.
 * 1 × Motor Hinge (`MAS Wrist Pitch`): Mounted to the elbow head, providing `±60.0°` pitch leveling around the vertical axis.
 * 1 × Large Advanced Rotor (`MAS Wrist Roll`): Providing continuous 360° axial spin (5.0 rpm) for circular column coring.
-* 2 × Simple Laser Multitool (Mode: `Mining Beam`) · `MAS Laser 1, 2` mounted on the roll face, spaced 2.5 m apart.
+* 2 × Simple Laser Multitool (`MAS Laser 1, 2`, Mod 3175774286 / ToolCore 3040438530): Mounted on the roll face, spaced 2.5 m apart. Powered by ToolCore, these units operate dynamically as tri-mode energy emitters:
+  1. `Mode 1: Mining Beam (Drill)`: Voxel pulverization and continuous raw ore intake.
+  2. `Mode 2: Salvage Beam (Grinder)`: Non-contact thermal deconstruction of target grids at 15 to 30 m standoff, yielding 100% component recovery without physical blade collision damage or tension snagging.
+  3. `Mode 3: Fabrication Beam (Welder)`: High-speed remote structural welding from up to 35 m away, enabling chasm bridge assembly and fleet craft repair without crew EVA.
 * 1 × Large Magnetic Plate (`MAS Tool Grapple`, Auto-Lock = OFF, Palette 9: High-Viz Safety Yellow) mounted centrally between the laser heads. Provides heavy lifting, vehicle righting, and cargo positioning capability with 45 MN·m joint holding power.
 * 1 × Camera · `MAS Cam Boom` (high-magnification targeting crosshairs looking directly down the drill bore).
 * 2 × Spotlight · `MAS Light Boom 1, 2` (floodlights illuminating the cutting bench and salvage targets).
@@ -832,7 +836,7 @@ Front Elevation · Laser Mining Tool Head & Recovery Grapple (Tip of Forearm)
 
 ### Step 10.9B · Automated Excavation Macro Modes & Kinematic Sweep Sequences
 
-To maximize extraction efficiency and support uncrewed autonomous operation, `[MAS] PB Excavator` implements 4 automated sweep and crane recovery macros, plus automated travel stow/deploy sequencing:
+To maximize extraction efficiency and support uncrewed autonomous operation, `[MAS] PB Excavator` implements 5 automated sweep, crane recovery, and salvage macros, plus automated travel stow/deploy sequencing:
 
 ```
 [AUTOMATED BOOM EXCAVATION & CRANE SWEEP PATTERNS]
@@ -862,10 +866,23 @@ To maximize extraction efficiency and support uncrewed autonomous operation, `[M
    · Allows precision attachment to overturned Caterpillar trailers, scout drones, or supply skids up to 42.5 m away.
    · Utilizes the 45 MN·m joint holding torque and hydraulic outriggers to right rolled vehicles, hoist heavy cargo modules, or lift massive boulders obstructing the haul road.
 
+5. SALVAGE & WRECK DECONSTRUCTION MODE (Macro 5: MACRO_SALVAGE)
+   · Simple Laser Multitools cycle to Mode: Salvage Beam (Grinder).
+   · Accepts target wreck/structure perimeter or bounding box coordinates.
+   · Turret Azimuth, Shoulder, and Elbow position tool head at optimal 15 to 30 m standoff.
+   · [MAS] PB Excavator executes automated planar raster sweeps (ΔY, ΔX) across target profile.
+   · Non-contact laser grinder rapidly peels armor plates and disassembles internal blocks layer-by-layer.
+   · 100% of disassembled components are drawn through the tool head conveyor vacuum into onboard storage.
+   · Wrist roll spins at 2.0 rpm to widen deconstruction swath.
+
+[REMOTE FIELD FABRICATION & INFRASTRUCTURE WELDING]
+· Station 2 operator or [MAS] PB Excavator switches lasers to Mode 3: Fabrication Beam (Welder).
+· Transforms the 35 m arm into a mobile construction gantry for remote chasm bridge building, retaining wall assembly, and fleet craft repair without crew EVA.
+
 [AUTOMATED TRAVEL STOW & DEPLOY SEQUENCES]
 
 · TRAVEL STOW SEQUENCE (`STOW`):
-  1. Mining lasers deactivate; tool head retracts vertically clear of borehole.
+  1. Mining/salvage lasers deactivate; tool head retracts vertically clear of worksite.
   2. Turret Azimuth slews to 180.0° (Aft centerline).
   3. Shoulder, Elbow, and Wrist hinges align flat (0.0°).
   4. Boom lowers into armored dorsal spine trough; `MAS Clamp Boom Stow` at [X0, Z −7, L4] engages (Green Lock).
@@ -1010,13 +1027,13 @@ STATION 2: EXCAVATION MASTER (`MAS Station Boom`)
 ================================================================================
 [Hotbar 1 · Direct Joint Teleoperation & Tool Aim]
 · Slot 1: Custom Turret Controller `MAS CTC Boom` -> Control (Direct Mouse Aim)
-· Slot 2: Group `MAS Lasers Tool` -> Shoot ON/OFF (Twin Mining Lasers)
+· Slot 2: Group `MAS Lasers Tool` -> Shoot ON/OFF (Twin Mining / Salvage Lasers)
 · Slot 3: Camera `MAS Cam Tool Head` -> View (Bore Sump Alignment)
 · Slot 4: Rotor `MAS Turret Azimuth` -> Reverse (Manual Pan Left/Right)
 · Slot 5: Hinge `MAS Shoulder Pitch` -> Reverse (Manual Boom Elevation)
 · Slot 6: Hinge `MAS Elbow Pitch` -> Reverse (Manual Reach Extension)
 · Slot 7: Hinge `MAS Wrist Pitch` -> Reverse (Manual Tool Pitch)
-· Slot 8: Rotor `MAS Wrist Roll` -> Power ON/OFF (5.0 rpm Cutting Head Roll)
+· Slot 8: Group `MAS Lasers Tool` -> Next Mode (Drill <-> Grinder/Salvage <-> Welder)
 · Slot 9: Magnetic Plate `MAS Tool Grapple` -> Switch Lock (Crane Hoisting)
 
 [Hotbar 2 · Automated Kinematic Macros & Presets]
@@ -1027,8 +1044,8 @@ STATION 2: EXCAVATION MASTER (`MAS Station Boom`)
 · Slot 5: PB `[MAS] PB Excavator` -> Run `BORE` (Target-Centric Column Shaft)
 · Slot 6: PB `[MAS] PB Excavator` -> Run `MACRO TRENCH` (Roadbed Carve)
 · Slot 7: PB `[MAS] PB Excavator` -> Run `CRANE` (Vehicle Recovery Grapple)
-· Slot 8: Group `MAS Boom Joints` -> Rotor Lock ON/OFF (E-Stop Brake)
-· Slot 9: Sensor `MAS Sensor Boom` -> Power ON/OFF (Collision Stop Override)
+· Slot 8: PB `[MAS] PB Excavator` -> Run `SALVAGE` (Macro 5 · Automated Wreck Deconstruction)
+· Slot 9: Group `MAS Boom Joints` -> Rotor Lock ON/OFF (E-Stop Brake)
 
 [Hotbar 3 · Worksite Illumination & Ore Buffer Telemetry]
 · Slot 1: Group `MAS Light Boom` -> Toggle ON/OFF (Tool Head Spotlights)
@@ -1236,13 +1253,48 @@ Plan view, Y = L3 (Utility Carriage Interior Deck with Closed-Loop Metallurgy & 
 
 ---
 
-### Step 10.12B · Closed-Loop In-Situ Field Metallurgy (Basic Refinery Integration)
+### Step 10.12B · Closed-Loop In-Situ Field Metallurgy & Component Recycling Circuit (Decision 65)
 
 In Space Engineers, an Assembler cannot convert raw ore directly into components; it requires refined ingots. Install 1 Basic Refinery (`MAS Field Refinery`, 1×1×2 B, 330 kW, 13.5 t) adjacent to `MAS Utility Assembler` at [X −2, Y = L3, Z −12]:
 * **Conveyor Routing:** Directly plumbed to the central conveyor spine. Ingests raw ore (Fe, Ni, Co, Si, Mg) delivered from `MAS Tractor Buffer` via the articulated drawbar pipe.
-* **Closed Loop:** Outputs refined ingots directly into `MAS Utility Assembler` and `MAS Hold Components`, enabling complete autonomous field fabrication of replacement parts (steel plates, construction components, motors, bulletproof glass) without returning to base.
+* **Closed-Loop Ore Smelting:** Outputs refined ingots directly into `MAS Utility Assembler` and `MAS Hold Components`, enabling complete autonomous field fabrication of replacement parts (steel plates, construction components, motors, bulletproof glass) without returning to base.
 * **Manual Hopper Port:** Top maintenance door accessible from the central aisle allows manual dumping of rare ore batches.
 * **Ice Automation:** Event Controller `MAS EC Ice` monitors raw ice levels, automatically prioritizing ice routing to the twin O2/H2 generators to replenish the 10,000,000 L hydrogen reserve.
+
+#### Closed-Loop Salvage & Component Recycling Circuit:
+When `MAS Laser 1, 2` deconstruct target grids via Macro 5 (`MACRO_SALVAGE`), the FOB workshop operates as a closed-loop parts reclamation facility:
+1. **Intact Component Intake:** Undamaged functional components (Large Steel Tubes, Motors, Computers, Thruster Components, Metal Grids) route through the drawbar pipe into `MAS Hold Components` (3×3×3 Large Cargo, Palette 5) to replenish fleet repair inventories.
+2. **Scrap Metal Smelting:** Damaged scrap metal recovered during deconstruction is routed to `MAS Field Refinery`, melting down at 330 kW into pure Iron Ingots.
+3. **Assembler Disassembly (Reverse Metallurgy):** Surplus or obsolete salvaged parts are routed into `MAS Utility Assembler` configured in Disassemble Mode, breaking them down into constituent ingots (Fe, Ni, Co, Si, Pt, Au) to feed immediate NATO 25mm ammo fabrication or repair plates.
+
+```
+[SALVAGE EXTRACTION & CLOSED-LOOP RECYCLING CIRCUIT]
+
+   [PIRATE WRECK / TARGET GRID]
+         │
+         ▼ (Laser Deconstruction Beam · Mode: Grinder)
+   [MAS LASER 1, 2]
+         │
+         ▼ (Forearm & Turntable Conveyor Conduit)
+   [CARRIAGE 1 CENTRAL CONVEYOR SPINE]
+         │
+         ▼ (Flexible Articulated Drawbar Pipe)
+   ┌────────────────────────────────────────────────────────┐
+   │ CARRIAGE 2 FOB WORKSHOP CORE                           │
+   │                                                        │
+   │  ┌──────────────────┐   ┌───────────────────────────┐  │
+   │  │ INTACT COMPONENTS│──►│ MAS HOLD COMPONENTS (3×3) │  │
+   │  └──────────────────┘   └─────────────┬─────────────┘  │
+   │                                       │ (Parts Pull)   │
+   │  ┌──────────────────┐                 ▼                │
+   │  │ DAMAGED SCRAP    │──►[MAS FIELD REFINERY] (Ingots)  │
+   │  └──────────────────┘                 │                │
+   │                                       ▼                │
+   │  ┌──────────────────┐   [MAS UTILITY ASSEMBLER]        │
+   │  │ SURPLUS BLOCKS   │──►(Disassembly or Ammo Fab)      │
+   │  └──────────────────┘                                  │
+   └────────────────────────────────────────────────────────┘
+```
 
 ---
 
@@ -1564,7 +1616,7 @@ State Machine: Dynamic Fleet Authority & C2 Handover
 | Motor Hinge | `MAS Elbow Pitch` | Boom mid-joint · −100° to +45° · `Torque = 45 MN·m` |
 | Advanced Rotor | `MAS Wrist Roll` | Tool head roll alignment · ±180° · `Torque = 20 MN·m` |
 | Motor Hinge | `MAS Wrist Pitch` | 90° tool elbow pitch leveling & vertical down lock · −60° to +60° · `Torque = 20 MN·m` |
-| Laser Multitool | `MAS Laser 1, 2` | Mining beam heads on tool head · Continuous extraction |
+| Laser Multitool | `MAS Laser 1, 2` | Tri-mode Simple Laser Multitools (ToolCore) · Dynamic switching: Mining (Drill) / Salvage (Grinder, 15 to 30 m standoff) / Fabrication (Welder, 35 m reach) |
 | Sensor | `MAS Sensor Boom` | 4.0 m forward proximity collision safety buffer |
 | Connector (Large) | `MAS MP Conn` | Roof flush connector for MULE-01 shuttle docking |
 | Connector (Large) | `MAS Stern Dump Conn` | Stern bumper connector for CATERPILLAR-01 bulk train docking |
@@ -1710,6 +1762,15 @@ State Machine: Dynamic Fleet Authority & C2 Handover
 * [ ] **Black Box SOS Beacon Blackout Test:** Disconnect all main reactors and batteries. Confirm `MAS EC BlackBox` instantly wakes isolated `MAS Battery BlackBox`, broadcasting 50 km emergency distress ping `SOS-MASTODON-01-LOST`.
 * [ ] **Genesis Self-Repair Projector Alignment:** Activate `MAS Projector Master`. Confirm 1,039-block ghost blueprint aligns with 0.0 offset to the physical chassis, allowing repair welders to rebuild damaged blocks directly from `MAS Hold Components`.
 * [ ] **Anti-Capture Scuttle Countdown & Manual Abort:** Trigger Button 2 on `MAS BP Scuttle Bridge`. Confirm `MAS Timer Scuttle` initiates 60 s countdown, sirens sound, and interior lights flash red. Press Button 4 before T - 5 s; confirm countdown aborts and warheads return to safety disarm.
+
+### K · Tri-Mode Laser Multitool Salvage & Remote Welding Acceptance (Decision 65)
+* [ ] **Tri-Mode Operational Cycle:** Cycle `MAS Laser 1, 2` via Station 2 Hotbar 1 Slot 8. Confirm HUD feedback confirms mode switching across `Mining Beam (Drill)` -> `Salvage Beam (Grinder)` -> `Fabrication Beam (Welder)` -> `Mining Beam`.
+* [ ] **Macro 5 Automated Planar Salvage Sweep:** Position boom facing a test hull target. Trigger Macro 5 `SALVAGE` via Station 2 Hotbar 2 Slot 8. Confirm `[MAS] PB Excavator` positions tool head at 15 to 30 m standoff, maintains optimal perpendicular beam alignment, and executes 2D serpentine passes (ΔY, ΔX) peeling armor plates layer-by-layer without physical contact or collision jitter.
+* [ ] **100% Component Retention Verification:** Deconstruct functional target block (e.g. Battery, Large Hydrogen Thruster). Verify 100% of disassembled components (Power Cells, Thruster Components) are drawn through tool head conveyor vacuum into `MAS Hold Components` with zero floating debris ejection.
+* [ ] **Reverse Metallurgy Disassembly Loop:** Queue disassembly of 100 Interior Plates in `MAS Utility Assembler`. Confirm surplus plates are reclaimed into constituent Iron Ingots and transferred into manufacturing stock.
+* [ ] **Scrap Metal Smelting Acceptance:** Route 500 kg Scrap Metal into `MAS Field Refinery`. Confirm refinery consumes 330 kW, melting scrap into pure Iron Ingots to feed ongoing component fabrication.
+* [ ] **35 m Remote Field Fabrication & Structural Welding:** Switch lasers to Mode 3: Fabrication Beam (Welder). Aim boom at projected bridge block girder 30 m across test chasm. Verify remote beam welds block to 100% completion without requiring engineer EVA in hazardous conditions.
+
 
 
 
