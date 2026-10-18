@@ -20,7 +20,8 @@ Each step features: an exact ASCII schematic, Spatial Locator HUD, in-game paint
 * **Perimeter Defense CIWS & Warfare 3 MKII Roadmap (Decision 61):** 360° close-in weapon system (CIWS) and anti-intrusion grid: (1) 2× Large Grid Gatling Turrets (`MAS Turret Bow` at Carriage 1 dorsal crown L5, Z +7, X 0; `MAS Turret Stern` at Carriage 2 stern gantry L5, Z −26, X 0) plumbed into conveyor spine for automated ammo feeds from `MAS Utility Assembler`; (2) 2× Flush Ground-Level Anti-Personnel Interior Turrets (`MAS Turret Flank Port/Stbd` at L2, X ±4, Z +2) covering boarding ladder and perimeter; (3) Automated combat alert integration via `RIG//OS-Lite` (`RIG.OS.MODE CBT`); (4) Pre-Warfare 3 operational baseline with architectural upgrade path to **MASTODON-02 MKII** upon Warfare 3 DLC release.
 * **5-Point Field Logistics & Recovery Suite (Decision 62):** Complete expeditionary autonomy: (1) Deep Seismic Voxel Prospecting (4× Seismic Surveying outrigger feet, Mod 2819263781, 500 m pulse); (2) Flight Deck Drone Maintenance Welders (2× recessed roof welders under Kestrel pads); (3) 45 m Boom Heavy Crane & Recovery Grapple (1× wrist magnetic plate, Macro 4 `MACRO_CRANE`); (4) Atmospheric Scavenging & Ground EVA Lockers (2× intake vents for free O2, 2× flank ground-level lockers); (5) Coordinated Worksite Floodlight Matrix (boom spotlights, 360° tower floodlights, underbelly inspection lights).
 * **Extraction Arm Kinematics & Travel Stow Architecture (Decision 63):** Symmetrical heavy excavation and overland transit: (1) Centerline Turret Pedestal at [X0, Z +6, Y = L4] on 1× Large Advanced Rotor (`MAS Turret Azimuth`), providing 360° horizontal rotation and 21.25 m physical reach (50+ m laser reach) off both Port and Starboard flanks; (2) Travel Mode (Rigid Dorsal Spine Stow): Arm slews 180° Aft along the 14-block Tractor spine trough (Z +6 to Z −8) at Level L4; tool head locks into chassis Magnetic Plate `MAS Clamp Boom Stow` at [X0, Z −7, L4] with all hinges at 0°, zero hitch overhang, zero cab obstruction, and maximum transit height 5.2 m; (3) 90° Downward Elbow Tool Adapter: Sets neutral reference to straight down (−Y) with ±60° pitch compensation, ensuring true vertical downward aim (vector [0, -1, 0]) across 100% of the operating radius (6.0 m to 35.0 m) and depth down to −25 m (−55 m with laser beams); (4) Target-Centric Vertical Column Boring (Macro 2): `[MAS] PB Excavator` translates the arm in 2D concentric circular sweeps (ΔX, ΔZ) centered on an offset target waypoint (Xt, Zt) while `MAS Wrist Roll` spins twin lasers at 5.0 rpm for cylindrical shaft coring.
-* **Operating Environment:** Earth 1 g baseline, rough terrestrial terrain.
+* **Custom Bridge, ULSS & Emergency Survivability Suite (Decision 64):** Comprehensive interior spaces, multi-planetary life support, and native block failsafes (Rule C4): (1) Custom Walk-In Armored Bridge replacing prefab cockpit with three 1×1×1 open Control Stations (`MAS Helm`, `MAS Station Boom`, `MAS Station Fleet`) side-by-side at L4 within a 45° sloped heavy armor glass canopy, walk-around deck, 3-panel Tactical Video Wall, and 3 fully populated 9-slot hotbars per station (Hotbars 1-3); (2) Universal Closed-Loop Life Support (ULSS): Upgrades consist for vacuum (Moon, Europa) and toxic (Mars, Alien) worlds with 2× Large Oxygen Tanks (200,000 L O2), 1× Quarantined Emergency Ice Hold (`MAS Hold Ice LifeSupport`, 15,000 L), 2× Cryo Chambers (`MAS Cryo Pod 1, 2`), 4-zone hermetic isolation with automated breach seals, and 3 active gas-reclamation decompression airlocks; (3) Native Threat & Mobility Failsafes (Rule C4): 3× Armored Decoys (`MAS Decoy Flank Port/Stbd`, `MAS Decoy Stern`), 1× Pyrotechnic Hitch Severing Merge Block (`MAS Hitch Sever Tongue`), 2× Inverted Counter-Weight Gyros (`MAS Gyro Recovery 1, 2`), and an armored Black Box 50 km SOS Beacon (`MAS Beacon Distress`) with isolated cold battery (`MAS Battery BlackBox`); (4) Genesis Reconstruction & Anti-Capture Scuttle: 1× Master Projector (`MAS Projector Master`) for field self-repair from internal parts hold, plus 2× Armored Warheads (`MAS Warhead Scuttle Bridge/Power`) with 60 s native countdown timer and manual abort; (5) Physical In-Situ Controls: 6× wall-mounted Sci-Fi 4-Button Panels.
+* **Operating Environment:** Universal planetary & terrestrial surface operations (Earth 1 g baseline, airless vacuum moons, thin-atmosphere deserts, and hostile alien terrain).
 
 ---
 
@@ -212,18 +213,18 @@ Bow     │ 2-Seat Panoramic Cockpit  Nuclear Core                              
 | **Corner Outriggers** | 4× Large Pistons + 4× Seismic Surveying Feet (Palette 1 · Mod 2819263781) | 8 | 18.4 t | 260 |
 | **Tractor Power Core** | 2× Small Nuclear Reactors, 1× Hydrogen Engine, 3× Large Batteries (Palette 6) | 6 | 31.6 t | 730 |
 | **Articulated Boom & Crane** | 2× Adv Rotors, 3× Motor Hinges, 2× Lasers, 1× Crane Grapple, 1× Stow Clamp, 1× 90° Tool Elbow, Girders, Spotlights (Palette 3) | 23 | 39.6 t | 1,020 |
-| **Armored Bridge & C2** | 1× Cockpit, 2× Stations, 2× PBs, Laser Antenna, Glass, Detector | 18 | 15.8 t | 410 |
-| **Drawbar Hitch Assembly** | 1× Adv Rotor, 1× Motor Hinge, Heavy Armor Joint Blocks | 6 | 12.0 t | 225 |
+| **Armored Bridge & C2** | 3× Control Stations, 2× PBs, Laser Antenna, Glass, Ore Detector, 1× Scuttle Warhead, 1× Timer, 2× Button Panels | 23 | 16.2 t | 470 |
+| **Drawbar Hitch & Severance** | 1× Adv Rotor, 1× Motor Hinge, 1× Merge Block (Hitch Sever Tongue), Heavy Armor Joint Blocks | 7 | 13.5 t | 235 |
 | **Utility Carriage Hull** | Heavy armor frames, wheel wells, deck armor (Palette 0) | 360 | 306.0 t | 360 |
 | **Utility Powertrain** | 4× 5×5 Heavy Suspension Wheels (Axles 4-5) | 4 | 32.0 t | 400 |
 | **Utility Sub-Floor Battery Vault** | 3× Large Batteries (9.0 MWh, Palette 6) | 3 | 13.5 t | 120 |
-| **Interior Walkways & Hatches** | Grated catwalks, sliding doors, ladder runs, interior lights (Palette 9) | 25 | 12.5 t | 140 |
-| **Field Workshop & Life Support** | 1× Basic Refinery, 1× Large Assembler, 1× Survival Kit, 2× O2/H2 Tanks, 2× Large H2 Tanks, 2× Intake Vents | 11 | 53.0 t | 680 |
+| **Interior Walkways & Decoys** | Grated catwalks, sliding doors, ladder runs, interior lights, 3× Armored Decoys, 2× Keel Recovery Gyros (Palette 9) | 30 | 18.0 t | 240 |
+| **Field Workshop & Universal Life Support** | 1× Basic Refinery, 1× Large Assembler, 1× Medical Room, 2× Cryo Pods, 1× Survival Kit, 2× Large O2 Tanks, 1× Quarantined Ice Hold, 2× Large H2 Tanks, 2× O2/H2 Gens, 6× Air Vents, 1× Master Projector, 1× Scuttle Warhead | 22 | 68.2 t | 815 |
 | **Utility Cargo Hold** | 1× Large Cargo Container (Components), Conveyor network | 16 | 28.0 t | 160 |
 | **Flight Decks, Welders & Solar** | 1× Mule Pad, 2× Kestrel Pads, 2× Drone Welders, Stern Dump, 4× Solar Panels, 4× Floodlights | 68 | 61.6 t | 980 |
 | **Perimeter Defense Suite** | 2× Gatling Turrets, 2× Interior Turrets, Ammunition Conveyor Feeds (Palette 7) | 12 | 9.6 t | 308 |
-| **External EVA & Running Lights** | 2× Ground-Level EVA Lockers, 3× Underbelly Inspection Lights (Palette 9) | 5 | 1.2 t | 70 |
-| **TOTAL CONSIST (DRY)** | Complete Expeditionary Mining Locomotive & Mobile FOB | **1,011** | **≈ 956.8 t** | **6,903** |
+| **External EVA, Lights & Failsafes** | 2× Ground EVA Lockers, 3× Keel Lights, 1× Black Box SOS Beacon & Isolated Battery, 4× In-Situ Button Panels (Palette 9) | 11 | 2.5 t | 110 |
+| **TOTAL CONSIST (DRY)** | Complete Expeditionary Mining Locomotive & Mobile FOB | **1,039** | **≈ 978.5 t** | **7,198** |
 
 ---
 
@@ -503,21 +504,25 @@ Plan view, Y = L3 (Tractor Buffer Hold)
 
 ---
 
-### Step 10.5 · Heavy Motorized 2-Axis Drawbar Hitch (Z = −8, X0, L2)
+### Step 10.5 · Heavy Motorized 2-Axis Drawbar Hitch & Pyrotechnic Severance (Z = −8, X0, L2)
 
 At the aft bulkhead of the tractor, install a heavy-duty 2-axis articulated drawbar hitch that connects the tractor to the utility carriage mechanically and routes the main large conveyor line:
 1. **Azimuth (Yaw) Joint:** 1× Large Advanced Rotor mounted at Z = −8 facing Aft (−Z). Allows the consist to articulate horizontally when turning.
 2. **Pitch Joint:** 1× Motorized Large Hinge connected directly to the rotor head. Allows the consist to traverse crests and dips over rough terrain without lifting wheels.
-3. **Settings:** Share Inertia Tensor = `ON` · Braking Torque = `45 MN·m`.
+3. **Pyrotechnic Severance Merge Block (`MAS Hitch Sever Tongue`):** Mount 1× Large Grid Merge Block directly on the drawbar tongue at [X0, Z −8, Y = L2]. In emergency catastrophic events (runaway fire, trailer rolling over a cliff, nuclear containment breach), triggering `Hitch Eject` physically decouples Carriage 1 and Carriage 2 instantly, allowing the tractor to escape as an independent 6×6 unit or leaving the utility carriage as a self-powered static FOB.
+4. **Settings:** Share Inertia Tensor = `ON` · Braking Torque = `45 MN·m`.
 
 ```
-2.5D Isometric Callout · 2-Axis Articulated Drawbar Hitch
+2.5D Isometric Callout · 2-Axis Articulated Drawbar Hitch & Severance
     Tractor Aft Bulkhead (Z −8)
            ║
            ╠══[ADVANCED ROTOR] (Horizontal Yaw Articulation: −45° to +45°)
            ║        │
            ║        ▼
            ║   [MOTOR HINGE] (Vertical Pitch Articulation: −25° to +25°)
+           ║        │
+           ║        ▼
+           ║   [MERGE BLOCK: MAS HITCH SEVER TONGUE] (Emergency Decoupling)
            ║        │
            ║        ▼
            ╚════════╪═════════════════════════════════════════► To Utility Carriage (Carriage 2)
@@ -556,8 +561,19 @@ Directly above the mechanical drawbar hitch, construct a heavy-duty flexible pre
 ### Step 10.5D · Ground-Level EVA Survival Lockers & Underbelly Inspection Lights (L1-L2)
 
 To ensure field technicians can access emergency life support and tools without entering the pressurized habitat:
-* **Flank EVA Lockers:** Mount 2× Small Cargo Containers (`MAS Locker Port` at [X −5, Z −4, Y = L2] and `MAS Locker Stbd` at [X +5, Z −4, Y = L2]), recessed flush into the lower armored skirts. Painted Palette Slot 9 (High-Viz Safety Yellow). Accessible directly from ground level; pre-stocked with emergency hydrogen suit bottles, oxygen bottles, tool welders, and 5.56mm/25mm ammunition.
+* **Flank EVA Lockers:** Mount 2× Small Cargo Containers (`MAS Locker Port` at [X −5, Z −4, Y = L2] and `MAS Locker Stbd` at [X +5, Z −4, Y = L2]), recessed flush into the lower armored skirts. Painted Palette Slot 9 (High-Viz Safety Yellow). Accessible directly from ground level; pre-stocked with emergency hydrogen suit bottles, oxygen bottles, tool welders, and 5.56mm/25mm ammunition. Plumbed with auto-refill bottle feeds.
 * **Underbelly Keel Lighting:** Mount 3× Interior Lights (`MAS Lights Underbelly`) along the centerline chassis keel at [X0, Z +5], [X0, Z0], and [X0, Z −5] at Level L1. Casts low-intensity amber illumination across wheel suspension hubs, outrigger cylinders, and the tailings aggregate manifold for night maintenance.
+
+---
+
+### Step 10.5E · Native Threat Decoys, Recovery Gyros & Black Box SOS Cell (L1-L3)
+
+To guarantee survival and asset protection under severe attack or total vehicle immobilization (Rule C4 native block compliance):
+* **Ballistic Decoy Sponsons (`MAS Decoy Flank Port/Stbd`, `MAS Decoy Stern`):** Mount 3× Decoys encased within heavy armor and blast door blocks at [X −5, Z −4, Y = L2] (Port skirt), [X +5, Z −4, Y = L2] (Starboard skirt), and [X0, Z −26, Y = L2] (Stern bumper). In Space Engineers, automated turret AI targets Decoys first, diverting artillery, rockets, and gatling rounds into the heavily armored lower chassis skirts away from the bridge canopy and reactors.
+* **Self-Righting Keel Gyroscopes (`MAS Gyro Recovery 1, 2`):** Mount 2× Large Grid Gyroscopes in the lower chassis keel at [X0, Z0, Y = L1]. During normal transit, `Override = OFF`. If the consist rolls onto its side or inverts on steep terrain, toggling `Override = ON` (Roll +100%) applies instant angular torque to roll the consist back onto its wheels.
+* **Armored Black Box & SOS Distress Beacon (`MAS Beacon Distress`):** Encase 1× Radio Antenna / Beacon (`MAS Beacon Distress`, 50 km broadcast) and 1× Small Battery (`MAS Battery BlackBox`, isolated, `Recharge = OFF`) in a 6-sided heavy armor capsule at [X0, Z +7, Y = L1]. Native Event Controller `MAS EC BlackBox` monitors main grid power: upon total electrical blackout (0.0 MW), the isolated battery auto-activates, broadcasting an emergency GPS distress ping `SOS-MASTODON-01-LOST`.
+* **Power Vault Scuttle Charge (`MAS Warhead Scuttle Power`):** Mount 1× Large Grid Warhead between the two nuclear reactors at [X0, Z −3, Y = L3]. Disarmed by default. Linked to the bridge scuttle countdown loop for anti-capture asset destruction.
+* **Power Vault In-Situ Control Panel (`MAS BP Power Vault`):** Mount 1× Sci-Fi 4-Button Panel on the Jefferies tube wall at [X −2, Z −1, Y = L3] (Button 1: Vault Door Toggle, Button 2: Reactor SCRAM, Button 3: H2 Engine Cold-Start, Button 4: Battery Bank Shore Charge).
 
 #### Pre-Enclosure Inspection Gate 10.2A: Power Core Isolation, Jefferies Tube & Gangway Test
 * [ ] Verify reactor automated uranium pull through the central conveyor trunk.
@@ -567,6 +583,10 @@ To ensure field technicians can access emergency life support and tools without 
 * [ ] Confirm physical maintenance port on `MAS Tractor Buffer` opens and allows manual inventory access.
 * [ ] Confirm articulated inter-carriage gangway maintains airtight seal and flexes cleanly with hitch movement.
 * [ ] Test 2-axis drawbar hitch: ensure rotor and hinge pivot freely without clashing with the chassis frame.
+* [ ] Verify `MAS Hitch Sever Tongue` merge block physically separates consist carriages upon `Hitch Decouple` command.
+* [ ] Confirm `MAS Decoy Flank Port/Stbd` draw hostile turret lock away from the bridge and reactors.
+* [ ] Confirm `MAS Gyro Recovery 1, 2` successfully right consist from a 90° lateral rollover test.
+* [ ] Test `MAS Beacon Distress` and `MAS Battery BlackBox`: confirm automated 50 km SOS ping triggers upon simulated total blackout.
 * [ ] Verify `MAS EC Hitch Speed` dynamically raises rotor braking torque to 100 MN·m when speed exceeds 35 km/h.
 * [ ] Verify `MAS Locker Port/Stbd` are accessible from ground level (L0) and `MAS Lights Underbelly` illuminate suspension hubs.
 
@@ -901,8 +921,7 @@ PHASE 10-3 VISUAL MILESTONE · OUTRIGGERS ANCHORED & BOOM DEPLOYED
 ```
 
 ### Pre-Step Parts Tray: Phase 10-4
-* 1× Cockpit (`MAS Helm`, Palette 7: Fleet Command Navy)
-* 2× Control Station (`MAS Station Boom`, `MAS Station Fleet`, Palette 7)
+* 3× Control Station (`MAS Helm`, `MAS Station Boom`, `MAS Station Fleet`, Palette 7: Fleet Command Navy)
 * 2× Programmable Block (`[MAS] PB Excavator`, `[MAS] PB RIG//OS-Lite`, Palette 7)
 * 3× AI Automaton Block (`MAS AI Move`, `MAS AI Task`, `MAS AI Defense`)
 * 1× Laser Antenna (`MAS Comm Laser`, Palette 7)
@@ -911,69 +930,178 @@ PHASE 10-3 VISUAL MILESTONE · OUTRIGGERS ANCHORED & BOOM DEPLOYED
 * 1× Survival Kit (Tractor Field Respawn, Palette 7)
 * 14× Sloped Heavy Armor Glass (Bridge canopy)
 * 6× LCD Panel (Tactical video wall and console telemetry HUDs)
-* 1× Air Vent + 1× Small O2 Tank (Pressurization)
+* 1× Air Vent (`MAS Vent Bridge`, Hermetic Zone 1)
+* 1× Large Warhead (`MAS Warhead Scuttle Bridge`, disarmed anti-capture charge)
+* 1× Timer Block (`MAS Timer Scuttle`, 60-second scuttle loop)
+* 2× Sci-Fi 4-Button Panel (`MAS BP Scuttle Bridge`, `MAS BP Airlock Vestibule`)
 * 1× Large Gatling Turret (`MAS Turret Bow`, Palette 7: Fleet Command Navy)
 * 2× Large Interior Turret (`MAS Turret Flank Port`, `MAS Turret Flank Stbd`, Palette 7)
 
 ---
 
-### Step 10.10 · 3-Operator Panoramic C2 Command Bridge & Tactical Avionics
+### Step 10.10 · 3-Operator Custom Walk-In Armored Bridge & Multi-Page Hotbars
 
-Construct the forward command bridge overlooking the terrain. Level L3 accommodates the deep ore detector and avionics compute rack; Level L4 accommodates the 3-operator command deck:
-1. **Station 1 (Port): Helm Pilot (`MAS Helm`):** Controls chassis traction, 3-axle steering, outrigger deploy/retract sequences, and hill-climbing crawl.
-2. **Station 2 (Center): Excavation Master (`MAS Station Boom`):** Controls the 45 m articulated boom via Custom Turret Controller (CTC) mouse aim, tool head camera, and automated macro sweep execution.
-3. **Station 3 (Starboard): Tactical Fleet Director (`MAS Station Fleet`):** Runs `RIG//OS-Lite` fleet coordination, dispatching Caterpillar land trains, calling Mule shuttles, receiving Kestrel scout coordinates, and monitoring ore quotas.
+Construct the forward command bridge overlooking the terrain. Instead of a cramped 3×3×2 enclosed cockpit prefab, the Mastodon utilizes a **Custom Walk-In Armored Bridge Cabin** (7 W × 6 L × 3 H B):
+1. **Station 1 (Port): Helm Pilot (`MAS Helm`):** Open 1×1×1 Control Station at [X −2, Z +10, Y = L4]. Controls chassis traction, 3-axle steering, outrigger deploy/retract sequences, hill-climbing crawl, power modes, and worksite lights.
+2. **Station 2 (Center): Excavation Master (`MAS Station Boom`):** Open 1×1×1 Control Station at [X0, Z +10, Y = L4]. Controls the 35 m articulated boom via Custom Turret Controller (CTC) mouse aim, tool head camera, and automated macro sweep execution.
+3. **Station 3 (Starboard): Tactical Fleet Director (`MAS Station Fleet`):** Open 1×1×1 Control Station at [X +2, Z +10, Y = L4]. Runs `RIG//OS-Lite` fleet coordination, dispatching Caterpillar land trains, calling Mule shuttles, receiving Kestrel scout coordinates, and monitoring ore quotas.
 4. **C2 Compute Rack (Level L3):** Houses dual Programmable Blocks (`[MAS] PB Excavator` and `[MAS] PB RIG//OS-Lite`) along with AI Automaton blocks for uncrewed autonomous operation.
 5. **Dorsal Comms Mast (Level L6):** Houses the 40 km Laser Antenna (`MAS Comm Laser`) and 50 km Radio Antenna (`MAS Comm Radio`).
 
 ```
-Plan view, Y = L4 (Bridge Operator Deck & Tactical Video Wall)
-        X: −2          0          +2
-    Z: +11 ┌───────────────────────────┐
-           │ [HELM]   [BOOM CTC]  [FLEET]│  ◄── 3-Operator Consoles (Navy Blue)
-    Z: +9  │ PILOT     EXCAVATE   TACTIC │      Reinforced 45° Sloped Armor Glass
-           ├───────────┬───────────┬───┤
-    Z: +8  │ [SURV KIT]│ [TAC LCD] │LCD│  ◄── Survival Kit (Port) / 3-Panel Video Wall
-           └───────────┴─────┬─────┴───┘
-    Z: +7  [ORE DETECTOR]    │ [C2 COMPUTE RACK] (L3 Core: Dual PBs + AI Blocks)
+Plan view, Y = L4 (Custom Walk-In Bridge Deck & Tactical Video Wall)
+        X: −3          X: −2           X0            X: +2          X: +3
+    Z: +12 ┌─────────────────────────────────────────────────────────────┐
+           │        45° SLOPED HEAVY ARMOR GLASS CANOPY (PANORAMIC)      │
+    Z: +11 │   [STATION 1]             [STATION 2]           [STATION 3] │
+           │   HELM / PILOT            BOOM EXCAVATOR        FLEET DIR   │
+           │  (Control Station)       (Control Station)    (Control Stn) │
+    Z: +10 │        │                      │                     │       │
+           │   ◄────┴──────── OPEN WALKWAY AISLE (Palette 9) ────┴────►  │
+    Z: +9  ├───────────────────────────┬─────────────┬───────────────────┤
+           │ [SURVIVAL KIT]            │ [LCD WALL 1]│ [LCD WALL 2]      │
+    Z: +8  │ Field Respawn / O2-H2     │ Consist Sys │ Tactical Fleet    │
+           ├───────────────────────────┴──────┬──────┴───────────────────┤
+    Z: +7  │ [AIRLOCK SLIDING DOOR]           │ [LADDER UP TO ROOF CROWN]│
+           └──────────────────────────────────┴──────────────────────────┘
 ```
 
 ```
-3-Operator Bridge Hotbar Setup:
+3-Operator Multi-Page Manual Hotbar Architecture:
 
-Station 1: Helm Pilot (`MAS Helm`)
+================================================================================
+STATION 1: HELM PILOT (`MAS Helm`)
+================================================================================
+[Hotbar 1 · Tractive Powertrain & Bedrock Anchoring]
 · Slot 1: Group `MAS Outriggers` -> Reverse (Deploy / Retract)
-· Slot 2: Group `MAS Outrigger Pads` -> Switch Lock (Voxel Lock)
+· Slot 2: Group `MAS Outrigger Pads` -> Switch Lock (Bedrock 100% Voxel Lock)
 · Slot 3: Handbrake -> Toggle
-· Slot 4: Group `MAS Tractor Wheels` -> Propulsion ON/OFF
-· Slot 5: Group `MAS Tractor Wheels` -> Increase Strength (+5%)
-· Slot 6: Group `MAS Tractor Wheels` -> Decrease Strength (-5%)
-· Slot 7: Event Controller `MAS EC Stabilizers` -> Trigger
+· Slot 4: Group `MAS Wheels Drive` -> Propulsion ON/OFF
+· Slot 5: Group `MAS Wheels All` -> Increase Strength (+5%)
+· Slot 6: Group `MAS Wheels All` -> Decrease Strength (-5%)
+· Slot 7: Event Controller `MAS EC Level` -> Trigger Auto-Leveling
+· Slot 8: Group `MAS Sorter Tailings` -> Power ON/OFF (Gravel Dump)
+· Slot 9: Group `MAS Ejectors Tailings` -> Throw Out ON/OFF
+
+[Hotbar 2 · Consist Dynamics & Power Management]
+· Slot 1: Rotor `MAS Hitch Yaw` -> Increase Braking Torque (Anti-Jackknife Lock)
+· Slot 2: Rotor `MAS Hitch Yaw` -> Decrease Braking Torque (Freewheel)
+· Slot 3: Group `MAS Reactors` -> Power ON/OFF (Nuclear Scram)
+· Slot 4: Generator `MAS Engine H2` -> Power ON/OFF (Emergency Cold-Start)
+· Slot 5: Group `MAS Batteries Consist` -> Recharge ON/OFF (Shore Fast Charge)
+· Slot 6: PB `[MAS] PB Excavator` -> Run `POWER MODE 1` (Silent Eco)
+· Slot 7: PB `[MAS] PB Excavator` -> Run `POWER MODE 2` (Tractive Cruise)
+· Slot 8: PB `[MAS] PB Excavator` -> Run `POWER MODE 3` (Heavy Excavate)
+· Slot 9: PB `[MAS] PB Excavator` -> Run `POWER MODE 4` (Emergency Failover)
+
+[Hotbar 3 · External Access & Worksite Illuminators]
+· Slot 1: Hinge `MAS Crew Ladder Hinge` -> Reverse (Lower / Raise Boarding Ladder)
+· Slot 2: Group `MAS Lights Worksite` -> Toggle ON/OFF (All Tower/Boom/Underbelly)
+· Slot 3: Group `MAS Floodlight Tower` -> Toggle ON/OFF (360° Cardinal Ring)
+· Slot 4: Group `MAS Lights Underbelly` -> Toggle ON/OFF (Chassis Maintenance Amber)
+· Slot 5: Sliding Door `MAS Door Airlock` -> Open/Close
+· Slot 6: Air Vent `MAS Vent Atmo Intake Port` -> Depressurize ON/OFF
+· Slot 7: Air Vent `MAS Vent Atmo Intake Stbd` -> Depressurize ON/OFF
 · Slot 8: Antenna `MAS Comm Radio` -> Broadcast ON/OFF
-· Slot 9: Connector `MAS MP Conn` -> Lock / Unlock
+· Slot 9: Laser Antenna `MAS Comm Laser` -> Reset Connection
 
-Station 2: Excavation Master (`MAS Station Boom`)
-· Slot 1: Custom Turret Controller `MAS CTC Boom` -> Control (Mouse Aim)
-· Slot 2: Group `MAS Lasers` -> Shoot ON/OFF
-· Slot 3: Camera `MAS Cam Boom` -> View
-· Slot 4: Group `MAS Boom Lights` -> ON/OFF
-· Slot 5: Boom Macro 1: Bench Quarry Mode (Run Timer `MAS Timer Bench`)
-· Slot 6: Boom Macro 2: Vertical Shaft Bore (Run Timer `MAS Timer Bore`)
-· Slot 7: Boom Macro 3: Trench Carve Mode (Run Timer `MAS Timer Trench`)
-· Slot 8: Boom Preset: Stowed Transit (Run Timer `MAS Timer Stow`)
-· Slot 9: Boom Preset: Emergency Stop / Joint Brakes ON
+================================================================================
+STATION 2: EXCAVATION MASTER (`MAS Station Boom`)
+================================================================================
+[Hotbar 1 · Direct Joint Teleoperation & Tool Aim]
+· Slot 1: Custom Turret Controller `MAS CTC Boom` -> Control (Direct Mouse Aim)
+· Slot 2: Group `MAS Lasers Tool` -> Shoot ON/OFF (Twin Mining Lasers)
+· Slot 3: Camera `MAS Cam Tool Head` -> View (Bore Sump Alignment)
+· Slot 4: Rotor `MAS Turret Azimuth` -> Reverse (Manual Pan Left/Right)
+· Slot 5: Hinge `MAS Shoulder Pitch` -> Reverse (Manual Boom Elevation)
+· Slot 6: Hinge `MAS Elbow Pitch` -> Reverse (Manual Reach Extension)
+· Slot 7: Hinge `MAS Wrist Pitch` -> Reverse (Manual Tool Pitch)
+· Slot 8: Rotor `MAS Wrist Roll` -> Power ON/OFF (5.0 rpm Cutting Head Roll)
+· Slot 9: Magnetic Plate `MAS Tool Grapple` -> Switch Lock (Crane Hoisting)
 
-Station 3: Tactical Fleet Director (`MAS Station Fleet`)
-· Slot 1: IGC Send: `TMS.MULE.CALL;MAS-01;RARE_ORE` (Request Air Ferry)
-· Slot 2: IGC Send: `TMS.CAT.CALL;MAS-01;BULK_ORE` (Request Bulk Land Train)
-· Slot 3: Sorter `MAS MP Sorter` -> Drain All ON/OFF
-· Slot 4: Sorter `MAS Stern Sorter` -> Drain All ON/OFF
-· Slot 5: Laser Antenna `MAS Comm Laser` -> Connect Ground Base / Drone
-· Slot 6: LCD Video Wall -> Cycle Page (Fleet Map / Quotas / Holds)
-· Slot 7: Remote Control `MAS-02` (Subordinate Excavator Slave Link)
-· Slot 8: Remote Control `CAT-01` (Caterpillar Land Train Slave Link)
+[Hotbar 2 · Automated Kinematic Macros & Presets]
+· Slot 1: PB `[MAS] PB Excavator` -> Run `DEPLOY` (Release Clamp & Raise to Ready)
+· Slot 2: PB `[MAS] PB Excavator` -> Run `STOW` (14-Block Dorsal Spine Clamp Lock)
+· Slot 3: Magnetic Plate `MAS Clamp Boom Stow` -> Switch Lock (Manual Clamp Override)
+· Slot 4: PB `[MAS] PB Excavator` -> Run `MACRO BENCH` (Automated Quarry Sweep)
+· Slot 5: PB `[MAS] PB Excavator` -> Run `BORE` (Target-Centric Column Shaft)
+· Slot 6: PB `[MAS] PB Excavator` -> Run `MACRO TRENCH` (Roadbed Carve)
+· Slot 7: PB `[MAS] PB Excavator` -> Run `CRANE` (Vehicle Recovery Grapple)
+· Slot 8: Group `MAS Boom Joints` -> Rotor Lock ON/OFF (E-Stop Brake)
+· Slot 9: Sensor `MAS Sensor Boom` -> Power ON/OFF (Collision Stop Override)
+
+[Hotbar 3 · Worksite Illumination & Ore Buffer Telemetry]
+· Slot 1: Group `MAS Light Boom` -> Toggle ON/OFF (Tool Head Spotlights)
+· Slot 2: Camera `MAS Cam Boom Turret` -> View (Wide-Angle Turret Vantage)
+· Slot 3: Sorter `MAS Sorter Tailings` -> Drain All ON/OFF
+· Slot 4: Cargo Container `MAS Tractor Buffer` -> Show on HUD ON/OFF
+· Slot 5: Cargo Container `MAS Hold Ore Cat` -> Show on HUD ON/OFF
+· Slot 6: Event Controller `MAS EC Ore Full` -> Trigger Alert
+· Slot 7: IGC Send: `TMS.MULE.CALL;MAS-01;HOLD_FULL`
+· Slot 8: IGC Send: `TMS.CAT.CALL;MAS-01;HOLD_FULL`
+· Slot 9: Group `MAS Drills Tool` -> Shoot ON/OFF (Backup Mechanical Drills)
+
+================================================================================
+STATION 3: TACTICAL FLEET DIRECTOR (`MAS Station Fleet`)
+================================================================================
+[Hotbar 1 · Logistics Dispatch & Ore Offload Automation]
+· Slot 1: IGC Send: `TMS.MULE.CALL;MAS-01;RARE_ORE` (Call Air Cargo Ferry)
+· Slot 2: IGC Send: `TMS.CAT.CALL;MAS-01;BULK_ORE` (Call Caterpillar Land Train)
+· Slot 3: Connector `MAS MP Conn` -> Lock/Unlock (Mule Roof Pad Connector)
+· Slot 4: Group `MAS MP Clamps` -> Switch Lock (Mule Cradle Rub Rails)
+· Slot 5: Sorter `MAS MP Sorter` -> Drain All ON/OFF (Rare Ore Fast Drain)
+· Slot 6: Connector `MAS Stern Dump Conn` -> Lock/Unlock (Caterpillar Stern Rail)
+· Slot 7: Sorter `MAS Stern Sorter` -> Drain All ON/OFF (Bulk Hopper Dump)
+· Slot 8: Group `MAS Welder Pad Kestrel` -> Power ON/OFF (Drone Repair Welders)
 · Slot 9: Event Controller `MAS EC Handover` -> Trigger C2 Base Handover
+
+[Hotbar 2 · Slave Links & Subordinate Machine Teleoperation]
+· Slot 1: Remote Control `MAS-02 Remote` -> Control (Subordinate Worker Excavator)
+· Slot 2: Remote Control `CAT-01 Remote` -> Control (Caterpillar Locomotive)
+· Slot 3: Remote Control `KES-01 Remote` -> Control (Kestrel Scout Drone)
+· Slot 4: Remote Control `ALB-01 Remote` -> Control (Albatross Repair Drone)
+· Slot 5: Ore Detector `MAS Ore Detector` -> Range +10 m
+· Slot 6: Ore Detector `MAS Ore Detector` -> Range -10 m
+· Slot 7: PB `[MAS] PB Excavator` -> Run `SEISMIC` (Trigger Voxel Prospecting Pulse)
+· Slot 8: LCD Panel `MAS LCD Video Wall 1` -> Cycle Page
+· Slot 9: LCD Panel `MAS LCD Video Wall 2` -> Cycle Page
+
+[Hotbar 3 · Perimeter CIWS Defense & Alert Status]
+· Slot 1: Large Gatling Turret `MAS Turret Bow` -> Control (Direct CIWS Aim)
+· Slot 2: Large Gatling Turret `MAS Turret Stern` -> Control (Stern CIWS Aim)
+· Slot 3: Camera `MAS Cam Bow CIWS` -> View
+· Slot 4: Camera `MAS Cam Stern CIWS` -> View
+· Slot 5: Group `MAS Turrets Flank` -> Power ON/OFF (Anti-Personnel Skirt Guns)
+· Slot 6: Group `MAS Turrets All` -> Target Meteors ON/OFF
+· Slot 7: Group `MAS Turrets All` -> Target Hostiles ON/OFF
+· Slot 8: PB `[MAS] PB RIG//OS-Lite` -> Run `ALERT CBT` (Lockdown / Combat Mode)
+· Slot 9: PB `[MAS] PB RIG//OS-Lite` -> Run `ALERT NORM` (Clear Combat Alert)
 ```
+
+---
+
+### Step 10.10D · Bridge Anti-Capture Scuttle System & Countdown Loop (L3-L4)
+
+To prevent advanced technology, refining assets, and encryption keys from falling into enemy hands if the vehicle is overrun:
+* **Bridge Scuttle Charge (`MAS Warhead Scuttle Bridge`):** Mount 1× Large Grid Warhead beneath the C2 compute rack at [X0, Z +8, Y = L3]. Disarmed by default.
+* **Scuttle Control Panel (`MAS BP Scuttle Bridge`):** Mount 1× Sci-Fi 4-Button Panel on the bridge aft bulkhead at [X +1, Z +8, Y = L4] (Button 1: Arm Scuttle System, Button 2: Start 60 s Countdown, Button 3: Broadcast Abandon Ship SOS, Button 4: Emergency Scuttle Abort).
+* **Native Timer Countdown Loop (`MAS Timer Scuttle`):** Set countdown to 60 seconds.
+  * T − 60 s: Triggers bridge siren, switches interior lights to flashing red, and broadcasts `MASTODON-01 SCUTTLE INITIATED`.
+  * T − 5 s: Arms both `MAS Warhead Scuttle Bridge` and `MAS Warhead Scuttle Power`.
+  * T − 0 s: Simultaneous detonation, destroying the avionics, reactors, and C2 core.
+  * Pressing Button 4 before T − 5 s stops the timer and returns warheads to safety disarm.
+
+---
+
+### Step 10.10E · Physical In-Situ Interfaces (Sci-Fi 4-Button Panels)
+
+To support foot operations without requiring cockpit entry, 6 wall-mounted Sci-Fi 4-Button Panels (1×1×1 B) provide physical local control:
+* **`MAS BP Ground Boarding` (Port Skirt [X −4, Z +7, L1]):** Button 1: Ladder Lower/Raise · Button 2: Keel Lights · Button 3: Outer Airlock Door · Button 4: Beacon Toggle.
+* **`MAS BP Airlock Vestibule` (Airlock [X −2, Z +7, L3]):** Button 1: Outer Door Cycle · Button 2: Inner Door Cycle · Button 3: Cabin Pressurize/Depress · Button 4: EVA Locker Access.
+* **`MAS BP Power Vault` (Jefferies [X −2, Z −1, L3]):** Button 1: Vault Door Toggle · Button 2: Reactor SCRAM · Button 3: H2 Engine Cold-Start · Button 4: Battery Shore Charge.
+* **`MAS BP Field Workshop` (Workshop [X0, Z −14, L3]):** Button 1: Assembler Repeat (Plates) · Button 2: Refinery Ore Flush · Button 3: O2/H2 Gen Toggle · Button 4: Workshop Lights.
+* **`MAS BP Flight Deck` (Roof Hatch [X +2, Z −10, L6]):** Button 1: Mule Clamps Toggle · Button 2: Mule Connector Toggle · Button 3: Kestrel Welders Pulse · Button 4: Deck Floodlights.
+* **`MAS BP Stern Dump` (Rear Platform [X +2, Z −25, L2]):** Button 1: Stern Connector Toggle · Button 2: Stern Bulk Sorter Drain All · Button 3: Cat Train Ping · Button 4: Rear Worksite Light.
 
 ---
 
@@ -1037,10 +1165,15 @@ To protect the locomotive consist against hostile MES pirate drones and ground b
 * 3× Large Battery (3 MWh each, 9.0 MWh total, Palette 6: High-Voltage Red)
 * 1× Basic Refinery (1×1×2 B, 330 kW, Palette 4: Processing Teal)
 * 1× Large Assembler (Palette 4: Processing Teal)
-* 1× Medical Bay + 1× Cryo Chamber (Palette 7)
+* 1× Medical Bay + 2× Cryo Chamber (Palette 7: Fleet Command Navy)
+* 2× Large Oxygen Tank (200,000 L O2, Palette 4: Processing Teal)
+* 1× Small Cargo Container (`MAS Hold Ice LifeSupport`, 15,000 L Quarantined Ice, Palette 4)
 * 2× Large Hydrogen Tank (Palette 6)
 * 2× O2/H2 Generator (Palette 4)
+* 4× Air Vent (`MAS Vent Workshop`, `MAS Vent Crawlway`, `MAS Vent Airlock Roof`, `MAS Vent Airlock Stern`)
 * 1× Large Cargo Container (3×3×3 B, Palette 5: Logistics Emerald)
+* 1× Large Projector (`MAS Projector Master`, Palette 7)
+* 2× Sci-Fi 4-Button Panel (`MAS BP Flight Deck`, `MAS BP Stern Dump`)
 * 14× Grated Catwalk Block, 4× Ladder Block, 2× Sliding Door (Palette 9)
 * 16× Large Conveyor Pipe & 6× Conveyor Junction (Palette 4)
 
@@ -1074,22 +1207,28 @@ Install 3 Large Batteries (`MAS Battery 4, 5, 6`) in the Level L2 sub-floor cavi
 
 ---
 
-### Step 10.12 · Mobile FOB Field Workshop & Medical Suite (L2-L4)
+### Step 10.12 · Mobile FOB Field Workshop, Medical Suite & Universal Life Support (L2-L4)
 
 Outfit Carriage 2 as a self-sustaining expeditionary base centered along the Level L3 central aisle:
 1. **Field Workshop Assembler (`MAS Utility Assembler`):** Large Assembler at [X −2, Z −14] configured to fabricate replacement plates, drill components, and motors directly in the field. Dual physical inventory panels face the central aisle for manual blueprint access.
-2. **Medical & Survival Room (`MAS Medical Bay`):** Pressurized crew habitat at [X +2, Z −12 to −14] with Survival Kit, Cryo Chamber, and Medical Room for expedition respawn and health replenishment.
-3. **Atmospheric Tank Farm:** 2× Large Hydrogen Tanks (refuels Kestrel scouts and Mule ferries) + 2× O2/H2 Generators at [X ±2, Z −18]. Manual shutoff valves exposed in the corridor wall.
-4. **Field Component Storage (`MAS Hold Components`):** 1× Large Cargo Container (3×3×3 B) dedicated to stocking construction parts at Z −22. Features a physical terminal port facing the aisle at [X0, Z −21, L3].
+2. **Medical & Crew Habitat Bay (`MAS Medical Bay`, `MAS Cryo Pod 1, 2`):** Pressurized crew habitat at [X +2, Z −12 to −14] with Medical Room, Survival Kit, and 2× Cryo Chambers plumbed directly to the life support oxygen line for long-distance transit hibernation.
+3. **200,000 L Strategic Oxygen Tank Bank (`MAS Tank O2 1, 2`):** Mount 2× Large Grid Oxygen Tanks at [X −2, Z −16, Y = L3-L4]. Stores 200,000 L of pressurized breathing oxygen, enabling over 120 hours of vacuum surface operations.
+4. **Quarantined Emergency Ice Reserve (`MAS Hold Ice LifeSupport`):** 1× Small Cargo Container (15,000 L capacity) at [X0, Z −16, L3] isolated by a one-way filter. Guarantees emergency ice reserves for life support even if bulk cargo holds are completely dumped.
+5. **Atmospheric Tank Farm:** 2× Large Hydrogen Tanks (refuels Kestrel scouts and Mule ferries) + 2× O2/H2 Generators at [X ±2, Z −18]. Manual shutoff valves exposed in the corridor wall.
+6. **Field Component Storage (`MAS Hold Components`):** 1× Large Cargo Container (3×3×3 B) dedicated to stocking construction parts at Z −22. Features a physical terminal port facing the aisle at [X0, Z −21, L3].
 
 ```
-Plan view, Y = L3 (Utility Carriage Interior Deck)
+Plan view, Y = L3 (Utility Carriage Interior Deck with Closed-Loop Metallurgy & Life Support)
         X: −3          0          +3
-    Z: −10 ═══════[DRAWBAR TONGUE]═══════  ◄── Articulated Hitch from Tractor
+    Z: −10 ═══════[DRAWBAR TONGUE]═══════  ◄── Articulated Hitch & Merge Block
            │                             │
-    Z: −14 │ [ASSEMBLER] │ [MEDICAL BAY] │  ◄── Field Workshop Core
+    Z: −12 │ [REFINERY]  │ [CRYO POD 1]  │  ◄── Basic Refinery & 2-Crew Cryo Hibernation
+           ├─────────────┤ [CRYO POD 2]  │
+    Z: −14 │ [ASSEMBLER] │ [MEDICAL BAY] │  ◄── Large Assembler & Medical Trauma Center
            ├─────────────┼───────────────┤
-    Z: −18 │ [H2 TANK 1] │ [H2 TANK 2]   │  ◄── Fuel Bunkering Farm
+    Z: −16 │ [O2 TANK 1] │ [O2 TANK 2]   │  ◄── 200,000 L Oxygen Bank & Quarantined Ice
+           ├─────────────┼───────────────┤
+    Z: −18 │ [H2 TANK 1] │ [H2 TANK 2]   │  ◄── Fuel Bunkering Farm (10,000,000 L H2)
            ├─────────────┴───────────────┤
     Z: −22 │ [MAS HOLD COMPONENTS (3×3×3)│  ◄── Spare Parts Storage (Palette 5)
     Z: −26 └─────────────────────────────┘
@@ -1105,28 +1244,13 @@ In Space Engineers, an Assembler cannot convert raw ore directly into components
 * **Manual Hopper Port:** Top maintenance door accessible from the central aisle allows manual dumping of rare ore batches.
 * **Ice Automation:** Event Controller `MAS EC Ice` monitors raw ice levels, automatically prioritizing ice routing to the twin O2/H2 generators to replenish the 10,000,000 L hydrogen reserve.
 
-```
-Plan view, Y = L3 (Utility Carriage Interior Deck with Closed-Loop Metallurgy)
-        X: −3          0          +3
-    Z: −10 ═══════[DRAWBAR TONGUE]═══════  ◄── Articulated Hitch from Tractor
-           │                             │
-    Z: −12 │ [REFINERY]  │               │  ◄── Basic Refinery (330 kW In-Situ Metallurgy)
-           ├─────────────┤ [MEDICAL BAY] │
-    Z: −14 │ [ASSEMBLER] │               │  ◄── Large Assembler & Crew Medical Core
-           ├─────────────┼───────────────┤
-    Z: −18 │ [H2 TANK 1] │ [H2 TANK 2]   │  ◄── Fuel Bunkering Farm (10,000,000 L H2)
-           ├─────────────┴───────────────┤
-    Z: −22 │ [MAS HOLD COMPONENTS (3×3×3)│  ◄── Spare Parts Storage (Palette 5)
-    Z: −26 └─────────────────────────────┘
-```
-
 ---
 
 ### Step 10.12C · Vertical Flight Ladderwell & Stern Maintenance Descent (L3 to L6 & L3 to L2)
 
 To allow physical passage from the workshop to the roof flight decks and stern train dump bumper:
-* **Flight Deck Ladderwell (L3 → L6):** Install an enclosed vertical ladder at [X +2, Z −10] climbing from the forward workshop corner up through an armored hatch to the Level L6 Flight Deck.
-* **Stern Dump Descent (L3 → L2):** Install a descending ladderwell at [X +2, Z −25] passing through an armored hatch down to Level L2. Allows an engineer on foot to physically inspect and service `MAS Stern Dump Conn`, `MAS Stern Sorter`, and rear guide wedges without leaving vehicle cover.
+* **Flight Deck Airlock & Ladderwell (L3 → L6):** Install an enclosed vertical ladder at [X +2, Z −10] climbing from the forward workshop corner up through an armored hatch to the Level L6 Flight Deck. Equipped with `MAS Vent Airlock Roof` and button panel `MAS BP Flight Deck` for active vacuum gas reclamation.
+* **Stern Dump Airlock & Descent (L3 → L2):** Install a descending ladderwell at [X +2, Z −25] passing through an armored hatch down to Level L2. Allows an engineer on foot to physically inspect and service `MAS Stern Dump Conn`, `MAS Stern Sorter`, and rear guide wedges without venting vehicle atmosphere.
 
 ---
 
@@ -1137,14 +1261,28 @@ To achieve indefinite planetary life support without consuming raw ice or runnin
 * **Operating Configuration:** Set `Depressurize = ON`. In breathable planetary atmospheres, the vents pull ambient oxygen directly from outside air into the central life support trunk.
 * **Closed-Loop Storage:** Fills internal oxygen tanks and pressurized crew compartments automatically at zero ice consumption and minimal parasitic power (30 kW per vent), preserving onboard ice stocks strictly for hydrogen fuel synthesis.
 
+---
+
+### Step 10.12E · Genesis Master Projector & Multi-Zone Environmental Control (L3-L4)
+
+To ensure field self-repair and complete multi-planetary survival:
+* **Master Projector Self-Repair Core (`MAS Projector Master`):** Mount 1× Large Grid Projector inside the workshop ceiling at [X0, Z −14, Y = L4]. Pre-loaded with the complete 1,039-block blueprint of `MASTODON-01 MKI`, perfectly aligned to the physical chassis grid. When damaged, the projected blueprint allows repair drones (`ALBATROSS-01`) or crew to rebuild damaged blocks using parts from `MAS Hold Components`.
+* **Universal Multi-Atmosphere Environmental Control:** Event Controller `MAS EC Atmosphere Mode` manages atmospheric adaptation:
+  * On breathable worlds (Earthlike): Exterior vents set to `Depressurize = ON` to harvest free oxygen.
+  * On airless moons (Moon, Europa) or toxic worlds (Mars, Alien): Exterior vents set to `Power = OFF`. Internal life support switches to closed-loop mode, feeding 100% O2 from `MAS Tank O2 1, 2` into all 4 sealed zones while airlocks cycle with zero-gas venting.
+
 #### Pre-Enclosure Inspection Gate 10.5A: Field Workshop Fabrication, Sub-Floor Batteries & Circulation Check
 * [ ] Confirm Utility sub-floor battery bank (`MAS Battery 4, 5, 6`) delivers 9.0 MWh storage and 36.0 MW discharge.
 * [ ] Verify `MAS Field Refinery` ingests raw mined ore and deposits refined ingots into `MAS Utility Assembler`.
 * [ ] Verify `MAS Utility Assembler` pulls ingots and queues components without manual transfer.
 * [ ] Confirm physical cargo access ports on Basic Refinery, Assembler, and Component Hold allow manual inventory access.
+* [ ] Confirm `MAS Tank O2 1, 2` store 200,000 L O2 and maintain 100% pressure in all 4 hermetic zones.
+* [ ] Verify active gas-reclamation airlock cycle recovers 100% of room O2 before outer doors open to vacuum.
+* [ ] Confirm `MAS Projector Master` projects aligned ghost blueprint of Mastodon consist for field self-repair.
+* [ ] Confirm `MAS Hold Ice LifeSupport` remains quarantined from bulk ore dumps.
 * [ ] Verify vertical flight ladderwell provides unobstructed ascent to Level L6 Flight Deck.
 * [ ] Confirm stern ladder provides safe descent to Level L2 dump bumper.
-* [ ] Confirm crew medical bay allows successful respawn and O2/H2 replenishment.
+* [ ] Confirm crew medical bay and twin cryo pods allow successful respawn, healing, and hibernation.
 * [ ] Confirm O2/H2 tanks maintain airtight seals and supply hydrogen lines.
 * [ ] Verify `MAS EC Ice` automatically feeds ice to O2/H2 generators when H2 tanks drop below 90%.
 * [ ] Verify ambient air vents (`MAS Vent Atmo Intake Port/Stbd`) pull oxygen from atmosphere when Depressurize = ON.
@@ -1382,11 +1520,26 @@ State Machine: Dynamic Fleet Authority & C2 Handover
 |---|---|---|
 | Programmable Block | `[MAS] PB Excavator` | Kinematics & machine control · Update1 · Zero-GC |
 | Programmable Block | `[MAS] PB RIG//OS-Lite` | Regional Fleet C2 Mothership engine · Update10 · IGC router |
-| Cockpit (Armored) | `MAS Helm` | Station 1 (Port) · Pilot traction, steering, outrigger control |
+| Control Station | `MAS Helm` | Station 1 (Port) · Pilot traction, steering, outrigger, power control |
 | Control Station | `MAS Station Boom` | Station 2 (Center) · Excavation Master · CTC mouse aim & macros |
 | Control Station | `MAS Station Fleet` | Station 3 (Stbd) · Tactical Fleet Director · Drone dispatch & C2 |
 | Laser Antenna | `MAS Comm Laser` | 40 km point-to-point line-of-sight data link (L6 mast) |
 | Radio Antenna | `MAS Comm Radio` | 50 km omnidirectional fleet broadcast & heartbeat beacon |
+| Radio Antenna | `MAS Beacon Distress` | 50 km blackout SOS distress beacon in sub-bridge keel |
+| Battery (Small) | `MAS Battery BlackBox` | Isolated cold-standby power cell for distress beacon |
+| Merge Block | `MAS Hitch Sever Tongue` | Emergency pyrotechnic consist decoupling at [X0, Z −8, L2] |
+| Decoy | `MAS Decoy Flank Port/Stbd`, `MAS Decoy Stern` | Lower armor skirt ballistic decoys diverting turret fire |
+| Gyroscope (Large) | `MAS Gyro Recovery 1, 2` | Chassis roll override self-righting gyros at [X0, Z0, L1] |
+| Projector (Large) | `MAS Projector Master` | Complete consist blueprint self-repair projection core at [X0, Z −14, L4] |
+| Warhead (Large) | `MAS Warhead Scuttle Bridge`, `MAS Warhead Scuttle Power` | Anti-capture technology denial scuttle charges (L3) |
+| Timer Block | `MAS Timer Scuttle` | 60-second native scuttle countdown loop with manual abort |
+| Oxygen Tank (Large) | `MAS Tank O2 1, 2` | 200,000 L high-pressure closed-loop breathing reserve |
+| Small Cargo Container | `MAS Hold Ice LifeSupport` | 15,000 L quarantined emergency life support ice buffer |
+| Cryo Chamber | `MAS Cryo Pod 1, 2` | Medical bay crew hibernation pods (zero food/suit drain) |
+| Air Vent (Large) | `MAS Vent Bridge`, `MAS Vent Workshop`, `MAS Vent Crawlway` | Multi-zone pressurized cabin air vents (Zones 1, 2, 4) |
+| Air Vent (Large) | `MAS Vent Airlock Port`, `MAS Vent Airlock Roof`, `MAS Vent Airlock Stern` | Active gas-reclamation decompression airlock vents |
+| Button Panel | `MAS BP Ground Boarding`, `MAS BP Airlock Vestibule`, `MAS BP Power Vault` | Physical in-situ crew control panels (Tractor L1-L3) |
+| Button Panel | `MAS BP Scuttle Bridge`, `MAS BP Field Workshop`, `MAS BP Flight Deck`, `MAS BP Stern Dump` | Physical in-situ crew control panels (Bridge L4, FOB L2-L6) |
 | Gatling Turret | `MAS Turret Bow` | Carriage 1 dorsal crown CIWS · 360° hemispherical anti-air/ground |
 | Gatling Turret | `MAS Turret Stern` | Carriage 2 stern gantry CIWS · 270° rear hemispherical coverage |
 | Interior Turret | `MAS Turret Flank Port` | Port lower skirt L2 · Anti-personnel / anti-spider perimeter guard |
@@ -1441,6 +1594,9 @@ State Machine: Dynamic Fleet Authority & C2 Handover
 | Event Controller | `MAS EC Combat` | Combat alert watchdog · Auto-triggers `RIG.OS.MODE CBT` on damage/target lock |
 | Event Controller | `MAS EC Seismic` | Bedrock survey watchdog: pulses seismic scans on outrigger lock |
 | Event Controller | `MAS EC Drone Repair` | Drone repair watchdog: pulses pad welders when Kestrel docked |
+| Event Controller | `MAS EC LifeSupport` | O2 tank reserve & hull breach pressure watchdog (auto-seals doors) |
+| Event Controller | `MAS EC BlackBox` | Power blackout watchdog: auto-triggers 50 km SOS distress beacon |
+| Event Controller | `MAS EC Atmosphere Mode` | Planetary atmo watchdog: auto-toggles ambient scavenging vs vacuum closed-loop |
 
 ### 4. Event Controller Matrix
 | Controller | Monitored Target | Threshold / Condition | Action Slot 1 (On True) | Action Slot 2 (On False) |
@@ -1460,6 +1616,9 @@ State Machine: Dynamic Fleet Authority & C2 Handover
 | `MAS EC Combat` | Hull Integrity / Target Lock | Damage Detected OR Hostile Lock | Engage `MAS Turrets` · Elevate `RIG.OS.MODE CBT` | Standby Watchkeeping |
 | `MAS EC Seismic` | `MAS Seismic Outrigger 1..4` | All 4 Pads = Locked | Pulse Seismic Scan · Publish `TMS.SCOUT.VEIN` | Standby |
 | `MAS EC Drone Repair` | `MAS Kestrel Dock 1, 2` | Either Pad = Connected | Pulse `MAS Welders` ON (5.0 s timer) | `MAS Welders` OFF |
+| `MAS EC LifeSupport` | `MAS Tank O2 1, 2` / Pressure | O2 $< 25\%$ OR Pressure $< 0.5$ atm | Sound O2 Alarm · Seal Compartment Doors | Normal Atmospheric Circulation |
+| `MAS EC BlackBox` | Consist Power Output | Total MW Output $= 0.0$ MW | Activate `MAS Battery BlackBox` & SOS Beacon | Standby Isolation |
+| `MAS EC Atmosphere Mode` | Ambient Atmospheric O2 | Ambient O2 $\ge 100\%$ | `MAS Vent Atmo Intake` Depressurize ON | `MAS Vent Atmo Intake` Power OFF |
 
 ### 5. IGC Channel Subscriptions (Ground Fleet & RIG//OS Bus)
 * Network Beacon: `RIG.C2.HEARTBEAT` (`<origin_id>;<role:MOTHERSHIP|BASE|WORKER>;<gps_coords>`).
@@ -1538,6 +1697,19 @@ State Machine: Dynamic Fleet Authority & C2 Handover
 * [ ] **Automated Flight Deck Drone Welder Repair (Decision 62):** Dock battle-damaged or thruster-worn Kestrel drone onto `MAS Kestrel Dock 1`. Confirm `MAS EC Drone Repair` pulses recessed ship welders for 5.0 s, completing full field repairs from onboard parts hold.
 * [ ] **Atmospheric O2 Scavenging & Ground EVA Lockers (Decision 62):** In planetary atmosphere, verify `MAS Vent Atmo Intake Port/Stbd` fill life support tanks at zero ice cost. Walk to ground level L2; open `MAS Locker Port/Stbd` to access hydrogen suit bottles and emergency tools without entering airlock.
 * [ ] **Worksite 360° Floodlight Matrix (Decision 62):** Toggle group `MAS Lights`. Confirm tower spotlights (`MAS Floodlight Tower 1..4`), boom spotlights (`MAS Light Boom 1, 2`), and underbelly inspection lights (`MAS Lights Underbelly`) fully illuminate 100 m perimeter during nighttime mining operations.
+
+### J · Custom Bridge, Universal Life Support & Emergency Failsafes Acceptance (Decision 64)
+* [ ] **Custom Walk-In Bridge Circulation:** Walk from aft airlock door through open aisle to all 3 Control Stations (`MAS Helm`, `MAS Station Boom`, `MAS Station Fleet`). Confirm unobstructed panoramic view through 45° sloped armor glass canopy and walk-around access to Survival Kit and Tactical Video Wall.
+* [ ] **Multi-Page Hotbar Verification:** Test Hotbars 1, 2, and 3 on all three operator stations. Confirm Station 1 controls traction/leveling (HB1), power modes/reactors (HB2), and boarding/lights (HB3). Confirm Station 2 controls boom joints/lasers (HB1), automated macros (HB2), and buffers/ejectors (HB3). Confirm Station 3 controls logistics calls (HB1), drone slave links (HB2), and CIWS defense (HB3).
+* [ ] **Universal Life Support (ULSS) Pressure & Isolation:** Depressurize one compartment (simulate breach); confirm `MAS EC LifeSupport` auto-seals bounding armored sliding doors in < 0.5 s, preserving 100% O2 in surviving zones. Confirm 200,000 L O2 tanks maintain life support during simulated vacuum transit.
+* [ ] **Active Gas-Reclamation Airlock Cycling:** Test Port boarding, roof flight deck, and stern dump airlocks. Verify `Depressurize = ON` reclaims 100% of room air into O2 tanks before outer doors open, preventing explosive decompression in vacuum or toxic environments.
+* [ ] **Cryo Hibernation Verification:** Enter `MAS Cryo Pod 1` and `MAS Cryo Pod 2` in Medical Bay. Confirm direct conveyor link supplies O2 and suspends suit life support drain.
+* [ ] **Quarantined Emergency Ice Buffer:** Mine 20 t raw ice. Confirm ice diverts into `MAS Hold Ice LifeSupport` (15,000 L) and is preserved even when main ore buffers are dumped into the Caterpillar land train.
+* [ ] **Pyrotechnic Hitch Severance Test:** Trigger `Hitch Decouple`. Confirm merge block `MAS Hitch Sever Tongue` disengages, severing Carriage 1 from Carriage 2 cleanly. Confirm Tractor drives away as an independent 6×6 unit and Utility Carriage remains powered and airtight as an autonomous FOB.
+* [ ] **Self-Righting Keel Gyro Override:** Roll consist onto its side; trigger `MAS Gyro Recovery 1, 2` roll override. Confirm angular torque successfully rights the vehicle back onto its wheels.
+* [ ] **Black Box SOS Beacon Blackout Test:** Disconnect all main reactors and batteries. Confirm `MAS EC BlackBox` instantly wakes isolated `MAS Battery BlackBox`, broadcasting 50 km emergency distress ping `SOS-MASTODON-01-LOST`.
+* [ ] **Genesis Self-Repair Projector Alignment:** Activate `MAS Projector Master`. Confirm 1,039-block ghost blueprint aligns with 0.0 offset to the physical chassis, allowing repair welders to rebuild damaged blocks directly from `MAS Hold Components`.
+* [ ] **Anti-Capture Scuttle Countdown & Manual Abort:** Trigger Button 2 on `MAS BP Scuttle Bridge`. Confirm `MAS Timer Scuttle` initiates 60 s countdown, sirens sound, and interior lights flash red. Press Button 4 before T - 5 s; confirm countdown aborts and warheads return to safety disarm.
 
 
 
