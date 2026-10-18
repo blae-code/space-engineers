@@ -5,13 +5,13 @@
 Lego-style, step-by-step visual build manual and hardware-to-scripting interface contract for the **MASTODON-01 MKI**.
 Each step features: an exact ASCII schematic, Spatial Locator HUD, in-game paint palette assignments, pre-step parts tray, critical joint/conveyor settings, Pre-Enclosure Inspection Gates ("Points of No Return"), and Phase-End Visual Milestones.
 
-### Design Directives & Operational Scope (Decisions 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68 & 69)
+### Design Directives & Operational Scope (Decisions 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69 & 70)
 * **Role:** Long-range terrestrial expeditionary mining locomotive, self-contained mobile Forward Operating Base (FOB), and **Genesis Seed Fleet Mothership** running **`RIG//OS-Lite`**. In fresh survival campaigns prior to Ground Base refinery commissioning, the lead Mastodon serves as the regional C2 fleet root, commanding subordinate excavators (`MAS-02`), bulk land trains (`CAT-01`), and freight shuttles (`MUL-01`), with automated handover to Ground Base upon commissioning.
 * **Architecture:** Segmented articulated train consist:
   1. **Carriage 1 (`MAS-01-T`): Locomotive & Excavator Unit (11 W × 20 L × 5 H B · 6 Wheels):** Heavy tractive engine, 3-operator armored panoramic C2 bridge (Helm, Boom CTC, Tactical Director), Tri-Fuel primary power plant (30 MW nuclear + 5 MW emergency H2 engine + 9 MWh battery reserve across 3× Large Batteries), dual-PB compute rack (`PB Excavator` + `PB RIG//OS-Lite`), 40 km laser comms mast, 4× hydraulic corner outriggers with differential auto-leveling and **deep seismic voxel sensors** (Mod 2819263781), dorsal 35 m spine-stowed articulated 5-DOF laser mining boom with **heavy magnetic crane grapple**, chassis travel stow clamp (`MAS Clamp Boom Stow`), bow CIWS Gatling Turret (`MAS Turret Bow`), forward Multitool Repair Turret (`MAS MT Turret Bow`), flank anti-personnel turrets, Port L3 maintenance Jefferies tube, ground-level EVA survival lockers, and aft 3-axis heavy gimbal drawbar hitch.
   2. **Carriage 2 (`MAS-01-U`): Modular FOB & Utility Carriage (11 W × 18 L × 5 H B · 4 Wheels):** Field workshop (1× Basic Refinery for in-situ metallurgy, 1× Large Assembler, Survival Kit / Medical Bay), standalone FOB compute core (`[MAS-U] PB Utility` + `MAS-U Remote FOB`), DPU smart wheel traction and dynamic regenerative descent braking, runaway breakaway deadman brake (`MAS-U EC Breakaway` + 2× keel magnetic skids), 40× Heavy Armor sub-floor ballast skids, free planetary atmospheric O2 intake vents, sub-floor battery vault (9 MWh across 3× Large Batteries), 4× roof flush solar panels (`≈ 640 kW` peak†), component reserve hold, atmospheric bunkering (2× Large H2 tanks, O2/H2 generators), 7 × 7 B MULE-01 Gantry Cradle Pad with motorized clamping arms, elevated stern Multitool Repair Turret (`MAS MT Turret Stern` on L7 gantry arch), twin flank Multitool Repair Turrets (`MAS MT Turret Port/Stbd` on L4 forward shoulders), dedicated outbound resupply export hopper (`MAS Hold Resupply Export`), 2× KESTREL-01 scout drone landing pads with **recessed automated repair welders**, roof maintenance catwalks, 360° dorsal worksite floodlight tower, stern CIWS Gatling Turret (`MAS Turret Stern`), 2× stern hydraulic bedrock outriggers (`MAS Outrigger Utility Port/Stbd`), telescoping soft-capture docking tongue (`MAS Piston Stern Dock`), and stern heavy dump bumper with relocated stone tailings ejector chute matching CATERPILLAR-01.
 * **Grid:** Large Grid (1 B = 2.5 m) · **Consist Envelope:** 11 W × 42 L × 7 H B (27.5 × 105.0 × 17.5 m with L7 gantry arch).
-* **Mass:** Consist Dry Mass `≈ 1,150.7 t` (Tractor: 561.4 t, Utility: 589.3 t) · Max Laden Mass `≈ 3,650 t` (Earth 1 g).
+* **Mass:** Consist Dry Mass `≈ 1,151.8 t` (Tractor: 561.4 t, Utility: 590.4 t) · Max Laden Mass `≈ 3,650 t` (Earth 1 g).
 * **Payload Capacity:** 2,500 t bulk ore across tractor buffer and utility holds.
 * **Mechanical & Automation Suite (Decision 57):** 5-point immersive automation: auto-leveling bedrock jacks (sloped terrain compensation up to 20°), retractable crew boarding ladder (Port flank L2), active gravity-horizon tool head leveling with 4.0 m safety proximity stop, underbelly stone tailings aggregate spreader, and smart anti-jackknife drawbar dynamics.
 * **Tri-Fuel Power & Closed-Loop Metallurgy Suite (Decision 58):** Self-sustaining field endurance without resupply: (1) 1× Basic Refinery (`MAS Field Refinery`, 1×1×2 B, 330 kW) refining raw mined Fe, Ni, Co, Si, Mg on-site into ingots for the Large Assembler; (2) Tri-Fuel Power Architecture: Tier 1 Nuclear (2× Small Reactors, 30 MW), Tier 2 Renewable (4× Roof Flush Solar Panels, `≈ 640 kW` peak†), Tier 3 Emergency Hydrogen (1× Hydrogen Engine, 5 MW) drawing from 10,000,000 L H2 tank farm; (3) Automated resource watchdogs `MAS EC Power` (uranium watchdog auto-starting H2 engine) and `MAS EC Ice` (ice intake routing).
@@ -26,6 +26,7 @@ Each step features: an exact ASCII schematic, Spatial Locator HUD, in-game paint
 * **Consist Mechanics, 3-Axis Hitch & FOB Autonomy (Decision 67):** Optimizes cross-carriage cooperation and mechanical coupling: (1) 3-Axis Heavy Gimbal Tow Hitch: Upgrades articulated drawbar at Z −8 with 3 degrees of freedom (Yaw Advanced Rotor ±45°, Pitch Motor Hinge ±25°, Roll Advanced Rotor ±20° on Z-axis) for full 3D terrain compliance with zero subgrid shear, backed by twin magnetic stabilizer clamps (`MAS Hitch Clamp Port/Stbd`) to eliminate high-speed harmonic oscillation; (2) Distributed Power Unit (DPU) Smart Traction & Dynamic Braking: Synchronizes Carriage 2 Axles 4 and 5 with tractor throttle input for active hill-climb pushing, paired with predictive regenerative descent braking to keep the hitch in tension and prevent jackknifing; (3) Autonomous FOB Detachment ("Drop-and-Mine"): Equips Carriage 2 with standalone compute core (`[MAS-U] PB Utility`, `MAS-U Remote FOB`) and runaway deadman brake (`MAS-U EC Breakaway` + 2× keel magnetic skids), allowing the tractor to decouple as an agile 6×6 extraction unit while the trailer operates as an independent stationary outpost; (4) Stabilized Hauler Interchange: Adds 2× hydraulic stern outriggers (`MAS Outrigger Utility Port/Stbd` at Z −25) to isolate the chassis during 650 t Mule touchdowns, a telescoping soft-capture docking tongue (`MAS Piston Stern Dock`) for effortless Caterpillar coupling, and relocates the stone tailings aggregate ejector to the stern bumper; (5) Environmental & Ballast Hardening: Formalizes the inter-carriage gangway as an unpressurized flexible bellows flanked by dual hermetic airlocks (`MAS Door Gangway Fwd/Aft`) and adds 40× Heavy Armor ballast skids in Carriage 2 sub-floor; (6) Updated BOM: 1,095 blocks (+56 blocks), dry mass ≈ 1,124.0 t, 8,538 PCU.
 * **4× Multitool Repair Turrets, SML Auto-Production & Mule Peer Resupply Sorties (Decision 68):** Comprehensive self-repair, docked drone maintenance, autonomous component queuing, and inter-rig peer assistance: (1) 4× Laser Multitool Turrets (Simple Laser Multitools Mod 3175774286 / ToolCore 3040438530) positioned for overlapping 360° consist and flight deck coverage (`MAS MT Turret Bow` on Tractor crown L5 Z +9, `MAS MT Turret Port/Stbd` on Carriage 2 forward shoulders L4 Z −10, `MAS MT Turret Stern` on elevated gantry arch L7 Z −23); turrets draw components from `MAS Hold Components` and reference `MAS Projector Master` to automatically repair damaged blocks on the Tractor, Carriage 2, docked Kestrel drones (L5 pads), docked Mule shuttle (L6 gantry pad), docked Caterpillar train, or external ground vehicles without engineer EVA; (2) Standard Mission Loadout (SML) Autonomous Production Queuing: `[MAS-U] PB Utility` monitors component inventory in `MAS Hold Components`; whenever stock falls below 75% of SML quotas (e.g. 1,500 Steel Plates, 500 Construction Comps, 200 Motors, 100 NATO 25mm ammo boxes), it automatically queues production deltas in `MAS Utility Assembler`, fed continuously by iron ingots from `MAS Field Refinery`; (3) Dedicated Outbound Resupply Staging Hopper: Adds 1× Small Cargo Container `MAS Hold Resupply Export` and Conveyor Sorter `MAS Sorter Resupply Export` directly below `MAS MP Conn` at [X0, Z −20, L5], allowing pre-packaging of standardized resupply kits without mixing into main hold; (4) Standardized Mule Peer Resupply Sortie Protocol: Implements 4 standardized mission pallets (`KIT_MOBILITY`, `KIT_POWER`, `KIT_MUNITIONS`, `KIT_HULL_REPAIR`) and IGC channels (`TMS.RESUPPLY.REQUEST`, `TMS.RESUPPLY.OFFER`, `TMS.RESUPPLY.DISPATCH`, `TMS.RESUPPLY.COMPLETE`); upon receiving an emergency call from a disabled sister rig (`MAS-02`), Mastodon pre-packs the kit into the export hopper, summons MULE-01 for an immediate top-deck transfer (< 10 s), and dispatches the shuttle on a rapid delivery flight; (5) Updated BOM: 1,110 blocks (+15 blocks), dry mass ≈ 1,145.0 t, 9,475 PCU.
 * **Extended Survival Life Support & Planetary Environmental Hardening (Decision 69):** Complete survival player ergonomics, automated multi-zone ventilation, active gas-reclamation decontamination airlocks, and extreme planetary hazard protection: (1) Extended Survival Player Needs & Mobile Armory: Integrates 2× Large Grid Armory Lockers (`MAS Armory Bridge` at [X +2, Z +10, L4], `MAS Armory Workshop` at [X −2, Z −13, L3]) and 1× Equipment Locker (`MAS Locker Survival Gear` at [X +2, Z +9, L4]), pre-stocked with complete Tier 4 Elite toolsets (welder, grinder, drill), automatic rifles, ammo, and spare suit O2/H2 bottles; adds dedicated suit recharge stations adjacent to `MAS Survival Kit` (Bridge) and `MAS Medical Bay` (Workshop); formalizes 15,000 L emergency ice reserve in `MAS Hold Ice LifeSupport` supplying continuous breathing O2 and hydrogen fuel for 120+ hours offline; (2) Airtight Multi-Zone Ventilation & Dual-Atmosphere Automation: Establishes 4 fully isolated hermetic zones with dedicated ceiling air vents (`MAS Vent Bridge` [X0, Z +9, L4], `MAS Vent Crawlway` [X −2, Z 0, L3], `MAS Vent Gangway` [X0, Z −8, L4], `MAS Vent Workshop` [X0, Z −13, L4]); automated dual-atmosphere sequencing via `MAS EC Atmosphere Mode`: on Earth-like worlds (ambient O2 ≥ 100%), exterior vents `MAS Vent Atmo Intake Port/Stbd` scavenge atmospheric oxygen into main tanks with zero ice consumption, while on vacuum/toxic/corrosive planets (Pertam, Mars, Alien, Moon), exterior vents immediately isolate and lock, engaging 100% closed-loop recirculation from internal O2 reserves; (3) Automated Active Gas-Reclamation & Decontamination Airlocks: Converts all 4 consist egress points (Port Boarding L2/L3, Inter-Carriage Gangway L3, Flight Deck Roof L5/L6, Stern Dump Bumper L2/L3) into true dual-door sealed airlock chambers; equipped with active depressurization air vents (`MAS Vent Airlock Port/Roof/Stern/Gangway`), cyan UV decontamination lights (`MAS Light Decon Port/Roof/Stern/Gangway`), and automated interlocks (`MAS EC Airlock Port/Roof/Stern`): outbound cycle evacuates 100% of chamber O2 into storage tanks before outer hatch opens (zero gas loss in vacuum), while inbound cycle pulses positive pressure and 3.0 s UV decontamination washdown before inner cabin doors unseal; (4) Non-Earthlike Planetary Environmental Hardening: Faraday Lightning Diverter Grid with dorsal mast decoy `MAS Decoy Mast` at [X0, Z +6, L6] safely intercepting violent planetary lightning strikes on Pertam/Alien away from bridge glass, flight decks, and hydrogen tanks; zero-tolerance toxic air sensor shutoff prevents chemical/acidic gas ingress; hydronic thermal trace heating & waste heat recovery jackets `MAS Hold Ice LifeSupport` with 330 kW refinery reject heat to prevent emergency ice freeze-up in cryogenic environments (Europa, Triton); radiation storm citadel in central workshop corridor [X0, Z −13 to −18, L3] enclosed between twin 4.5 m liquid hydrogen tanks and 40× heavy steel ballast plates; automated meteor defense hardwired to `Target Meteors = ON`; (5) Updated BOM: 1,123 blocks (+13 blocks), dry mass ≈ 1,150.7 t, 9,880 PCU.
+* **Automated Meteor Defense Grid, Closed-Loop Munitions Fabrication & Dynamic Restock (Decision 70):** Upgrades consist with a 360° close-in weapon system (CIWS) meteor intercept dome, autonomous munitions manufacturing, armored sub-floor storage, and automated Mule resupply: (1) Active Meteor Defense Grid: 360° hemispherical CIWS intercept dome via dual Large Grid Gatling Turrets (`MAS Turret Bow` [X0, Z +9, L5], `MAS Turret Stern` [X0, Z −23, L7]) and flank Interior Turrets configured with `Target Meteors = ON`; early warning audible siren `MAS Alarm Meteor` ([X0, Z +8, L4]) triggered by target lock via `MAS EC Meteor`; automated consist hardening sequence (emergency boom stow `STOW` into armored dorsal spine trough via `MAS Clamp Boom Stow`, boarding ladder auto-retraction, airlock door lock, and drone magnetic clamp lockdown to isolate kinetic shock); (2) Autonomous Closed-Loop Ammunition Manufacturing: SML munitions quotas formalized (250× NATO 25×184mm boxes [35,000 rounds], 100× NATO 5.56×45mm magazines [3,000 rounds]); monitored by Event Controller `MAS EC Ammo` ([X −1, Z −15, L3]); whenever stock falls below 60% of quota, `MAS Utility Assembler` auto-queues ammo fabrication from refined Magnesium, Iron, and Nickel ingots with highest combat priority over structural plates; (3) Hardened Sub-Floor Ammo Bunker: 1× Small Cargo Container `MAS Hold Munitions` ([X0, Z −15, L2]) integrated into the Utility sub-floor, flash-shielded and protected by 40× heavy steel ballast plates against sympathetic detonation; (4) High-Speed Conveyor Distribution & Sorter Pressurization: Forward sorter `MAS Sorter Ammo Fwd` ([X0, Z −9, L3]) with whitelist `NATO_25x184mm`, `NATO_5_56x45mm` and `Drain All = ON`, continuously feeding tractor bow and flank turrets; dedicated stern feed for aft gantry turret; (5) Automated External Restock & Mule Munitions Sortie: If local Magnesium drops below 50 kg or ammo drops below 25%, `RIG//OS-Lite` broadcasts `TMS.RESUPPLY.REQUEST;MAS-01;KIT_MUNITIONS`; Ground Base or `MULE-01` delivers pallet directly into `MAS Hold Munitions` via top-deck pad `MAS MP Conn` and `MAS MP Sorter` in < 10 s; (6) Updated BOM: 1,126 blocks (+3 blocks), dry mass ≈ 1,151.8 t, 10,015 PCU.
 * **Operating Environment:** Universal planetary & terrestrial surface operations (Earth 1 g baseline, airless vacuum moons, thin-atmosphere deserts, and hostile alien terrain).
 
 ---
@@ -229,11 +230,11 @@ Bow     │ 2-Seat Panoramic Cockpit  Nuclear Core                              
 | **Flight Decks, Welders & Solar** | 1× Mule Pad, 2× Kestrel Pads, 2× Drone Welders, 4× Solar Panels, 4× Floodlights | 67 | 61.1 t | 970 |
 | **Stern Stabilizers, Telescoping Dock & Dump** | 2× Large Outrigger Pistons + 2× Mag Feet (`MAS Outrigger Utility`), 1× Telescoping Dock Piston (`MAS Piston Stern Dock`), Stern Dump Connector & Sorter, Relocated Tailings Ejector | 7 | 14.5 t | 510 |
 | **Utility FOB Autonomy & Deadman Brake** | 1× PB (`[MAS-U] PB Utility`), 1× Remote Control (`MAS-U Remote FOB`), 1× Event Controller (`MAS-U EC Breakaway`), 2× Keel Mag Skids (`MAS Utility Brake Keel 1, 2`) | 5 | 4.0 t | 350 |
-| **Perimeter Defense Suite** | 2× Gatling Turrets, 2× Interior Turrets, Ammunition Conveyor Feeds (Palette 7) | 12 | 9.6 t | 308 |
+| **Perimeter Defense Suite** | 2× Gatling Turrets, 2× Interior Turrets, 1× Sub-Floor Bunker (`MAS Hold Munitions`), 1× Ammo EC (`MAS EC Ammo`), 1× Siren (`MAS Alarm Meteor`), Conveyor Feeds (Palette 7) | 15 | 10.7 t | 443 |
 | **Multitool Repair Turrets** | 4× Large Laser Multitool Turrets (Bow L5, Port/Stbd L4 shoulders, Stern L7 arch · Mod 3175774286) | 4 | 18.0 t | 900 |
 | **Peer Resupply Export Staging** | 1× Small Cargo (`MAS Hold Resupply Export`), 1× Conveyor Sorter (`MAS Sorter Resupply Export`), 9× Gantry Arch Heavy Armor blocks (Palette 0/3) | 11 | 3.0 t | 37 |
 | **External EVA, Lights & Failsafes** | 2× Ground EVA Lockers, 3× Keel Lights, 1× Black Box SOS Beacon & Isolated Battery, 4× In-Situ Button Panels (Palette 9) | 11 | 2.5 t | 110 |
-| **TOTAL CONSIST (DRY)** | Complete Expeditionary Mining Locomotive & Mobile FOB | **1,123** | **≈ 1,150.7 t** | **9,880** |
+| **TOTAL CONSIST (DRY)** | Complete Expeditionary Mining Locomotive & Mobile FOB | **1,126** | **≈ 1,151.8 t** | **10,015** |
 
 ---
 
@@ -245,10 +246,10 @@ Bow     │ 2-Seat Panoramic Cockpit  Nuclear Core                              
      ◄────────── CARRIAGE 1: TRACTOR / EXCAVATOR ──────────►     ◄────────── CARRIAGE 2: FOB / UTILITY ──────────►
      L6                                                         ┌──[KESTREL]──────[MULE PAD CATWALK]──────┐
      L5      ┌──[C2 BRIDGE]──────[BOOM PEDESTAL DECK]           │ (L6 Catwalks & Solar Array Access)      │
-     L4      │   (3-Seat C2)     │ (Turret Service Hatch)       ├─────────────────────────────────────────┤
+     L4      │ (3-Seat C2/Alarm) │ (Turret Service Hatch)       ├─────────────────────────────────────────┤
      L3 ┌────┴───────────────────┴─────────────────────────┐    │ [FIELD WORKSHOP & MEDICAL HABITAT]      │
         │ [PORT JEFFERIES TUBE] ──► [POWER CORE VAULT]      ╞════╡ (Refinery · Assembler · MedBay · Tanks) │
-     L2 │ (Access to Buffer & Core) (Reactors / H2 Engine)  │    │ [SUB-FLOOR BATTERY VAULT (3x BAT)]      │
+     L2 │ (Access to Buffer & Core) (Reactors / H2 Engine)  │    │ [BATTERY VAULT & SUB-FLOOR AMMO BUNKER] │
      L1 └─▲────────────────────────────────────────────────┘    └───────────────────────────────────────▲─┘
           │                                                       (Articulated Enclosed Gangway)         │
      [CREW BOARDING LADDER]                                            (Z -9 to -8, L3 Level)      [STERN DUMP LADDER]
@@ -262,7 +263,7 @@ Plan view, Y = L3 (Tractor & Utility Pressurized Walkways & Jefferies Tubes)
            │ [C2 BRIDGE]   │ [STATION 1]   [STATION 2]     │ [STATION 3]   │  ◄── Forward Bridge Deck
     Z: +10 │ [ARMORY BRG]  │ [SURVIVAL KIT][SUIT CHARGER]  │ [LOCKER GEAR] │  ◄── Emergency Armory & Medical
     Z:  +8 ├───────────────┴───────────────┬───────────────┴───────────────┤
-           │ [AIRLOCK INNER DOOR]          │ [BOOM PEDESTAL LADDER UP]     │  ◄── Dual-Door Airlock Vestibule
+           │ [AIRLOCK INNER DOOR]          │ [BOOM LADDER / METEOR SIREN]  │  ◄── Vestibule & Siren (L4 Overhead)
     Z:  +7 │ [DECON CHAMBER (UV / VENT)]   │ [SOLID ARMOR]                 │
     Z:  +6 ├───────────────┬───────────────┴───────────────┬───────────────┤
            │ [AIRLOCK OUTER│
@@ -287,7 +288,8 @@ Plan view, Y = L3 (Tractor & Utility Pressurized Walkways & Jefferies Tubes)
     Z: −12 │ [REFINERY]    │  WORKSHOP     │ [MEDICAL BAY] │ [CRYO POD 1]  │  ◄── Field Metallurgy
     Z: −13 │ [ARMORY WRK]  │  AISLE &      │ [SUIT CHARGE] │ [CRYO POD 2]  │  ◄── Workshop Armory & Recharger
     Z: −14 │ [ASSEMBLER]   │  RADIATION    │ [O2/H2 GEN 1] │ [O2/H2 GEN 2] │  ◄── Fabrication & O2 Reserves
-    Z: −18 │ [H2 TANK 1]   │  CITADEL]     │ [H2 TANK 2]   │ [ARMOR]       │  ◄── Fuel Bunkering & Storm Shield
+    Z: −15 │ [EC AMMO]     │  CITADEL]     │ [AMMO BUNKER (L2 UNDER)]      │  ◄── Sub-Floor Ammo Hold & Watchdog
+    Z: −18 │ [H2 TANK 1]   │               │ [H2 TANK 2]   │ [ARMOR]       │  ◄── Fuel Bunkering & Storm Shield
     Z: −22 │ [ARMOR]       │ [MAS HOLD COMPONENTS (3×3×3)] │ [ARMOR]       │  ◄── Parts Hold
     Z: −25 ├───────────────┴───────────────┬───────────────┴───────────────┤
     Z: −26 │                               │ [STERN DUAL-DOOR AIRLOCK L2]  │  ◄── Stern Dump Egress & Decon
@@ -1551,6 +1553,7 @@ Plan view, Y = L3 (Bridge Sub-Deck & Dual-Door Decontamination Airlock)
 | Equipment Locker | 1 | Slot 7 (`#1B263B`) | 0.8 t / 10 | `MAS Locker Survival Gear` at [X +2, Z +9, L4], Starboard bridge walkway |
 | LCD Panel (Normal) | 4 | Slot 7 (`#1B263B`) | 0.4 t / 20 | Tactical Video Wall mounted on bridge aft bulkhead at Z +8 |
 | Curved LCD Panel | 2 | Slot 7 (`#1B263B`) | 0.2 t / 10 | Side HUD repeaters flanking helm and tactical director |
+| Sound Block | 1 | Slot 7 (`#1B263B`) | 0.1 t / 10 | `MAS Alarm Meteor` at [X0, Z +8, L4], bridge aft bulkhead early warning siren |
 
 ```
 Plan view, Y = L4 (Custom Walk-In Bridge Deck, Armory & Tactical Video Wall)
@@ -1564,7 +1567,7 @@ Plan view, Y = L4 (Custom Walk-In Bridge Deck, Armory & Tactical Video Wall)
            │   ◄────┴──────── OPEN WALKWAY AISLE (Palette 9) ────┴────►  │
     Z: +9  ├───────────────────────────┬─────────────┬─────[LOCKER GEAR]─┤
            │ [SURVIVAL KIT & CHARGER]  │ [LCD WALL 1]│ [LCD WALL 2]      │
-    Z: +8  │ Field Respawn / O2-H2     │ Consist Sys │ Tactical Fleet    │
+    Z: +8  │ Field Respawn / O2-H2     │ Consist Sys │ Tactical Fleet    │  ◄── [ALARM METEOR] (Ceiling)
     Z: +7  ├───────────────────────────┴──────┬──────┴───────────────────┤
            │ [AIRLOCK SLIDING DOOR]           │ [LADDER UP TO ROOF CROWN]│
            └──────────────────────────────────┴──────────────────────────┘
@@ -1581,6 +1584,7 @@ Plan view, Y = L4 (Custom Walk-In Bridge Deck, Armory & Tactical Video Wall)
 5. Maintain a clear 1-block wide walk-around aisle at Z = +10 behind the seats.
 6. Mount 4 LCD Panels on the aft bulkhead at Z +8 forming the Tactical Video Wall (`MAS LCD Video Wall 1..4`).
 7. Paint consoles, lockers, and video wall frames with Palette Slot 7 (`#1B263B` Fleet Command Navy).
+8. Install Sound Block `MAS Alarm Meteor` at [X0, Z +8, Y = L4] mounted to the ceiling structure directly above the central tactical video wall. Hardwire into Event Controller `MAS EC Meteor` for high-decibel early warning sirens upon CIWS meteor detection.
 
 #### 3-Operator Multi-Page Manual Hotbar Architecture
 
@@ -2086,10 +2090,10 @@ Plan view, Y = L1 (Utility Carriage 4-Wheel Powertrain Geometry)
 
 ---
 
-### Step 10.31 · Sub-Floor Utility Battery Vault & Shore Power Bus (L2)
+### Step 10.31 · Sub-Floor Utility Battery Vault, Shore Power Bus & Hardened Ammo Bunker (L2)
 
 ┌──────────────────────────────────────────────────────────────────────────────────────┐
-│ [LOCATOR] Subsystem: Sub-Floor Utility Battery Vault  ·  Level: L2                   │
+│ [LOCATOR] Subsystem: Sub-Floor Battery Vault & Ammo Bunker  ·  Level: L2             │
 │ [VIEWPORT] Grid Zone: [X −1 to +1, Z −17 to −15]  ·  Plan view Y = L2 (▲ Bow +Z)       │
 └──────────────────────────────────────────────────────────────────────────────────────┘
 
@@ -2097,16 +2101,18 @@ Plan view, Y = L1 (Utility Carriage 4-Wheel Powertrain Geometry)
 | Block Type | Qty | Palette Slot | Mass / PCU | Critical Placement & Facing |
 |---|---|---|---|---|
 | Large Battery | 3 | Slot 6 (`#C0392B`) | 25.5 t / 240 | `MAS Battery 4, 5, 6` in sub-floor well at [X −1, 0, +1, Z −16, L2] |
+| Small Cargo Container | 1 | Slot 7 (`#1B263B`) | 1.0 t / 25 | `MAS Hold Munitions` at [X0, Z −15, L2], sub-floor flash-shielded bunker |
 | Heavy Armor Full Block | 12 | Slot 0 (`#2B303A`) | 10.2 t / 12 | Armored vault perimeter enclosure and structural top ceiling deck |
 
 ```
-Plan view, Y = L2 (Utility Sub-Floor Battery Vault & Electrical Spine)
+Plan view, Y = L2 (Utility Sub-Floor Battery Vault & Ammo Bunker)
         X: −1             0             X: +1
-    Z: −15 ┌─────────────────────────────────────────┐
-           │ HEAVY ARMOR VAULT BULKHEAD (Ceiling L3) │
-    Z: −16 │ [MAS BATTERY 4] [BATTERY 5] [BATTERY 6] │  ◄── 9.0 MWh Energy Storage Buffer
-    Z: −17 │ (3.0 MWh)       (3.0 MWh)   (3.0 MWh)   │      36.0 MW Peak Discharge Bus
-           └─────────────────────────────────────────┘
+    Z: −15 ┌───────────────┬─────────────┬───────────────┐
+           │ [SOLID ARMOR] │ [AMMO HOLD] │ [SOLID ARMOR] │  ◄── MAS Hold Munitions (Sub-Floor Bunker)
+    Z: −16 ├───────────────┴─────────────┴───────────────┤
+           │ [MAS BATTERY 4] [BATTERY 5] [BATTERY 6]     │  ◄── 9.0 MWh Energy Storage Buffer
+    Z: −17 │ (3.0 MWh)       (3.0 MWh)   (3.0 MWh)       │      36.0 MW Peak Discharge Bus
+           └─────────────────────────────────────────────┘
 ```
 
 #### Placement Instructions
@@ -2117,6 +2123,7 @@ Plan view, Y = L2 (Utility Sub-Floor Battery Vault & Electrical Spine)
    - `MAS Battery 6` at [X +1, Z −16, Y = L2]
 3. Enclose the battery well perimeter with Heavy Armor Full Blocks. The top faces form the foundation walkway for Level L3.
 4. Tie battery terminals into the consist high-voltage tractive bus, supplying instantaneous float charge to the Basic Refinery, Large Assembler, and Axles 4-5 drive motors.
+5. Install Small Cargo Container `MAS Hold Munitions` at [X0, Z −15, Y = L2] immediately forward of the central battery bank beneath the workshop corridor. Plumb top conveyor port to the central conveyor line, and enclose the lateral and lower faces within 40× heavy armor ballast plates. This establishes an isolated, flash-shielded munitions magazine preventing sympathetic detonation from penetrating the upper habitable workshop.
 
 #### Terminal Configuration & Sliders
 * Batteries: `MAS Battery 4, 5, 6`
@@ -2124,9 +2131,13 @@ Plan view, Y = L2 (Utility Sub-Floor Battery Vault & Electrical Spine)
   - Max Stored Energy: `3.0 MWh each (9.0 MWh vault total)`
   - Peak Power Output: `12.0 MW each (36.0 MW vault total)`
   - Low Power Threshold: `15%` (Triggers audio alert on Bridge console)
+* Cargo Container: `MAS Hold Munitions`
+  - Subsystem: Sub-Floor Munitions Bunker
+  - Target SML Quotas: 250× NATO 25×184mm boxes, 100× NATO 5.56×45mm magazines
+  - Conveyor System: `ON`
 * Consist Power Totals: Vault brings total Mastodon MKI energy storage to 18.0 MWh across 6 Large Batteries with 72.0 MW combined instantaneous discharge.
 
-✓ Check: Batteries deliver 36.0 MW peak output; total consist energy reaches 18.0 MWh; battery well remains fully armored beneath workshop floor plate.
+✓ Check: Batteries deliver 36.0 MW peak output; total consist energy reaches 18.0 MWh; battery well and ammo bunker remain fully armored beneath workshop floor plate.
 
 ---
 
@@ -2203,6 +2214,7 @@ Plan view, Y = L3 (Mobile FOB Workshop Core, Medical Bay & Life Support Farm)
 | Large Conveyor Sorter | 1 | Slot 4 (`#16A085`) | 4.9 t / 25 | `MAS Sorter Parts Aft` at [X0, Z −17, L2] pointing aft (−Z) toward workshop |
 | Large Conveyor Pipe | 6 | Slot 4 (`#16A085`) | 1.8 t / 6 | Interconnecting refinery, assembler, and sorting raceways |
 | Event Controller | 1 | Slot 7 (`#1B263B`) | 0.2 t / 25 | `MAS EC Ice` at [X0, Z −15, L3] prioritizing raw ice flow to O2/H2 generators |
+| Event Controller | 1 | Slot 7 (`#1B263B`) | 0.2 t / 25 | `MAS EC Ammo` at [X −1, Z −15, L3] monitoring SML munitions quotas & restock |
 
 ```
 [SALVAGE EXTRACTION & CLOSED-LOOP RECYCLING CIRCUIT]
@@ -2241,6 +2253,7 @@ Plan view, Y = L3 (Mobile FOB Workshop Core, Medical Bay & Life Support Farm)
 2. Install Large Conveyor Sorter `MAS Sorter Ammo Fwd` at [X0, Z −9, Y = L3] oriented pointing forward (+Z) directly into the gangway drawbar conduit. Configure whitelist for NATO 25×184mm and 5.56mm munitions with Drain All = ON to keep Tractor turrets continuously supplied.
 3. Install Large Conveyor Sorter `MAS Sorter Parts Aft` at [X0, Z −17, Y = L2] oriented pointing aft (−Z). Configure whitelist for Scrap Metal and damaged salvage components with Drain All = ON, diverting incoming salvage directly into `MAS Field Refinery` before it reaches raw ore bins.
 4. Mount Event Controller `MAS EC Ice` at [X0, Z −15, Y = L3] on the central bulkhead.
+5. Mount Event Controller `MAS EC Ammo` at [X −1, Z −15, Y = L3] on the port workshop bulkhead adjacent to `MAS Utility Assembler`. Configure to monitor ammunition inventory across `MAS Hold Munitions` and `MAS Hold Components`. When combined NATO 25×184mm ammunition drops below 60% of quota (150 boxes / 21,000 rounds) or NATO 5.56×45mm magazines drop below 60% of quota (60 magazines / 1,800 rounds), trigger automated production queue in `MAS Utility Assembler` at maximum priority.
 
 #### Terminal Configuration & Sliders
 * Basic Refinery: `MAS Field Refinery` (Use Conveyor System: `ON` · Smelting: Fe, Ni, Co, Si, Mg)
@@ -2251,6 +2264,11 @@ Plan view, Y = L3 (Mobile FOB Workshop Core, Medical Bay & Life Support Farm)
   - Condition: Fill $< 90\%$
   - Action Slot 1: Enable Ice Sorter & Power ON `MAS Gen O2/H2 1, 2`
   - Action Slot 2: Standby mode when tanks $\ge 95\%$
+* Event Controller: `MAS EC Ammo`
+  - Monitored Target: `MAS Hold Munitions` + `MAS Hold Components` (Munitions Quotas)
+  - Condition: Ammo Inventory $< 60\%$ (25mm $< 150$ boxes OR 5.56mm $< 60$ mags)
+  - Action Slot 1: Trigger Assembler Ammo Fabrication Queue (Mg + Fe + Ni ingots)
+  - Action Slot 2: If local Magnesium $< 50\text{ kg}$ or Ammo $< 25\%$, broadcast `TMS.RESUPPLY.REQUEST;MAS-01;KIT_MUNITIONS`
 
 ✓ Check: Mined raw ore automatically smelts into ingots; scrap metal routes straight to refinery; assembler pulls ingots autonomously; forward sorter keeps bow and flank turrets fully loaded with ammo.
 
@@ -2418,6 +2436,13 @@ Flank elevation cross-section, Y = L4, Z = −16 (Exterior Scavenging Vent Reces
 3. Plumb hydronic thermal trace lines from `MAS Field Refinery` (330 kW heat rejection) to jacket `MAS Hold Ice LifeSupport` at [X0, Z −16, L3]. This waste heat loop prevents emergency ice crystallization and freezing in sub-cryogenic planetary environments (Europa, Triton).
 4. Install UV Decon Light `MAS Light Decon Gangway` in the inter-carriage flexible accordion gangway at [X0, Z −8, L4] adjacent to `MAS Vent Gangway`, providing active decontamination and isolation between the tractor locomotive and utility carriage.
 5. Hardwire perimeter CIWS turrets (`MAS Turret Bow / Stern`) with `Target Meteors = ON` to provide automated planetary meteor storm intercept.
+6. Configure Event Controller `MAS EC Meteor` (integrated in the C2 avionics rack at [X0, Z +7, L3]) monitoring target acquisition across `MAS Turret Bow` and `MAS Turret Stern`. Upon detecting incoming meteors or hostile target lock:
+   - Sounds high-decibel early warning siren `MAS Alarm Meteor` ([X0, Z +8, L4]).
+   - Issues emergency `STOW` command to `[MAS] PB Excavator`, swinging the 35 m extraction boom 180° aft into the armored spine trough and locking into `MAS Clamp Boom Stow` ([X0, Z −7, L4]) in $< 4.0\text{ s}$, dropping consist profile to 5.2 m and shielding delicate joint actuators from kinetic fragmentation.
+   - Retracts crew boarding ladder (`MAS Crew Ladder Hinge` to 0° flush).
+   - Locks all airlock outer hatches (`MAS Door Boarding Outer`, `MAS Door Roof Outer`, `MAS Door Stern Inner`).
+   - Engages magnetic clamp lockdown across flight deck rub rails (`MAS MP Clamps` and Kestrel landing gears) to isolate docked drones from kinetic ground shock.
+7. Configure high-speed automated ammunition distribution: Large Conveyor Sorter `MAS Sorter Ammo Fwd` ([X0, Z −9, L3]) pulls continuous belts of NATO 25×184mm and 5.56mm ammo from sub-floor bunker `MAS Hold Munitions` ([X0, Z −15, L2]) and `MAS Hold Components` into forward CIWS guns. In the event of depleted local magnesium ($< 50\text{ kg}$) or ammunition reserves below 25%, `[MAS] PB RIG//OS-Lite` autonomously broadcasts `TMS.RESUPPLY.REQUEST;MAS-01;KIT_MUNITIONS`, summoning MULE-01 or Ground Base for a rapid top-deck munitions pallet transfer in $< 10\text{ s}$.
 
 #### Terminal Configuration & Sliders
 * Lightning Mast: `MAS Decoy Mast` (Functional: `ON` · Target Priority: High)
@@ -2427,10 +2452,16 @@ Flank elevation cross-section, Y = L4, Z = −16 (Exterior Scavenging Vent Reces
   - Target Meteors: `ON`
   - Target Missiles: `ON`
   - Target Small Ships / Characters: `ON`
+* Siren: `MAS Alarm Meteor` (Sound: `Alert 2` · Range: `150 m` · Volume: `100%`)
+* Event Controller: `MAS EC Meteor` (Automated Meteor Defense & Consist Hardening)
+  - Monitored Target: `MAS Turret Bow`, `MAS Turret Stern` (Target Lock / Meteor Acquisition)
+  - Condition: Target Detected (Meteors / Missiles / Enemy Grids)
+  - Action Slot 1: Trigger `MAS Alarm Meteor` (Play Sound) · Issue `PB Excavator` Argument: `STOW` · Group `MAS Doors` Close & Lock · Group `MAS MP Clamps` Lock · `MAS Crew Ladder Hinge` Retract (0°)
+  - Action Slot 2: On Clear (No Targets): Silence `MAS Alarm Meteor` · Restore Standard Posture
 * Environmental Watchdog: `MAS EC Atmosphere Mode` (Toxic Atmosphere Protection):
   - On detecting toxic/corrosive gas or zero O2: instantly locks exterior vents, prevents toxic gas ingress, and locks cabin doors to 100% closed-loop recirculation.
 
-✓ Check: Lightning strikes safely arc to dorsal mast decoy without damage to bridge glass or fuel tanks; crew sheltered in radiation citadel during solar storm; ice buffer jacketed against cryogenic freeze; gangway decon cycle active; meteor defense armed.
+✓ Check: Lightning strikes safely arc to dorsal mast decoy without damage to bridge glass or fuel tanks; crew sheltered in radiation citadel during solar storm; ice buffer jacketed against cryogenic freeze; gangway decon cycle active; meteor defense armed with early warning siren and automated consist hardening.
 
 ---
 
@@ -3145,6 +3176,8 @@ State Machine: Dynamic Fleet Authority & C2 Handover
 * `MAS Decon`: 4× UV decontamination washdown lights (`MAS Light Decon Port`, `MAS Light Decon Roof`, `MAS Light Decon Stern`, `MAS Light Decon Gangway`).
 * `MAS Vents Cabin`: Multi-zone cabin air circulation vents (`MAS Vent Bridge`, `MAS Vent Crawlway`, `MAS Vent Gangway`, `MAS Vent Workshop`).
 * `MAS Vents Airlock`: Active gas-reclamation decompression vents (`MAS Vent Airlock Port`, `MAS Vent Airlock Roof`, `MAS Vent Airlock Stern`).
+* `MAS Munitions`: Sub-floor munitions bunker (`MAS Hold Munitions`), forward ammo sorter (`MAS Sorter Ammo Fwd`), ammo Event Controller (`MAS EC Ammo`), and early warning siren (`MAS Alarm Meteor`).
+
 
 ### 3. Block Naming & Terminal Dictionary
 | Block Type | Exact Terminal Name | Subsystem Role & Functional Configuration |
@@ -3236,9 +3269,14 @@ State Machine: Dynamic Fleet Authority & C2 Handover
 | Laser Multitool Turret | `MAS MT Turret Stbd` | Forward stbd shoulder repair turret at [X +3, Z −10, L4] · Kestrel pad & hitch repair |
 | Laser Multitool Turret | `MAS MT Turret Stern` | Elevated gantry arch repair turret at [X0, Z −23, L7] · Mule pad & aft consist repair |
 | Small Cargo Container | `MAS Hold Resupply Export` | Outbound peer resupply staging hopper at [X0, Z −20, L5] directly under `MAS MP Conn` |
+| Small Cargo Container | `MAS Hold Munitions` | Sub-floor flash-shielded munitions bunker at [X0, Z −15, L2] · 250× NATO 25mm / 100× 5.56mm quota |
+| Sound Block | `MAS Alarm Meteor` | High-decibel early warning meteor & combat alert siren at [X0, Z +8, L4] |
 | Conveyor Sorter | `MAS Sorter Resupply Export` | SML resupply kit staging sorter at [X0, Z −20, L4] |
 | Event Controller | `MAS EC Airlock Port/Roof/Stern` | Automated dual-door interlock and active gas-reclamation sequencers |
 | Event Controller | `MAS EC Resupply` | Outbound resupply staging watchdog · Monitors `MAS Hold Resupply Export` |
+| Event Controller | `MAS EC Meteor` | Automated meteor intercept & consist hardening sequence watchdog at [X0, Z +7, L3] |
+| Event Controller | `MAS EC Ammo` | Autonomous SML ammunition manufacturing & restock watchdog at [X −1, Z −15, L3] |
+
 | Event Controller | `MAS EC Stabilizers` | Blocks boom arm deployment until outriggers report locked |
 | Event Controller | `MAS EC Level` | Auto-leveling bedrock jack sequence on sloped terrain |
 | Event Controller | `MAS EC Ladder` | Auto-deploys crew ladder on approach; retracts on drive |
@@ -3285,12 +3323,16 @@ State Machine: Dynamic Fleet Authority & C2 Handover
 | `MAS EC LifeSupport` | `MAS Tank O2 1, 2` / Pressure | O2 $< 25\%$ OR Pressure $< 0.5$ atm | Sound O2 Alarm · Seal Compartment Doors | Normal Atmospheric Circulation |
 | `MAS EC BlackBox` | Consist Power Output | Total MW Output $= 0.0$ MW | Activate `MAS Battery BlackBox` & SOS Beacon | Standby Isolation |
 | `MAS EC Atmosphere Mode` | Ambient Atmospheric O2 | Ambient O2 $\ge 100\%$ | `MAS Vent Atmo Intake` Depressurize ON | `MAS Vent Atmo Intake` Power OFF |
+| `MAS EC Meteor` | `MAS Turret Bow / Stern` | Target Detected (Meteors/Missiles) | Sound `MAS Alarm Meteor` · Stow Boom · Seal Doors · Clamp Drones | Silence `MAS Alarm Meteor` · Normal Posture |
+| `MAS EC Ammo` | `MAS Hold Munitions` Ammo | Stock $< 60\%$ Quota | Queue Ammo in `MAS Utility Assembler` (Top Priority) | If Mg $< 50\text{ kg}$, Call `TMS.RESUPPLY.REQUEST` |
 
 ### 5. IGC Channel Subscriptions (Ground Fleet & RIG//OS Bus)
 * Network Beacon: `RIG.C2.HEARTBEAT` (`<origin_id>;<role:MOTHERSHIP|BASE|WORKER>;<gps_coords>`).
 * Network Handover: `RIG.C2.HANDOVER` (`<source_id>;<target_id>;<asset_registry_payload>`).
 * Environmental Mode: `TMS.ENV.MODE` (Broadcasts planetary atmosphere state: `<EARTH_SCAVENGE|CLOSED_LOOP_VACUUM|CORROSIVE_ISOLATION>`).
 * Airlock Telemetry: `TMS.AIRLOCK.CYCLE` (Telemetry packet: `<chamber_id>;<state:DEPRESSURIZING|EVACUATING|DECON_PULSE|PRESSURIZED>`).
+* Meteor Alert: `TMS.METEOR.ALERT` (`METEOR;<intensity:LIGHT|MED|HEAVY>;<azimuth_deg>;<elevation_deg>;<impact_eta_sec>`).
+* Munitions Telemetry: `TMS.AMMO.STATUS` (`AMMO;<gatling_box_count>;<interior_mag_count>;<mg_ingot_kg>;<deficit_box_count>`).
 * Logistics Outbound: `TMS.MULE.CALL` (`CALL;<requesting_pad>;<priority>;<payload_type>`).
 * Logistics Outbound: `TMS.CAT.CALL` (`CALL;<consist_id>;<bulk_ore_t>;<gps_coords>`).
 * Consist Telemetry: `TMS.CONSIST.SYNC` (`SYNC;<source_id>;<hitch_torque>;<clamp_state>;<airlock_state>`).
@@ -3437,6 +3479,15 @@ State Machine: Dynamic Fleet Authority & C2 Handover
 * [ ] **Radiation Storm Citadel Shelter:** Simulate planetary coronal mass ejection / cosmic ray storm. Station crew in the central workshop corridor ([X0, Z −13 to −18, L3]). Confirm lateral shielding from twin 4.5 m liquid hydrogen tanks and 40× heavy steel ballast plates attenuates radiation dose to 0.0 mSv/h.
 * [ ] **Cryogenic Thermal Trace Freeze Protection:** Park consist in sub-zero cryogenic environment (Europa / Triton). Confirm 330 kW waste heat from `MAS Field Refinery` jackets `MAS Hold Ice LifeSupport`, maintaining ice liquidity and preventing hopper freeze-up.
 * [ ] **Automated Meteor Intercept Defense:** Trigger incoming meteor shower. Confirm CIWS turrets (`MAS Turret Bow / Stern`) track and neutralize inbound meteors before ground impact (`Target Meteors = ON`).
+
+### P · Automated Meteor Defense Grid, Closed-Loop Ammo Fabrication & Dynamic Restock Acceptance (Decision 70)
+* [ ] **360° Hemispherical CIWS Meteor Dome:** Trigger planetary meteor storm. Verify `MAS Turret Bow` (Bow crown L5) and `MAS Turret Stern` (elevated gantry arch L7) achieve 360° hemispherical overlap with `Target Meteors = ON`, acquiring and destroying incoming meteors at > 800 m standoff before they impact the glass canopy, solar panels, or hydrogen tanks.
+* [ ] **Automated Early Warning Siren & Consist Hardening:** On meteor target acquisition, verify Event Controller `MAS EC Meteor` triggers high-decibel audible siren `MAS Alarm Meteor` ([X0, Z +8, L4]). Verify `[MAS] PB Excavator` initiates emergency `STOW` macro: 35 m boom folds 180° aft into dorsal spine trough and locks into `MAS Clamp Boom Stow` ([X0, Z −7, L4]) in < 4.0 s, dropping vehicle profile to 5.2 m. Verify boarding ladder retracts flush, airlocks lock, and drone magnetic clamps lock to isolate kinetic ground shock.
+* [ ] **Autonomous Closed-Loop Munitions Manufacturing:** Withdraw 120 NATO 25×184mm ammo boxes from `MAS Hold Munitions` (dropping stock below 60% of the 250-box SML quota). Confirm `MAS EC Ammo` triggers `MAS Utility Assembler` to immediately queue 120 NATO 25mm boxes and 50 NATO 5.56mm magazines from refined Magnesium, Iron, and Nickel ingots with top combat priority over structural plate production.
+* [ ] **Flash-Shielded Sub-Floor Munitions Bunker Detonation Isolation:** Verify `MAS Hold Munitions` ([X0, Z −15, L2]) is enclosed within 40× heavy steel ballast plates beneath the workshop floor plate. Simulate kinetic penetration of upper hull; confirm sub-floor bunker isolates munitions storage and prevents sympathetic explosive cookoff into the habitable crew workshop.
+* [ ] **High-Speed Conveyor Distribution & Sorter Pressurization:** Verify `MAS Sorter Ammo Fwd` ([X0, Z −9, L3]) with whitelist `NATO_25x184mm`, `NATO_5_56x45mm` and `Drain All = ON` continuously feeds forward CIWS turrets (`MAS Turret Bow`, `MAS Turret Flank Port/Stbd`) across the drawbar umbilical without manual conveyor transfers.
+* [ ] **Automated Mule Munitions Resupply Sortie:** Reduce local Magnesium stock below 50 kg or ammo reserves below 25%. Confirm `[MAS] PB RIG//OS-Lite` broadcasts `TMS.RESUPPLY.REQUEST;MAS-01;KIT_MUNITIONS`. Verify Ground Base or `MULE-01` delivers pallet directly into `MAS Hold Munitions` via top-deck pad `MAS MP Conn` and `MAS MP Sorter` in < 10 s.
+
 
 
 

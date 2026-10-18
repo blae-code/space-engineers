@@ -154,6 +154,14 @@ namespace IngameScript
         int _currentEnvMode = ENV_EARTH_SCAVENGE;
         int _airlockState = AIRLOCK_IDLE;
         bool _uvDeconActive;
+
+        // Decision 70: Automated Meteor Defense Grid, Ammo Fabrication & Restock
+        bool _meteorAlertActive;
+        bool _consistHardened;
+        int _ammoGatlingBoxes = 250;
+        int _ammoInteriorMags = 100;
+        double _mgIngotKg = 150.0;
+        bool _ammoAutoFabActive = true;
         #endregion
 
         public Program()
@@ -216,6 +224,15 @@ namespace IngameScript
                 _sbEcho.Append("\nEnv Mode: ").Append(EnvModeNames[_currentEnvMode]);
                 _sbEcho.Append(" · Airlock: ").Append(AirlockStateNames[_airlockState]);
                 _sbEcho.Append(" · UV Decon: ").Append(_uvDeconActive ? "PULSING" : "STANDBY");
+                _sbEcho.Append("\nMeteor CIWS: ").Append(_meteorAlertActive ? "METEOR_ALERT" : "WATCHKEEPING");
+                _sbEcho.Append(" · Hardened: ").Append(_consistHardened ? "LOCKED" : "NORMAL");
+                _sbEcho.Append("\nAmmo 25mm: ");
+                SbFormat.AppendInt(_sbEcho, _ammoGatlingBoxes);
+                _sbEcho.Append("/250 · 5.56mm: ");
+                SbFormat.AppendInt(_sbEcho, _ammoInteriorMags);
+                _sbEcho.Append("/100 · Mg: ");
+                SbFormat.AppendInt(_sbEcho, (int)_mgIngotKg);
+                _sbEcho.Append(" kg");
                 _sbEcho.Append("\nTick: ");
                 SbFormat.AppendInt(_sbEcho, _tickCounter);
                 Echo(_sbEcho.ToString());
@@ -286,6 +303,26 @@ namespace IngameScript
             _sbIgc.Clear();
             _sbIgc.Append("ENV;MAS-01;").Append(EnvModeNames[_currentEnvMode]);
             IGC.SendBroadcastMessage("TMS.ENV.MODE", _sbIgc.ToString());
+
+            // Broadcast live munitions telemetry (TMS.AMMO.STATUS)
+            _sbIgc.Clear();
+            _sbIgc.Append("AMMO;");
+            SbFormat.AppendInt(_sbIgc, _ammoGatlingBoxes);
+            _sbIgc.Append(';');
+            SbFormat.AppendInt(_sbIgc, _ammoInteriorMags);
+            _sbIgc.Append(';');
+            SbFormat.AppendInt(_sbIgc, (int)_mgIngotKg);
+            _sbIgc.Append(';');
+            SbFormat.AppendInt(_sbIgc, Math.Max(0, 250 - _ammoGatlingBoxes));
+            IGC.SendBroadcastMessage("TMS.AMMO.STATUS", _sbIgc.ToString());
+
+            // If meteor alert active, broadcast meteor early warning (TMS.METEOR.ALERT)
+            if (_meteorAlertActive)
+            {
+                _sbIgc.Clear();
+                _sbIgc.Append("METEOR;HEAVY;180;45;12");
+                IGC.SendBroadcastMessage("TMS.METEOR.ALERT", _sbIgc.ToString());
+            }
         }
 
         void HandleCommand(string argument)
@@ -659,6 +696,48 @@ namespace IngameScript
                     _sbIgc.Append("DISPATCH;MAS-01;MUL-01;ALL;").Append(ResupplyKitNames[_resupplyKitType]);
                     IGC.SendBroadcastMessage("TMS.RESUPPLY.DISPATCH", _sbIgc.ToString());
                 }
+            }
+            else if (string.Compare(cmd, "METEOR", StringComparison.OrdinalIgnoreCase) == 0)
+            {
+                // Trigger or clear meteor intercept alert and consist hardening: METEOR <ALERT|CLEAR|STOW|LOCKDOWN>
+                if (_args.Count > 1 && string.Compare(_args[1], "CLEAR", StringComparison.OrdinalIgnoreCase) == 0)
+                {
+                    _meteorAlertActive = false;
+                    _consistHardened = false;
+                }
+                else
+                {
+                    _meteorAlertActive = true;
+                    _consistHardened = true;
+                    _activeMacro = MACRO_NONE; // emergency boom fold to STOW
+
+                    _sbIgc.Clear();
+                    _sbIgc.Append("METEOR;HEAVY;180;45;15");
+                    IGC.SendBroadcastMessage("TMS.METEOR.ALERT", _sbIgc.ToString());
+                }
+            }
+            else if (string.Compare(cmd, "AMMO", StringComparison.OrdinalIgnoreCase) == 0)
+            {
+                // Query or toggle closed-loop munitions manufacturing: AMMO <FAB|AUTO|STATUS|RESTOCK>
+                if (_args.Count > 1 && string.Compare(_args[1], "OFF", StringComparison.OrdinalIgnoreCase) == 0)
+                    _ammoAutoFabActive = false;
+                else if (_args.Count > 1 && string.Compare(_args[1], "ON", StringComparison.OrdinalIgnoreCase) == 0)
+                    _ammoAutoFabActive = true;
+                else if (_args.Count > 1 && (string.Compare(_args[1], "RESTOCK", StringComparison.OrdinalIgnoreCase) == 0 || string.Compare(_args[1], "REQ", StringComparison.OrdinalIgnoreCase) == 0))
+                {
+                    _sbIgc.Clear();
+                    _sbIgc.Append("RESUPPLY;MAS-01;NONE;KIT_MUNITIONS;HIGH");
+                    IGC.SendBroadcastMessage("TMS.RESUPPLY.REQUEST", _sbIgc.ToString());
+                }
+                else
+                    _ammoAutoFabActive = !_ammoAutoFabActive;
+            }
+            else if (string.Compare(cmd, "RESTOCK", StringComparison.OrdinalIgnoreCase) == 0)
+            {
+                // Automated incoming resupply call
+                _sbIgc.Clear();
+                _sbIgc.Append("RESUPPLY;MAS-01;NONE;KIT_MUNITIONS;HIGH");
+                IGC.SendBroadcastMessage("TMS.RESUPPLY.REQUEST", _sbIgc.ToString());
             }
             else if (string.Compare(cmd, "RELOAD", StringComparison.OrdinalIgnoreCase) == 0)
             {

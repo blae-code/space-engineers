@@ -2,7 +2,7 @@
 
 Project-wide communication standard, channel namespaces, and payload schemas for the Space Engineers 1 **Floating Rig / RIG//OS** and **Terrestrial Logistics Fleet**.
 
-Authority: Blae Decisions 8, 38, 42, 53, 54, 56, 62, 63, 65, 66, 67, 68, 69 (Canon) · `CLAUDE(RIG).md` §8 Phase 4 · `docs/rig/lego-instructions-v1.0.md`
+Authority: Blae Decisions 8, 38, 42, 53, 54, 56, 62, 63, 65, 66, 67, 68, 69, 70 (Canon) · `CLAUDE(RIG).md` §8 Phase 4 · `docs/rig/lego-instructions-v1.0.md`
 
 ---
 
@@ -71,6 +71,9 @@ Autonomous operations across moving atmospheric carriers (Orca), vertical miners
 | `TMS.RESUPPLY.COMPLETE` | Receiving Rig -> Fleet | `COMPLETE;<receiving_grid>;<delivering_shuttle>;<kit_type>;<status>` | Acknowledges receipt of parts and successful field repair completion. |
 | `TMS.ENV.MODE` | Mastodon C2 -> Fleet / Consist | `ENV;<mode:EARTHLIKE\|VACUUM\|TOXIC\|STORM>;<exterior_o2_pct>;<rad_alert>` | Environmental mode and hazardous planetary condition broadcast. |
 | `TMS.AIRLOCK.CYCLE` | Control Panel -> Airlock | `CYCLE;<airlock:PORT\|ROOF\|STERN\|GANGWAY>;<dir:IN\|OUT>;<decon_bool>` | Initiates automated gas reclamation and UV decontamination cycle. |
+| `TMS.METEOR.ALERT` | Mastodon CIWS -> Fleet / Consist | `METEOR;<intensity:LIGHT\|MED\|HEAVY>;<azimuth_deg>;<elevation_deg>;<impact_eta_sec>` | Early warning meteor swarm detection, CIWS dome lock, and consist lockdown trigger. |
+| `TMS.AMMO.STATUS` | Mastodon Ammo EC -> Consist / Logistics | `AMMO;<gatling_box_count>;<interior_mag_count>;<mg_ingot_kg>;<deficit_box_count>` | Consist munitions telemetry, magazine capacity, and automated resupply trigger. |
+
 
 ---
 
