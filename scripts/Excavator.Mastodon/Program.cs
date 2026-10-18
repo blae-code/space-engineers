@@ -1,26 +1,22 @@
 // Excavator.Mastodon · Space Engineers 1 MDK2 PB Script
-// Target Blocks: [MAS] PB Excavator & [MAS] PB RIG//OS-Lite
-// Grid: Large Grid Consist (11 × 42 × 6 B · 10 Wheels · 2 Carriages) · Update: Update1 / Update10
-// Subsystem Groups: MAS STAB, MAS BOOM, MAS TOOL, MAS WHEEL, MAS HITCH, MAS COMM, MAS HOLD, MAS MP, MAS DUMP, MAS POWER, MAS REFINERY, MAS BATTERY, MAS DOORS, MAS TURRETS, MAS WELDERS, MAS LIGHTS, MAS SEISMIC, MAS CLAMP, MAS DECOY, MAS AIRLOCK, MAS LIFE, MAS SCUTTLE, MAS BP, MAS PROJECTOR, MAS HITCH CLAMPS, MAS OUTRIGGERS UTILITY, MAS DPU, MAS FOB
-// IGC Channels: RIG.C2.HEARTBEAT, RIG.C2.HANDOVER, TMS.MAS.STATUS, TMS.MULE.CALL, TMS.CAT.CALL, TMS.SCOUT.VEIN, FLT.MAS.CMD, TMS.CONSIST.SYNC, TMS.CONSIST.TRACTION, TMS.CONSIST.SEVER
-// Rule C4: Native blocks provide safety; PB provides decision logic.
+// Target Block: [MAS] PB Excavator
+// Grid: Large Grid Tractor Unit (MAS-01-T) · Update: Update1 / Update10
+// Subsystem Groups: MAS STAB, MAS BOOM, MAS TOOL, MAS WHEEL, MAS HITCH, MAS AIRLOCKS, MAS VENTS CABIN, MAS VENTS AIRLOCK
+// IGC Channels: TMS.MAS.STATUS, TMS.CONSIST.SYNC, TMS.CONSIST.TRACTION, TMS.CONSIST.SEVER, TMS.AIRLOCK.CYCLE, TMS.ENV.MODE
+// Rule C4: Native blocks provide safety; PB provides decision & kinematic logic.
 
 using System;
 using System.Collections.Generic;
 using System.Text;
 using Sandbox.ModAPI.Ingame;
 using VRage.Game.ModAPI.Ingame.Utilities;
+using VRageMath;
 
 namespace IngameScript
 {
     public partial class Program : MyGridProgram
     {
         #region State Constants & String Tables (Minifier-Safe Zero-GC)
-        public const int ROLE_STANDALONE = 0;
-        public const int ROLE_MOTHERSHIP = 1;
-        public const int ROLE_WORKER = 2;
-        public const int ROLE_FIELD_LEADER = 3;
-
         public const int STATE_TRANSIT = 0;
         public const int STATE_ANCHORING = 1;
         public const int STATE_EXCAVATING = 2;
@@ -32,6 +28,12 @@ namespace IngameScript
         public const int MACRO_TRENCH = 3;
         public const int MACRO_CRANE = 4;
         public const int MACRO_SALVAGE = 5;
+        public const int MACRO_STOW = 6;
+        public const int MACRO_DEPLOY = 7;
+
+        public const int TOOL_MINING = 0;
+        public const int TOOL_SALVAGE = 1;
+        public const int TOOL_FABRICATION = 2;
 
         public const int POWER_MODE_SILENT = 0;
         public const int POWER_MODE_CRUISE = 1;
@@ -48,14 +50,6 @@ namespace IngameScript
         public const int AIRLOCK_INGRESS = 2;
         public const int AIRLOCK_DECON = 3;
 
-        static readonly string[] RoleNames = new string[]
-        {
-            "STANDALONE",
-            "MOTHERSHIP_ROOT",
-            "WORKER_SLAVE",
-            "FIELD_LEADER"
-        };
-
         static readonly string[] StateNames = new string[]
         {
             "TRANSIT",
@@ -71,7 +65,16 @@ namespace IngameScript
             "VERTICAL_COLUMN_BORE",
             "TRENCH_CARVE",
             "CRANE_RECOVERY",
-            "SALVAGE_DECONSTRUCT"
+            "SALVAGE_DECONSTRUCT",
+            "TRAVEL_STOW",
+            "DEPLOY_READY"
+        };
+
+        static readonly string[] ToolModeNames = new string[]
+        {
+            "MINING_BEAM",
+            "SALVAGE_BEAM",
+            "FABRICATION_BEAM"
         };
 
         static readonly string[] PowerModeNames = new string[]
@@ -99,74 +102,78 @@ namespace IngameScript
         };
         #endregion
 
-        #region Telemetry & Cache
+        #region Hardware References
+        IMyShipController _helm;
+        IMyMotorAdvancedStator _turretAzimuth;
+        IMyMotorAdvancedStator _boomShoulder;
+        IMyMotorAdvancedStator _boomElbow;
+        IMyMotorAdvancedStator _wristPitch;
+        IMyMotorAdvancedStator _wristRoll;
+        IMyShipWelder _toolGrapple; // Or magnetic plate
+        IMyFunctionalBlock _clampBoomStow;
+
+        readonly List<IMyPistonBase> _outriggersFwd = new List<IMyPistonBase>(2);
+        readonly List<IMyPistonBase> _outriggersAft = new List<IMyPistonBase>(2);
+        readonly List<IMyShipConnector> _outriggerPads = new List<IMyShipConnector>(4);
+
+        IMyMotorAdvancedStator _hitchYaw;
+        IMyMotorAdvancedStator _hitchPitch;
+        IMyMotorAdvancedStator _hitchRoll;
+        readonly List<IMyFunctionalBlock> _hitchClamps = new List<IMyFunctionalBlock>(2);
+
+        readonly List<IMyFunctionalBlock> _miningLasers = new List<IMyFunctionalBlock>(2);
+        readonly List<IMyAirVent> _cabinVents = new List<IMyAirVent>(4);
+        readonly List<IMyAirVent> _atmoIntakeVents = new List<IMyAirVent>(2);
+        readonly List<IMyDoor> _airlockDoorsInner = new List<IMyDoor>(4);
+        readonly List<IMyDoor> _airlockDoorsOuter = new List<IMyDoor>(4);
+        readonly List<IMyAirVent> _airlockVents = new List<IMyAirVent>(4);
+        readonly List<IMyLightingBlock> _deconLights = new List<IMyLightingBlock>(4);
+        #endregion
+
+        #region Kinematics & Solvers
+        // Boom link lengths (meters): Shoulder L1 = 15.0 m, Elbow L2 = 17.5 m, Tool offset L3 = 2.5 m
+        const double L1 = 15.0;
+        const double L2 = 17.5;
+        const double L3 = 2.5;
+        const double RAD2DEG = 180.0 / Math.PI;
+        const double DEG2RAD = Math.PI / 180.0;
+
+        double _targetX = 0.0;
+        double _targetY = -5.0;
+        double _targetZ = 18.0;
+
+        double _macroTimer = 0.0;
+        int _macroStep = 0;
+        double _boreRadius = 6.0;
+        double _boreAngle = 0.0;
+        double _boreDepth = -5.0;
+        #endregion
+
+        #region Operational State
         readonly MyIni _ini = new MyIni();
         readonly StringBuilder _sbEcho = new StringBuilder(512);
         readonly StringBuilder _sbIgc = new StringBuilder(256);
         readonly List<string> _args = new List<string>(8);
-        readonly HeartbeatWatchdog _c2Watchdog = new HeartbeatWatchdog(10.0);
 
-        int _currentRole = ROLE_MOTHERSHIP; // Default genesis seed role
         int _currentState = STATE_TRANSIT;
-        int _activeMacro = MACRO_NONE;
+        int _activeMacro = MACRO_STOW;
+        int _currentToolMode = TOOL_MINING;
         int _currentPowerMode = POWER_MODE_CRUISE;
-        int _tickCounter;
-        bool _outriggersLocked;
-
-        // Decision 66: Predictive JIT Logistics & Fleet Mass Telemetry
-        double _prevCargoMassKg;
-        double _currentCargoMassKg = 0;
-        double _maxCargoMassKg = 2500000; // 2,500 t bulk payload
-        double _extractionRateKgPerSec;
-        double _secondsUntilFull = 9999;
-        bool _jitAirDispatched;
-        bool _jitGndDispatched;
-
-        // Decision 67: Consist Mechanics, 3-Axis Hitch, DPU & FOB Autonomy
-        bool _hitchClampsEngaged;
-        bool _dpuPushActive;
-        bool _utilityOutriggersLocked;
-        bool _sternDockExtended;
-
-        // Decision 68: 4× Multitool Repair Turrets, SML Auto-Production & Peer Resupply Sorties
-        bool _mtTurretsWelding = true;
-        bool _mtTurretsEnabled = true;
-        bool _smlAutoProdEnabled = true;
-        bool _resupplyStagingActive;
-        int _resupplyKitType = RESUPPLY_NONE;
-
-        const int RESUPPLY_NONE = 0;
-        const int RESUPPLY_MOBILITY = 1;
-        const int RESUPPLY_POWER = 2;
-        const int RESUPPLY_MUNITIONS = 3;
-        const int RESUPPLY_HULL = 4;
-
-        static readonly string[] ResupplyKitNames = new string[]
-        {
-            "NONE",
-            "KIT_MOBILITY",
-            "KIT_POWER",
-            "KIT_MUNITIONS",
-            "KIT_HULL_REPAIR"
-        };
-
-        // Decision 69: Environmental Mode & Airlock State
         int _currentEnvMode = ENV_EARTH_SCAVENGE;
         int _airlockState = AIRLOCK_IDLE;
-        bool _uvDeconActive;
+        double _airlockTimer = 0.0;
 
-        // Decision 70: Automated Meteor Defense Grid, Ammo Fabrication & Restock
-        bool _meteorAlertActive;
-        bool _consistHardened;
-        int _ammoGatlingBoxes = 250;
-        int _ammoInteriorMags = 100;
-        double _mgIngotKg = 150.0;
-        bool _ammoAutoFabActive = true;
+        int _tickCounter;
+        bool _outriggersLocked;
+        bool _hitchClampsEngaged;
+        bool _dpuPushActive;
+        bool _sternDockExtended;
+        float _vehicleSpeedKmh;
         #endregion
 
         public Program()
         {
-            Runtime.UpdateFrequency = UpdateFrequency.Update1 | UpdateFrequency.Update100;
+            Runtime.UpdateFrequency = UpdateFrequency.Update1 | UpdateFrequency.Update10;
             LoadConfiguration();
             InitHardware();
             Echo("Excavator.Mastodon Initialized.");
@@ -174,7 +181,7 @@ namespace IngameScript
 
         public void Save()
         {
-            // Save state to Storage
+            // Persist macro state and stow status to Storage
         }
 
         public void Main(string argument, UpdateType updateSource)
@@ -187,144 +194,332 @@ namespace IngameScript
 
             if ((updateSource & UpdateType.Update1) != 0)
             {
-                UpdateKinematicsTick();
+                UpdateKinematicsLoop();
             }
 
-            if ((updateSource & UpdateType.Update100) != 0)
+            if ((updateSource & UpdateType.Update10) != 0)
             {
-                UpdateC2FleetTick();
+                UpdateSubsystemsLoop();
             }
         }
 
-        void UpdateKinematicsTick()
+        #region Kinematics & Macro Execution (60 Hz Hot Path)
+        void UpdateKinematicsLoop()
         {
             _tickCounter++;
 
-            // Zero-GC periodic status echo
+            // 1. Read vehicle motion
+            if (_helm != null)
+            {
+                _vehicleSpeedKmh = (float)(_helm.GetShipSpeed() * 3.6);
+            }
+
+            // 2. High-speed highway sway stabilization
+            if (_vehicleSpeedKmh > 30.0f && !_hitchClampsEngaged)
+            {
+                SetHitchClamps(true);
+            }
+
+            // 3. Auto-leveling outrigger routine
+            if (_currentState == STATE_ANCHORING)
+            {
+                ExecuteAutoLeveling();
+            }
+
+            // 4. Boom Inverse Kinematics & Macro Execution
+            if (_currentState == STATE_EXCAVATING)
+            {
+                ExecuteActiveMacro();
+            }
+            else if (_activeMacro == MACRO_STOW)
+            {
+                ExecuteTravelStow();
+            }
+
+            // 5. Zero-GC Status Output
             if ((_tickCounter & 63) == 0)
             {
-                _sbEcho.Clear();
-                _sbEcho.Append("MASTODON-01 MKI · RIG//OS-LITE\n");
-                _sbEcho.Append("Role: ").Append(RoleNames[_currentRole]).Append('\n');
-                _sbEcho.Append("State: ").Append(StateNames[_currentState]).Append('\n');
-                _sbEcho.Append("Macro: ").Append(MacroNames[_activeMacro]).Append('\n');
-                _sbEcho.Append("Outriggers: ").Append(_outriggersLocked ? "BEDROCK LOCKED" : "STOWED");
-                _sbEcho.Append(" · Rear: ").Append(_utilityOutriggersLocked ? "LOCKED" : "STOWED").Append('\n');
-                _sbEcho.Append("Hitch: ").Append(_hitchClampsEngaged ? "CLAMPED" : "FLEX_3AXIS");
-                _sbEcho.Append(" · DPU: ").Append(_dpuPushActive ? "PUSH_ACTIVE" : "COAST");
-                _sbEcho.Append(" · Dock: ").Append(_sternDockExtended ? "EXTENDED" : "RETRACTED").Append('\n');
-                _sbEcho.Append("Power: HYBRID 18 MWh (35 MW + 72 MW Peak) · ").Append(PowerModeNames[_currentPowerMode]).Append('\n');
-                _sbEcho.Append("Rate: ");
-                SbFormat.AppendInt(_sbEcho, (int)_extractionRateKgPerSec);
-                _sbEcho.Append(" kg/s · JIT ETA: ");
-                SbFormat.AppendInt(_sbEcho, (int)_secondsUntilFull);
-                _sbEcho.Append(" s\nMT Turrets: ").Append(_mtTurretsEnabled ? (_mtTurretsWelding ? "REPAIR_WELD" : "SALVAGE_GRIND") : "OFF");
-                _sbEcho.Append(" · SML: ").Append(_smlAutoProdEnabled ? "ACTIVE" : "STANDBY");
-                _sbEcho.Append(" · Resupply: ").Append(ResupplyKitNames[_resupplyKitType]);
-                _sbEcho.Append("\nEnv Mode: ").Append(EnvModeNames[_currentEnvMode]);
-                _sbEcho.Append(" · Airlock: ").Append(AirlockStateNames[_airlockState]);
-                _sbEcho.Append(" · UV Decon: ").Append(_uvDeconActive ? "PULSING" : "STANDBY");
-                _sbEcho.Append("\nMeteor CIWS: ").Append(_meteorAlertActive ? "METEOR_ALERT" : "WATCHKEEPING");
-                _sbEcho.Append(" · Hardened: ").Append(_consistHardened ? "LOCKED" : "NORMAL");
-                _sbEcho.Append("\nAmmo 25mm: ");
-                SbFormat.AppendInt(_sbEcho, _ammoGatlingBoxes);
-                _sbEcho.Append("/250 · 5.56mm: ");
-                SbFormat.AppendInt(_sbEcho, _ammoInteriorMags);
-                _sbEcho.Append("/100 · Mg: ");
-                SbFormat.AppendInt(_sbEcho, (int)_mgIngotKg);
-                _sbEcho.Append(" kg");
-                _sbEcho.Append("\nTick: ");
-                SbFormat.AppendInt(_sbEcho, _tickCounter);
-                Echo(_sbEcho.ToString());
+                RenderKinematicsEcho();
             }
         }
 
-        void UpdateC2FleetTick()
+        void ExecuteActiveMacro()
         {
-            _c2Watchdog.Tick(1.666); // ≈ 100 ticks at 60 Hz
+            _macroTimer += 1.0 / 60.0;
 
-            // Decision 66: Predictive JIT Logistics delta calculation
-            double deltaMass = _currentCargoMassKg - _prevCargoMassKg;
-            _prevCargoMassKg = _currentCargoMassKg;
-            if (deltaMass > 0)
+            switch (_activeMacro)
             {
-                _extractionRateKgPerSec = deltaMass / 1.666;
-                double remainingKg = _maxCargoMassKg - _currentCargoMassKg;
-                _secondsUntilFull = remainingKg / (_extractionRateKgPerSec > 1.0 ? _extractionRateKgPerSec : 1.0);
-            }
-            else
-            {
-                _extractionRateKgPerSec = 0;
-                _secondsUntilFull = 9999;
-            }
+                case MACRO_BENCH:
+                    // Planar horizontal raster sweep
+                    _targetX = Math.Sin(_macroTimer * 0.25) * 12.0;
+                    _targetZ = 20.0 + Math.Cos(_macroTimer * 0.05) * 4.0;
+                    _targetY = -8.0;
+                    SolveAndApplyIK(_targetX, _targetY, _targetZ, true);
+                    break;
 
-            // Auto JIT pre-dispatch when buffer > 75% and time to full < 180s
-            if (_currentCargoMassKg > _maxCargoMassKg * 0.75)
-            {
-                if (!_jitAirDispatched && _secondsUntilFull < 180)
-                {
-                    _jitAirDispatched = true;
-                    _sbIgc.Clear();
-                    _sbIgc.Append("JIT;MAS-01;AIR;120;RARE_ORE;45000");
-                    IGC.SendBroadcastMessage("TMS.LOGISTICS.JIT", _sbIgc.ToString());
-                }
-                if (!_jitGndDispatched && _secondsUntilFull < 300)
-                {
-                    _jitGndDispatched = true;
-                    _sbIgc.Clear();
-                    _sbIgc.Append("JIT;MAS-01;GND;300;BULK_ORE;2500000");
-                    IGC.SendBroadcastMessage("TMS.LOGISTICS.JIT", _sbIgc.ToString());
-                }
-            }
-            else
-            {
-                _jitAirDispatched = false;
-                _jitGndDispatched = false;
-            }
+                case MACRO_BORE:
+                    // Concentric cylindrical vertical column bore
+                    _boreAngle += 0.05;
+                    _targetX = Math.Cos(_boreAngle) * _boreRadius;
+                    _targetZ = 16.0 + Math.Sin(_boreAngle) * _boreRadius;
+                    _targetY = _boreDepth;
+                    if (_wristRoll != null)
+                    {
+                        _wristRoll.TargetVelocityRPM = 5.0f; // Continuous shaft spin
+                    }
+                    SolveAndApplyIK(_targetX, _targetY, _targetZ, true); // true = lock aim straight down [0, -1, 0]
+                    break;
 
-            // In Mothership role, emit C2 beacon heartbeat
-            if (_currentRole == ROLE_MOTHERSHIP)
-            {
-                _sbIgc.Clear();
-                _sbIgc.Append("MAS-01;ROLE=MOTHERSHIP;STATUS=ACTIVE");
-                IGC.SendBroadcastMessage("RIG.C2.HEARTBEAT", _sbIgc.ToString());
-            }
+                case MACRO_TRENCH:
+                    // Linear trench carve along travel heading
+                    _targetX = 0.0;
+                    _targetZ = 14.0 + Math.Sin(_macroTimer * 0.2) * 8.0;
+                    _targetY = -4.0;
+                    SolveAndApplyIK(_targetX, _targetY, _targetZ, true);
+                    break;
 
-            // Broadcast live excavator telemetry (TMS.MAS.STATUS)
-            _sbIgc.Clear();
-            _sbIgc.Append(StateNames[_currentState]).Append(';');
-            SbFormat.AppendInt(_sbIgc, (int)_currentCargoMassKg);
-            _sbIgc.Append(';').Append(MacroNames[_activeMacro]).Append(';');
-            SbFormat.AppendInt(_sbIgc, (int)_extractionRateKgPerSec);
-            _sbIgc.Append(';').Append(PowerModeNames[_currentPowerMode]);
-            IGC.SendBroadcastMessage("TMS.MAS.STATUS", _sbIgc.ToString());
+                case MACRO_CRANE:
+                    // Manual offset hover with grapple ready
+                    SolveAndApplyIK(_targetX, _targetY, _targetZ, false);
+                    break;
 
-            // Broadcast planetary environmental mode telemetry (TMS.ENV.MODE)
-            _sbIgc.Clear();
-            _sbIgc.Append("ENV;MAS-01;").Append(EnvModeNames[_currentEnvMode]);
-            IGC.SendBroadcastMessage("TMS.ENV.MODE", _sbIgc.ToString());
-
-            // Broadcast live munitions telemetry (TMS.AMMO.STATUS)
-            _sbIgc.Clear();
-            _sbIgc.Append("AMMO;");
-            SbFormat.AppendInt(_sbIgc, _ammoGatlingBoxes);
-            _sbIgc.Append(';');
-            SbFormat.AppendInt(_sbIgc, _ammoInteriorMags);
-            _sbIgc.Append(';');
-            SbFormat.AppendInt(_sbIgc, (int)_mgIngotKg);
-            _sbIgc.Append(';');
-            SbFormat.AppendInt(_sbIgc, Math.Max(0, 250 - _ammoGatlingBoxes));
-            IGC.SendBroadcastMessage("TMS.AMMO.STATUS", _sbIgc.ToString());
-
-            // If meteor alert active, broadcast meteor early warning (TMS.METEOR.ALERT)
-            if (_meteorAlertActive)
-            {
-                _sbIgc.Clear();
-                _sbIgc.Append("METEOR;HEAVY;180;45;12");
-                IGC.SendBroadcastMessage("TMS.METEOR.ALERT", _sbIgc.ToString());
+                case MACRO_SALVAGE:
+                    // Planar raster deconstruction sweep at 20 m standoff
+                    _targetX = Math.Sin(_macroTimer * 0.3) * 10.0;
+                    _targetZ = 22.0;
+                    _targetY = 2.0 + Math.Cos(_macroTimer * 0.1) * 6.0;
+                    SolveAndApplyIK(_targetX, _targetY, _targetZ, false);
+                    break;
             }
         }
 
+        void SolveAndApplyIK(double tx, double ty, double tz, bool lockVerticalAim)
+        {
+            if (_turretAzimuth == null || _boomShoulder == null || _boomElbow == null) return;
+
+            // 1. Azimuth angle (Yaw)
+            double azimuthRad = Math.Atan2(tx, tz);
+            _turretAzimuth.TargetVelocityRPM = (float)((azimuthRad - _turretAzimuth.Angle) * 3.0);
+
+            // 2. Planar Reach (R) and Height (Y)
+            double r = Math.Sqrt(tx * tx + tz * tz);
+            double dy = ty;
+
+            // 3. Two-Link Inverse Kinematics (Law of Cosines)
+            double distSq = r * r + dy * dy;
+            double dist = Math.Sqrt(distSq);
+
+            // Clamp reach inside physical envelope (min 6.0 m, max 32.0 m)
+            if (dist > (L1 + L2 - 0.5)) dist = L1 + L2 - 0.5;
+            if (dist < 6.0) dist = 6.0;
+
+            double cosElbow = (L1 * L1 + L2 * L2 - dist * dist) / (2.0 * L1 * L2);
+            cosElbow = MathHelper.Clamp(cosElbow, -1.0, 1.0);
+            double elbowRad = Math.PI - Math.Acos(cosElbow);
+
+            double alpha = Math.Atan2(dy, r);
+            double cosShoulder = (L1 * L1 + dist * dist - L2 * L2) / (2.0 * L1 * dist);
+            cosShoulder = MathHelper.Clamp(cosShoulder, -1.0, 1.0);
+            double shoulderRad = alpha + Math.Acos(cosShoulder);
+
+            // 4. Apply joint velocities toward target angles
+            _boomShoulder.TargetVelocityRPM = (float)((shoulderRad - _boomShoulder.Angle) * 2.5);
+            _boomElbow.TargetVelocityRPM = (float)((elbowRad - _boomElbow.Angle) * 2.5);
+
+            // 5. Downward Vertical Aim Compensation [0, -1, 0]
+            if (_wristPitch != null)
+            {
+                if (lockVerticalAim)
+                {
+                    double wristRad = -(shoulderRad - elbowRad) - (Math.PI * 0.5);
+                    _wristPitch.TargetVelocityRPM = (float)((wristRad - _wristPitch.Angle) * 3.0);
+                }
+                else
+                {
+                    _wristPitch.TargetVelocityRPM = 0.0f;
+                }
+            }
+        }
+
+        void ExecuteTravelStow()
+        {
+            if (_turretAzimuth == null || _boomShoulder == null || _boomElbow == null) return;
+
+            // Align Azimuth to 180 deg Aft (0 relative to spine Z trough)
+            double targetAzimuth = Math.PI; // 180 deg
+            _turretAzimuth.TargetVelocityRPM = (float)((targetAzimuth - _turretAzimuth.Angle) * 2.0);
+
+            // Lower shoulder to 0 rad and fold elbow flat
+            _boomShoulder.TargetVelocityRPM = (float)((0.0 - _boomShoulder.Angle) * 1.5);
+            _boomElbow.TargetVelocityRPM = (float)((0.0 - _boomElbow.Angle) * 1.5);
+
+            if (_wristPitch != null)
+            {
+                _wristPitch.TargetVelocityRPM = (float)((0.0 - _wristPitch.Angle) * 1.5);
+            }
+            if (_wristRoll != null)
+            {
+                _wristRoll.TargetVelocityRPM = (float)((0.0 - _wristRoll.Angle) * 1.5);
+            }
+        }
+
+        void ExecuteAutoLeveling()
+        {
+            if (_helm == null) return;
+
+            // Gravity vector in ship-local coordinates
+            Vector3D localGravity = Vector3D.TransformNormal(_helm.GetTotalGravity(), MatrixD.Transpose(_helm.WorldMatrix));
+            double pitchErr = localGravity.Z; // Forward / Aft inclination
+            double rollErr = localGravity.X;  // Port / Starboard inclination
+
+            bool leveled = Math.Abs(pitchErr) < 0.05 && Math.Abs(rollErr) < 0.05;
+
+            for (int i = 0; i < _outriggersFwd.Count; i++)
+            {
+                float vel = (pitchErr < -0.05) ? 0.3f : -0.3f;
+                _outriggersFwd[i].Velocity = vel;
+            }
+
+            for (int i = 0; i < _outriggersAft.Count; i++)
+            {
+                float vel = (pitchErr > 0.05) ? 0.3f : -0.3f;
+                _outriggersAft[i].Velocity = vel;
+            }
+
+            if (leveled)
+            {
+                _outriggersLocked = true;
+                _currentState = STATE_EXCAVATING;
+                for (int i = 0; i < _outriggersFwd.Count; i++) _outriggersFwd[i].Velocity = 0.0f;
+                for (int i = 0; i < _outriggersAft.Count; i++) _outriggersAft[i].Velocity = 0.0f;
+            }
+        }
+        #endregion
+
+        #region Subsystems & Environmental Loop (10 Hz Loop)
+        void UpdateSubsystemsLoop()
+        {
+            // 1. DPU Throttle Synchronization across consist drawbar
+            if (_helm != null)
+            {
+                Vector3 move = _helm.MoveIndicator;
+                bool forwardThrottle = move.Z < -0.1f;
+                bool braking = move.Z > 0.1f;
+
+                if (forwardThrottle && !_dpuPushActive)
+                {
+                    _dpuPushActive = true;
+                    BroadcastConsistTraction(100, 0);
+                }
+                else if (braking && _dpuPushActive)
+                {
+                    _dpuPushActive = false;
+                    BroadcastConsistTraction(0, 100); // Dynamic regenerative counter-braking
+                }
+            }
+
+            // 2. Active Gas-Reclamation Airlock Sequencing
+            UpdateAirlockCycling();
+
+            // 3. Environmental Mode Sequencing
+            UpdateAtmosphericMode();
+
+            // 4. Consist Status Broadcast
+            BroadcastKinematicsStatus();
+        }
+
+        void UpdateAirlockCycling()
+        {
+            if (_airlockState == AIRLOCK_IDLE) return;
+
+            _airlockTimer += 0.166; // ≈ 10 ticks at 60 Hz
+
+            if (_airlockState == AIRLOCK_EGRESS)
+            {
+                // Step 1: Seal inner doors
+                SetDoorList(_airlockDoorsInner, false);
+
+                // Step 2: Depressurize chamber (gas reclamation)
+                SetVentDepressurize(_airlockVents, true);
+
+                // Step 3: Once evacuated (> 2 s), open outer door
+                if (_airlockTimer >= 2.0)
+                {
+                    SetDoorList(_airlockDoorsOuter, true);
+                    _airlockState = AIRLOCK_IDLE;
+                    _airlockTimer = 0.0;
+                }
+            }
+            else if (_airlockState == AIRLOCK_INGRESS)
+            {
+                // Step 1: Seal outer doors
+                SetDoorList(_airlockDoorsOuter, false);
+
+                // Step 2: Cyan UV Decontamination washdown
+                SetLightState(_deconLights, true);
+
+                // Step 3: Pressurize chamber
+                SetVentDepressurize(_airlockVents, false);
+
+                // Step 4: After 3 s decontamination, unseal inner door
+                if (_airlockTimer >= 3.0)
+                {
+                    SetLightState(_deconLights, false);
+                    SetDoorList(_airlockDoorsInner, true);
+                    _airlockState = AIRLOCK_IDLE;
+                    _airlockTimer = 0.0;
+                }
+            }
+        }
+
+        void UpdateAtmosphericMode()
+        {
+            if (_currentEnvMode == ENV_EARTH_SCAVENGE)
+            {
+                // Open exterior intake vents to scavenge free planetary O2
+                for (int i = 0; i < _atmoIntakeVents.Count; i++)
+                {
+                    _atmoIntakeVents[i].Depressurize = true; // Sucking outside O2 into tanks
+                    _atmoIntakeVents[i].Enabled = true;
+                }
+            }
+            else
+            {
+                // Vacuum / Corrosive isolation: close intake vents, rely 100% on internal O2 tanks
+                for (int i = 0; i < _atmoIntakeVents.Count; i++)
+                {
+                    _atmoIntakeVents[i].Enabled = false;
+                }
+            }
+        }
+
+        void BroadcastKinematicsStatus()
+        {
+            _sbIgc.Clear();
+            _sbIgc.Append("KINEMATICS;");
+            _sbIgc.Append(StateNames[_currentState]).Append(';');
+            _sbIgc.Append(MacroNames[_activeMacro]).Append(';');
+            _sbIgc.Append(_outriggersLocked ? "LOCKED" : "UNLOCKED").Append(';');
+            _sbIgc.Append(_hitchClampsEngaged ? "CLAMPED" : "FREE").Append(';');
+            _sbIgc.Append(_dpuPushActive ? "PUSH" : "IDLE").Append(';');
+            SbFormat.AppendDouble(_sbIgc, _vehicleSpeedKmh, 1);
+
+            IGC.SendBroadcastMessage("TMS.MAS.STATUS", _sbIgc.ToString());
+        }
+
+        void BroadcastConsistTraction(int pushPct, int brakePct)
+        {
+            _sbIgc.Clear();
+            _sbIgc.Append("DPU;");
+            SbFormat.AppendInt(_sbIgc, pushPct);
+            _sbIgc.Append(';');
+            SbFormat.AppendInt(_sbIgc, brakePct);
+
+            IGC.SendBroadcastMessage("TMS.CONSIST.TRACTION", _sbIgc.ToString());
+        }
+        #endregion
+
+        #region Command Handling
         void HandleCommand(string argument)
         {
             IgcProtocol.Split(argument, _args);
@@ -332,412 +527,72 @@ namespace IngameScript
 
             string cmd = _args[0];
 
-            if (string.Compare(cmd, "PING", StringComparison.OrdinalIgnoreCase) == 0)
+            if (string.Compare(cmd, "STOW", StringComparison.OrdinalIgnoreCase) == 0)
             {
-                _c2Watchdog.Ping();
-            }
-            else if (string.Compare(cmd, "STABILIZE", StringComparison.OrdinalIgnoreCase) == 0)
-            {
-                _currentState = STATE_ANCHORING;
-                _outriggersLocked = true;
-                _utilityOutriggersLocked = true;
-            }
-            else if (string.Compare(cmd, "UNSTABILIZE", StringComparison.OrdinalIgnoreCase) == 0)
-            {
-                _currentState = STATE_RETRACTING;
-                _outriggersLocked = false;
-                _utilityOutriggersLocked = false;
-                _activeMacro = MACRO_NONE;
-            }
-            else if (string.Compare(cmd, "MACRO", StringComparison.OrdinalIgnoreCase) == 0 && _args.Count > 1)
-            {
-                string macro = _args[1];
-                if (string.Compare(macro, "BENCH", StringComparison.OrdinalIgnoreCase) == 0)
-                    _activeMacro = MACRO_BENCH;
-                else if (string.Compare(macro, "BORE", StringComparison.OrdinalIgnoreCase) == 0)
-                    _activeMacro = MACRO_BORE;
-                else if (string.Compare(macro, "TRENCH", StringComparison.OrdinalIgnoreCase) == 0)
-                    _activeMacro = MACRO_TRENCH;
-                else if (string.Compare(macro, "CRANE", StringComparison.OrdinalIgnoreCase) == 0)
-                    _activeMacro = MACRO_CRANE;
-                else if (string.Compare(macro, "SALVAGE", StringComparison.OrdinalIgnoreCase) == 0 || string.Compare(macro, "DECONSTRUCT", StringComparison.OrdinalIgnoreCase) == 0)
-                    _activeMacro = MACRO_SALVAGE;
-                else
-                    _activeMacro = MACRO_NONE;
-            }
-            else if (string.Compare(cmd, "CRANE", StringComparison.OrdinalIgnoreCase) == 0)
-            {
-                _activeMacro = MACRO_CRANE;
-            }
-            else if (string.Compare(cmd, "SALVAGE", StringComparison.OrdinalIgnoreCase) == 0)
-            {
-                // Macro 5: Planar raster deconstruction sweep (15-30 m standoff, 100% component retention)
-                _activeMacro = MACRO_SALVAGE;
-            }
-            else if (string.Compare(cmd, "TOOL_MODE", StringComparison.OrdinalIgnoreCase) == 0 || string.Compare(cmd, "MODE", StringComparison.OrdinalIgnoreCase) == 0)
-            {
-                // Cycle ToolCore laser mode: Mining Beam (Drill) <-> Salvage Beam (Grinder) <-> Fabrication Beam (Welder)
-            }
-            else if (string.Compare(cmd, "SEISMIC", StringComparison.OrdinalIgnoreCase) == 0)
-            {
-                // Trigger acoustic subsurface survey pulse: SURVEY;<grid_id>;<depth>;<type>;<centroid>;<volume>
-                _sbIgc.Clear();
-                _sbIgc.Append("SURVEY;MAS-01;45;URANIUM;GPS:Centroid:1200:340:560:#FF0000:;8500");
-                IGC.SendBroadcastMessage("TMS.SEISMIC.SURVEY", _sbIgc.ToString());
-            }
-            else if (string.Compare(cmd, "JIT", StringComparison.OrdinalIgnoreCase) == 0)
-            {
-                // Predictive JIT Logistics dispatch trigger: JIT;<grid>;<AIR|GND>;<eta>;<ore>;<mass>
-                _sbIgc.Clear();
-                if (_args.Count > 1 && string.Compare(_args[1], "AIR", StringComparison.OrdinalIgnoreCase) == 0)
-                {
-                    _jitAirDispatched = true;
-                    _sbIgc.Append("JIT;MAS-01;AIR;120;RARE_ORE;45000");
-                }
-                else
-                {
-                    _jitGndDispatched = true;
-                    _sbIgc.Append("JIT;MAS-01;GND;300;BULK_ORE;2500000");
-                }
-                IGC.SendBroadcastMessage("TMS.LOGISTICS.JIT", _sbIgc.ToString());
-            }
-            else if (string.Compare(cmd, "TASK", StringComparison.OrdinalIgnoreCase) == 0)
-            {
-                // Vector prospector drone to survey sector: TASK;<drone>;<pattern>;<center>;<radius>;<priority_ore>
-                _sbIgc.Clear();
-                _sbIgc.Append("TASK;KES-01;CONE;GPS:Sector-Alpha:0:0:0:#FF0000:;2500;URANIUM");
-                IGC.SendBroadcastMessage("TMS.SCOUT.TASK", _sbIgc.ToString());
-            }
-            else if (string.Compare(cmd, "CLAIM", StringComparison.OrdinalIgnoreCase) == 0 || string.Compare(cmd, "ZONE", StringComparison.OrdinalIgnoreCase) == 0)
-            {
-                // Multi-rig quarry exclusion zone broadcast: ZONE;<grid>;<state>;<min_gps>;<max_gps>;<macro>
-                _sbIgc.Clear();
-                _sbIgc.Append("ZONE;MAS-01;ACTIVE;GPS:Min:-50:-50:0:#FF0000:;GPS:Max:50:50:50:#FF0000:;BENCH_QUARRY");
-                IGC.SendBroadcastMessage("TMS.ZONE.CLAIM", _sbIgc.ToString());
-            }
-            else if (string.Compare(cmd, "TARGET", StringComparison.OrdinalIgnoreCase) == 0)
-            {
-                // Distributed CIWS defense target assignment: ENGAGE;<target_id>;<gps>;<threat>;<assigned_grid>
-                _sbIgc.Clear();
-                _sbIgc.Append("ENGAGE;TG-9901;GPS:Hostile:100:200:300:#FF0000:;HIGH;MAS-01");
-                IGC.SendBroadcastMessage("TMS.DEFENSE.TARGET", _sbIgc.ToString());
-            }
-            else if (string.Compare(cmd, "CONVOY", StringComparison.OrdinalIgnoreCase) == 0)
-            {
-                // Synchronize trailing Caterpillar land train: CONVOY;<lead_id>;<speed_ms>;<heading_deg>;<ejector_active>
-                _sbIgc.Clear();
-                _sbIgc.Append("CONVOY;MAS-01;0.55;0.0;True");
-                IGC.SendBroadcastMessage("TMS.CONVOY.SYNC", _sbIgc.ToString());
-            }
-            else if (string.Compare(cmd, "DEMAND", StringComparison.OrdinalIgnoreCase) == 0)
-            {
-                // Process refinery pull-economy demand broadcast from Ground Base (TMS.BASE.DEMAND)
-            }
-            else if (string.Compare(cmd, "LIGHTS", StringComparison.OrdinalIgnoreCase) == 0)
-            {
-                // Toggle worksite floodlight matrix
-            }
-            else if (string.Compare(cmd, "STOW", StringComparison.OrdinalIgnoreCase) == 0)
-            {
-                // Slew turntable to 180 deg aft (0 deg rel Z), fold shoulder/elbow/wrist to 0 deg, engage MAS Clamp Boom Stow ([X0, Z -7, L4])
-                _activeMacro = MACRO_NONE;
+                _activeMacro = MACRO_STOW;
                 _currentState = STATE_TRANSIT;
             }
             else if (string.Compare(cmd, "DEPLOY", StringComparison.OrdinalIgnoreCase) == 0)
             {
-                // Disengage MAS Clamp Boom Stow, elevate shoulder and elbow to neutral ready state
-                _currentState = STATE_TRANSIT;
-                _activeMacro = MACRO_NONE;
+                _activeMacro = MACRO_DEPLOY;
+                _currentState = STATE_EXCAVATING;
+                _targetX = 0.0;
+                _targetY = -5.0;
+                _targetZ = 18.0;
             }
-            else if (string.Compare(cmd, "BORE", StringComparison.OrdinalIgnoreCase) == 0)
+            else if (string.Compare(cmd, "MACRO", StringComparison.OrdinalIgnoreCase) == 0 && _args.Count > 1)
             {
-                // Target-centric vertical column bore: maintains [0, -1, 0] downward lock across 6m-35m envelope
-                _activeMacro = MACRO_BORE;
+                string m = _args[1];
+                if (string.Compare(m, "BENCH", StringComparison.OrdinalIgnoreCase) == 0) _activeMacro = MACRO_BENCH;
+                else if (string.Compare(m, "BORE", StringComparison.OrdinalIgnoreCase) == 0) _activeMacro = MACRO_BORE;
+                else if (string.Compare(m, "TRENCH", StringComparison.OrdinalIgnoreCase) == 0) _activeMacro = MACRO_TRENCH;
+                else if (string.Compare(m, "CRANE", StringComparison.OrdinalIgnoreCase) == 0) _activeMacro = MACRO_CRANE;
+                else if (string.Compare(m, "SALVAGE", StringComparison.OrdinalIgnoreCase) == 0) _activeMacro = MACRO_SALVAGE;
+                else _activeMacro = MACRO_NONE;
+
+                _currentState = STATE_EXCAVATING;
+                _macroTimer = 0.0;
             }
-            else if (string.Compare(cmd, "LEVEL", StringComparison.OrdinalIgnoreCase) == 0)
+            else if (string.Compare(cmd, "STABILIZE", StringComparison.OrdinalIgnoreCase) == 0 || string.Compare(cmd, "LEVEL", StringComparison.OrdinalIgnoreCase) == 0)
             {
-                // Trigger differential outrigger auto-leveling
                 _currentState = STATE_ANCHORING;
-                _outriggersLocked = true;
+                _outriggersLocked = false;
             }
-            else if (string.Compare(cmd, "LADDER", StringComparison.OrdinalIgnoreCase) == 0)
+            else if (string.Compare(cmd, "UNSTABILIZE", StringComparison.OrdinalIgnoreCase) == 0 || string.Compare(cmd, "RETRACT", StringComparison.OrdinalIgnoreCase) == 0)
             {
-                // Toggle crew boarding ladder
-            }
-            else if (string.Compare(cmd, "PURGE", StringComparison.OrdinalIgnoreCase) == 0)
-            {
-                // Trigger stone tailings ejector purge
-            }
-            else if (string.Compare(cmd, "POWER", StringComparison.OrdinalIgnoreCase) == 0)
-            {
-                // Query or toggle Tri-Fuel & Hybrid 18 MWh battery power mode
-                if (_args.Count > 1)
-                {
-                    string sub = _args[1];
-                    if (string.Compare(sub, "MODE", StringComparison.OrdinalIgnoreCase) == 0 && _args.Count > 2)
-                    {
-                        string modeArg = _args[2];
-                        if (modeArg == "1" || string.Compare(modeArg, "SILENT", StringComparison.OrdinalIgnoreCase) == 0 || string.Compare(modeArg, "ECO", StringComparison.OrdinalIgnoreCase) == 0)
-                            _currentPowerMode = POWER_MODE_SILENT;
-                        else if (modeArg == "2" || string.Compare(modeArg, "CRUISE", StringComparison.OrdinalIgnoreCase) == 0)
-                            _currentPowerMode = POWER_MODE_CRUISE;
-                        else if (modeArg == "3" || string.Compare(modeArg, "EXCAVATE", StringComparison.OrdinalIgnoreCase) == 0 || string.Compare(modeArg, "HEAVY", StringComparison.OrdinalIgnoreCase) == 0)
-                            _currentPowerMode = POWER_MODE_EXCAVATE;
-                        else if (modeArg == "4" || string.Compare(modeArg, "EMERGENCY", StringComparison.OrdinalIgnoreCase) == 0 || string.Compare(modeArg, "FAILOVER", StringComparison.OrdinalIgnoreCase) == 0)
-                            _currentPowerMode = POWER_MODE_EMERGENCY;
-                        else if (modeArg == "5" || string.Compare(modeArg, "SHORE", StringComparison.OrdinalIgnoreCase) == 0 || string.Compare(modeArg, "RECHARGE", StringComparison.OrdinalIgnoreCase) == 0)
-                            _currentPowerMode = POWER_MODE_SHORE;
-                    }
-                }
-            }
-            else if (string.Compare(cmd, "REFINERY", StringComparison.OrdinalIgnoreCase) == 0)
-            {
-                // Toggle or check MAS Field Refinery in-situ metallurgy state
-            }
-            else if (string.Compare(cmd, "DEFENSE", StringComparison.OrdinalIgnoreCase) == 0 || string.Compare(cmd, "COMBAT", StringComparison.OrdinalIgnoreCase) == 0)
-            {
-                // Toggle or trigger 360-degree CIWS perimeter defense & combat mode
-            }
-            else if (string.Compare(cmd, "OUTRIGGERS", StringComparison.OrdinalIgnoreCase) == 0)
-            {
-                if (_args.Count > 1 && (string.Compare(_args[1], "REAR", StringComparison.OrdinalIgnoreCase) == 0 || string.Compare(_args[1], "UTILITY", StringComparison.OrdinalIgnoreCase) == 0))
-                {
-                    _utilityOutriggersLocked = !_utilityOutriggersLocked;
-                }
-                else
-                {
-                    _outriggersLocked = !_outriggersLocked;
-                    _utilityOutriggersLocked = _outriggersLocked;
-                }
+                _currentState = STATE_RETRACTING;
+                _outriggersLocked = false;
+                for (int i = 0; i < _outriggersFwd.Count; i++) _outriggersFwd[i].Velocity = -0.5f;
+                for (int i = 0; i < _outriggersAft.Count; i++) _outriggersAft[i].Velocity = -0.5f;
             }
             else if (string.Compare(cmd, "HITCH", StringComparison.OrdinalIgnoreCase) == 0)
             {
                 if (_args.Count > 1 && string.Compare(_args[1], "CLAMP", StringComparison.OrdinalIgnoreCase) == 0)
-                    _hitchClampsEngaged = true;
-                else if (_args.Count > 1 && string.Compare(_args[1], "UNCLAMP", StringComparison.OrdinalIgnoreCase) == 0)
-                    _hitchClampsEngaged = false;
+                    SetHitchClamps(true);
+                else if (_args.Count > 1 && string.Compare(_args[1], "FREE", StringComparison.OrdinalIgnoreCase) == 0)
+                    SetHitchClamps(false);
                 else
-                    _hitchClampsEngaged = !_hitchClampsEngaged;
-
-                _sbIgc.Clear();
-                _sbIgc.Append("SYNC;MAS-01;HITCH;CLAMP=").Append(_hitchClampsEngaged ? "TRUE" : "FALSE");
-                IGC.SendBroadcastMessage("TMS.CONSIST.SYNC", _sbIgc.ToString());
+                    SetHitchClamps(!_hitchClampsEngaged);
             }
-            else if (string.Compare(cmd, "DPU", StringComparison.OrdinalIgnoreCase) == 0)
+            else if (string.Compare(cmd, "TOOL_MODE", StringComparison.OrdinalIgnoreCase) == 0)
             {
-                if (_args.Count > 1 && (string.Compare(_args[1], "PUSH", StringComparison.OrdinalIgnoreCase) == 0 || string.Compare(_args[1], "ON", StringComparison.OrdinalIgnoreCase) == 0))
-                    _dpuPushActive = true;
-                else if (_args.Count > 1 && (string.Compare(_args[1], "COAST", StringComparison.OrdinalIgnoreCase) == 0 || string.Compare(_args[1], "OFF", StringComparison.OrdinalIgnoreCase) == 0))
-                    _dpuPushActive = false;
-                else
-                    _dpuPushActive = !_dpuPushActive;
-
-                _sbIgc.Clear();
-                _sbIgc.Append("DPU;").Append(_dpuPushActive ? "PUSH;100;0;0" : "COAST;0;0;0");
-                IGC.SendBroadcastMessage("TMS.CONSIST.TRACTION", _sbIgc.ToString());
-            }
-            else if (string.Compare(cmd, "DOCK", StringComparison.OrdinalIgnoreCase) == 0)
-            {
-                if (_args.Count > 1 && string.Compare(_args[1], "EXTEND", StringComparison.OrdinalIgnoreCase) == 0)
-                    _sternDockExtended = true;
-                else if (_args.Count > 1 && string.Compare(_args[1], "RETRACT", StringComparison.OrdinalIgnoreCase) == 0)
-                    _sternDockExtended = false;
-                else
-                    _sternDockExtended = !_sternDockExtended;
-            }
-            else if (string.Compare(cmd, "DECOUPLE", StringComparison.OrdinalIgnoreCase) == 0 || string.Compare(cmd, "SEVER", StringComparison.OrdinalIgnoreCase) == 0)
-            {
-                // Trigger pyrotechnic drawbar severance (MAS Hitch Sever Tongue merge block disengage)
-                _sbIgc.Clear();
-                _sbIgc.Append("SEVER;MAS-01-T;NORMAL;FALSE");
-                IGC.SendBroadcastMessage("TMS.CONSIST.SEVER", _sbIgc.ToString());
-            }
-            else if (string.Compare(cmd, "SCUTTLE", StringComparison.OrdinalIgnoreCase) == 0)
-            {
-                // Trigger 60 s anti-capture scuttle countdown loop via MAS Timer Scuttle
+                _currentToolMode = (_currentToolMode + 1) % 3;
             }
             else if (string.Compare(cmd, "AIRLOCK", StringComparison.OrdinalIgnoreCase) == 0)
             {
-                // Trigger active gas-reclamation decompression cycle: AIRLOCK <CHAMBER> <EGRESS|INGRESS|DECON>
-                string chamber = (_args.Count > 1) ? _args[1] : "PORT";
-                string action = (_args.Count > 2) ? _args[2] : "CYCLE";
-
+                string action = (_args.Count > 1) ? _args[1] : "CYCLE";
                 if (string.Compare(action, "EGRESS", StringComparison.OrdinalIgnoreCase) == 0)
                     _airlockState = AIRLOCK_EGRESS;
                 else if (string.Compare(action, "INGRESS", StringComparison.OrdinalIgnoreCase) == 0)
                     _airlockState = AIRLOCK_INGRESS;
-                else if (string.Compare(action, "DECON", StringComparison.OrdinalIgnoreCase) == 0)
-                    _airlockState = AIRLOCK_DECON;
                 else
                     _airlockState = (_airlockState == AIRLOCK_IDLE) ? AIRLOCK_EGRESS : AIRLOCK_IDLE;
 
-                _sbIgc.Clear();
-                _sbIgc.Append("CYCLE;").Append(chamber).Append(';').Append(AirlockStateNames[_airlockState]);
-                IGC.SendBroadcastMessage("TMS.AIRLOCK.CYCLE", _sbIgc.ToString());
+                _airlockTimer = 0.0;
             }
-            else if (string.Compare(cmd, "ENV_MODE", StringComparison.OrdinalIgnoreCase) == 0 || string.Compare(cmd, "ENV", StringComparison.OrdinalIgnoreCase) == 0)
+            else if (string.Compare(cmd, "ENV_MODE", StringComparison.OrdinalIgnoreCase) == 0)
             {
-                // Toggle or set planetary environmental mode: ENV <EARTH|VACUUM|CORROSIVE>
-                if (_args.Count > 1)
-                {
-                    string mode = _args[1];
-                    if (string.Compare(mode, "EARTH", StringComparison.OrdinalIgnoreCase) == 0 || string.Compare(mode, "SCAVENGE", StringComparison.OrdinalIgnoreCase) == 0)
-                        _currentEnvMode = ENV_EARTH_SCAVENGE;
-                    else if (string.Compare(mode, "VACUUM", StringComparison.OrdinalIgnoreCase) == 0 || string.Compare(mode, "CLOSED", StringComparison.OrdinalIgnoreCase) == 0)
-                        _currentEnvMode = ENV_CLOSED_LOOP_VACUUM;
-                    else if (string.Compare(mode, "CORROSIVE", StringComparison.OrdinalIgnoreCase) == 0 || string.Compare(mode, "TOXIC", StringComparison.OrdinalIgnoreCase) == 0)
-                        _currentEnvMode = ENV_CORROSIVE_ISOLATION;
-                }
-                else
-                {
-                    _currentEnvMode = (_currentEnvMode + 1) % 3;
-                }
-
-                _sbIgc.Clear();
-                _sbIgc.Append("ENV;MAS-01;").Append(EnvModeNames[_currentEnvMode]);
-                IGC.SendBroadcastMessage("TMS.ENV.MODE", _sbIgc.ToString());
-            }
-            else if (string.Compare(cmd, "DECON", StringComparison.OrdinalIgnoreCase) == 0)
-            {
-                // Trigger UV decontamination washdown: DECON <ON|OFF|PULSE>
-                if (_args.Count > 1 && string.Compare(_args[1], "OFF", StringComparison.OrdinalIgnoreCase) == 0)
-                    _uvDeconActive = false;
-                else if (_args.Count > 1 && string.Compare(_args[1], "ON", StringComparison.OrdinalIgnoreCase) == 0)
-                    _uvDeconActive = true;
-                else
-                    _uvDeconActive = !_uvDeconActive;
-            }
-            else if (string.Compare(cmd, "LIFE", StringComparison.OrdinalIgnoreCase) == 0)
-            {
-                // Query Universal Life Support (ULSS) O2 tank reserves and multi-zone hermetic status
-            }
-            else if (string.Compare(cmd, "HANDOVER", StringComparison.OrdinalIgnoreCase) == 0)
-            {
-                // Yield C2 root to Ground Base
-                if (_currentRole == ROLE_MOTHERSHIP)
-                {
-                    _currentRole = ROLE_FIELD_LEADER;
-                    _sbIgc.Clear();
-                    _sbIgc.Append("MAS-01;GND-01;ACK");
-                    IGC.SendBroadcastMessage("RIG.C2.HANDOVER", _sbIgc.ToString());
-                }
-            }
-            else if (string.Compare(cmd, "ROLE", StringComparison.OrdinalIgnoreCase) == 0 && _args.Count > 1)
-            {
-                string r = _args[1];
-                if (string.Compare(r, "MOTHERSHIP", StringComparison.OrdinalIgnoreCase) == 0)
-                    _currentRole = ROLE_MOTHERSHIP;
-                else if (string.Compare(r, "WORKER", StringComparison.OrdinalIgnoreCase) == 0)
-                    _currentRole = ROLE_WORKER;
-                else if (string.Compare(r, "STANDALONE", StringComparison.OrdinalIgnoreCase) == 0)
-                    _currentRole = ROLE_STANDALONE;
-            }
-            else if (string.Compare(cmd, "MT_TURRETS", StringComparison.OrdinalIgnoreCase) == 0 || string.Compare(cmd, "REPAIR", StringComparison.OrdinalIgnoreCase) == 0)
-            {
-                if (_args.Count > 1 && string.Compare(_args[1], "TOGGLE", StringComparison.OrdinalIgnoreCase) == 0)
-                {
-                    _mtTurretsWelding = !_mtTurretsWelding;
-                }
-                else if (_args.Count > 1 && string.Compare(_args[1], "WELD", StringComparison.OrdinalIgnoreCase) == 0)
-                {
-                    _mtTurretsWelding = true;
-                    _mtTurretsEnabled = true;
-                }
-                else if (_args.Count > 1 && string.Compare(_args[1], "GRIND", StringComparison.OrdinalIgnoreCase) == 0)
-                {
-                    _mtTurretsWelding = false;
-                    _mtTurretsEnabled = true;
-                }
-                else if (_args.Count > 1 && (string.Compare(_args[1], "OFF", StringComparison.OrdinalIgnoreCase) == 0 || string.Compare(_args[1], "STOP", StringComparison.OrdinalIgnoreCase) == 0))
-                {
-                    _mtTurretsEnabled = false;
-                }
-                else
-                {
-                    _mtTurretsEnabled = !_mtTurretsEnabled;
-                }
-            }
-            else if (string.Compare(cmd, "AUTOPROD", StringComparison.OrdinalIgnoreCase) == 0 || string.Compare(cmd, "SML", StringComparison.OrdinalIgnoreCase) == 0)
-            {
-                if (_args.Count > 1 && string.Compare(_args[1], "OFF", StringComparison.OrdinalIgnoreCase) == 0)
-                    _smlAutoProdEnabled = false;
-                else if (_args.Count > 1 && string.Compare(_args[1], "ON", StringComparison.OrdinalIgnoreCase) == 0)
-                    _smlAutoProdEnabled = true;
-                else
-                    _smlAutoProdEnabled = !_smlAutoProdEnabled;
-            }
-            else if (string.Compare(cmd, "RESUPPLY", StringComparison.OrdinalIgnoreCase) == 0)
-            {
-                if (_args.Count > 1)
-                {
-                    string kit = _args[1];
-                    if (string.Compare(kit, "MOBILITY", StringComparison.OrdinalIgnoreCase) == 0 || string.Compare(kit, "KIT_MOBILITY", StringComparison.OrdinalIgnoreCase) == 0)
-                        _resupplyKitType = RESUPPLY_MOBILITY;
-                    else if (string.Compare(kit, "POWER", StringComparison.OrdinalIgnoreCase) == 0 || string.Compare(kit, "KIT_POWER", StringComparison.OrdinalIgnoreCase) == 0)
-                        _resupplyKitType = RESUPPLY_POWER;
-                    else if (string.Compare(kit, "MUNITIONS", StringComparison.OrdinalIgnoreCase) == 0 || string.Compare(kit, "KIT_MUNITIONS", StringComparison.OrdinalIgnoreCase) == 0)
-                        _resupplyKitType = RESUPPLY_MUNITIONS;
-                    else if (string.Compare(kit, "HULL", StringComparison.OrdinalIgnoreCase) == 0 || string.Compare(kit, "KIT_HULL_REPAIR", StringComparison.OrdinalIgnoreCase) == 0)
-                        _resupplyKitType = RESUPPLY_HULL;
-                    else if (string.Compare(kit, "CANCEL", StringComparison.OrdinalIgnoreCase) == 0 || string.Compare(kit, "CLEAR", StringComparison.OrdinalIgnoreCase) == 0)
-                        _resupplyKitType = RESUPPLY_NONE;
-                    else
-                        _resupplyKitType = (_resupplyKitType == RESUPPLY_NONE) ? RESUPPLY_MOBILITY : _resupplyKitType;
-                }
-                else
-                {
-                    _resupplyKitType = (_resupplyKitType == RESUPPLY_NONE) ? RESUPPLY_MOBILITY : RESUPPLY_NONE;
-                }
-
-                _resupplyStagingActive = (_resupplyKitType != RESUPPLY_NONE);
-                if (_resupplyStagingActive)
-                {
-                    _sbIgc.Clear();
-                    _sbIgc.Append("DISPATCH;MAS-01;MUL-01;ALL;").Append(ResupplyKitNames[_resupplyKitType]);
-                    IGC.SendBroadcastMessage("TMS.RESUPPLY.DISPATCH", _sbIgc.ToString());
-                }
-            }
-            else if (string.Compare(cmd, "METEOR", StringComparison.OrdinalIgnoreCase) == 0)
-            {
-                // Trigger or clear meteor intercept alert and consist hardening: METEOR <ALERT|CLEAR|STOW|LOCKDOWN>
-                if (_args.Count > 1 && string.Compare(_args[1], "CLEAR", StringComparison.OrdinalIgnoreCase) == 0)
-                {
-                    _meteorAlertActive = false;
-                    _consistHardened = false;
-                }
-                else
-                {
-                    _meteorAlertActive = true;
-                    _consistHardened = true;
-                    _activeMacro = MACRO_NONE; // emergency boom fold to STOW
-
-                    _sbIgc.Clear();
-                    _sbIgc.Append("METEOR;HEAVY;180;45;15");
-                    IGC.SendBroadcastMessage("TMS.METEOR.ALERT", _sbIgc.ToString());
-                }
-            }
-            else if (string.Compare(cmd, "AMMO", StringComparison.OrdinalIgnoreCase) == 0)
-            {
-                // Query or toggle closed-loop munitions manufacturing: AMMO <FAB|AUTO|STATUS|RESTOCK>
-                if (_args.Count > 1 && string.Compare(_args[1], "OFF", StringComparison.OrdinalIgnoreCase) == 0)
-                    _ammoAutoFabActive = false;
-                else if (_args.Count > 1 && string.Compare(_args[1], "ON", StringComparison.OrdinalIgnoreCase) == 0)
-                    _ammoAutoFabActive = true;
-                else if (_args.Count > 1 && (string.Compare(_args[1], "RESTOCK", StringComparison.OrdinalIgnoreCase) == 0 || string.Compare(_args[1], "REQ", StringComparison.OrdinalIgnoreCase) == 0))
-                {
-                    _sbIgc.Clear();
-                    _sbIgc.Append("RESUPPLY;MAS-01;NONE;KIT_MUNITIONS;HIGH");
-                    IGC.SendBroadcastMessage("TMS.RESUPPLY.REQUEST", _sbIgc.ToString());
-                }
-                else
-                    _ammoAutoFabActive = !_ammoAutoFabActive;
-            }
-            else if (string.Compare(cmd, "RESTOCK", StringComparison.OrdinalIgnoreCase) == 0)
-            {
-                // Automated incoming resupply call
-                _sbIgc.Clear();
-                _sbIgc.Append("RESUPPLY;MAS-01;NONE;KIT_MUNITIONS;HIGH");
-                IGC.SendBroadcastMessage("TMS.RESUPPLY.REQUEST", _sbIgc.ToString());
+                _currentEnvMode = (_currentEnvMode + 1) % 3;
             }
             else if (string.Compare(cmd, "RELOAD", StringComparison.OrdinalIgnoreCase) == 0)
             {
@@ -746,19 +601,119 @@ namespace IngameScript
             }
         }
 
+        void SetHitchClamps(bool clamp)
+        {
+            _hitchClampsEngaged = clamp;
+            for (int i = 0; i < _hitchClamps.Count; i++)
+            {
+                _hitchClamps[i].Enabled = clamp;
+            }
+            _sbIgc.Clear();
+            _sbIgc.Append("HITCH;CLAMP=").Append(clamp ? "TRUE" : "FALSE");
+            IGC.SendBroadcastMessage("TMS.CONSIST.SYNC", _sbIgc.ToString());
+        }
+
+        void SetDoorList(List<IMyDoor> doors, bool open)
+        {
+            for (int i = 0; i < doors.Count; i++)
+            {
+                if (open) doors[i].OpenDoor();
+                else doors[i].CloseDoor();
+            }
+        }
+
+        void SetVentDepressurize(List<IMyAirVent> vents, bool depressurize)
+        {
+            for (int i = 0; i < vents.Count; i++)
+            {
+                vents[i].Depressurize = depressurize;
+            }
+        }
+
+        void SetLightState(List<IMyLightingBlock> lights, bool on)
+        {
+            for (int i = 0; i < lights.Count; i++)
+            {
+                lights[i].Enabled = on;
+            }
+        }
+        #endregion
+
+        #region Hardware Discovery & Configuration
         void LoadConfiguration()
         {
             _ini.Clear();
             MyIniParseResult result;
             if (_ini.TryParse(Me.CustomData, out result))
             {
-                _currentRole = _ini.Get("RIG_OS", "Role").ToInt32(_currentRole);
+                _currentPowerMode = _ini.Get("Excavator", "PowerMode").ToInt32(_currentPowerMode);
+                _currentEnvMode = _ini.Get("Excavator", "EnvMode").ToInt32(_currentEnvMode);
             }
         }
 
         void InitHardware()
         {
-            // Grid-scoped block caching: b => b.CubeGrid == Me.CubeGrid
+            _helm = GridTerminalSystem.GetBlockWithName("MAS Helm") as IMyShipController;
+            _turretAzimuth = GridTerminalSystem.GetBlockWithName("MAS Turret Azimuth") as IMyMotorAdvancedStator;
+            _boomShoulder = GridTerminalSystem.GetBlockWithName("MAS Boom Shoulder") as IMyMotorAdvancedStator;
+            _boomElbow = GridTerminalSystem.GetBlockWithName("MAS Boom Elbow") as IMyMotorAdvancedStator;
+            _wristPitch = GridTerminalSystem.GetBlockWithName("MAS Tool Wrist Pitch") as IMyMotorAdvancedStator;
+            _wristRoll = GridTerminalSystem.GetBlockWithName("MAS Wrist Roll") as IMyMotorAdvancedStator;
+            _clampBoomStow = GridTerminalSystem.GetBlockWithName("MAS Clamp Boom Stow");
+
+            // Outriggers
+            _outriggersFwd.Clear();
+            _outriggersAft.Clear();
+            IMyPistonBase pFwdPort = GridTerminalSystem.GetBlockWithName("MAS Outrigger Fwd Port") as IMyPistonBase;
+            IMyPistonBase pFwdStbd = GridTerminalSystem.GetBlockWithName("MAS Outrigger Fwd Stbd") as IMyPistonBase;
+            IMyPistonBase pAftPort = GridTerminalSystem.GetBlockWithName("MAS Outrigger Aft Port") as IMyPistonBase;
+            IMyPistonBase pAftStbd = GridTerminalSystem.GetBlockWithName("MAS Outrigger Aft Stbd") as IMyPistonBase;
+            if (pFwdPort != null) _outriggersFwd.Add(pFwdPort);
+            if (pFwdStbd != null) _outriggersFwd.Add(pFwdStbd);
+            if (pAftPort != null) _outriggersAft.Add(pAftPort);
+            if (pAftStbd != null) _outriggersAft.Add(pAftStbd);
+
+            // Hitch & Stabilizers
+            _hitchYaw = GridTerminalSystem.GetBlockWithName("MAS Hitch Rotor Yaw") as IMyMotorAdvancedStator;
+            _hitchPitch = GridTerminalSystem.GetBlockWithName("MAS Hitch Hinge Pitch") as IMyMotorAdvancedStator;
+            _hitchRoll = GridTerminalSystem.GetBlockWithName("MAS Hitch Rotor Roll") as IMyMotorAdvancedStator;
+            _hitchClamps.Clear();
+            IMyFunctionalBlock hcPort = GridTerminalSystem.GetBlockWithName("MAS Hitch Clamp Port");
+            IMyFunctionalBlock hcStbd = GridTerminalSystem.GetBlockWithName("MAS Hitch Clamp Stbd");
+            if (hcPort != null) _hitchClamps.Add(hcPort);
+            if (hcStbd != null) _hitchClamps.Add(hcStbd);
+
+            // Vents & Airlocks
+            _cabinVents.Clear();
+            GridTerminalSystem.GetBlocksOfType(_cabinVents, b => b.CubeGrid == Me.CubeGrid && b.CustomName.StartsWith("MAS Vent Bridge"));
+            _atmoIntakeVents.Clear();
+            GridTerminalSystem.GetBlocksOfType(_atmoIntakeVents, b => b.CubeGrid == Me.CubeGrid && b.CustomName.StartsWith("MAS Vent Atmo Intake"));
+
+            _airlockDoorsInner.Clear();
+            GridTerminalSystem.GetBlocksOfType(_airlockDoorsInner, b => b.CubeGrid == Me.CubeGrid && b.CustomName.Contains("Inner"));
+            _airlockDoorsOuter.Clear();
+            GridTerminalSystem.GetBlocksOfType(_airlockDoorsOuter, b => b.CubeGrid == Me.CubeGrid && b.CustomName.Contains("Outer"));
+            _airlockVents.Clear();
+            GridTerminalSystem.GetBlocksOfType(_airlockVents, b => b.CubeGrid == Me.CubeGrid && b.CustomName.Contains("Airlock"));
+            _deconLights.Clear();
+            GridTerminalSystem.GetBlocksOfType(_deconLights, b => b.CubeGrid == Me.CubeGrid && b.CustomName.Contains("Decon"));
         }
+
+        void RenderKinematicsEcho()
+        {
+            _sbEcho.Clear();
+            _sbEcho.Append("MASTODON-01 · EXCAVATOR KINEMATICS\n");
+            _sbEcho.Append("State: ").Append(StateNames[_currentState]).Append('\n');
+            _sbEcho.Append("Macro: ").Append(MacroNames[_activeMacro]).Append('\n');
+            _sbEcho.Append("Tool Mode: ").Append(ToolModeNames[_currentToolMode]).Append('\n');
+            _sbEcho.Append("Hitch: ").Append(_hitchClampsEngaged ? "LOCKED (HIGHWAY)" : "FLEX (3-AXIS)").Append('\n');
+            _sbEcho.Append("DPU Push: ").Append(_dpuPushActive ? "ACTIVE (HILL CLIMB)" : "COAST").Append('\n');
+            _sbEcho.Append("Speed: ");
+            SbFormat.AppendDouble(_sbEcho, _vehicleSpeedKmh, 1);
+            _sbEcho.Append(" km/h\nEnv: ").Append(EnvModeNames[_currentEnvMode]).Append('\n');
+            _sbEcho.Append("Airlock: ").Append(AirlockStateNames[_airlockState]);
+            Echo(_sbEcho.ToString());
+        }
+        #endregion
     }
 }

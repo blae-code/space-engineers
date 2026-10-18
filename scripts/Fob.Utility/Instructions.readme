@@ -1,0 +1,33 @@
+# Fob.Utility · In-Game MDK2 Script Project
+
+## Subsystem: MASTODON-01 Modular FOB & Utility Carriage Automation
+* **Target Block:** `[MAS-U] PB Utility`
+* **Grid Size:** Large Grid Utility Carriage (`MAS-01-U` · 11 W × 18 L × 5 H B · 4 Wheels)
+* **Update Frequency:** `Update10` (FOB Loop) + `Update100` (SML & Telemetry)
+* **Managed Subsystem Groups:** `MAS FOB, MAS REFINERY, MAS ASSEMBLER, MAS RESUPPLY, MAS DPU, MAS MP, MAS DUMP`
+* **IGC Network Channels:**
+  * Consist Bus: `TMS.CONSIST.TRACTION (in), TMS.CONSIST.SEVER (in), TMS.CONSIST.SYNC (in/out)`
+  * Peer Resupply Bus: `TMS.RESUPPLY.REQUEST (in), TMS.RESUPPLY.OFFER (out), TMS.RESUPPLY.DISPATCH (out), TMS.RESUPPLY.COMPLETE (in/out)`
+  * Logistics: `TMS.CAT.CALL (in), TMS.MULE.CALL (in)`
+
+## System Description
+Operates Carriage 2 (`MAS-01-U`) both in consist operations and during autonomous detachment ("Drop-and-Mine", Decision 67):
+1. **Autonomous Detached FOB Operations:**
+   * When severed from Tractor (`TMS.CONSIST.SEVER`), activates `MAS-U Remote FOB` and manages local base life support, refinery, and assembler.
+   * Runaway breakaway deadman brake watchdog: detects uncommanded velocity while decoupled; immediately engages 2× keel magnetic skids (`MAS-U Keel Skid Port/Stbd`) and locks wheel brakes.
+2. **SML (Standard Mission Loadout) Autonomous Production (Decision 68):**
+   * Monitors component inventory in `MAS Hold Components` against formalized SML quotas (SteelPlate 1,500, Construction 500, Motors 200, Ammo boxes 100, etc.).
+   * Automatically queues production deltas in `MAS Utility Assembler` when stock falls below 75% of quota.
+   * Closed-loop metallurgy: assembler continuously fed by ingots produced on-site by `MAS Field Refinery` (1×1×2 B, 330 kW).
+3. **Dedicated Resupply Export Hopper & Peer Sorties (Decision 68):**
+   * Pre-packages standardized mission kits (`KIT_MOBILITY`, `KIT_POWER`, `KIT_MUNITIONS`, `KIT_HULL_REPAIR`) into `MAS Hold Resupply Export` via `MAS Sorter Resupply Export`.
+   * Dispatches `TMS.RESUPPLY.DISPATCH` to `MULE-01` on top-deck gantry pad (`MAS MP Conn`) for immediate emergency delivery (< 10 s) to sister rigs.
+4. **Caterpillar Stern Soft-Capture Docking:**
+   * Controls telescoping soft-capture docking tongue (`MAS Piston Stern Dock`, 2.5 m stroke) and high-speed discharge sorter (`MAS Sorter Stern Dump`, Drain All = ON) transferring 2,500 t bulk ore in < 90 s.
+
+## Zero-GC PB Rules
+1. C# 6 only, nested in Program, namespace `IngameScript`.
+2. Zero allocations in hot paths (`Main`, `Update10`, `Update100`).
+3. Strings formatted via `SbFormat`.
+4. Strict grid scoping: `b => b.CubeGrid == Me.CubeGrid`.
+5. Minifier safe: never use `enum.ToString()` or `nameof()`.

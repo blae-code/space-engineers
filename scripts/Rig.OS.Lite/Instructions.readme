@@ -1,0 +1,34 @@
+# Rig.OS.Lite · In-Game MDK2 Script Project
+
+## Subsystem: MASTODON-01 Genesis Seed Fleet Mothership & Regional C2 Hub
+* **Target Block:** `[MAS] PB RIG//OS-Lite`
+* **Grid Size:** Large Grid Tractor Unit (`MAS-01-T` · 11 W × 20 L × 5 H B)
+* **Update Frequency:** `Update10` (Fleet Bus & Logic) + `Update100` (Telemetry & Screens)
+* **Managed Subsystem Groups:** `MAS COMM, MAS HOLD, MAS TURRETS, MAS LIGHTS, MAS SCREENS`
+* **IGC Network Channels:**
+  * Network C2: `RIG.C2.HEARTBEAT (out/in), RIG.C2.HANDOVER (out/in)`
+  * Logistics Dispatch: `TMS.LOGISTICS.JIT (out), TMS.MULE.CALL (out), TMS.CAT.CALL (out)`
+  * Tactical & Defense: `TMS.DEFENSE.TARGET (out/in), TMS.METEOR.ALERT (out/in)`
+  * Swarm & Tasking: `TMS.SCOUT.TASK (out), TMS.SCOUT.VEIN (in), TMS.BASE.DEMAND (in)`
+  * Inbound Telemetry: `TMS.CAT.STATUS (in), TMS.MULE.STATUS (in), TMS.MAS.STATUS (in)`
+
+## System Description
+Implements the expeditionary operating system `RIG//OS-Lite` for the Mastodon MKI in early survival campaigns:
+1. **Fleet Asset Registry:** Tracks up to 16 remote drones (`KES-01`, `MUL-01`, `CAT-01`, sister excavators). Monitors positions, cargo payloads, and liveness heartbeats with automatic STALE alerting.
+2. **Dynamic Root Election & Base Handover:**
+   * Starts as autonomous regional C2 root (`ROOT_MOTHERSHIP`).
+   * Upon Ground Base commissioning, accepts `TMS.C2.HANDOVER`, transferring master scheduling to `GND-01` and transitioning to subordinate worker/FOB state (`REGIONAL_WORKER`).
+3. **Predictive JIT Logistics ($dM/dt$):**
+   * Real-time extraction rate tracking ($dM/dt$ kg/s) and buffer fill time estimation.
+   * Auto-dispatches hauler transports at 75-80% capacity to eliminate excavator idle waiting.
+   * Dual-tier triage: rare minerals (U, Pt, Au, Mg) routed to `MULE-01` top-deck pad; bulk ores (Fe, Ni, Si, stone) routed to `CATERPILLAR-01` stern push-bumper.
+4. **Demand-Driven Pull Mining:** Integrates Ground Base refinery deficit broadcasts (`TMS.BASE.DEMAND`) and tasks scout drones (`TMS.SCOUT.TASK`) to seek missing ores.
+5. **Tactical CIWS & Meteor Defense:** Coordinates shared anti-air/missile targeting mesh (`TMS.DEFENSE.TARGET`) and triggers early warning alarms upon incoming meteors.
+6. **Bridge Monospace LCD Viewports:** Monospace text ASCII HUD telemetry rendered across 3 bridge consoles (`MAS LCD Helm`, `MAS LCD Boom`, `MAS LCD Fleet`).
+
+## Zero-GC PB Rules
+1. C# 6 only, nested in Program, namespace `IngameScript`.
+2. Zero allocations in hot paths (`Main`, `Update10`, `Update100`).
+3. Strings formatted via `SbFormat`.
+4. Strict grid scoping: `b => b.CubeGrid == Me.CubeGrid`.
+5. Minifier safe: never use `enum.ToString()` or `nameof()`.
