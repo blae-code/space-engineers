@@ -80,6 +80,7 @@ Last updated: 2026-10-17
 | 65 | Mastodon MKI Tri-Mode Multitool Salvage, Recycling & Remote Fabrication (ToolCore tri-mode laser: mining/salvage/weld, closed-loop recycling, Macro 5 deconstruct) | 2026-10-18 | CHANGELOG |
 | 66 | Mastodon MKI Multi-Tier Fleet Comms, JIT Logistics & Swarm Synergy (Predictive JIT transport call, pull economy, aerial IGC relay, swarm quarrying, CIWS net) | 2026-10-18 | CHANGELOG |
 | 67 | Mastodon MKI 3-Axis Gimbal Hitch, DPU Traction & Support Carriage FOB Autonomy (3-axis drawbar, anti-oscillation clamps, DPU push/regen braking, standalone FOB brain, stern outriggers, telescoping dock) | 2026-10-18 | CHANGELOG |
+| 68 | Mastodon MKI 4× Multitool Repair Turrets, SML Auto-Production & Mule Peer Resupply Sorties (4× MT turrets for consist & docked drones, SML queuing, export hopper, peer rig resupply) | 2026-10-18 | CHANGELOG |
 
 ### Open (§10 + mining concept + merge)
 
@@ -135,7 +136,7 @@ TERRESTRIAL MINING (phase 1 scope)
  ├─ Mule (flying cargo ferry, 7×7 B square hull)
  │   ├─ 1 Large Cargo (3×3×3 B), 4 Large Flat Atmo (~650 t ore capacity)
  │   └─ Docks Orca roof MP ↔ Ground Base refinery terminal
- ├─ Mastodon (segmented expeditionary mining train FOB: Tractor/Excavator + Utility Carriage, 3-axis gimbal hitch & DPU traction, standalone FOB autonomy, custom walk-in bridge, 35 m tri-mode laser boom, closed-loop salvage recycling, JIT logistics & multi-fleet swarm comms, ULSS life support, failsafe decoys & scuttle)
+ ├─ Mastodon (segmented expeditionary mining train FOB: Tractor/Excavator + Utility Carriage, 4× multitool repair turrets, SML auto-production & Mule peer resupply sorties, 3-axis gimbal hitch & DPU traction, standalone FOB autonomy, custom walk-in bridge, 35 m tri-mode laser boom, closed-loop salvage recycling, JIT logistics & multi-fleet swarm comms, ULSS life support, failsafe decoys & scuttle)
  ├─ Caterpillar (heavy bulk land train, 5×5 wheeled locomotive + modular hopper cars)
  └─ Ground base (Integrated Gantry, 4 Ref / 4 Asm, C2 Hub, Rig Extruder Shipyard)
 

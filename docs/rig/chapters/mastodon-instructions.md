@@ -5,13 +5,13 @@
 Lego-style, step-by-step visual build manual and hardware-to-scripting interface contract for the **MASTODON-01 MKI**.
 Each step features: an exact ASCII schematic, Spatial Locator HUD, in-game paint palette assignments, pre-step parts tray, critical joint/conveyor settings, Pre-Enclosure Inspection Gates ("Points of No Return"), and Phase-End Visual Milestones.
 
-### Design Directives & Operational Scope (Decisions 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66 & 67)
+### Design Directives & Operational Scope (Decisions 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67 & 68)
 * **Role:** Long-range terrestrial expeditionary mining locomotive, self-contained mobile Forward Operating Base (FOB), and **Genesis Seed Fleet Mothership** running **`RIG//OS-Lite`**. In fresh survival campaigns prior to Ground Base refinery commissioning, the lead Mastodon serves as the regional C2 fleet root, commanding subordinate excavators (`MAS-02`), bulk land trains (`CAT-01`), and freight shuttles (`MUL-01`), with automated handover to Ground Base upon commissioning.
 * **Architecture:** Segmented articulated train consist:
-  1. **Carriage 1 (`MAS-01-T`): Locomotive & Excavator Unit (11 W × 20 L × 5 H B · 6 Wheels):** Heavy tractive engine, 3-operator armored panoramic C2 bridge (Helm, Boom CTC, Tactical Director), Tri-Fuel primary power plant (30 MW nuclear + 5 MW emergency H2 engine + 9 MWh battery reserve across 3× Large Batteries), dual-PB compute rack (`PB Excavator` + `PB RIG//OS-Lite`), 40 km laser comms mast, 4× hydraulic corner outriggers with differential auto-leveling and **deep seismic voxel sensors** (Mod 2819263781), dorsal 35 m spine-stowed articulated 5-DOF laser mining boom with **heavy magnetic crane grapple**, chassis travel stow clamp (`MAS Clamp Boom Stow`), bow CIWS Gatling Turret (`MAS Turret Bow`), flank anti-personnel turrets, Port L3 maintenance Jefferies tube, ground-level EVA survival lockers, and aft 3-axis heavy gimbal drawbar hitch.
-  2. **Carriage 2 (`MAS-01-U`): Modular FOB & Utility Carriage (11 W × 18 L × 5 H B · 4 Wheels):** Field workshop (1× Basic Refinery for in-situ metallurgy, 1× Large Assembler, Survival Kit / Medical Bay), standalone FOB compute core (`[MAS-U] PB Utility` + `MAS-U Remote FOB`), DPU smart wheel traction and dynamic regenerative descent braking, runaway breakaway deadman brake (`MAS-U EC Breakaway` + 2× keel magnetic skids), 40× Heavy Armor sub-floor ballast skids, free planetary atmospheric O2 intake vents, sub-floor battery vault (9 MWh across 3× Large Batteries), 4× roof flush solar panels (`≈ 640 kW` peak†), component reserve hold, atmospheric bunkering (2× Large H2 tanks, O2/H2 generators), 7 × 7 B MULE-01 Gantry Cradle Pad with motorized clamping arms, 2× KESTREL-01 scout drone landing pads with **recessed automated repair welders**, roof maintenance catwalks, 360° dorsal worksite floodlight tower, stern CIWS Gatling Turret (`MAS Turret Stern`), 2× stern hydraulic bedrock outriggers (`MAS Outrigger Utility Port/Stbd`), telescoping soft-capture docking tongue (`MAS Piston Stern Dock`), and stern heavy dump bumper with relocated stone tailings ejector chute matching CATERPILLAR-01.
-* **Grid:** Large Grid (1 B = 2.5 m) · **Consist Envelope:** 11 W × 42 L × 6 H B (27.5 × 105.0 × 15.0 m).
-* **Mass:** Consist Dry Mass `≈ 1,124.0 t` (Tractor: 552.7 t, Utility: 571.3 t) · Max Laden Mass `≈ 3,600 t` (Earth 1 g).
+  1. **Carriage 1 (`MAS-01-T`): Locomotive & Excavator Unit (11 W × 20 L × 5 H B · 6 Wheels):** Heavy tractive engine, 3-operator armored panoramic C2 bridge (Helm, Boom CTC, Tactical Director), Tri-Fuel primary power plant (30 MW nuclear + 5 MW emergency H2 engine + 9 MWh battery reserve across 3× Large Batteries), dual-PB compute rack (`PB Excavator` + `PB RIG//OS-Lite`), 40 km laser comms mast, 4× hydraulic corner outriggers with differential auto-leveling and **deep seismic voxel sensors** (Mod 2819263781), dorsal 35 m spine-stowed articulated 5-DOF laser mining boom with **heavy magnetic crane grapple**, chassis travel stow clamp (`MAS Clamp Boom Stow`), bow CIWS Gatling Turret (`MAS Turret Bow`), forward Multitool Repair Turret (`MAS MT Turret Bow`), flank anti-personnel turrets, Port L3 maintenance Jefferies tube, ground-level EVA survival lockers, and aft 3-axis heavy gimbal drawbar hitch.
+  2. **Carriage 2 (`MAS-01-U`): Modular FOB & Utility Carriage (11 W × 18 L × 5 H B · 4 Wheels):** Field workshop (1× Basic Refinery for in-situ metallurgy, 1× Large Assembler, Survival Kit / Medical Bay), standalone FOB compute core (`[MAS-U] PB Utility` + `MAS-U Remote FOB`), DPU smart wheel traction and dynamic regenerative descent braking, runaway breakaway deadman brake (`MAS-U EC Breakaway` + 2× keel magnetic skids), 40× Heavy Armor sub-floor ballast skids, free planetary atmospheric O2 intake vents, sub-floor battery vault (9 MWh across 3× Large Batteries), 4× roof flush solar panels (`≈ 640 kW` peak†), component reserve hold, atmospheric bunkering (2× Large H2 tanks, O2/H2 generators), 7 × 7 B MULE-01 Gantry Cradle Pad with motorized clamping arms, elevated stern Multitool Repair Turret (`MAS MT Turret Stern` on L7 gantry arch), twin flank Multitool Repair Turrets (`MAS MT Turret Port/Stbd` on L4 forward shoulders), dedicated outbound resupply export hopper (`MAS Hold Resupply Export`), 2× KESTREL-01 scout drone landing pads with **recessed automated repair welders**, roof maintenance catwalks, 360° dorsal worksite floodlight tower, stern CIWS Gatling Turret (`MAS Turret Stern`), 2× stern hydraulic bedrock outriggers (`MAS Outrigger Utility Port/Stbd`), telescoping soft-capture docking tongue (`MAS Piston Stern Dock`), and stern heavy dump bumper with relocated stone tailings ejector chute matching CATERPILLAR-01.
+* **Grid:** Large Grid (1 B = 2.5 m) · **Consist Envelope:** 11 W × 42 L × 7 H B (27.5 × 105.0 × 17.5 m with L7 gantry arch).
+* **Mass:** Consist Dry Mass `≈ 1,145.0 t` (Tractor: 558.2 t, Utility: 586.8 t) · Max Laden Mass `≈ 3,650 t` (Earth 1 g).
 * **Payload Capacity:** 2,500 t bulk ore across tractor buffer and utility holds.
 * **Mechanical & Automation Suite (Decision 57):** 5-point immersive automation: auto-leveling bedrock jacks (sloped terrain compensation up to 20°), retractable crew boarding ladder (Port flank L2), active gravity-horizon tool head leveling with 4.0 m safety proximity stop, underbelly stone tailings aggregate spreader, and smart anti-jackknife drawbar dynamics.
 * **Tri-Fuel Power & Closed-Loop Metallurgy Suite (Decision 58):** Self-sustaining field endurance without resupply: (1) 1× Basic Refinery (`MAS Field Refinery`, 1×1×2 B, 330 kW) refining raw mined Fe, Ni, Co, Si, Mg on-site into ingots for the Large Assembler; (2) Tri-Fuel Power Architecture: Tier 1 Nuclear (2× Small Reactors, 30 MW), Tier 2 Renewable (4× Roof Flush Solar Panels, `≈ 640 kW` peak†), Tier 3 Emergency Hydrogen (1× Hydrogen Engine, 5 MW) drawing from 10,000,000 L H2 tank farm; (3) Automated resource watchdogs `MAS EC Power` (uranium watchdog auto-starting H2 engine) and `MAS EC Ice` (ice intake routing).
@@ -24,6 +24,7 @@ Each step features: an exact ASCII schematic, Spatial Locator HUD, in-game paint
 * **Tri-Mode Laser Multitool Salvage & Remote Welding Suite (Decision 65):** Full lifecycle deconstruction and remote engineering via ToolCore mod (Mods 3175774286 / 3040438530): (1) Tri-Mode Operation: 2× Simple Laser Multitools (`MAS Laser 1, 2`) switch between Mining (Drill / raw ore intake), Salvage (Grinder / non-contact wreck deconstruction at 15-30 m standoff with 100% component retention), and Fabrication (Welder / remote structural welding and bridge assembly at 35 m); (2) Closed-Loop Field Recycling Circuit: Salvaged components route across drawbar hitch into `MAS Hold Components` (3×3×3 Large Cargo), scrap metal melts into pure iron ingots in `MAS Field Refinery` (1×1×2 B, 330 kW), and surplus parts disassemble in `MAS Utility Assembler` to constituent ingots (Fe, Ni, Co, Si, Pt, Au) for immediate ammo and repair plate fabrication; (3) Macro 5 Wreck Deconstruction (`MACRO_SALVAGE`): `[MAS] PB Excavator` executes planar raster sweeps (ΔY, ΔX) across target bounding boxes, peeling enemy wrecks and obsolete structures layer-by-layer; (4) Station 2 Hotbar updates (HB1:8 Next Mode, HB2:8 Macro 5 SALVAGE); (5) Zero hardware impact: 0 new blocks, 0 additional PCU, 0 additional mass (BOM remains 1,039 blocks, ≈ 978.5 t, 7,198 PCU).
 * **Multi-Tier Fleet Comms, Predictive JIT Logistics & Swarm Synergy (Decision 66):** Strengthens inter-grid communication (IGC) and cross-fleet operations across Mastodon, support drones (Kestrel, Albatross), cargo transports (Mule, Caterpillar), Ground Base (GND-01), and peer Mastodons: (1) Predictive Just-In-Time (JIT) Logistics Dispatch: Real-time mass tracking (ΔMass / Δt) computes buffer time-to-full (T_remain) and pre-dispatches transports at 75-80% capacity via `TMS.LOGISTICS.JIT`, eliminating excavator idle waiting time; (2) Dynamic Logistics Triage: Segregates high-value rare ores (U, Pt, Au, Mg) and salvaged high-tech components to fast Air Tier (Mule gantry cradle pad) while routing bulk ores (Fe, Ni, Si, stone) to mass Ground Tier (Caterpillar stern dump bumper); (3) Two-Tier Geological Triangulation & Aerial IGC Relay: Mastodon tasks Kestrel via `TMS.SCOUT.TASK` for wide-area sweeps, followed by Mastodon 500 m deep acoustic seismic survey (`TMS.SEISMIC.SURVEY`) to lock 3D drill centroids; airborne Kestrels serve as dynamic line-of-sight (LOS) IGC repeaters when Mastodons operate in deep pits; (4) Demand-Driven Pull Economy: Ground Base C2 broadcasts refinery deficit matrix via `TMS.BASE.DEMAND`; Mastodon automatically vectors quarry operations to match base mineral deficits; (5) Multi-Mastodon Swarm Quarrying & Coordinated CIWS: Spatial exclusion zone broadcast via `TMS.ZONE.CLAIM` deconflicts bench quarrying envelopes, while distributed targeting via `TMS.DEFENSE.TARGET` synchronizes anti-air/missile defense across consists.
 * **Consist Mechanics, 3-Axis Hitch & FOB Autonomy (Decision 67):** Optimizes cross-carriage cooperation and mechanical coupling: (1) 3-Axis Heavy Gimbal Tow Hitch: Upgrades articulated drawbar at Z −8 with 3 degrees of freedom (Yaw Advanced Rotor ±45°, Pitch Motor Hinge ±25°, Roll Advanced Rotor ±20° on Z-axis) for full 3D terrain compliance with zero subgrid shear, backed by twin magnetic stabilizer clamps (`MAS Hitch Clamp Port/Stbd`) to eliminate high-speed harmonic oscillation; (2) Distributed Power Unit (DPU) Smart Traction & Dynamic Braking: Synchronizes Carriage 2 Axles 4 and 5 with tractor throttle input for active hill-climb pushing, paired with predictive regenerative descent braking to keep the hitch in tension and prevent jackknifing; (3) Autonomous FOB Detachment ("Drop-and-Mine"): Equips Carriage 2 with standalone compute core (`[MAS-U] PB Utility`, `MAS-U Remote FOB`) and runaway deadman brake (`MAS-U EC Breakaway` + 2× keel magnetic skids), allowing the tractor to decouple as an agile 6×6 extraction unit while the trailer operates as an independent stationary outpost; (4) Stabilized Hauler Interchange: Adds 2× hydraulic stern outriggers (`MAS Outrigger Utility Port/Stbd` at Z −25) to isolate the chassis during 650 t Mule touchdowns, a telescoping soft-capture docking tongue (`MAS Piston Stern Dock`) for effortless Caterpillar coupling, and relocates the stone tailings aggregate ejector to the stern bumper; (5) Environmental & Ballast Hardening: Formalizes the inter-carriage gangway as an unpressurized flexible bellows flanked by dual hermetic airlocks (`MAS Door Gangway Fwd/Aft`) and adds 40× Heavy Armor ballast skids in Carriage 2 sub-floor; (6) Updated BOM: 1,095 blocks (+56 blocks), dry mass ≈ 1,124.0 t, 8,538 PCU.
+* **4× Multitool Repair Turrets, SML Auto-Production & Mule Peer Resupply Sorties (Decision 68):** Comprehensive self-repair, docked drone maintenance, autonomous component queuing, and inter-rig peer assistance: (1) 4× Laser Multitool Turrets (Simple Laser Multitools Mod 3175774286 / ToolCore 3040438530) positioned for overlapping 360° consist and flight deck coverage (`MAS MT Turret Bow` on Tractor crown L5 Z +9, `MAS MT Turret Port/Stbd` on Carriage 2 forward shoulders L4 Z −10, `MAS MT Turret Stern` on elevated gantry arch L7 Z −23); turrets draw components from `MAS Hold Components` and reference `MAS Projector Master` to automatically repair damaged blocks on the Tractor, Carriage 2, docked Kestrel drones (L5 pads), docked Mule shuttle (L6 gantry pad), docked Caterpillar train, or external ground vehicles without engineer EVA; (2) Standard Mission Loadout (SML) Autonomous Production Queuing: `[MAS-U] PB Utility` monitors component inventory in `MAS Hold Components`; whenever stock falls below 75% of SML quotas (e.g. 1,500 Steel Plates, 500 Construction Comps, 200 Motors, 100 NATO 25mm ammo boxes), it automatically queues production deltas in `MAS Utility Assembler`, fed continuously by iron ingots from `MAS Field Refinery`; (3) Dedicated Outbound Resupply Staging Hopper: Adds 1× Small Cargo Container `MAS Hold Resupply Export` and Conveyor Sorter `MAS Sorter Resupply Export` directly below `MAS MP Conn` at [X0, Z −20, L5], allowing pre-packaging of standardized resupply kits without mixing into main hold; (4) Standardized Mule Peer Resupply Sortie Protocol: Implements 4 standardized mission pallets (`KIT_MOBILITY`, `KIT_POWER`, `KIT_MUNITIONS`, `KIT_HULL_REPAIR`) and IGC channels (`TMS.RESUPPLY.REQUEST`, `TMS.RESUPPLY.OFFER`, `TMS.RESUPPLY.DISPATCH`, `TMS.RESUPPLY.COMPLETE`); upon receiving an emergency call from a disabled sister rig (`MAS-02`), Mastodon pre-packs the kit into the export hopper, summons MULE-01 for an immediate top-deck transfer (< 10 s), and dispatches the shuttle on a rapid delivery flight; (5) Updated BOM: 1,110 blocks (+15 blocks), dry mass ≈ 1,145.0 t, 9,475 PCU.
 * **Operating Environment:** Universal planetary & terrestrial surface operations (Earth 1 g baseline, airless vacuum moons, thin-atmosphere deserts, and hostile alien terrain).
 
 ---
@@ -228,8 +229,10 @@ Bow     │ 2-Seat Panoramic Cockpit  Nuclear Core                              
 | **Stern Stabilizers, Telescoping Dock & Dump** | 2× Large Outrigger Pistons + 2× Mag Feet (`MAS Outrigger Utility`), 1× Telescoping Dock Piston (`MAS Piston Stern Dock`), Stern Dump Connector & Sorter, Relocated Tailings Ejector | 7 | 14.5 t | 510 |
 | **Utility FOB Autonomy & Deadman Brake** | 1× PB (`[MAS-U] PB Utility`), 1× Remote Control (`MAS-U Remote FOB`), 1× Event Controller (`MAS-U EC Breakaway`), 2× Keel Mag Skids (`MAS Utility Brake Keel 1, 2`) | 5 | 4.0 t | 350 |
 | **Perimeter Defense Suite** | 2× Gatling Turrets, 2× Interior Turrets, Ammunition Conveyor Feeds (Palette 7) | 12 | 9.6 t | 308 |
+| **Multitool Repair Turrets** | 4× Large Laser Multitool Turrets (Bow L5, Port/Stbd L4 shoulders, Stern L7 arch · Mod 3175774286) | 4 | 18.0 t | 900 |
+| **Peer Resupply Export Staging** | 1× Small Cargo (`MAS Hold Resupply Export`), 1× Conveyor Sorter (`MAS Sorter Resupply Export`), 9× Gantry Arch Heavy Armor blocks (Palette 0/3) | 11 | 3.0 t | 37 |
 | **External EVA, Lights & Failsafes** | 2× Ground EVA Lockers, 3× Keel Lights, 1× Black Box SOS Beacon & Isolated Battery, 4× In-Situ Button Panels (Palette 9) | 11 | 2.5 t | 110 |
-| **TOTAL CONSIST (DRY)** | Complete Expeditionary Mining Locomotive & Mobile FOB | **1,095** | **≈ 1,124.0 t** | **8,538** |
+| **TOTAL CONSIST (DRY)** | Complete Expeditionary Mining Locomotive & Mobile FOB | **1,110** | **≈ 1,145.0 t** | **9,475** |
 
 ---
 
@@ -1624,9 +1627,9 @@ STATION 2: EXCAVATION MASTER (`MAS Station Boom`)
 · Slot 4: Cargo Container `MAS Tractor Buffer` -> Show on HUD ON/OFF
 · Slot 5: Cargo Container `MAS Hold Ore Cat` -> Show on HUD ON/OFF
 · Slot 6: Event Controller `MAS EC Ore Full` -> Trigger Alert
-· Slot 7: IGC Send: `TMS.MULE.CALL;MAS-01;HOLD_FULL`
-· Slot 8: IGC Send: `TMS.CAT.CALL;MAS-01;HOLD_FULL`
-· Slot 9: Group `MAS Drills Tool` -> Shoot ON/OFF (Backup Mechanical Drills)
+· Slot 7: PB `[MAS] PB Excavator` -> Run `MT_TURRETS TOGGLE` (Toggle 4× Multitool Repair Turrets Weld/Grind)
+· Slot 8: PB `[MAS-U] PB Utility` -> Run `AUTOPROD SML` (Verify/Force SML Quota Production)
+· Slot 9: Group `MAS Multitool Turrets` -> Toggle ON/OFF (Consist & Drone Field Repair)
 
 ================================================================================
 STATION 3: TACTICAL FLEET DIRECTOR (`MAS Station Fleet`)
@@ -1637,10 +1640,10 @@ STATION 3: TACTICAL FLEET DIRECTOR (`MAS Station Fleet`)
 · Slot 3: Connector `MAS MP Conn` -> Lock/Unlock (Mule Roof Pad Connector)
 · Slot 4: Group `MAS MP Clamps` -> Switch Lock (Mule Cradle Rub Rails)
 · Slot 5: Sorter `MAS MP Sorter` -> Drain All ON/OFF (Rare Ore Fast Drain)
-· Slot 6: Piston `MAS Piston Stern Dock` -> Reverse (Extend / Retract Telescoping Soft Dock)
-· Slot 7: Connector `MAS Stern Dump Conn` -> Lock/Unlock (Caterpillar Stern Rail)
-· Slot 8: Sorter `MAS Stern Sorter` -> Drain All ON/OFF (Bulk Hopper Dump)
-· Slot 9: Group `MAS Tailings Ejectors` -> Throw Out ON/OFF (Stern Roadbed Aggregate Dump)
+· Slot 6: Sorter `MAS Sorter Resupply Export` -> Drain All ON/OFF (Export Staging Drain)
+· Slot 7: Piston `MAS Piston Stern Dock` -> Reverse (Extend / Retract Telescoping Soft Dock)
+· Slot 8: Connector `MAS Stern Dump Conn` -> Lock/Unlock (Caterpillar Stern Rail)
+· Slot 9: PB `[MAS] PB Excavator` -> Run `RESUPPLY MULE` (Stage Resupply Kit & Dispatch Mule)
 
 [Hotbar 2 · Slave Links, Recon Tasking & Swarm Deconfliction]
 · Slot 1: Remote Control `MAS-02 Remote` -> Control (Subordinate Worker Excavator)
@@ -1856,16 +1859,17 @@ CREW BOARDING LADDER (Port Flank Profile)
 
 ---
 
-### Step 10.28 · Bow CIWS Gatling Turret & Flank Anti-Personnel Sockets (L2, L5)
+### Step 10.28 · Bow Multitool Repair Turret, CIWS Gatling Turret & Flank Sockets (L2, L5)
 
 ┌──────────────────────────────────────────────────────────────────────────────────────┐
-│ [LOCATOR] Subsystem: Locomotive Defensive CIWS  ·  Levels: L2 & L5                   │
-│ [VIEWPORT] Grid Zone: Bow Crown [X0, Z +7, L5]; Flank Skirts [X ±4, Z +2, L2]        │
+│ [LOCATOR] Subsystem: Locomotive Defense & Forward Repair  ·  Levels: L2 & L5        │
+│ [VIEWPORT] Grid Zone: Bow Crown [X0, Z +7 to +9, L5]; Flank Skirts [X ±4, Z +2, L2]  │
 └──────────────────────────────────────────────────────────────────────────────────────┘
 
 #### Step 10.28 Parts Tray
 | Block Type | Qty | Palette Slot | Mass / PCU | Critical Placement & Facing |
 |---|---|---|---|---|
+| Large Laser Multitool Turret | 1 | Slot 3 (`#E07A5F`) | 4.5 t / 225 | `MAS MT Turret Bow` mounted on forward crown at [X0, Z +9, L5] · Mod 3175774286 |
 | Large Gatling Turret | 1 | Slot 7 (`#1B263B`) | 4.8 t / 125 | `MAS Turret Bow` mounted on dorsal crown at [X0, Z +7, L5] |
 | Interior Turret | 2 | Slot 7 (`#1B263B`) | 0.8 t / 50 | `MAS Turret Flank Port/Stbd` mounted flush on skirts at [X ±4, Z +2, L2] |
 
@@ -1873,9 +1877,11 @@ CREW BOARDING LADDER (Port Flank Profile)
 1. Mount Large Grid Gatling Turret `MAS Turret Bow` on the centerline dorsal crown of Carriage 1 at [X0, Z +7, Y = L5]. Plumb bottom port to tractor conveyor spine at L4.
 2. Mount 2 Interior Turrets flush on the lower armored skirts at [X −4, Z +2, Y = L2] (Port) and [X +4, Z +2, Y = L2] (Starboard).
 3. Connect ammo feed lines to the main conveyor trunk to draw NATO 25×184mm and 5.56mm ammo from internal storage.
+4. Mount Large Grid Laser Multitool Turret `MAS MT Turret Bow` on the forward crown directly ahead of the bridge glass at [X0, Z +9, Y = L5]. Plumb bottom port into the conveyor spine at L4. Set default mode to Welder for forward hull and tire self-repair.
 
 #### Terminal Configuration & Sliders
 * Group: `MAS Turrets Defense` (`MAS Turret Bow`, `MAS Turret Flank Port`, `MAS Turret Flank Stbd`)
+* Group: `MAS Multitool Turrets` (`MAS MT Turret Bow`, `MAS MT Turret Port`, `MAS MT Turret Stbd`, `MAS MT Turret Stern`)
 * Event Controller: `MAS EC Combat`
   * Condition: Hull Damage Detected OR Hostile Lock Acquired
   * Action Slot 1: Elevate `RIG.OS.MODE CBT` -> Power ON Turrets -> Seal Compartment Doors
@@ -1889,13 +1895,14 @@ CREW BOARDING LADDER (Port Flank Profile)
 * [ ] Confirm `MAS Comm Laser` and `MAS Comm Radio` establish two-way IGC telemetry ping.
 * [ ] Verify `MAS Crew Ladder Hinge` automatically lowers when approached on foot and retracts upon handbrake release.
 * [ ] Verify `MAS Turret Bow` and `MAS Turret Flank Port/Stbd` receive NATO 25×184mm ammunition through conveyor spine.
+* [ ] Verify `MAS MT Turret Bow` receives components and auto-repairs forward armor and tires.
 
 ```
 PHASE 10-4 VISUAL MILESTONE · C2 BRIDGE & AVIONICS COMPLETE
-       Z: +7 (Crown CIWS)     Z: +10 (3-Seat Bridge)    Z: +12 (Glass Bow)
-       [MAS TURRET BOW]       [HELM / BOOM / FLEET]     [45° PANORAMIC CANOPY]
-             │                         │                        │
-       ══════╧═════════════════════════╧════════════════════════╧══════
+       Z: +7 (Crown CIWS)     Z: +9 (Bow Repair MT)     Z: +10 (3-Seat Bridge)    Z: +12 (Glass Bow)
+       [MAS TURRET BOW]       [MAS MT TURRET BOW]       [HELM / BOOM / FLEET]     [45° PANORAMIC CANOPY]
+             │                         │                         │                        │
+       ══════╧═════════════════════════╧═════════════════════════╧════════════════════════╧══════
                     C2 COMPUTE RACK & ORE DETECTOR IN SUB-DECK (L3)
 ```
 
@@ -2392,13 +2399,58 @@ Plan view, Y = L3 (Aft Component Hold, Genesis Projector & Autonomous FOB Core)
 * [ ] Confirm `MAS-U EC Breakaway` engages deadman brake and drops keel skids on signal loss.
 * [ ] Verify `MAS Sorter Ammo Fwd` draws ammunition to forward turrets without manual handling.
 * [ ] Verify `MAS Sorter Parts Aft` routes scrap metal directly into `MAS Field Refinery`.
+* [ ] Verify `MAS MT Turret Port` and `MAS MT Turret Stbd` auto-repair damaged blocks on the drawbar hitch and Kestrel landing pads.
+* [ ] Verify `[MAS-U] PB Utility` detects component deficit in `MAS Hold Components` and queues production deltas in `MAS Utility Assembler`.
+
+---
+
+### Step 10.36B · Twin Flank Multitool Repair Turrets & SML Auto-Production Queuing (L4)
+
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ [LOCATOR] Subsystem: Consist Self-Repair & Drone Servicing  ·  Level: L4             │
+│ [VIEWPORT] Grid Zone: Forward Shoulders [X ±3, Z −10, L4]  ·  Plan view (▲ Bow +Z)   │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+#### Step 10.36B Parts Tray
+| Block Type | Qty | Palette Slot | Mass / PCU | Critical Placement & Facing |
+|---|---|---|---|---|
+| Large Laser Multitool Turret | 2 | Slot 3 (`#E07A5F`) | 9.0 t / 450 | `MAS MT Turret Port/Stbd` on forward shoulders at [X ±3, Z −10, L4] · Mod 3175774286 |
+| Conveyor Junction | 2 | Slot 4 (`#16A085`) | 1.8 t / 2 | Sub-deck risers at [X ±3, Z −10, L3] tying into workshop conveyor spine |
+
+```
+Plan view, Y = L4 (Carriage 2 Forward Shoulder Repair Turrets & SML Queuing Core)
+        X: −3           X: −1             0             X: +1           X: +3
+    Z:  −9 ┌───────────────┬───────────────────────────────┬───────────────┐
+           │ [PORT SHOULDER│ ════════ [BULKHEAD DOOR] ════ │ [STBD SHOULDER│
+    Z: −10 │ [MAS MT PORT] │ [AISLE WALKWAY]               │ [MAS MT STBD] │  ◄── Forward Flank Overlap
+           ├───────────────┼───────────────────────────────┼───────────────┤      (Covers Hitch & Kestrels)
+    Z: −11 │ [KESTREL PAD] │ [CONVEYOR RISER JUNCTION]     │ [KESTREL PAD] │  ◄── Drone Landing Deck (L5)
+           └───────────────┴───────────────────────────────┴───────────────┘
+```
+
+#### Placement Instructions
+1. Install 2 Conveyor Junctions at [X −3, Z −10, Y = L3] and [X +3, Z −10, Y = L3], tapping into the utility workshop conveyor trunk lines.
+2. Mount Large Grid Laser Multitool Turrets `MAS MT Turret Port` at [X −3, Z −10, Y = L4] and `MAS MT Turret Stbd` at [X +3, Z −10, Y = L4] flush on the reinforced shoulder sponsons of Carriage 2.
+3. Verify unobstructed 270° hemispherical lines of sight: turrets sweep forward across the 3-axis drawbar hitch (Z −8), inward across the tractor rear armor and power vault, and upward to service docked KESTREL-01 drones on their Level L5 landing pads at [X ±3, Z −11, L5].
+4. Plumb internal conveyor lines back to `MAS Hold Components` and `MAS Field Refinery` / `MAS Utility Assembler`.
+
+#### Terminal Configuration & Sliders
+* Group: `MAS Multitool Turrets` (`MAS MT Turret Bow`, `MAS MT Turret Port`, `MAS MT Turret Stbd`, `MAS MT Turret Stern`)
+* Multitool Turrets: `MAS MT Turret Port`, `MAS MT Turret Stbd`
+  * Default Mode: `Welder` (Field self-repair and drone maintenance)
+  * Secondary Mode: `Grinder` (Debris clearance and obstacle salvage)
+  * Range: `50 m` · Target Friendly: `ON` · Target Neutrals: `ON` · Auto-Repair: `ON`
+* SML Auto-Production Queuing (`[MAS-U] PB Utility`):
+  * Baseline SML Quotas: 1,500 Steel Plates, 500 Construction Comps, 200 Motors, 100 NATO 25×184mm ammo boxes, 100 Interior Plates, 50 Large Steel Tubes, 100 Small Steel Tubes, 50 Computers, 50 Displays, 20 Radio-comm Comps.
+  * Threshold Watchdog: Whenever inventory in `MAS Hold Components` drops below 75% of quota, `[MAS-U] PB Utility` queues production deltas in `MAS Utility Assembler`.
+  * Ingot Feed: `MAS Field Refinery` processes mined ore directly into iron/nickel/silicon ingots, sustaining closed-loop field manufacturing without supply runs.
 
 ```
 PHASE 10-5 VISUAL MILESTONE · EXPEDITIONARY WORKSHOP & FOB CORE COMPLETE
-       Z: −9 (Gangway Bulkhead)    Z: −14 (Refinery/Assembler)   Z: −22 (Hold & Projector)
-       [MAS DOOR GANGWAY AFT]      [METALLURGY & LIFE SUPPORT]   [3×3×3 COMPONENT HOLD]
-                 │                              │                          │
-       ══════════╧══════════════════════════════╧══════════════════════════╧═════════
+       Z: −10 (Twin Flank MT Turrets)    Z: −14 (Refinery/Assembler)   Z: −22 (Hold & Projector)
+       [MAS MT TURRET PORT / STBD]       [METALLURGY & LIFE SUPPORT]   [3×3×3 COMPONENT HOLD]
+                 │                                    │                          │
+       ══════════╧════════════════════════════════════╧══════════════════════════╧═════════
                     9.0 MWh SUB-FLOOR BATTERY VAULT & KEEL BALLAST (L1-L2)
 ```
 
@@ -2823,6 +2875,73 @@ Rear elevation looking Bow (+Z), Z = −26 (Stern Defense Turret & Firing Cleats
   - Idle Movement: `OFF` · Use Conveyor System: `ON`
 * Group: Assign to terminal group `MAS Turrets`.
 
+---
+
+### Step 10.44B · Elevated Stern Multitool Repair Turret & Outbound Resupply Staging Hopper (L5-L7)
+
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ [LOCATOR] Subsystem: Consist Tail Repair & Mule Peer Resupply  ·  Levels: L4, L5, L7  │
+│ [VIEWPORT] Grid Zone: Carriage 2 Stern Arch [X0, Z −23, L7]; Staging [X0, Z −20, L5] │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+#### Step 10.44B Parts Tray
+| Block Type | Qty | Palette Slot | Mass / PCU | Critical Placement & Facing |
+|---|---|---|---|---|
+| Large Laser Multitool Turret | 1 | Slot 3 (`#E07A5F`) | 4.5 t / 225 | `MAS MT Turret Stern` on elevated gantry arch at [X0, Z −23, L7] · Mod 3175774286 |
+| Small Cargo Container | 1 | Slot 5 (`#27AE60`) | 1.0 t / 10 | `MAS Hold Resupply Export` at [X0, Z −20, L5] directly beneath `MAS MP Conn` |
+| Conveyor Sorter | 1 | Slot 4 (`#16A085`) | 1.0 t / 25 | `MAS Sorter Resupply Export` at [X0, Z −20, L4] feeding upward into export hopper |
+| Heavy Armor Blocks / Slopes | 9 | Slot 0 (`#2C3E50`) | 1.0 t / 2 | Gantry arch framing rising from L5/L6 deck line to L7 apex at Z −23 |
+
+```
+Rear elevation looking Bow (+Z), Z = −23 (Elevated Stern MT Repair Turret & Arch)
+  L7   ═════════════════════[MAS MT TURRET STERN]═════════════════════  ◄── 360° Hemispherical
+       │                     (Laser Welder L7)                       │      Overhead Repair Arc
+  L6   ├─────────[GANTRY ARCH FRAME]───┬───[GANTRY ARCH FRAME]───────┤
+       │                               │                             │
+  L5   │   [MULE PAD CATWALK]    [MAS HOLD RESUPPLY EXPORT]  [CATWALK]│  ◄── Resupply Staging Hopper
+       │                               │                             │      (Direct Drain to Mule)
+  L4   ├───────────────────[MAS SORTER RESUPPLY EXPORT]───────────────┤
+       │                               │                             │
+  L3   │                 WORKSHOP CONVEYOR CENTRAL TRUNK             │
+```
+
+#### Placement Instructions
+1. Erect a 9-block Heavy Armor gantry arch rising from the Level L5-L6 flight deck margins up to a centerline apex at [X0, Z −23, Y = L7], spanning over the Mule pad approach.
+2. Plumb a vertical conveyor riser from the workshop conveyor trunk up the arch leg to [X0, Z −23, Y = L7].
+3. Mount Large Grid Laser Multitool Turret `MAS MT Turret Stern` on top of the arch at [X0, Z −23, Y = L7]. Verify unobstructed 360° hemispherical vantage looking down directly onto the MULE-01 cradle pad (L6), the stern Caterpillar dump bumper (L2), and the aft trailing ground approach.
+4. Install Conveyor Sorter `MAS Sorter Resupply Export` at [X0, Z −20, Y = L4] with flow arrow pointing upward into Level L5.
+5. Install Small Cargo Container `MAS Hold Resupply Export` at [X0, Z −20, Y = L5] directly between the export sorter and the top-deck `MAS MP Conn` junction.
+
+#### Terminal Configuration & Sliders
+* Group: `MAS Multitool Turrets` (`MAS MT Turret Bow`, `MAS MT Turret Port`, `MAS MT Turret Stbd`, `MAS MT Turret Stern`)
+* Group: `MAS Resupply` (`MAS Hold Resupply Export`, `MAS Sorter Resupply Export`, `MAS MP Conn`)
+* Multitool Turret: `MAS MT Turret Stern`
+  * Default Mode: `Welder` (Servicing docked Mule and trailing vehicles)
+  * Secondary Mode: `Grinder` (Aft salvage and obstacle clearance)
+  * Range: `50 m` · Target Friendly: `ON` · Target Neutrals: `ON` · Auto-Repair: `ON`
+* Sorter: `MAS Sorter Resupply Export`
+  * Default State: `OFF` · Drain All: `OFF`
+  * Whitelist filter automatically populated by `[MAS-U] PB Utility` upon resupply kit staging.
+* Event Controller: `MAS EC Resupply`
+  * Monitored Target: `MAS Hold Resupply Export`
+  * Condition: Inventory Fill > 0%
+  * Action Slot 1: Broadcast IGC `TMS.RESUPPLY.DISPATCH` · Light Staging Indicator
+  * Action Slot 2: Standby
+
+#### Standardized Mule Peer Resupply Sortie Protocol
+* Standardized Pallet Kits:
+  * `KIT_MOBILITY`: 200 Steel Plates, 100 Motors, 50 Large Tubes, 50 Small Tubes.
+  * `KIT_POWER`: 100 Steel Plates, 80 Construction Comps, 40 Computers, 50 Large Tubes.
+  * `KIT_MUNITIONS`: 60 NATO 25×184mm ammo boxes, 40 Interior Plates, 20 Construction Comps.
+  * `KIT_HULL_REPAIR`: 500 Steel Plates, 100 Interior Plates, 50 Construction Comps.
+* Resupply Execution Cycle:
+  1. Sister rig (`MAS-02`) broadcasts emergency distress call via `TMS.RESUPPLY.REQUEST;MAS-02;KIT_MOBILITY;<gps>`.
+  2. `[MAS] PB Excavator` / `[MAS-U] PB Utility` configures `MAS Sorter Resupply Export` whitelist with requested kit, turns Drain All = ON until export hopper contains the exact bill of materials, then powers sorter OFF.
+  3. MULE-01 touches down on `MAS MP Conn`; export hopper drains directly into Mule cargo hold in $< 10\text{ seconds}$ without mixing into main component stores.
+  4. MULE-01 departs immediately on autonomous delivery run to `MAS-02`, drops resupply pallet, and returns to consist.
+
+---
+
 #### Pre-Enclosure Inspection Gate 10.6A: Cradle Clamping Dynamics & Dual-Tier Sorter Routing
 * [ ] Verify `MAS MP Sorter` whitelist passes only rare ores (U, Pt, Au, Mg) to the Mule shuttle.
 * [ ] Verify `MAS Stern Sorter` whitelist passes bulk ores (Fe, Ni, Si, Stone) to the land train.
@@ -2835,10 +2954,12 @@ Rear elevation looking Bow (+Z), Z = −26 (Stern Defense Turret & Firing Cleats
 * [ ] Confirm `MAS Piston Stern Dock` extends 2.5 m and soft-couples with Caterpillar land train.
 * [ ] Verify `MAS Outrigger Utility Port/Stbd` achieve 100% bedrock lock and isolate chassis during Mule touchdown.
 * [ ] Verify `MAS Sorter Tailings Stern` discharges stone aggregate safely behind stern bumper.
+* [ ] Verify `MAS MT Turret Stern` on L7 arch achieves 360° hemispherical coverage over Mule pad and stern approach.
+* [ ] Verify `MAS Sorter Resupply Export` pre-stages requested resupply kit into `MAS Hold Resupply Export` and drains to Mule in $< 10\text{ s}$.
 
 ```
 PHASE 10-6 VISUAL MILESTONE · COMPLETE EXPEDITIONARY MINING TRAIN FOB
-                        [KESTREL PADS]         [MULE GANTRY PAD]
+                        [KESTREL PADS]         [MULE PAD & MT ARCH L7]
                               │                        │
                     [TRACTOR BRIDGE L4]       [UTILITY WORKSHOP L3]
                               │                        │
@@ -2913,6 +3034,8 @@ State Machine: Dynamic Fleet Authority & C2 Handover
 * `MAS DPU`: Axles 4 and 5 suspension wheels on Carriage 2 running distributed traction logic.
 * `MAS FOB`: Carriage 2 autonomous command blocks (`[MAS-U] PB Utility`, `MAS-U Remote FOB`, `MAS-U EC Breakaway`).
 * `MAS Tailings Ejectors`: 4× Ejectors on stern bumper (`MAS Ejector Tailings Stern 1..4`).
+* `MAS Multitool Turrets`: 4× Large Laser Multitool Turrets (`MAS MT Turret Bow`, `MAS MT Turret Port`, `MAS MT Turret Stbd`, `MAS MT Turret Stern`).
+* `MAS Resupply`: `MAS Hold Resupply Export`, `MAS Sorter Resupply Export`, `MAS MP Conn`.
 
 ### 3. Block Naming & Terminal Dictionary
 | Block Type | Exact Terminal Name | Subsystem Role & Functional Configuration |
@@ -2992,6 +3115,13 @@ State Machine: Dynamic Fleet Authority & C2 Handover
 | Sliding Door | `MAS Door Vault` | Power Core Vault maintenance entrance from Jefferies tube |
 | Sliding Door | `MAS Door Gangway Fwd` | Tractor Aft Bulkhead gangway isolation door |
 | Sliding Door | `MAS Door Gangway Aft` | Utility Forward Bulkhead gangway isolation door |
+| Laser Multitool Turret | `MAS MT Turret Bow` | Forward crown repair turret at [X0, Z +9, L5] · 360° bow & tire repair |
+| Laser Multitool Turret | `MAS MT Turret Port` | Forward port shoulder repair turret at [X −3, Z −10, L4] · Kestrel pad & hitch repair |
+| Laser Multitool Turret | `MAS MT Turret Stbd` | Forward stbd shoulder repair turret at [X +3, Z −10, L4] · Kestrel pad & hitch repair |
+| Laser Multitool Turret | `MAS MT Turret Stern` | Elevated gantry arch repair turret at [X0, Z −23, L7] · Mule pad & aft consist repair |
+| Small Cargo Container | `MAS Hold Resupply Export` | Outbound peer resupply staging hopper at [X0, Z −20, L5] directly under `MAS MP Conn` |
+| Conveyor Sorter | `MAS Sorter Resupply Export` | SML resupply kit staging sorter at [X0, Z −20, L4] |
+| Event Controller | `MAS EC Resupply` | Outbound resupply staging watchdog · Monitors `MAS Hold Resupply Export` |
 | Event Controller | `MAS EC Stabilizers` | Blocks boom arm deployment until outriggers report locked |
 | Event Controller | `MAS EC Level` | Auto-leveling bedrock jack sequence on sloped terrain |
 | Event Controller | `MAS EC Ladder` | Auto-deploys crew ladder on approach; retracts on drive |
@@ -3024,6 +3154,7 @@ State Machine: Dynamic Fleet Authority & C2 Handover
 | `MAS-U EC Breakaway`| Consist Handshake | Electrical / Merge Link = Lost | Deploy `MAS Utility Brake Keel` · Handbrake ON · SOS Beacon | Standby Isolation |
 | `MAS EC Holds` | Combined Ore Mass | Ore Mass $\ge 2,500\text{ t}$ | Sound Payload Horn · IGC `TMS.MULE.CALL` | Normal Extraction Mode |
 | `MAS EC MP` | `MAS MP Conn` | Status = Connected | `MAS MP Sorter` Drain ON · Cradle Clamp | Sorter OFF · Cradle Retract (0°) |
+| `MAS EC Resupply` | `MAS Hold Resupply Export` | Inventory Fill $> 0\%$ | Broadcast `TMS.RESUPPLY.DISPATCH` · Staging Lamp ON | Standby Isolation |
 | `MAS EC Train` | `MAS Stern Dump Conn` | Status = Connected | `MAS Stern Sorter` Drain ON | Sorter OFF |
 | `MAS EC Handover` | `GND-01` Heartbeat | Signal Detected | Run PB `RIG//OS-Lite` (Argument: `HANDOVER`) | Maintain Mothership Authority |
 | `MAS EC Power` | `MAS Reactor 1, 2` Uranium | Uranium Mass $< 1.0\text{ kg}$ | `MAS Engine H2` Turn ON · Sound Fuel Horn | `MAS Engine H2` Turn OFF |
@@ -3043,6 +3174,10 @@ State Machine: Dynamic Fleet Authority & C2 Handover
 * Consist Telemetry: `TMS.CONSIST.SYNC` (`SYNC;<source_id>;<hitch_torque>;<clamp_state>;<airlock_state>`).
 * Powertrain DPU: `TMS.CONSIST.TRACTION` (`DPU;<mode:PUSH|BRAKE|COAST>;<torque_pct>;<axle4_slip>;<axle5_slip>`).
 * Emergency Breakaway: `TMS.CONSIST.SEVER` (`SEVER;<source_id>;<reason>;<keel_skids_engaged>`).
+* Resupply Inbound: `TMS.RESUPPLY.REQUEST` (`REQUEST;<requester_id>;<kit_name>;<gps_coords>`).
+* Resupply Broadcast: `TMS.RESUPPLY.OFFER` (`OFFER;<provider_id>;<kit_name>;<eta_s>`).
+* Resupply Dispatch: `TMS.RESUPPLY.DISPATCH` (`DISPATCH;<provider_id>;<transporter_id:MULE-01>;<target_id>;<kit_name>`).
+* Resupply Confirmation: `TMS.RESUPPLY.COMPLETE` (`COMPLETE;<target_id>;<kit_name>;<status:DELIVERED>`).
 * Fleet Telemetry: `TMS.MAS.STATUS` (`<consist_id>;<ore_mass_t>;<payload_pct>;<gps_coords>;<fob_status>`).
 * Geological Inbound: `TMS.SCOUT.VEIN` (Receives target ore vein coordinates from Kestrel drones).
 * Subordinate Dispatch: `FLT.MAS.CMD` (`<target_id>;<command>;<waypoint_gps>`).
@@ -3158,6 +3293,15 @@ State Machine: Dynamic Fleet Authority & C2 Handover
 * [ ] **42 m Triangulated Seismic Prospecting Baseline:** Deploy all 6 outriggers (4 forward, 2 aft). Trigger `SEISMIC`. Confirm 42 m acoustic baseline achieves sub-meter centroid accuracy on deep ore scans down to 500 m† depth.
 * [ ] **Telescoping Soft-Capture Caterpillar Docking:** Back Caterpillar train to 2.0 m standoff behind stern bumper. Extend `MAS Piston Stern Dock`; confirm magnetic capture locks cleanly without vehicle impact. Retract piston and verify 2,500 t bulk ore dumps at high speed.
 * [ ] **Relocated Stern Roadbed Aggregate Trail:** Mine stone with buffer > 50%. Confirm `MAS Sorter Tailings Stern` and 4× ejectors vent stone aggregate safely behind the stern bumper ([X0, Z −26, L1]), laying a continuous compacted roadbed without gravel impacting wheels.
+
+### N · 4× Multitool Repair Turrets, SML Auto-Production & Peer Resupply Sortie Acceptance (Decision 68)
+* [ ] **360° Overlapping Repair Envelope:** Position damaged armor blocks at Bow (Z +11), Hitch (Z −8), and Stern Dump (Z −26). Verify `MAS MT Turret Bow`, `MAS MT Turret Port/Stbd`, and `MAS MT Turret Stern` achieve 100% spherical repair line-of-sight across every block of the consist, welding all damage to 100% without engineer EVA.
+* [ ] **Automated Flight Deck Drone Servicing:** Dock damaged Kestrel drone on Port pad (L5) and damaged Mule shuttle on top gantry pad (L6). Confirm `MAS MT Turret Port` and elevated `MAS MT Turret Stern` auto-target damaged thrusters, armor, and conveyor lines, restoring both craft to full operational readiness while engineers remain inside the pressurized bridge.
+* [ ] **SML Autonomous Quota Monitoring:** Withdraw 1,000 Steel Plates from `MAS Hold Components` (reducing stock below 75% of 1,500 plate quota). Confirm `[MAS-U] PB Utility` detects deficit and automatically queues 1,000 Steel Plates in `MAS Utility Assembler`.
+* [ ] **Closed-Loop Metallurgy to Component Path:** Mine Iron Ore with the 35 m boom. Verify ore refines into Iron Ingots in `MAS Field Refinery` (330 kW) and immediately flows into `MAS Utility Assembler` to fulfill the SML plate quota, replenishing `MAS Hold Components` with zero manual intervention.
+* [ ] **Resupply Kit Assembly & Staging:** Issue command `RESUPPLY KIT_MOBILITY`. Confirm `MAS Sorter Resupply Export` powers ON with Drain All = ON, pulling exactly 200 Steel Plates, 100 Motors, 50 Large Tubes, and 50 Small Tubes into `MAS Hold Resupply Export` ([X0, Z −20, L5]), then shuts OFF.
+* [ ] **High-Speed Mule Resupply Transfer:** Land MULE-01 on `MAS MP Conn`. Confirm `MAS Hold Resupply Export` empties completely into Mule cargo hold in $< 10\text{ seconds}$ flat without drawing from or sorting through the main 3×3×3 cargo hold.
+* [ ] **Inter-Rig Peer Assistance IGC Handshake:** Simulate emergency distress transmission `TMS.RESUPPLY.REQUEST;MAS-02;KIT_POWER;<gps>`. Confirm Mastodon C2 automatically stages `KIT_POWER`, broadcasts `TMS.RESUPPLY.OFFER`, summons MULE-01, and issues `TMS.RESUPPLY.DISPATCH` upon shuttle takeoff.
 
 
 

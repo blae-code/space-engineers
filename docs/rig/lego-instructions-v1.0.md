@@ -3,7 +3,7 @@
 ### Version 1.0 · Canon Engineering Specification · Earth 1 g Baseline
 
 Last updated: 2026-10-18
-Authority: Blae Decisions 1-67 (Canon) · `CLAUDE(RIG).md` · `Part 1 & 2 Handoff`
+Authority: Blae Decisions 1-68 (Canon) · `CLAUDE(RIG).md` · `Part 1 & 2 Handoff`
 
 ---
 
@@ -4931,7 +4931,7 @@ This volume details the heavy wheeled surface extraction machines that form the 
 
 ## Chapter 10 · MASTODON-01 Expeditionary Mining Train & Mobile FOB (MAS-01)
 
-Source: `docs/rig/chapters/mastodon-instructions.md` · 11 × 42 × 6 B · 2-Segment Consist, Custom Walk-In Bridge, 35 m Tri-Mode Laser Boom, Closed-Loop Salvage, ULSS Life Support, Swarm Comms & JIT Logistics
+Source: `docs/rig/chapters/mastodon-instructions.md` · 11 × 42 × 7 B · 2-Segment Consist, 4× Multitool Repair Turrets, SML Auto-Production & Mule Peer Resupply Sorties, 3-Axis Gimbal Hitch & DPU Traction, Standalone FOB Autonomy, Custom Walk-In Bridge, 35 m Tri-Mode Laser Boom, Closed-Loop Salvage Recycling, JIT Logistics & Swarm Comms, ULSS Life Support, Failsafe Decoys & Scuttle
 
 ### 0 · Reference Grid, In-Game Paint Palette & Master Consist Layout
 
@@ -5133,8 +5133,10 @@ Bow     │ 2-Seat Panoramic Cockpit  Nuclear Core                              
 | **Stern Stabilizers, Telescoping Dock & Dump** | 2× Large Outrigger Pistons + 2× Mag Feet (`MAS Outrigger Utility`), 1× Telescoping Dock Piston (`MAS Piston Stern Dock`), Stern Dump Connector & Sorter, Relocated Tailings Ejector | 7 | 14.5 t | 510 |
 | **Utility FOB Autonomy & Deadman Brake** | 1× PB (`[MAS-U] PB Utility`), 1× Remote Control (`MAS-U Remote FOB`), 1× Event Controller (`MAS-U EC Breakaway`), 2× Keel Mag Skids (`MAS Utility Brake Keel 1, 2`) | 5 | 4.0 t | 350 |
 | **Perimeter Defense Suite** | 2× Gatling Turrets, 2× Interior Turrets, Ammunition Conveyor Feeds (Palette 7) | 12 | 9.6 t | 308 |
+| **Multitool Repair Turrets** | 4× Large Laser Multitool Turrets (Bow L5, Port/Stbd L4 shoulders, Stern L7 arch · Mod 3175774286) | 4 | 18.0 t | 900 |
+| **Peer Resupply Export Staging** | 1× Small Cargo (`MAS Hold Resupply Export`), 1× Conveyor Sorter (`MAS Sorter Resupply Export`), 9× Gantry Arch Heavy Armor blocks (Palette 0/3) | 11 | 3.0 t | 37 |
 | **External EVA, Lights & Failsafes** | 2× Ground EVA Lockers, 3× Keel Lights, 1× Black Box SOS Beacon & Isolated Battery, 4× In-Situ Button Panels (Palette 9) | 11 | 2.5 t | 110 |
-| **TOTAL CONSIST (DRY)** | Complete Expeditionary Mining Locomotive & Mobile FOB | **1,095** | **≈ 1,124.0 t** | **8,538** |
+| **TOTAL CONSIST (DRY)** | Complete Expeditionary Mining Locomotive & Mobile FOB | **1,110** | **≈ 1,145.0 t** | **9,475** |
 
 ---
 
@@ -6529,9 +6531,9 @@ STATION 2: EXCAVATION MASTER (`MAS Station Boom`)
 · Slot 4: Cargo Container `MAS Tractor Buffer` -> Show on HUD ON/OFF
 · Slot 5: Cargo Container `MAS Hold Ore Cat` -> Show on HUD ON/OFF
 · Slot 6: Event Controller `MAS EC Ore Full` -> Trigger Alert
-· Slot 7: IGC Send: `TMS.MULE.CALL;MAS-01;HOLD_FULL`
-· Slot 8: IGC Send: `TMS.CAT.CALL;MAS-01;HOLD_FULL`
-· Slot 9: Group `MAS Drills Tool` -> Shoot ON/OFF (Backup Mechanical Drills)
+· Slot 7: PB `[MAS] PB Excavator` -> Run `MT_TURRETS TOGGLE` (Toggle 4× Multitool Repair Turrets Weld/Grind)
+· Slot 8: PB `[MAS-U] PB Utility` -> Run `AUTOPROD SML` (Verify/Force SML Quota Production)
+· Slot 9: Group `MAS Multitool Turrets` -> Toggle ON/OFF (Consist & Drone Field Repair)
 
 ================================================================================
 STATION 3: TACTICAL FLEET DIRECTOR (`MAS Station Fleet`)
@@ -6542,10 +6544,10 @@ STATION 3: TACTICAL FLEET DIRECTOR (`MAS Station Fleet`)
 · Slot 3: Connector `MAS MP Conn` -> Lock/Unlock (Mule Roof Pad Connector)
 · Slot 4: Group `MAS MP Clamps` -> Switch Lock (Mule Cradle Rub Rails)
 · Slot 5: Sorter `MAS MP Sorter` -> Drain All ON/OFF (Rare Ore Fast Drain)
-· Slot 6: Piston `MAS Piston Stern Dock` -> Reverse (Extend / Retract Telescoping Soft Dock)
-· Slot 7: Connector `MAS Stern Dump Conn` -> Lock/Unlock (Caterpillar Stern Rail)
-· Slot 8: Sorter `MAS Stern Sorter` -> Drain All ON/OFF (Bulk Hopper Dump)
-· Slot 9: Group `MAS Tailings Ejectors` -> Throw Out ON/OFF (Stern Roadbed Aggregate Dump)
+· Slot 6: Sorter `MAS Sorter Resupply Export` -> Drain All ON/OFF (Export Staging Drain)
+· Slot 7: Piston `MAS Piston Stern Dock` -> Reverse (Extend / Retract Telescoping Soft Dock)
+· Slot 8: Connector `MAS Stern Dump Conn` -> Lock/Unlock (Caterpillar Stern Rail)
+· Slot 9: PB `[MAS] PB Excavator` -> Run `RESUPPLY MULE` (Stage Resupply Kit & Dispatch Mule)
 
 [Hotbar 2 · Slave Links, Recon Tasking & Swarm Deconfliction]
 · Slot 1: Remote Control `MAS-02 Remote` -> Control (Subordinate Worker Excavator)
@@ -6761,16 +6763,17 @@ CREW BOARDING LADDER (Port Flank Profile)
 
 ---
 
-#### Step 10.28 · Bow CIWS Gatling Turret & Flank Anti-Personnel Sockets (L2, L5)
+#### Step 10.28 · Bow Multitool Repair Turret, CIWS Gatling Turret & Flank Sockets (L2, L5)
 
 ┌──────────────────────────────────────────────────────────────────────────────────────┐
-│ [LOCATOR] Subsystem: Locomotive Defensive CIWS  ·  Levels: L2 & L5                   │
-│ [VIEWPORT] Grid Zone: Bow Crown [X0, Z +7, L5]; Flank Skirts [X ±4, Z +2, L2]        │
+│ [LOCATOR] Subsystem: Locomotive Defense & Forward Repair  ·  Levels: L2 & L5        │
+│ [VIEWPORT] Grid Zone: Bow Crown [X0, Z +7 to +9, L5]; Flank Skirts [X ±4, Z +2, L2]  │
 └──────────────────────────────────────────────────────────────────────────────────────┘
 
 ##### Step 10.28 Parts Tray
 | Block Type | Qty | Palette Slot | Mass / PCU | Critical Placement & Facing |
 |---|---|---|---|---|
+| Large Laser Multitool Turret | 1 | Slot 3 (`#E07A5F`) | 4.5 t / 225 | `MAS MT Turret Bow` mounted on forward crown at [X0, Z +9, L5] · Mod 3175774286 |
 | Large Gatling Turret | 1 | Slot 7 (`#1B263B`) | 4.8 t / 125 | `MAS Turret Bow` mounted on dorsal crown at [X0, Z +7, L5] |
 | Interior Turret | 2 | Slot 7 (`#1B263B`) | 0.8 t / 50 | `MAS Turret Flank Port/Stbd` mounted flush on skirts at [X ±4, Z +2, L2] |
 
@@ -6778,9 +6781,11 @@ CREW BOARDING LADDER (Port Flank Profile)
 1. Mount Large Grid Gatling Turret `MAS Turret Bow` on the centerline dorsal crown of Carriage 1 at [X0, Z +7, Y = L5]. Plumb bottom port to tractor conveyor spine at L4.
 2. Mount 2 Interior Turrets flush on the lower armored skirts at [X −4, Z +2, Y = L2] (Port) and [X +4, Z +2, Y = L2] (Starboard).
 3. Connect ammo feed lines to the main conveyor trunk to draw NATO 25×184mm and 5.56mm ammo from internal storage.
+4. Mount Large Grid Laser Multitool Turret `MAS MT Turret Bow` on the forward crown directly ahead of the bridge glass at [X0, Z +9, Y = L5]. Plumb bottom port into the conveyor spine at L4. Set default mode to Welder for forward hull and tire self-repair.
 
 ##### Terminal Configuration & Sliders
 * Group: `MAS Turrets Defense` (`MAS Turret Bow`, `MAS Turret Flank Port`, `MAS Turret Flank Stbd`)
+* Group: `MAS Multitool Turrets` (`MAS MT Turret Bow`, `MAS MT Turret Port`, `MAS MT Turret Stbd`, `MAS MT Turret Stern`)
 * Event Controller: `MAS EC Combat`
   * Condition: Hull Damage Detected OR Hostile Lock Acquired
   * Action Slot 1: Elevate `RIG.OS.MODE CBT` -> Power ON Turrets -> Seal Compartment Doors
@@ -6794,13 +6799,14 @@ CREW BOARDING LADDER (Port Flank Profile)
 * [ ] Confirm `MAS Comm Laser` and `MAS Comm Radio` establish two-way IGC telemetry ping.
 * [ ] Verify `MAS Crew Ladder Hinge` automatically lowers when approached on foot and retracts upon handbrake release.
 * [ ] Verify `MAS Turret Bow` and `MAS Turret Flank Port/Stbd` receive NATO 25×184mm ammunition through conveyor spine.
+* [ ] Verify `MAS MT Turret Bow` receives components and auto-repairs forward armor and tires.
 
 ```
 PHASE 10-4 VISUAL MILESTONE · C2 BRIDGE & AVIONICS COMPLETE
-       Z: +7 (Crown CIWS)     Z: +10 (3-Seat Bridge)    Z: +12 (Glass Bow)
-       [MAS TURRET BOW]       [HELM / BOOM / FLEET]     [45° PANORAMIC CANOPY]
-             │                         │                        │
-       ══════╧═════════════════════════╧════════════════════════╧══════
+       Z: +7 (Crown CIWS)     Z: +9 (Bow Repair MT)     Z: +10 (3-Seat Bridge)    Z: +12 (Glass Bow)
+       [MAS TURRET BOW]       [MAS MT TURRET BOW]       [HELM / BOOM / FLEET]     [45° PANORAMIC CANOPY]
+             │                         │                         │                        │
+       ══════╧═════════════════════════╧═════════════════════════╧════════════════════════╧══════
                     C2 COMPUTE RACK & ORE DETECTOR IN SUB-DECK (L3)
 ```
 
@@ -7297,13 +7303,58 @@ Plan view, Y = L3 (Aft Component Hold, Genesis Projector & Autonomous FOB Core)
 * [ ] Confirm `MAS-U EC Breakaway` engages deadman brake and drops keel skids on signal loss.
 * [ ] Verify `MAS Sorter Ammo Fwd` draws ammunition to forward turrets without manual handling.
 * [ ] Verify `MAS Sorter Parts Aft` routes scrap metal directly into `MAS Field Refinery`.
+* [ ] Verify `MAS MT Turret Port` and `MAS MT Turret Stbd` auto-repair damaged blocks on the drawbar hitch and Kestrel landing pads.
+* [ ] Verify `[MAS-U] PB Utility` detects component deficit in `MAS Hold Components` and queues production deltas in `MAS Utility Assembler`.
+
+---
+
+#### Step 10.36B · Twin Flank Multitool Repair Turrets & SML Auto-Production Queuing (L4)
+
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ [LOCATOR] Subsystem: Consist Self-Repair & Drone Servicing  ·  Level: L4             │
+│ [VIEWPORT] Grid Zone: Forward Shoulders [X ±3, Z −10, L4]  ·  Plan view (▲ Bow +Z)   │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+##### Step 10.36B Parts Tray
+| Block Type | Qty | Palette Slot | Mass / PCU | Critical Placement & Facing |
+|---|---|---|---|---|
+| Large Laser Multitool Turret | 2 | Slot 3 (`#E07A5F`) | 9.0 t / 450 | `MAS MT Turret Port/Stbd` on forward shoulders at [X ±3, Z −10, L4] · Mod 3175774286 |
+| Conveyor Junction | 2 | Slot 4 (`#16A085`) | 1.8 t / 2 | Sub-deck risers at [X ±3, Z −10, L3] tying into workshop conveyor spine |
+
+```
+Plan view, Y = L4 (Carriage 2 Forward Shoulder Repair Turrets & SML Queuing Core)
+        X: −3           X: −1             0             X: +1           X: +3
+    Z:  −9 ┌───────────────┬───────────────────────────────┬───────────────┐
+           │ [PORT SHOULDER│ ════════ [BULKHEAD DOOR] ════ │ [STBD SHOULDER│
+    Z: −10 │ [MAS MT PORT] │ [AISLE WALKWAY]               │ [MAS MT STBD] │  ◄── Forward Flank Overlap
+           ├───────────────┼───────────────────────────────┼───────────────┤      (Covers Hitch & Kestrels)
+    Z: −11 │ [KESTREL PAD] │ [CONVEYOR RISER JUNCTION]     │ [KESTREL PAD] │  ◄── Drone Landing Deck (L5)
+           └───────────────┴───────────────────────────────┴───────────────┘
+```
+
+##### Placement Instructions
+1. Install 2 Conveyor Junctions at [X −3, Z −10, Y = L3] and [X +3, Z −10, Y = L3], tapping into the utility workshop conveyor trunk lines.
+2. Mount Large Grid Laser Multitool Turrets `MAS MT Turret Port` at [X −3, Z −10, Y = L4] and `MAS MT Turret Stbd` at [X +3, Z −10, Y = L4] flush on the reinforced shoulder sponsons of Carriage 2.
+3. Verify unobstructed 270° hemispherical lines of sight: turrets sweep forward across the 3-axis drawbar hitch (Z −8), inward across the tractor rear armor and power vault, and upward to service docked KESTREL-01 drones on their Level L5 landing pads at [X ±3, Z −11, L5].
+4. Plumb internal conveyor lines back to `MAS Hold Components` and `MAS Field Refinery` / `MAS Utility Assembler`.
+
+##### Terminal Configuration & Sliders
+* Group: `MAS Multitool Turrets` (`MAS MT Turret Bow`, `MAS MT Turret Port`, `MAS MT Turret Stbd`, `MAS MT Turret Stern`)
+* Multitool Turrets: `MAS MT Turret Port`, `MAS MT Turret Stbd`
+  * Default Mode: `Welder` (Field self-repair and drone maintenance)
+  * Secondary Mode: `Grinder` (Debris clearance and obstacle salvage)
+  * Range: `50 m` · Target Friendly: `ON` · Target Neutrals: `ON` · Auto-Repair: `ON`
+* SML Auto-Production Queuing (`[MAS-U] PB Utility`):
+  * Baseline SML Quotas: 1,500 Steel Plates, 500 Construction Comps, 200 Motors, 100 NATO 25×184mm ammo boxes, 100 Interior Plates, 50 Large Steel Tubes, 100 Small Steel Tubes, 50 Computers, 50 Displays, 20 Radio-comm Comps.
+  * Threshold Watchdog: Whenever inventory in `MAS Hold Components` drops below 75% of quota, `[MAS-U] PB Utility` queues production deltas in `MAS Utility Assembler`.
+  * Ingot Feed: `MAS Field Refinery` processes mined ore directly into iron/nickel/silicon ingots, sustaining closed-loop field manufacturing without supply runs.
 
 ```
 PHASE 10-5 VISUAL MILESTONE · EXPEDITIONARY WORKSHOP & FOB CORE COMPLETE
-       Z: −9 (Gangway Bulkhead)    Z: −14 (Refinery/Assembler)   Z: −22 (Hold & Projector)
-       [MAS DOOR GANGWAY AFT]      [METALLURGY & LIFE SUPPORT]   [3×3×3 COMPONENT HOLD]
-                 │                              │                          │
-       ══════════╧══════════════════════════════╧══════════════════════════╧═════════
+       Z: −10 (Twin Flank MT Turrets)    Z: −14 (Refinery/Assembler)   Z: −22 (Hold & Projector)
+       [MAS MT TURRET PORT / STBD]       [METALLURGY & LIFE SUPPORT]   [3×3×3 COMPONENT HOLD]
+                 │                                    │                          │
+       ══════════╧════════════════════════════════════╧══════════════════════════╧═════════
                     9.0 MWh SUB-FLOOR BATTERY VAULT & KEEL BALLAST (L1-L2)
 ```
 
@@ -7312,37 +7363,55 @@ PHASE 10-5 VISUAL MILESTONE · EXPEDITIONARY WORKSHOP & FOB CORE COMPLETE
 ### Phase 10-6 · Flight Decks & Logistics Offload Interfaces (Levels L5-L6)
 
 ```
-       [PHASE 10-6 SPATIAL LOCATOR HUD]
-       Envelope: 7 W × 18 L × 2 H B (17.5 × 45.0 × 5.0 m)
-       Coordinate Range: X −3 to +3, Z −26 to −8, Y = L5 to L6
+       [PHASE 10-6 MASTER SPATIAL LOCATOR HUD]
+       Envelope: 9 W × 18 L × 3 H B (22.5 × 45.0 × 7.5 m)
+       Coordinate Range: X −4 to +4, Z −26 to −8, Y = L5 to L6
        Deck Datums:
-       · Mule Gantry Cradle Pad: [X0, Z −22, Y = L6] (7×7 B Deck)
-       · Kestrel Scout Pad Port: [X −3, Z −12, Y = L5]
-       · Kestrel Scout Pad Starboard: [X +3, Z −12, Y = L5]
-       · Stern Dump Connector: [X0, Z −26, Y = L2] (Centerline height = 2.5 m)
+       · Twin Kestrel Scout Drone Landing Pads: [X ±3, Z −12, Y = L5]
+       · Recessed Drone Maintenance Welders: [X ±3, Z −12, Y = L4]
+       · 7×7 B Mule Gantry Blast Deck: [X0, Z −22, Y = L6]
+       · Mule Rub-Rail Clamping Arms: [X ±3, Z −22, Y = L6]
+       · Flush Solar Array: [X ±4, Z −24 to −20, Y = L6]
+       · Stern Bumper & Caterpillar Dump Connector: [X0, Z −26, Y = L2]
+       · Stern CIWS Defense Turret: [X0, Z −26, Y = L5]
 ```
 
-#### Pre-Step Parts Tray: Phase 10-6
-* 49× Heavy Armor Full Block (Palette 1: Hazard Amber · Mule Pad Deck)
-* 4× Solar Panel (Palette 0: Industrial Dark Gray · Flush Roof Array)
+#### Pre-Step Master Parts Tray: Phase 10-6
+* 49× Heavy Armor Full Block (Palette 1: Hazard Amber · Mule Blast Deck)
+* 4× Large Grid Solar Panel (`MAS Solar 1..4`, 1×4 B, Palette 0)
 * 18× Catwalk with Railing Block (Palette 9: High-Viz Safety Yellow)
-* 2× Motor Hinge + 2× Large Magnetic Plate (Palette 1 · Cradle Clamp Arms)
-* 1× Large Connector (`MAS MP Conn`, Palette 4)
-* 2× Small-Grid Connector (`MAS Kestrel Dock 1, 2`, Palette 8: Scout White)
-* 2× Large Grid Ship Welder (`MAS Welder Pad Kestrel 1, 2`, Palette 4: Processing Teal)
-* 4× Spotlight / Floodlight (`MAS Floodlight Tower 1..4`, Palette 7: Fleet Command Navy)
-* 1× Large Connector (`MAS Stern Dump Conn`, Palette 2: Rail Crimson)
+* 10× Grated Catwalk Block (Palette 9: High-Viz Safety Yellow)
+* 2× Motor Hinge + 2× Large Magnetic Plate (Palette 1: Cradle Clamping Arms)
+* 1× Large Connector (`MAS MP Conn`, Palette 4: Processing Teal)
 * 2× Large Conveyor Sorter (`MAS MP Sorter`, `MAS Stern Sorter`, Palette 4)
-* 12× Heavy Armor Slopes & Alignment Bumpers (Palette 2)
+* 2× Small-Grid Docking Connector (`MAS Kestrel Dock 1, 2`, Palette 8: Scout Flight White)
+* 2× Large Grid Ship Welder (`MAS Welder Pad Kestrel 1, 2`, Palette 4: Processing Teal)
+* 4× Large Grid Spotlight (`MAS Floodlight Tower 1..4`, Palette 7: Fleet Command Navy)
+* 1× Large Grid Piston (`MAS Piston Stern Dock`, Palette 2: Rail Crimson)
+* 1× Large Connector (`MAS Stern Dump Conn`, Palette 2: Rail Crimson)
+* 2× Large Grid Piston (`MAS Outrigger Utility Port/Stbd`, Palette 0)
+* 2× Large Magnetic Plate (`MAS Seismic Pad Rear Port/Stbd`, Palette 0)
+* 1× Large Conveyor Sorter + 4× Conveyor Ejector (`MAS Sorter Tailings Stern`, Palette 0)
 * 1× Large Gatling Turret (`MAS Turret Stern`, Palette 7: Fleet Command Navy)
 
 ---
 
-#### Step 10.13 · Roof Mule Receiving Gantry Cradle Pad (Z −25 to −19, L6)
+#### Step 10.37 · Roof Mule Receiving Gantry Cradle Pad (L6)
 
-Install the standardized 7 × 7 B Heavy Armor blast deck on the utility carriage roof. Equipped with twin motorized hinge arms and magnetic plates matching Decision 45:
-* Inbound MULE-01 touches down; cradle arms swing 30° inward, clamping the Mule's chassis rub rails.
-* Center belly connector (`MAS MP Conn`) locks. Sorter `MAS MP Sorter` (Drain All = ON) drains rare ores (U, Pt, Au, Mg) into the Mule's hold for immediate air transport to base.
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ [LOCATOR] Subsystem: Mule Receiving Gantry Cradle & Sorter  ·  Level: L6             │
+│ [VIEWPORT] Grid Zone: [X −3 to +3, Z −25 to −19]  ·  Plan view Y = L6 (▲ Bow +Z)       │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+##### Step 10.37 Parts Tray
+| Block Type | Qty | Palette Slot | Mass / PCU | Critical Placement & Facing |
+|---|---|---|---|---|
+| Heavy Armor Full Block | 49 | Slot 1 (`#E67E22`) | 41.6 t / 49 | 7×7 B blast deck spanning X −3 to +3, Z −25 to −19 at Level L6 |
+| Large Connector | 1 | Slot 4 (`#16A085`) | 4.1 t / 25 | `MAS MP Conn` flush with deck at [X0, Z −22, L6] facing zenith (+Y) |
+| Large Conveyor Sorter | 1 | Slot 4 (`#16A085`) | 4.9 t / 25 | `MAS MP Sorter` at [X0, Z −22, L5] pointing upward (+Y) into connector |
+| Motor Hinge | 2 | Slot 1 (`#E67E22`) | 4.2 t / 200 | `MAS MP Clamp Hinge Port/Stbd` at [X ±3, Z −22, L6] base facing inward |
+| Magnetic Plate (Large) | 2 | Slot 1 (`#E67E22`) | 5.8 t / 50 | `MAS MP Clamp Plate Port/Stbd` mounted on hinge heads |
+| Event Controller | 1 | Slot 7 (`#1B263B`) | 0.2 t / 25 | `MAS EC MP` at [X0, Z −21, L5] managing clamping sequence |
 
 ```
 2.5D Isometric Callout · Mule Gantry Cradle on Utility Roof (L6)
@@ -7371,13 +7440,43 @@ Plan view, Y = L6 (7×7 B Mule Gantry Blast Deck)
     Z: −25 ■════════════╧═══════════■
 ```
 
+##### Placement Instructions
+1. Lay a 7×7 block square of Heavy Armor Full Blocks painted Palette Slot 1 (Hazard Amber) from X = −3 to +3 and Z = −25 to −19 at Level L6, forming the heavy landing deck.
+2. Cut the center block at [X0, Z −22, Y = L6] and install Large Connector `MAS MP Conn` flush with the deck surface facing upward (+Y).
+3. Directly beneath the connector at Level L5, plumb Large Conveyor Sorter `MAS MP Sorter` pointing upward (+Y) into the connector. Configure whitelist for rare ores (Uranium, Platinum, Gold, Magnesium).
+4. Mount Motor Hinges `MAS MP Clamp Hinge Port` at [X −3, Z −22, Y = L6] and `MAS MP Clamp Hinge Stbd` at [X +3, Z −22, Y = L6] with bases anchored to the exterior gantry coaming and hinge heads swinging inward toward X0.
+5. Weld Large Magnetic Plates `MAS MP Clamp Plate Port/Stbd` onto the hinge heads.
+6. Mount Event Controller `MAS EC MP` in the sub-deck cavity at [X0, Z −21, Y = L5].
+
+##### Terminal Configuration & Sliders
+* Connector: `MAS MP Conn` (Auto-Connect: `OFF` · Collect All: `OFF` · Strength: `0.015`)
+* Conveyor Sorter: `MAS MP Sorter` (Mode: `Whitelist` · Items: `Uranium`, `Platinum`, `Gold`, `Magnesium` · Drain All: `ON`)
+* Hinges: `MAS MP Clamp Hinge Port/Stbd`
+  - Lower Limit: `0.0° (Stowed Flush)` · Upper Limit: `30.0° (Clamped Inward)`
+  - Torque: `10 MN·m` · Braking Torque: `20 MN·m` · Velocity: `1.5 rpm`
+* Magnetic Plates: `MAS MP Clamp Plate Port/Stbd` (Auto-Lock: `ON` · Lock Strength: `100%`)
+* Event Controller: `MAS EC MP`
+  - Monitored Target: `MAS MP Conn`
+  - Condition: Status = `Connected`
+  - Slot 1 (Touchdown): Hinges reverse to 30.0° inward -> Clamp plates lock Mule rub rails -> `MAS MP Sorter` Drain All ON
+  - Slot 2 (Disconnect): Hinges return to 0.0° flush -> `MAS MP Sorter` Drain All OFF
+
+✓ Check: Inbound Mule touches down; cradle arms swing 30° inward and lock rub rails without chassis deformation; rare ores drain at $> 150\text{ t/min}$ into Mule cargo bins.
+
 ---
 
-#### Step 10.13B · Flush Solar Array for Autonomous Watchkeeping (Carriage 2 Roof L6)
+#### Step 10.38 · Roof Flush Solar Array for Autonomous Watchkeeping (L6)
 
-Mount 4 Large Grid Solar Panels (`MAS Solar 1..4`, 1×4 B) flush with the Heavy Armor roof deck at Level L6, flanking the Mule Gantry Cradle Pad:
-* **Positioning:** 2 Port panels at X = −4 (Z −24 to −20) and 2 Starboard panels at X = +4 (Z −24 to −20), keeping a 1-block clear buffer from the 7×7 B Mule landing footprint to avoid thruster plume erosion.
-* **Output & Role:** Delivers `≈ 640 kW` peak daylight power† (160 kW per panel† under optimal solar alignment). Provides continuous zero-fuel watchkeeping power, maintaining life support, event controllers, communications, and float-charging the 18.0 MWh battery reserve without consuming nuclear fuel or hydrogen.
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ [LOCATOR] Subsystem: Flush Solar Array & Standby Power  ·  Level: L6                 │
+│ [VIEWPORT] Grid Zone: [X ±4, Z −24 to −20]  ·  Plan view Y = L6 (▲ Bow +Z)            │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+##### Step 10.38 Parts Tray
+| Block Type | Qty | Palette Slot | Mass / PCU | Critical Placement & Facing |
+|---|---|---|---|---|
+| Solar Panel (Large Grid) | 4 | Slot 0 (`#2B303A`) | 20.4 t / 32 | `MAS Solar 1..4` (1×4 B) flush with roof at X ±4 from Z −24 to −20 |
+| Heavy Armor Slope | 8 | Slot 0 (`#2B303A`) | 6.8 t / 8 | Recessed border coaming providing 1-block thruster buffer |
 
 ```
 Plan view, Y = L6 (Mule Blast Deck Flanked by Flush Solar Array)
@@ -7389,85 +7488,233 @@ Plan view, Y = L6 (Mule Blast Deck Flanked by Flush Solar Array)
     Z: −25 └────┘ ■════════════╧═══════════■ └────┘
 ```
 
----
+##### Placement Instructions
+1. Lay 2× Large Grid Solar Panels (`MAS Solar 1, 2`) along the Port roof wing at X = −4 spanning Z = −24 to −20, recessed flush with the Level L6 deck surface.
+2. Lay 2× Large Grid Solar Panels (`MAS Solar 3, 4`) along the Starboard roof wing at X = +4 spanning Z = −24 to −20, recessed flush with the Level L6 deck surface.
+3. Maintain a continuous 1-block clear buffer (Heavy Armor Slopes) between the solar array and the 7×7 B Mule landing footprint, preventing thermal erosion from shuttle hydrogen thruster exhaust during approach and liftoff.
+4. Route power conduits down into the Level L2 battery vault bus.
 
-#### Step 10.13C · Level L6 Flight Deck Maintenance Catwalk Network
+##### Terminal Configuration & Sliders
+* Solar Panels: `MAS Solar 1..4`
+  - Peak Power Output: `≈ 160 kW each† (640 kW array peak†)`
+  - Operating Role: Continuous zero-fuel watchkeeping power
+  - Power Balancing: Maintains life support, Event Controllers, antenna beacons, and float-charges the 18.0 MWh battery bank during prolonged daytime quarrying without consuming nuclear uranium or hydrogen fuel.
 
-To ensure safe human traversal and field maintenance across the upper flight surfaces:
-* **Perimeter Safety Catwalk:** Surround the 7×7 B Mule Gantry Pad with industrial grated catwalks fitted with yellow safety handrails (Palette Slot 9). Provides an unhindered observation walkway for deck marshals directing landing MULE-01 shuttles.
-* **Scout Service Bridges:** Extend forward catwalk branches to twin Kestrel landing pads (Port/Starboard), allowing flight technicians to physically inspect scout drone hulls, retrieve manual geological core samples, and verify connector seals.
-* **Solar Inspection Gangways:** Run narrow service catwalks along Port (X −4) and Starboard (X +4) flanks, giving crew members direct walk-up access to inspect, wash dust from, or repair `MAS Solar 1..4` without treading upon the Mule heavy blast deck.
-
----
-
-#### Step 10.14 · Twin Kestrel Prospector Scout Drone Landing Pads (Z −13 to −11, L5)
-
-Recess two small landing pads forward of the Mule pad on the utility roof:
-* `MAS Kestrel Dock 1` (Port, X −3) & `MAS Kestrel Dock 2` (Starboard, X +3).
-* Small-grid connectors flush with deck for recharging and downloading geological vein scans.
-* Painted Palette Slot 8 (Scout Flight White) with perimeter inset yellow lighting.
+✓ Check: Solar array generates daylight float-charge; clear buffer prevents Mule thruster burn; batteries maintain 100% state of charge during engine-off watchkeeping.
 
 ---
 
-#### Step 10.14B · Flight Deck Recessed Drone Maintenance Welders (Carriage 2 L5)
+#### Step 10.39 · Level L6 Flight Deck Maintenance Catwalk Network (L6)
 
-To maintain drone fleet operational readiness during extended deep-wilderness prospecting campaigns:
-* **Recessed Welder Arrays:** Mount 2× Large Grid Ship Welders (`MAS Welder Pad Kestrel 1` at [X −3, Z −12, Y = L4] and `MAS Welder Pad Kestrel 2` at [X +3, Z −12, Y = L4]) positioned directly flush beneath the small-grid docking collars of the twin Kestrel landing pads.
-* **Plumbed Logistics:** Connected directly to the utility workshop conveyor trunk, drawing steel plates, construction components, small tubes, and computer chips from `MAS Hold Components` and `MAS Utility Assembler`.
-* **Automated Repair Cycle:** Event Controller `MAS EC Drone Repair` detects when a Kestrel dock reports `Connected = TRUE`. It pulses the respective pad welder for 5.0 seconds, automatically repairing atmospheric thruster burnout, micro-meteoroid hull pits, and antenna damage sustained during prospecting sorties before returning to standby.
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ [LOCATOR] Subsystem: Flight Deck Walkways & Safety Handrails  ·  Level: L6           │
+│ [VIEWPORT] Grid Zone: [X −4 to +4, Z −26 to −10]  ·  Plan view Y = L6 (▲ Bow +Z)      │
+└──────────────────────────────────────────────────────────────────────────────────────┘
 
----
-
-#### Step 10.14C · Worksite 360° Floodlight Matrix (Tractor Bridge Crown & Dorsal Comms Mast L5-L6)
-
-To illuminate hazardous night operations, quarry excavation faces, and fleet flight decks:
-* **Tower Floodlight Array:** Mount 4× Spotlights (`MAS Floodlight Tower 1..4`, Palette 7: Fleet Command Navy) in a high-elevation 360° cardinal ring on the Tractor dorsal bridge crown and comms mast at Level L5-L6 facing Bow (+Z), Stern (−Z), Port (−X), and Starboard (+X).
-* **Illumination Coverage:** Throws high-intensity illumination across a 100 m radius, blanketing the excavation pit, the Mule receiving cradle, and both Kestrel pads.
-* **Integrated Control:** Bound to group `MAS Lights` alongside the boom spotlights (`MAS Light Boom 1, 2`) and underbelly maintenance lamps (`MAS Lights Underbelly`), allowing single-hotkey toggling from Station 1 Helm.
-
----
-
-#### Step 10.15 · Stern Bumper & Caterpillar Land Train High-Speed Dump Port (Z = −26, L2)
-
-Install the rear collision push-bumper and large connector (`MAS Stern Dump Conn`) at Level L2:
-* Mates directly with the bow connector of the CATERPILLAR-01 tractor locomotive.
-* Flanked by dual Heavy Armor angled guide wedges (Palette 2: Heavy Rail Crimson) to funnel the incoming locomotive into positive alignment.
-* Sorter `MAS Stern Sorter` drains bulk ores (Fe, Ni, Si, Stone) at ultra-high transfer rates (< 90 seconds for 2,500 t bulk payload).
+##### Step 10.39 Parts Tray
+| Block Type | Qty | Palette Slot | Mass / PCU | Critical Placement & Facing |
+|---|---|---|---|---|
+| Catwalk with Railing Block | 18 | Slot 9 (`#F1C40F`) | 5.4 t / 18 | Perimeter railing walkways surrounding Mule deck and Kestrel paths |
+| Grated Catwalk Block | 10 | Slot 9 (`#F1C40F`) | 3.0 t / 10 | Walkway intersections, flight ladderwell landing, and solar access paths |
+| Interior Light | 4 | Slot 9 (`#F1C40F`) | 0.2 t / 16 | `MAS Light Catwalk 1..4` mounted along railing stanchions |
 
 ```
-Rear Elevation Cross-Section, Y = L2 (Stern Caterpillar Dump Interface)
+Plan view, Y = L6 (Flight Deck Walkway Network & Perimeter Railings)
+        X: −4          X: −3           0           X: +3          X: +4
+    Z: −10 ┌───────────────┬───────────────────────┬───────────────┬────────┐
+           │               │ [FLIGHT LADDER EXIT]  │ [CATWALK P]   │        │  ◄── From Workshop L3
+    Z: −12 ├───────────────┼───────────────────────┼───────────────┤        │
+           │ [KESTREL P]   │ [FORWARD ACCESS DECK] │ [KESTREL S]   │        │  ◄── Service Bridges
+    Z: −19 ├───────────────┼───────────────────────┼───────────────┼────────┤
+           │ [SOLAR WALK P]│ ═════════════════════ │ [SOLAR WALK S]│        │  ◄── Flank Inspection
+    Z: −22 │ [MAS SOLAR 1] │  7×7 MULE BLAST DECK  │ [MAS SOLAR 3] │        │      Gangways
+    Z: −25 ├───────────────┼───────────────────────┼───────────────┼────────┤
+    Z: −26 └───────────────┴───[AFT CIWS STERN]────┴───────────────┴────────┘  ◄── Stern Walkway
+```
+
+##### Placement Instructions
+1. Install Grated Catwalk Blocks at the exit threshold of the vertical flight ladderwell at [X +2, Z −10, Y = L6].
+2. Lay forward Catwalk with Railing Blocks extending from the ladderwell exit to the Port and Starboard Kestrel landing pads, establishing safe crew inspection paths to docked scout drones.
+3. Install perimeter Catwalk with Railing Blocks surrounding the exterior border of the 7×7 B Mule blast deck along X = ±4 and Z = −26. Ensure high-visibility yellow railings face outward to prevent crew from falling off the vehicle roof (15.0 m above terrain).
+4. Run narrow solar inspection catwalks along X = −4 and X = +4, giving engineers direct walk-up access to inspect and repair `MAS Solar 1..4` without treading on the active Mule pad.
+5. Mount 4× Interior Lights (`MAS Light Catwalk 1..4`) along the railing stanchions.
+
+##### Terminal Configuration & Sliders
+* Lights: `MAS Light Catwalk 1..4` (Color: High-Viz Amber `#F1C40F` · Radius: `4.0 m` · Falloff: `1.5`)
+* Group: Assign all catwalk lights to `MAS Lights`.
+
+✓ Check: Crew on foot traverses entire upper flight deck from ladderwell to scout pads, solar panels, and stern CIWS with zero fall hazard.
+
+---
+
+#### Step 10.40 · Twin Kestrel Prospector Scout Drone Landing Pads (L5)
+
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ [LOCATOR] Subsystem: Kestrel Scout Drone Receiving Pads  ·  Level: L5                │
+│ [VIEWPORT] Grid Zone: [X ±3, Z −13 to −11]  ·  Plan view Y = L5 (▲ Bow +Z)           │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+##### Step 10.40 Parts Tray
+| Block Type | Qty | Palette Slot | Mass / PCU | Critical Placement & Facing |
+|---|---|---|---|---|
+| Connector (Small Grid via collar) | 2 | Slot 8 (`#FFFFFF`) | 0.8 t / 22 | `MAS Kestrel Dock 1` at [X −3, Z −12, L5]; `MAS Kestrel Dock 2` at [X +3, Z −12, L5] |
+| Heavy Armor Slope | 12 | Slot 8 (`#FFFFFF`) | 10.2 t / 12 | Beveled alignment troughs funneling scout drone landing skids |
+| Interior Light | 4 | Slot 8 (`#FFFFFF`) | 0.2 t / 16 | `MAS Light Pad Kestrel 1..4` inset into pad margins |
+
+```
+Plan view, Y = L5 (Twin Recessed Kestrel Scout Landing Pads)
+        X: −3 (Port Scout Dock)                         X: +3 (Starboard Scout Dock)
+    Z: −11 ┌───────────────────────────┐           ┌───────────────────────────┐
+           │ [SLOPE]   [SLOPE] [SLOPE] │           │ [SLOPE]   [SLOPE] [SLOPE] │
+    Z: −12 │ [LIGHT] [KESTREL DOCK 1]  │ ◄─ AISLE ─► [LIGHT] [KESTREL DOCK 2]  │
+           │ (Recessed Flush Connector)│           │ (Recessed Flush Connector)│
+    Z: −13 │ [SLOPE]   [SLOPE] [SLOPE] │           │ [SLOPE]   [SLOPE] [SLOPE] │
+           └───────────────────────────┘           └───────────────────────────┘
+```
+
+##### Placement Instructions
+1. Frame two recessed 3×3 block landing bays forward of the Mule gantry at Level L5: Port bay centered at [X −3, Z −12] and Starboard bay centered at [X +3, Z −12].
+2. Install small-grid docking collars `MAS Kestrel Dock 1` and `MAS Kestrel Dock 2` flush with the deck floor facing zenith (+Y), plumbed directly to the utility conveyor spine.
+3. Install Heavy Armor Slopes painted Palette Slot 8 (Scout Flight White) around pad perimeters, creating 45° beveled guide ramps that guide descending Kestrel drones into positive connector alignment.
+4. Inset 2× perimeter indicator lights per pad (`MAS Light Pad Kestrel 1..4`).
+
+##### Terminal Configuration & Sliders
+* Connectors: `MAS Kestrel Dock 1`, `MAS Kestrel Dock 2`
+  - Auto-Connect: `OFF` · Collect All: `OFF` · Strength: `0.020`
+* Lights: `MAS Light Pad Kestrel 1..4` (Color: Scout Aviation Cyan `#00E5FF` · Radius: `3.0 m`)
+* Data Bus: Docking triggers immediate IGC data download of geological survey scans (`TMS.SCOUT.VEIN`) to Station 3 Tactical Video Wall.
+
+✓ Check: Kestrel scout drone lands smoothly in recessed bay; beveled slopes funnel skids into dock; connector locks and downloads geological scan telemetry.
+
+---
+
+#### Step 10.41 · Flight Deck Recessed Drone Maintenance Welders (L4-L5)
+
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ [LOCATOR] Subsystem: Automated Flight Deck Drone Repair Welders  ·  Level: L4-L5     │
+│ [VIEWPORT] Grid Zone: [X ±3, Z −12]  ·  Profile view facing Port (▲ Zenith +Y)        │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+##### Step 10.41 Parts Tray
+| Block Type | Qty | Palette Slot | Mass / PCU | Critical Placement & Facing |
+|---|---|---|---|---|
+| Ship Welder (Large Grid) | 2 | Slot 4 (`#16A085`) | 7.8 t / 300 | `MAS Welder Pad Kestrel 1` at [X −3, Z −12, L4]; `MAS Welder Pad Kestrel 2` at [X +3, Z −12, L4] |
+| Large Conveyor Pipe | 2 | Slot 4 (`#16A085`) | 0.6 t / 2 | Vertical risers connecting welders to workshop conveyor spine |
+| Event Controller | 1 | Slot 7 (`#1B263B`) | 0.2 t / 25 | `MAS EC Drone Repair` at [X0, Z −13, L4] managing automated pulse cycle |
+
+```
+Profile elevation cross-section, X = −3 (Port Kestrel Pad Welder Riser)
+  L5   [RECESSED DECK] ── [MAS KESTREL DOCK 1] ── [RECESSED DECK]
+             │                    │                      │
+  L4   ══════╪════════════════════╪══════════════════════╪══════
+             │           [MAS WELDER PAD KESTREL 1]      │
+             │           (Faces Upward toward Drone Hull)│
+             │                    │                      │
+  L3   ──────┴──────────────[CONVEYOR RISER]─────────────┴──────
+       WORKSHOP CEILING (Plumbed to MAS Hold Components & Assembler)
+```
+
+##### Placement Instructions
+1. Position Large Grid Ship Welder `MAS Welder Pad Kestrel 1` directly beneath the Port Kestrel landing dock at [X −3, Z −12, Y = L4] with welding head facing upward (+Y).
+2. Position Large Grid Ship Welder `MAS Welder Pad Kestrel 2` directly beneath the Starboard Kestrel landing dock at [X +3, Z −12, Y = L4] with welding head facing upward (+Y).
+3. Connect bottom conveyor ports of both welders directly into the Level L3 workshop conveyor trunk, drawing steel plates, construction components, small tubes, and computer chips from `MAS Hold Components` and `MAS Utility Assembler`.
+4. Mount Event Controller `MAS EC Drone Repair` in the sub-deck wireway at [X0, Z −13, Y = L4].
+
+##### Terminal Configuration & Sliders
+* Welders: `MAS Welder Pad Kestrel 1`, `MAS Welder Pad Kestrel 2`
+  - Help Others: `ON`
+  - Power: `OFF` (Pulsed on-demand by automation)
+* Event Controller: `MAS EC Drone Repair`
+  - Monitored Target: `MAS Kestrel Dock 1, 2`
+  - Condition: Status = `Connected`
+  - Slot 1 (Touchdown): Pulse pad welders for 5.0 seconds -> Auto-repairs thruster burnout, hull pits, and antenna damage sustained during prospecting sorties -> Power OFF
+  - Slot 2: Welders OFF on disconnect
+
+✓ Check: Damaged Kestrel scout docks; welders pulse for 5.0 s; hull repairs to 100% using parts from component hold; welders return to standby.
+
+---
+
+#### Step 10.42 · Worksite 360° Floodlight Matrix & Dorsal Comms Mast (L5-L6)
+
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ [LOCATOR] Subsystem: Worksite Perimeter Illumination & Comms Mast  ·  Level: L5-L6   │
+│ [VIEWPORT] Grid Zone: [X −2 to +2, Z +7 to −26]  ·  Plan view Y = L5-L6 (▲ Bow +Z)    │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+##### Step 10.42 Parts Tray
+| Block Type | Qty | Palette Slot | Mass / PCU | Critical Placement & Facing |
+|---|---|---|---|---|
+| Spotlight (Large Grid) | 4 | Slot 7 (`#1B263B`) | 2.0 t / 32 | `MAS Floodlight Tower 1..4` in cardinal ring on bridge crown & gantry (Bow, Stern, Port, Stbd) |
+| Interior Light | 4 | Slot 0 (`#2B303A`) | 0.2 t / 16 | `MAS Lights Underbelly` at [X ±2, Z0 and Z −18, L1] for chassis inspection |
+
+```
+Plan view, Y = L5-L6 (Worksite 360° Cardinal Floodlight Ring)
+                                [BOW FLOODLIGHT (+Z)]
+                               (MAS Floodlight Tower 1)
+                                         ▲
+                                         │
+        [PORT FLOODLIGHT (−X)] ◄── [MASTODON C2] ──► [STBD FLOODLIGHT (+X)]
+       (MAS Floodlight Tower 3)    (Crown L5-L6)     (MAS Floodlight Tower 4)
+                                         │
+                                         ▼
+                               [STERN FLOODLIGHT (−Z)]
+                               (MAS Floodlight Tower 2)
+```
+
+##### Placement Instructions
+1. Mount 4× Large Grid Spotlights (`MAS Floodlight Tower 1..4`) in an elevated 360° cardinal ring on the Tractor dorsal bridge crown and comms mast at Level L5-L6:
+   - `MAS Floodlight Tower 1`: Facing Bow (+Z) illuminating front excavation zone.
+   - `MAS Floodlight Tower 2`: Facing Stern (−Z) illuminating rear Caterpillar dump and Mule pad.
+   - `MAS Floodlight Tower 3`: Facing Port (−X) illuminating left flank and boarding ladder.
+   - `MAS Floodlight Tower 4`: Facing Starboard (+X) illuminating right quarry face.
+2. Install 4× Interior Lights (`MAS Lights Underbelly`) along the underbelly chassis keel at [X ±2, Z 0, Y = L1] and [X ±2, Z −18, Y = L1] facing downward.
+3. Bind all worksite and chassis lights into terminal group `MAS Lights`.
+
+##### Terminal Configuration & Sliders
+* Spotlights: `MAS Floodlight Tower 1..4`
+  - Color: Pure White (`#FFFFFF`) · Intensity: `3.5` · Radius: `100 m` · Falloff: `1.2`
+* Keel Lights: `MAS Lights Underbelly`
+  - Color: Industrial Amber (`#F1C40F`) · Radius: `6.0 m` · Falloff: `1.5`
+* Control Binding: Station 1 Helm Hotbar 3 Slot 8 toggles group `MAS Lights`.
+
+✓ Check: Group `MAS Lights` illuminates 100 m perimeter around vehicle; excavation face, flight decks, and underbelly inspection alleys are fully visible in pitch black.
+
+---
+
+#### Step 10.43 · Stern Push-Bumper, Telescoping Soft-Capture Port & Stern Outriggers (L1-L2)
+
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ [LOCATOR] Subsystem: Stern Rail Dump Interface & Bedrock Outriggers  ·  Level: L1-L2 │
+│ [VIEWPORT] Grid Zone: [X −3 to +3, Z −27 to −25]  ·  Plan view Y = L2 (▲ Bow +Z)     │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+##### Step 10.43 Parts Tray
+| Block Type | Qty | Palette Slot | Mass / PCU | Critical Placement & Facing |
+|---|---|---|---|---|
+| Piston (Large Grid) | 1 | Slot 2 (`#8B0000`) | 12.5 t / 25 | `MAS Piston Stern Dock` at [X0, Z −25, L2] horizontal extending aft (−Z) |
+| Large Connector | 1 | Slot 2 (`#8B0000`) | 4.1 t / 25 | `MAS Stern Dump Conn` mounted on piston head at [X0, Z −26, L2] |
+| Large Conveyor Sorter | 1 | Slot 4 (`#16A085`) | 4.9 t / 25 | `MAS Stern Sorter` at [X0, Z −24, L2] pointing aft (−Z) into piston base |
+| Heavy Armor Slope | 8 | Slot 2 (`#8B0000`) | 6.8 t / 8 | Angled collision guide wedges flanking the dump connector at X ±3 |
+| Piston (Large Grid) | 2 | Slot 0 (`#2B303A`) | 25.0 t / 50 | `MAS Outrigger Utility Port/Stbd` vertically at [X ±3, Z −25, L2] extending down |
+| Magnetic Plate (Large) | 2 | Slot 0 (`#2B303A`) | 5.8 t / 50 | `MAS Seismic Pad Rear Port/Stbd` on piston heads facing ground (L1) |
+| Conveyor Sorter | 1 | Slot 0 (`#2B303A`) | 4.9 t / 25 | `MAS Sorter Tailings Stern` at [X0, Z −26, L1] pointing aft (−Z) |
+| Conveyor Ejector | 4 | Slot 0 (`#2B303A`) | 2.4 t / 40 | `MAS Ejector Tailings Stern 1..4` angled 45° downward/aft behind rear tires |
+
+```
+Rear elevation cross-section, Y = L2 (Stern Caterpillar Dump & Outrigger Interface)
     Port [-X]                                                          Starboard [+X]
-    X: -3            X: -1            X0              X: +1            X: +3
+    X: −3            X: −1            X0              X: +1            X: +3
     [GUIDE WEDGE] ── [PUSH BLOCK] ─ [STERN CONN] ─ [PUSH BLOCK] ── [GUIDE WEDGE]
-    │ Heavy Slope    │ Solid Block  │ MAS Stern     │ Solid Block  │ Heavy Slope
-    │ Crimson        │ Crimson      │ Dump Conn     │ Crimson      │ Crimson
-    └────────────────┴──────────────┴───────────────┴──────────────┴─────────────┘
+    │ Heavy Slope    │ Solid Block  │ (Telescoping  │ Solid Block  │ Heavy Slope
+    │ Crimson        │ Crimson      │ Piston Head)  │ Crimson      │ Crimson
+    └──────┬─────────┴──────────────┴───────┬───────┴──────────────┴───────┬─────┘
+           │                                │                              │
+    [OUTRIGGER PORT]               [TAILINGS EJECTORS]             [OUTRIGGER STBD]
+    (Piston down to L1)            (Compacted Roadbed)             (Piston down to L1)
 ```
 
----
-
-#### Step 10.15B · Stern Gantry CIWS Gatling Turret (Utility Stern L5)
-
-Mount the rear defense turret on the upper gantry overlooking the stern dump interface:
-* **Stern Gatling Turret (`MAS Turret Stern`):** 1× Large Grid Gatling Turret mounted at [X0, Z −26, Y = L5], elevated 7.5 m above the Caterpillar dump bumper. Connect bottom conveyor port to the stern conveyor junction at L4.
-* **Coverage:** Delivers 270° hemispherical defensive coverage over the rear quadrant, providing covering fire for incoming MULE-01 shuttles on approach to the gantry pad, protecting docked Caterpillar land trains during high-speed dump operations, and repelling pursuers from the rear.
-
----
-
-#### Step 10.15C · Telescoping Soft-Capture Docking Tongue for Caterpillar Trains (Z −26, L2)
-
-To eliminate hard docking collisions and ease coupling with trailing Caterpillar land trains on uneven terrain:
-* **Telescoping Extension Piston (`MAS Piston Stern Dock`):** Mount 1× Large Grid Piston horizontally at [X0, Z −25, Y = L2] with head facing aft (−Z). Maximum stroke: 2.5 m (extend to Z −27.5).
-* **Soft-Capture Dock Connector (`MAS Stern Dump Conn`):** Mount 1× Large Grid Connector on the piston head at [X0, Z −26, Y = L2]. Connect through piston internal conveyor duct to the main trailer conveyor trunk.
-* **Soft-Capture Protocol:**
-  1. Caterpillar train halts 2.0 to 2.5 m behind the Mastodon stern bumper.
-  2. Station 3 Pilot extends `MAS Piston Stern Dock` (Velocity: 0.2 m/s).
-  3. Connector magnetic pull locks without requiring delicate locomotive reverse maneuvering.
-  4. Piston gently retracts to 0.5 m standoff, absorbing dynamic drawbar lash.
-  5. Sorter `MAS Stern Sorter` engages (Drain All = ON), transferring 2,500 t bulk ore at high speed.
-
 ```
-TELESCOPING STERN DOCK PROFILE (Z -25 to -27.5, L2)
+Telescoping Stern Dock Profile, Z = −24 to −27.5, Y = L2
        [CARRIAGE 2 STERN]                             [CATERPILLAR BOW]
        ┌───────────────┐                               ┌───────────────┐
    L2  │ CONVEYOR DUCT ├──[PISTON 2.5 m]──[CONNECTOR]══╡ CONNECTOR     │
@@ -7475,23 +7722,129 @@ TELESCOPING STERN DOCK PROFILE (Z -25 to -27.5, L2)
                            Stern Dock)     Dump Conn)
 ```
 
+##### Placement Instructions
+1. Mount 1× Large Grid Piston `MAS Piston Stern Dock` horizontally at [X0, Z −25, Y = L2] with piston base plumbed to `MAS Stern Sorter` and piston head extending aft (−Z). Maximum stroke: 2.5 m (reaching Z = −27.5).
+2. Install Large Connector `MAS Stern Dump Conn` directly onto the piston head. Configure centerline height at 2.5 m above ground plane matching the Caterpillar locomotive bow connector.
+3. Install Heavy Armor Slopes painted Palette Slot 2 (Heavy Rail Crimson) at X = −3 and X = +3, forming rigid guide wedges that funnel the incoming land train into alignment.
+4. Mount 2× Large Grid Pistons vertically at [X −3, Z −25, Y = L2] (`MAS Outrigger Utility Port`) and [X +3, Z −25, Y = L2] (`MAS Outrigger Utility Stbd`) extending downward through Level L1.
+5. Mount Large Magnetic Plates (`MAS Seismic Pad Rear Port/Stbd`) on the piston heads facing ground.
+6. Install Large Conveyor Sorter `MAS Sorter Tailings Stern` and 4× Conveyor Ejectors (`MAS Ejector Tailings Stern 1..4`) along the rear bumper at Level L1, angled 45° downward/aft.
+
+##### Terminal Configuration & Sliders
+* Piston: `MAS Piston Stern Dock` (Max Distance: `2.5 m` · Velocity: `0.2 m/s` · Share Inertia Tensor: `ON`)
+* Connector: `MAS Stern Dump Conn` (Auto-Connect: `OFF` · Strength: `0.015`)
+* Sorter: `MAS Stern Sorter` (Mode: `Whitelist` · Items: `Iron`, `Nickel`, `Silicon`, `Stone` · Drain All: `ON`)
+* Outriggers: `MAS Outrigger Utility Port/Stbd` (Max Distance: `1.5 m` · Velocity: `0.5 m/s` · Share Inertia Tensor: `ON`)
+* Tailings Sorter: `MAS Sorter Tailings Stern` (Mode: `Whitelist` · Items: `Stone`, `Gravel` · Drain All: `ON`)
+
+✓ Check: Stern piston extends 2.5 m and soft-couples with Caterpillar locomotive; 2,500 t bulk ore dumps in $< 90\text{ seconds}$; stern outriggers achieve 100% bedrock lock; tailings eject aggregate behind rear wheels.
+
 ---
 
-#### Step 10.15D · Stern Bedrock Hydraulic Outriggers & 42 m Seismic Baseline (Z −25, L1-L2)
+#### Step 10.44 · Stern Gantry CIWS Gatling Turret (L5)
 
-To stabilize Carriage 2 during dynamic 650 t Mule touchdowns and extend acoustic surveying baseline:
-* **Twin Stern Hydraulic Outriggers (`MAS Outrigger Utility Port/Stbd`):** Mount 2× Large Grid Pistons vertically at [X −3, Z −25, Y = L2] (Port) and [X +3, Z −25, Y = L2] (Starboard) extending downward through L1.
-* **Seismic Footpads (`MAS Seismic Pad Rear Port/Stbd`):** Mount 2× Large Magnetic Plates (TMS Mod 2819263781 Seismic Landing Gear) on the piston heads at Y = L1 facing ground.
-* **Mule Landing Isolation:** When a 650 t MULE-01 lands on the Level L6 Gantry Cradle Pad, dynamic touchdown forces transfer through the vertical chassis pillars directly into bedrock via the locked stern outriggers, eliminating suspension bounce, chassis bucking, and hitch fatigue.
-* **42 m Seismic Baseline:** Combined with Tractor forward outriggers at Z +12, the stern outriggers expand the seismic prospecting acoustic baseline from 12 m to 42 m, quadrupling the triangulation precision of deep subsurface ore scans down to 500 m† depth.
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ [LOCATOR] Subsystem: Rear Defense CIWS & Gantry Fire Arc  ·  Level: L5               │
+│ [VIEWPORT] Grid Zone: [X0, Z −26]  ·  Rear elevation facing Bow (▲ Zenith +Y)        │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+##### Step 10.44 Parts Tray
+| Block Type | Qty | Palette Slot | Mass / PCU | Critical Placement & Facing |
+|---|---|---|---|---|
+| Gatling Turret (Large Grid) | 1 | Slot 7 (`#1B263B`) | 4.2 t / 275 | `MAS Turret Stern` at [X0, Z −26, L5] elevated 7.5 m above dump bumper |
+| Conveyor Junction | 1 | Slot 4 (`#16A085`) | 0.9 t / 1 | Plumbed into utility conveyor spine at [X0, Z −26, L4] |
+
+```
+Rear elevation looking Bow (+Z), Z = −26 (Stern Defense Turret & Firing Cleats)
+  L6   ═══════════════════════════════════════════════════════════════
+       │                                                             │
+  L5   │                    [MAS TURRET STERN]                       │  ◄── 270° Hemispherical
+       │                    (Gatling CIWS L5)                        │      Covering Fire Arc
+  L4   ├────────────────────[CONVEYOR JUNCTION]──────────────────────┤
+       │                                                             │
+  L3   │                    STERN AIRLOCK DESCENT HATCH              │
+       │                                                             │
+  L2   ══════════════[TELESCOPING DUMP BUMPER]════════════════════════
+```
+
+##### Placement Instructions
+1. Install Large Conveyor Junction at [X0, Z −26, Y = L4] tied directly into the utility aft conveyor trunk.
+2. Mount Large Grid Gatling Turret `MAS Turret Stern` on top of the junction at [X0, Z −26, Y = L5], elevated 7.5 m above the Level L2 Caterpillar dump bumper.
+3. Verify unobstructed 270° hemispherical firing arc over the aft hemisphere (−Z, ±X, and zenith +Y), covering incoming Mule shuttles on approach and trailing land trains during dump cycles.
+4. Tie turret ammunition feed into the workshop conveyor trunk; verify automated pull of NATO 25×184mm ammo boxes from `MAS Hold Components`.
+
+##### Terminal Configuration & Sliders
+* Gatling Turret: `MAS Turret Stern`
+  - Range: `800 m` · Target Meteors: `ON` · Target Missiles: `ON` · Target Small Ships: `ON` · Target Large Ships: `ON`
+  - Idle Movement: `OFF` · Use Conveyor System: `ON`
+* Group: Assign to terminal group `MAS Turrets`.
 
 ---
 
-#### Step 10.15E · Relocated Stone Tailings Aggregate Discharge Manifold (Stern Bumper L1)
+#### Step 10.44B · Elevated Stern Multitool Repair Turret & Outbound Resupply Staging Hopper (L5-L7)
 
-Relocating tailings ejection from Tractor underbelly (Z 0) to Carriage 2 stern bumper ([X0, Z −26, Y = L1]):
-* **Stern Roadbed Ejector Manifold:** Plumb 1× Large Conveyor Sorter (`MAS Sorter Tailings Stern`) and 4× Ejectors (`MAS Ejector Tailings Stern 1..4`) along the rear bumper centerline at [X0, Z −26, Y = L1], angled 45° downward/aft.
-* **Operational Benefit:** Vents stone tailings safely behind Axles 4 and 5, laying a compacted roadbed aggregate trail behind the entire consist rather than ejecting gravel directly into trailer wheel wells or under intermediate suspension tires.
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ [LOCATOR] Subsystem: Consist Tail Repair & Mule Peer Resupply  ·  Levels: L4, L5, L7  │
+│ [VIEWPORT] Grid Zone: Carriage 2 Stern Arch [X0, Z −23, L7]; Staging [X0, Z −20, L5] │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+##### Step 10.44B Parts Tray
+| Block Type | Qty | Palette Slot | Mass / PCU | Critical Placement & Facing |
+|---|---|---|---|---|
+| Large Laser Multitool Turret | 1 | Slot 3 (`#E07A5F`) | 4.5 t / 225 | `MAS MT Turret Stern` on elevated gantry arch at [X0, Z −23, L7] · Mod 3175774286 |
+| Small Cargo Container | 1 | Slot 5 (`#27AE60`) | 1.0 t / 10 | `MAS Hold Resupply Export` at [X0, Z −20, L5] directly beneath `MAS MP Conn` |
+| Conveyor Sorter | 1 | Slot 4 (`#16A085`) | 1.0 t / 25 | `MAS Sorter Resupply Export` at [X0, Z −20, L4] feeding upward into export hopper |
+| Heavy Armor Blocks / Slopes | 9 | Slot 0 (`#2C3E50`) | 1.0 t / 2 | Gantry arch framing rising from L5/L6 deck line to L7 apex at Z −23 |
+
+```
+Rear elevation looking Bow (+Z), Z = −23 (Elevated Stern MT Repair Turret & Arch)
+  L7   ═════════════════════[MAS MT TURRET STERN]═════════════════════  ◄── 360° Hemispherical
+       │                     (Laser Welder L7)                       │      Overhead Repair Arc
+  L6   ├─────────[GANTRY ARCH FRAME]───┬───[GANTRY ARCH FRAME]───────┤
+       │                               │                             │
+  L5   │   [MULE PAD CATWALK]    [MAS HOLD RESUPPLY EXPORT]  [CATWALK]│  ◄── Resupply Staging Hopper
+       │                               │                             │      (Direct Drain to Mule)
+  L4   ├───────────────────[MAS SORTER RESUPPLY EXPORT]───────────────┤
+       │                               │                             │
+  L3   │                 WORKSHOP CONVEYOR CENTRAL TRUNK             │
+```
+
+##### Placement Instructions
+1. Erect a 9-block Heavy Armor gantry arch rising from the Level L5-L6 flight deck margins up to a centerline apex at [X0, Z −23, Y = L7], spanning over the Mule pad approach.
+2. Plumb a vertical conveyor riser from the workshop conveyor trunk up the arch leg to [X0, Z −23, Y = L7].
+3. Mount Large Grid Laser Multitool Turret `MAS MT Turret Stern` on top of the arch at [X0, Z −23, Y = L7]. Verify unobstructed 360° hemispherical vantage looking down directly onto the MULE-01 cradle pad (L6), the stern Caterpillar dump bumper (L2), and the aft trailing ground approach.
+4. Install Conveyor Sorter `MAS Sorter Resupply Export` at [X0, Z −20, Y = L4] with flow arrow pointing upward into Level L5.
+5. Install Small Cargo Container `MAS Hold Resupply Export` at [X0, Z −20, Y = L5] directly between the export sorter and the top-deck `MAS MP Conn` junction.
+
+##### Terminal Configuration & Sliders
+* Group: `MAS Multitool Turrets` (`MAS MT Turret Bow`, `MAS MT Turret Port`, `MAS MT Turret Stbd`, `MAS MT Turret Stern`)
+* Group: `MAS Resupply` (`MAS Hold Resupply Export`, `MAS Sorter Resupply Export`, `MAS MP Conn`)
+* Multitool Turret: `MAS MT Turret Stern`
+  * Default Mode: `Welder` (Servicing docked Mule and trailing vehicles)
+  * Secondary Mode: `Grinder` (Aft salvage and obstacle clearance)
+  * Range: `50 m` · Target Friendly: `ON` · Target Neutrals: `ON` · Auto-Repair: `ON`
+* Sorter: `MAS Sorter Resupply Export`
+  * Default State: `OFF` · Drain All: `OFF`
+  * Whitelist filter automatically populated by `[MAS-U] PB Utility` upon resupply kit staging.
+* Event Controller: `MAS EC Resupply`
+  * Monitored Target: `MAS Hold Resupply Export`
+  * Condition: Inventory Fill > 0%
+  * Action Slot 1: Broadcast IGC `TMS.RESUPPLY.DISPATCH` · Light Staging Indicator
+  * Action Slot 2: Standby
+
+##### Standardized Mule Peer Resupply Sortie Protocol
+* Standardized Pallet Kits:
+  * `KIT_MOBILITY`: 200 Steel Plates, 100 Motors, 50 Large Tubes, 50 Small Tubes.
+  * `KIT_POWER`: 100 Steel Plates, 80 Construction Comps, 40 Computers, 50 Large Tubes.
+  * `KIT_MUNITIONS`: 60 NATO 25×184mm ammo boxes, 40 Interior Plates, 20 Construction Comps.
+  * `KIT_HULL_REPAIR`: 500 Steel Plates, 100 Interior Plates, 50 Construction Comps.
+* Resupply Execution Cycle:
+  1. Sister rig (`MAS-02`) broadcasts emergency distress call via `TMS.RESUPPLY.REQUEST;MAS-02;KIT_MOBILITY;<gps>`.
+  2. `[MAS] PB Excavator` / `[MAS-U] PB Utility` configures `MAS Sorter Resupply Export` whitelist with requested kit, turns Drain All = ON until export hopper contains the exact bill of materials, then powers sorter OFF.
+  3. MULE-01 touches down on `MAS MP Conn`; export hopper drains directly into Mule cargo hold in $< 10\text{ seconds}$ without mixing into main component stores.
+  4. MULE-01 departs immediately on autonomous delivery run to `MAS-02`, drops resupply pallet, and returns to consist.
+
+---
 
 ##### Pre-Enclosure Inspection Gate 10.6A: Cradle Clamping Dynamics & Dual-Tier Sorter Routing
 * [ ] Verify `MAS MP Sorter` whitelist passes only rare ores (U, Pt, Au, Mg) to the Mule shuttle.
@@ -7505,10 +7858,12 @@ Relocating tailings ejection from Tractor underbelly (Z 0) to Carriage 2 stern b
 * [ ] Confirm `MAS Piston Stern Dock` extends 2.5 m and soft-couples with Caterpillar land train.
 * [ ] Verify `MAS Outrigger Utility Port/Stbd` achieve 100% bedrock lock and isolate chassis during Mule touchdown.
 * [ ] Verify `MAS Sorter Tailings Stern` discharges stone aggregate safely behind stern bumper.
+* [ ] Verify `MAS MT Turret Stern` on L7 arch achieves 360° hemispherical coverage over Mule pad and stern approach.
+* [ ] Verify `MAS Sorter Resupply Export` pre-stages requested resupply kit into `MAS Hold Resupply Export` and drains to Mule in $< 10\text{ s}$.
 
 ```
 PHASE 10-6 VISUAL MILESTONE · COMPLETE EXPEDITIONARY MINING TRAIN FOB
-                        [KESTREL PADS]         [MULE GANTRY PAD]
+                        [KESTREL PADS]         [MULE PAD & MT ARCH L7]
                               │                        │
                     [TRACTOR BRIDGE L4]       [UTILITY WORKSHOP L3]
                               │                        │
@@ -7583,6 +7938,8 @@ State Machine: Dynamic Fleet Authority & C2 Handover
 * `MAS DPU`: Axles 4 and 5 suspension wheels on Carriage 2 running distributed traction logic.
 * `MAS FOB`: Carriage 2 autonomous command blocks (`[MAS-U] PB Utility`, `MAS-U Remote FOB`, `MAS-U EC Breakaway`).
 * `MAS Tailings Ejectors`: 4× Ejectors on stern bumper (`MAS Ejector Tailings Stern 1..4`).
+* `MAS Multitool Turrets`: 4× Large Laser Multitool Turrets (`MAS MT Turret Bow`, `MAS MT Turret Port`, `MAS MT Turret Stbd`, `MAS MT Turret Stern`).
+* `MAS Resupply`: `MAS Hold Resupply Export`, `MAS Sorter Resupply Export`, `MAS MP Conn`.
 
 #### 3. Block Naming & Terminal Dictionary
 | Block Type | Exact Terminal Name | Subsystem Role & Functional Configuration |
@@ -7662,6 +8019,13 @@ State Machine: Dynamic Fleet Authority & C2 Handover
 | Sliding Door | `MAS Door Vault` | Power Core Vault maintenance entrance from Jefferies tube |
 | Sliding Door | `MAS Door Gangway Fwd` | Tractor Aft Bulkhead gangway isolation door |
 | Sliding Door | `MAS Door Gangway Aft` | Utility Forward Bulkhead gangway isolation door |
+| Laser Multitool Turret | `MAS MT Turret Bow` | Forward crown repair turret at [X0, Z +9, L5] · 360° bow & tire repair |
+| Laser Multitool Turret | `MAS MT Turret Port` | Forward port shoulder repair turret at [X −3, Z −10, L4] · Kestrel pad & hitch repair |
+| Laser Multitool Turret | `MAS MT Turret Stbd` | Forward stbd shoulder repair turret at [X +3, Z −10, L4] · Kestrel pad & hitch repair |
+| Laser Multitool Turret | `MAS MT Turret Stern` | Elevated gantry arch repair turret at [X0, Z −23, L7] · Mule pad & aft consist repair |
+| Small Cargo Container | `MAS Hold Resupply Export` | Outbound peer resupply staging hopper at [X0, Z −20, L5] directly under `MAS MP Conn` |
+| Conveyor Sorter | `MAS Sorter Resupply Export` | SML resupply kit staging sorter at [X0, Z −20, L4] |
+| Event Controller | `MAS EC Resupply` | Outbound resupply staging watchdog · Monitors `MAS Hold Resupply Export` |
 | Event Controller | `MAS EC Stabilizers` | Blocks boom arm deployment until outriggers report locked |
 | Event Controller | `MAS EC Level` | Auto-leveling bedrock jack sequence on sloped terrain |
 | Event Controller | `MAS EC Ladder` | Auto-deploys crew ladder on approach; retracts on drive |
@@ -7694,6 +8058,7 @@ State Machine: Dynamic Fleet Authority & C2 Handover
 | `MAS-U EC Breakaway`| Consist Handshake | Electrical / Merge Link = Lost | Deploy `MAS Utility Brake Keel` · Handbrake ON · SOS Beacon | Standby Isolation |
 | `MAS EC Holds` | Combined Ore Mass | Ore Mass $\ge 2,500\text{ t}$ | Sound Payload Horn · IGC `TMS.MULE.CALL` | Normal Extraction Mode |
 | `MAS EC MP` | `MAS MP Conn` | Status = Connected | `MAS MP Sorter` Drain ON · Cradle Clamp | Sorter OFF · Cradle Retract (0°) |
+| `MAS EC Resupply` | `MAS Hold Resupply Export` | Inventory Fill $> 0\%$ | Broadcast `TMS.RESUPPLY.DISPATCH` · Staging Lamp ON | Standby Isolation |
 | `MAS EC Train` | `MAS Stern Dump Conn` | Status = Connected | `MAS Stern Sorter` Drain ON | Sorter OFF |
 | `MAS EC Handover` | `GND-01` Heartbeat | Signal Detected | Run PB `RIG//OS-Lite` (Argument: `HANDOVER`) | Maintain Mothership Authority |
 | `MAS EC Power` | `MAS Reactor 1, 2` Uranium | Uranium Mass $< 1.0\text{ kg}$ | `MAS Engine H2` Turn ON · Sound Fuel Horn | `MAS Engine H2` Turn OFF |
@@ -7713,6 +8078,10 @@ State Machine: Dynamic Fleet Authority & C2 Handover
 * Consist Telemetry: `TMS.CONSIST.SYNC` (`SYNC;<source_id>;<hitch_torque>;<clamp_state>;<airlock_state>`).
 * Powertrain DPU: `TMS.CONSIST.TRACTION` (`DPU;<mode:PUSH|BRAKE|COAST>;<torque_pct>;<axle4_slip>;<axle5_slip>`).
 * Emergency Breakaway: `TMS.CONSIST.SEVER` (`SEVER;<source_id>;<reason>;<keel_skids_engaged>`).
+* Resupply Inbound: `TMS.RESUPPLY.REQUEST` (`REQUEST;<requester_id>;<kit_name>;<gps_coords>`).
+* Resupply Broadcast: `TMS.RESUPPLY.OFFER` (`OFFER;<provider_id>;<kit_name>;<eta_s>`).
+* Resupply Dispatch: `TMS.RESUPPLY.DISPATCH` (`DISPATCH;<provider_id>;<transporter_id:MULE-01>;<target_id>;<kit_name>`).
+* Resupply Confirmation: `TMS.RESUPPLY.COMPLETE` (`COMPLETE;<target_id>;<kit_name>;<status:DELIVERED>`).
 * Fleet Telemetry: `TMS.MAS.STATUS` (`<consist_id>;<ore_mass_t>;<payload_pct>;<gps_coords>;<fob_status>`).
 * Geological Inbound: `TMS.SCOUT.VEIN` (Receives target ore vein coordinates from Kestrel drones).
 * Subordinate Dispatch: `FLT.MAS.CMD` (`<target_id>;<command>;<waypoint_gps>`).
@@ -7828,6 +8197,15 @@ State Machine: Dynamic Fleet Authority & C2 Handover
 * [ ] **42 m Triangulated Seismic Prospecting Baseline:** Deploy all 6 outriggers (4 forward, 2 aft). Trigger `SEISMIC`. Confirm 42 m acoustic baseline achieves sub-meter centroid accuracy on deep ore scans down to 500 m† depth.
 * [ ] **Telescoping Soft-Capture Caterpillar Docking:** Back Caterpillar train to 2.0 m standoff behind stern bumper. Extend `MAS Piston Stern Dock`; confirm magnetic capture locks cleanly without vehicle impact. Retract piston and verify 2,500 t bulk ore dumps at high speed.
 * [ ] **Relocated Stern Roadbed Aggregate Trail:** Mine stone with buffer > 50%. Confirm `MAS Sorter Tailings Stern` and 4× ejectors vent stone aggregate safely behind the stern bumper ([X0, Z −26, L1]), laying a continuous compacted roadbed without gravel impacting wheels.
+
+#### N · 4× Multitool Repair Turrets, SML Auto-Production & Peer Resupply Sortie Acceptance (Decision 68)
+* [ ] **360° Overlapping Repair Envelope:** Position damaged armor blocks at Bow (Z +11), Hitch (Z −8), and Stern Dump (Z −26). Verify `MAS MT Turret Bow`, `MAS MT Turret Port/Stbd`, and `MAS MT Turret Stern` achieve 100% spherical repair line-of-sight across every block of the consist, welding all damage to 100% without engineer EVA.
+* [ ] **Automated Flight Deck Drone Servicing:** Dock damaged Kestrel drone on Port pad (L5) and damaged Mule shuttle on top gantry pad (L6). Confirm `MAS MT Turret Port` and elevated `MAS MT Turret Stern` auto-target damaged thrusters, armor, and conveyor lines, restoring both craft to full operational readiness while engineers remain inside the pressurized bridge.
+* [ ] **SML Autonomous Quota Monitoring:** Withdraw 1,000 Steel Plates from `MAS Hold Components` (reducing stock below 75% of 1,500 plate quota). Confirm `[MAS-U] PB Utility` detects deficit and automatically queues 1,000 Steel Plates in `MAS Utility Assembler`.
+* [ ] **Closed-Loop Metallurgy to Component Path:** Mine Iron Ore with the 35 m boom. Verify ore refines into Iron Ingots in `MAS Field Refinery` (330 kW) and immediately flows into `MAS Utility Assembler` to fulfill the SML plate quota, replenishing `MAS Hold Components` with zero manual intervention.
+* [ ] **Resupply Kit Assembly & Staging:** Issue command `RESUPPLY KIT_MOBILITY`. Confirm `MAS Sorter Resupply Export` powers ON with Drain All = ON, pulling exactly 200 Steel Plates, 100 Motors, 50 Large Tubes, and 50 Small Tubes into `MAS Hold Resupply Export` ([X0, Z −20, L5]), then shuts OFF.
+* [ ] **High-Speed Mule Resupply Transfer:** Land MULE-01 on `MAS MP Conn`. Confirm `MAS Hold Resupply Export` empties completely into Mule cargo hold in $< 10\text{ seconds}$ flat without drawing from or sorting through the main 3×3×3 cargo hold.
+* [ ] **Inter-Rig Peer Assistance IGC Handshake:** Simulate emergency distress transmission `TMS.RESUPPLY.REQUEST;MAS-02;KIT_POWER;<gps>`. Confirm Mastodon C2 automatically stages `KIT_POWER`, broadcasts `TMS.RESUPPLY.OFFER`, summons MULE-01, and issues `TMS.RESUPPLY.DISPATCH` upon shuttle takeoff.
 
 
 

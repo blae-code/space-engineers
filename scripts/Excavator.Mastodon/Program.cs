@@ -103,6 +103,28 @@ namespace IngameScript
         bool _dpuPushActive;
         bool _utilityOutriggersLocked;
         bool _sternDockExtended;
+
+        // Decision 68: 4× Multitool Repair Turrets, SML Auto-Production & Peer Resupply Sorties
+        bool _mtTurretsWelding = true;
+        bool _mtTurretsEnabled = true;
+        bool _smlAutoProdEnabled = true;
+        bool _resupplyStagingActive;
+        int _resupplyKitType = RESUPPLY_NONE;
+
+        const int RESUPPLY_NONE = 0;
+        const int RESUPPLY_MOBILITY = 1;
+        const int RESUPPLY_POWER = 2;
+        const int RESUPPLY_MUNITIONS = 3;
+        const int RESUPPLY_HULL = 4;
+
+        static readonly string[] ResupplyKitNames = new string[]
+        {
+            "NONE",
+            "KIT_MOBILITY",
+            "KIT_POWER",
+            "KIT_MUNITIONS",
+            "KIT_HULL_REPAIR"
+        };
         #endregion
 
         public Program()
@@ -159,7 +181,10 @@ namespace IngameScript
                 SbFormat.AppendInt(_sbEcho, (int)_extractionRateKgPerSec);
                 _sbEcho.Append(" kg/s · JIT ETA: ");
                 SbFormat.AppendInt(_sbEcho, (int)_secondsUntilFull);
-                _sbEcho.Append(" s\nTick: ");
+                _sbEcho.Append(" s\nMT Turrets: ").Append(_mtTurretsEnabled ? (_mtTurretsWelding ? "REPAIR_WELD" : "SALVAGE_GRIND") : "OFF");
+                _sbEcho.Append(" · SML: ").Append(_smlAutoProdEnabled ? "ACTIVE" : "STANDBY");
+                _sbEcho.Append(" · Resupply: ").Append(ResupplyKitNames[_resupplyKitType]);
+                _sbEcho.Append("\nTick: ");
                 SbFormat.AppendInt(_sbEcho, _tickCounter);
                 Echo(_sbEcho.ToString());
             }
@@ -485,6 +510,71 @@ namespace IngameScript
                     _currentRole = ROLE_WORKER;
                 else if (string.Compare(r, "STANDALONE", StringComparison.OrdinalIgnoreCase) == 0)
                     _currentRole = ROLE_STANDALONE;
+            }
+            else if (string.Compare(cmd, "MT_TURRETS", StringComparison.OrdinalIgnoreCase) == 0 || string.Compare(cmd, "REPAIR", StringComparison.OrdinalIgnoreCase) == 0)
+            {
+                if (_args.Count > 1 && string.Compare(_args[1], "TOGGLE", StringComparison.OrdinalIgnoreCase) == 0)
+                {
+                    _mtTurretsWelding = !_mtTurretsWelding;
+                }
+                else if (_args.Count > 1 && string.Compare(_args[1], "WELD", StringComparison.OrdinalIgnoreCase) == 0)
+                {
+                    _mtTurretsWelding = true;
+                    _mtTurretsEnabled = true;
+                }
+                else if (_args.Count > 1 && string.Compare(_args[1], "GRIND", StringComparison.OrdinalIgnoreCase) == 0)
+                {
+                    _mtTurretsWelding = false;
+                    _mtTurretsEnabled = true;
+                }
+                else if (_args.Count > 1 && (string.Compare(_args[1], "OFF", StringComparison.OrdinalIgnoreCase) == 0 || string.Compare(_args[1], "STOP", StringComparison.OrdinalIgnoreCase) == 0))
+                {
+                    _mtTurretsEnabled = false;
+                }
+                else
+                {
+                    _mtTurretsEnabled = !_mtTurretsEnabled;
+                }
+            }
+            else if (string.Compare(cmd, "AUTOPROD", StringComparison.OrdinalIgnoreCase) == 0 || string.Compare(cmd, "SML", StringComparison.OrdinalIgnoreCase) == 0)
+            {
+                if (_args.Count > 1 && string.Compare(_args[1], "OFF", StringComparison.OrdinalIgnoreCase) == 0)
+                    _smlAutoProdEnabled = false;
+                else if (_args.Count > 1 && string.Compare(_args[1], "ON", StringComparison.OrdinalIgnoreCase) == 0)
+                    _smlAutoProdEnabled = true;
+                else
+                    _smlAutoProdEnabled = !_smlAutoProdEnabled;
+            }
+            else if (string.Compare(cmd, "RESUPPLY", StringComparison.OrdinalIgnoreCase) == 0)
+            {
+                if (_args.Count > 1)
+                {
+                    string kit = _args[1];
+                    if (string.Compare(kit, "MOBILITY", StringComparison.OrdinalIgnoreCase) == 0 || string.Compare(kit, "KIT_MOBILITY", StringComparison.OrdinalIgnoreCase) == 0)
+                        _resupplyKitType = RESUPPLY_MOBILITY;
+                    else if (string.Compare(kit, "POWER", StringComparison.OrdinalIgnoreCase) == 0 || string.Compare(kit, "KIT_POWER", StringComparison.OrdinalIgnoreCase) == 0)
+                        _resupplyKitType = RESUPPLY_POWER;
+                    else if (string.Compare(kit, "MUNITIONS", StringComparison.OrdinalIgnoreCase) == 0 || string.Compare(kit, "KIT_MUNITIONS", StringComparison.OrdinalIgnoreCase) == 0)
+                        _resupplyKitType = RESUPPLY_MUNITIONS;
+                    else if (string.Compare(kit, "HULL", StringComparison.OrdinalIgnoreCase) == 0 || string.Compare(kit, "KIT_HULL_REPAIR", StringComparison.OrdinalIgnoreCase) == 0)
+                        _resupplyKitType = RESUPPLY_HULL;
+                    else if (string.Compare(kit, "CANCEL", StringComparison.OrdinalIgnoreCase) == 0 || string.Compare(kit, "CLEAR", StringComparison.OrdinalIgnoreCase) == 0)
+                        _resupplyKitType = RESUPPLY_NONE;
+                    else
+                        _resupplyKitType = (_resupplyKitType == RESUPPLY_NONE) ? RESUPPLY_MOBILITY : _resupplyKitType;
+                }
+                else
+                {
+                    _resupplyKitType = (_resupplyKitType == RESUPPLY_NONE) ? RESUPPLY_MOBILITY : RESUPPLY_NONE;
+                }
+
+                _resupplyStagingActive = (_resupplyKitType != RESUPPLY_NONE);
+                if (_resupplyStagingActive)
+                {
+                    _sbIgc.Clear();
+                    _sbIgc.Append("DISPATCH;MAS-01;MUL-01;ALL;").Append(ResupplyKitNames[_resupplyKitType]);
+                    IGC.SendBroadcastMessage("TMS.RESUPPLY.DISPATCH", _sbIgc.ToString());
+                }
             }
             else if (string.Compare(cmd, "RELOAD", StringComparison.OrdinalIgnoreCase) == 0)
             {
