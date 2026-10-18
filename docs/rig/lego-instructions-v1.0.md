@@ -3,7 +3,7 @@
 ### Version 1.0 · Canon Engineering Specification · Earth 1 g Baseline
 
 Last updated: 2026-10-18
-Authority: Blae Decisions 1-61 (Canon) · `CLAUDE(RIG).md` · `Part 1 & 2 Handoff`
+Authority: Blae Decisions 1-62 (Canon) · `CLAUDE(RIG).md` · `Part 1 & 2 Handoff`
 
 ---
 
@@ -4930,7 +4930,7 @@ This volume details the heavy wheeled surface extraction machines that form the 
 
 ## Chapter 10 · MASTODON-01 Expeditionary Mining Train & Mobile FOB (MAS-01)
 
-Source: `docs/rig/chapters/mastodon-instructions.md` · 11 × 42 × 6 B · 2-Segment Train Consist, 45 m Laser Boom, 18 MWh Hybrid Power, CIWS Defense, Concrete Infrastructure
+Source: `docs/rig/chapters/mastodon-instructions.md` · 11 × 42 × 6 B · 2-Segment Consist, 45 m Laser/Crane Boom, 18 MWh Hybrid Power, CIWS Defense, Seismic & Drone Logistics Suite
 
 ### 0 · Reference Grid, In-Game Paint Palette & Master Consist Layout
 
@@ -5117,20 +5117,21 @@ Bow     │ 2-Seat Panoramic Cockpit  Nuclear Core                              
 |---|---|---|---|---|
 | **Tractor Chassis & Hull** | Heavy armor full blocks, half-blocks, slopes (Palette 0) | 440 | 374.0 t | 440 |
 | **Tractor Powertrain** | 6× 5×5 Heavy Suspension Wheels (Axles 1-3) | 6 | 48.0 t | 600 |
-| **Corner Outriggers** | 4× Large Pistons + 4× Large Magnetic Plates (Palette 1) | 8 | 18.4 t | 260 |
+| **Corner Outriggers** | 4× Large Pistons + 4× Seismic Surveying Feet (Palette 1 · Mod 2819263781) | 8 | 18.4 t | 260 |
 | **Tractor Power Core** | 2× Small Nuclear Reactors, 1× Hydrogen Engine, 3× Large Batteries (Palette 6) | 6 | 31.6 t | 730 |
-| **Articulated Boom** | 2× Adv Rotors, 3× Motor Hinges, 2× Lasers, Girders (Palette 3) | 18 | 34.5 t | 920 |
+| **Articulated Boom & Crane** | 2× Adv Rotors, 3× Motor Hinges, 2× Lasers, 1× Crane Grapple, Girders, Spotlights (Palette 3) | 21 | 38.1 t | 995 |
 | **Armored Bridge & C2** | 1× Cockpit, 2× Stations, 2× PBs, Laser Antenna, Glass, Detector | 18 | 15.8 t | 410 |
 | **Drawbar Hitch Assembly** | 1× Adv Rotor, 1× Motor Hinge, Heavy Armor Joint Blocks | 6 | 12.0 t | 225 |
 | **Utility Carriage Hull** | Heavy armor frames, wheel wells, deck armor (Palette 0) | 360 | 306.0 t | 360 |
 | **Utility Powertrain** | 4× 5×5 Heavy Suspension Wheels (Axles 4-5) | 4 | 32.0 t | 400 |
 | **Utility Sub-Floor Battery Vault** | 3× Large Batteries (9.0 MWh, Palette 6) | 3 | 13.5 t | 120 |
 | **Interior Walkways & Hatches** | Grated catwalks, sliding doors, ladder runs, interior lights (Palette 9) | 25 | 12.5 t | 140 |
-| **Field Workshop & Hab** | 1× Basic Refinery, 1× Large Assembler, 1× Survival Kit, 2× O2/H2 Tanks, 2× Large H2 Tanks | 9 | 52.0 t | 630 |
+| **Field Workshop & Life Support** | 1× Basic Refinery, 1× Large Assembler, 1× Survival Kit, 2× O2/H2 Tanks, 2× Large H2 Tanks, 2× Intake Vents | 11 | 53.0 t | 680 |
 | **Utility Cargo Hold** | 1× Large Cargo Container (Components), Conveyor network | 16 | 28.0 t | 160 |
-| **Flight Decks & Solar** | 1× Mule Gantry Cradle Pad (7×7 B), 2× Kestrel Pads, Stern Dump, 4× Solar Panels | 62 | 56.0 t | 580 |
+| **Flight Decks, Welders & Solar** | 1× Mule Pad, 2× Kestrel Pads, 2× Drone Welders, Stern Dump, 4× Solar Panels, 4× Floodlights | 68 | 61.6 t | 980 |
 | **Perimeter Defense Suite** | 2× Gatling Turrets, 2× Interior Turrets, Ammunition Conveyor Feeds (Palette 7) | 12 | 9.6 t | 308 |
-| **TOTAL CONSIST (DRY)** | Complete Expeditionary Mining Locomotive & Mobile FOB | **993** | **≈ 943.9 t** | **6,283** |
+| **External EVA & Running Lights** | 2× Ground-Level EVA Lockers, 3× Underbelly Inspection Lights (Palette 9) | 5 | 1.2 t | 70 |
+| **TOTAL CONSIST (DRY)** | Complete Expeditionary Mining Locomotive & Mobile FOB | **1,009** | **≈ 955.3 t** | **6,878** |
 
 ---
 
@@ -5458,6 +5459,14 @@ Directly above the mechanical drawbar hitch, construct a heavy-duty flexible pre
 * **Isolation Doors:** Sliding door `MAS Door Gangway Fwd` at [X0, Z −8, L3] and sliding door `MAS Door Gangway Aft` at [X0, Z −9, L3]. Allows either carriage to maintain full atmosphere even if the other carriage is breached.
 * **Walkway Deck:** Paved with slip-resistant flexible grated catwalks, allowing crew members to safely walk between carriages at full travel speed without exposure to drawbar pinch hazards or external dust storms.
 
+---
+
+#### Step 10.5D · Ground-Level EVA Survival Lockers & Underbelly Inspection Lights (L1-L2)
+
+To ensure field technicians can access emergency life support and tools without entering the pressurized habitat:
+* **Flank EVA Lockers:** Mount 2× Small Cargo Containers (`MAS Locker Port` at [X −5, Z −4, Y = L2] and `MAS Locker Stbd` at [X +5, Z −4, Y = L2]), recessed flush into the lower armored skirts. Painted Palette Slot 9 (High-Viz Safety Yellow). Accessible directly from ground level; pre-stocked with emergency hydrogen suit bottles, oxygen bottles, tool welders, and 5.56mm/25mm ammunition.
+* **Underbelly Keel Lighting:** Mount 3× Interior Lights (`MAS Lights Underbelly`) along the centerline chassis keel at [X0, Z +5], [X0, Z0], and [X0, Z −5] at Level L1. Casts low-intensity amber illumination across wheel suspension hubs, outrigger cylinders, and the tailings aggregate manifold for night maintenance.
+
 ##### Pre-Enclosure Inspection Gate 10.2A: Power Core Isolation, Jefferies Tube & Gangway Test
 * [ ] Verify reactor automated uranium pull through the central conveyor trunk.
 * [ ] Confirm `MAS Engine H2` cold-starts and delivers 5.0 MW upon manual toggle or simulated uranium depletion.
@@ -5467,6 +5476,7 @@ Directly above the mechanical drawbar hitch, construct a heavy-duty flexible pre
 * [ ] Confirm articulated inter-carriage gangway maintains airtight seal and flexes cleanly with hitch movement.
 * [ ] Test 2-axis drawbar hitch: ensure rotor and hinge pivot freely without clashing with the chassis frame.
 * [ ] Verify `MAS EC Hitch Speed` dynamically raises rotor braking torque to 100 MN·m when speed exceeds 35 km/h.
+* [ ] Verify `MAS Locker Port/Stbd` are accessible from ground level (L0) and `MAS Lights Underbelly` illuminate suspension hubs.
 
 ---
 
@@ -5486,7 +5496,8 @@ Directly above the mechanical drawbar hitch, construct a heavy-duty flexible pre
 
 #### Pre-Step Parts Tray: Phase 10-3
 * 4× Large Piston (Palette 1: Hazard Amber)
-* 4× Large Magnetic Plate (Palette 9: High-Viz Safety Yellow)
+* 4× Seismic Surveying Landing Gear (`MAS Seismic Outrigger 1..4`, TMS Mod 2819263781, Palette 1)
+* 1× Large Magnetic Plate (`MAS Tool Grapple`, Palette 9: High-Viz Safety Yellow)
 * 2× Large Advanced Rotor (Palette 3: Excavator Ochre)
 * 3× Large Motor Hinge (Palette 3)
 * 2× Simple Laser Multitool (Mining Mode, Palette 3)
@@ -5543,6 +5554,16 @@ TERRAIN-TILT AUTO-LEVELING (Looking Bow, Y = L1-L2)
       (Short)▼       ▼(Short)                       [MAG LOCK]      [MAG LOCK]
       ═════════════════════════ 15° Hillside        ═════════════════════════ 15° Hillside
 ```
+
+---
+
+#### Step 10.6C · Deep Seismic Subsurface Voxel Prospecting Array (TMS Mod Integration)
+
+Equip each of the 4 corner outrigger feet with **Seismic Surveying Landing Gear** from the active TMS mod suite (`docs/rig/mods.md`, Mod ID `2819263781`):
+* **Hardware Integration:** Replace standard magnetic plate heads with `MAS Seismic Outrigger 1..4` (Palette 1: Hazard Amber).
+* **Automated Resonance Pulse:** When `MAS EC Level` locks the outriggers into bedrock at $0.0^\circ$ pitch and roll, Event Controller `MAS EC Seismic` triggers an active acoustic survey pulse.
+* **Subsurface Detection:** Maps subterranean mineral density down to $500\text{ m}$† depth in a 300 m radius beneath the anchored consist, identifying deep rare ore deposits (Uranium, Platinum, Gold) far beyond the 150 m range of standard ore detectors.
+* **IGC Telemetry:** Coordinates, estimated depth, and deposit signatures are automatically formatted and published over IGC to `TMS.SCOUT.VEIN` and populated on Station 3 Tactical Video Wall.
 
 ---
 
@@ -5643,36 +5664,37 @@ BOOM ELEVATION WITH HORIZON-LEVELED TOOL HEAD
 
 ---
 
-#### Step 10.9 · Laser Mining Tool Head & Sensor Suite
+#### Step 10.9 · Laser Mining Tool Head & Heavy Recovery Grapple Suite
 
-At the tip of the wrist articulator, mount the unified excavation head:
+At the tip of the wrist articulator, mount the unified excavation and field recovery head:
 * 2 × Simple Laser Multitool (Mode: `Mining Beam`) · `MAS Laser 1, 2`.
+* 1 × Large Magnetic Plate (`MAS Tool Grapple`, Auto-Lock = OFF, Palette 9: High-Viz Safety Yellow) mounted centrally between the laser heads. Provides heavy lifting, vehicle righting, and cargo positioning capability with 45 MN·m joint holding power.
 * 1 × Camera · `MAS Cam Boom` (high-magnification targeting crosshairs).
-* 2 × Spotlight · `MAS Light Boom 1, 2` (floodlights illuminating the cutting bench).
-* 1 × Sensor · `MAS Sensor Boom` (5 m safety stop to prevent head-to-terrain collision).
+* 2 × Spotlight · `MAS Light Boom 1, 2` (floodlights illuminating the cutting bench and salvage targets).
+* 1 × Sensor · `MAS Sensor Boom` (4.0 m safety stop to prevent head-to-terrain collision).
 
 ```
-Front Elevation · Laser Mining Tool Head (Tip of Forearm)
+Front Elevation · Laser Mining Tool Head & Recovery Grapple (Tip of Forearm)
                   [WRIST PITCH HINGE]
                            │
        ┌───────────────────┴───────────────────┐
        │               [CAMERA]                │
        │             MAS Cam Boom              │
-       ├───────────────────┬───────────────────┤
-       │  [LASER 1]        │        [LASER 2]  │
-       │  Simple Laser     │        Simple Laser
-       │  Multitool (Mine) │        Multitool  │
-       ├───────────────────┼───────────────────┤
-       │  [SPOTLIGHT 1]    │    [SPOTLIGHT 2]  │
-       └───────────────────┴───────────────────┘
+       ├───────────────┬───────┬───────────────┤
+       │  [LASER 1]    │[MAG]  │  [LASER 2]    │
+       │  Simple Laser │TOOL   │  Simple Laser │
+       │  Multitool    │GRAPPLE│  Multitool    │
+       ├───────────────┼───────┼───────────────┤
+       │ [SPOTLIGHT 1] │       │ [SPOTLIGHT 2] │
+       └───────────────┴───────┴───────────────┘
 ```
 
 #### Step 10.9B · Automated Excavation Macro Modes & Kinematic Sweep Sequences
 
-To maximize extraction efficiency and support uncrewed autonomous operation, `[MAS] PB Excavator` implements 3 automated excavation sweep macros:
+To maximize extraction efficiency and support uncrewed autonomous operation, `[MAS] PB Excavator` implements 4 automated sweep and crane recovery macros:
 
 ```
-[AUTOMATED BOOM EXCAVATION SWEEP PATTERNS]
+[AUTOMATED BOOM EXCAVATION & CRANE SWEEP PATTERNS]
 
 1. BENCH QUARRY MODE (Horizontal Terracing)
    · Azimuth Turret sweeps across horizontal face: -45.0° (Port) to +45.0° (Starboard).
@@ -5690,12 +5712,21 @@ To maximize extraction efficiency and support uncrewed autonomous operation, `[M
    · Boom deploys along centerline (Z+), executing downward scoop arc (-5.0 m to grade).
    · Tractor crawls forward at 2.0 km/h; outriggers cycle in creeping advance pattern.
    · Automatically clears and grades a level 15.0 m wide roadbed for Caterpillar land trains.
+
+4. CRANE & VEHICLE RECOVERY MODE (Overland Field Salvage)
+   · Laser Multitools deactivated; `MAS Tool Grapple` energized.
+   · Station 2 CTC mouse control provides direct 3-axis teleoperation of the 45 m boom arm.
+   · Allows precision attachment to overturned Caterpillar trailers, scout drones, or supply skids up to 42.5 m away.
+   · Utilizes the 45 MN·m joint holding torque and hydraulic outriggers to right rolled vehicles, hoist heavy cargo modules, or lift massive boulders obstructing the haul road.
 ```
 
 ##### Pre-Enclosure Inspection Gate 10.3A: Outrigger Locking & Boom Joint Inertia Verification
-* [ ] Verify all 4 corner outrigger magnetic plates lock firmly into terrain voxels.
+* [ ] Verify all 4 corner outrigger seismic feet (`MAS Seismic Outrigger 1..4`) lock firmly into terrain voxels.
+* [ ] Confirm `MAS EC Seismic` triggers acoustic survey pulse upon 4/4 bedrock lock, broadcasting vein telemetry to `TMS.SCOUT.VEIN`.
 * [ ] Confirm `Share Inertia Tensor = ON` across all 6 boom joints (Turret Rotor, Shoulder Hinge, Elbow Hinge, Wrist Rotor, Wrist Hinge).
 * [ ] Test 360° pan and full extension: boom must achieve a 45.0 m reach radius without inducing chassis tip or physics jitter.
+* [ ] Verify `MAS Tool Grapple` locks onto external test block and holds suspended 50 t mass without joint sagging.
+* [ ] Test Macro 4 `CRANE_RECOVERY`: verify crane mode enables grapple teleoperation and disables mining laser fire.
 
 ```
 PHASE 10-3 VISUAL MILESTONE · OUTRIGGERS ANCHORED & BOOM DEPLOYED
@@ -5955,6 +5986,15 @@ To allow physical passage from the workshop to the roof flight decks and stern t
 * **Flight Deck Ladderwell (L3 → L6):** Install an enclosed vertical ladder at [X +2, Z −10] climbing from the forward workshop corner up through an armored hatch to the Level L6 Flight Deck.
 * **Stern Dump Descent (L3 → L2):** Install a descending ladderwell at [X +2, Z −25] passing through an armored hatch down to Level L2. Allows an engineer on foot to physically inspect and service `MAS Stern Dump Conn`, `MAS Stern Sorter`, and rear guide wedges without leaving vehicle cover.
 
+---
+
+#### Step 10.12D · Ambient Atmospheric Oxygen Scavenging Vents (Carriage 2 Flank L4)
+
+To achieve indefinite planetary life support without consuming raw ice or running energy-intensive O2/H2 generators:
+* **Hardware Integration:** Mount 2× Air Vents (`MAS Vent Atmo Intake Port` at [X −3, Z −16, Y = L4] and `MAS Vent Atmo Intake Stbd` at [X +3, Z −16, Y = L4]) recessed flush into the upper exterior flank armor.
+* **Operating Configuration:** Set `Depressurize = ON`. In breathable planetary atmospheres, the vents pull ambient oxygen directly from outside air into the central life support trunk.
+* **Closed-Loop Storage:** Fills internal oxygen tanks and pressurized crew compartments automatically at zero ice consumption and minimal parasitic power (30 kW per vent), preserving onboard ice stocks strictly for hydrogen fuel synthesis.
+
 ##### Pre-Enclosure Inspection Gate 10.5A: Field Workshop Fabrication, Sub-Floor Batteries & Circulation Check
 * [ ] Confirm Utility sub-floor battery bank (`MAS Battery 4, 5, 6`) delivers 9.0 MWh storage and 36.0 MW discharge.
 * [ ] Verify `MAS Field Refinery` ingests raw mined ore and deposits refined ingots into `MAS Utility Assembler`.
@@ -5965,6 +6005,7 @@ To allow physical passage from the workshop to the roof flight decks and stern t
 * [ ] Confirm crew medical bay allows successful respawn and O2/H2 replenishment.
 * [ ] Confirm O2/H2 tanks maintain airtight seals and supply hydrogen lines.
 * [ ] Verify `MAS EC Ice` automatically feeds ice to O2/H2 generators when H2 tanks drop below 90%.
+* [ ] Verify ambient air vents (`MAS Vent Atmo Intake Port/Stbd`) pull oxygen from atmosphere when Depressurize = ON.
 
 ---
 
@@ -5988,6 +6029,8 @@ To allow physical passage from the workshop to the roof flight decks and stern t
 * 2× Motor Hinge + 2× Large Magnetic Plate (Palette 1 · Cradle Clamp Arms)
 * 1× Large Connector (`MAS MP Conn`, Palette 4)
 * 2× Small-Grid Connector (`MAS Kestrel Dock 1, 2`, Palette 8: Scout White)
+* 2× Large Grid Ship Welder (`MAS Welder Pad Kestrel 1, 2`, Palette 4: Processing Teal)
+* 4× Spotlight / Floodlight (`MAS Floodlight Tower 1..4`, Palette 7: Fleet Command Navy)
 * 1× Large Connector (`MAS Stern Dump Conn`, Palette 2: Rail Crimson)
 * 2× Large Conveyor Sorter (`MAS MP Sorter`, `MAS Stern Sorter`, Palette 4)
 * 12× Heavy Armor Slopes & Alignment Bumpers (Palette 2)
@@ -6066,6 +6109,24 @@ Recess two small landing pads forward of the Mule pad on the utility roof:
 
 ---
 
+#### Step 10.14B · Flight Deck Recessed Drone Maintenance Welders (Carriage 2 L5)
+
+To maintain drone fleet operational readiness during extended deep-wilderness prospecting campaigns:
+* **Recessed Welder Arrays:** Mount 2× Large Grid Ship Welders (`MAS Welder Pad Kestrel 1` at [X −3, Z −12, Y = L4] and `MAS Welder Pad Kestrel 2` at [X +3, Z −12, Y = L4]) positioned directly flush beneath the small-grid docking collars of the twin Kestrel landing pads.
+* **Plumbed Logistics:** Connected directly to the utility workshop conveyor trunk, drawing steel plates, construction components, small tubes, and computer chips from `MAS Hold Components` and `MAS Utility Assembler`.
+* **Automated Repair Cycle:** Event Controller `MAS EC Drone Repair` detects when a Kestrel dock reports `Connected = TRUE`. It pulses the respective pad welder for 5.0 seconds, automatically repairing atmospheric thruster burnout, micro-meteoroid hull pits, and antenna damage sustained during prospecting sorties before returning to standby.
+
+---
+
+#### Step 10.14C · Worksite 360° Floodlight Matrix (Tractor Bridge Crown & Dorsal Comms Mast L5-L6)
+
+To illuminate hazardous night operations, quarry excavation faces, and fleet flight decks:
+* **Tower Floodlight Array:** Mount 4× Spotlights (`MAS Floodlight Tower 1..4`, Palette 7: Fleet Command Navy) in a high-elevation 360° cardinal ring on the Tractor dorsal bridge crown and comms mast at Level L5-L6 facing Bow (+Z), Stern (−Z), Port (−X), and Starboard (+X).
+* **Illumination Coverage:** Throws high-intensity illumination across a 100 m radius, blanketing the excavation pit, the Mule receiving cradle, and both Kestrel pads.
+* **Integrated Control:** Bound to group `MAS Lights` alongside the boom spotlights (`MAS Light Boom 1, 2`) and underbelly maintenance lamps (`MAS Lights Underbelly`), allowing single-hotkey toggling from Station 1 Helm.
+
+---
+
 #### Step 10.15 · Stern Bumper & Caterpillar Land Train High-Speed Dump Port (Z = −26, L2)
 
 Install the rear collision push-bumper and large connector (`MAS Stern Dump Conn`) at Level L2:
@@ -6098,6 +6159,8 @@ Mount the rear defense turret on the upper gantry overlooking the stern dump int
 * [ ] Confirm `MAS Solar 1..4` deliver daylight power and maintain battery float charge while nuclear reactors are toggled OFF.
 * [ ] Verify Level L6 catwalk handrails and safety walkways allow complete perimeter access around Mule and Kestrel decks.
 * [ ] Verify `MAS Turret Stern` receives NATO 25×184mm ammunition from utility cargo hold.
+* [ ] Verify recessed drone welders (`MAS Welder Pad Kestrel 1, 2`) auto-repair docked Kestrel drones upon touchdown.
+* [ ] Confirm worksite floodlight matrix (`MAS Floodlight Tower 1..4`) casts 360° illumination across mining zone and flight decks.
 
 ```
 PHASE 10-6 VISUAL MILESTONE · COMPLETE EXPEDITIONARY MINING TRAIN FOB
@@ -6160,9 +6223,12 @@ State Machine: Dynamic Fleet Authority & C2 Handover
 #### 2. Group Taxonomy
 * `MAS Tractor Wheels`: 6× 5×5 suspension wheel units on Carriage 1.
 * `MAS Utility Wheels`: 4× 5×5 suspension wheel units on Carriage 2.
-* `MAS Outriggers`: 4× Hydraulic stabilizer pistons + magnetic plates.
+* `MAS Outriggers`: 4× Hydraulic stabilizer pistons + magnetic plates / seismic feet.
 * `MAS Boom Joints`: 5× Rotors and Hinges articulating the long-reach arm.
 * `MAS Lasers`: 2× Simple Laser Multitools on the tool head.
+* `MAS Welders`: 2× Flush Large Grid Ship Welders (`MAS Welder Pad Kestrel 1, 2`) on Kestrel flight pads.
+* `MAS Lights`: Worksite floodlights (`MAS Floodlight Tower 1..4`), boom spotlights (`MAS Light Boom 1, 2`), and underbelly lamps (`MAS Lights Underbelly`).
+* `MAS Seismic`: 4× Seismic Surveying Landing Gear units (`MAS Seismic Outrigger 1..4`).
 * `MAS Batteries`: 6× Large Batteries across Tractor Vault and Utility Sub-Floor (18.0 MWh total).
 * `MAS Doors`: All internal airlock, vault, and inter-carriage gangway sliding doors.
 * `MAS Turrets`: 2× Large Gatling Turrets (`MAS Turret Bow`, `MAS Turret Stern`) + 2× Interior Turrets (`MAS Turret Flank Port`, `MAS Turret Flank Stbd`).
@@ -6188,6 +6254,13 @@ State Machine: Dynamic Fleet Authority & C2 Handover
 | AI Defense Block | `MAS AI Defense` | Threat avoidance · Auto-locks outriggers and stows boom |
 | Piston (Large) | `MAS Outrigger Piston 1..4` | Corner bedrock stabilizer cylinders · `Share Inertia Tensor = ON` |
 | Magnetic Plate | `MAS Outrigger Pad 1..4` | Corner bedrock voxel locking pads · `Auto-Lock = ON` |
+| Seismic Landing Gear | `MAS Seismic Outrigger 1..4` | Deep voxel acoustic prospecting feet (TMS Mod 2819263781) |
+| Magnetic Plate (Large) | `MAS Tool Grapple` | Centerline boom recovery grapple · Vehicle righting & cargo hoisting |
+| Ship Welder (Large) | `MAS Welder Pad Kestrel 1, 2` | Recessed flight deck drone maintenance welders |
+| Spotlight (Large) | `MAS Floodlight Tower 1..4` | 360° dorsal worksite illumination floodlights (L5-L6) |
+| Interior Light (Large) | `MAS Lights Underbelly` | Underbelly chassis maintenance and inspection lighting (L1) |
+| Small Cargo Container | `MAS Locker Port`, `MAS Locker Stbd` | Ground-level EVA survival supply lockers (skirt L2) |
+| Air Vent (Large) | `MAS Vent Atmo Intake Port`, `MAS Vent Atmo Intake Stbd` | Ambient planetary atmospheric O2 intake vents (`Depressurize = ON`) |
 | Motor Hinge | `MAS Crew Ladder Hinge` | Port flank boarding ladder articulator · 0° stowed to 90° down |
 | Sensor | `MAS Sensor Ladder` | 2.5 m crew proximity sensor on Port flank (auto-deploy) |
 | Advanced Rotor | `MAS Turret Azimuth` | Dorsal boom turntable · 360° pan · `Torque = 50 MN·m` |
@@ -6223,6 +6296,8 @@ State Machine: Dynamic Fleet Authority & C2 Handover
 | Event Controller | `MAS EC Power` | Fuel watchdog: auto-starts `MAS Engine H2` on low uranium (< 1.0 kg) |
 | Event Controller | `MAS EC Ice` | Ice intake watchdog: routes raw ice to O2/H2 generators when H2 < 90% |
 | Event Controller | `MAS EC Combat` | Combat alert watchdog · Auto-triggers `RIG.OS.MODE CBT` on damage/target lock |
+| Event Controller | `MAS EC Seismic` | Bedrock survey watchdog: pulses seismic scans on outrigger lock |
+| Event Controller | `MAS EC Drone Repair` | Drone repair watchdog: pulses pad welders when Kestrel docked |
 
 #### 4. Event Controller Matrix
 | Controller | Monitored Target | Threshold / Condition | Action Slot 1 (On True) | Action Slot 2 (On False) |
@@ -6240,6 +6315,8 @@ State Machine: Dynamic Fleet Authority & C2 Handover
 | `MAS EC Power` | `MAS Reactor 1, 2` Uranium | Uranium Mass $< 1.0\text{ kg}$ | `MAS Engine H2` Turn ON · Sound Fuel Horn | `MAS Engine H2` Turn OFF |
 | `MAS EC Ice` | `MAS Tank H2 1, 2` Fill | Hydrogen Fill $< 90\%$ | Enable Ice Conveyor Sorter & O2/H2 Gens | Normal Conveyor Routing |
 | `MAS EC Combat` | Hull Integrity / Target Lock | Damage Detected OR Hostile Lock | Engage `MAS Turrets` · Elevate `RIG.OS.MODE CBT` | Standby Watchkeeping |
+| `MAS EC Seismic` | `MAS Seismic Outrigger 1..4` | All 4 Pads = Locked | Pulse Seismic Scan · Publish `TMS.SCOUT.VEIN` | Standby |
+| `MAS EC Drone Repair` | `MAS Kestrel Dock 1, 2` | Either Pad = Connected | Pulse `MAS Welders` ON (5.0 s timer) | `MAS Welders` OFF |
 
 #### 5. IGC Channel Subscriptions (Ground Fleet & RIG//OS Bus)
 * Network Beacon: `RIG.C2.HEARTBEAT` (`<origin_id>;<role:MOTHERSHIP|BASE|WORKER>;<gps_coords>`).
@@ -6310,6 +6387,14 @@ State Machine: Dynamic Fleet Authority & C2 Handover
 * [ ] **Flank Anti-Personnel Coverage:** Verify `MAS Turret Flank Port` and `MAS Turret Flank Stbd` suppress ground-level targets around the boarding ladder and wheel wells.
 * [ ] **Automated Ammo Delivery:** Confirm NATO 25×184mm ammunition pulls automatically from `MAS Hold Components` and `MAS Utility Assembler` through the conveyor spine.
 * [ ] **Concrete Component Recycling (Decision 60):** Laser-mine 50 t stone. Verify gravel byproduct routes into `MAS Utility Assembler`, queued to fabricate `Concrete Components` for Caterpillar roadbed slabs and Ground Base foundation blocks.
+
+#### I · Field Logistics, Crane Grapple, Seismic Voxel Scan & Floodlight Acceptance
+* [ ] **Deep Seismic Subsurface Scan (Decision 62):** Deploy outriggers to bedrock lock on hillside. Confirm Event Controller `MAS EC Seismic` triggers acoustic resonance scan down to 500 m† depth, detecting deep ore deposits and transmitting coordinates to `TMS.SCOUT.VEIN`.
+* [ ] **45 m Crane Grapple & Vehicle Righting (Decision 62):** Select Macro 4 `CRANE_RECOVERY`. Maneuver boom via CTC mouse control to attach `MAS Tool Grapple` to overturned target vehicle. Confirm 45 MN·m joint torque successfully rights vehicle without chassis flex.
+* [ ] **Automated Flight Deck Drone Welder Repair (Decision 62):** Dock battle-damaged or thruster-worn Kestrel drone onto `MAS Kestrel Dock 1`. Confirm `MAS EC Drone Repair` pulses recessed ship welders for 5.0 s, completing full field repairs from onboard parts hold.
+* [ ] **Atmospheric O2 Scavenging & Ground EVA Lockers (Decision 62):** In planetary atmosphere, verify `MAS Vent Atmo Intake Port/Stbd` fill life support tanks at zero ice cost. Walk to ground level L2; open `MAS Locker Port/Stbd` to access hydrogen suit bottles and emergency tools without entering airlock.
+* [ ] **Worksite 360° Floodlight Matrix (Decision 62):** Toggle group `MAS Lights`. Confirm tower spotlights (`MAS Floodlight Tower 1..4`), boom spotlights (`MAS Light Boom 1, 2`), and underbelly inspection lights (`MAS Lights Underbelly`) fully illuminate 100 m perimeter during nighttime mining operations.
+
 
 
 

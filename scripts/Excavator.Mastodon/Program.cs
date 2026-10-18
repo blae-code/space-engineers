@@ -1,7 +1,7 @@
 // Excavator.Mastodon · Space Engineers 1 MDK2 PB Script
 // Target Blocks: [MAS] PB Excavator & [MAS] PB RIG//OS-Lite
 // Grid: Large Grid Consist (11 × 42 × 6 B · 10 Wheels · 2 Carriages) · Update: Update1 / Update10
-// Subsystem Groups: MAS STAB, MAS BOOM, MAS TOOL, MAS WHEEL, MAS HITCH, MAS COMM, MAS HOLD, MAS MP, MAS DUMP, MAS POWER, MAS REFINERY, MAS BATTERY, MAS DOORS, MAS TURRETS
+// Subsystem Groups: MAS STAB, MAS BOOM, MAS TOOL, MAS WHEEL, MAS HITCH, MAS COMM, MAS HOLD, MAS MP, MAS DUMP, MAS POWER, MAS REFINERY, MAS BATTERY, MAS DOORS, MAS TURRETS, MAS WELDERS, MAS LIGHTS, MAS SEISMIC
 // IGC Channels: RIG.C2.HEARTBEAT, RIG.C2.HANDOVER, TMS.MAS.STATUS, TMS.MULE.CALL, TMS.CAT.CALL, TMS.SCOUT.VEIN, FLT.MAS.CMD
 // Rule C4: Native blocks provide safety; PB provides decision logic.
 
@@ -30,6 +30,7 @@ namespace IngameScript
         public const int MACRO_BENCH = 1;
         public const int MACRO_BORE = 2;
         public const int MACRO_TRENCH = 3;
+        public const int MACRO_CRANE = 4;
 
         public const int POWER_MODE_SILENT = 0;
         public const int POWER_MODE_CRUISE = 1;
@@ -58,7 +59,8 @@ namespace IngameScript
             "MANUAL_CTC",
             "BENCH_QUARRY",
             "SHAFT_BORE",
-            "TRENCH_CARVE"
+            "TRENCH_CARVE",
+            "CRANE_RECOVERY"
         };
 
         static readonly string[] PowerModeNames = new string[]
@@ -182,8 +184,22 @@ namespace IngameScript
                     _activeMacro = MACRO_BORE;
                 else if (string.Compare(macro, "TRENCH", StringComparison.OrdinalIgnoreCase) == 0)
                     _activeMacro = MACRO_TRENCH;
+                else if (string.Compare(macro, "CRANE", StringComparison.OrdinalIgnoreCase) == 0)
+                    _activeMacro = MACRO_CRANE;
                 else
                     _activeMacro = MACRO_NONE;
+            }
+            else if (string.Compare(cmd, "CRANE", StringComparison.OrdinalIgnoreCase) == 0)
+            {
+                _activeMacro = MACRO_CRANE;
+            }
+            else if (string.Compare(cmd, "SEISMIC", StringComparison.OrdinalIgnoreCase) == 0)
+            {
+                // Trigger acoustic subsurface survey pulse
+            }
+            else if (string.Compare(cmd, "LIGHTS", StringComparison.OrdinalIgnoreCase) == 0)
+            {
+                // Toggle worksite floodlight matrix
             }
             else if (string.Compare(cmd, "STOW", StringComparison.OrdinalIgnoreCase) == 0)
             {
