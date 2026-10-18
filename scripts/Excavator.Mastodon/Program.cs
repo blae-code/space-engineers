@@ -1,8 +1,8 @@
 // Excavator.Mastodon · Space Engineers 1 MDK2 PB Script
-// Target Block: [MAS] PB Excavator
-// Grid: Large Grid Consist (11 × 42 × 6 B · 10 Wheels · 2 Carriages) · Update: Update1
-// Subsystem Groups: MAS STAB, MAS BOOM, MAS TOOL, MAS WHEEL, MAS HITCH, MAS HOLD, MAS MP, MAS DUMP
-// IGC Channels: TMS.MAS.STATUS (out), TMS.MULE.CALL (out), TMS.CAT.CALL (out), TMS.SCOUT.VEIN (in), FLT.MAS.CMD (in)
+// Target Blocks: [MAS] PB Excavator & [MAS] PB RIG//OS-Lite
+// Grid: Large Grid Consist (11 × 42 × 6 B · 10 Wheels · 2 Carriages) · Update: Update1 / Update10
+// Subsystem Groups: MAS STAB, MAS BOOM, MAS TOOL, MAS WHEEL, MAS HITCH, MAS COMM, MAS HOLD, MAS MP, MAS DUMP
+// IGC Channels: RIG.C2.HEARTBEAT, RIG.C2.HANDOVER, TMS.MAS.STATUS, TMS.MULE.CALL, TMS.CAT.CALL, TMS.SCOUT.VEIN, FLT.MAS.CMD
 // Rule C4: Native blocks provide safety; PB provides decision logic.
 
 using System;
@@ -15,18 +15,64 @@ namespace IngameScript
 {
     public partial class Program : MyGridProgram
     {
-        #region Subsystem Configuration & Telemetry
+        #region State Constants & String Tables (Minifier-Safe Zero-GC)
+        public const int ROLE_STANDALONE = 0;
+        public const int ROLE_MOTHERSHIP = 1;
+        public const int ROLE_WORKER = 2;
+        public const int ROLE_FIELD_LEADER = 3;
+
+        public const int STATE_TRANSIT = 0;
+        public const int STATE_ANCHORING = 1;
+        public const int STATE_EXCAVATING = 2;
+        public const int STATE_RETRACTING = 3;
+
+        public const int MACRO_NONE = 0;
+        public const int MACRO_BENCH = 1;
+        public const int MACRO_BORE = 2;
+        public const int MACRO_TRENCH = 3;
+
+        static readonly string[] RoleNames = new string[]
+        {
+            "STANDALONE",
+            "MOTHERSHIP_ROOT",
+            "WORKER_SLAVE",
+            "FIELD_LEADER"
+        };
+
+        static readonly string[] StateNames = new string[]
+        {
+            "TRANSIT",
+            "ANCHORING",
+            "EXCAVATING",
+            "RETRACTING"
+        };
+
+        static readonly string[] MacroNames = new string[]
+        {
+            "MANUAL_CTC",
+            "BENCH_QUARRY",
+            "SHAFT_BORE",
+            "TRENCH_CARVE"
+        };
+        #endregion
+
+        #region Telemetry & Cache
         readonly MyIni _ini = new MyIni();
         readonly StringBuilder _sbEcho = new StringBuilder(512);
         readonly StringBuilder _sbIgc = new StringBuilder(256);
         readonly List<string> _args = new List<string>(8);
-        readonly HeartbeatWatchdog _watchdog = new HeartbeatWatchdog(5.0);
+        readonly HeartbeatWatchdog _c2Watchdog = new HeartbeatWatchdog(10.0);
+
+        int _currentRole = ROLE_MOTHERSHIP; // Default genesis seed role
+        int _currentState = STATE_TRANSIT;
+        int _activeMacro = MACRO_NONE;
         int _tickCounter;
+        bool _outriggersLocked;
         #endregion
 
         public Program()
         {
-            Runtime.UpdateFrequency = UpdateFrequency.Update1;
+            Runtime.UpdateFrequency = UpdateFrequency.Update1 | UpdateFrequency.Update100;
             LoadConfiguration();
             InitHardware();
             Echo("Excavator.Mastodon Initialized.");
@@ -45,23 +91,47 @@ namespace IngameScript
                 return;
             }
 
-            if ((updateSource & (UpdateType.Update1)) != 0)
+            if ((updateSource & UpdateType.Update1) != 0)
             {
-                UpdateTick();
+                UpdateKinematicsTick();
+            }
+
+            if ((updateSource & UpdateType.Update100) != 0)
+            {
+                UpdateC2FleetTick();
             }
         }
 
-        void UpdateTick()
+        void UpdateKinematicsTick()
         {
             _tickCounter++;
-            _watchdog.Tick(1.0 / 6.0); // Approximate based on frequency
 
-            // Zero-GC periodic processing
-            _sbEcho.Clear();
-            _sbEcho.Append("Excavator.Mastodon · ACTIVE\n");
-            _sbEcho.Append("Tick: ");
-            SbFormat.AppendInt(_sbEcho, _tickCounter);
-            Echo(_sbEcho.ToString());
+            // Zero-GC periodic status echo
+            if ((_tickCounter & 63) == 0)
+            {
+                _sbEcho.Clear();
+                _sbEcho.Append("MASTODON-01 MKI · RIG//OS-LITE\n");
+                _sbEcho.Append("Role: ").Append(RoleNames[_currentRole]).Append('\n');
+                _sbEcho.Append("State: ").Append(StateNames[_currentState]).Append('\n');
+                _sbEcho.Append("Macro: ").Append(MacroNames[_activeMacro]).Append('\n');
+                _sbEcho.Append("Outriggers: ").Append(_outriggersLocked ? "BEDROCK LOCKED" : "STOWED").Append('\n');
+                _sbEcho.Append("Tick: ");
+                SbFormat.AppendInt(_sbEcho, _tickCounter);
+                Echo(_sbEcho.ToString());
+            }
+        }
+
+        void UpdateC2FleetTick()
+        {
+            _c2Watchdog.Tick(1.666); // ≈ 100 ticks at 60 Hz
+
+            // In Mothership role, emit C2 beacon heartbeat
+            if (_currentRole == ROLE_MOTHERSHIP)
+            {
+                _sbIgc.Clear();
+                _sbIgc.Append("MAS-01;ROLE=MOTHERSHIP;STATUS=ACTIVE");
+                IGC.SendBroadcastMessage("RIG.C2.HEARTBEAT", _sbIgc.ToString());
+            }
         }
 
         void HandleCommand(string argument)
@@ -70,9 +140,59 @@ namespace IngameScript
             if (_args.Count == 0) return;
 
             string cmd = _args[0];
+
             if (string.Compare(cmd, "PING", StringComparison.OrdinalIgnoreCase) == 0)
             {
-                _watchdog.Ping();
+                _c2Watchdog.Ping();
+            }
+            else if (string.Compare(cmd, "STABILIZE", StringComparison.OrdinalIgnoreCase) == 0)
+            {
+                _currentState = STATE_ANCHORING;
+                _outriggersLocked = true;
+            }
+            else if (string.Compare(cmd, "UNSTABILIZE", StringComparison.OrdinalIgnoreCase) == 0)
+            {
+                _currentState = STATE_RETRACTING;
+                _outriggersLocked = false;
+                _activeMacro = MACRO_NONE;
+            }
+            else if (string.Compare(cmd, "MACRO", StringComparison.OrdinalIgnoreCase) == 0 && _args.Count > 1)
+            {
+                string macro = _args[1];
+                if (string.Compare(macro, "BENCH", StringComparison.OrdinalIgnoreCase) == 0)
+                    _activeMacro = MACRO_BENCH;
+                else if (string.Compare(macro, "BORE", StringComparison.OrdinalIgnoreCase) == 0)
+                    _activeMacro = MACRO_BORE;
+                else if (string.Compare(macro, "TRENCH", StringComparison.OrdinalIgnoreCase) == 0)
+                    _activeMacro = MACRO_TRENCH;
+                else
+                    _activeMacro = MACRO_NONE;
+            }
+            else if (string.Compare(cmd, "STOW", StringComparison.OrdinalIgnoreCase) == 0)
+            {
+                _activeMacro = MACRO_NONE;
+                _currentState = STATE_TRANSIT;
+            }
+            else if (string.Compare(cmd, "HANDOVER", StringComparison.OrdinalIgnoreCase) == 0)
+            {
+                // Yield C2 root to Ground Base
+                if (_currentRole == ROLE_MOTHERSHIP)
+                {
+                    _currentRole = ROLE_FIELD_LEADER;
+                    _sbIgc.Clear();
+                    _sbIgc.Append("MAS-01;GND-01;ACK");
+                    IGC.SendBroadcastMessage("RIG.C2.HANDOVER", _sbIgc.ToString());
+                }
+            }
+            else if (string.Compare(cmd, "ROLE", StringComparison.OrdinalIgnoreCase) == 0 && _args.Count > 1)
+            {
+                string r = _args[1];
+                if (string.Compare(r, "MOTHERSHIP", StringComparison.OrdinalIgnoreCase) == 0)
+                    _currentRole = ROLE_MOTHERSHIP;
+                else if (string.Compare(r, "WORKER", StringComparison.OrdinalIgnoreCase) == 0)
+                    _currentRole = ROLE_WORKER;
+                else if (string.Compare(r, "STANDALONE", StringComparison.OrdinalIgnoreCase) == 0)
+                    _currentRole = ROLE_STANDALONE;
             }
             else if (string.Compare(cmd, "RELOAD", StringComparison.OrdinalIgnoreCase) == 0)
             {
@@ -87,14 +207,13 @@ namespace IngameScript
             MyIniParseResult result;
             if (_ini.TryParse(Me.CustomData, out result))
             {
-                // Parse CustomData keys
+                _currentRole = _ini.Get("RIG_OS", "Role").ToInt32(_currentRole);
             }
         }
 
         void InitHardware()
         {
-            // Cache terminal blocks with strict grid scoping:
-            // b => b.CubeGrid == Me.CubeGrid
+            // Grid-scoped block caching: b => b.CubeGrid == Me.CubeGrid
         }
     }
 }

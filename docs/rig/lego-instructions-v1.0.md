@@ -5082,14 +5082,14 @@ Bow     │ 2-Seat Panoramic Cockpit  Nuclear Core                              
 | **Corner Outriggers** | 4× Large Pistons + 4× Large Magnetic Plates (Palette 1) | 8 | 18.4 t | 260 |
 | **Tractor Power Core** | 2× Small Nuclear Reactors, 2× Large Batteries (Palette 6) | 4 | 16.6 t | 90 |
 | **Articulated Boom** | 2× Adv Rotors, 3× Motor Hinges, 2× Lasers, Girders (Palette 3) | 18 | 34.5 t | 920 |
-| **Armored Bridge & Helm** | 1× Cockpit, 1× Station, Glass, Ore Detector, Antenna (Palette 7) | 12 | 11.2 t | 280 |
+| **Armored Bridge & C2** | 1× Cockpit, 2× Stations, 2× PBs, Laser Antenna, Glass, Detector | 18 | 15.8 t | 410 |
 | **Drawbar Hitch Assembly** | 1× Adv Rotor, 1× Motor Hinge, Heavy Armor Joint Blocks | 6 | 12.0 t | 225 |
 | **Utility Carriage Hull** | Heavy armor frames, wheel wells, deck armor (Palette 0) | 360 | 306.0 t | 360 |
 | **Utility Powertrain** | 4× 5×5 Heavy Suspension Wheels (Axles 4-5) | 4 | 32.0 t | 400 |
 | **Field Workshop & Hab** | 1× Large Assembler, 1× Survival Kit, 2× O2/H2 Tanks | 8 | 38.5 t | 540 |
 | **Utility Cargo Hold** | 1× Large Cargo Container (Components), Conveyor network | 16 | 28.0 t | 160 |
 | **Flight Decks & Dumps** | 1× Mule Gantry Cradle Pad (7×7 B), 2× Kestrel Pads, Stern Dump | 58 | 52.4 t | 480 |
-| **TOTAL CONSIST (DRY)** | Complete Expeditionary Mining Locomotive & Mobile FOB | **940** | **≈ 871.6 t** | **4,755** |
+| **TOTAL CONSIST (DRY)** | Complete Expeditionary Mining Locomotive & Mobile FOB | **946** | **≈ 876.2 t** | **4,885** |
 
 ---
 
@@ -5436,6 +5436,31 @@ Front Elevation · Laser Mining Tool Head (Tip of Forearm)
        └───────────────────┴───────────────────┘
 ```
 
+#### Step 10.9B · Automated Excavation Macro Modes & Kinematic Sweep Sequences
+
+To maximize extraction efficiency and support uncrewed autonomous operation, `[MAS] PB Excavator` implements 3 automated excavation sweep macros:
+
+```
+[AUTOMATED BOOM EXCAVATION SWEEP PATTERNS]
+
+1. BENCH QUARRY MODE (Horizontal Terracing)
+   · Azimuth Turret sweeps across horizontal face: -45.0° (Port) to +45.0° (Starboard).
+   · Shoulder Hinge incrementally steps down -2.5° per pass (0.5 B bench cut depth).
+   · Wrist Pitch automatically levels tools to maintain flat, drivable terrace floors.
+   · Produces clean stair-stepped quarry cuts into mountainsides.
+
+2. VERTICAL SHAFT BORE MODE (Subterranean Access)
+   · Azimuth Turret rotates continuously at 0.5 rpm.
+   · Shoulder and Elbow hinges articulate in synchronized descent vector.
+   · Carves a precise 12.5 m diameter circular vertical shaft down to -25.0 m depth.
+   · Enables extraction of deep uranium/platinum veins below surface overburden.
+
+3. TRENCH & ROAD CARVE MODE (Overland Right-of-Way)
+   · Boom deploys along centerline (Z+), executing downward scoop arc (-5.0 m to grade).
+   · Tractor crawls forward at 2.0 km/h; outriggers cycle in creeping advance pattern.
+   · Automatically clears and grades a level 15.0 m wide roadbed for Caterpillar land trains.
+```
+
 ##### Pre-Enclosure Inspection Gate 10.3A: Outrigger Locking & Boom Joint Inertia Verification
 * [ ] Verify all 4 corner outrigger magnetic plates lock firmly into terrain voxels.
 * [ ] Confirm `Share Inertia Tensor = ON` across all 6 boom joints (Turret Rotor, Shoulder Hinge, Elbow Hinge, Wrist Rotor, Wrist Hinge).
@@ -5455,51 +5480,60 @@ PHASE 10-3 VISUAL MILESTONE · OUTRIGGERS ANCHORED & BOOM DEPLOYED
 
 ---
 
-### Phase 10-4 · Forward Armored C2 Bridge & Helm Cabin (Levels L3-L5)
+### Phase 10-4 · Forward Armored C2 Bridge & Fleet Avionics (Levels L3-L5)
 
 ```
        [PHASE 10-4 SPATIAL LOCATOR HUD]
        Envelope: 7 W × 6 L × 3 H B (17.5 × 15.0 × 7.5 m)
        Coordinate Range: X −3 to +3, Z +7 to +12, Y = L3 to L5
        Station Datums:
-       · Helm Pilot Station: [X −1, Z +10, Y = L4]
-       · Excavation Master Station: [X +1, Z +10, Y = L4]
+       · Station 1 · Helm Pilot: [X −2, Z +10, Y = L4] (Port)
+       · Station 2 · Excavation Master: [X0, Z +10, Y = L4] (Centerline)
+       · Station 3 · Tactical Fleet Director: [X +2, Z +10, Y = L4] (Starboard)
        · Deep Ore Detector: [X0, Z +8, Y = L3]
+       · C2 Compute Rack: [X0, Z +7, Y = L3] (Dual PBs + AI Automaton blocks)
+       · Comms Mast: [X −2, Z +7, Y = L6] (Laser Antenna + 50 km Radio)
        · Survival Kit: [X −2, Z +8, Y = L4]
 ```
 
 #### Pre-Step Parts Tray: Phase 10-4
-* 1× Cockpit (Palette 7: Fleet Command Navy)
-* 1× Control Station (Palette 7)
-* 1× Survival Kit (Tractor Field Respawn)
-* 1× Large Ore Detector (150 m range, Palette 4)
+* 1× Cockpit (`MAS Helm`, Palette 7: Fleet Command Navy)
+* 2× Control Station (`MAS Station Boom`, `MAS Station Fleet`, Palette 7)
+* 2× Programmable Block (`[MAS] PB Excavator`, `[MAS] PB RIG//OS-Lite`, Palette 7)
+* 3× AI Automaton Block (`MAS AI Move`, `MAS AI Task`, `MAS AI Defense`)
+* 1× Laser Antenna (`MAS Comm Laser`, Palette 7)
+* 1× Radio Antenna (`MAS Comm Radio`, 50 km broadcast, Palette 7)
+* 1× Large Ore Detector (150 m subterranean range, Palette 4)
+* 1× Survival Kit (Tractor Field Respawn, Palette 7)
 * 14× Sloped Heavy Armor Glass (Bridge canopy)
-* 4× LCD Panel (Pilot and CTC telemetry HUDs)
+* 6× LCD Panel (Tactical video wall and console telemetry HUDs)
 * 1× Air Vent + 1× Small O2 Tank (Pressurization)
 
 ---
 
-#### Step 10.10 · 2-Seat Panoramic Armored Bridge & Sensor Core
+#### Step 10.10 · 3-Operator Panoramic C2 Command Bridge & Tactical Avionics
 
-Construct the forward command bridge overlooking the terrain. Level L3 accommodates the deep ore detector and avionics; Level L4 accommodates the dual-operator flight deck:
-1. **Helm Pilot Station (`MAS Helm`):** Controls chassis traction, 3-axle steering, outrigger deploy/retract sequences, and hill-climbing crawl.
-2. **Excavation Master Station (`MAS Station Boom`):** Controls the 45 m articulated boom via Custom Turret Controller (CTC) mouse aim or automated sweep script.
-3. **Deep Ore Detector (`MAS Ore Detector`):** Large-grid ore detector set to 150 m range for subterranean deposit mapping.
-
-```
-Plan view, Y = L4 (Bridge Operator Deck)
-        X: −2    0    +2
-    Z: +11 ┌─────────────┐
-           │[HELM] [BOOM]│  ◄── Dual Operator Stations (Navy Blue)
-    Z: +9  │PILOT   CTC  │      Reinforced 45° Sloped Armor Glass
-           ├──────┬──────┤
-    Z: +8  │[SURV]│ [LCD]│  ◄── Survival Kit (Port) / Diagnostic LCD Wall (Stbd)
-           └──────┴──────┘
-    Z: +7  [ORE DETECTOR]   ◄── Large Grid Core (Level L3 · 150 m Reach)
-```
+Construct the forward command bridge overlooking the terrain. Level L3 accommodates the deep ore detector and avionics compute rack; Level L4 accommodates the 3-operator command deck:
+1. **Station 1 (Port): Helm Pilot (`MAS Helm`):** Controls chassis traction, 3-axle steering, outrigger deploy/retract sequences, and hill-climbing crawl.
+2. **Station 2 (Center): Excavation Master (`MAS Station Boom`):** Controls the 45 m articulated boom via Custom Turret Controller (CTC) mouse aim, tool head camera, and automated macro sweep execution.
+3. **Station 3 (Starboard): Tactical Fleet Director (`MAS Station Fleet`):** Runs `RIG//OS-Lite` fleet coordination, dispatching Caterpillar land trains, calling Mule shuttles, receiving Kestrel scout coordinates, and monitoring ore quotas.
+4. **C2 Compute Rack (Level L3):** Houses dual Programmable Blocks (`[MAS] PB Excavator` and `[MAS] PB RIG//OS-Lite`) along with AI Automaton blocks for uncrewed autonomous operation.
+5. **Dorsal Comms Mast (Level L6):** Houses the 40 km Laser Antenna (`MAS Comm Laser`) and 50 km Radio Antenna (`MAS Comm Radio`).
 
 ```
-Dual-Operator Bridge Hotbar Setup:
+Plan view, Y = L4 (Bridge Operator Deck & Tactical Video Wall)
+        X: −2          0          +2
+    Z: +11 ┌───────────────────────────┐
+           │ [HELM]   [BOOM CTC]  [FLEET]│  ◄── 3-Operator Consoles (Navy Blue)
+    Z: +9  │ PILOT     EXCAVATE   TACTIC │      Reinforced 45° Sloped Armor Glass
+           ├───────────┬───────────┬───┤
+    Z: +8  │ [SURV KIT]│ [TAC LCD] │LCD│  ◄── Survival Kit (Port) / 3-Panel Video Wall
+           └───────────┴─────┬─────┴───┘
+    Z: +7  [ORE DETECTOR]    │ [C2 COMPUTE RACK] (L3 Core: Dual PBs + AI Blocks)
+```
+
+```
+3-Operator Bridge Hotbar Setup:
 
 Station 1: Helm Pilot (`MAS Helm`)
 · Slot 1: Group `MAS Outriggers` -> Reverse (Deploy / Retract)
@@ -5509,7 +5543,7 @@ Station 1: Helm Pilot (`MAS Helm`)
 · Slot 5: Group `MAS Tractor Wheels` -> Increase Strength (+5%)
 · Slot 6: Group `MAS Tractor Wheels` -> Decrease Strength (-5%)
 · Slot 7: Event Controller `MAS EC Stabilizers` -> Trigger
-· Slot 8: Antenna -> Broadcast ON/OFF
+· Slot 8: Antenna `MAS Comm Radio` -> Broadcast ON/OFF
 · Slot 9: Connector `MAS MP Conn` -> Lock / Unlock
 
 Station 2: Excavation Master (`MAS Station Boom`)
@@ -5517,17 +5551,29 @@ Station 2: Excavation Master (`MAS Station Boom`)
 · Slot 2: Group `MAS Lasers` -> Shoot ON/OFF
 · Slot 3: Camera `MAS Cam Boom` -> View
 · Slot 4: Group `MAS Boom Lights` -> ON/OFF
-· Slot 5: Boom Preset: Stowed Transit (Run Timer `MAS Timer Stow`)
-· Slot 6: Boom Preset: Deployed Bench (Run Timer `MAS Timer Deploy`)
-· Slot 7: Boom Preset: Deep Shaft Bore (Run Timer `MAS Timer Bore`)
-· Slot 8: Sorter `MAS MP Sorter` -> Drain All ON/OFF
-· Slot 9: Sorter `MAS Stern Sorter` -> Drain All ON/OFF
+· Slot 5: Boom Macro 1: Bench Quarry Mode (Run Timer `MAS Timer Bench`)
+· Slot 6: Boom Macro 2: Vertical Shaft Bore (Run Timer `MAS Timer Bore`)
+· Slot 7: Boom Macro 3: Trench Carve Mode (Run Timer `MAS Timer Trench`)
+· Slot 8: Boom Preset: Stowed Transit (Run Timer `MAS Timer Stow`)
+· Slot 9: Boom Preset: Emergency Stop / Joint Brakes ON
+
+Station 3: Tactical Fleet Director (`MAS Station Fleet`)
+· Slot 1: IGC Send: `TMS.MULE.CALL;MAS-01;RARE_ORE` (Request Air Ferry)
+· Slot 2: IGC Send: `TMS.CAT.CALL;MAS-01;BULK_ORE` (Request Bulk Land Train)
+· Slot 3: Sorter `MAS MP Sorter` -> Drain All ON/OFF
+· Slot 4: Sorter `MAS Stern Sorter` -> Drain All ON/OFF
+· Slot 5: Laser Antenna `MAS Comm Laser` -> Connect Ground Base / Drone
+· Slot 6: LCD Video Wall -> Cycle Page (Fleet Map / Quotas / Holds)
+· Slot 7: Remote Control `MAS-02` (Subordinate Excavator Slave Link)
+· Slot 8: Remote Control `CAT-01` (Caterpillar Land Train Slave Link)
+· Slot 9: Event Controller `MAS EC Handover` -> Trigger C2 Base Handover
 ```
 
-##### Pre-Enclosure Inspection Gate 10.4A: Bridge Airtightness & Sensor Reach Check
+##### Pre-Enclosure Inspection Gate 10.4A: Bridge Airtightness & C2 Network Link Check
 * [ ] Confirm bridge cabin pressurizes to 100% O2 via air vent.
 * [ ] Verify `MAS Ore Detector` displays subterranean ore deposits out to 150 m range.
 * [ ] Confirm CTC block maps mouse yaw to `MAS Turret Azimuth` and mouse pitch to `MAS Shoulder Pitch`.
+* [ ] Confirm `MAS Comm Laser` and `MAS Comm Radio` establish two-way IGC telemetry ping.
 
 ---
 
@@ -5709,24 +5755,72 @@ PHASE 10-6 VISUAL MILESTONE · COMPLETE EXPEDITIONARY MINING TRAIN FOB
 
 ---
 
-### Phase 10-7 · Master Control Logic & Hardware Scripting Contract (`[MAS] PB Excavator`)
+### Phase 10-7 · Master Control Logic, Dual-PB Architecture & RIG//OS-Lite Contract
 
-Every automated system on the Mastodon MKI conforms to this exact naming and grouping dictionary:
+Every automated system on the Mastodon MKI conforms to this dual-compute and dynamic C2 hierarchy contract:
 
-#### 1. Group Taxonomy
+#### 1. Dual-PB Compute Architecture (Tractor L3)
+1. **`[MAS] PB Excavator` (Real-Time Machine Kinematics · Update1 / 60 Hz):**
+   * Manages 3-axle tractive counter-steering and 2-axis motorized drawbar dampening.
+   * Manages 4× corner bedrock outrigger deployment, auto-leveling, and voxel lock verification.
+   * Controls 5-DOF articulated boom inverse kinematics, Custom Turret Controller mouse aim, and automated sweep macros (Bench, Shaft, Trench).
+   * Strict Zero-GC loop execution; numbers formatted through `SbFormat`.
+2. **`[MAS] PB RIG//OS-Lite` (Regional Fleet Orchestration & C2 Hub · Update10 / Update100):**
+   * Manages dynamic C2 election: operates as Fleet Mothership / Root until Ground Base (`GND-01`) is commissioned.
+   * Dispatches Caterpillar bulk land trains (`TMS.CAT.CALL`) and Mule air shuttles (`TMS.MULE.CALL`).
+   * Receives Kestrel scout drone geological scans (`TMS.SCOUT.VEIN`) and displays vein GPS markers on the tactical video wall.
+   * Orchestrates subordinate worker excavators (`MAS-02`, `MAS-03`) via `FLT.MAS.CMD`.
+   * Automatically relinquishes C2 root authority upon detecting Ground Base master heartbeat (`RIG.C2.HEARTBEAT;ROLE=MASTER_BASE`).
+
+```
+State Machine: Dynamic Fleet Authority & C2 Handover
+
+ [BOOT / INITIAL SCAN] ──► Listen for `RIG.C2.HEARTBEAT` (5.0 s timeout)
+            │
+            ├─► Ground Base Heartbeat Detected (`GND-01` Master)
+            │   └─► Role = WORKER_SLAVE (Yields C2 to Base)
+            │
+            ├─► Another Mothership Detected (`MAS-01-M` Active)
+            │   └─► Role = WORKER_SLAVE (Yields C2 to Lead Unit)
+            │
+            └─► No Superior C2 Heartbeat Detected
+                └─► Role = MOTHERSHIP_ROOT (`MAS-01-M`)
+                    │
+                    ├─► Broadcast: `RIG.C2.HEARTBEAT;ORIGIN=MAS-01;ROLE=MOTHERSHIP`
+                    ├─► Accept Fleet Asset Registrations (`TMS.REGISTER`)
+                    ├─► Dispatch Bulk Land Trains and Air Shuttles
+                    │
+                    ▼
+         [GROUND BASE COMMISSIONED]
+         Receives: `RIG.C2.HEARTBEAT;ORIGIN=GND-01;ROLE=MASTER_BASE`
+                    │
+                    ├─► Transmit Active Fleet Registry & Ore Quotas to GND-01
+                    ├─► Emit: `RIG.C2.HANDOVER;ACK=GND-01`
+                    └─► Role = FIELD_LEADER (Expeditionary Sub-Node)
+```
+
+#### 2. Group Taxonomy
 * `MAS Tractor Wheels`: 6× 5×5 suspension wheel units on Carriage 1.
 * `MAS Utility Wheels`: 4× 5×5 suspension wheel units on Carriage 2.
 * `MAS Outriggers`: 4× Hydraulic stabilizer pistons + magnetic plates.
 * `MAS Boom Joints`: 5× Rotors and Hinges articulating the long-reach arm.
 * `MAS Lasers`: 2× Simple Laser Multitools on the tool head.
 * `MAS MP Cradle`: 2× Motorized Hinges + 2× Magnetic Plates on the Mule pad.
-* `MAS Displays`: All cockpit telemetry screens and diagnostic LCDs.
+* `MAS Displays`: All cockpit telemetry screens and tactical video wall LCDs.
 
-#### 2. Block Naming & Terminal Dictionary
+#### 3. Block Naming & Terminal Dictionary
 | Block Type | Exact Terminal Name | Subsystem Role & Functional Configuration |
 |---|---|---|
-| Cockpit (Armored) | `MAS Helm` | Pilot station · Master traction, steering, outrigger control |
-| Control Station | `MAS Station Boom` | Excavation Master station · CTC mouse aim & sweep sequencing |
+| Programmable Block | `[MAS] PB Excavator` | Kinematics & machine control · Update1 · Zero-GC |
+| Programmable Block | `[MAS] PB RIG//OS-Lite` | Regional Fleet C2 Mothership engine · Update10 · IGC router |
+| Cockpit (Armored) | `MAS Helm` | Station 1 (Port) · Pilot traction, steering, outrigger control |
+| Control Station | `MAS Station Boom` | Station 2 (Center) · Excavation Master · CTC mouse aim & macros |
+| Control Station | `MAS Station Fleet` | Station 3 (Stbd) · Tactical Fleet Director · Drone dispatch & C2 |
+| Laser Antenna | `MAS Comm Laser` | 40 km point-to-point line-of-sight data link (L6 mast) |
+| Radio Antenna | `MAS Comm Radio` | 50 km omnidirectional fleet broadcast & heartbeat beacon |
+| AI Move Block | `MAS AI Move` | Autonomous pathfinding & terrain navigation (uncrewed role) |
+| AI Task Block | `MAS AI Task` | Autonomous waypoint execution & ore vein transit |
+| AI Defense Block | `MAS AI Defense` | Threat avoidance · Auto-locks outriggers and stows boom |
 | Piston (Large) | `MAS Outrigger Piston 1..4` | Corner bedrock stabilizer cylinders · `Share Inertia Tensor = ON` |
 | Magnetic Plate | `MAS Outrigger Pad 1..4` | Corner bedrock voxel locking pads · `Auto-Lock = ON` |
 | Advanced Rotor | `MAS Turret Azimuth` | Dorsal boom turntable · 360° pan · `Torque = 50 MN·m` |
@@ -5741,21 +5835,25 @@ Every automated system on the Mastodon MKI conforms to this exact naming and gro
 | Conveyor Sorter | `MAS Stern Sorter` | High-volume bulk ore drain sorter (Fe, Ni, Si, Stone) |
 | Event Controller | `MAS EC Stabilizers` | Blocks boom arm deployment until outriggers report locked |
 | Event Controller | `MAS EC Holds` | Monitors payload mass; alerts at 2,500 t limit |
+| Event Controller | `MAS EC Handover` | Monitors Ground Base heartbeat; triggers C2 handover |
 
-#### 3. Event Controller Matrix
+#### 4. Event Controller Matrix
 | Controller | Monitored Target | Threshold / Condition | Action Slot 1 (On True) | Action Slot 2 (On False) |
 |---|---|---|---|---|
 | `MAS EC Stabilizers`| `MAS Outrigger Pad 1..4` | All 4 Pads = Locked | Enable `MAS Boom Joints` · Sound Ready Chime | Lock `MAS Boom Joints` · Fold Boom |
 | `MAS EC Holds` | Combined Ore Mass | Ore Mass $\ge 2,500\text{ t}$ | Sound Payload Horn · IGC `TMS.MULE.CALL` | Normal Extraction Mode |
 | `MAS EC MP` | `MAS MP Conn` | Status = Connected | `MAS MP Sorter` Drain ON · Cradle Clamp | Sorter OFF · Cradle Retract (0°) |
 | `MAS EC Train` | `MAS Stern Dump Conn` | Status = Connected | `MAS Stern Sorter` Drain ON | Sorter OFF |
+| `MAS EC Handover` | `GND-01` Heartbeat | Signal Detected | Run PB `RIG//OS-Lite` (Argument: `HANDOVER`) | Maintain Mothership Authority |
 
-#### 4. IGC Channel Subscriptions (Ground Fleet Bus)
-* Outbound: `TMS.MAS.STATUS` (`<consist_id>;<ore_mass_t>;<payload_pct>;<gps_coords>;<fob_status>`).
-* Outbound: `TMS.MULE.CALL` (`CALL;<requesting_pad>;<priority>;<payload_type>`).
-* Outbound: `TMS.CAT.CALL` (`CALL;<consist_id>;<bulk_ore_t>;<gps_coords>`).
-* Inbound: `TMS.SCOUT.VEIN` (Receives target ore vein coordinates from Kestrel drones).
-* Inbound: `TMS.CAT.STATUS` (Monitors approaching Caterpillar train for stern docking).
+#### 5. IGC Channel Subscriptions (Ground Fleet & RIG//OS Bus)
+* Network Beacon: `RIG.C2.HEARTBEAT` (`<origin_id>;<role:MOTHERSHIP|BASE|WORKER>;<gps_coords>`).
+* Network Handover: `RIG.C2.HANDOVER` (`<source_id>;<target_id>;<asset_registry_payload>`).
+* Logistics Outbound: `TMS.MULE.CALL` (`CALL;<requesting_pad>;<priority>;<payload_type>`).
+* Logistics Outbound: `TMS.CAT.CALL` (`CALL;<consist_id>;<bulk_ore_t>;<gps_coords>`).
+* Fleet Telemetry: `TMS.MAS.STATUS` (`<consist_id>;<ore_mass_t>;<payload_pct>;<gps_coords>;<fob_status>`).
+* Geological Inbound: `TMS.SCOUT.VEIN` (Receives target ore vein coordinates from Kestrel drones).
+* Subordinate Dispatch: `FLT.MAS.CMD` (`<target_id>;<command>;<waypoint_gps>`).
 
 ---
 
@@ -5766,17 +5864,24 @@ Every automated system on the Mastodon MKI conforms to this exact naming and gro
 * [ ] **Counter-Steer Tracking:** Verify Axle 5 counter-steers, pulling the utility carriage cleanly through tight 35 m radius curves with zero curb clipping.
 * [ ] **Slope Holding:** Stop consist on 25° incline. Confirm wheel handbrakes and 100% friction settings prevent downslope roll.
 
-#### B · Outrigger Anchoring & 45 m Boom Excavation
+#### B · Outrigger Anchoring & Automated Boom Macros
 * [ ] **Outrigger Bedrock Anchor:** Press hotkey 1 (`Deploy Stabilizers`). Confirm all 4 corner pistons extend downward and magnetic plates achieve 100% voxel lock. Confirm chassis is completely rigid.
 * [ ] **3D Hemispheric Sweep:** Engage CTC mouse aim. Sweep boom through 360° horizontal pan, −20° terrain undercutting, and +75° high bench cuts. Confirm zero chassis wobble or physics jitter.
-* [ ] **Laser Extraction Rate:** Fire `MAS Laser 1 & 2`. Verify raw ore transfers seamlessly through internal boom piping into the buffer hold.
+* [ ] **Bench Quarry Macro Test:** Trigger `MAS Timer Bench`. Verify boom executes automated -45° to +45° horizontal sweeps with -2.5° incremental shoulder steps and flat floor leveling.
+* [ ] **Shaft Bore Macro Test:** Trigger `MAS Timer Bore`. Verify 360° continuous rotation and synchronized helical vertical descent to -25.0 m.
 * [ ] **Collision Sensor Stop:** Drive boom tool head toward obstacle; confirm `MAS Sensor Boom` stops joint movement at 5.0 m distance.
 
 #### C · Mobile FOB & Dual Logistics Verification
 * [ ] **Mule Air Offload:** Land MULE-01 on utility roof pad. Verify cradle arms swing 30° inward, magnetic plates clamp, and rare ores drain at $> 150\text{ t/min}$.
 * [ ] **Caterpillar Train Rail Dump:** Reverse Caterpillar train into stern bumper. Verify large connector locks and 2,500 t bulk ore dumps in $< 90\text{ seconds}$.
 * [ ] **Field Workshop Operations:** Queue 1,000 Steel Plates in `MAS Utility Assembler`. Verify autonomous fabrication using mined iron ingots.
-* [ ] **Scout Recon Data Link:** Land Kestrel scout drone on Pad P1; verify `TMS.SCOUT.VEIN` telemetry updates bridge LCD with subterranean coordinates.
+
+#### D · C2 Fleet Orchestration & Handover Trials
+* [ ] **Mothership Heartbeat Broadcast:** Confirm `MAS-01` broadcasts `RIG.C2.HEARTBEAT;ROLE=MOTHERSHIP` on 50 km radio and laser comms.
+* [ ] **Subordinate Worker Binding:** Simulate subordinate worker `MAS-02`; confirm it binds to `MAS-01` and appears on Station 3 Tactical Video Wall.
+* [ ] **Logistics Task Dispatch:** Trigger 90% ore buffer threshold; verify `RIG//OS-Lite` autonomously broadcasts `TMS.MULE.CALL` and `TMS.CAT.CALL`.
+* [ ] **Ground Base Handover Protocol:** Simulate `GND-01` Ground Base C2 boot; verify `MAS-01` detects `ROLE=MASTER_BASE`, transmits fleet registry, and steps down to `FIELD_LEADER` without human intervention.
+
 
 
 ---

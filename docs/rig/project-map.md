@@ -68,8 +68,10 @@ Last updated: 2026-10-17
 | 53 | Prospector scout drone specification: KESTREL-01 (7×9×5 sb, ore detector, T/W 6.8, belly dock) | 2026-10-17 | CHANGELOG |
 | 54 | Utility and field-repair craft specification: ALBATROSS-01 (9×11×5 sb, ship welder, Medium cargo, 640 kN lift) | 2026-10-17 | CHANGELOG |
 | 55 | Mastodon MKI expeditionary mining locomotive & mobile FOB (segmented 2-car train, 45 m articulated laser boom, outriggers) | 2026-10-18 | CHANGELOG |
+| 56 | Mastodon MKI Genesis Seed & RIG//OS-Lite Mothership architecture (Dual PB, 3-operator bridge, automated macros, C2 handover) | 2026-10-18 | CHANGELOG |
 
 ### Open (§10 + mining concept + merge)
+
 
 | # | Question | Blocking | Notes |
 | --- | --- | --- | --- |
