@@ -48,5 +48,56 @@ namespace IngameScript
         {
             return AppendFix2(sb, ratio * 100.0).Append('%');
         }
+
+        public static StringBuilder AppendDouble(StringBuilder sb, double value, int decimals = 1)
+        {
+            if (double.IsNaN(value) || double.IsInfinity(value))
+            {
+                sb.Append("--");
+                return sb;
+            }
+            if (value < 0)
+            {
+                sb.Append('-');
+                value = -value;
+            }
+            long whole = (long)value;
+            AppendInt(sb, whole);
+            if (decimals <= 0) return sb;
+
+            sb.Append('.');
+            double remainder = value - whole;
+            for (int i = 0; i < decimals; i++)
+            {
+                remainder *= 10.0;
+                int digit = (int)remainder;
+                sb.Append((char)('0' + (digit % 10)));
+                remainder -= digit;
+            }
+            return sb;
+        }
+
+        public static StringBuilder AppendAngleDeg(StringBuilder sb, float rad)
+        {
+            double deg = rad * (180.0 / Math.PI);
+            return AppendDouble(sb, deg, 1).Append('°');
+        }
+
+        public static StringBuilder AppendPadded(StringBuilder sb, string text, int totalWidth, bool leftAlign = true)
+        {
+            if (text == null) text = "";
+            int pad = totalWidth - text.Length;
+            if (leftAlign)
+            {
+                sb.Append(text);
+                for (int i = 0; i < pad; i++) sb.Append(' ');
+            }
+            else
+            {
+                for (int i = 0; i < pad; i++) sb.Append(' ');
+                sb.Append(text);
+            }
+            return sb;
+        }
     }
 }
