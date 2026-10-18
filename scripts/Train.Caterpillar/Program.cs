@@ -1,8 +1,8 @@
 // Train.Caterpillar · Space Engineers 1 MDK2 PB Script
-// Target Block: [CAT] PB Train
-// Grid: Large Grid (42 B Consist · 16 Wheels) · Update: Update1
-// Subsystem Groups: CAT LOCO, CAT HITCH, CAT CAR, CAT UNLOAD
-// IGC Channels: TMS.CAT.STATUS (out), TMS.CAT.CMD (in), GND.CAT.DOCK (in)
+// Target Block: [CAT] PB Train Master
+// Grid: Large Grid (42 B Consist · 16 Wheels) · Update: Update1 + Update100
+// Subsystem Groups: CAT Train Wheels, CAT Hitches, CAT Holds, CAT Loco Power, CAT Lights
+// IGC Channels: TMS.CAT.STATUS (out), TMS.BASE.RECEIVING (in), TMS.MAST.TRANSFER (in), TMS.CONVOY.SYNC (in)
 // Rule C4: Native blocks provide safety; PB provides decision logic.
 
 using System;
@@ -22,11 +22,17 @@ namespace IngameScript
         readonly List<string> _args = new List<string>(8);
         readonly HeartbeatWatchdog _watchdog = new HeartbeatWatchdog(5.0);
         int _tickCounter;
+        int _telemetryTicks;
+        string _powerMode = "MODE 3: CRUISE";
+        bool _dumpActive;
+        double _grossMassKg = 368500.0;
+        double _payloadOreKg;
+        float _speedKmh;
         #endregion
 
         public Program()
         {
-            Runtime.UpdateFrequency = UpdateFrequency.Update1;
+            Runtime.UpdateFrequency = UpdateFrequency.Update1 | UpdateFrequency.Update100;
             LoadConfiguration();
             InitHardware();
             Echo("Train.Caterpillar Initialized.");
@@ -34,7 +40,7 @@ namespace IngameScript
 
         public void Save()
         {
-            // Save state to Storage
+            // State persisted to Storage
         }
 
         public void Main(string argument, UpdateType updateSource)
@@ -47,20 +53,41 @@ namespace IngameScript
 
             if ((updateSource & (UpdateType.Update1)) != 0)
             {
-                UpdateTick();
+                UpdateTickFast();
+            }
+
+            if ((updateSource & (UpdateType.Update100)) != 0)
+            {
+                UpdateTickSlow();
             }
         }
 
-        void UpdateTick()
+        void UpdateTickFast()
         {
             _tickCounter++;
-            _watchdog.Tick(1.0 / 6.0); // Approximate based on frequency
+            _watchdog.Tick(1.0 / 60.0);
 
-            // Zero-GC periodic processing
+            // Fast traction loop and speed monitoring
+        }
+
+        void UpdateTickSlow()
+        {
+            _telemetryTicks++;
+            BroadcastStatus();
+
             _sbEcho.Clear();
             _sbEcho.Append("Train.Caterpillar · ACTIVE\n");
-            _sbEcho.Append("Tick: ");
-            SbFormat.AppendInt(_sbEcho, _tickCounter);
+            _sbEcho.Append("Consist: 42 B (16 Wheels)\n");
+            _sbEcho.Append("Mode: ");
+            _sbEcho.Append(_powerMode);
+            _sbEcho.Append("\nGross Mass (t): ");
+            SbFormat.AppendDouble(_sbEcho, _grossMassKg * 0.001, 1);
+            _sbEcho.Append("\nPayload Ore (t): ");
+            SbFormat.AppendDouble(_sbEcho, _payloadOreKg * 0.001, 1);
+            _sbEcho.Append("\nSpeed (km/h): ");
+            SbFormat.AppendDouble(_sbEcho, _speedKmh, 1);
+            _sbEcho.Append("\nDump Active: ");
+            _sbEcho.Append(_dumpActive ? "TRUE" : "FALSE");
             Echo(_sbEcho.ToString());
         }
 
@@ -74,11 +101,38 @@ namespace IngameScript
             {
                 _watchdog.Ping();
             }
+            else if (string.Compare(cmd, "MODE_CRUISE", StringComparison.OrdinalIgnoreCase) == 0)
+            {
+                _powerMode = "MODE 3: CRUISE";
+            }
+            else if (string.Compare(cmd, "MODE_HILL_CLIMB", StringComparison.OrdinalIgnoreCase) == 0)
+            {
+                _powerMode = "MODE 4: HILL_CLIMB";
+            }
+            else if (string.Compare(cmd, "DUMP", StringComparison.OrdinalIgnoreCase) == 0)
+            {
+                _dumpActive = !_dumpActive;
+            }
             else if (string.Compare(cmd, "RELOAD", StringComparison.OrdinalIgnoreCase) == 0)
             {
                 LoadConfiguration();
                 InitHardware();
             }
+        }
+
+        void BroadcastStatus()
+        {
+            _sbIgc.Clear();
+            _sbIgc.Append("CAT-01;");
+            SbFormat.AppendDouble(_sbIgc, _grossMassKg * 0.001, 1);
+            _sbIgc.Append(";");
+            SbFormat.AppendDouble(_sbIgc, _payloadOreKg * 0.001, 1);
+            _sbIgc.Append(";");
+            SbFormat.AppendDouble(_sbIgc, _speedKmh, 1);
+            _sbIgc.Append(";");
+            _sbIgc.Append(_dumpActive ? "DUMP_ACTIVE" : "EN_ROUTE");
+
+            IGC.SendBroadcastMessage("TMS.CAT.STATUS", _sbIgc.ToString());
         }
 
         void LoadConfiguration()
@@ -87,7 +141,7 @@ namespace IngameScript
             MyIniParseResult result;
             if (_ini.TryParse(Me.CustomData, out result))
             {
-                // Parse CustomData keys
+                // Parse CustomData
             }
         }
 

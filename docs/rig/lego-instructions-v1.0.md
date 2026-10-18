@@ -8565,21 +8565,45 @@ State Machine: Dynamic Fleet Authority & C2 Handover
 
 ## Chapter 11 · CATERPILLAR-01 Land Train (CAT-01)
 
-Source: `docs/rig/chapters/caterpillar-instructions.md` · 42 B Length · Articulated Drawbar Hitch & Modular Hoppers
+Lego-style, step-by-step visual build manual and hardware-to-scripting interface contract for the **CATERPILLAR-01 (CAT-01)** Heavy Wheeled Bulk Land Train.
+Each step features: an exact ASCII schematic, Spatial Locator HUD, in-game paint palette assignments, pre-step parts tray, critical joint/conveyor settings, Pre-Enclosure Inspection Gates ("Points of No Return"), and Phase-End Visual Milestones.
 
-### 0 · Reference Grid, In-Game Paint Palette & Consist Envelope
+### Design Directives & Operational Scope (Decisions 10, 25, 35, 41, 51, 52, 60, 66, 67 & 70)
+* **Role:** High-volume terrestrial bulk ore and aggregate hauler operating on designated planetary surface corridors between the **MASTODON-01 MKI** heavy excavator and the **Ground Base Refinery Complex (GND-01)**. Serves as the high-tonnage Ground Tier transport backbone of the dual-tier logistics architecture (Decision 52), complementing the agile Air Tier MULE-01 freight shuttle.
+* **Architecture:** 4-Unit Articulated Consist (42 B / 105.0 m total length):
+  1. **Tractor Locomotive (`CAT-01-L`): 7 W × 9 L × 4 H B (4 Wheels · Axles 1 & 2):** Heavy tractive engine, forward-sloped armored panoramic single-operator engineer cab (`CAT Loco Helm`), 15 MW nuclear reactor vault + 12 MWh battery buffer across 4× Large Batteries (48 MW surge discharge), 25 km radio antenna mast, forward heavy push-bumper with large receiving connector (`CAT Loco Front Conn`) matching Mastodon's stern dump port, and aft 3-axis heavy motorized drawbar hitch.
+  2. **Hopper Car 1 (`CAT-01-C1`): 5 W × 7 L × 4 H B (4 Wheels · Axles 3 & 4):** Modular bulk hopper, 4-wheel distributed power unit (DPU) smart traction assist, 1× Large Cargo Container (`CAT Hold 1`, 3×3×3 B, 1,386,000 L @ 3× Inventory), top-loading funnel chute, side inspection ports, and inter-car gangway plates.
+  3. **Hopper Car 2 (`CAT-01-C2`): 5 W × 7 L × 4 H B (4 Wheels · Axles 5 & 6):** Identical modular bulk hopper unit (`CAT Hold 2`), mid-consist conveyor repeater line, DPU smart traction assist, and dual 3-axis drawbar joints.
+  4. **Hopper Car 3 / Tender (`CAT-01-C3`): 5 W × 9 L × 4 H B (4 Wheels · Axles 7 & 8):** Final hopper unit (`CAT Hold 3`), stern high-speed terminal discharge manifold with pressurized Conveyor Sorter (`CAT Train Sorter`, Drain All = ON), stern large connector (`CAT Train Unload Conn`), and heavy collision bumper with alignment guide horns matching Ground Base Bulk Receiving Dock.
+* **Grid:** Large Grid (1 B = 2.5 m) · **Consist Envelope:** 7 W × 42 L × 4 H B (17.5 × 105.0 × 10.0 m).
+* **Mass:** Consist Dry Mass `≈ 368.5 t` (Locomotive: 148.2 t · Drawbars: 24.6 t · 3× Hoppers: 195.7 t) · Max Laden Mass `≈ 2,868.5 t` (Earth 1 g).
+* **Payload Capacity:** 2,500 t bulk ore across 3× Large Cargo Container holds (4,158,000 L combined volume @ 3× Inventory).
+* **Mechanical & Powertrain Suite (Decisions 10, 35 & 67):** 16× 5×5 Off-Road Suspension Wheels across 8 axles. Front steering axle on locomotive (±32.0°); all 14 trailing wheels track straight with 100% synchronized propulsion torque. 3× 3-Axis Motorized Conveyor Drawbars (Yaw Rotor ±45°, Pitch Hinge ±25°, Roll Rotor ±20°) with `Share Inertia Tensor = ON` and magnetic anti-sway clamps (`CAT Hitch Clamp Port/Stbd`) active at speed > 40 km/h.
+* **Fast-Dump Terminal Performance (Decision 51):** High-speed pressurized discharge manifold empties 2,500 t of bulk ore into Ground Base in `< 90 seconds` via stern connector and in-deck collectors.
+* **Operating Environment:** Earth 1 g baseline, surface roadbed, quarry benches, and cross-country haulage corridors.
 
-#### 0.1 Coordinate Triad & Axis Conventions
-* **Consist Reference Origin (X0, Y0, Z0):** Locomotive center chassis at Level L1 (midpoint of locomotive wheelbase).
-* **X (Beam / Transverse):** Port is negative (−), Starboard is positive (+), Centerline is 0.
-* **Y (Elevation):** Wheel hubs / belly frame is Level L1, advancing upward to Cab/Hopper Roof at Level L4.
-* **Z (Length / Longitudinal):** Stern discharge bumper is negative (−), Bow push bumper is positive (+).
+---
+
+## 0 · Reference Grid, In-Game Paint Palette & Master Consist Layout
+
+### 0.1 Coordinate Triad & Axis Conventions
+* **Origin (X0, Y0, Z0):** Midpoint of the Tractor Locomotive wheelbase at Level L1, along centerline X0.
+* **X (Beam / Transverse):** Port is negative (−), Starboard is positive (+), Centerline is 0. Spans X −3.5 to +3.5 on Locomotive (7 B wide = 17.5 m) and X −2.5 to +2.5 on Hopper Cars (5 B wide = 12.5 m).
+* **Y (Elevation):** Wheel contact patch is Level L0 (Y = −1.25 m); wheel hubs and chassis box girders are Level L1 (Y = 0); cab deck and hopper midline are Level L2; hopper holds are Level L3; cab/hopper roof is Level L4 (10.0 m total height).
+* **Z (Length / Longitudinal):** Stern discharge bumper is negative (−), Bow push-bumper is positive (+). Spans Z −17 to +25 (42 blocks total = 105.0 m).
+  * Tractor Locomotive (`CAT-01-L`): Z +16 to +25 (9 blocks length = 22.5 m). Wheelbase datum Z0 is at Z +21.
+  * Drawbar Hitch 1: Z +14 to +16 (2 blocks mechanical span = 5.0 m).
+  * Hopper Car 1 (`CAT-01-C1`): Z +7 to +14 (7 blocks length = 17.5 m).
+  * Drawbar Hitch 2: Z +5 to +7 (2 blocks mechanical span = 5.0 m).
+  * Hopper Car 2 (`CAT-01-C2`): Z −2 to +5 (7 blocks length = 17.5 m).
+  * Drawbar Hitch 3: Z −4 to −2 (2 blocks mechanical span = 5.0 m).
+  * Hopper Car 3 / Tender (`CAT-01-C3`): Z −17 to −4 (9 blocks length = 22.5 m).
 
 ```
 Spatial Alignment Triad:
        [+Y: Zenith / Consist Roof L4]
               │
-              │   [+Z: Bow / Locomotive Push Bumper]
+              │   [+Z: Bow / Locomotive Push-Bumper]
               │   /
               │  /
               │ /
@@ -8587,517 +8611,802 @@ Spatial Alignment Triad:
              /│
             / │
            /  │
-  [−Z: Stern / Final Car Discharge Port]
+  [−Z: Stern / Tender Discharge Bumper]
               │
        [−Y: Ground Contact / Level L0]
 ```
 
-#### 0.2 In-Game Paint Palette & Functional Color Coding
+---
 
-To eliminate builder confusion across a 105 m multi-unit train, all structural armor and functional blocks MUST be painted during assembly using standard Space Engineers palette slots:
+### 0.2 In-Game Paint Palette & Functional Color Coding
+
+To eliminate builder confusion across a 105 m multi-unit consist, all structural armor and functional blocks MUST be painted during assembly using standard Space Engineers palette slots:
 
 | Palette Slot | Color Name | Hex Code | Visual Swatch | Functional Zone / System Component |
 |---|---|---|---|---|
-| **Slot 0** | Industrial Dark Gray | `#2B303A` | Dark Slate | Locomotive chassis, hopper undercarriages, wheel well frames |
-| **Slot 1** | Heavy Rail Crimson | `#9E2A2B` | Deep Crimson | Locomotive forward push bumper, final car rear dump bumper |
-| **Slot 2** | Hazard Amber | `#E6A100` | Bright Amber | 2-Axis Drawbar Hitches (`CAT Hitch Yaw & Pitch`), jumper hoses |
+| **Slot 0** | Industrial Dark Gray | `#2B303A` | Dark Slate | Locomotive chassis, hopper undercarriages, wheel well frames, belly skids |
+| **Slot 1** | Heavy Rail Crimson | `#9E2A2B` | Deep Crimson | Locomotive bow push-bumper, final car stern dump bumper, crash horns |
+| **Slot 2** | Hazard Amber | `#E6A100` | Bright Amber | 3-Axis Drawbar Hitches (`CAT Hitch Yaw/Pitch/Roll`), jumper hoses, brake skids |
 | **Slot 3** | Freight Transport Orange | `#D35400` | Deep Orange | Modular Hopper Car outer hull plating, top funnel intake chutes |
-| **Slot 4** | Processing Teal | `#1ABC9C` | Bright Teal | Central Train Conveyor Spine, large-port flexible drawbar pipes |
+| **Slot 4** | Processing Teal | `#1ABC9C` | Bright Teal | Central Train Conveyor Spine, large-port flexible drawbar pipes, sorters |
 | **Slot 5** | Logistics Emerald | `#27AE60` | Rich Green | Modular Large Cargo Container holds (`CAT Hold 1, 2, 3`) |
-| **Slot 6** | High-Voltage Alert Red | `#C0392B` | Alert Red | Locomotive Power Core (1× Small Reactor, 4× Large Batteries) |
-| **Slot 7** | Fleet Command Navy | `#1B263B` | Deep Navy | Locomotive Armored Cab shell, driver console framing |
-| **Slot 8** | Clean Armor White | `#ECF0F1` | Clean White | Consist unit numbers, roof warning stripes, cab beacon base |
-| **Slot 9** | High-Viz Safety Yellow | `#F1C40F` | Canary Yellow | Side running boards, grab irons, brake reservoir tanks |
+| **Slot 6** | High-Voltage Alert Red | `#C0392B` | Alert Red | Locomotive Power Vault (1× Small Reactor, 4× Large Batteries) |
+| **Slot 7** | Fleet Command Navy | `#1B263B` | Deep Navy | Locomotive Armored Cab shell, driver console framing, beacon mounts |
+| **Slot 8** | Clean Armor White | `#ECF0F1` | Clean White | Consist unit numbers (`LOCO-01`, `CAR-01..03`), roof warning stripes |
+| **Slot 9** | High-Viz Safety Yellow | `#F1C40F` | Canary Yellow | Side running boards, grab irons, maintenance ladders, brake reservoirs |
 
 ---
 
-#### 0.3 Consist Profile Elevation & Unit Layout
+### 0.2B Exterior Livery & Two-Tone Color Blocking Map
+
+To achieve a cohesive industrial locomotive aesthetic matching the Mastodon MKI and Ground Base, paint must follow strict functional zone lines across the consist:
 
 ```
-Consist Layout (Looking Starboard, Total Length: 42 B / 105.0 m):
-     Z: +25 (Bow)      +17      +15      +8       +6       −1       −3      −10 (Stern)
-  L4    ┌───────────────┐        ┌────────┐        ┌────────┐        ┌────────┐
-        │ LOCOMOTIVE    │        │ HOPPER │        │ HOPPER │        │ TENDER │
-  L3    │ ARMOR CAB     │        │ CAR 1  │        │ CAR 2  │        │ CAR 3  │
-  L2    ├───────────────┤ [HITCH]├────────┤ [HITCH]├────────┤ [HITCH]├────────┤
-        │[BUMP][FRONT C]│ ═══╦═══│[HOLD 1]│ ═══╦═══│[HOLD 2]│ ═══╦═══│[HOLD 3]│[DUMP]
-  L1    └──[WH 1]─[WH 2]┘    ║   └──[W][W]┘    ║   └──[W][W]┘    ║   └──[W][W]┘
-        ◄── 7W×9L×4H B ─►    ▼   ◄5W×7L×4H►    ▼   ◄5W×7L×4H►    ▼   ◄5W×7L×4H►
-                           Drawbar 1         Drawbar 2         Drawbar 3
+[EXTERIOR ELEVATION LIVERY MAP · STARBOARD PROFILE (LOOKING PORT)]
+Level
+L4  │         [SLOT 7: NAVY CAB]               [SLOT 3: ORANGE TOP FUNNELS & CATWALKS (CAR 1-3)]
+L3  │ ═══════[SLOT 7: NAVY CAB ROOF]════════════[SLOT 3: ORANGE HOPPER CAR ARMOR CASING]══════════
+L2  │ ───────────────────[SLOT 1: CRIMSON BELTLINE STRIPE (Z +25 to Z −17)]──────────────────────
+L1  │ ═══════[SLOT 0: INDUSTRIAL DARK GRAY CHASSIS BOX GIRDERS & WHEEL MOUNTS]════════════════════
+L0  │    (O)=======(O)       [SLOT 2: DRAWBAR]      (O)=======(O)       [SLOT 2]      (O)=======(O)
+        Axle 1    Axle 2                           Axle 3    Axle 4                  Axle 5    Axle 6
+        ◄── LOCOMOTIVE ──►                         ◄── HOPPER 1 ──►                  ◄── HOPPER 2 ──►
 ```
+
+| Zone / Component | Primary Palette Slot | Hex Code | Visual Application & Boundaries |
+|---|---|---|---|
+| **Chassis Box Girders** | Slot 0 (Industrial Dark Gray) | `#2B303A` | Level L1 structural sills, axle mounts, belly deflector plates across all 4 units |
+| **Beltline Rail Stripe** | Slot 1 (Heavy Rail Crimson) | `#9E2A2B` | Level L2 continuous 1-block stripe running along flanks from bow bumper to stern dump |
+| **Armored Driver Cab** | Slot 7 (Fleet Command Navy) | `#1B263B` | Levels L3-L4 forward cab shell, brow visor, roof crown, and rear cab bulkhead |
+| **Hopper Car Envelopes** | Slot 3 (Freight Orange) | `#D35400` | Levels L2-L4 hopper hull side plates, top funnel chamfers, and corner transitions |
+| **3-Axis Drawbar Hitches**| Slot 2 (Hazard Amber) | `#E6A100` | Levels L1-L2 articulated hinges, drawbar tongues, and magnetic clamp arms |
+| **Crash & Alignment Bumpers**| Slot 1 (Heavy Rail Crimson) | `#9E2A2B` | Bow push-bumper (Z +25) and stern terminal dump bumper (Z −17) with yellow striping |
 
 ---
 
-#### 0.4 Master Train Conveyor Flow Schematic
-
-The train functions as a single continuous conveyor pipeline from the locomotive front push bumper through all three hopper holds to the final car discharge connector:
+### 0.3 Master Consist Top Plan View (Levels L1-L4)
 
 ```
-                   [MASTODON STERN BUMPER]
-                              │
-                              ▼
-      [CAT Loco Front Conn] (Locomotive Push Bumper, L2, X0)
-                              │
-                              ▼ (Locomotive Underbody Spine)
-      [DRAWBAR HITCH 1] (Flexible Large Conveyor Pass-Through)
-                              │
-                              ▼
-      [CAT Car 1 Hold] (Large Cargo Container 3×3×3 B)
-                              │
-                              ▼
-      [DRAWBAR HITCH 2] (Flexible Large Conveyor Pass-Through)
-                              │
-                              ▼
-      [CAT Car 2 Hold] (Large Cargo Container 3×3×3 B)
-                              │
-                              ▼
-      [DRAWBAR HITCH 3] (Flexible Large Conveyor Pass-Through)
-                              │
-                              ▼
-      [CAT Car 3 Hold] (Large Cargo Container 3×3×3 B)
-                              │
-                              ▼ (Stern Car Drain Line)
-      [CAT Train Sorter] (Conveyor Sorter · Drain All = ON)
-                              │
-                              ▼
-      [CAT Train Unload Conn] (Final Car Rear Bumper Connector, L2)
-                              │
-                              ▼ (Dumps 2,500 t ore in < 90 s)
-                   [GROUND BASE RECEIVING HOPPER]
-```
-
----
-
-#### 0.5 Master Electrical Single-Line Schematic
-
-```
-               LOCOMOTIVE POWER PLANT (1× Small Reactor + 4× Large Batteries)
-                    15 MW Nuclear · 12 MWh Battery · 48 MW Max Discharge
-                                      │
-                                      ▼
-                             TRAIN-WIDE POWER BUS
-        ┌─────────────────────────────┼─────────────────────────────┐
-        │                             │                             │
-        ▼                             ▼                             ▼
-  LOCOMOTIVE DRIVE              HOPPER CAR DRIVE MOTORS       AUTOMATION & BRAKES
-  4× 5×5 Heavy Wheels           12× 5×5 Wheel Drive Motors    Synchronized Air Brakes
-  (8.0 MW Max Hill Climb)       (24.0 MW Distributed Traction) C2 Comms Relay (0.1 MW)
-  [Cruising Load: 2.2 MW]       [100% Shared Torque Assist]   Unload Sorter Pumps (0.5 MW)
+[MASTER CONSIST PLAN VIEW · COMPOSITE LEVELS L1-L4]
+         Port (−X)                 Centerline (X0)               Starboard (+X)
+Z: +25   ┌────────────────────────[CAT FRONT CONN]────────────────────────┐   ◄── Bow Push Bumper (L2)
+         │ [CRIMSON BUMPER]        [CONVEYOR SPINE]      [CRIMSON BUMPER] │
+Z: +23  (O) [WH 1: STEER P]       [POWER VAULT CORE]    (O) [WH 2: STEER S]   ◄── Axle 1 (±32° Steer)
+Z: +22   │                         [CABIN: CAT HELM]                      │
+Z: +21   │ [LARGE BATTERY 1,2]     [SMALL REACTOR]       [LARGE BATTERY 3,4]│  ◄── Wheelbase Datum Z0
+Z: +19  (O) [WH 3: DRIVE P]       [CONVEYOR SPINE]      (O) [WH 4: DRIVE S]   ◄── Axle 2 (Fixed Drive)
+Z: +17   └─────────────────────────[HITCH 1 BULKHEAD]────────────────────┘
+Z: +15   ══════════════════════════[DRAWBAR HITCH 1]══════════════════════   ◄── 3-Axis Joint 1
+Z: +14   ┌─────────────────────────[FRONT BULKHEAD]───────────────────────┐
+Z: +13  (O) [WH 5: DPU P]         [CONVEYOR RISER]      (O) [WH 6: DPU S]     ◄── Axle 3 (Hopper 1 Fwd)
+Z: +11   │ ╲                      ┌──────────────┐                      ╱ │
+Z: +10.5 │  ╲                     │  CAT HOLD 1  │                     ╱  │   ◄── Large Cargo (3×3×3 B)
+Z: +10   │   TOP FUNNEL CHUTE     │ (1,386,000 L)│     TOP FUNNEL CHUTE   │       Top Funnel Intake (L4)
+Z: +8   (O) [WH 7: DPU P]         │              │      (O) [WH 8: DPU S]     ◄── Axle 4 (Hopper 1 Aft)
+Z: +7    └────────────────────────┴──────────────┴────────────────────────┘
+Z: +5    ══════════════════════════[DRAWBAR HITCH 2]══════════════════════   ◄── 3-Axis Joint 2
+Z: +4    ┌─────────────────────────[FRONT BULKHEAD]───────────────────────┐
+Z: +3   (O) [WH 9: DPU P]         [CONVEYOR RISER]      (O) [WH 10: DPU S]    ◄── Axle 5 (Hopper 2 Fwd)
+Z: +1    │ ╲                      ┌──────────────┐                      ╱ │
+Z: +0.5  │  ╲                     │  CAT HOLD 2  │                     ╱  │   ◄── Large Cargo (3×3×3 B)
+Z: 0     │   TOP FUNNEL CHUTE     │ (1,386,000 L)│     TOP FUNNEL CHUTE   │
+Z: −2   (O) [WH 11: DPU P]        │              │      (O) [WH 12: DPU S]    ◄── Axle 6 (Hopper 2 Aft)
+Z: −3    └────────────────────────┴──────────────┴────────────────────────┘
+Z: −5    ══════════════════════════[DRAWBAR HITCH 3]══════════════════════   ◄── 3-Axis Joint 3
+Z: −6    ┌─────────────────────────[FRONT BULKHEAD]───────────────────────┐
+Z: −7   (O) [WH 13: DPU P]        [CONVEYOR RISER]      (O) [WH 14: DPU S]    ◄── Axle 7 (Tender Fwd)
+Z: −9    │ ╲                      ┌──────────────┐                      ╱ │
+Z: −10.5 │  ╲                     │  CAT HOLD 3  │                     ╱  │   ◄── Large Cargo (3×3×3 B)
+Z: −11   │   TOP FUNNEL CHUTE     │ (1,386,000 L)│     TOP FUNNEL CHUTE   │
+Z: −13  (O) [WH 15: DPU P]        └──────┬───────┘      (O) [WH 16: DPU S]    ◄── Axle 8 (Tender Aft)
+Z: −15   │                        [CAT TRAIN SORTER]                      │   ◄── Drain All = ON
+Z: −17   └────────────────────────[CAT TRAIN UNLOAD]──────────────────────┘   ◄── Stern Dump Bumper (L2)
 ```
 
 ---
 
-#### 0.6 Master Pre-Flight Bill of Materials (BOM)
+### 0.4 Master Consist Profile Elevation (Looking Starboard, X0 Plane)
 
-| Consist Unit | Dimensions | Block Count | Dry Mass | PCU | Bulk Capacity |
-|---|---|---|---|---|---|
-| **Tractor Locomotive** | 7 W × 9 L × 4 H B | 142 | 146.5 t | 1,220 | Power, Cab & Steering |
-| **Drawbar Hitch (ea ×3)**| 1 W × 2 L × 1 H B | 6 (18 total) | 8.2 t (24.6 t) | 200 (600) | 2-Axis Conveyor Link |
-| **Hopper Car (ea ×3)** | 5 W × 7 L × 4 H B | 78 (234 total)| 64.0 t (192.0 t)| 650 (1,950)| 1× Large Cargo (833 t ore) |
-| **COMPLETE 3-CAR TRAIN**| Total Length: 42 B | **394** | **≈ 363.1 t** | **3,770** | **≈ 2,500 t Bulk Ore** |
+```
+[MASTER CONSIST PROFILE ELEVATION · TOTAL LENGTH: 42 B / 105.0 m]
+      Z: +25 (Bow)      +21      +17     +14      +10.5     +7      +4       +0.5     −3      −6      −10.5    −17 (Stern)
+Level
+L4       ┌───────────────┐               ┌───────────────┐      ┌───────────────┐      ┌─────────────────────────┐
+         │ INDUSTRIAL    │               │ TOP FUNNEL    │      │ TOP FUNNEL    │      │ TOP FUNNEL & CATWALK    │
+L3       │ CABIN (NAVY)  │               │ CHUTE (CAR 1) │      │ CHUTE (CAR 2) │      │ CHUTE (CAR 3 / TENDER)  │
+         ├───────────────┤   [HITCH 1]   ├───────────────┤[HITCH]├───────────────┤[HITCH]├────────────────┬────────┤
+L2       │[BUMP][FRONT C]│═══[YAW/PITCH]═│  CAT HOLD 1   │══╦═══│  CAT HOLD 2   │══╦═══│  CAT HOLD 3    │[SORTER]│[DUMP]
+         ├───────────────┤               ├───────────────┤  ║   ├───────────────┤  ║   ├────────────────┴────────┤
+L1       └──[WH 1]─[WH 2]┘               └──[WH 3]─[WH 4]┘  ║   └──[WH 5]─[WH 6]┘  ║   └──[WH 7]───────[WH 8]────┘
+L0    ──────(O)─────(O)─────────────────────(O)─────(O)─────▼──────(O)─────(O)─────▼──────(O)───────────(O)───────
+         ◄── 7W×9L×4H B ─►               ◄── 5W×7L×4H B ─►      ◄── 5W×7L×4H B ─►      ◄────── 5W×9L×4H B ──────►
+          LOCOMOTIVE (L)                  HOPPER CAR 1 (C1)      HOPPER CAR 2 (C2)       HOPPER CAR 3 / TENDER (C3)
+```
 
 ---
 
-### Phase 1 · Tractor Locomotive Construction (Levels L1-L4)
+### 0.4B Consist 3/4 Isometric Perspectives & Stance Wireframes
 
 ```
-       [PHASE 1 SPATIAL LOCATOR HUD]
-       Unit: Tractor Locomotive (CAT-LOCO)
-       Envelope: 7 W × 9 L × 4 H B (17.5 × 22.5 × 10.0 m)
-       Coordinate Range: X −3 to +3, Z +17 to +25, Y = L1 to L4
+[3/4 ISOMETRIC WIREFRAME · TRACTOR LOCOMOTIVE BOW & CABIN]
+                      +Y (Zenith L4)
+                            ▲
+                            │       ┌───────────────────────┐  ◄── Cab Brow Visor (L4, Z +23)
+                            │      ╱                       ╱│
+                            │     ┌───────────────────────┐ │
+                            │     │   PANORAMIC CABIN     │ │  ◄── Navy Industrial Cab (L3)
+                            │     │   [CAT LOCO HELM]     │ │
+             -X (Port) ◄────┼────►+X (Starboard)          │ │
+                           ╱│     ├───────────────────────┤ │  ◄── Heavy Push Bumper Sill (L2)
+                          ╱ │     │[BUMP] [FRONT CONN]    │ │  ◄── Large Receiving Port (Z +25)
+                         ╱  │     │                       │╱
+                        ▼   │     └──(O)─────────────(O)──┘    ◄── Axles 1 & 2 (5×5 Wheels L1)
+                   -Z (Stern)        Axle 1          Axle 2
+
+[3/4 ISOMETRIC WIREFRAME · HOPPER CAR & 3-AXIS DRAWBAR JOINT]
+                            ▲
+                            │     ┌───[TOP FUNNEL CHUTE]───┐   ◄── 45° Inward Loading Chutes (L4)
+                            │    ╱                        ╱│
+                            │   ┌────────────────────────┐ │
+                            │   │     CAT HOLD 1 (3×3)   │ │   ◄── Large Cargo (L2-L3)
+                            │   │  (LOGISTICS EMERALD)   │ │
+                            │   ├────────────────────────┤ │
+  [LEADING CAR BULKHEAD]    │   │   CONVEYOR SPINE       │ │
+            ║               │   └───(O)────────────(O)───┘ │   ◄── Axles 3 & 4 (5×5 Wheels L1)
+            ╠══[YAW ROTOR]──┼────────┼──────────────┼──────┘
+            ║       │       │        ▼              ▼
+            ║  [PITCH HINGE]│      Axle 3         Axle 4
+            ║       │       │
+            ║  [ROLL ROTOR] ◄── 3-Axis Gimbal Drawbar Joint (Hazard Amber, Level L2)
+```
+
+---
+
+### 0.4C Transverse Hull Station Profiles & Chamfer Specifications
+
+To ensure exact block-by-block structural fidelity during survival printing, transverse cross-sections are specified at 5 critical consist stations:
+
+```
+Station 1 · Bow Push-Bumper (Z = +25, Looking Stern)
+Level
+L3  │               ┌─────────┐
+    │               │ CAB EYE │   ◄── Industrial Cockpit Forward Viewport (X0)
+L2  │   ┌───────────┴─────────┴───────────┐
+    │   │[CRIMSON BUMPER] [FRONT C] [BUMP]│   ◄── Large Connector at X0, Blast Door Sills at X ±1 to ±3
+L1  │   └─────┬─────────────────────┬─────┘
+    │        (O) [5×5 SUSPENSION]  (O)        ◄── Flared Mudguards Over Axle 1 (X = ±3.5)
+L0  │    ◄── 1.25 m Belly Skid Clearance ──►
+
+Station 2 · Locomotive Mid-Section Power Core (Z = +21, Looking Stern)
+Level
+L4  │               ┌─────────┐
+    │               │ CAB ROOF│   ◄── Heavy Armor Slopes Angled 45° to Beacon
+L3  │   ┌───────────┼─────────┼───────────┐
+    │   │ [BATTERY] │ [REACT] │ [BATTERY] │   ◄── 15 MW Small Reactor at X0; 4× Large Batteries at X ±1 to ±2
+L2  │   ├───────────┴─────────┴───────────┤
+    │   │ ═══════[CONVEYOR SPINE]════════ │   ◄── Large Conveyor Junction at X0, Beltline Crimson at X ±3
+L1  │   └─────┬─────────────────────┬─────┘
+    │        (O) [FIXED WHEELS]    (O)        ◄── Axle 2 (Fixed Straight-Line Drive)
+
+Station 3 · 3-Axis Drawbar Articulation Joint (Z = +15, Looking Stern)
+Level
+L3  │          [FLEXIBLE CONVEYOR HOSE]       ◄── Large Curved Conveyor Bridge Loop
+L2  │       ┌──[CAT HITCH PITCH HINGE]──┐
+    │       │ ◄── YAW ADVANCED ROTOR ──►│     ◄── 2-Axis Gimbal Joint (Amber, X0, Level L2)
+L1  │   ════╧═══════════════════════════╧════ ◄── Low-Profile Tension Drawbar Tongue
+L0  │    ◄────── 2.5 m Ground Clearance ─────►
+
+Station 4 · Hopper Car Cargo Body (Z = +10.5, Looking Stern)
+Level
+L4  │   ┌───╲                     ╱───┐       ◄── Heavy Armor Slopes Form 45° Top Funnel Chute
+L3  │   │    ┌───────────────────┐    │
+    │   │    │  CAT HOLD (3×3)   │    │       ◄── Large Cargo Container (3×3×3 B, Centered X0)
+L2  │   │    │ (LOGISTICS GREEN) │    │       ◄── Orange Hull Shell (X = ±2) + Crimson Beltline
+L1  │   └──┬─┴───────────────────┴─┬──┘
+    │     (O) [DPU TRACTION WHEELS](O)        ◄── 5×5 Suspension Wheels (X = ±2.5)
+
+Station 5 · Stern Unload Bumper & Dump Manifold (Z = −17, Looking Bow)
+Level
+L3  │   ┌─────────────────────────────┐
+    │   │ REAR COLLISION BLUNT BUMPER │       ◄── Heavy Armor Blast Doors & Crimson Slopes
+L2  │   │ [GUIDE] [UNLOAD CONN] [GUIDE│       ◄── Large Connector at X0, Funnel Alignment Wedges at X ±2
+L1  │   └──────┬───────────────┬──────┘
+    │         (O) [CAT SORTER] (O)            ◄── Conveyor Sorter Angled Forward to Unload Connector
+L0  │    ◄── 1.25 m Tarmac Ground Line ──►
+```
+
+---
+
+### 0.5 Master Conveyor Routing Schematic & Physical Maintenance Ports
+
+The train functions as a single continuous conveyor pipeline from the locomotive front push-bumper through all three hopper holds to the final car discharge connector:
+
+```
+                   [MASTODON MKI STERN BUMPER]
+                                │
+                                ▼
+        [CAT Loco Front Conn] (Locomotive Push-Bumper, L2, X0)
+                                │
+                                ▼ (Locomotive Underbody Spine)
+        [CAT Large Conveyor Riser 1] (Level L1 to L2 Junction)
+                                │
+                                ▼
+        [DRAWBAR HITCH 1] (Flexible Large Conveyor Loop across Yaw/Pitch Joint)
+                                │
+                                ▼
+        [CAT Hold 1] (Hopper Car 1 · Large Cargo 3×3×3 B, L2-L3)
+          │ ◄── Physical Manual Inspection Hatch (Port L2)
+          ▼ (Underbody Inter-Car Riser)
+        [DRAWBAR HITCH 2] (Flexible Large Conveyor Loop across Joint 2)
+                                │
+                                ▼
+        [CAT Hold 2] (Hopper Car 2 · Large Cargo 3×3×3 B, L2-L3)
+          │ ◄── Physical Manual Inspection Hatch (Port L2)
+          ▼ (Underbody Inter-Car Riser)
+        [DRAWBAR HITCH 3] (Flexible Large Conveyor Loop across Joint 3)
+                                │
+                                ▼
+        [CAT Hold 3] (Hopper Car 3 / Tender · Large Cargo 3×3×3 B, L2-L3)
+          │ ◄── Physical Manual Inspection Hatch (Port L2)
+          ▼
+        [CAT Train Sorter] (Conveyor Sorter · Drain All = ON · Whitelist Bulk)
+                                │
+                                ▼
+        [CAT Train Unload Conn] (Final Car Rear Bumper Connector, L2, X0)
+                                │
+                                ▼ (Dumps 2,500 t ore in < 90 s)
+                   [GROUND BASE RECEIVING DOCK]
+```
+
+### Physical Maintenance Ports & Manual Access Hatches
+To comply with survival maintenance standards and allow physical clearing of conveyor blockages:
+* **Port 1 (Locomotive Power Core):** Manual small conveyor access hatch at [X −2, Z +21, L2] for loading enriched uranium rods into `CAT Loco Reactor` directly from personal inventory.
+* **Ports 2, 3, 4 (Hopper Holds 1, 2, 3):** Standard large-port maintenance hatches exposed along the lower Port sill (X = −2, Level L2) on each hopper car, allowing manual clearing or component retrieval without disassembly.
+* **Port 5 (Stern Discharge Manifold):** Inspection junction at [X0, Z −15, L2] upstream of `CAT Train Sorter` to clear unlisted items or oversized salvage debris.
+
+---
+
+### 0.6 Master Electrical Single-Line Schematic & 5-Mode Energy Management Suite
+
+```
+[MASTER ELECTRICAL SINGLE-LINE SCHEMATIC]
+PRIMARY GENERATION:
+  [CAT Loco Reactor] (1× Small Nuclear Reactor, Centered [X0, Z +21, L3]) ──► 15.0 MW Continuous
+ENERGY STORAGE BUFFER:
+  [CAT Loco Battery 1..4] (4× Large Batteries, L2-L3) ───────────────────────► 12.0 MWh Capacity / 48.0 MW Discharge
+TRAIN-WIDE ELECTRICAL BUS (High-Voltage Subgrid Pass-Through):
+  ├─────────────────────────────────────────────────────────────────────────► 63.0 MW Peak Instantaneous
+  │
+  ├─► [CAT Loco Wheels] (4× 5×5 Suspension Drive Motors) ───────────────────► 8.0 MW Max Draw (Tractor)
+  ├─► [CAT Car Wheels] (12× 5×5 Suspension DPU Drive Motors) ───────────────► 24.0 MW Max Draw (Hoppers 1-3)
+  ├─► [CAT Hitches] (6× Motorized Hinge / Rotor Actuators) ─────────────────► 0.6 MW Active Steering/Damping
+  ├─► [CAT Train Sorter] (1× Conveyor Sorter Discharge Pump) ───────────────► 0.5 MW Fast Drain
+  └─► [CAT Avionics & Comms] (Antenna, Cockpit, Beacon, Lights) ────────────► 0.2 MW Baseline Load
+```
+
+### 5 Formal Operational Energy Management Modes
+1. **Mode 1 · Silent Watchkeeping (Parked / Standby):**
+   * Output: `0.2 MW`. Reactor idling; batteries set to `Auto`; all wheel suspension propulsion `OFF`; brake locks engaged.
+2. **Mode 2 · Empty Shunting & Alignment (Speed < 30 km/h):**
+   * Output: `4.5 MW`. Reactor powers locomotive steering and creep propulsion; hopper car DPU motors operate at 25% torque assist; hitch damping set to 20% for tight yard radius flex.
+3. **Mode 3 · Laden Highway Cruise (Speed 50-70 km/h, Mass 2,868 t):**
+   * Output: `18.5 MW` (15 MW Nuclear + 3.5 MW Battery assist). All 16 wheel drive motors engaged with synchronized torque; hitch damping stiffened to 85% to eliminate harmonic trailer whip.
+4. **Mode 4 · Heavy Hill-Climb (20° Incline, Peak Tractive Draw):**
+   * Output: `32.0 MW` (15 MW Nuclear + 17 MW Battery surge). All 16 wheel suspension motors commanded to 100% torque; DPU smart traction engages slip control.
+5. **Mode 5 · Terminal Fast Discharge (Docked to Ground Base):**
+   * Output: `3.5 MW`. Engine throttle cut; parking brakes locked; `CAT Train Sorter` commanded `Drain All = ON`; 2,500 t bulk ore purged across connector in < 90 s. Batteries recharge from Ground Base grid via locked connector.
+
+---
+
+### 0.7 Master Consist Bill of Materials (BOM) & Mass Budget
+
+| Subsystem / Unit | Dimensions (m) | Block Count | Dry Mass (t) | PCU | Power Draw (MW) | Notes & Key Blocks |
+|---|---|---|---|---|---|---|
+| **Tractor Locomotive (`CAT-01-L`)** | 17.5 × 22.5 × 10.0 | 146 | 148.2 | 1,265 | 15.0 MW gen / 8.0 MW draw | 1× Ind Cockpit, 1× Sm Reactor, 4× Lrg Battery, 4× 5×5 Wheels, Push-Bumper |
+| **Drawbar Hitch 1 (Loco to Car 1)**| 2.5 × 5.0 × 2.5 | 6 | 8.2 | 200 | 0.2 MW | 1× Adv Rotor (Yaw), 1× Motor Hinge (Pitch), 1× Adv Rotor (Roll), Clamps |
+| **Hopper Car 1 (`CAT-01-C1`)** | 12.5 × 17.5 × 10.0 | 78 | 64.0 | 650 | 8.0 MW draw | 1× Lrg Cargo (3×3×3 B), 4× 5×5 Wheels, 45° Funnel Chutes, Gangways |
+| **Drawbar Hitch 2 (Car 1 to Car 2)**| 2.5 × 5.0 × 2.5 | 6 | 8.2 | 200 | 0.2 MW | Identical 3-axis motorized flexible conveyor joint |
+| **Hopper Car 2 (`CAT-01-C2`)** | 12.5 × 17.5 × 10.0 | 78 | 64.0 | 650 | 8.0 MW draw | Identical modular hopper car unit |
+| **Drawbar Hitch 3 (Car 2 to Car 3)**| 2.5 × 5.0 × 2.5 | 6 | 8.2 | 200 | 0.2 MW | Identical 3-axis motorized flexible conveyor joint |
+| **Hopper Car 3 / Tender (`CAT-01-C3`)**| 12.5 × 22.5 × 10.0 | 84 | 67.7 | 785 | 8.5 MW draw | 1× Lrg Cargo, 4× 5×5 Wheels, Sorter, Unload Connector, Crash Bumper |
+| **MASTER CONSIST TOTALS** | **17.5 × 105.0 × 10.0** | **404** | **368.5 t** | **3,950** | **15 MW Gen / 63 MW Surge** | **Earth 1 g Laden Mass: 2,868.5 t (2,500 t Ore)** |
+
+* All wheel suspension ratings, braking torques, and structural masses calculated at Earth 1 g baseline.
+* Game values tagged with `†` awaiting in-game confirmation in RIG Test:
+  * Small Reactor peak continuous output = `15.0 MW`†.
+  * Large Battery peak discharge rate = `12.0 MW` per unit (48.0 MW combined)†.
+  * 5×5 Suspension Wheel maximum braking torque = `30.0 MN·m`†.
+
+---
+
+### 0.8 Master Player Circulation, Access Corridors & Maintenance Walkways
+
+To ensure 100% physical accessibility for survival engineers in field conditions:
+1. **Pressurized Operator Cab (Locomotive Level L3):** Enclosed single-seat cockpit (`CAT Loco Helm`) accessed via Port-side exterior ladder at [X −3, Z +22, L2]. Cabin features survival suit life support, oxygen pressurization, and emergency survival kit.
+2. **Continuous Side Running Boards (Levels L1-L2):** Non-skid steel catwalk plates run along both Port (X = −3.5) and Starboard (X = +3.5) sills of the locomotive, allowing walk-around inspection while parked.
+3. **Inter-Car Articulated Footplates (Level L2):** Overlapping Heavy Armor Half-Blocks mounted above each drawbar hitch provide a continuous walking bridge between cars across the flexible joint gap.
+4. **Hopper Catwalks & Grab Irons (Levels L3-L4):** Vertical ladders mounted on the forward bulkhead of each hopper car climb to elevated perimeter catwalks bordering the top loading funnel chutes, providing full visual inspection of bulk ore intake.
+
+---
+
+### 0.9 CATERPILLAR-02 (MKII) Heavy Armored Rail / Combat Upgrade Roadmap
+
+* **Operational Context:** In advanced survival scenarios or contested hostile sectors subject to Modular Encounter Spawner (MES) pirate raids, the CATERPILLAR-01 consist can be upgraded to the **MKII Armored Combat Rail Consist**:
+  1. **Locomotive Armored Prow & CIWS Crown:** Replace bow push-bumper with a faceted heavy armor snowplow ram; mount 1× Large Grid Gatling Turret (`CAT Turret Cab`) atop Level L4 roof crown tied to ammo sorters.
+  2. **Hopper Armor Skirts:** Extend heavy armor blast skirts downward along Level L1 to shield all 16 suspension wheel stators from small-arms and explosive shrapnel.
+  3. **Tender Rear Defense Emplacement:** Mount 1× Large Grid Autocannon Turret atop the tender aft gantry covering the rear convoy approach sector.
+  4. **Conveyor Armor Encapsulation:** Enclose all flexible drawbar jumper loops within overlapping heavy armor collar rings.
+
+---
+
+## Phase 11-1 · Tractor Locomotive Heavy Chassis & 4-Wheel Powertrain (Levels L1-L2)
+
+```
+       [PHASE 11-1 SPATIAL LOCATOR HUD]
+       Unit: Tractor Locomotive (CAT-01-L)
+       Envelope: 7 W × 9 L × 2 H B (17.5 × 22.5 × 5.0 m)
+       Coordinate Range: X −3.5 to +3.5, Z +16 to +25, Level L1 to L2
        Key Datums:
-       · Front Bumper Face: Z = +25, Level L1-L2
-       · Rear Hitch Bulkhead: Z = +17, Level L1-L2
-       · Front Steering Axle: Z = +23 (X = ±3)
-       · Rear Drive Axle: Z = +19 (X = ±3)
-       · Engineer Cab Center: [X0, Z +22, Y = L3]
+       · Front Push-Bumper Datum: Z = +25, Level L1-L2
+       · Rear Hitch Attachment Bulkhead: Z = +16, Level L1-L2
+       · Front Steering Axle 1: Z = +23, X = ±3.5 (5×5 Wheels)
+       · Rear Fixed Drive Axle 2: Z = +19, X = ±3.5 (5×5 Wheels)
+       · Chassis Centerline Box Girder: X0, Z +16 to +25
 ```
 
-#### Step 11.1 · Locomotive Heavy Chassis & 4-Wheel Powertrain (L1-L2)
-
-Build the 7 W × 9 L heavy-armor box chassis spanning Z +17 to +25. Mount 4× 5×5 heavy suspension wheels outward at X = ±3.
-
-```
-Plan view, Y = L1 (Locomotive Wheel Placement & Steering)
-        X: −3          0          +3
-    Z: +23 [WHEEL 1 (P)] ═══════ [WHEEL 2 (S)]   ◄── Front Steering Axle (±32.0°)
-           ║                     ║
-    Z: +21 ║   POWER VAULT CORE  ║
-           ║                     ║
-    Z: +19 [WHEEL 3 (P)] ═══════ [WHEEL 4 (S)]   ◄── Rear Fixed Axle (0.0° · Locked)
-```
-
-┌──────────────────────────────────────────────────────────────────────────────────────┐
-│ STEP 11.1 PARTS TRAY & SUSPENSION TUNING GUIDE                                       │
-├─────────────────────┬─────┬───────────────┬──────────────────────────────────────────┤
-│ Block Type          │ Qty │ Mass / PCU    │ Axle Settings & Parameters               │
-├─────────────────────┼─────┼───────────────┼──────────────────────────────────────────┤
-│ Heavy Armor Block   │ 42  │ 126.0 t / 42  │ Palette Slot 0 (Slate); perimeter box    │
-│ Wheel 5×5 Susp (L)  │ 2   │  16.0 t / 200 │ Port side (X = −3), face outward (−X)    │
-│ Wheel 5×5 Susp (R)  │ 2   │  16.0 t / 200 │ Stbd side (X = +3), face outward (+X)    │
-└─────────────────────┴─────┴───────────────┴──────────────────────────────────────────┘
-
-**Settings for `CAT Loco Wheels`:**
-* Front Axle (`WH 1, 2`): Steering = `ON` (Angle = `32.0°`), Propulsion = `ON` (Torque = `100%`), Friction = `70%`, Strength = `65%`
-* Rear Axle (`WH 3, 4`): Steering = `OFF` (Locked 0°), Propulsion = `ON` (Torque = `100%`), Friction = `75%`, Strength = `70%`
-* Speed Limit: `70 km/h`
+### Pre-Step Master Parts Tray: Phase 11-1
+* 42× Heavy Armor Blocks (Palette Slot 0: `#2B303A`, 126.0 t, 42 PCU)
+* 18× Heavy Armor Half-Slopes (Palette Slot 0, 18.0 t, 18 PCU)
+* 8× Heavy Armor Slopes (Palette Slot 0, 16.0 t, 8 PCU)
+* 2× Wheel Suspension 5×5 Left (16.0 t, 200 PCU)
+* 2× Wheel Suspension 5×5 Right (16.0 t, 200 PCU)
+* 9× Large Conveyor Tubes (Palette Slot 4: `#1ABC9C`, 7.2 t, 90 PCU)
+* 2× Large Conveyor Junctions (Palette Slot 4, 2.6 t, 26 PCU)
 
 ---
 
-#### Step 11.2 · Armored Engineer Cab & Power Plant (L2-L4)
-
-Install the nuclear power generator, battery bank, and elevated operator cab. The power core delivers 15 MW continuous baseline with 48 MW battery surge capacity to feed all trailing hopper cars.
+### Step 11.1 · Twin Longitudinal Box Girders & Underbody Skid Keel (L1)
+Build the primary foundation spine of the locomotive from Z +16 to +25:
+1. Lay two parallel Heavy Armor box girders at X = −2 and X = +2 spanning Z +16 to +25 at Level L1.
+2. Tie the girders together with transverse cross-beams at Z = +16, Z = +21, and Z = +25.
+3. Install continuous Heavy Armor Half-Blocks along centerline X0, forming a flat underside skid plate providing 1.25 m clearance above ground.
+4. Bevel the girder outer edges using Heavy Armor Half-Slopes sloping inward toward X0.
 
 ```
-Elevation, looking Port at Locomotive (X = 0):
-       L4  ┌───────────────────┐  Roof Deck (Beacon & Antenna)
-           │ [INDUSTRIAL CAB]  │  (Palette Slot 7: Navy Blue)
-       L3  ├───────────────────┤
-           │ [RCT] [BAT 1..4]  │  ◄── Power Vault (Palette Slot 6: Red)
-       L2  ├───────────────────┤
-           │ [CONVEYOR SPINE]  │  ◄── Level L2 Conveyor Pass-Through
-       L1  ═════[WH 3]═══[WH 1]═  Ground Contact Baseline
+Plan view, Level L1 (Locomotive Chassis Box Girders)
+         X: −2            X0            +2
+Z: +25   ■════════════════╤════════════════■   ◄── Bow Bumper Tie Beam
+Z: +23   │  [BOX GIRDER]  │  [BOX GIRDER]  │
+Z: +21   ■════════════════╪════════════════■   ◄── Midline Tie Beam (Datum Z0)
+Z: +19   │  [BOX GIRDER]  │  [BOX GIRDER]  │
+Z: +16   ■════════════════╧════════════════■   ◄── Aft Drawbar Tie Beam
 ```
-
-┌──────────────────────────────────────────────────────────────────────────────────────┐
-│ STEP 11.2 PARTS TRAY                                                                 │
-├─────────────────────┬─────┬───────────────┬──────────────────────────────────────────┤
-│ Block Type          │ Qty │ Mass / PCU    │ System Role & Output                     │
-├─────────────────────┼─────┼───────────────┼──────────────────────────────────────────┤
-│ Industrial Cockpit  │ 1   │   3.5 t / 15  │ `CAT Loco Helm` (Centered X0, Z +22, L3) │
-│ Small Reactor       │ 1   │   1.6 t / 25  │ `CAT Loco Reactor` (15 MW baseline power)│
-│ Large Battery       │ 4   │  20.0 t / 80  │ `CAT Loco Battery 1..4` (12 MWh, 48 MW)† │
-│ Radio Antenna (Lrg) │ 1   │   8.0 t / 100 │ `CAT Loco Antenna` (Range: 25,000 m)     │
-└─────────────────────┴─────┴───────────────┴──────────────────────────────────────────┘
 
 ---
 
-#### Step 11.3 · Bow Push Bumper & Mastodon Docking Port (L1-L2)
+### Step 11.2 · Central Conveyor Raceway & Manifold Junctions (L1-L2)
+Install the primary ore transport conduit through the chassis core:
+1. Lay 7× Large Conveyor Tubes along centerline X0 from Z +17 to Z +24 at Level L1.
+2. Mount 1× Large Conveyor Junction at [X0, Z +25, L1] angled upward to feed the bow push-bumper connector.
+3. Mount 1× Large Conveyor Junction at [X0, Z +16, L2] angled aft (−Z) to feed Drawbar Hitch 1.
 
-Construct the reinforced forward push-bumper and large receiving connector. This allows the train to mate directly with the Mastodon stern bumper to take on bulk ore in the field.
+---
 
-```
-Front elevation, looking Stern at Bow Bumper (Z = +25)
-        X: −2     0    +2
-    L3     ┌─────────────┐  ◄── Armored Cab Panoramic Viewport
-    L2     ■──[CAT FRONT]─■  ◄── Large Connector (`CAT Loco Front Conn`)
-    L1     ■═════════════■  ◄── Heavy Push Bumper (Palette Slot 1: Crimson)
-```
+### Step 11.3 · 5×5 Suspension Wheel Mounts & Axles 1 & 2 Geometry (L1)
+Install the locomotive tractive gear:
+1. Mount 2× Wheel Suspension 5×5 Left units on the Port chassis sill at [X −3, Z +23, L1] (`WH 1: Steer P`) and [X −3, Z +19, L1] (`WH 3: Drive P`), facing outward (−X).
+2. Mount 2× Wheel Suspension 5×5 Right units on the Starboard sill at [X +3, Z +23, L1] (`WH 2: Steer S`) and [X +3, Z +19, L1] (`WH 4: Drive S`), facing outward (+X).
+3. Ensure suspension stators orient with steering pivot pins strictly vertical (Y-axis).
+
+#### Terminal Configuration & Tuning Sliders (`CAT Loco Wheels`):
+* **Axle 1 (`WH 1, 2` · Front Steering):** Steering = `ON` (Angle = `32.0°`), Propulsion = `ON` (Torque = `100%`), Friction = `70%`, Strength = `65%`, Height Offset = `−10 cm` (lowers CoM).
+* **Axle 2 (`WH 3, 4` · Rear Drive):** Steering = `OFF` (Locked 0.0°), Propulsion = `ON` (Torque = `100%`), Friction = `75%`, Strength = `70%`, Height Offset = `−10 cm`.
+* **Speed Limit:** Set to `70.0 km/h` project-wide.
+
+---
+
+### Step 11.4 · Flared Wheel Arch Mudguards & Side Running Boards (L2)
+1. Mount Heavy Armor Half-Blocks directly above each 5×5 wheel hub at X = ±3 to ±4, Level L2.
+2. Cap the outer mudguard sills with Heavy Armor Half-Slopes angled 45° downward, protecting suspension stators from flying ballast stone.
+3. Lay catwalk plates along X = ±3.5 between the wheel arches to create continuous side running boards for engineer access.
 
 > [!CAUTION]
-> **PRE-ENCLOSURE INSPECTION GATE 11.1A: LOCOMOTIVE SPINE & POWER INTEGRITY**
-> Before enclosing the locomotive side armor:
-> 1. Verify uninterrupted large-conveyor flow from `CAT Loco Front Conn` (Z +25) straight through to the rear hitch bulkhead (Z +17).
-> 2. Ensure reactor automated uranium pull is operational.
-> 3. Verify driver cockpit controls: Handbrake, Group `CAT Train Wheels`, Group `CAT Hitches`, Connector lock/unlock.
+> **PRE-ENCLOSURE INSPECTION GATE 11.1A: CHASSIS & POWERTRAIN INTEGRITY**
+> Before proceeding to cab deck framing:
+> 1. Verify uninterrupted large-conveyor flow along centerline X0 from Z +25 to Z +16.
+> 2. Confirm Axle 1 steers freely through ±32° without clipping adjacent chassis armor blocks.
+> 3. Verify all 4 suspension wheel stators belong to group `CAT Loco Wheels` and respond to brake input.
 
 ---
 
-##### Visual Milestone 11-1 · Tractor Locomotive Complete
+#### Visual Milestone 11-1 · Locomotive Chassis Complete
 
 ```
-Visual Checkpoint Silhouette (Looking Port Side at Locomotive):
-                       [ARMORED CAB L3]
-                              │
-      [PUSH BUMPER L1-L2]     │             [REAR HITCH BULKHEAD]
-             \                │                     /
-     ═════════╧═══════════════╧═════════════════════╧═════════
-                 7 W × 9 L × 4 H TRACTOR LOCOMOTIVE (L1)
+Visual Checkpoint Silhouette (Looking Port at Locomotive Chassis L1-L2):
+            [BOW BUMPER MOUNT Z +25]             [DRAWBAR BULKHEAD Z +16]
+                       \                                   /
+         ═══════════════╧═════════════════════════════════╧═══════════════
+               (O) [AXLE 1: STEER]               (O) [AXLE 2: DRIVE]
 ```
 
-* [ ] Locomotive empty mass verified: `≈ 146.5 t`.
-* [ ] Front wheels steer smoothly through ±32° without chassis binding.
-* [ ] Power plant delivers 63 MW combined surge power to the main bus.
+* [ ] Subgrid dry mass verified: `≈ 148.2 t`.
+* [ ] 1.25 m belly skid clearance maintained under full suspension compression.
 
 ---
 
-### Phase 2 · 2-Axis Articulated Conveyor Drawbar Hitch (Levels L1-L2)
+## Phase 11-2 · Locomotive Power Core, Armored Cab & Forward Push-Bumper (Levels L2-L4)
 
 ```
-       [PHASE 2 SPATIAL LOCATOR HUD]
-       Unit: 2-Axis Drawbar Articulated Hitch (CAT-HITCH)
-       Envelope: 1 W × 2 L × 1 H B (2.5 × 5.0 × 2.5 m)
-       Coordinate Range: X0, Z spans 2 B between vehicle bulkheads, Y = Level L2
-       Kinematic Axes:
-       · Yaw Hinge (Vertical Pivot): Mounted to leading car rear bulkhead
-       · Pitch Hinge (Horizontal Pivot): Mounted to trailing car forward bulkhead
-       · Conveyor Tube: Flexible curved large pipes bridging the joint
+       [PHASE 11-2 SPATIAL LOCATOR HUD]
+       Unit: Locomotive Upper Hull & Cab (CAT-01-L)
+       Envelope: 7 W × 9 L × 3 H B (17.5 × 22.5 × 7.5 m)
+       Coordinate Range: X −3.5 to +3.5, Z +16 to +25, Level L2 to L4
+       Key Datums:
+       · Armored Cab Center: [X0, Z +22, Level L3]
+       · Nuclear Reactor Vault: [X0, Z +21, Level L3]
+       · Battery Vault: [X ±2, Z +21, Level L2-L3]
+       · Forward Push-Bumper: [X0, Z +25, Level L2]
 ```
 
-#### Step 11.4 · 2-Axis Motorized Conveyor Drawbar Assembly
+### Pre-Step Master Parts Tray: Phase 11-2
+* 1× Industrial Cockpit (Palette Slot 7: `#1B263B`, 3.5 t, 15 PCU)
+* 1× Small Nuclear Reactor (Palette Slot 6: `#C0392B`, 1.6 t, 25 PCU)
+* 4× Large Batteries (Palette Slot 6, 20.0 t, 80 PCU)
+* 1× Large Connector (Palette Slot 1: `#9E2A2B`, 3.1 t, 150 PCU)
+* 1× Radio Antenna (Large Grid) (Palette Slot 7, 8.0 t, 100 PCU)
+* 2× Heavy Armor Blast Door Blocks (Palette Slot 1, 4.8 t, 2 PCU)
+* 28× Heavy Armor Slopes 2×1×1 (Palette Slot 7, 21.0 t, 28 PCU)
+* 1× Programmable Block (Palette Slot 7, 0.5 t, 25 PCU)
 
-Install the dual motorized hinge mechanism connecting the locomotive to Hopper Car 1, and each hopper car to the next. The joint provides complete 2-axis articulation (horizontal steering yaw and vertical terrain cresting pitch) while carrying an airtight large-port conveyor line.
+---
 
-```
-2.5D Isometric Callout · 2-Axis Conveyor Drawbar Hitch Kinematics
+### Step 11.5 · Nuclear Power Core & 4× Large Battery Vault (L2-L3)
+1. Mount 1× Small Nuclear Reactor `CAT Loco Reactor` centered at [X0, Z +21, Level L3] directly over the conveyor spine junction.
+2. Install 2× Large Batteries `CAT Loco Battery 1, 2` on the Port flank at [X −2, Z +21, Level L2-L3].
+3. Install 2× Large Batteries `CAT Loco Battery 3, 4` on the Starboard flank at [X +2, Z +21, Level L2-L3].
+4. Enclose the power vault with Heavy Armor Blocks painted Palette Slot 6 (High-Voltage Red).
 
-  Leading Unit Rear Bulkhead (Level L2)
-            ║
-            ╠══[CAT Hitch Yaw] (Motorized Hinge · Vertical Axis: −45° to +45°)
-            ║         │
-            ║         ▼
-            ║    [Drawbar Link 1 B] (Palette Slot 2: Hazard Amber)
-            ║         │
-            ║         ▼
-            ║   [CAT Hitch Pitch] (Motorized Hinge · Horizontal Axis: −25° to +25°)
-            ║         │
-            ║         ▼ (Flexible Large Curved Conveyor Tube Pass-Through)
-            ╚═════════╪═════════════════════════════════════════════════════════════
-                      ▼
-        Trailing Car Forward Bulkhead (Level L2)
-```
+---
 
-┌──────────────────────────────────────────────────────────────────────────────────────┐
-│ STEP 11.4 PARTS TRAY & HITCH RIGGING GUIDE                                           │
-├─────────────────────┬─────┬───────────────┬──────────────────────────────────────────┤
-│ Block Type          │ Qty │ Mass / PCU    │ Critical Joint Settings                  │
-├─────────────────────┼─────┼───────────────┼──────────────────────────────────────────┤
-│ Motor Hinge (Large) │ 2   │   8.0 t / 200 │ Share Inertia Tensor = ON · Torque: 30 MN│
-│ Curved Conveyor Pipe│ 2   │   1.6 t / 20  │ Large-port flexible piping through hitch │
-└─────────────────────┴─────┴───────────────┴──────────────────────────────────────────┘
+### Step 11.6 · Single-Operator Armored Cab & Programmable Block Rack (L3-L4)
+1. Mount 1× Industrial Cockpit `CAT Loco Helm` at [X0, Z +23, Level L3] facing forward (+Z).
+2. Install Programmable Block `[CAT] PB Train Master` in the sub-cab avionics bay at [X0, Z +22, Level L2].
+3. Frame the cab with Heavy Armor Slopes 2×1×1 sloping inward from the L2 beltline to the L4 roofline, forming chiseled lateral tumblehome.
+4. Mount an overhanging cab brow visor at Level L4 (Z +24) to eliminate planetary solar glare and protect viewport glass from falling stone spall.
 
-##### Joint Settings for `CAT Hitch Yaw` & `CAT Hitch Pitch`:
-* **Share Inertia Tensor = `ON`** (MANDATORY: eliminates trailer sway, phantom physics wobble, and violent oscillation across subgrids).
-* **Yaw Hinge (`CAT Hitch Yaw`):**
-  * Axis: Vertical (Yaw / Azimuth).
-  * Limits: Min = `−45.0°`, Max = `+45.0°` (enables tight 90° intersection turns).
-  * Braking Torque: `30 MN·m`†.
-* **Pitch Hinge (`CAT Hitch Pitch`):**
-  * Axis: Horizontal (Pitch / Elevation).
-  * Limits: Min = `−25.0°` (hill trough flex), Max = `+25.0°` (hill crest flex).
-  * Braking Torque: `30 MN·m`†.
+---
+
+### Step 11.7 · Heavy Bow Push-Bumper & Soft-Capture Receiving Port (L1-L2)
+1. Across the forward face (Z = +25, Level L1-L2), weld Heavy Armor Blast Door Blocks painted Palette Slot 1 (Heavy Rail Crimson).
+2. Mount 1× Large Connector `CAT Loco Front Conn` at [X0, Z +25, Level L2] facing forward (+Z), plumbed to the central conveyor junction. Height: exactly 2.5 m above ground.
+3. Flank the connector with Heavy Armor Corner 2×1×1 slopes at X = ±2, forming rigid guide horns that funnel the incoming Mastodon stern dock into lock alignment.
+
+#### Terminal Configuration & Sliders:
+* Connector: `CAT Loco Front Conn` (Auto-Connect: `OFF` · Collect All: `OFF` · Connect Strength: `0.015`).
+
+---
+
+### Step 11.8 · Comms Mast, Roof Warning Beacon & Emergency Decouple Merge (L3-L4)
+1. Mount 1× Large Grid Radio Antenna `CAT Loco Antenna` at [X0, Z +18, Level L4]. Set broadcast range to 25,000 m.
+2. Mount 1× Rotating Warning Beacon `CAT Loco Beacon` at [X0, Z +20, Level L4]. Set color to Amber (`#E6A100`) and spin rate to 30 rpm.
+3. Install 1× Merge Block `CAT Hitch Decouple 1` at [X0, Z +16, Level L2] facing aft (−Z) to provide pyrotechnic consist emergency severance if trailers become pinned.
 
 > [!IMPORTANT]
-> **PRE-ENCLOSURE INSPECTION GATE 11.2A: DRAWBAR JOINT ALIGNMENT**
-> 1. Set `Share Inertia Tensor = ON` on BOTH hinges before connecting trailing car power.
-> 2. Verify large conveyor pipe passes freely through the hinge body with zero port misalignment.
-> 3. Perform manual flex test: pivot yaw through ±45° and pitch through ±25°; ensure zero block collision between vehicle bulkheads.
+> **PRE-ENCLOSURE INSPECTION GATE 11.2A: CAB & POWER ACCEPTANCE**
+> 1. Verify reactor draws uranium automatically through the central conveyor riser.
+> 2. Ensure cockpit displays populate battery charge status and power reserves (63 MW combined surge capacity).
+> 3. Verify driver controls: Hotbar 1 wheel brake, connector lock/unlock, and emergency decouple toggle.
 
 ---
 
-##### Visual Milestone 11-2 · 2-Axis Drawbar Hitch Rigged
+## Phase 11-3 · 3-Axis Articulated Conveyor Drawbar Hitches (Levels L1-L3)
 
 ```
-Visual Checkpoint Silhouette (Top-Down View of Articulated Joint):
-       [LEADING UNIT] ═══[YAW HINGE]──[LINK]──[PITCH HINGE]═══ [TRAILING CAR]
-                                 \              /
-                          Articulated Conveyor Jumper Line
+       [PHASE 11-3 SPATIAL LOCATOR HUD]
+       Unit: 3-Axis Conveyor Drawbar Hitch (CAT-HITCH 1..3)
+       Envelope: 1 W × 2 L × 2 H B (2.5 × 5.0 × 5.0 m per joint)
+       Coordinate Range: X0, Z spans 2 B between vehicle bulkheads, Level L1 to L3
+       Kinematic Axes:
+       · Yaw Advanced Rotor: Vertical Axis (±45.0° horizontal articulation)
+       · Pitch Motor Hinge: Transverse Axis (±25.0° vertical terrain flex)
+       · Roll Advanced Rotor: Longitudinal Axis (±20.0° cross-slope flex)
+       · Large Conveyor Pass-Through: Continuous airtight flexible jumper loop
 ```
 
-* [ ] Drawbar allows smooth horizontal pivoting and vertical flex under load.
-* [ ] Zero phantom physics torque observed while parked on slopes.
-* [ ] Airtight conveyor vacuum maintained through the drawbar link.
+### Pre-Step Master Parts Tray: Phase 11-3 (Per Drawbar Joint ×3)
+* 1× Advanced Rotor (Yaw) (Palette Slot 2: `#E6A100`, 8.2 t, 100 PCU)
+* 1× Motor Hinge (Pitch) (Palette Slot 2, 8.0 t, 100 PCU)
+* 1× Advanced Rotor (Roll) (Palette Slot 2, 8.2 t, 100 PCU)
+* 2× Large Magnetic Plates (Palette Slot 2, 4.0 t, 50 PCU)
+* 4× Large Curved Conveyor Tubes (Palette Slot 4: `#1ABC9C`, 3.2 t, 40 PCU)
+* 2× Heavy Armor Half-Blocks (Footplates) (Palette Slot 9: `#F1C40F`, 4.0 t, 2 PCU)
 
 ---
 
-### Phase 3 · Modular Hopper Car Assembly (Per Unit) (Levels L1-L4)
+### Step 11.9 · Kinematic 3-Axis Gimbal Drawbar Assembly (L2)
+Assemble the 3-axis articulated mechanical link between leading and trailing units:
+1. Mount 1× Advanced Rotor `CAT Hitch Yaw 1` on the leading car rear bulkhead at [X0, Z +16, Level L2] with rotor stator vertical (Y-axis), providing horizontal steering yaw from −45.0° to +45.0°.
+2. Weld 1× Motor Hinge `CAT Hitch Pitch 1` onto the yaw rotor head with hinge pin horizontal (X-axis), providing vertical terrain cresting/trough pitch from −25.0° to +25.0°.
+3. Mount 1× Advanced Rotor `CAT Hitch Roll 1` onto the hinge head with rotor stator aligned longitudinally (Z-axis), providing axial roll compliance from −20.0° to +20.0° across uneven ground.
+4. Plumb large curved conveyor tubes across the joint to maintain continuous airtight conveyance.
+5. Install twin magnetic stabilizer clamps `CAT Hitch Clamp Port/Stbd` at X = ±1.5 to eliminate high-speed highway oscillation.
+
+#### Joint Parameters & Slider Settings (MANDATORY):
+* **Share Inertia Tensor = `ON`** on ALL rotors and hinges across all 3 drawbars (eliminates subgrid sway and phantom physics Klang).
+* **`CAT Hitch Yaw`:** Limits = `−45.0°` to `+45.0°` · Braking Torque = `30.0 MN·m`†.
+* **`CAT Hitch Pitch`:** Limits = `−25.0°` to `+25.0°` · Braking Torque = `30.0 MN·m`†.
+* **`CAT Hitch Roll`:** Limits = `−20.0°` to `+20.0°` · Braking Torque = `15.0 MN·m`†.
 
 ```
-       [PHASE 3 SPATIAL LOCATOR HUD]
-       Unit: Modular Hopper Car (CAT-CAR)
-       Envelope: 5 W × 7 L × 4 H B (12.5 × 17.5 × 10.0 m)
-       Coordinate Range: X −2 to +2, Z spans 7 B per car, Y = L1 to L4
-       Hold Datum:
-       · Large Cargo Container (3×3×3 B): Centered at X0, Y = L2-L4
-       · Axle 1: Front of car (X = ±2)
-       · Axle 2: Rear of car (X = ±2)
+3-Axis Gimbal Drawbar Articulation Diagram (Looking Port at Joint, Level L2)
+  Leading Car Aft Bulkhead
+            ║
+            ╠══[CAT HITCH YAW] (Advanced Rotor · Vertical Axis ±45°)
+            ║        │
+            ║        ▼
+            ║   [CAT HITCH PITCH] (Motor Hinge · Transverse Axis ±25°)
+            ║        │
+            ║        ▼
+            ║   [CAT HITCH ROLL] (Advanced Rotor · Longitudinal Axis ±20°)
+            ║        │
+            ║        ▼ (Flexible Large Curved Conveyor Pipe Pass-Through)
+            ╚════════╪══════════════════════════════════════════════════════
+                     ▼
+         Trailing Car Forward Bulkhead
 ```
-
-#### Step 11.5 · Hopper Car Chassis & 4-Wheel Traction Assist (L1-L2)
-
-Build a 5 W × 7 L heavy-armor chassis. Install 4× 5×5 suspension wheels outward at X = ±2. Configure all hopper wheels for distributed traction drive: steering is locked at 0° while drive motors provide 100% torque assist to prevent dragging dead weight.
-
-```
-Plan view, Y = L1 (Hopper Car Wheel Layout)
-        X: −2          0          +2
-    Z: +3  [WHEEL P1] ═══════════ [WHEEL S1]   ◄── Front Fixed Axle (0.0° · Propulsion ON)
-           ║                     ║
-        0  ║   CARGO HOLD BAY    ║
-           ║                     ║
-    Z: −3  [WHEEL P2] ═══════════ [WHEEL S2]   ◄── Rear Fixed Axle (0.0° · Propulsion ON)
-```
-
-┌──────────────────────────────────────────────────────────────────────────────────────┐
-│ STEP 11.5 PARTS TRAY & WHEEL CONFIGURATION                                           │
-├─────────────────────┬─────┬───────────────┬──────────────────────────────────────────┤
-│ Block Type          │ Qty │ Mass / PCU    │ System Role & Placement                  │
-├─────────────────────┼─────┼───────────────┼──────────────────────────────────────────┤
-│ Heavy Armor Block   │ 32  │  96.0 t / 32  │ Palette Slot 0 (Slate); hopper frame box │
-│ Wheel 5×5 Susp (L/R)│ 4   │  32.0 t / 400 │ 2 pairs (Axles grouped at Z ±2, X = ±2)  │
-└─────────────────────┴─────┴───────────────┴──────────────────────────────────────────┘
-
-**Settings for `CAT Car Wheels`:**
-* Steering = `OFF` (All hopper wheels track fixed straight ahead).
-* Propulsion = `ON` (Distributes driving torque across all consist wheels, 100% power assist).
-* Friction = `75%` · Strength = `70%` · Speed Limit = `70 km/h`.
-
----
-
-#### Step 11.6 · Large Cargo Hold & Top Funnel Loading Chutes (L2-L4)
-
-Mount 1 standard Large Cargo Container (3×3×3 B) centered in the car chassis. Frame the top intake port with angled heavy armor slopes to create an open funnel hopper chute for top-loading from overhead conveyor chutes.
-
-```
-Plan view, Y = L2 (Hopper Car Midline)
-        X: −2     0    +2
-    Z: +3  ■═════╤═════■  ◄── Drawbar Hitch Inbound (Level L2)
-           │ ╲   │   ╱ │
-        0  │  LARGE    │  ◄── Large Cargo Container (3×3×3 B · Hold)
-           │  CARGO    │      (Palette Slot 5: Logistics Emerald)
-           │ ╱   │   ╲ │      Top: Funnel Hopper Chutes (Palette Slot 3: Orange)
-    Z: −3  ■═════╧═════■  ◄── Drawbar Hitch Outbound (Level L2)
-```
-
-┌──────────────────────────────────────────────────────────────────────────────────────┐
-│ STEP 11.6 PARTS TRAY                                                                 │
-├─────────────────────┬─────┬───────────────┬──────────────────────────────────────────┤
-│ Block Type          │ Qty │ Mass / PCU    │ System Capacity & Mounting               │
-├─────────────────────┼─────┼───────────────┼──────────────────────────────────────────┤
-│ Large Cargo (3×3×3) │ 1   │  28.5 t / 250 │ `CAT Hold` (1,386,000 L @ 3× Inventory)  │
-│ Conveyor Junction   │ 2   │   2.6 t / 26  │ Front and rear drawbar tie junctions     │
-│ Heavy Armor Slopes  │ 24  │  36.0 t / 24  │ Palette Slot 3 (Orange); funnel chutes   │
-└─────────────────────┴─────┴───────────────┴──────────────────────────────────────────┘
 
 > [!NOTE]
-> **PRE-ENCLOSURE INSPECTION GATE 11.3A: HOPPER CONVEYOR FLOW & TRACTION TEST**
-> 1. Check hold capacity: verify each car adds `1,386,000 L` cargo volume (total 3-car hold = 4,158,000 L).
-> 2. Ensure hopper wheel drive motors engage simultaneously with the locomotive throttle.
-> 3. Verify top funnel intake connects directly to the container's upward large port.
+> Repeat Step 11.9 for Drawbar Hitch 2 (Z +5 to +7) and Drawbar Hitch 3 (Z −4 to −2).
 
 ---
 
-##### Visual Milestone 11-3 · Modular Hopper Car Complete
+## Phase 11-4 · Modular Hopper Cars 1 & 2 Construction (Levels L1-L4)
 
 ```
-Visual Checkpoint Silhouette (Looking Port at Single Hopper Car):
-                       [TOP FUNNEL CHUTE L4]
-                                 │
-                       [LARGE CARGO HOLD L2-L3]
-                                 │
-     ═══════[WH P2]══════════════╧══════════════[WH P1]═══════
-                 5 W × 7 L × 4 H MODULAR HOPPER CAR UNIT
+       [PHASE 11-4 SPATIAL LOCATOR HUD]
+       Unit: Modular Hopper Cars 1 & 2 (CAT-01-C1 & CAT-01-C2)
+       Envelope: 5 W × 7 L × 4 H B (12.5 × 17.5 × 10.0 m per car)
+       Coordinate Range:
+       · Car 1: X −2.5 to +2.5, Z +7 to +14, Level L1 to L4
+       · Car 2: X −2.5 to +2.5, Z −2 to +5, Level L1 to L4
+       Hold Centroid:
+       · Car 1 Hold: [X0, Z +10.5, Level L2-L3] (Large Cargo 3×3×3 B)
+       · Car 2 Hold: [X0, Z +1.5, Level L2-L3] (Large Cargo 3×3×3 B)
 ```
 
-* [ ] Car dry mass verified: `≈ 64.0 t`.
-* [ ] All 4 wheels provide active propulsion assist under throttle command.
-* [ ] Conveyor junctions provide airtight pass-through along the central axis.
+### Pre-Step Master Parts Tray: Phase 11-4 (Per Hopper Car)
+* 1× Large Cargo Container (Palette Slot 5: `#27AE60`, 28.5 t, 250 PCU)
+* 4× Wheel Suspension 5×5 (2 Left, 2 Right) (Palette Slot 0, 32.0 t, 400 PCU)
+* 2× Large Conveyor Junctions (Palette Slot 4, 2.6 t, 26 PCU)
+* 24× Heavy Armor Slopes 2×1×1 (Palette Slot 3: `#D35400`, 18.0 t, 24 PCU)
+* 32× Heavy Armor Blocks (Palette Slot 0, 96.0 t, 32 PCU)
+* 4× Steel Catwalk Plates (Palette Slot 9, 1.6 t, 4 PCU)
 
 ---
 
-### Phase 4 · High-Speed Terminal Discharge & Stern Bumper (Levels L1-L2)
-
-```
-       [PHASE 4 SPATIAL LOCATOR HUD]
-       Unit: Stern Dump Interface (CAT-UNLOAD)
-       Location: Aft face of Hopper Car 3 (Z = −10, Level L2, X0)
-       Interface Height: 2.5 m above ground (matches Ground Base Hopper Connector)
-```
-
-#### Step 11.7 · Rear Train Discharge Connector & Sorter Pump (L1-L2)
-
-Equip the rear bumper of the final hopper car (Car 3) with a high-capacity discharge connector and dedicated conveyor sorter pump.
-
-```
-Rear elevation, looking Bow at Final Car Bumper (Z = −10)
-        X: −2     0    +2
-    L3     ■═════╤═════■  ◄── Rear Collision Bumper (Palette Slot 1: Crimson)
-    L2     │ [UNLOAD]  │  ◄── Large Connector (`CAT Train Unload Conn`)
-    L1     ■═════╧═════■
-           ◄── 1.25 m Ground Clearance ──►
-```
-
-```
-2.5D Isometric Callout · Train Docking to Ground Base Receiving Hopper
-
-   Final Hopper Car Bumper (Z −10)
-                 │
-                 ▼
-     [CAT Train Unload Conn] (Connector Facing Stern −Z)
-                 │
-                 ▼ (Reversing into Terminal Dock)
-     [GND CAT Dump Conn] (Ground Base Receiving Connector, Facing North +Z)
-                 │
-   ══════════════╪══════════════════════════════════════════════════════════
-     [COLL 1] [COLL 2] [COLL 3] [COLL 4] [COLL 5] (5× In-Deck Collectors)
-                 │
-                 ▼ (Drains 2,500 t Bulk Ore in < 90 Seconds)
-         Ground Base Industrial Refining Loop (Chapter 4)
-```
-
-┌──────────────────────────────────────────────────────────────────────────────────────┐
-│ STEP 11.7 PARTS TRAY                                                                 │
-├─────────────────────┬─────┬───────────────┬──────────────────────────────────────────┤
-│ Block Type          │ Qty │ Mass / PCU    │ Role & Operating Configuration           │
-├─────────────────────┼─────┼───────────────┼──────────────────────────────────────────┤
-│ Connector (Large)   │ 1   │   3.1 t / 150 │ `CAT Train Unload Conn` (Facing Stern −Z)│
-│ Conveyor Sorter     │ 1   │   1.2 t / 40  │ `CAT Train Sorter` (Drain All = ON)      │
-│ Heavy Armor Slopes  │ 8   │  12.0 t / 8   │ Palette Slot 1 (Crimson); push bumpers   │
-└─────────────────────┴─────┴───────────────┴──────────────────────────────────────────┘
-
-> [!CAUTION]
-> **PRE-ENCLOSURE INSPECTION GATE 11.4A: DISCHARGE DRAIN VERIFICATION**
-> 1. Set `CAT Train Sorter` whitelist to: `Iron`, `Nickel`, `Silicon`, `Cobalt`, and `Stone`.
-> 2. Verify `CAT Train Unload Conn` centerline height is exactly at Level L2 (2.5 m above tarmac).
-> 3. Verify sorter drain pulls from all 3 cars simultaneously when connector is locked.
+### Step 11.10 · Hopper Car 1 Chassis & DPU Traction Wheels (L1)
+1. Construct the 5 W × 7 L heavy armor chassis spanning Z +7 to +14 at Level L1.
+2. Mount 2× Wheel Suspension 5×5 Left units at [X −2.5, Z +13, L1] (`WH 5: DPU P`) and [X −2.5, Z +8, L1] (`WH 7: DPU P`).
+3. Mount 2× Wheel Suspension 5×5 Right units at [X +2.5, Z +13, L1] (`WH 6: DPU S`) and [X +2.5, Z +8, L1] (`WH 8: DPU S`).
+4. Lock steering at `0.0°` (fixed straight-line tracking). Set propulsion torque to `100%` and assign to group `CAT Car Wheels`.
 
 ---
 
-##### Visual Milestone 11-4 · Complete 3-Car Land Train Consist Commissioned
+### Step 11.11 · Hopper Car 1 Large Cargo Hold & Top Funnel Chutes (L2-L4)
+1. Mount 1× Large Cargo Container `CAT Hold 1` (3×3×3 B) centered at [X0, Z +10.5, Level L2-L3]. Capacity: 1,386,000 L.
+2. Tie the forward bottom port to the inbound conveyor riser at [X0, Z +14, L2]; tie the aft bottom port to the outbound riser at [X0, Z +7, L2].
+3. Frame the container's upward-facing large port with Heavy Armor Slopes 2×1×1 angled inward at 45° painted Palette Slot 3 (Orange), forming a wide top-loading funnel chute for filling from quarry hoppers.
+4. Install side maintenance access ports on the Port sill at [X −2.5, Z +10.5, L2].
 
-```
-Visual Checkpoint Silhouette (Looking Port at Complete 42 B Consist):
-     [LOCOMOTIVE] ══[HITCH 1]══ [CAR 1] ══[HITCH 2]══ [CAR 2] ══[HITCH 3]══ [CAR 3/DUMP]
-       4× Wheels                  4× Wheels              4× Wheels              4× Wheels
-     ═════════════════════════════════════════════════════════════════════════════════════
-                 CATERPILLAR-01 42 B LAND TRAIN (16 WHEELS TOTAL)
-```
-
-* [ ] Total consist dry mass verified: `≈ 363.1 t`.
-* [ ] All 16 suspension wheels share synchronized drive torque across 4 subgrids.
-* [ ] 3-car consist tracks through S-curves without trailer collision or jackknifing.
+> [!NOTE]
+> Repeat Steps 11.10 and 11.11 for Hopper Car 2 spanning Z −2 to +5 (`CAT Hold 2`, Axles 5 & 6, Wheels `WH 9..12`).
 
 ---
 
-### Phase 5 · Master Control Logic & Hardware Scripting Contract (Claude Code)
+## Phase 11-5 · Hopper Car 3 / Tender & Stern High-Speed Terminal Discharge Bumper (Levels L1-L4)
 
-#### Step 11.8 · Terminal Namespace & Group Taxonomy
+```
+       [PHASE 11-5 SPATIAL LOCATOR HUD]
+       Unit: Hopper Car 3 / Tender (CAT-01-C3)
+       Envelope: 5 W × 9 L × 4 H B (12.5 × 22.5 × 10.0 m)
+       Coordinate Range: X −2.5 to +2.5, Z −17 to −8, Level L1 to L4
+       Key Datums:
+       · Car 3 Hold Centroid: [X0, Z −11.5, Level L2-L3]
+       · Sorter Discharge Pump: [X0, Z −15, Level L2]
+       · Stern Unload Connector: [X0, Z −17, Level L2] (Height: 2.5 m)
+       · Collision Push-Bumper: Z = −17, Level L1-L2
+```
 
-##### 1. Group Taxonomy
-* `CAT Train Wheels` : All 16 wheel units across locomotive and 3 hopper cars.
-* `CAT Train Brakes` : Synchronized handbrake and parking brake group.
-* `CAT Hitches` : All 6 motorized hitch hinges linking the consist.
-* `CAT Holds` : All 3 Large Cargo Containers across the consist.
+### Pre-Step Master Parts Tray: Phase 11-5
+* 1× Large Cargo Container (Palette Slot 5: `#27AE60`, 28.5 t, 250 PCU)
+* 4× Wheel Suspension 5×5 (2 Left, 2 Right) (Palette Slot 0, 32.0 t, 400 PCU)
+* 1× Large Conveyor Sorter (Palette Slot 4: `#1ABC9C`, 1.2 t, 40 PCU)
+* 1× Large Connector (Palette Slot 1: `#9E2A2B`, 3.1 t, 150 PCU)
+* 2× Heavy Armor Blast Door Blocks (Palette Slot 1, 4.8 t, 2 PCU)
+* 1× Event Controller `CAT EC Dump` (Palette Slot 7, 0.2 t, 25 PCU)
+
+---
+
+### Step 11.12 · Tender Hold 3 & DPU Axles 7 & 8 (L1-L3)
+1. Build the extended 5 W × 9 L chassis spanning Z −17 to −8 at Level L1.
+2. Install Axles 7 and 8 with 4× 5×5 suspension wheels (`WH 13..16`) at Z = −9 and Z = −13. Configure for 100% propulsion assist.
+3. Mount Large Cargo Container `CAT Hold 3` centered at [X0, Z −11.5, Level L2-L3].
+4. Install top funnel chutes and catwalk framing matching Cars 1 and 2.
+
+---
+
+### Step 11.13 · High-Speed Pressurized Discharge Sorter & Stern Connector (L2)
+Install the automated terminal dump system:
+1. Mount 1× Large Conveyor Sorter `CAT Train Sorter` horizontally at [X0, Z −15, Level L2] with flow arrow pointing stern (−Z).
+2. Configure sorter whitelist with bulk minerals: `Iron`, `Nickel`, `Silicon`, `Cobalt`, `Magnesium`, and `Stone`. Set `Drain All = OFF` by default (triggered by docking EC).
+3. Mount 1× Large Connector `CAT Train Unload Conn` at [X0, Z −17, Level L2] facing stern (−Z), plumbed directly to the sorter outlet. Centerline height: exactly 2.5 m above tarmac.
+4. Mount Event Controller `CAT EC Dump` adjacent to the sorter at [X −1, Z −15, L2].
+
+---
+
+### Step 11.14 · Heavy Collision Bumper & Ground Base Alignment Horns (L1-L2)
+1. Across the rear transom (Z = −17, Level L1-L2), weld Heavy Armor Blast Door Blocks painted Palette Slot 1 (Crimson).
+2. Install Heavy Armor Corner 2×1×1 slopes at X = ±2, forming rigid guide wedges angled aft (−Z) to absorb docking kinetic shock and funnel the connector into the Ground Base receiving dock.
+3. Install yellow warning chevrons (Palette Slot 9) across the bumper face.
+
+---
+
+## Phase 11-6 · Consist Catwalks, Lighting Matrix & DPU Synchronized Traction (Levels L1-L4)
+
+### Step 11.15 · Continuous Consist Maintenance Catwalk Network (L4)
+1. Connect all hopper top loading platforms with continuous steel catwalks spanning the inter-car drawbar gaps using articulated hinged footplates.
+2. Install safety handrails and yellow grab irons along all ladderwells.
+3. Mount 4× Worksite LED Spotlights `CAT Floodlight 1..4` along the hopper sills angled downward 45° to illuminate nighttime quarry transfer operations.
+
+---
+
+## Phase 11-7 · Master Control Logic, MDK2 Zero-GC Architecture & Terminal Dictionary
+
+### 1. Dual Compute Architecture
+* **Locomotive Master PB (`[CAT] PB Train Master`):**
+  * Target Block: Located in Locomotive Sub-Cab at [X0, Z +22, Level L2].
+  * Grid: Large Grid (42 B Consist · 16 Wheels) · Update: `Update1` (Traction/Braking) + `Update100` (Telemetry).
+  * Managed Groups: `CAT Train Wheels`, `CAT Hitches`, `CAT Holds`, `CAT Loco Power`.
+  * Roles: Distributed traction coordination, speed-dependent anti-jackknife drawbar stiffening, and automatic terminal dump sequencing.
+
+### 2. Group Taxonomy
+* `CAT Train Wheels` : All 16 wheel suspension units across locomotive and 3 hopper cars.
+* `CAT Train Brakes` : Synchronized parking and emergency brake group.
+* `CAT Hitches` : All 6 motorized hitch rotors and hinges linking the 4 consist units.
+* `CAT Holds` : All 3 Large Cargo Containers (`CAT Hold 1`, `CAT Hold 2`, `CAT Hold 3`).
 * `CAT Loco Power` : 1× Small Nuclear Reactor + 4× Large Batteries.
+* `CAT Lights` : Bow headlights, cabin interior lights, running board markers, and floodlights.
 
-##### 2. Event Controller Matrix
-| Controller | Monitored Target | Condition / Threshold | Action Slot 1 (On True) | Action Slot 2 (On False) |
-|---|---|---|---|---|
-| `CAT EC Dump` | `CAT Train Unload Conn` | Connector: Connected | `CAT Train Sorter` Drain ON | Sorter OFF |
-| `CAT EC AntiJackknife`| Vehicle Velocity | Velocity $\ge 45\text{ km/h}$ | `CAT Hitches` Damping $\rightarrow 85\%$ (Anti-sway) | Damping $\rightarrow 20\%$ (Flex) |
-| `CAT EC Traction` | Consist Cargo Mass | Total Mass $\ge 1,500\text{ t}$ | `CAT Car Wheels` Torque $\rightarrow 100\%$ | Torque $\rightarrow 60\%$ |
-
-##### 3. IGC Channel Subscriptions (Ground Fleet Bus)
-* Outbound: `TMS.CATER.STATUS`: `train_id;ore_mass_t;car_count;speed_kmh;route_status`
-  * Example: `CAT-01;2480.0;3;52.4;EN_ROUTE_BASE`
-* Inbound: `TMS.BASE.RECEIVING`: signals Ground Base terminal hopper is clear to receive.
-* Inbound: `TMS.MAST.TRANSFER`: signals Mastodon stern transfer is active.
+### 3. Block Naming & Terminal Dictionary
+* `CAT Loco Helm` : Industrial Cockpit in locomotive cab [X0, Z +23, L3].
+* `CAT Loco Front Conn` : Large Connector on bow push-bumper [X0, Z +25, L2].
+* `CAT Loco Reactor` : 15 MW Small Nuclear Reactor [X0, Z +21, L3].
+* `CAT Loco Battery 1..4` : 4× Large Batteries in locomotive vault [X ±2, Z +21, L2-L3].
+* `CAT Loco Antenna` : 25 km Radio Antenna mast [X0, Z +18, L4].
+* `CAT Loco Beacon` : Amber Rotating Warning Beacon [X0, Z +20, L4].
+* `CAT Hitch Yaw 1..3` : Advanced Rotors on leading car rear bulkheads (Vertical Axis).
+* `CAT Hitch Pitch 1..3` : Motor Hinges on drawbar links (Horizontal Transverse Axis).
+* `CAT Hitch Roll 1..3` : Advanced Rotors on trailing car bulkheads (Longitudinal Axis).
+* `CAT Hitch Clamp Port/Stbd 1..3` : Magnetic anti-sway stabilizer clamps on drawbars.
+* `CAT Hold 1, 2, 3` : Large Cargo Containers in Hoppers 1, 2, and 3 [Level L2-L3].
+* `CAT Train Sorter` : Large Conveyor Sorter on tender rear manifold [X0, Z −15, L2].
+* `CAT Train Unload Conn` : Large Connector on stern bumper [X0, Z −17, L2].
+* `CAT EC Dump` : Event Controller automating terminal fast-dump sequence.
+* `CAT EC AntiJackknife` : Event Controller automating speed-based drawbar damping.
+* `CAT EC Traction` : Event Controller modulating DPU wheel torque based on payload mass.
 
 ---
 
-### Phase 6 · Commissioning Checklist & Acceptance Trials (RIG Test)
+### 4. Event Controller Matrix (Rule C4 Compliance)
 
-#### A · Articulation & Maneuvering Trials
-* [ ] **S-Curve Clearance:** Drive the 42 B consist through an S-curve at 30 km/h; verify zero wheel binding or chassis contact between cars.
-* [ ] **Hill-Climb Under Full Load:** Fill all 3 hoppers with 2,500 t stone; climb a 20° voxel incline; confirm all 16 wheels share propulsion torque without stalling or spinning out.
+| Event Controller | Monitored Block / Variable | Condition & Threshold | Action Slot 1 (On True) | Action Slot 2 (On False) |
+|---|---|---|---|---|
+| **`CAT EC Dump`** | `CAT Train Unload Conn` | Connector: `Connected` | (1) `CAT Train Sorter` Drain All = `ON`<br/>(2) `CAT Train Wheels` Handbrake = `ON`<br/>(3) Sound `CAT Alarm Dump` | (1) `CAT Train Sorter` Drain All = `OFF`<br/>(2) `CAT Train Wheels` Handbrake = `OFF` |
+| **`CAT EC AntiJackknife`** | Vehicle Velocity | Speed $\ge 40.0\text{ km/h}$ | (1) Group `CAT Hitches` Damping $\rightarrow 85\%$<br/>(2) Group `CAT Hitch Clamps` Auto-Lock = `ON` | (1) Group `CAT Hitches` Damping $\rightarrow 20\%$<br/>(2) Group `CAT Hitch Clamps` Unlock |
+| **`CAT EC Traction`** | Consist Gross Mass | Gross Mass $\ge 1,500\text{ t}$ | (1) Group `CAT Car Wheels` Torque $\rightarrow 100\%$<br/>(2) Power Mode $\rightarrow$ `MODE 4: HILL_CLIMB` | (1) Group `CAT Car Wheels` Torque $\rightarrow 50\%$<br/>(2) Power Mode $\rightarrow$ `MODE 3: CRUISE` |
+| **`CAT EC Decouple`** | `CAT Hitch Decouple 1` | Merge Block: `Disconnected` | (1) Trailing Axles Emergency Brake = `ON`<br/>(2) Broadcast `TMS.CONSIST.SEVER` | None |
 
-#### B · High-Speed Stability & Anti-Jackknife
-* [ ] **70 km/h Highway Run:** Drive along a flat surface at 70 km/h; confirm `CAT EC AntiJackknife` engages 85% hinge damping, preventing trailer sway or whip.
-* [ ] **Emergency Brake Stop:** Apply full brakes from 60 km/h; confirm all trailers brake in unison without shoving the locomotive sideways.
+---
 
-#### C · Fast-Dump Terminal Validation
-* [ ] **Field Loading at Mastodon:** Back locomotive push bumper into Mastodon stern connector; verify 2,500 t bulk ore fills all 3 hopper cars.
-* [ ] **Terminal Discharge at Base:** Reverse consist into Ground Base receiving dock; verify `CAT Train Unload Conn` locks and empties 2,500 t of ore in $< 90\text{ seconds}$.
+### 5. IGC Channel Subscriptions (Ground Fleet Bus)
 
+```
+[IGC GROUND BUS TOPOLOGY · SEMICOLON DELIMITED]
+  ┌─────────────────────────────────────────────────────────┐
+  │                 GROUND BASE C2 (GND-01)                 │
+  └────────────────────────────┬────────────────────────────┘
+                               │
+            ┌──────────────────┴──────────────────┐
+            ▼ (TMS.BASE.RECEIVING)                ▲ (TMS.CAT.STATUS)
+  ┌─────────────────────────────────┐   ┌─────────────────────────────────┐
+  │ CATERPILLAR-01 (CAT-01-L)       │   │ MASTODON-01 MKI (MAS-01)        │
+  │ Status: SPEED;MASS;HITCH;STATE  │   │ Sync: PISTON_DOCK;TRANSFER_RATE │
+  └────────────────┬────────────────┘   └────────────────┬────────────────┘
+                   │                                     │
+                   └──────────────◄──────────────────────┘
+                           TMS.CONVOY.SYNC / TMS.MAST.TRANSFER
+```
+
+* **Outbound Channels:**
+  * `TMS.CAT.STATUS`: `train_id;gross_mass_t;payload_ore_t;speed_kmh;hitch_status;route_status`
+    * Example: `CAT-01;2840.5;2472.0;58.2;LOCKED_85PCT;EN_ROUTE_BASE`
+  * `TMS.CONSIST.SEVER`: `SEVER;CAT-01;DRAWBAR_1;EMERGENCY_DECOUPLE`
+* **Inbound Channels:**
+  * `TMS.BASE.RECEIVING`: `GND-01;CLEAR_TO_DUMP;TERMINAL_DOCK_1;READY`
+  * `TMS.MAST.TRANSFER`: `MAS-01;SOFT_CAPTURE_LOCK;TRANSFER_ACTIVE;2500_T`
+  * `TMS.CONVOY.SYNC`: `CONVOY;MAS-01;45.0;180.0;ROADBED_SPREADER_ON`
+  * `TMS.LOGISTICS.JIT`: `JIT;MAS-01;GND;180;IRON;2500000`
+
+---
+
+### 6. Driver Cockpit Hotbar Layouts (`CAT Loco Helm`)
+
+#### Hotbar 1 · Driving, Brakes & Powertrain
+* [1] `CAT Train Wheels` Handbrake Toggle
+* [2] `CAT Train Wheels` Propulsion Increase
+* [3] `CAT Train Wheels` Propulsion Decrease
+* [4] `CAT Loco Front Conn` Switch Lock (Mastodon Push-Dock)
+* [5] `CAT Train Unload Conn` Switch Lock (Ground Base Dump Dock)
+* [6] `CAT Hitches` Damping Increase (Manual Stiffen)
+* [7] `CAT Hitches` Damping Decrease (Manual Flex)
+* [8] `CAT Loco Power` Battery Recharge Toggle
+* [9] `CAT Lights` Toggle On/Off
+
+#### Hotbar 2 · Drawbar Hitches, DPU Traction & Diagnostics
+* [1] `CAT Hitch Clamps` Auto-Lock Toggle
+* [2] `CAT Hitch Decouple 1` Decouple (Emergency Sever)
+* [3] `CAT Car Wheels` Propulsion Override Increase
+* [4] `CAT Car Wheels` Propulsion Override Decrease
+* [5] `CAT Train Sorter` Drain All Toggle
+* [6] `[CAT] PB Train Master` Run: `MODE_CRUISE`
+* [7] `[CAT] PB Train Master` Run: `MODE_HILL_CLIMB`
+* [8] `[CAT] PB Train Master` Run: `RELOAD`
+* [9] `CAT Loco Beacon` Toggle On/Off
+
+#### Hotbar 3 · Fleet Comms & Logistics Dispatch
+* [1] `[CAT] PB Train Master` Run: `IGC_SEND;TMS.BASE.RECEIVING;REQUEST_DOCK`
+* [2] `[CAT] PB Train Master` Run: `IGC_SEND;TMS.MAST.TRANSFER;READY_TO_RECEIVE`
+* [3] `CAT Floodlights` Toggle On/Off
+* [4] `CAT Alarm Dump` Toggle On/Off
+* [5] `CAT Loco Antenna` Range Increase
+* [6] `CAT Loco Antenna` Range Decrease
+* [7] `CAT Loco Reactor` Toggle On/Off
+* [8] Group `CAT Holds` Show on HUD Toggle
+* [9] `CAT Loco Helm` Dampeners Toggle
+
+---
+
+## Phase 11-8 · Commissioning & Field Acceptance Checklist (RIG Test)
+
+### Suite A · Consist Powertrain & Steering Geometry Trials
+* [ ] **Turn Radius Verification:** Drive the 42 B consist through a 90° intersection at 25 km/h; verify Axle 1 steers smoothly through ±32° and all 3 trailing cars track within an 18 m swept path without clipping curbs.
+* [ ] **Independent DPU Traction Verification:** With locomotive reactor powered OFF, engage battery power; confirm all 12 hopper suspension wheels provide active tractive effort and propel the empty consist to 40 km/h.
+
+### Suite B · 3-Axis Drawbar Articulation & Stability
+* [ ] **3-Axis Terrain Compliance:** Navigate the consist over an uneven rocky ridge; confirm Drawbar Hitches 1-3 flex independently through pitch (±25°), yaw (±45°), and roll (±20°) without chassis block collision or subgrid shearing.
+* [ ] **Share Inertia Tensor Audit:** Inspect all 6 drawbar rotors/hinges in terminal; confirm `Share Inertia Tensor = ON` on all joints; verify ZERO phantom physics oscillation while stationary on 15° slopes.
+
+### Suite C · Full Laden Hill-Climb & Regenerative Braking
+* [ ] **2,500 t Full Payload Hill-Climb:** Fill all 3 hopper containers with stone (2,868 t gross consist mass); ascend a 20° voxel incline from a dead stop; verify consist accelerates smoothly to 45 km/h without wheel spin or reactor overload.
+* [ ] **Controlled Descent Braking:** Descend a 20° slope at 50 km/h; apply full service brakes; confirm all 16 wheels brake synchronously, halting the consist in $< 65\text{ m}$ with zero jackknifing.
+
+### Suite D · High-Speed 70 km/h Highway Run & Anti-Jackknife
+* [ ] **70 km/h Highway Test:** Cruise on flat terrain at 70 km/h; confirm `CAT EC AntiJackknife` triggers at 40 km/h, stiffening hitch damping to 85% and engaging magnetic stabilizer clamps; confirm zero trailer whip or harmonic sway.
+
+### Suite E · Mastodon Soft-Capture Field Docking (< 90 s)
+* [ ] **Push-Dock Mating:** Back locomotive bow bumper into Mastodon MKI stern alignment guide horns; confirm `CAT Loco Front Conn` locks smoothly at 2.5 m elevation.
+* [ ] **2,500 t Bulk Ore Fill:** Engage transfer sorters from Mastodon hold; verify all 3 hopper cars fill evenly to 100% capacity in $< 90\text{ seconds}$ without conveyor bottleneck.
+
+### Suite F · Ground Base Terminal Discharge & In-Deck Collector Flow
+* [ ] **Reverse Terminal Docking:** Reverse consist into Ground Base Bulk Receiving Dock; verify stern alignment wedges funnel `CAT Train Unload Conn` into lock with the base terminal connector.
+* [ ] **High-Speed Gravity/Pump Dump:** Verify `CAT EC Dump` automatically engages `CAT Train Sorter` (Drain All = ON); confirm 2,500 t of ore purges into the 5× in-deck collectors in $< 90\text{ seconds}$.
+
+### Suite G · Player Circulation & Survival Ergonomics
+* [ ] **Continuous Walk-Around:** Walk from the locomotive cab running boards across all 3 drawbar footplates to the tender rear bumper; confirm zero lethal fall gaps.
+* [ ] **Manual Port Inspection:** Access all 3 hopper maintenance ports from ground level; verify ability to manually transfer items into cargo holds.
+
+### Suite H · Emergency Consist Decoupling & Deadman Braking
+* [ ] **Emergency Severance Test:** While cruising at 40 km/h, trigger `CAT Hitch Decouple 1`; confirm locomotive breaks free cleanly while trailing hopper cars immediately engage emergency friction brakes and come to a safe stop.
 
 ---
 

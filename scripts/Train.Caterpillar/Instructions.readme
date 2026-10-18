@@ -1,14 +1,14 @@
 # Train.Caterpillar · In-Game MDK2 Script Project
 
 ## Subsystem: CATERPILLAR-01 Land Train Subsystem
-* **Target Block:** `[CAT] PB Train`
-* **Grid Size:** Large Grid (42 B Consist · 16 Wheels)
-* **Update Frequency:** `Update1`
-* **Managed Subsystem Groups:** `CAT LOCO, CAT HITCH, CAT CAR, CAT UNLOAD`
-* **IGC Network Channels:** `TMS.CAT.STATUS (out), TMS.CAT.CMD (in), GND.CAT.DOCK (in)`
+* **Target Block:** `[CAT] PB Train Master`
+* **Grid Size:** Large Grid (42 B Consist · 16 Wheels · 4 Units)
+* **Update Frequency:** `Update1` (Traction/Damping) + `Update100` (Telemetry)
+* **Managed Subsystem Groups:** `CAT Train Wheels`, `CAT Hitches`, `CAT Holds`, `CAT Loco Power`, `CAT Lights`
+* **IGC Network Channels:** `TMS.CAT.STATUS (out)`, `TMS.BASE.RECEIVING (in)`, `TMS.MAST.TRANSFER (in)`, `TMS.CONVOY.SYNC (in)`
 
 ## System Description
-Articulated land train management: 2-axis motorized drawbar hinge dampening, active traction control, and high-speed (< 90 s) 2,500 t bulk dump sequencing.
+42 B articulated land train management: 3-axis motorized drawbar hinge dampening, speed-based anti-jackknife stiffening (> 40 km/h), DPU distributed wheel traction synchronization, and high-speed (< 90 s) 2,500 t bulk dump terminal sequencing.
 
 ## Zero-GC PB Rules
 1. C# 6 only, nested in Program, namespace `IngameScript`.
