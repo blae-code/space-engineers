@@ -1,0 +1,1457 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "id": "CAT-01",
+  "name": "CATERPILLAR-01 Bulk Land Train",
+  "chapter": 11,
+  "gridSize": "Large",
+  "blockMeters": 2.5,
+  "stats": {
+    "totalBlocks": 404,
+    "dryMassTonnes": 368.5,
+    "pcu": 3950,
+    "dimensionsBlocks": [
+      7,
+      42,
+      5
+    ]
+  },
+  "bounds": {
+    "min": [
+      -3,
+      1,
+      -21
+    ],
+    "max": [
+      3,
+      5,
+      21
+    ]
+  },
+  "palette": [
+    {
+      "slot": 0,
+      "name": "Citadel Charcoal",
+      "hex": "#1A1D20",
+      "rgb": [
+        26,
+        29,
+        32
+      ],
+      "role": "Heavy Armor Hull & Structural Longerons"
+    },
+    {
+      "slot": 1,
+      "name": "Structural Slate",
+      "hex": "#42464D",
+      "rgb": [
+        66,
+        70,
+        77
+      ],
+      "role": "Bulkheads, Deck Frames & Workshop Ribs"
+    },
+    {
+      "slot": 2,
+      "name": "Warning Amber",
+      "hex": "#E06D14",
+      "rgb": [
+        224,
+        109,
+        20
+      ],
+      "role": "Hatches, Outriggers, Hitch & Bumper Guides"
+    },
+    {
+      "slot": 3,
+      "name": "Tactical White",
+      "hex": "#D4D8DD",
+      "rgb": [
+        212,
+        216,
+        221
+      ],
+      "role": "Flight Deck Markings & Alignment Chevrons"
+    },
+    {
+      "slot": 4,
+      "name": "Processing Teal",
+      "hex": "#1ABC9C",
+      "rgb": [
+        26,
+        188,
+        156
+      ],
+      "role": "Conveyors, Sorters, Ejectors & Basic Refinery"
+    },
+    {
+      "slot": 5,
+      "name": "Habitat White",
+      "hex": "#E8ECF0",
+      "rgb": [
+        232,
+        236,
+        240
+      ],
+      "role": "Bridge Canopy Interior & Medical Station"
+    },
+    {
+      "slot": 6,
+      "name": "Machine Olive",
+      "hex": "#4A5643",
+      "rgb": [
+        74,
+        86,
+        67
+      ],
+      "role": "Large Assembler, Sorter Manifolds & Tool Stores"
+    },
+    {
+      "slot": 7,
+      "name": "Cryo Cyan",
+      "hex": "#1E6B7B",
+      "rgb": [
+        30,
+        107,
+        123
+      ],
+      "role": "Hydrogen Tanks & O2/H2 Decon Systems"
+    },
+    {
+      "slot": 8,
+      "name": "Mechanical Gunmetal",
+      "hex": "#2B2E33",
+      "rgb": [
+        43,
+        46,
+        51
+      ],
+      "role": "Hitch Rotors, Axle Mounts & Boom Pedestal"
+    },
+    {
+      "slot": 9,
+      "name": "Grate Steel",
+      "hex": "#50555C",
+      "rgb": [
+        80,
+        85,
+        92
+      ],
+      "role": "Jefferies Grating, Catwalks & Access Stairs"
+    }
+  ],
+  "steps": [
+    {
+      "step": "11.1",
+      "phase": "11-1",
+      "title": "Twin Longitudinal Box Girders & Underbody Skid Keel (L1)",
+      "level": "L2",
+      "subsystem": "structure",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "Lay two parallel Heavy Armor box girders at X = \u22122 and X = +2 spanning Z +16 to +25 at Level L1.",
+        "Tie the girders together with transverse cross-beams at Z = +16, Z = +21, and Z = +25.",
+        "Install continuous Heavy Armor Half-Blocks along centerline X0, forming a flat underside skid plate providing 1.25 m clearance above ground.",
+        "Bevel the girder outer edges using Heavy Armor Half-Slopes sloping inward toward X0."
+      ],
+      "checks": [
+        "Verify physical clearances and continuous conveyor flow."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            2,
+            -21
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "CAT-01 Twin Longitudinal Bo [-2, 2, -21]"
+        },
+        {
+          "pos": [
+            -1,
+            2,
+            -21
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "CAT-01 Twin Longitudinal Bo [-1, 2, -21]"
+        },
+        {
+          "pos": [
+            0,
+            2,
+            -21
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "CAT-01 Twin Longitudinal Bo [0, 2, -21]"
+        },
+        {
+          "pos": [
+            1,
+            2,
+            -21
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "CAT-01 Twin Longitudinal Bo [1, 2, -21]"
+        },
+        {
+          "pos": [
+            2,
+            2,
+            -21
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "CAT-01 Twin Longitudinal Bo [2, 2, -21]"
+        }
+      ]
+    },
+    {
+      "step": "11.2",
+      "phase": "11-1",
+      "title": "Central Conveyor Raceway & Manifold Junctions (L1-L2)",
+      "level": "L3",
+      "subsystem": "conveyor",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "Lay 7\u00d7 Large Conveyor Tubes along centerline X0 from Z +17 to Z +24 at Level L1.",
+        "Mount 1\u00d7 Large Conveyor Junction at [X0, Z +25, L1] angled upward to feed the bow push-bumper connector.",
+        "Mount 1\u00d7 Large Conveyor Junction at [X0, Z +16, L2] angled aft (\u2212Z) to feed Drawbar Hitch 1."
+      ],
+      "checks": [
+        "Verify physical clearances and continuous conveyor flow."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            3,
+            -18
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "CAT-01 Central Conveyor Rac [-2, 3, -18]"
+        },
+        {
+          "pos": [
+            -1,
+            3,
+            -18
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "CAT-01 Central Conveyor Rac [-1, 3, -18]"
+        },
+        {
+          "pos": [
+            0,
+            3,
+            -18
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "CAT-01 Central Conveyor Rac [0, 3, -18]"
+        },
+        {
+          "pos": [
+            1,
+            3,
+            -18
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "CAT-01 Central Conveyor Rac [1, 3, -18]"
+        },
+        {
+          "pos": [
+            2,
+            3,
+            -18
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "CAT-01 Central Conveyor Rac [2, 3, -18]"
+        }
+      ]
+    },
+    {
+      "step": "11.3",
+      "phase": "11-1",
+      "title": "5\u00d75 Suspension Wheel Mounts & Axles 1 & 2 Geometry (L1)",
+      "level": "L4",
+      "subsystem": "propulsion",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "Mount 2\u00d7 Wheel Suspension 5\u00d75 Left units on the Port chassis sill at [X \u22123, Z +23, L1] (`WH 1: Steer P`) and [X \u22123, Z +19, L1] (`WH 3: Drive P`), facing outward (\u2212X).",
+        "Mount 2\u00d7 Wheel Suspension 5\u00d75 Right units on the Starboard sill at [X +3, Z +23, L1] (`WH 2: Steer S`) and [X +3, Z +19, L1] (`WH 4: Drive S`), facing outward (+X).",
+        "Ensure suspension stators orient with steering pivot pins strictly vertical (Y-axis)."
+      ],
+      "checks": [
+        "Verify physical clearances and continuous conveyor flow."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            4,
+            -15
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "propulsion",
+          "name": "CAT-01 5\u00d75 Suspension Wheel [-2, 4, -15]"
+        },
+        {
+          "pos": [
+            -1,
+            4,
+            -15
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "propulsion",
+          "name": "CAT-01 5\u00d75 Suspension Wheel [-1, 4, -15]"
+        },
+        {
+          "pos": [
+            0,
+            4,
+            -15
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "propulsion",
+          "name": "CAT-01 5\u00d75 Suspension Wheel [0, 4, -15]"
+        },
+        {
+          "pos": [
+            1,
+            4,
+            -15
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "propulsion",
+          "name": "CAT-01 5\u00d75 Suspension Wheel [1, 4, -15]"
+        },
+        {
+          "pos": [
+            2,
+            4,
+            -15
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "propulsion",
+          "name": "CAT-01 5\u00d75 Suspension Wheel [2, 4, -15]"
+        }
+      ]
+    },
+    {
+      "step": "11.4",
+      "phase": "11-1",
+      "title": "Flared Wheel Arch Mudguards & Side Running Boards (L2)",
+      "level": "L2",
+      "subsystem": "conveyor",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "Mount Heavy Armor Half-Blocks directly above each 5\u00d75 wheel hub at X = \u00b13 to \u00b14, Level L2.",
+        "Cap the outer mudguard sills with Heavy Armor Half-Slopes angled 45\u00b0 downward, protecting suspension stators from flying ballast stone.",
+        "Lay catwalk plates along X = \u00b13.5 between the wheel arches to create continuous side running boards for engineer access."
+      ],
+      "checks": [
+        "Subgrid dry mass verified: `\u2248 148.2 t`.",
+        "1.25 m belly skid clearance maintained under full suspension compression."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            2,
+            -12
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "CAT-01 Flared Wheel Arch Mu [-2, 2, -12]"
+        },
+        {
+          "pos": [
+            -1,
+            2,
+            -12
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "CAT-01 Flared Wheel Arch Mu [-1, 2, -12]"
+        },
+        {
+          "pos": [
+            0,
+            2,
+            -12
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "CAT-01 Flared Wheel Arch Mu [0, 2, -12]"
+        },
+        {
+          "pos": [
+            1,
+            2,
+            -12
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "CAT-01 Flared Wheel Arch Mu [1, 2, -12]"
+        },
+        {
+          "pos": [
+            2,
+            2,
+            -12
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "CAT-01 Flared Wheel Arch Mu [2, 2, -12]"
+        }
+      ]
+    },
+    {
+      "step": "11.5",
+      "phase": "11-1",
+      "title": "Nuclear Power Core & 4\u00d7 Large Battery Vault (L2-L3)",
+      "level": "L3",
+      "subsystem": "conveyor",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "Mount 1\u00d7 Small Nuclear Reactor `CAT Loco Reactor` centered at [X0, Z +21, Level L3] directly over the conveyor spine junction.",
+        "Install 2\u00d7 Large Batteries `CAT Loco Battery 1, 2` on the Port flank at [X \u22122, Z +21, Level L2-L3].",
+        "Install 2\u00d7 Large Batteries `CAT Loco Battery 3, 4` on the Starboard flank at [X +2, Z +21, Level L2-L3].",
+        "Enclose the power vault with Heavy Armor Blocks painted Palette Slot 6 (High-Voltage Red)."
+      ],
+      "checks": [
+        "Verify physical clearances and continuous conveyor flow."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            3,
+            -9
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "CAT-01 Nuclear Power Core & [-2, 3, -9]"
+        },
+        {
+          "pos": [
+            -1,
+            3,
+            -9
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "CAT-01 Nuclear Power Core & [-1, 3, -9]"
+        },
+        {
+          "pos": [
+            0,
+            3,
+            -9
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "CAT-01 Nuclear Power Core & [0, 3, -9]"
+        },
+        {
+          "pos": [
+            1,
+            3,
+            -9
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "CAT-01 Nuclear Power Core & [1, 3, -9]"
+        },
+        {
+          "pos": [
+            2,
+            3,
+            -9
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "CAT-01 Nuclear Power Core & [2, 3, -9]"
+        }
+      ]
+    },
+    {
+      "step": "11.6",
+      "phase": "11-1",
+      "title": "Single-Operator Armored Cab & Programmable Block Rack (L3-L4)",
+      "level": "L4",
+      "subsystem": "avionics",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "Mount 1\u00d7 Industrial Cockpit `CAT Loco Helm` at [X0, Z +23, Level L3] facing forward (+Z).",
+        "Install Programmable Block `[CAT] PB Train Master` in the sub-cab avionics bay at [X0, Z +22, Level L2].",
+        "Frame the cab with Heavy Armor Slopes 2\u00d71\u00d71 sloping inward from the L2 beltline to the L4 roofline, forming chiseled lateral tumblehome.",
+        "Mount an overhanging cab brow visor at Level L4 (Z +24) to eliminate planetary solar glare and protect viewport glass from falling stone spall."
+      ],
+      "checks": [
+        "Verify physical clearances and continuous conveyor flow."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            4,
+            -6
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "avionics",
+          "name": "CAT-01 Single-Operator Armo [-2, 4, -6]"
+        },
+        {
+          "pos": [
+            -1,
+            4,
+            -6
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "avionics",
+          "name": "CAT-01 Single-Operator Armo [-1, 4, -6]"
+        },
+        {
+          "pos": [
+            0,
+            4,
+            -6
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "avionics",
+          "name": "CAT-01 Single-Operator Armo [0, 4, -6]"
+        },
+        {
+          "pos": [
+            1,
+            4,
+            -6
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "avionics",
+          "name": "CAT-01 Single-Operator Armo [1, 4, -6]"
+        },
+        {
+          "pos": [
+            2,
+            4,
+            -6
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "avionics",
+          "name": "CAT-01 Single-Operator Armo [2, 4, -6]"
+        }
+      ]
+    },
+    {
+      "step": "11.7",
+      "phase": "11-1",
+      "title": "Heavy Bow Push-Bumper & Soft-Capture Receiving Port (L1-L2)",
+      "level": "L2",
+      "subsystem": "conveyor",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "Across the forward face (Z = +25, Level L1-L2), weld Heavy Armor Blast Door Blocks painted Palette Slot 1 (Heavy Rail Crimson).",
+        "Mount 1\u00d7 Large Connector `CAT Loco Front Conn` at [X0, Z +25, Level L2] facing forward (+Z), plumbed to the central conveyor junction. Height: exactly 2.5 m above ground.",
+        "Flank the connector with Heavy Armor Corner 2\u00d71\u00d71 slopes at X = \u00b12, forming rigid guide horns that funnel the incoming Mastodon stern dock into lock alignment."
+      ],
+      "checks": [
+        "Verify physical clearances and continuous conveyor flow."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            2,
+            -3
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "CAT-01 Heavy Bow Push-Bumpe [-2, 2, -3]"
+        },
+        {
+          "pos": [
+            -1,
+            2,
+            -3
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "CAT-01 Heavy Bow Push-Bumpe [-1, 2, -3]"
+        },
+        {
+          "pos": [
+            0,
+            2,
+            -3
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "CAT-01 Heavy Bow Push-Bumpe [0, 2, -3]"
+        },
+        {
+          "pos": [
+            1,
+            2,
+            -3
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "CAT-01 Heavy Bow Push-Bumpe [1, 2, -3]"
+        },
+        {
+          "pos": [
+            2,
+            2,
+            -3
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "CAT-01 Heavy Bow Push-Bumpe [2, 2, -3]"
+        }
+      ]
+    },
+    {
+      "step": "11.8",
+      "phase": "11-1",
+      "title": "Comms Mast, Roof Warning Beacon & Emergency Decouple Merge (L3-L4)",
+      "level": "L3",
+      "subsystem": "conveyor",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "Mount 1\u00d7 Large Grid Radio Antenna `CAT Loco Antenna` at [X0, Z +18, Level L4]. Set broadcast range to 25,000 m.",
+        "Mount 1\u00d7 Rotating Warning Beacon `CAT Loco Beacon` at [X0, Z +20, Level L4]. Set color to Amber (`#E6A100`) and spin rate to 30 rpm.",
+        "Install 1\u00d7 Merge Block `CAT Hitch Decouple 1` at [X0, Z +16, Level L2] facing aft (\u2212Z) to provide pyrotechnic consist emergency severance if trailers become pinned."
+      ],
+      "checks": [
+        "Verify physical clearances and continuous conveyor flow."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            3,
+            0
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "CAT-01 Comms Mast, Roof War [-2, 3, 0]"
+        },
+        {
+          "pos": [
+            -1,
+            3,
+            0
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "CAT-01 Comms Mast, Roof War [-1, 3, 0]"
+        },
+        {
+          "pos": [
+            0,
+            3,
+            0
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "CAT-01 Comms Mast, Roof War [0, 3, 0]"
+        },
+        {
+          "pos": [
+            1,
+            3,
+            0
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "CAT-01 Comms Mast, Roof War [1, 3, 0]"
+        },
+        {
+          "pos": [
+            2,
+            3,
+            0
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "CAT-01 Comms Mast, Roof War [2, 3, 0]"
+        }
+      ]
+    },
+    {
+      "step": "11.9",
+      "phase": "11-1",
+      "title": "Kinematic 3-Axis Gimbal Drawbar Assembly (L2)",
+      "level": "L4",
+      "subsystem": "conveyor",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "Mount 1\u00d7 Advanced Rotor `CAT Hitch Yaw 1` on the leading car rear bulkhead at [X0, Z +16, Level L2] with rotor stator vertical (Y-axis), providing horizontal steering yaw from \u221245.0\u00b0 to +45.0\u00b0.",
+        "Weld 1\u00d7 Motor Hinge `CAT Hitch Pitch 1` onto the yaw rotor head with hinge pin horizontal (X-axis), providing vertical terrain cresting/trough pitch from \u221225.0\u00b0 to +25.0\u00b0.",
+        "Mount 1\u00d7 Advanced Rotor `CAT Hitch Roll 1` onto the hinge head with rotor stator aligned longitudinally (Z-axis), providing axial roll compliance from \u221220.0\u00b0 to +20.0\u00b0 across uneven ground.",
+        "Plumb large curved conveyor tubes across the joint to maintain continuous airtight conveyance.",
+        "Install twin magnetic stabilizer clamps `CAT Hitch Clamp Port/Stbd` at X = \u00b11.5 to eliminate high-speed highway oscillation."
+      ],
+      "checks": [
+        "Verify physical clearances and continuous conveyor flow."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            4,
+            3
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "CAT-01 Kinematic 3-Axis Gim [-2, 4, 3]"
+        },
+        {
+          "pos": [
+            -1,
+            4,
+            3
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "CAT-01 Kinematic 3-Axis Gim [-1, 4, 3]"
+        },
+        {
+          "pos": [
+            0,
+            4,
+            3
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "CAT-01 Kinematic 3-Axis Gim [0, 4, 3]"
+        },
+        {
+          "pos": [
+            1,
+            4,
+            3
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "CAT-01 Kinematic 3-Axis Gim [1, 4, 3]"
+        },
+        {
+          "pos": [
+            2,
+            4,
+            3
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "CAT-01 Kinematic 3-Axis Gim [2, 4, 3]"
+        }
+      ]
+    },
+    {
+      "step": "11.10",
+      "phase": "11-1",
+      "title": "Hopper Car 1 Chassis & DPU Traction Wheels (L1)",
+      "level": "L2",
+      "subsystem": "propulsion",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "Construct the 5 W \u00d7 7 L heavy armor chassis spanning Z +7 to +14 at Level L1.",
+        "Mount 2\u00d7 Wheel Suspension 5\u00d75 Left units at [X \u22122.5, Z +13, L1] (`WH 5: DPU P`) and [X \u22122.5, Z +8, L1] (`WH 7: DPU P`).",
+        "Mount 2\u00d7 Wheel Suspension 5\u00d75 Right units at [X +2.5, Z +13, L1] (`WH 6: DPU S`) and [X +2.5, Z +8, L1] (`WH 8: DPU S`).",
+        "Lock steering at `0.0\u00b0` (fixed straight-line tracking). Set propulsion torque to `100%` and assign to group `CAT Car Wheels`."
+      ],
+      "checks": [
+        "Verify physical clearances and continuous conveyor flow."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            2,
+            6
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "propulsion",
+          "name": "CAT-01 Hopper Car 1 Chassis [-2, 2, 6]"
+        },
+        {
+          "pos": [
+            -1,
+            2,
+            6
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "propulsion",
+          "name": "CAT-01 Hopper Car 1 Chassis [-1, 2, 6]"
+        },
+        {
+          "pos": [
+            0,
+            2,
+            6
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "propulsion",
+          "name": "CAT-01 Hopper Car 1 Chassis [0, 2, 6]"
+        },
+        {
+          "pos": [
+            1,
+            2,
+            6
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "propulsion",
+          "name": "CAT-01 Hopper Car 1 Chassis [1, 2, 6]"
+        },
+        {
+          "pos": [
+            2,
+            2,
+            6
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "propulsion",
+          "name": "CAT-01 Hopper Car 1 Chassis [2, 2, 6]"
+        }
+      ]
+    },
+    {
+      "step": "11.11",
+      "phase": "11-1",
+      "title": "Hopper Car 1 Large Cargo Hold & Top Funnel Chutes (L2-L4)",
+      "level": "L3",
+      "subsystem": "conveyor",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "Mount 1\u00d7 Large Cargo Container `CAT Hold 1` (3\u00d73\u00d73 B) centered at [X0, Z +10.5, Level L2-L3]. Capacity: 1,386,000 L.",
+        "Tie the forward bottom port to the inbound conveyor riser at [X0, Z +14, L2]; tie the aft bottom port to the outbound riser at [X0, Z +7, L2].",
+        "Frame the container's upward-facing large port with Heavy Armor Slopes 2\u00d71\u00d71 angled inward at 45\u00b0 painted Palette Slot 3 (Orange), forming a wide top-loading funnel chute for filling from quarry hoppers.",
+        "Install side maintenance access ports on the Port sill at [X \u22122.5, Z +10.5, L2]."
+      ],
+      "checks": [
+        "Verify physical clearances and continuous conveyor flow."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            3,
+            9
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "CAT-01 Hopper Car 1 Large C [-2, 3, 9]"
+        },
+        {
+          "pos": [
+            -1,
+            3,
+            9
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "CAT-01 Hopper Car 1 Large C [-1, 3, 9]"
+        },
+        {
+          "pos": [
+            0,
+            3,
+            9
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "CAT-01 Hopper Car 1 Large C [0, 3, 9]"
+        },
+        {
+          "pos": [
+            1,
+            3,
+            9
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "CAT-01 Hopper Car 1 Large C [1, 3, 9]"
+        },
+        {
+          "pos": [
+            2,
+            3,
+            9
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "CAT-01 Hopper Car 1 Large C [2, 3, 9]"
+        }
+      ]
+    },
+    {
+      "step": "11.12",
+      "phase": "11-1",
+      "title": "Tender Hold 3 & DPU Axles 7 & 8 (L1-L3)",
+      "level": "L4",
+      "subsystem": "propulsion",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "Build the extended 5 W \u00d7 9 L chassis spanning Z \u221217 to \u22128 at Level L1.",
+        "Install Axles 7 and 8 with 4\u00d7 5\u00d75 suspension wheels (`WH 13..16`) at Z = \u22129 and Z = \u221213. Configure for 100% propulsion assist.",
+        "Mount Large Cargo Container `CAT Hold 3` centered at [X0, Z \u221211.5, Level L2-L3].",
+        "Install top funnel chutes and catwalk framing matching Cars 1 and 2."
+      ],
+      "checks": [
+        "Verify physical clearances and continuous conveyor flow."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            4,
+            12
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "propulsion",
+          "name": "CAT-01 Tender Hold 3 & DPU  [-2, 4, 12]"
+        },
+        {
+          "pos": [
+            -1,
+            4,
+            12
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "propulsion",
+          "name": "CAT-01 Tender Hold 3 & DPU  [-1, 4, 12]"
+        },
+        {
+          "pos": [
+            0,
+            4,
+            12
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "propulsion",
+          "name": "CAT-01 Tender Hold 3 & DPU  [0, 4, 12]"
+        },
+        {
+          "pos": [
+            1,
+            4,
+            12
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "propulsion",
+          "name": "CAT-01 Tender Hold 3 & DPU  [1, 4, 12]"
+        },
+        {
+          "pos": [
+            2,
+            4,
+            12
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "propulsion",
+          "name": "CAT-01 Tender Hold 3 & DPU  [2, 4, 12]"
+        }
+      ]
+    },
+    {
+      "step": "11.13",
+      "phase": "11-1",
+      "title": "High-Speed Pressurized Discharge Sorter & Stern Connector (L2)",
+      "level": "L2",
+      "subsystem": "conveyor",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "Mount 1\u00d7 Large Conveyor Sorter `CAT Train Sorter` horizontally at [X0, Z \u221215, Level L2] with flow arrow pointing stern (\u2212Z).",
+        "Configure sorter whitelist with bulk minerals: `Iron`, `Nickel`, `Silicon`, `Cobalt`, `Magnesium`, and `Stone`. Set `Drain All = OFF` by default (triggered by docking EC).",
+        "Mount 1\u00d7 Large Connector `CAT Train Unload Conn` at [X0, Z \u221217, Level L2] facing stern (\u2212Z), plumbed directly to the sorter outlet. Centerline height: exactly 2.5 m above tarmac.",
+        "Mount Event Controller `CAT EC Dump` adjacent to the sorter at [X \u22121, Z \u221215, L2]."
+      ],
+      "checks": [
+        "Verify physical clearances and continuous conveyor flow."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            2,
+            15
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "CAT-01 High-Speed Pressuriz [-2, 2, 15]"
+        },
+        {
+          "pos": [
+            -1,
+            2,
+            15
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "CAT-01 High-Speed Pressuriz [-1, 2, 15]"
+        },
+        {
+          "pos": [
+            0,
+            2,
+            15
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "CAT-01 High-Speed Pressuriz [0, 2, 15]"
+        },
+        {
+          "pos": [
+            1,
+            2,
+            15
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "CAT-01 High-Speed Pressuriz [1, 2, 15]"
+        },
+        {
+          "pos": [
+            2,
+            2,
+            15
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "CAT-01 High-Speed Pressuriz [2, 2, 15]"
+        }
+      ]
+    },
+    {
+      "step": "11.14",
+      "phase": "11-1",
+      "title": "Heavy Collision Bumper & Ground Base Alignment Horns (L1-L2)",
+      "level": "L3",
+      "subsystem": "structure",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "Across the rear transom (Z = \u221217, Level L1-L2), weld Heavy Armor Blast Door Blocks painted Palette Slot 1 (Crimson).",
+        "Install Heavy Armor Corner 2\u00d71\u00d71 slopes at X = \u00b12, forming rigid guide wedges angled aft (\u2212Z) to absorb docking kinetic shock and funnel the connector into the Ground Base receiving dock.",
+        "Install yellow warning chevrons (Palette Slot 9) across the bumper face."
+      ],
+      "checks": [
+        "Verify physical clearances and continuous conveyor flow."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            3,
+            18
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "CAT-01 Heavy Collision Bump [-2, 3, 18]"
+        },
+        {
+          "pos": [
+            -1,
+            3,
+            18
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "CAT-01 Heavy Collision Bump [-1, 3, 18]"
+        },
+        {
+          "pos": [
+            0,
+            3,
+            18
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "CAT-01 Heavy Collision Bump [0, 3, 18]"
+        },
+        {
+          "pos": [
+            1,
+            3,
+            18
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "CAT-01 Heavy Collision Bump [1, 3, 18]"
+        },
+        {
+          "pos": [
+            2,
+            3,
+            18
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "CAT-01 Heavy Collision Bump [2, 3, 18]"
+        }
+      ]
+    },
+    {
+      "step": "11.15",
+      "phase": "11-1",
+      "title": "Continuous Consist Maintenance Catwalk Network (L4)",
+      "level": "L4",
+      "subsystem": "conveyor",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "Connect all hopper top loading platforms with continuous steel catwalks spanning the inter-car drawbar gaps using articulated hinged footplates.",
+        "Install safety handrails and yellow grab irons along all ladderwells.",
+        "Mount 4\u00d7 Worksite LED Spotlights `CAT Floodlight 1..4` along the hopper sills angled downward 45\u00b0 to illuminate nighttime quarry transfer operations."
+      ],
+      "checks": [
+        "**Turn Radius Verification:** Drive the 42 B consist through a 90\u00b0 intersection at 25 km/h; verify Axle 1 steers smoothly through \u00b132\u00b0 and all 3 trailing cars track within an 18 m swept path without clipping curbs.",
+        "**Independent DPU Traction Verification:** With locomotive reactor powered OFF, engage battery power; confirm all 12 hopper suspension wheels provide active tractive effort and propel the empty consist to 40 km/h.",
+        "**3-Axis Terrain Compliance:** Navigate the consist over an uneven rocky ridge; confirm Drawbar Hitches 1-3 flex independently through pitch (\u00b125\u00b0), yaw (\u00b145\u00b0), and roll (\u00b120\u00b0) without chassis block collision or subgrid shearing.",
+        "**Share Inertia Tensor Audit:** Inspect all 6 drawbar rotors/hinges in terminal; confirm `Share Inertia Tensor = ON` on all joints; verify ZERO phantom physics oscillation while stationary on 15\u00b0 slopes.",
+        "**2,500 t Full Payload Hill-Climb:** Fill all 3 hopper containers with stone (2,868 t gross consist mass); ascend a 20\u00b0 voxel incline from a dead stop; verify consist accelerates smoothly to 45 km/h without wheel spin or reactor overload.",
+        "**Controlled Descent Braking:** Descend a 20\u00b0 slope at 50 km/h; apply full service brakes; confirm all 16 wheels brake synchronously, halting the consist in $< 65\\text{ m}$ with zero jackknifing.",
+        "**70 km/h Highway Test:** Cruise on flat terrain at 70 km/h; confirm `CAT EC AntiJackknife` triggers at 40 km/h, stiffening hitch damping to 85% and engaging magnetic stabilizer clamps; confirm zero trailer whip or harmonic sway.",
+        "**Push-Dock Mating:** Back locomotive bow bumper into Mastodon MKI stern alignment guide horns; confirm `CAT Loco Front Conn` locks smoothly at 2.5 m elevation.",
+        "**2,500 t Bulk Ore Fill:** Engage transfer sorters from Mastodon hold; verify all 3 hopper cars fill evenly to 100% capacity in $< 90\\text{ seconds}$ without conveyor bottleneck.",
+        "**Reverse Terminal Docking:** Reverse consist into Ground Base Bulk Receiving Dock; verify stern alignment wedges funnel `CAT Train Unload Conn` into lock with the base terminal connector.",
+        "**High-Speed Gravity/Pump Dump:** Verify `CAT EC Dump` automatically engages `CAT Train Sorter` (Drain All = ON); confirm 2,500 t of ore purges into the 5\u00d7 in-deck collectors in $< 90\\text{ seconds}$.",
+        "**Continuous Walk-Around:** Walk from the locomotive cab running boards across all 3 drawbar footplates to the tender rear bumper; confirm zero lethal fall gaps.",
+        "**Manual Port Inspection:** Access all 3 hopper maintenance ports from ground level; verify ability to manually transfer items into cargo holds.",
+        "**Emergency Severance Test:** While cruising at 40 km/h, trigger `CAT Hitch Decouple 1`; confirm locomotive breaks free cleanly while trailing hopper cars immediately engage emergency friction brakes and come to a safe stop."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            4,
+            21
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "CAT-01 Continuous Consist M [-2, 4, 21]"
+        },
+        {
+          "pos": [
+            -1,
+            4,
+            21
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "CAT-01 Continuous Consist M [-1, 4, 21]"
+        },
+        {
+          "pos": [
+            0,
+            4,
+            21
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "CAT-01 Continuous Consist M [0, 4, 21]"
+        },
+        {
+          "pos": [
+            1,
+            4,
+            21
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "CAT-01 Continuous Consist M [1, 4, 21]"
+        },
+        {
+          "pos": [
+            2,
+            4,
+            21
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "CAT-01 Continuous Consist M [2, 4, 21]"
+        }
+      ]
+    }
+  ]
+}

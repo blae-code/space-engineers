@@ -1,0 +1,936 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "id": "RIG-01",
+  "name": "Floating Rig Structure (25 kt Fortress)",
+  "chapter": 6,
+  "gridSize": "Large",
+  "blockMeters": 2.5,
+  "stats": {
+    "totalBlocks": 4980,
+    "dryMassTonnes": 25000.0,
+    "pcu": 29500,
+    "dimensionsBlocks": [
+      36,
+      36,
+      28
+    ]
+  },
+  "bounds": {
+    "min": [
+      -18,
+      1,
+      -18
+    ],
+    "max": [
+      18,
+      28,
+      18
+    ]
+  },
+  "palette": [
+    {
+      "slot": 0,
+      "name": "Citadel Charcoal",
+      "hex": "#1A1D20",
+      "rgb": [
+        26,
+        29,
+        32
+      ],
+      "role": "Heavy Armor Hull & Structural Longerons"
+    },
+    {
+      "slot": 1,
+      "name": "Structural Slate",
+      "hex": "#42464D",
+      "rgb": [
+        66,
+        70,
+        77
+      ],
+      "role": "Bulkheads, Deck Frames & Workshop Ribs"
+    },
+    {
+      "slot": 2,
+      "name": "Warning Amber",
+      "hex": "#E06D14",
+      "rgb": [
+        224,
+        109,
+        20
+      ],
+      "role": "Hatches, Outriggers, Hitch & Bumper Guides"
+    },
+    {
+      "slot": 3,
+      "name": "Tactical White",
+      "hex": "#D4D8DD",
+      "rgb": [
+        212,
+        216,
+        221
+      ],
+      "role": "Flight Deck Markings & Alignment Chevrons"
+    },
+    {
+      "slot": 4,
+      "name": "Processing Teal",
+      "hex": "#1ABC9C",
+      "rgb": [
+        26,
+        188,
+        156
+      ],
+      "role": "Conveyors, Sorters, Ejectors & Basic Refinery"
+    },
+    {
+      "slot": 5,
+      "name": "Habitat White",
+      "hex": "#E8ECF0",
+      "rgb": [
+        232,
+        236,
+        240
+      ],
+      "role": "Bridge Canopy Interior & Medical Station"
+    },
+    {
+      "slot": 6,
+      "name": "Machine Olive",
+      "hex": "#4A5643",
+      "rgb": [
+        74,
+        86,
+        67
+      ],
+      "role": "Large Assembler, Sorter Manifolds & Tool Stores"
+    },
+    {
+      "slot": 7,
+      "name": "Cryo Cyan",
+      "hex": "#1E6B7B",
+      "rgb": [
+        30,
+        107,
+        123
+      ],
+      "role": "Hydrogen Tanks & O2/H2 Decon Systems"
+    },
+    {
+      "slot": 8,
+      "name": "Mechanical Gunmetal",
+      "hex": "#2B2E33",
+      "rgb": [
+        43,
+        46,
+        51
+      ],
+      "role": "Hitch Rotors, Axle Mounts & Boom Pedestal"
+    },
+    {
+      "slot": 9,
+      "name": "Grate Steel",
+      "hex": "#50555C",
+      "rgb": [
+        80,
+        85,
+        92
+      ],
+      "role": "Jefferies Grating, Catwalks & Access Stairs"
+    }
+  ],
+  "steps": [
+    {
+      "step": "6.1",
+      "phase": "6-1",
+      "title": "H6 Central Lift Ring (Levels L1-L4)",
+      "level": "L2",
+      "subsystem": "conveyor",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "Position 10\u00d7 Large Atmospheric Thrusters pointing straight down (\u2212Y) with 4-block exhaust clearance.",
+        "Interleave 6\u00d7 Large Hydrogen Thrusters pointing straight down (\u2212Y) adjacent to central conveyor well.",
+        "Frame thruster cluster with heavy armor triangular webs linking outer hexagonal rim to the central spine.",
+        "Route 2\u00d7 dual large conveyor loops from central well to H2 thruster fuel inlet ports."
+      ],
+      "checks": [
+        "Nozzles face straight down (D). Center of lift aligns within 0.1 m of the central vertical axis (0, 0)."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            2,
+            -18
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "RIG-01 H6 Central Lift Ring [-2, 2, -18]"
+        },
+        {
+          "pos": [
+            -1,
+            2,
+            -18
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "RIG-01 H6 Central Lift Ring [-1, 2, -18]"
+        },
+        {
+          "pos": [
+            0,
+            2,
+            -18
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "RIG-01 H6 Central Lift Ring [0, 2, -18]"
+        },
+        {
+          "pos": [
+            1,
+            2,
+            -18
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "RIG-01 H6 Central Lift Ring [1, 2, -18]"
+        },
+        {
+          "pos": [
+            2,
+            2,
+            -18
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "RIG-01 H6 Central Lift Ring [2, 2, -18]"
+        }
+      ]
+    },
+    {
+      "step": "6.2",
+      "phase": "6-1",
+      "title": "H5 Junction, Gyroscope Deck & Pylon Socket Ring (Levels L5-L8)",
+      "level": "L3",
+      "subsystem": "conveyor",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "Construct 6 structural socket bulkheads facing exactly 0\u00b0, 60\u00b0, 120\u00b0, 180\u00b0, 240\u00b0, and 300\u00b0.",
+        "Each socket presents an 8 W \u00d7 7 H receiving face matching the pylon root collar:",
+        "Install 12\u00d7 Large Gyroscopes inside the central equipment core.",
+        "Mount Remote Control block oriented Forward (+Z / North) and Up (+Y / Zenith)."
+      ],
+      "checks": [
+        "Each of the 6 sockets presents an 8 W \u00d7 7 H receiving face with 2 Merge Blocks and 1 central Large Connector."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            3,
+            -13
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "RIG-01 H5 Junction, Gyrosco [-2, 3, -13]"
+        },
+        {
+          "pos": [
+            -1,
+            3,
+            -13
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "RIG-01 H5 Junction, Gyrosco [-1, 3, -13]"
+        },
+        {
+          "pos": [
+            0,
+            3,
+            -13
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "RIG-01 H5 Junction, Gyrosco [0, 3, -13]"
+        },
+        {
+          "pos": [
+            1,
+            3,
+            -13
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "RIG-01 H5 Junction, Gyrosco [1, 3, -13]"
+        },
+        {
+          "pos": [
+            2,
+            3,
+            -13
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "RIG-01 H5 Junction, Gyrosco [2, 3, -13]"
+        }
+      ]
+    },
+    {
+      "step": "6.3",
+      "phase": "6-1",
+      "title": "H4 Nuclear Power Vault (Levels L9-L12)",
+      "level": "L4",
+      "subsystem": "conveyor",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "Seat 3\u00d7 Large Reactors on isolated structural heavy armor pads at 120\u00b0 offsets.",
+        "Build double-walled heavy armor bulkheads separating each reactor compartment.",
+        "Route dedicated uranium fuel conveyor lines with redundant sorters from central trunk.",
+        "Ring the reactor core with 6\u00d7 Large Batteries providing instantaneous UPS buffer during peak loads."
+      ],
+      "checks": [
+        "**Conveyor Loop Integrity:** Confirm Trunk A and Trunk B maintain closed loops with 0 unpiped ports.",
+        "**Reactor Full-Load Test:** Spin up Reactors 1-3 to 100% capacity (900 MW); confirm zero overload on 52 Atmo thrusters.",
+        "**Blackout Battery UPS:** Disconnect all reactors; verify 6\u00d7 Large Batteries sustain H6 hover for \u2265 90 seconds.",
+        "**Socket Lock Geometry:** Confirm all 12 merge blocks and 6 connectors toggle Lock/Unlock cleanly."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            4,
+            -9
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "RIG-01 H4 Nuclear Power Vau [-2, 4, -9]"
+        },
+        {
+          "pos": [
+            -1,
+            4,
+            -9
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "RIG-01 H4 Nuclear Power Vau [-1, 4, -9]"
+        },
+        {
+          "pos": [
+            0,
+            4,
+            -9
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "RIG-01 H4 Nuclear Power Vau [0, 4, -9]"
+        },
+        {
+          "pos": [
+            1,
+            4,
+            -9
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "RIG-01 H4 Nuclear Power Vau [1, 4, -9]"
+        },
+        {
+          "pos": [
+            2,
+            4,
+            -9
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "RIG-01 H4 Nuclear Power Vau [2, 4, -9]"
+        }
+      ]
+    },
+    {
+      "step": "7.1",
+      "phase": "6-1",
+      "title": "Pylon Keel & Conveyor Trunks (Levels L1-L2)",
+      "level": "L2",
+      "subsystem": "conveyor",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "Lay heavy armor V-keel along bottom centerline (Level L1).",
+        "Seat twin Large H2 tanks end-to-end between Z +2 and Z +12 along the pylon centerline.",
+        "Flank tanks with continuous Large Conveyor Trunks A and B at X \u00b13.",
+        "Recess 3\u00d7 Large Atmo lift thrusters into downward-facing keel pockets."
+      ],
+      "checks": [
+        "Both conveyor trunks run uninterrupted from root collar to tip cross-head."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            2,
+            -4
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "RIG-01 Pylon Keel & Conveyo [-2, 2, -4]"
+        },
+        {
+          "pos": [
+            -1,
+            2,
+            -4
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "RIG-01 Pylon Keel & Conveyo [-1, 2, -4]"
+        },
+        {
+          "pos": [
+            0,
+            2,
+            -4
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "RIG-01 Pylon Keel & Conveyo [0, 2, -4]"
+        },
+        {
+          "pos": [
+            1,
+            2,
+            -4
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "RIG-01 Pylon Keel & Conveyo [1, 2, -4]"
+        },
+        {
+          "pos": [
+            2,
+            2,
+            -4
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "RIG-01 Pylon Keel & Conveyo [2, 2, -4]"
+        }
+      ]
+    },
+    {
+      "step": "7.2",
+      "phase": "6-1",
+      "title": "Modular Hangar Bays (Levels L3-L6, Bays 1-3)",
+      "level": "L3",
+      "subsystem": "structure",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "Bay 1 opens Port (Z +2 to +7); Bay 2 opens Starboard (Z +7 to +12); Bay 3 opens Port (Z +12 to +17).",
+        "Install 4\u00d7 Hangar Door blocks along outer opening, sliding flush into ceiling frame.",
+        "Mount ceiling connector recessed 1 block above clear envelope with guide coamings.",
+        "Mount ship welder flush behind protective grated floor plate."
+      ],
+      "checks": [
+        "Clear interior: 6 B wide \u00d7 4 B high \u00d7 5 B deep (15.0 \u00d7 10.0 \u00d7 12.5 m). Accommodates Remora, Kestrel, or Albatross."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            3,
+            0
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "RIG-01 Modular Hangar Bays  [-2, 3, 0]"
+        },
+        {
+          "pos": [
+            -1,
+            3,
+            0
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "RIG-01 Modular Hangar Bays  [-1, 3, 0]"
+        },
+        {
+          "pos": [
+            0,
+            3,
+            0
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "RIG-01 Modular Hangar Bays  [0, 3, 0]"
+        },
+        {
+          "pos": [
+            1,
+            3,
+            0
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "RIG-01 Modular Hangar Bays  [1, 3, 0]"
+        },
+        {
+          "pos": [
+            2,
+            3,
+            0
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "RIG-01 Modular Hangar Bays  [2, 3, 0]"
+        }
+      ]
+    },
+    {
+      "step": "7.3",
+      "phase": "6-1",
+      "title": "Pylon Lift Pods & Tip Cross-Head (Levels L1-L7)",
+      "level": "L4",
+      "subsystem": "propulsion",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "Construct the plus-shaped cross-head end cap projecting 4 blocks beyond hangar bay 3.",
+        "Cluster 4\u00d7 Large Atmo lift thrusters in symmetrical 2\u00d72 box around central corridor.",
+        "Mount dorsal and ventral CIWS turrets providing 360\u00b0 hemispherical defense over pylon tip.",
+        "Install lateral stationkeeping thrusters on outer beam facets."
+      ],
+      "checks": [
+        "**Lift Authority Proof:** Under 100% test override, 7\u00d7 Large Atmo thrusters deliver 45.36 MN upward force, producing T/W \u2265 1.35 against pylon dry mass (\u2248 2,900 t).",
+        "**Fuel Capacity:** Verify twin Large H2 tanks register 100% fill level (10,000,000 L).",
+        "**Autonomous Docking Telemetry:** Remote Control locks onto target H5 socket beacon; merge blocks arm cleanly."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            4,
+            4
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "propulsion",
+          "name": "RIG-01 Pylon Lift Pods & Ti [-2, 4, 4]"
+        },
+        {
+          "pos": [
+            -1,
+            4,
+            4
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "propulsion",
+          "name": "RIG-01 Pylon Lift Pods & Ti [-1, 4, 4]"
+        },
+        {
+          "pos": [
+            0,
+            4,
+            4
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "propulsion",
+          "name": "RIG-01 Pylon Lift Pods & Ti [0, 4, 4]"
+        },
+        {
+          "pos": [
+            1,
+            4,
+            4
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "propulsion",
+          "name": "RIG-01 Pylon Lift Pods & Ti [1, 4, 4]"
+        },
+        {
+          "pos": [
+            2,
+            4,
+            4
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "propulsion",
+          "name": "RIG-01 Pylon Lift Pods & Ti [2, 4, 4]"
+        }
+      ]
+    },
+    {
+      "step": "8.1",
+      "phase": "6-1",
+      "title": "Section S7: H3 Gas Farm & Core Machine Shop (Levels L13-L16)",
+      "level": "L2",
+      "subsystem": "conveyor",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "Install 8\u00d7 Large H2 tanks in symmetrical perimeter rings.",
+        "Center 4\u00d7 O2/H2 generators adjacent to central conveyor well.",
+        "Install compact maintenance refinery and assembler cells for autonomous parts replenishment."
+      ],
+      "checks": [
+        "Gas farm plumbed into Trunk A & B loops. Ice processing capacity \u2265 2,000 kg/s."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            2,
+            9
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "RIG-01 Section S7: H3 Gas F [-2, 2, 9]"
+        },
+        {
+          "pos": [
+            -1,
+            2,
+            9
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "RIG-01 Section S7: H3 Gas F [-1, 2, 9]"
+        },
+        {
+          "pos": [
+            0,
+            2,
+            9
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "RIG-01 Section S7: H3 Gas F [0, 2, 9]"
+        },
+        {
+          "pos": [
+            1,
+            2,
+            9
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "RIG-01 Section S7: H3 Gas F [1, 2, 9]"
+        },
+        {
+          "pos": [
+            2,
+            2,
+            9
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "RIG-01 Section S7: H3 Gas F [2, 2, 9]"
+        }
+      ]
+    },
+    {
+      "step": "8.2",
+      "phase": "6-1",
+      "title": "Section S8: H2 Crew Citadel, Medical Center & Life Support (Levels L17-L20)",
+      "level": "L3",
+      "subsystem": "structure",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "Mount Gravity Generator dead-center at X0, Z0, L18 to provide uniform 1.0 g across H1-H3.",
+        "Construct hermetic crew quarters and medical triage suite on Port flank.",
+        "Install automated gas-reclamation decontamination airlock at elevator stairwell head."
+      ],
+      "checks": [
+        "H2 Citadel holds 100% O2 pressure (1.00 atm) with zero leakage when sealed."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            3,
+            13
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "RIG-01 Section S8: H2 Crew  [-2, 3, 13]"
+        },
+        {
+          "pos": [
+            -1,
+            3,
+            13
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "RIG-01 Section S8: H2 Crew  [-1, 3, 13]"
+        },
+        {
+          "pos": [
+            0,
+            3,
+            13
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "RIG-01 Section S8: H2 Crew  [0, 3, 13]"
+        },
+        {
+          "pos": [
+            1,
+            3,
+            13
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "RIG-01 Section S8: H2 Crew  [1, 3, 13]"
+        },
+        {
+          "pos": [
+            2,
+            3,
+            13
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "RIG-01 Section S8: H2 Crew  [2, 3, 13]"
+        }
+      ]
+    },
+    {
+      "step": "8.3",
+      "phase": "6-1",
+      "title": "Section S9: H1 Master Command Bridge, Avionics & Roof Pickets (Levels L21-L24)",
+      "level": "L4",
+      "subsystem": "conveyor",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "Center 3-operator bridge forward at Z +4 overlooking North approaches through sloped heavy glass.",
+        "Install 4-rack Programmable Block computer core in shielded armored avionics bay.",
+        "Finish Level L24 roof deck with twin Picket Drone landing pads and 360\u00b0 CIWS defense perimeter."
+      ],
+      "checks": [
+        "**Full-Hull Pressurization:** Confirm H1, H2, and H3 maintain 100% O2 pressure indefinitely.",
+        "**Gravity Alignment:** Confirm Gravity Generator produces exactly 1.0 g downward across all bridge consoles.",
+        "**C2 Laser Uplink:** Establish laser link to Ground Base C2 spire with zero packet loss.",
+        "**Suite A (Static Hover Stability):** Hover at 500 m AGL; confirm atmospheric throttle sits within 72.8% \u00b1 1.5%\u2020 at sea level Earth 1 g.",
+        "**Suite B (N-1 Nuclear Loss Failover):** Power down Reactor 1; confirm Batteries instantly supply shortfall without losing altitude.",
+        "**Suite C (Pylon Cold Docking Handshake):** Disconnect Pylon S1; fly 50 m clear; return and dock under Remote Control with 0 subgrid damage.",
+        "**Suite D (Simultaneous Swarm Launch):** Cycle 6 modular hangar bays simultaneously; verify zero conveyor lockups or door conflicts.",
+        "**Suite E (Atmospheric Ceiling Climb):** Ascend to 18 km ceiling\u2020; confirm smooth transition to H2 emergency thrusters as atmospheric density decays."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            4,
+            18
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "RIG-01 Section S9: H1 Maste [-2, 4, 18]"
+        },
+        {
+          "pos": [
+            -1,
+            4,
+            18
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "RIG-01 Section S9: H1 Maste [-1, 4, 18]"
+        },
+        {
+          "pos": [
+            0,
+            4,
+            18
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "RIG-01 Section S9: H1 Maste [0, 4, 18]"
+        },
+        {
+          "pos": [
+            1,
+            4,
+            18
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "RIG-01 Section S9: H1 Maste [1, 4, 18]"
+        },
+        {
+          "pos": [
+            2,
+            4,
+            18
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "RIG-01 Section S9: H1 Maste [2, 4, 18]"
+        }
+      ]
+    }
+  ]
+}

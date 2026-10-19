@@ -1,82 +1,104 @@
-# Fleet — Space Engineers Drone Autonomy Scripts
+# Space Engineers 1 · Floating Rig & Terrestrial Fleet
 
-Programmable Block scripts for Space Engineers that automate a mining drone swarm,
-carrier bay beacon and mothership console. Built with [MDK2](https://github.com/malware-dev/MDK-SE)
-on Linux/Proton.
+Autonomous industrial logistics fleet, mobile factory fortress, and multi-agent AI automation scripts for **Space Engineers 1** on Linux/Proton.
 
-## Projects
+Built with [MDK2](https://github.com/malware-dev/MDK-SE) (C# 6, zero-GC, `minify=full`). Technical authority governed by Blae's Canon Decisions ([`docs/CHANGELOG.md`](docs/CHANGELOG.md)).
 
-| Project | Kind | What it does |
-|---|---|---|
-| **Fleet.Engine** | MDK2 mixin (shared) | Kernel, config, storage, event log, commands, PID, UI, IGC networking, carrier dispatch |
-| **Fleet.Flight** | MDK2 mixin (shared) | Pure flight math — braking curves, thrust allocation, gyro control, path following, docking, helm |
-| **Fleet.Drone.Miner** | PB script | Autonomous mining drone — FSM, drill logic, hole grid, cargo/energy/damage IO, remote console |
-| **Fleet.Console** | PB script | Mothership remote console — fleet roster, per-drone menu, SET/GETCFG commands |
-| **Fleet.Carrier** | PB script | Carrier bay beacon — broadcasts connector poses & velocity for docking onto moving carriers |
-| **Fleet.Tests** | NUnit (net48/Mono) | Unit tests for Engine, Flight and Mining layers |
+---
 
-Mixins compile into PB projects via `<Import … .projitems>` — adding a `.cs` file under a
-mixin needs no project edit.
+## 1. Quick Navigation
 
-## Prerequisites
+* **[Construction Manuals & Build Guides](manuals/README.md):** Complete, human-facing Lego-style assembly manuals for all 13 craft and installations.
+  - Master manual: [`manuals/MASTER-BUILD-MANUAL.md`](manuals/MASTER-BUILD-MANUAL.md) (9,200+ lines, visual cross-sections, parts trays, inspection gates)
+* **[Interactive 3D/2D Blueprint Studio](studio/README.md):** Offline desktop PWA with 3D ghost hologram step scrubber, exploded views, and 2D orthographic deck slices (`python3 studio/serve.py`).
+* **[Programmable Block Scripts](scripts/README.md):** Active C# 6 zero-GC MDK2 scripts for all 10 fleet units and Rig OS.
+* **[Engineering Documentation](docs/README.md):** Canon decisions log, living project status map, verification list, mod rules, and master IGC protocol dictionary.
+* **[Historical Archive](archive/README.md):** Fully preserved non-canon reference guides, legacy deep-space drone fleet codebase (`Fleet.*`), and early prototypes.
 
-- **.NET SDK 9** — pinned by `global.json` (the MDK2 packager rejects SDK 10)
-- **Space Engineers** running under Proton on Linux
-- **Mono** (for running NUnit tests on net48)
+---
 
-## Build & Test
+## 2. Fleet & Station Summary
 
-```bash
-# Compile + deploy a PB script into the Proton prefix
-dotnet build Fleet.Drone.Miner -c Release
-dotnet build Fleet.Console     -c Release
-dotnet build Fleet.Carrier     -c Release
+| Designation | Name & Role | Class & Tier | Manual | Script Project |
+|---|---|---|---|---|
+| **ORC-01** | Heavy Mining Carrier | Large Grid · Air Tier | [`manuals/01-orca-carrier.md`](manuals/chapters/01-orca-carrier.md) | [`scripts/Carrier.Orca`](scripts/Carrier.Orca/) |
+| **REM-01** | Vertical Shaft Driller | Small Grid · Air Tier | [`manuals/02-remora-driller.md`](manuals/chapters/02-remora-driller.md) | [`scripts/Drone.Remora`](scripts/Drone.Remora/) |
+| **MUL-01** | Heavy Freight Shuttle | Large Grid · Air Tier | [`manuals/03-mule-shuttle.md`](manuals/chapters/03-mule-shuttle.md) | [`scripts/Drone.Mule`](scripts/Drone.Mule/) |
+| **GND-01** | Ground Base & Fleet C2 | Large Grid · Surface Core | [`manuals/04-ground-base.md`](manuals/chapters/04-ground-base.md) | [`scripts/Base.C2`](scripts/Base.C2/) |
+| **EXT-01** | Extruder Ring Shipyard | Large Grid · Surface Yard | [`manuals/05-extruder-ring.md`](manuals/chapters/05-extruder-ring.md) | [`scripts/Yard.Extruder`](scripts/Yard.Extruder/) |
+| **RIG-01** | Floating Rig Fortress (S0–S9) | 25 kt Large Grid · Station | [`manuals/06-floating-rig.md`](manuals/chapters/06-floating-rig.md) | [`scripts/Rig.OS`](scripts/Rig.OS/) |
+| **RIG//OS** | Operating System & IGC | Logic & Abstraction | [`manuals/09-rig-os.md`](manuals/chapters/09-rig-os.md) | [`docs/protocol/igc.md`](docs/protocol/igc.md) |
+| **MAS-01** | MASTODON-01 MKI Excavator | 10× 5×5 Large Grid Train | [`manuals/10-mastodon-train.md`](manuals/chapters/10-mastodon-train.md) | [`scripts/Excavator.Mastodon`](scripts/Excavator.Mastodon/) |
+| **CAT-01** | CATERPILLAR-01 Bulk Land Train | 16-wheel Large Grid Train | [`manuals/11-caterpillar-train.md`](manuals/chapters/11-caterpillar-train.md) | [`scripts/Train.Caterpillar`](scripts/Train.Caterpillar/) |
+| **KES-01** | KESTREL-01 Prospector Scout | Small Grid · Air Recon | [`manuals/12-kestrel-scout.md`](manuals/chapters/12-kestrel-scout.md) | [`scripts/Drone.Kestrel`](scripts/Drone.Kestrel/) |
+| **ALB-01** | ALBATROSS-01 Field Utility & Repair | Small Grid · Air Repair | [`manuals/13-albatross-utility.md`](manuals/chapters/13-albatross-utility.md) | [`scripts/Drone.Albatross`](scripts/Drone.Albatross/) |
 
-# Size gate — every deployed script.cs must be < 100,000 chars
-fish tools/check-size.fish
+---
 
-# Run the full test suite
-dotnet test Fleet.Tests
-
-# Run a single test class
-dotnet test Fleet.Tests --filter "FullyQualifiedName~SbFormatTests"
-```
-
-A successful Release build deploys the minified `script.cs` into the Proton prefix.
-In-game: PB → Edit → Browse Scripts → select the project name.
-
-## Key Design Decisions
-
-- **Pure core, thin adapters** — almost all logic is in pure, unit-testable classes;
-  only `Io/` and `Subsystems/` touch game blocks.
-- **Zero-GC in the main loop** — no allocations in `Update1/10/100` or `Main()`.
-  Numbers go through `SbFormat`, enum names through literal tables.
-- **`minify=full`** — the deployed script is fully minified (trim + rename).
-  Never depend on identifier names at runtime.
-- **C# 6** — the in-game compiler's ceiling. Tests may use C# 7.3.
-
-## Repository Layout
+## 3. Directory Layout
 
 ```
-CLAUDE.md              # Engineering workflow (build, test, card system, rules)
-CLAUDE(RIG).md         # Project scope, design spec, merge workflow
-reference/             # Canonical design docs (build guides, RIG//OS prototypes, sandbox)
-docs/
-  build-specs/         # Deployed script snapshot (enforced by checkpoint.py)
-  rig/                 # Rig changelog, mod list, drone analysis
-  merge/               # Merge tracking (fleet work → Rig integration)
-  superpowers/         # Slice specs, plans and task cards
-  ideas.md             # Idea backlog
-tools/
-  card-check.py        # Task card gate (tests, scope, banned namespaces)
-  checkpoint.py        # Full milestone checkpoint (build + test + cards + snapshot)
-  bp-inspect.py        # Blueprint inspection utility
-  hooks/               # Git hooks enforcing the card system
+space-engineers/
+├── manuals/                       # Human-Facing Vehicle & Station Construction Manuals
+│   ├── README.md                  # Quick index of all craft manuals & build order
+│   ├── MASTER-BUILD-MANUAL.md     # Authoritative Master Construction Manual (all 13 chapters)
+│   └── chapters/                  # 11 Modular Lego-style craft assembly guides
+│
+├── studio/                        # Interactive 3D/2D Blueprint Studio PWA & REST API
+│   ├── index.html                 # 3D viewport, 2D floorplans, step scrubber, collab mode
+│   ├── serve.py                   # Zero-dependency local server (python3 studio/serve.py)
+│   ├── manifest.json, sw.js       # Offline desktop PWA support
+│   └── data/                      # 10 compiled chapter JSON models
+│
+├── scripts/                       # Active In-Game Programmable Block Scripts (MDK2 C# 6)
+│   ├── Scripts.sln                # Master solution linking all 10 PB projects
+│   ├── Shared/                    # Shared library (Net, Util, Math)
+│   └── <Project>/                 # Individual PB projects (Carrier.Orca, Drone.Remora, etc.)
+│
+├── docs/                          # Engineering Governance, Specifications & Protocols
+│   ├── README.md                  # Master documentation index & reading map
+│   ├── CHANGELOG.md               # Canon decisions log (Decisions 1-72, Canon Authority)
+│   ├── project-map.md             # Master system breakdown & build order
+│   ├── verify.md                  # In-game verification tracking checklist (†)
+│   ├── mods.md                    # Active mod whitelist & configuration rules
+│   ├── cascading-workflow.md      # 12-pillar Mastodon benchmark standard
+│   ├── review-queue.md            # Multi-agent handoff review queue
+│   ├── ideas.md                   # Backlog of unscheduled proposals
+│   ├── protocol/                  # Communications standards (igc.md)
+│   ├── spec/                      # Schemas (blueprint-voxel-schema.md)
+│   └── config/                    # Mod config lists
+│
+├── tools/                         # Active Development & Deployment Tools
+│   ├── bp-inspect.py, world-mods.py, steam-unsub.py
+│   ├── check-size.fish, snapshot.fish
+│   ├── card-check.py, cards.py, checkpoint.py, next-card.py
+│   └── hooks/
+│
+└── archive/                       # Archived Non-Canon, Deprecated & Historical Material
+    ├── README.md                  # Master archive catalog
+    ├── reference-guides/          # Early non-canon Claude.ai snapshots
+    ├── legacy-drone-fleet/        # Frozen deep-space fleet codebase, cards & specs
+    ├── merge-audit/               # Historical Fleet-to-Rig merge records (2026-10-16)
+    ├── prototypes/                # Deprecated standalone HTML prototypes
+    └── backups/                   # Preserved backups and empty placeholders
 ```
 
-## Workflow
+---
 
-Work is split between Claude Code (specs, plans, cards, checkpoints) and a local model
-(code execution from task cards). See [`CLAUDE.md`](CLAUDE.md) for the full workflow,
-and [`CLAUDE(RIG).md`](CLAUDE(RIG).md) for the project scope and design spec.
+## 4. Engineering Invariants & Sandbox Rules
 
+* **Rule C4 — Native safety layer:** PBs make decisions; native blocks provide failsafe operation. No critical life support or ship survival function depends solely on a PB.
+* **Pure core, thin adapters:** All algorithmic flight math and state machines reside in pure, testable classes; only `Io/` and `Subsystems/` touch game terminal blocks.
+* **Zero-GC in the main loop:** Zero heap allocations inside `Main()`, `Update1`, `Update10`, or `Update100`. Preallocate in constructor, reuse buffers, use `SbFormat` for numbers, and literal tables for enums.
+* **`minify=full` immunity:** MDK2 fully minifies and renames all symbols. Code never depends on identifier names, runtime reflection, or `ToString()` on numbers/enums.
+* **Grid scoping:** Every block query strictly scopes via `b => b.CubeGrid == Me.CubeGrid`.
+* **C# 6 compiler constraints:** Scripts conform strictly to C# 6 (`<LangVersion>6</LangVersion>`). Banned: LINQ, `System.Threading`, `System.IO`, `System.Reflection`, `System.Net`, `System.Globalization`.
+
+---
+
+## 5. Multi-Agent Development Workflow
+
+Work on this repository is divided among three collaborating agents:
+* **Gemini (Antigravity):** High-throughput drafting, specifications, master manuals, 3D/2D visualizer data, bulk code architecture. Rules: [`GEMINI.md`](GEMINI.md).
+* **Claude Code:** Architecture review, gate verification, game-API adapters, gate ownership (`tools/`). Rules: [`CLAUDE.md`](CLAUDE.md).
+* **Qwen (local Continue):** Task card execution from reviewed plans.

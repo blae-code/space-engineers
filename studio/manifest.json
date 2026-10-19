@@ -1,0 +1,17 @@
+{
+  "short_name": "SE3D",
+  "name": "Space Engineers 3D Chapter & Blueprint Visualizer",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "./index.html",
+  "background_color": "#0c1118",
+  "theme_color": "#e6a100",
+  "display": "standalone",
+  "orientation": "landscape"
+}
+

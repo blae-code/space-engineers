@@ -1,0 +1,581 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "id": "EXT-01",
+  "name": "Rig Linear Extruder Ring Shipyard",
+  "chapter": 5,
+  "gridSize": "Large",
+  "blockMeters": 2.5,
+  "stats": {
+    "totalBlocks": 860,
+    "dryMassTonnes": 1850.0,
+    "pcu": 8900,
+    "dimensionsBlocks": [
+      24,
+      50,
+      14
+    ]
+  },
+  "bounds": {
+    "min": [
+      -12,
+      1,
+      -25
+    ],
+    "max": [
+      12,
+      14,
+      25
+    ]
+  },
+  "palette": [
+    {
+      "slot": 0,
+      "name": "Citadel Charcoal",
+      "hex": "#1A1D20",
+      "rgb": [
+        26,
+        29,
+        32
+      ],
+      "role": "Heavy Armor Hull & Structural Longerons"
+    },
+    {
+      "slot": 1,
+      "name": "Structural Slate",
+      "hex": "#42464D",
+      "rgb": [
+        66,
+        70,
+        77
+      ],
+      "role": "Bulkheads, Deck Frames & Workshop Ribs"
+    },
+    {
+      "slot": 2,
+      "name": "Warning Amber",
+      "hex": "#E06D14",
+      "rgb": [
+        224,
+        109,
+        20
+      ],
+      "role": "Hatches, Outriggers, Hitch & Bumper Guides"
+    },
+    {
+      "slot": 3,
+      "name": "Tactical White",
+      "hex": "#D4D8DD",
+      "rgb": [
+        212,
+        216,
+        221
+      ],
+      "role": "Flight Deck Markings & Alignment Chevrons"
+    },
+    {
+      "slot": 4,
+      "name": "Processing Teal",
+      "hex": "#1ABC9C",
+      "rgb": [
+        26,
+        188,
+        156
+      ],
+      "role": "Conveyors, Sorters, Ejectors & Basic Refinery"
+    },
+    {
+      "slot": 5,
+      "name": "Habitat White",
+      "hex": "#E8ECF0",
+      "rgb": [
+        232,
+        236,
+        240
+      ],
+      "role": "Bridge Canopy Interior & Medical Station"
+    },
+    {
+      "slot": 6,
+      "name": "Machine Olive",
+      "hex": "#4A5643",
+      "rgb": [
+        74,
+        86,
+        67
+      ],
+      "role": "Large Assembler, Sorter Manifolds & Tool Stores"
+    },
+    {
+      "slot": 7,
+      "name": "Cryo Cyan",
+      "hex": "#1E6B7B",
+      "rgb": [
+        30,
+        107,
+        123
+      ],
+      "role": "Hydrogen Tanks & O2/H2 Decon Systems"
+    },
+    {
+      "slot": 8,
+      "name": "Mechanical Gunmetal",
+      "hex": "#2B2E33",
+      "rgb": [
+        43,
+        46,
+        51
+      ],
+      "role": "Hitch Rotors, Axle Mounts & Boom Pedestal"
+    },
+    {
+      "slot": 9,
+      "name": "Grate Steel",
+      "hex": "#50555C",
+      "rgb": [
+        80,
+        85,
+        92
+      ],
+      "role": "Jefferies Grating, Catwalks & Access Stairs"
+    }
+  ],
+  "steps": [
+    {
+      "step": "5-1",
+      "phase": "5-1",
+      "title": "Launch Way Foundation & Low-Friction Skid Rails (Z 0 to +50)",
+      "level": "L2",
+      "subsystem": "structure",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "Assemble section according to master spatial datum."
+      ],
+      "checks": [
+        "**Laser Levelness:** Entire 125.0 m runway foundation is planar with zero elevation variance across Y = L1.",
+        "**Track Parallelism:** Distance between Port and Starboard blast door rails is exactly 5 B (12.5 m) center-to-center along the entire length.",
+        "**Low-Friction Surface:** All contact surfaces on the rails are verified Blast Door blocks (Palette 5); zero full armor blocks protruding into the sliding plane."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            2,
+            -25
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "EXT-01 Launch Way Foundatio [-2, 2, -25]"
+        },
+        {
+          "pos": [
+            -1,
+            2,
+            -25
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "EXT-01 Launch Way Foundatio [-1, 2, -25]"
+        },
+        {
+          "pos": [
+            0,
+            2,
+            -25
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "EXT-01 Launch Way Foundatio [0, 2, -25]"
+        },
+        {
+          "pos": [
+            1,
+            2,
+            -25
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "EXT-01 Launch Way Foundatio [1, 2, -25]"
+        },
+        {
+          "pos": [
+            2,
+            2,
+            -25
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "EXT-01 Launch Way Foundatio [2, 2, -25]"
+        }
+      ]
+    },
+    {
+      "step": "5-2",
+      "phase": "5-1",
+      "title": "Stationary 8 W \u00d7 7 H Welder U-Ring Arch & Conveyor Manifold (Z 0, Y L1 to L9)",
+      "level": "L3",
+      "subsystem": "conveyor",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "Assemble section according to master spatial datum."
+      ],
+      "checks": [
+        "**Weld Sphere Overlap:** Each Ship Welder projects an active weld radius of 1.75 m\u2020. Confirm that adjacent weld spheres overlap by a minimum of 0.25 m across all 3 faces, ensuring zero un-welded void spaces in structural blocks or internal armor plates.",
+        "**Conveyor Loop Integrity:** Connect a test storage container to the manifold. Confirm all 22 welders pull steel plates without any missing conveyor links or disconnected elbows.",
+        "**Clearance Gauge Check:** Run an 8 W \u00d7 7 H dummy block template through the portal. Confirm a strict 0.5 B air gap between welder nozzle faces and the exterior pylon armor skin."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            3,
+            -12
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "EXT-01 Stationary 8 W \u00d7 7 H [-2, 3, -12]"
+        },
+        {
+          "pos": [
+            -1,
+            3,
+            -12
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "EXT-01 Stationary 8 W \u00d7 7 H [-1, 3, -12]"
+        },
+        {
+          "pos": [
+            0,
+            3,
+            -12
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "EXT-01 Stationary 8 W \u00d7 7 H [0, 3, -12]"
+        },
+        {
+          "pos": [
+            1,
+            3,
+            -12
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "EXT-01 Stationary 8 W \u00d7 7 H [1, 3, -12]"
+        },
+        {
+          "pos": [
+            2,
+            3,
+            -12
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "EXT-01 Stationary 8 W \u00d7 7 H [2, 3, -12]"
+        }
+      ]
+    },
+    {
+      "step": "5-3",
+      "phase": "5-1",
+      "title": "6-Stage Hydraulic Pusher Runway, Carriage & Merge Head (Z \u221228 to 0)",
+      "level": "L4",
+      "subsystem": "structure",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "**Pusher Merge Block (`EXT MRG Release`):** Large grid merge block mounted at the forward tip (Z = 0, X = 0, Y = L2) facing forward (+Z). This block provides the rigid physical connection to the pylon root collar during printing.",
+        "**Blueprint Projector (`EXT PRJ Head`):** Mounted directly adjacent to the merge block (X = 0, Y = L3, facing +Z). Configured with the target section blueprint (e.g., `RIG_PYLON_S1_V1`).",
+        "**Emergency Mechanical Bumper:** Twin Blast Door pads mounted on the carriage wings (X = \u22121 and X = +1) to transfer push loads directly into the pylon root frame without stressing the merge block mechanism:"
+      ],
+      "checks": [
+        "**Inertia Tensor Verification:** Confirm every piston (`EXT Pusher 1` \u2026 `6`) has `Share Inertia Tensor = ON`. An un-shared piston will induce destructive harmonic wobble during the 60 m stroke.",
+        "**Linear Stroke Calibration:** Command group `EXT Pushers` to Extend at 0.05 m/s. Measure stroke progression: total travel must reach exactly 60.0 m \u00b1 0.05 m without mechanical binding or track collision.",
+        "**Merge Decoupling Test:** Place a dummy test block on `EXT MRG Release`. Toggle block OFF; verify instantaneous zero-force decoupling with zero residual grid adhesion."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            4,
+            0
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "EXT-01 6-Stage Hydraulic Pu [-2, 4, 0]"
+        },
+        {
+          "pos": [
+            -1,
+            4,
+            0
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "EXT-01 6-Stage Hydraulic Pu [-1, 4, 0]"
+        },
+        {
+          "pos": [
+            0,
+            4,
+            0
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "EXT-01 6-Stage Hydraulic Pu [0, 4, 0]"
+        },
+        {
+          "pos": [
+            1,
+            4,
+            0
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "EXT-01 6-Stage Hydraulic Pu [1, 4, 0]"
+        },
+        {
+          "pos": [
+            2,
+            4,
+            0
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "EXT-01 6-Stage Hydraulic Pu [2, 4, 0]"
+        }
+      ]
+    },
+    {
+      "step": "5-4",
+      "phase": "5-1",
+      "title": "Component Feed Umbilical, High-Pressure Sorter & Yard Console",
+      "level": "L2",
+      "subsystem": "conveyor",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "**Yard Operations Booth:** Construct a 3 \u00d7 3 B observation station at X = \u22127, Z +2, Y L3 overlooking the extruder throat and the launch way.",
+        "**Keel Umbilical Refueling Boom (`EXT Umbilical Boom`):** Mounted on the Starboard flank at X +6, Z +4, Y L2. Features an articulated Hinge arm with an Advanced Rotor and Large Connector (`EXT Fuel Conn`) that swings inward to lock with the extruded pylon's keel conveyor port for rapid H2 bunkering prior to flight."
+      ],
+      "checks": [
+        "**Feed Trunk Throughput:** Confirm `EXT Sorter Feed` pulls a minimum of 250 Steel Plates per second into the arch manifold.",
+        "**Foundry Reserve Threshold:** Check Ground Base inventory. Minimum reserves required before initiating a 22 B Pylon print:",
+        "**Umbilical Swing Clearance:** Articulate `EXT Umbilical Boom` through its full arc. Confirm connector mates cleanly with the pylon keel port without colliding with the blast skid curbs."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            2,
+            12
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "EXT-01 Component Feed Umbil [-2, 2, 12]"
+        },
+        {
+          "pos": [
+            -1,
+            2,
+            12
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "EXT-01 Component Feed Umbil [-1, 2, 12]"
+        },
+        {
+          "pos": [
+            0,
+            2,
+            12
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "EXT-01 Component Feed Umbil [0, 2, 12]"
+        },
+        {
+          "pos": [
+            1,
+            2,
+            12
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "EXT-01 Component Feed Umbil [1, 2, 12]"
+        },
+        {
+          "pos": [
+            2,
+            2,
+            12
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "EXT-01 Component Feed Umbil [2, 2, 12]"
+        }
+      ]
+    },
+    {
+      "step": "5-5",
+      "phase": "5-1",
+      "title": "Automated Extrusion Cycle & Pylon Flight Commissioning Sequence",
+      "level": "L3",
+      "subsystem": "conveyor",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "**Stage 1 (Root Collar Fusion):**",
+        "**Stage 2 (Continuous Extrusion):**",
+        "**Stage 3 (Print Completion):**",
+        "**Stage 4 (Keel Umbilical Refueling):**",
+        "**Stage 5 (Avionics Activation, Release & Autonomous Ascent):**"
+      ],
+      "checks": [
+        "**H2 Reserve Verification:** Pylon onboard hydrogen tanks show 100% fill level on yard telemetry.",
+        "**Lift Authority Proof:** Under 100% thruster test override, upward thrust produces a minimum of 1.30 T/W ratio against the pylon's dry mass at sea level (Earth 1 g).",
+        "**IGC Telemetry Handshake:** Base C2 Bridge confirms receipt of heartbeat ping on `TMS.PYLON.STATUS` with zero packet loss."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            3,
+            25
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "EXT-01 Automated Extrusion  [-2, 3, 25]"
+        },
+        {
+          "pos": [
+            -1,
+            3,
+            25
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "EXT-01 Automated Extrusion  [-1, 3, 25]"
+        },
+        {
+          "pos": [
+            0,
+            3,
+            25
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "EXT-01 Automated Extrusion  [0, 3, 25]"
+        },
+        {
+          "pos": [
+            1,
+            3,
+            25
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "EXT-01 Automated Extrusion  [1, 3, 25]"
+        },
+        {
+          "pos": [
+            2,
+            3,
+            25
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "EXT-01 Automated Extrusion  [2, 3, 25]"
+        }
+      ]
+    }
+  ]
+}

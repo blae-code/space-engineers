@@ -1,0 +1,864 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "id": "MUL-01",
+  "name": "MULE-01 Heavy Freight Shuttle",
+  "chapter": 3,
+  "gridSize": "Large",
+  "blockMeters": 2.5,
+  "stats": {
+    "totalBlocks": 142,
+    "dryMassTonnes": 128.0,
+    "pcu": 1850,
+    "dimensionsBlocks": [
+      7,
+      7,
+      5
+    ]
+  },
+  "bounds": {
+    "min": [
+      -3,
+      1,
+      -3
+    ],
+    "max": [
+      3,
+      5,
+      3
+    ]
+  },
+  "palette": [
+    {
+      "slot": 0,
+      "name": "Citadel Charcoal",
+      "hex": "#1A1D20",
+      "rgb": [
+        26,
+        29,
+        32
+      ],
+      "role": "Heavy Armor Hull & Structural Longerons"
+    },
+    {
+      "slot": 1,
+      "name": "Structural Slate",
+      "hex": "#42464D",
+      "rgb": [
+        66,
+        70,
+        77
+      ],
+      "role": "Bulkheads, Deck Frames & Workshop Ribs"
+    },
+    {
+      "slot": 2,
+      "name": "Warning Amber",
+      "hex": "#E06D14",
+      "rgb": [
+        224,
+        109,
+        20
+      ],
+      "role": "Hatches, Outriggers, Hitch & Bumper Guides"
+    },
+    {
+      "slot": 3,
+      "name": "Tactical White",
+      "hex": "#D4D8DD",
+      "rgb": [
+        212,
+        216,
+        221
+      ],
+      "role": "Flight Deck Markings & Alignment Chevrons"
+    },
+    {
+      "slot": 4,
+      "name": "Processing Teal",
+      "hex": "#1ABC9C",
+      "rgb": [
+        26,
+        188,
+        156
+      ],
+      "role": "Conveyors, Sorters, Ejectors & Basic Refinery"
+    },
+    {
+      "slot": 5,
+      "name": "Habitat White",
+      "hex": "#E8ECF0",
+      "rgb": [
+        232,
+        236,
+        240
+      ],
+      "role": "Bridge Canopy Interior & Medical Station"
+    },
+    {
+      "slot": 6,
+      "name": "Machine Olive",
+      "hex": "#4A5643",
+      "rgb": [
+        74,
+        86,
+        67
+      ],
+      "role": "Large Assembler, Sorter Manifolds & Tool Stores"
+    },
+    {
+      "slot": 7,
+      "name": "Cryo Cyan",
+      "hex": "#1E6B7B",
+      "rgb": [
+        30,
+        107,
+        123
+      ],
+      "role": "Hydrogen Tanks & O2/H2 Decon Systems"
+    },
+    {
+      "slot": 8,
+      "name": "Mechanical Gunmetal",
+      "hex": "#2B2E33",
+      "rgb": [
+        43,
+        46,
+        51
+      ],
+      "role": "Hitch Rotors, Axle Mounts & Boom Pedestal"
+    },
+    {
+      "slot": 9,
+      "name": "Grate Steel",
+      "hex": "#50555C",
+      "rgb": [
+        80,
+        85,
+        92
+      ],
+      "role": "Jefferies Grating, Catwalks & Access Stairs"
+    }
+  ],
+  "steps": [
+    {
+      "step": "3.1",
+      "phase": "3-1",
+      "title": "Large Cargo Core & Ventral Connector (L1-L3)",
+      "level": "L2",
+      "subsystem": "conveyor",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "Place 1 standard Large Cargo Container (3\u00d73\u00d73 B) `MUL Cargo Hold` centered precisely at coordinate `[X: 0, Y: 0, Z: 0]`, spanning Levels L1 through L3.",
+        "Ensure the bottom center large conveyor port faces directly DOWN at Level L1.",
+        "Attach 1\u00d7 Large Grid Connector `MUL Dock Belly` to this bottom port, oriented facing straight DOWN (\u2212Y).",
+        "Mount 1\u00d7 Camera `MUL Cam Belly` recessed immediately adjacent to the connector at [X 0, Z +1, L1] pointing straight DOWN."
+      ],
+      "checks": [
+        "Verify physical clearances and continuous conveyor flow."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            2,
+            -3
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "MUL-01 Large Cargo Core & V [-2, 2, -3]"
+        },
+        {
+          "pos": [
+            -1,
+            2,
+            -3
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "MUL-01 Large Cargo Core & V [-1, 2, -3]"
+        },
+        {
+          "pos": [
+            0,
+            2,
+            -3
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "MUL-01 Large Cargo Core & V [0, 2, -3]"
+        },
+        {
+          "pos": [
+            1,
+            2,
+            -3
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "MUL-01 Large Cargo Core & V [1, 2, -3]"
+        },
+        {
+          "pos": [
+            2,
+            2,
+            -3
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "MUL-01 Large Cargo Core & V [2, 2, -3]"
+        }
+      ]
+    },
+    {
+      "step": "3.2",
+      "phase": "3-1",
+      "title": "Belly Landing Skids & Skid Foundation (L1)",
+      "level": "L3",
+      "subsystem": "structure",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "Construct 4 corner landing skids at [X \u00b13, Z \u00b13] on Level L1.",
+        "Shape each skid using 2\u00d71 Heavy Armor Slopes angled outward to form a broad 17.5 \u00d7 17.5 m stance.",
+        "Tie the skids to the central cargo hold using under-chassis Heavy Armor beams spanning along Z = 0 and X = 0."
+      ],
+      "checks": [
+        "Verify physical clearances and continuous conveyor flow."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            3,
+            -2
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "MUL-01 Belly Landing Skids  [-2, 3, -2]"
+        },
+        {
+          "pos": [
+            -1,
+            3,
+            -2
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "MUL-01 Belly Landing Skids  [-1, 3, -2]"
+        },
+        {
+          "pos": [
+            0,
+            3,
+            -2
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "MUL-01 Belly Landing Skids  [0, 3, -2]"
+        },
+        {
+          "pos": [
+            1,
+            3,
+            -2
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "MUL-01 Belly Landing Skids  [1, 3, -2]"
+        },
+        {
+          "pos": [
+            2,
+            3,
+            -2
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "MUL-01 Belly Landing Skids  [2, 3, -2]"
+        }
+      ]
+    },
+    {
+      "step": "3.3",
+      "phase": "3-1",
+      "title": "Cardinal Lift Thruster Cross (L1-L2)",
+      "level": "L4",
+      "subsystem": "power",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "`MUL Lift Fwd` : Mounted on Bow face [Z +2 to +3, X \u22121 to +1, L1-L2].",
+        "`MUL Lift Aft` : Mounted on Stern face [Z \u22122 to \u22123, X \u22121 to +1, L1-L2].",
+        "`MUL Lift Port` : Mounted on Port face [X \u22122 to \u22123, Z \u22121 to +1, L1-L2].",
+        "`MUL Lift Stbd` : Mounted on Starboard face [X +2 to +3, Z \u22121 to +1, L1-L2].",
+        "Assign all 4 thrusters to terminal group `MUL Lift`."
+      ],
+      "checks": [
+        "Verify physical clearances and continuous conveyor flow."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            4,
+            -1
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "power",
+          "name": "MUL-01 Cardinal Lift Thrust [-2, 4, -1]"
+        },
+        {
+          "pos": [
+            -1,
+            4,
+            -1
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "power",
+          "name": "MUL-01 Cardinal Lift Thrust [-1, 4, -1]"
+        },
+        {
+          "pos": [
+            0,
+            4,
+            -1
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "power",
+          "name": "MUL-01 Cardinal Lift Thrust [0, 4, -1]"
+        },
+        {
+          "pos": [
+            1,
+            4,
+            -1
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "power",
+          "name": "MUL-01 Cardinal Lift Thrust [1, 4, -1]"
+        },
+        {
+          "pos": [
+            2,
+            4,
+            -1
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "power",
+          "name": "MUL-01 Cardinal Lift Thrust [2, 4, -1]"
+        }
+      ]
+    },
+    {
+      "step": "3.4",
+      "phase": "3-1",
+      "title": "4-Quadrant Large Battery Array (L1-L3)",
+      "level": "L2",
+      "subsystem": "power",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "`MUL Battery NW` : Forward-Port corner [X \u22122 to \u22123, Z +2 to +3, L2].",
+        "`MUL Battery NE` : Forward-Starboard corner [X +2 to +3, Z +2 to +3, L2].",
+        "`MUL Battery SW` : Aft-Port corner [X \u22122 to \u22123, Z \u22122 to \u22123, L2].",
+        "`MUL Battery SE` : Aft-Starboard corner [X +2 to +3, Z \u22122 to \u22123, L2].",
+        "Assign all 4 to terminal group `MUL Batteries` (12.0 MWh aggregate capacity, 48.0 MW peak discharge)."
+      ],
+      "checks": [
+        "Verify physical clearances and continuous conveyor flow."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            2,
+            0
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "power",
+          "name": "MUL-01 4-Quadrant Large Bat [-2, 2, 0]"
+        },
+        {
+          "pos": [
+            -1,
+            2,
+            0
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "power",
+          "name": "MUL-01 4-Quadrant Large Bat [-1, 2, 0]"
+        },
+        {
+          "pos": [
+            0,
+            2,
+            0
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "power",
+          "name": "MUL-01 4-Quadrant Large Bat [0, 2, 0]"
+        },
+        {
+          "pos": [
+            1,
+            2,
+            0
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "power",
+          "name": "MUL-01 4-Quadrant Large Bat [1, 2, 0]"
+        },
+        {
+          "pos": [
+            2,
+            2,
+            0
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "power",
+          "name": "MUL-01 4-Quadrant Large Bat [2, 2, 0]"
+        }
+      ]
+    },
+    {
+      "step": "3.5",
+      "phase": "3-1",
+      "title": "Flight Stabilization Gyroscopes (L2)",
+      "level": "L3",
+      "subsystem": "structure",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "Install 1\u00d7 Large Gyroscope `MUL Gyro Port` at [X \u22122, Z +2, L2] immediately aft of `BAT NW`.",
+        "Install 1\u00d7 Large Gyroscope `MUL Gyro Stbd` at [X +2, Z +2, L2] immediately aft of `BAT NE`.",
+        "Assign both to group `MUL Gyros` (67.2 MN\u00b7m aggregate torque)."
+      ],
+      "checks": [
+        "Verify physical clearances and continuous conveyor flow."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            3,
+            0
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "MUL-01 Flight Stabilization [-2, 3, 0]"
+        },
+        {
+          "pos": [
+            -1,
+            3,
+            0
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "MUL-01 Flight Stabilization [-1, 3, 0]"
+        },
+        {
+          "pos": [
+            0,
+            3,
+            0
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "MUL-01 Flight Stabilization [0, 3, 0]"
+        },
+        {
+          "pos": [
+            1,
+            3,
+            0
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "MUL-01 Flight Stabilization [1, 3, 0]"
+        },
+        {
+          "pos": [
+            2,
+            3,
+            0
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "MUL-01 Flight Stabilization [2, 3, 0]"
+        }
+      ]
+    },
+    {
+      "step": "3.6",
+      "phase": "3-1",
+      "title": "Heavy Armor Gantry Cradle Strike Rub Rails (L2)",
+      "level": "L4",
+      "subsystem": "conveyor",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "Mount a 3-block continuous span of Heavy Armor Full Blocks along the Port flank at [X \u22123, Z \u22121 to +1, L2].",
+        "Mount a 3-block continuous span of Heavy Armor Full Blocks along the Starboard flank at [X +3, Z \u22121 to +1, L2].",
+        "Paint both spans in Palette Slot 5 (Hazard Yellow with chevron striping)."
+      ],
+      "checks": [
+        "Verify physical clearances and continuous conveyor flow."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            4,
+            1
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "MUL-01 Heavy Armor Gantry C [-2, 4, 1]"
+        },
+        {
+          "pos": [
+            -1,
+            4,
+            1
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "MUL-01 Heavy Armor Gantry C [-1, 4, 1]"
+        },
+        {
+          "pos": [
+            0,
+            4,
+            1
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "MUL-01 Heavy Armor Gantry C [0, 4, 1]"
+        },
+        {
+          "pos": [
+            1,
+            4,
+            1
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "MUL-01 Heavy Armor Gantry C [1, 4, 1]"
+        },
+        {
+          "pos": [
+            2,
+            4,
+            1
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "MUL-01 Heavy Armor Gantry C [2, 4, 1]"
+        }
+      ]
+    },
+    {
+      "step": "3.7",
+      "phase": "3-1",
+      "title": "6-Axis Small Atmospheric Thruster Perimeter (L2-L3)",
+      "level": "L2",
+      "subsystem": "propulsion",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "**Bow (+Z):** Mount 2\u00d7 Small Atmo `MUL Lat Fwd 1, 2` facing Forward (exhausts +Z to push Aft) at [X \u00b11, Z +3, L3].",
+        "**Stern (\u2212Z):** Mount 2\u00d7 Small Atmo `MUL Lat Aft 1, 2` facing Aft (exhausts \u2212Z to push Fwd) at [X \u00b11, Z \u22123, L3].",
+        "**Port (\u2212X):** Mount 2\u00d7 Small Atmo `MUL Lat Port 1, 2` facing Port (exhausts \u2212X to push Stbd) at [X \u22123, Z \u00b11, L3].",
+        "**Starboard (+X):** Mount 2\u00d7 Small Atmo `MUL Lat Stbd 1, 2` facing Starboard (exhausts +X to push Port) at [X +3, Z \u00b11, L3].",
+        "**Dorsal Roof (+Y):** Mount 2\u00d7 Small Atmo `MUL Thrust Down 1, 2` facing UP (exhausts +Y to push straight DOWN) at [X \u00b11, Z 0, L3].",
+        "Assign all 10 to terminal group `MUL Maneuver`."
+      ],
+      "checks": [
+        "Verify physical clearances and continuous conveyor flow."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            2,
+            2
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "propulsion",
+          "name": "MUL-01 6-Axis Small Atmosph [-2, 2, 2]"
+        },
+        {
+          "pos": [
+            -1,
+            2,
+            2
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "propulsion",
+          "name": "MUL-01 6-Axis Small Atmosph [-1, 2, 2]"
+        },
+        {
+          "pos": [
+            0,
+            2,
+            2
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "propulsion",
+          "name": "MUL-01 6-Axis Small Atmosph [0, 2, 2]"
+        },
+        {
+          "pos": [
+            1,
+            2,
+            2
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "propulsion",
+          "name": "MUL-01 6-Axis Small Atmosph [1, 2, 2]"
+        },
+        {
+          "pos": [
+            2,
+            2,
+            2
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "propulsion",
+          "name": "MUL-01 6-Axis Small Atmosph [2, 2, 2]"
+        }
+      ]
+    },
+    {
+      "step": "3.8",
+      "phase": "3-1",
+      "title": "Aft Avionics Vault & Comms (L3)",
+      "level": "L3",
+      "subsystem": "conveyor",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "Mount 1\u00d7 Remote Control `MUL RC` at [X 0, Z \u22122, L3]. Ensure Forward points Bow (+Z) and Up points Roof (+Y).",
+        "Mount 1\u00d7 Programmable Block `[MUL] PB Shuttle` at [X \u22121, Z \u22122, L3].",
+        "Mount 1\u00d7 Radio Antenna `MUL Antenna` at [X +1, Z \u22122, L3]. Set broadcast range to `5,000 m`\u2020.",
+        "Mount 1\u00d7 Camera `MUL Cam Fwd` at [X 0, Z +3, L3] facing Bow (+Z).",
+        "Mount logic block array along the northern equipment bulkhead:",
+        "`MUL TMR Heartbeat` (5.0 s loop) fails to receive a PB reset pulse and expires.",
+        "Immediate hardwired failsafe actions triggered by timer:",
+        "If docked at a Gantry Cradle when failure occurs:"
+      ],
+      "checks": [
+        "**Dry Mass Verification:** Spawn MULE-01 in creative; terminal reports dry mass `\u2248 150-160 t`.",
+        "**Zero-Torque Hover:** Lift off to 50 m altitude in Earth 1.0 g; release dampeners; confirm pitch and roll remain `0.00\u00b0` (CoM perfectly aligned with center of lift).",
+        "**Empty Hover Power:** Verify 4\u00d7 Flat Atmo thrusters operate at `14-16%` load (`\u2248 3.6-4.2 MW` draw).",
+        "**Full Ore Spawn:** Load exactly 650 t of iron ore into `MUL Cargo Hold` (Gross mass `\u2248 807 t`).",
+        "**Laden Hover Power:** Verify 4\u00d7 Flat Atmo thrusters hover cleanly at `76-78%` load (`\u2248 20.0-20.5 MW` draw). Confirm T/W margin `\u2265 1.30`.",
+        "**Vertical Climb Rate:** Apply full upward collective; verify vertical climb rate reaches `\u2265 12.0 m/s` within 3.0 seconds.",
+        "**Vertical Descent Acceleration:** From 300 m altitude, apply downward thruster override (`MUL Thrust Down 1, 2`); verify descent acceleration reaches `13.5 m/s\u00b2`.",
+        "**Terminal Touchdown Flare:** At 50 m altitude, cut push-down thrusters and engage full lift collective; verify descent arrests safely before ground impact.",
+        "**Approach Alignment:** Guide Mule over Orca carrier roof pad (`ORC MP Conn`); verify `MUL Cam Belly` view aligns center marker.",
+        "**Touchdown & Lock:** Touch down on pad; verify `MUL Dock Belly` locks cleanly with corner skids resting flat on blast deck.",
+        "**Connector Recess Verification:** Confirm belly connector experiences zero mechanical bounce or compression damage.",
+        "**Cradle Swing:** Trigger host Gantry Cradle hinges (swinging inward 30\u00b0); verify magnetic plates strike flush against `[WAIST RUB RAIL PORT/STBD]` at Level L2.",
+        "**Magnetic Latch:** Lock magnetic plates; turn `MUL Lift` OFF; confirm Mule is clamped rigidly to carrier deck during 50 m/s carrier evasive maneuvers.",
+        "**Rapid Drain Test:** Engage host pad intake sorters (`ORC MP Sorter` / `GND PAD Sorter`); verify 650 t ore evacuates through `MUL Dock Belly` in $< 45\\text{ seconds}$\u2020 without conveyor back-pressure.",
+        "**Departure Sequence:** On empty signal (`MUL EC Cargo`), verify Gantry Cradle unclutches, `MUL Lift` engages, and shuttle executes clean vertical ascent.",
+        "**Waypoint Cruise:** Fly 5 km transit corridor between Orca and Ground Base at 100 m/s; verify 10\u00d7 Small Atmo array maintains course heading with zero lateral slip.",
+        "**Battery Consumption:** Verify total energy consumed over 5 km laden flight is $< 1.8\\text{ MWh}$ ($< 15\\%$ battery capacity).",
+        "**Base Terminal Capture:** Approach `GND PAD`; auto-engage gantry clamping arms; lock `GND PAD Conn`.",
+        "**Fast Shore Recharge:** Verify 4\u00d7 Large Batteries switch to `Recharge` and pull full 48.0 MW shore power, reaching 100% state of charge in $< 15\\text{ minutes}$.",
+        "**Simulated PB Crash:** Recompile `[MUL] PB Shuttle` with a crash script during transit; verify `MUL TMR Heartbeat` times out at 5.0 s, disengages overrides, activates dampeners, and arrests flight into a stable altitude hold."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            3,
+            3
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "MUL-01 Aft Avionics Vault & [-2, 3, 3]"
+        },
+        {
+          "pos": [
+            -1,
+            3,
+            3
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "MUL-01 Aft Avionics Vault & [-1, 3, 3]"
+        },
+        {
+          "pos": [
+            0,
+            3,
+            3
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "MUL-01 Aft Avionics Vault & [0, 3, 3]"
+        },
+        {
+          "pos": [
+            1,
+            3,
+            3
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "MUL-01 Aft Avionics Vault & [1, 3, 3]"
+        },
+        {
+          "pos": [
+            2,
+            3,
+            3
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "MUL-01 Aft Avionics Vault & [2, 3, 3]"
+        }
+      ]
+    }
+  ]
+}
