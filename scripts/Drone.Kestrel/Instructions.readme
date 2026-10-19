@@ -3,12 +3,21 @@
 ## Subsystem: KESTREL-01 Prospector Scout Drone Subsystem
 * **Target Block:** `[KES] PB Scout`
 * **Grid Size:** Small Grid (7 × 9 × 5 sb)
-* **Update Frequency:** `Update10`
-* **Managed Subsystem Groups:** `KES AV, KES DET, KES PW, KES DOCK`
-* **IGC Network Channels:** `TMS.SCOUT.VEIN (out), TMS.SCOUT.STATUS (out), TMS.SCOUT.CMD (in)`
+* **Update Frequency:** `Update10` (Fast survey kinematics & collision avoidance) + `Update100` (Telemetry broadcast & battery supervision)
+* **Managed Subsystem Groups:** `KES Thrusters All, KES Thrusters Lift, KES Thrusters Maneuver, KES Batteries, KES Lights, KES Cameras`
+* **IGC Network Channels:**
+  * Outgoing: `TMS.SCOUT.STATUS`, `TMS.SCOUT.VEIN`
+  * Incoming: `TMS.SCOUT.RECALL`, `TMS.SCOUT.TASK`
 
 ## System Description
-High-speed geological reconnaissance drone (T/W 6.8). Executes autonomous survey search spirals, logs ore detector strikes, and broadcasts vein GPS coordinates.
+High-speed autonomous geological reconnaissance drone (T/W 6.79). Executes automated waypoint grid prospecting, monitors subsurface ore detector returns, and broadcasts verified ore vein coordinates (`TMS.SCOUT.VEIN`) to Orca carrier and Mastodon MKI C2 bridges. Supports automated RTH on low battery (< 20%) and emergency hover failsafe.
+
+## Terminal Commands
+* `PING`: Heartbeat reset signal from carrier / C2 root.
+* `RELOAD`: Reload CustomData configuration and refresh terminal block handles.
+* `SURVEY`: Initiate autonomous terrain-following search pattern.
+* `RTH`: Abort current survey pattern and return to assigned host pad.
+* `REPORT`: Force instantaneous broadcast of detected vein registry.
 
 ## Zero-GC PB Rules
 1. C# 6 only, nested in Program, namespace `IngameScript`.

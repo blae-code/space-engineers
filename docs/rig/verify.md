@@ -51,4 +51,5 @@ Items marked † in any project doc. Checked = verified in the RIG Test world or
 | V46 | Laser Antenna maximum power draw during atmospheric beam link (2.5 MW†) | Ground Base C2 Comms Mast | |
 | V47 | Large grid hinge braking torque for Mule cradle clamping arms (20.0 MN·m†) | Ground Base Mule Pad | |
 | V48 | MULE-01 laden descent deceleration on 2× Small Push-Down Atmo thrusters (13.5 m/s²†) | MULE-01 Flight Array | |
+| V49 | KESTREL-01 vertical climb acceleration on 4× Small Atmo thrusters (56.8 m/s²†) | KESTREL-01 Flight Array | |
 
