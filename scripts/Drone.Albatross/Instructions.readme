@@ -3,12 +3,22 @@
 ## Subsystem: ALBATROSS-01 Utility & Field Repair Craft Subsystem
 * **Target Block:** `[ALB] PB Utility`
 * **Grid Size:** Small Grid (9 × 11 × 5 sb)
-* **Update Frequency:** `Update10`
-* **Managed Subsystem Groups:** `ALB TOOL, ALB HOLD, ALB PW, ALB DOCK`
-* **IGC Network Channels:** `TMS.REPAIR.CALL (in), TMS.REPAIR.STATUS (out), TMS.ALB.STATUS (out)`
+* **Update Frequency:** `Update10` (Fast station-keeping & welding proximity) + `Update100` (Telemetry broadcast & inventory supervision)
+* **Managed Subsystem Groups:** `ALB Thrusters All, ALB Thrusters Lift, ALB Thrusters Maneuver, ALB Batteries, ALB Lights, ALB Tools, ALB Cameras`
+* **IGC Network Channels:**
+  * Outgoing: `TMS.UTIL.STATUS`, `TMS.SUPPLY.RESTOCK`
+  * Incoming: `TMS.REPAIR.CALL`, `TMS.REPAIR.STATUS`
 
 ## System Description
-Autonomous field repair craft with nose-mounted ship welder and 3,375 L component storage. Dispatches to restore damaged fleet craft and weld remote installations.
+Autonomous field-repair craft with nose-mounted ship welder and 3,375 L component storage. Dispatches to restore damaged fleet craft (Remora drillers, Orca hull armor, Mastodon MKI consist), executes precision point-blank station keeping (drift < 0.05 m), and orders component restocks from host carrier/base docks.
+
+## Terminal Commands
+* `PING`: Heartbeat reset signal from carrier / C2 root.
+* `RELOAD`: Reload CustomData configuration and refresh terminal block handles.
+* `WELD_ON`: Force manual ignition of bow ship welder.
+* `WELD_OFF`: Cut ship welder power.
+* `RTH`: Abort current repair mission and return to assigned host pad.
+* `RESTOCK`: Broadcast component replenishment request to host inventory.
 
 ## Zero-GC PB Rules
 1. C# 6 only, nested in Program, namespace `IngameScript`.
