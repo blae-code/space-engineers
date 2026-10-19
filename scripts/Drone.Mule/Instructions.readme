@@ -3,12 +3,21 @@
 ## Subsystem: MULE-01 Heavy Freight Shuttle Subsystem
 * **Target Block:** `[MUL] PB Shuttle`
 * **Grid Size:** Large Grid (7 × 7 B)
-* **Update Frequency:** `Update10`
-* **Managed Subsystem Groups:** `MUL HOLD, MUL LIFT, MUL BAT, MUL DOCK, MUL CLAMP`
-* **IGC Network Channels:** `TMS.MULE.STATUS (out), TMS.MULE.DISPATCH (in), TMS.MULE.CALL (in)`
+* **Update Frequency:** `Update10` (Fast telemetry & autopilot tracking) + `Update100` (Status broadcast & energy management)
+* **Managed Subsystem Groups:** `MUL Lift, MUL Maneuver, MUL Batteries, MUL Gyros, MUL Cams`
+* **IGC Network Channels:**
+  * Outgoing: `TMS.MULE.STATUS`
+  * Incoming: `TMS.MULE.CALL`, `TMS.LOGISTICS.JIT`, `TMS.MULE.DISPATCH`
 
 ## System Description
-Automated high-capacity bulk ore shuttle (650 t payload). Navigates point-to-point transit corridors between Orca/Mastodon pads and Ground Base terminal.
+Operates the automated high-capacity freight shuttle (650 t payload). Manages point-to-point transit corridors between extraction points (Orca carrier MP, Mastodon MKI Consist) and regional Ground Base & Refinery terminal. Executes high-G flare and touchdown profiles, monitors 4-battery state of charge, handles peer resupply kit transport, and integrates with host Gantry Cradle clamping arms.
+
+## Terminal Commands
+* `PING`: Heartbeat reset signal from host grid.
+* `RELOAD`: Reload CustomData configuration and refresh terminal block handles.
+* `LAUNCH`: Disengage pad clamps, switch batteries to Auto, initiate vertical climb to 50 m.
+* `DOCK`: Approach host pad, deploy downward docking thruster assist, lock belly connector.
+* `EMERGENCY_HOVER`: Disengage autopilot overrides, lock dampeners, hold current altitude.
 
 ## Zero-GC PB Rules
 1. C# 6 only, nested in Program, namespace `IngameScript`.
