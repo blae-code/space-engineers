@@ -53,4 +53,5 @@ Items marked † in any project doc. Checked = verified in the RIG Test world or
 | V48 | MULE-01 laden descent deceleration on 2× Small Push-Down Atmo thrusters (13.5 m/s²†) | MULE-01 Flight Array | |
 | V49 | KESTREL-01 vertical climb acceleration on 4× Small Atmo thrusters (56.8 m/s²†) | KESTREL-01 Flight Array | |
 | V50 | ALBATROSS-01 laden braking distance from 50 km/h on 4× Reverse Atmo thrusters (< 12.0 m†) | ALBATROSS-01 Flight Array | |
+| V51 | Large-grid atmospheric thruster lateral drift deceleration on 28× Small Atmo thrusters (≈ 5.86 m/s²† laden) | orca-instructions.md §0.6 | |
 

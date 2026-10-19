@@ -76,299 +76,593 @@ It is engineered simultaneously for two distinct audiences:
 # Volume I · Terrestrial Mining Fleet (Air Tier · Fast / Rare)
 
 ## Chapter 1 · ORCA-01 Heavy Mining Carrier
-
-Source: `docs/rig/chapters/orca-instructions.md` · 17 × 19 × 7 B · Uncrewed Atmo Drone Carrier
-
-### 0 · Reference grid
-
-The Orca sits on a **17 × 19 × 7 B** bounding box (42.5 × 47.5 × 17.5 m).
+### Visual Build Manual & System Engineering Specification
+#### 12-Pillar Architectural Standard · Parity with MASTODON-01 Benchmark
 
 ```
-Axes:  X = beam (port −, stbd +)    Y = up (L1 belly, L7 roof)    Z = length (bow +)
-
-Rows:   r0 (bow) ─────────────────────────────────── r18 (stern)
-Levels: L1 (belly) ─── L2 ─── L3 ─── L4 ─── L5 ─── L6 ─── L7 (roof)
-X:      −8 (port tip) ──── −1.5 (port spine wall) ── 0 ── +1.5 (stbd spine wall) ──── +8 (stbd tip)
+========================================================================================
+SYSTEM SPECIFICATION: ORCA-01 HEAVY MINING CARRIER
+ROLE: Terrestrial Drone Mothership & Atmospheric Ore Bulk Transshipment Hub
+GRID: Large Grid (2.5 m / block)  ·  DIMENSIONS: 17 × 19 × 7 B (42.5 × 47.5 × 17.5 m)
+DRY MASS: ≈ 764.0 t  ·  LADEN MASS: ≈ 2,166.0 t (6 docked drones + 1,200 t ore buffer)
+TOTAL PCU: ≈ 4,500 PCU  ·  POWER PLANT: 90.0 MW Nuclear + 6.0 MWh / 48.0 MW Surge Battery
+PROPULSION: 4× Large Atmo (25.92 MN) + 28× Small Atmo (4.48 MN) + 4× Large H2 (28.8 MN Boost)
+CARGO CAPACITY: 1× 3×3×3 Large Cargo Hold (1,200 t) + 2× Small Cargo Service Stores
+DRONE BAYS: 6× Internal Guided Bays (4× Remora Drillers, 1× Kestrel, 1× Albatross)
+DORSAL FLIGHT DECK: 7×7 B Heavy Armour Mule Transshipment Pad with Gantry Cradle Clamps
+AUTHORITY: Blae Decisions 1-70 (Canon)  ·  STANDARD: 12-Pillar Mastodon Benchmark
+========================================================================================
 ```
 
-#### Master plan view (roof, Y = L7)
+---
+
+## 0 · Reference Grid & Spatial Datum
+
+### 0.1 Spatial Datum & Hull Envelope
+
+The Orca airframe occupies a **17 × 19 × 7 B** bounding box (42.5 × 47.5 × 17.5 m) structured around an open-truss industrial catamaran architecture with a central spine and lateral outriggers:
 
 ```
-        X:  −8    −5    −2  −1.5  0  +1.5  +2    +5    +8
-            ·     ·     ·    ║    ·    ║    ·     ·     ·
-    r0  ────┬─────┬─────┬════╬════╬════┬─────┬─────┬────  BOW
-            │     │     │    ║ CC ║    │     │     │
-    r2  ····│·····│·····│····║····║····│·····│·····│····
-            │     │     │    ║    ║    │     │     │
-    r3  ────┼─────┼─────┼════╬════╬════┼─────┼─────┼────
-            │     │     │    ║    ║    │     │     │
-            │  P1 │     │    ║ PC ║    │     │ S1  │
-    r6  ────┼─────┼─────┼════╬════╬════┼─────┼─────┼────
-            │     │     │    ║    ║    │     │     │
-            │  P2 │     │    ║    ║    │     │ S2  │
-            │     │     │    ║ HD ║    │     │     │
-    r12 ────┼─────┼─────┼════╬════╬════┼─────┼─────┼────
-            │     │     │    ║    ║    │     │     │
-            │  P3 │     │    ║    ║    │     │ S3  │
-    r15 ····│·····│·····│····║····║····│·····│·····│····
-            │     │     │    ║    ║    │     │     │
-    r16 ────┼─────┼─────┼════╬════╬════┼─────┼─────┼────
-            │     │     │    ║ AS ║    │     │     │
-    r18 ────┴─────┴─────┴════╬════╬════┴─────┴─────┴────  STERN
-                             ·    ·
+Axes:    X = Beam (Port -X, Starboard +X)
+         Y = Elevation (L1 Belly, L7 Dorsal Roof Deck)
+         Z = Longitudinal Length (Bow +Z, Stern -Z)
 
-        ║═══║  spine (3 B wide)
-        │   │  bay frame (outer frame at X ±8)
-        ·   ·  cross frames at r0, r6, r12, r18
+Origin:  Datum [X0, Y1, Z0] located at bottom keel centerline at Row r9 (midships).
+
+Stations: Rows r0 (Bow Prow) to r18 (Stern Transom) at 2.5 m pitch (19 stations total).
+Levels:   L1 (Ventral Keel, 0.0 m) ─── L2 (Lower Gallery, 2.5 m) ─── L3 (Power Vault, 5.0 m)
+          ─── L4 (Mid Deck, 7.5 m) ─── L5 (Catwalk Spine, 10.0 m) ─── L6 (Deck Sub-Floor, 12.5 m)
+          ─── L7 (Roof Deck / Mule Pad, 15.0 m).
+Beam:     Port Tip (X -8, -20.0 m) ── Port Bay (X -5, -12.5 m) ── Port Spine (X -1.5, -3.75 m)
+          ── Centerline (X0, 0.0 m) ── Stbd Spine (X +1.5, +3.75 m) ── Stbd Bay (X +5, +12.5 m)
+          ── Stbd Tip (X +8, +20.0 m).
 ```
 
-#### Master side elevation (X = 0, looking from stbd)
+---
+
+### 0.2 Standard 10-Slot SE Paint Palette
+
+The Orca utilizes the standardized Space Engineers 10-slot industrial paint palette. Color blocking reinforces spatial orientation, identifies functional hazards, and visually separates structural load paths from drone clearance envelopes.
+
+| Slot | Finish | Hex Code | RGB | Functional Zone & System Usage |
+|---|---|---|---|---|
+| **01** | Battered Armor | `#22252A` | `34, 37, 42` | Primary Keel Spine, Cross-Frames, Longitudinal Longerons |
+| **02** | Clean Armor | `#D8A824` | `216, 168, 36` | High-Pressure Ore Trunk, Sorters, Manifold Transfer Lines |
+| **03** | Hazard Stripe | `#E5A00D` | `229, 160, 13` | Folding Bay Guide Jaws, Waist Mag Clamps, Moving Hinges |
+| **04** | Carbon / Worn | `#151719` | `21, 23, 25` | Dorsal Mule Landing Deck Blast Floor (7×7 B Heavy Armour) |
+| **05** | Heavy Battered | `#B83227` | `184, 50, 39` | Mule Deck Hazard Boundary Perimeter (1 B No-Solar Buffer) |
+| **06** | Heavy Armor | `#D2D7DF` | `210, 215, 223`| Power Core Vault, Reactor Citadel, Battery Isolation Cells |
+| **07** | Clean Armor | `#1B4965` | `27, 73, 101` | Command Core, Pressurized Bridge, Avionics Citadel |
+| **08** | Industrial Worn| `#5C677D` | `92, 103, 125`| Outrigger Pylons, Cantilever A-Frames, Nacelle Housings |
+| **09** | Neon / Emissive| `#00E5FF` | `0, 229, 255`  | Bay Centerline Striping, Drone Alignment Optical Markers |
+| **10** | Matte Rubber | `#0A0B0D` | `10, 11, 13`   | Ventral Landing Skids, Rub Rails, Docking Bumpers |
+
+---
+
+### 0.2B Exterior Livery & Two-Tone Color Blocking Map
+
+The side profile livery emphasizes the brutalist industrial architecture of the carrier. High-visibility safety accents outline the drone bay mouths and the dorsal flight deck, while charcoal structural members provide visual mass.
+
+```
+       r0      r2      r4      r6      r8     r10     r12     r14     r16     r18
+L7 ────[CC BLUE]───────[CHARCOAL FRAME]─[RED HAZ]─[BLACK BLAST DECK]─[RED HAZ]─[AS BLUE]── L7
+       │ CC Visor  │                  │  Mule Gantry Clamps       │          │ AS Comms │
+L6 ────[CC BLUE]───┼──────────────────┴───────────────────────────┴──────────┼──────────┤ L6
+       │           │                                                         │          │
+L5 ────┼───────────┼──────[HAZARD STRIPE GUIDE JAWS (P1-P3)]─────────────────┼──────────┤ L5
+       │ Bridge    │                                                         │          │
+L4 ────[CC WHITE]──┼──────[CHARCOAL TRUSS CORRIDOR]──────────────────────────┼──────────┤ L4
+       │ Core      │                                                         │          │
+L3 ────[CC WHITE]──┼──────[WHITE REACTOR CITADEL]──[CHARCOAL ORE HOLD]───────┼──────────┤ L3
+       │           │                                                         │          │
+L2 ────┴───────────┼─────────────────────────────────────────────────────────┴──────────┤ L2
+L1 ────────────────[CHARCOAL KEEL]─[RUB RAILS]──────────────────[VENTRAL ANCHORS]─────── L1
+       r0      r2      r4      r6      r8     r10     r12     r14     r16     r18
+       ▲                                                                      ▲
+     PROW                                                                  TRANSOM
+```
+
+---
+
+### 0.3 Master Multi-Level Blueprints
+
+#### Master Plan View (Roof, Y = L7)
+
+```
+        X:  -8    -5    -2   -1.5  0  +1.5  +2    +5    +8
+            ·     ·     ·     ║    ·    ║    ·     ·     ·
+    r0  ────┬─────┬─────┬═════╬════╬════┬─────┬─────┬────  BOW (Prow)
+            │     │     │     ║ CC ║    │     │     │
+    r2  ····│·····│·····│·····║····║····│·····│·····│····
+            │     │     │     ║    ║    │     │     │
+    r3  ────┼─────┼─────┼═════╬════╬════┼─────┼─────┼────
+            │     │     │     ║    ║    │     │     │
+            │  P1 │     │     ║ PC ║    │     │ S1  │
+    r6  ────┼─────┼─────┼═════╬════╬════┼─────┼─────┼────
+            │     │     │     ║    ║    │     │     │
+            │  P2 │     │     ║    ║    │     │ S2  │
+            │     │     │ ┌───╨────╨───┐│     │     │
+    r8  ····│·····│·····│ │  MULE PAD  ││·····│·····│····
+            │     │     │ │  7×7 B     ││     │     │
+    r11 ────┼─────┼─────┼─┤  [ORC MP]  ├┼─────┼─────┼────  Midships (Datum Z0)
+            │     │     │ │  BLAST     ││     │     │
+    r14 ····│·····│·····│ │  DECK      ││·····│·····│····
+            │     │     │ └───╥────╥───┘│     │     │
+            │  P3 │     │     ║ HD ║    │     │ S3  │
+    r16 ────┼─────┼─────┼═════╬════╬════┼─────┼─────┼────
+            │     │     │     ║ AS ║    │     │     │
+    r18 ────┴─────┴─────┴═════╬════╬════┴─────┴─────┴────  STERN (Transom)
+                              ·    ·
+
+        ║═══║  Central spine (3 B wide: X -1.5 to +1.5)
+        │   │  Drone bay openings (5×5 B clear well: X -8 to -2 and X +2 to +8)
+        [MP]   Mule Flight Deck (7×7 B Heavy Armour: r8 to r14, X -3 to +3)
+```
+
+#### Master Side Elevation (X = 0 Centerline, Looking from Starboard)
 
 ```
         r0    r3      r6      r9      r12     r15   r18
-        ┌─────┬───────┬───────┬───────┬───────┬─────┐  L7 roof
+    L7  ┌─────┬───────┬───────┬───────┬───────┬─────┐  L7 Roof Deck
         │ CC  │  PC   │       │  MP   │       │ AS  │
-        │     │       │       │ [CON] │       │     │
+    L6  │     │       │       │ [CON] │       │     │
         │     │       │       │       │       │     │
-        │     │  R R  │  ┌────┼────┐  │       │     │  L4
+    L5  │     │  R R  │  ┌────┼────┐  │       │     │  L5 Catwalk Spine
         │     │  R R  │  │ HOLD    │  │       │ H2  │
-        │     │  R R  │  └────┼────┘  │       │     │  L2
-        │ RC  │ BAT B │       │       │       │     │
-        └─────┴───────┴───────┴───────┴───────┴─────┘  L1 belly
-                                                        ▼
-        OR-1          OR-2                        OR-3
-        [A]           [H2]                        [A]
-        gear                                      gear
+    L4  │     │  R R  │  │ 3×3×3 B │  │       │ TANK│
+        │     │  BAT  │  └────┼────┘  │       │     │
+    L3  │ RC  │  GYRO │       │       │       │     │
+        ├─────┴───────┴───────┴───────┴───────┴─────┤
+    L1  └───────────────────────────────────────────┘  L1 Ventral Keel
+        ▲                                           ▲
+      OR-1P/S                                     OR-3P/S
+      [LARGE ATMO]                                [LARGE ATMO]
 ```
 
-#### Master cross-section (at r9, looking toward bow)
+#### Master Cross-Section (at Row r10, Looking Toward Bow)
 
 ```
-                  port                          stbd
-        X: −8         −5    −1.5  0  +1.5    +5         +8
-           ┌───────────┬──────╥────┬────╥──────┬───────────┐  L7 roof
-           │           │      ║    │    ║      │           │
-           │  bay P2   │      ║ trunk  ║      │  bay S2   │
-           │  (5×5 B   │ inner║  3 B   ║inner │  (5×5 B   │
-           │   clear)  │ frame║  wide  ║frame │   clear)  │
-           │           │      ║    │    ║      │           │
-           │     ↓CON  │      ║  HOLD  ║      │  CON↓     │
-           │           │      ║    │    ║      │           │
-           └───────────┴──────╨────┴────╨──────┴───────────┘  L1 belly
-                  ↕ open                  ↕ open
-                 to ground              to ground
+                  Port Bay (P2)                     Starboard Bay (S2)
+        X: -8         -5    -2  -1.5  0  +1.5  +2         +5         +8
+    L7  ┌───────────┬──────╥────┬────╥──────┬───────────┐  L7 Roof / Mule Deck
+        │           │      ║    │    ║      │           │
+    L6  │  Bay P2   │      ║  MP Conn║      │  Bay S2   │
+        │  (5×5 B   │Inner ║  [CON]  ║Inner │  (5×5 B   │
+    L5  │   Clear)  │Frame ║  Catwalk║Frame │   Clear)  │  L5 Catwalk Spine
+        │           │      ║  Tunnel ║      │           │
+    L4  │   [JAWS]  │      ║  HD Sorter     │   [JAWS]  │  L4 Guide Jaws
+        │           │      ║ ┌──────┐║      │           │
+    L3  │           │      ║ │ HOLD │║      │           │
+        │   CON↓    │      ║ │3×3×3B│║      │    CON↓   │
+    L2  │           │      ║ └──────┘║      │           │
+    L1  └───────────┴──────╨────┴────╨──────┴───────────┘  L1 Ventral Keel
+               ↕ Open Bottom                   ↕ Open Bottom
+              to Ground Voxel                 to Ground Voxel
 ```
 
 ---
 
+### 0.4B 3/4 Isometric Perspective Wireframes
 
-#### 0.4 · Master Conveyor Routing Schematic
-
-The Orca features three isolated conveyor circuits:
-1. **Mining Loop:** Remora drone bays (P1-P3, S1-S3) ──► `ORC HD Gate` (whitelist: ore, stone) ──► `ORC Ore Hold` ──► `ORC HD Drain` (whitelist: ore) ──► `ORC MP Conn` (Mule Pad).
-2. **Service & Fuel Loop:** `ORC MP Intake` (whitelist: U, components, ice) ──► `ORC U Store` (L2, r3) ──► 6× Small Reactors & H2 Tanks.
-3. **Emergency H2 Assist:** 2× Large H2 Tanks ──► 4× Large H2 Thrusters (outriggers).
+#### Forward-Starboard 3/4 Isometric Perspective Wireframe
 
 ```
-                        DRONE BAY CEILING CONNECTORS
-        Bay P1 [CON]      Bay P2 [CON]      Bay P3 [CON]
-             │                 │                 │
-             └────────►┬───────┴────────◄────────┘
-                       │ Port Collection Trunk (L6, X −5)
-                       ▼
-       ┌───────────────────────────────┐
-       │ Bay Sorter Cross-Feed (r6, L5)│
-       └───────────────┬───────────────┘
-                       │
-       ┌───────────────▼──────────────────────────────────────────────┐
-       │ `ORC HD Gate` (Conveyor Sorter · Whitelist: Ore, Stone)      │
-       └───────────────────────────────┬──────────────────────────────┘
+                     +Y (Up)
+                      │   +Z (Bow)
+                      │  /
+                      │ /
+        [BOW VISOR]   │/
+             ▲       ┌───┐
+            ╱ ╲      │   │
+           ╱   ╲─────┘   └─────────────┐ [DORSAL MULE DECK L7]
+          ╱  CC ╲                      │    ┌──────────────┐
+         ┌───────┐  SPINE LONGERONS    │    │ [MP CON]     │
+         │ Prow  │═════════════════════╪════│  7×7 B       │
+         └───┬───┘                     │    │  BLAST DECK  │
+            ╱│                         │    └──────────────┘
+           ╱ │ [OR-1S ATMO NACELLE]    │           │
+          ╱  │    ┌────────┐           │           │
+         ╱   │    │ 3×3×5B │           │           │
+        ▼    │    │ LIFT   │           │           │
+      -X     │    └────────┘           │    [BAY S2 JAWS]
+    (Port)   │        │                │         ▲
+             │        │                │        ╱ ╲
+             │        ▼                │       ╱   ╲
+             │    [A-FRAME TRUSS]      │      ┌─────┐
+             └─────────────────────────┴──────┤ S2  ├───────► +X (Starboard)
+                                              └─────┘
+                                           DRONE CLEARANCE WELL
+```
+
+#### Aft-Port 3/4 Isometric Perspective Wireframe
+
+```
+                                      +Y (Up)
                                        │
-       ┌───────────────────────────────▼──────────────────────────────┐
-       │ `ORC Ore Hold` (Large Cargo 3×3×3 B · r10-r12, X0, L2-L4)    │
-       └───────────────────────────────┬──────────────────────────────┘
+            [DORSAL MULE DECK L7]      │
+                ┌──────────────┐       │
+                │ 7×7 B DECK   │       │
+                └──────┬───────┘       │
+                       │               │     [STERN TRANSOM r18]
+       [BAY P3 JAWS]   │               │           ▲
+             ▲         │   SPINE TRUSS │          ╱ ╲
+            ╱ ╲        │═══════════════╪═════════╱   ╲
+           ╱   ╲───────┘               │        ┌─────┐
+          ┌─────┐                      │        │ AS  │
+          │ P3  │                      │        │ H2  │
+          └─────┘                      │        └─────┘
+             │                         │           │
+             │ [OR-3P ATMO NACELLE]    │           │
+             │    ┌────────┐           │           │
+             │    │ 3×3×5B │           │           │
+             │    │ LIFT   │           │           │
+             │    └────────┘           │           │
+             │        │                │           │
+             │        ▼                │           │
+             │    [A-FRAME TRUSS]      │           │
+             └─────────────────────────┴───────────┘
+            /                                       ╲
+           /                                         ╲
+          /                                           ▼
+      -Z (Stern)                                  -X (Port)
+```
+
+---
+
+### 0.4C Transverse Hull Station Profiles
+
+#### Station 1: Bow Command Bridge & Control Core (r1, Z +20.0 m)
+
+```
+        X: -2.5    -1.5      X0      +1.5    +2.5
+    L7  ┌───────────┬─────────────────┬───────────┐  L7 Roof
+        │           │  [ORC CC ANT]   │           │
+    L6  │  HEAVY    │  Cockpit Canopy │  HEAVY    │  L6 Upper Canopy
+        │  ARMOR    │  [PANORAMIC]    │  ARMOR    │
+    L5  │  FRAME    ├─────────────────┤  FRAME    │  L5 Bridge Deck (Walkable)
+        │           │ ORC Helm Seats  │           │
+    L4  ├───────────┼─────────────────┼───────────┤  L4 Avionics Floor
+        │           │ ORC CC PB & RCs │           │
+    L3  │  HEAVY    ├─────────────────┤  HEAVY    │  L3 Life Support
+        │  ARMOR    │ ULSS Air Vent   │  ARMOR    │
+    L2  │  VAULT    ├─────────────────┤  VAULT    │  L2 Ventral Entry
+        │           │ Access Airlock  │           │
+    L1  └───────────┴─────────────────┴───────────┘  L1 Ventral Keel
+```
+
+#### Station 2: Forward Drone Bays P1/S1 & Power Core (r4, Z +12.5 m)
+
+```
+                  Port Bay P1                       Starboard Bay S1
+        X: -8         -5        -1.5  X0  +1.5       +5         +8
+    L7  ┌───────────┬────────────╥────┬────╥───────────┬───────────┐  L7 Roof
+        │           │ [CON↓]     ║Serv Trunk║    [CON↓]│           │
+    L6  │  BAY P1   │ (Bay Drop) ║Conv L6  ║(Bay Drop) │  BAY S1   │  L6 Trunk
+        │  CLEAR    │            ║Sm Reactor║          │  CLEAR    │
+    L5  │  LANE     │            ║30 MW (1) ║          │  LANE     │  L5 Catwalk Spine
+        │           │ [MAG JAWS] ║Sm Reactor║[MAG JAWS]│           │
+    L4  │           │ ◄────────► ║30 MW (2) ║◄────────►│           │  L4 Guide Jaws
+        │           │            ║Lrg Battery          │           │
+    L3  │           │            ║3 MWh (1) ║          │           │  L3 Power Vault
+        │           │            ║Lrg Gyros ║          │           │
+    L2  │           │            ║(Center)  ║          │           │  L2 Lower Spine
+    L1  └───────────┴────────────╨────┴────╨───────────┴───────────┘  L1 Belly
+```
+
+#### Station 3: Central Ore Hold & Mule Flight Deck (r10, Z -2.5 m)
+
+```
+                  Port Bay P2                       Starboard Bay S2
+        X: -8         -5        -1.5  X0  +1.5       +5         +8
+    L7  ┌───────────┬────────────╥────┬────╥───────────┬───────────┐  L7 Mule Deck
+        │           │ [CON↓]     ║[ORC MP] ║    [CON↓] │           │
+    L6  │  BAY P2   │ (Kestrel)  ║MP Intake║(Albatross)│  BAY S2   │  L6 Sub-Floor
+        │  CLEAR    │            ║HD Drain ║           │  CLEAR    │
+    L5  │  LANE     │            ║Catwalk  ║           │  LANE     │  L5 Catwalk
+        │           │ [MAG JAWS] ║┌───────┐║ [MAG JAWS]│           │
+    L4  │           │ ◄────────► ║│ORC HD │║ ◄────────►│           │  L4 Hold Core
+        │           │            ║│OreHold│║           │           │
+    L3  │ [REPAIR]  │            ║│3×3×3 B│║  [REPAIR] │           │  L3 Hold Belly
+        │ (Multitool)            ║└───────┘║ (Multitool)           │
+    L2  │           │            ║Gate Sorter          │           │  L2 Sorter Well
+    L1  └───────────┴────────────╨────┴────╨───────────┴───────────┘  L1 Belly
+```
+
+#### Station 4: Aft Drone Bays P3/S3 & Stern Outriggers (r16, Z -17.5 m)
+
+```
+        Outrigger OR-3P   Port Bay P3        Spine       Stbd Bay S3   Outrigger OR-3S
+    X: -12    -10     -8      -5        -1.5  X0  +1.5    +5      +8      +10    +12
+    L7 ┌───────┐      ┌────────┬─────────╥────┬────╥───────┬───────┐      ┌───────┐
+       │[ATMO↓]│      │        │ [CON↓]  ║H2 TANK  ║ [CON↓]│       │      │[ATMO↓]│
+    L6 │3×3×5 B│══════╡ BAY P3 │(Bay Drop║Service  ║(Bay Dr│ BAY S3╞══════│3×3×5 B│
+    L5 │ 6.48  │ A-FRM│ CLEAR  │         ║Catwalk  ║       │ CLEAR │ A-FRM│ 6.48  │
+    L4 │  MN   │ TRUSS│ LANE   │[MAG JAWS║Parts    ║[MAG JA│ LANE  │ TRUSS│  MN   │
+    L3 │ LIFT  │      │        │◄───────►║Store    ║◄─────►│       │      │ LIFT  │
+    L2 └───────┘══════╡        │         ║Conveyor ║       │       ╞══════└───────┘
+    L1   ▼ GEAR       └────────┴─────────╨────┴────╨───────┴───────┘        ▼ GEAR
+```
+
+---
+
+### 0.4 Master Conveyor Routing Schematic & Physical Inspection Ports
+
+The Orca features two completely segregated conveyor circuits ensuring zero cross-contamination between raw ores and refined reactor fuels:
+
+1. **Primary Ore Extraction Circuit:** Drone bays (P1-P3, S1-S3) ──► Overhead Collection Trunk (L6) ──► `ORC HD Gate` (whitelist: Ore, Stone) ──► `ORC Ore Hold` (3×3×3 Large Cargo) ──► `ORC HD Drain` (whitelist: Ore) ──► `ORC MP Conn` (Mule Pad).
+2. **Service & Fuel Replenishment Circuit:** `ORC MP Intake` (whitelist: U-Ingots, Components, Ice) ──► `ORC U Store` (Small Cargo at r5·L4) ──► 6× Small Nuclear Reactors + 1× `ORC AS H2` Tank (r17) + 2× Laser Multitool Turrets (P2/S2).
+
+```
+                             OVERHEAD DRONE BAY CEILING TRUNK (L6)
+           Bay P1 [CON]       Bay P2 [CON] (KES)       Bay P3 [CON]
+                │                      │                      │
+                └───────────────►──────┴──────◄───────────────┘
+                                       │ Port Collection Trunk (X -5, L6)
+                                       ▼
+                         ┌───────────────────────────┐
+                         │ Bay Sorter Cross-Feed (r6)│
+                         └─────────────┬─────────────┘
                                        │
-       ┌───────────────────────────────▼──────────────────────────────┐
-       │ `ORC HD Drain` (Conveyor Sorter · Whitelist: Ore · Drain ON) │
-       └───────────────────────────────┬──────────────────────────────┘
+     ┌─────────────────────────────────▼─────────────────────────────────┐
+     │ `ORC HD Gate` (Conveyor Sorter · Whitelist: Ore, Stone · Drain ON)│
+     └─────────────────────────────────┬─────────────────────────────────┘
                                        │
-       ┌───────────────────────────────▼──────────────────────────────┐
-       │ `ORC MP Conn` (Mule Pad Connector · Flush L7, r11, X0)       │
-       └──────────────────────────────────────────────────────────────┘
+     ┌─────────────────────────────────▼─────────────────────────────────┐
+     │ `ORC Ore Hold` (Large Cargo 3×3×3 B · r10-r12, X0, L3-L5)         │
+     │ Capacity: 1,200 t Ore / 421,875 L                                 │
+     └─────────────────────────────────┬─────────────────────────────────┘
+                                       │
+     ┌─────────────────────────────────▼─────────────────────────────────┐
+     │ `ORC HD Drain` (Conveyor Sorter · Whitelist: Ore · Drain ON)      │
+     └─────────────────────────────────┬─────────────────────────────────┘
+                                       │
+     ┌─────────────────────────────────▼─────────────────────────────────┐
+     │ `ORC MP Conn` (Dorsal Mule Pad Connector · Flush L7, r11, X0)     │
+     └───────────────────────────────────────────────────────────────────┘
                                        ▲
                                        │
-       ┌───────────────────────────────┴──────────────────────────────┐
-       │ `ORC MP Intake` (Conveyor Sorter · Whitelist: U, Components) │
-       └───────────────────────────────┬──────────────────────────────┘
+     ┌─────────────────────────────────┴─────────────────────────────────┐
+     │ `ORC MP Intake` (Conveyor Sorter · Whitelist: U, Components, Ice) │
+     └─────────────────────────────────┬─────────────────────────────────┘
                                        │
-       ┌───────────────────────────────▼──────────────────────────────┐
-       │ `ORC U Store` (Small Cargo Container · r3, X0, L2)           │
-       └───────────────────────────────┬──────────────────────────────┘
+     ┌─────────────────────────────────▼─────────────────────────────────┐
+     │ `ORC U Store` (Small Cargo Container · r5, X0, L4)                │
+     └─────────────────────────────────┬─────────────────────────────────┘
                                        │
-                   ┌───────────────────┴───────────────────┐
-                   ▼                                       ▼
-       [6× Small Nuclear Reactors]            [2× Large Hydrogen Tanks]
+               ┌───────────────────────┴───────────────────────┐
+               ▼                                               ▼
+     [6× Small Nuclear Reactors]                  [1× Large Hydrogen Tank]
+     (r3-r6, X0, L4-L5 · 90 MW)                   (r17, X0, L4-L6 · 2.5 ML)
+               │                                               │
+               ▼                                               ▼
+     [2× Laser Multitool Turrets]                 [4× Large Hydrogen Thrusters]
+     (P2/S2, X ±2, r9, L4)                        (OR-2P/S Outriggers · 28.8 MN)
 ```
 
----
+#### Physical Manual Inventory Inspection Ports
 
-#### 0.5 · Master Electrical Single-Line Schematic
+In strict adherence to ergonomic engineering, all storage vessels, sorters, and reactors feature physical access ports reachable from internal walkways:
 
-```
-                       POWER SOURCES (90 MW Nuclear + 6 MWh Battery)
-         ┌───────────────────┬───────────────────┬───────────────────┐
-         │ Small Reactor 1..3│ Small Reactor 4..6│ Large Battery 1..2│
-         │ (45 MW Nominal)   │ (45 MW Nominal)   │ (48 MW Peak Burst)│
-         └─────────┬─────────┴─────────┬─────────┴─────────┬─────────┘
-                   │                   │                   │
-                   └───────────────────┼───────────────────┘
-                                       ▼
-                              PRIMARY POWER BUS
-        ┌──────────────────────────────┬──────────────────────────────┐
-        │                              │                              │
-        ▼                              ▼                              ▼
-  LIFT PROPULSION              MANEUVER & ATTITUDE             DRONE SUPPORT
-  4× Large Atmo                28× Small Atmo                  6× Bay Recharging
-  (67.2 MW @ 100% Max)         (18.2 MW @ 100% Max)            (24.0 MW Max Float)
-  [Normal Hover = 52.8 MW]     [Attitude Gyros = 0.4 MW]       [Turrets & Lights = 0.5 MW]
-```
-
----
-
-#### 0.6 · Master Pre-Flight Bill of Materials (BOM)
-
-| System Category | Block Types & Sizes | Total Qty | Est. Mass | PCU |
+| Device | Block Name | Cell Datum | Port Type | Access Location & Clearance |
 |---|---|---|---|---|
-| **Structural Frame** | Beam Blocks, Heavy Armor Plates, Structural 3×1×3 | 482 | 410 t | 1,450 |
-| **Power Core** | 6× Small Nuclear Reactors, 2× Large Batteries | 8 | 42 t | 220 |
-| **Lift Propulsion** | 4× Large Atmospheric Thrusters (3×3×5 B) | 4 | 132 t | 400 |
-| **Aux Thrust & H2** | 4× Large H2 Thrusters, 28× Small Atmo, 2× H2 Tanks | 34 | 86 t | 850 |
-| **Cargo & Conveyors** | 1× Large Cargo, 1× Small Cargo, 3× Sorters, Pipes | 58 | 48 t | 290 |
-| **Drone Bays** | 6× Connectors, 12× Hinges, 12× Mag Plates, 2× Turrets | 32 | 34 t | 980 |
-| **Avionics & Logic** | 1× RC, 1× PB, 1× Antenna, 4× Timers, 4× ECs, 8× Cams | 19 | 12 t | 310 |
-| **TOTAL (DRY)** | Complete Airframe (ORCA-01) | **637** | **≈ 764 t** | **4,500** |
+| **Large Cargo Hold** | `ORC Ore Hold` | `r10, X0, L3` | Large Square Port | Ventral Inspection Gallery (L2 Catwalk, facing aft) |
+| **Uranium Fuel Store** | `ORC U Store` | `r5, X0, L4` | Small Square Port | Spine Catwalk Tunnel (L5, starboard floor hatch) |
+| **Aft Spare Parts Store**| `ORC Parts Store`| `r17, X0, L3` | Small Square Port | Stern Engineering Gallery (L3 walkway) |
+| **Ore Gate Sorter** | `ORC HD Gate` | `r8, X0, L5` | Manual Interface | Catwalk Spine (L5, port wall inspection access) |
+| **Ore Drain Sorter** | `ORC HD Drain` | `r12, X0, L6` | Manual Interface | Mule Deck Sub-Floor Crawlway (L6, facing bow) |
+| **Mule Intake Sorter** | `ORC MP Intake` | `r10, X0, L6` | Manual Interface | Mule Deck Sub-Floor Crawlway (L6, facing stern) |
 
 ---
 
-
-#### 0.7 · Human Builder Guide · Visual Paint Palette & Spatial HUD
-
-Building a 17 × 19 × 7 B large-grid skeleton in Space Engineers survival or creative easily causes spatial disorientation. To eliminate confusion, use this color-coding palette with the in-game Paint Tool (`[P]` key) during construction:
+### 0.5 Master Electrical Single-Line Schematic & 5 Operational Energy Modes
 
 ```
-┌──────────────────────────────────────────────────────────────────────────────────────┐
-│ SE CONSTRUCTION PAINT PALETTE (Recommended Paint System)                            │
-├─────────────────────┬──────────────┬───────────────┬─────────────────────────────────┤
-│ Functional Role     │ Paint Finish │ In-Game Color │ Purpose / Visual Cue            │
-├─────────────────────┼──────────────┼───────────────┼─────────────────────────────────┤
-│ Master Spine Rails  │ Battered     │ Charcoal Gray │ Identifies X ±1.5 structural backbone
-│ Conveyor Pipes/Hubs │ Clean        │ Safety Yellow │ Instant visual tracing of fuel/ore runs
-│ Drone Bay Jaws/Clamps│ Hazard      │ Orange Stripe │ Highlights moving mechanical pinch points
-│ Mule Pad Blast Deck │ Carbon/Worn  │ Matte Black   │ Outlines 7×7 B landing target from above
-│ Mule Pad Perimeter  │ Battered     │ Safety Red    │ 1 B No-Solar thruster flame hazard boundary
-│ Power Core Shielding│ Heavy Armor  │ Hazard White  │ Marks radioactive isolation vault
-│ Flight Control Core │ Heavy Armor  │ Fleet Blue    │ Identifies armored bridge & avionics
-└─────────────────────┴──────────────┴───────────────┴─────────────────────────────────┘
+                        PRIMARY POWER GENERATION & STORAGE
+          ┌───────────────────┬───────────────────┬───────────────────┐
+          │ Small Reactor 1..3│ Small Reactor 4..6│ Large Battery 1..2│
+          │ (45.0 MW Nuclear) │ (45.0 MW Nuclear) │ (6.0 MWh / 48 MW) │
+          └─────────┬─────────┴─────────┬─────────┴─────────┬─────────┘
+                    │                   │                   │
+                    └───────────────────┼───────────────────┘
+                                        ▼
+                                PRIMARY POWER BUS
+         ┌──────────────────────────────┼──────────────────────────────┐
+         │                              │                              │
+         ▼                              ▼                              ▼
+   LIFT PROPULSION              ATTITUDE & MANEUVER            DRONE & AUX LOADS
+   4× Large Atmo Thrusters      28× Small Atmo Thrusters       6× Drone Recharging
+   (67.2 MW @ 100% Burst)       (18.2 MW @ 100% Burst)         (24.0 MW Max Float)
+   [Normal Hover = 52.8 MW]     [Attitude Gyros = 0.4 MW]      [Avionics/Lights = 0.6 MW]
 ```
 
-##### Universal Spatial Locator HUD (Included in Every Step)
-Every build step begins with a standardized spatial banner:
+#### 5 Operational Energy Management Modes
+
+| Mode | Operational State | Power Generation | Power Draw | Margin / Deficit | Battery Policy |
+|---|---|---|---|---|---|
+| **Mode 1** | **Silent Loiter / Survey** | 15.0 MW (1 Reactor) | 12.4 MW (Hover trim + Cams) | +2.6 MW (Net charging) | Semi-Auto / Float |
+| **Mode 2** | **Transit & Relocation** | 90.0 MW (6 Reactors) | 68.2 MW (Full cruise thrust) | +21.8 MW (Charging) | Auto (Dampening) |
+| **Mode 3** | **Active Mining Deployment**| 90.0 MW (6 Reactors) | 86.8 MW (Hover + 6× Drones) | +3.2 MW (Sustained) | Auto |
+| **Mode 4** | **Mule Cargo Transshipment**| 90.0 MW (6 Reactors) | 74.5 MW (Hover + High Drain)| +15.5 MW (Stable) | Auto |
+| **Mode 5** | **Emergency Ascent / Storm**| 138.0 MW (Reactors+Bat)| 114.2 MW (Atmo+H2+Max Climb)| +23.8 MW (Surge Peak) | Full Discharge |
+
+---
+
+### 0.6 Master Pre-Flight Bill of Materials (BOM) & Physics Budget
+
+| System Category | Block Types & Specifications | Total Qty | Est. Mass | PCU |
+|---|---|---|---|---|
+| **Structural Spine & Hull** | Beam Blocks, Heavy Armor Bulkheads, Blast Plates | 482 | 410.0 t | 1,450 |
+| **Power Core & Vault** | 6× Small Nuclear Reactors, 2× Large Batteries | 8 | 42.0 t | 220 |
+| **Primary Lift Propulsion** | 4× Large Atmospheric Thrusters (3×3×5 B Nacelles) | 4 | 132.0 t | 400 |
+| **Attitude & Emergency H2** | 28× Small Atmo, 4× Large H2 Thrusters, 1× H2 Tank | 33 | 86.0 t | 830 |
+| **Cargo & Conveyor Routing**| 1× Large Cargo (3×3×3), 2× Small Cargo, 3× Sorters | 58 | 48.0 t | 290 |
+| **Drone Bays & Mechanisms** | 6× Connectors, 14× Hinges, 16× Mag Plates, 2× MT Turrets | 38 | 34.0 t | 1,000 |
+| **Avionics, C2 & Logic** | 2× RC, 1× PB, 2× Timers, 4× EC, 14× Cams, 7× Sensors | 30 | 12.0 t | 310 |
+| **TOTAL (DRY AIRFRAME)** | **ORCA-01 Heavy Mining Carrier (Complete)** | **653** | **≈ 764.0 t** | **4,500** |
+
+#### Earth 1 g Lift Physics & Thrust-to-Weight (T/W) Budget
+
+- **Dry Mass:** 764.0 t (Gravity Load: 7.49 MN).
+- **Fully Laden Mass:** 2,166.0 t (Carrier 764 t + 4× Remora 160 t + Kestrel 18 t + Albatross 24 t + 1,200 t Ore Buffer). Gravity Load: 21.25 MN.
+- **Downward Atmospheric Lift Thrust:**
+  - 4× Large Atmospheric Thrusters: 4 × 6.48 MN = 25.92 MN.
+  - 28× Small Atmospheric Thrusters (Attitude trim assist): 28 × 0.16 MN = 4.48 MN.
+  - Total Atmospheric Vertical Lift: **30.40 MN**.
+- **Earth 1 g T/W Ratio (Dry):** $30.40	ext{ MN} / 7.49	ext{ MN} = \mathbf{4.06}$ (Exceptional agile response).
+- **Earth 1 g T/W Ratio (Fully Laden):** $30.40	ext{ MN} / 21.25	ext{ MN} = \mathbf{1.43}$ (Sustained hover with 43% safety margin).
+- **Emergency Hydrogen Boost Thrust:**
+  - 4× Large Hydrogen Thrusters: 4 × 7.20 MN = 28.80 MN.
+  - Total Combined Lift Thrust: $30.40 + 28.80 = \mathbf{59.20	ext{ MN}}$.
+  - Emergency Laden T/W Ratio: $59.20	ext{ MN} / 21.25	ext{ MN} = \mathbf{2.79}$ (Rapid storm ascent).
+- **Lateral Drift Deceleration:** 28× Small Atmo thrusters provide 5.86 m/s²† laden deceleration.
+
+---
+
+### 0.7 Human Builder Guide & Universal Spatial Locator HUD
+
+To avoid spatial disorientation inside a 17 × 19 × 7 B skeletal frame, every build step begins with a standardized spatial locator HUD:
+
 ```
 ┌──────────────────────────────────────────────────────────────────────────────────────┐
 │ [LOCATOR] Subsystem: <Name>  ·  Grid Zone: <Rows r0-r18>  ·  Level: <L1-L7>         │
-│ [VIEWPORT] Looking: <Direction>  ·  Orientation: ▲ BOW (+Z) · ◄ PORT (−X) · STBD (+X)►
+│ [VIEWPORT] Looking: <Direction>  ·  Orientation: ▲ BOW (+Z) · ◄ PORT (-X) · STBD (+X)►│
 └──────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-### Phase 1 · Spine and roof deck
+### 0.8 Human Circulation & Life Support Network
 
-#### Step 1 · Belly frame rails (L1)
+1. **Pressurized Command Core (Bridge):** Located at r0-r2, Levels L4-L5. Features panoramic glass canopy, 2× pilot control stations (`ORC Helm Pilot`, `ORC Helm DroneOps`), 1× Survival Kit, 1× Armory Locker, and 1× depressurizing crew airlock at r2·L4.
+2. **Pressurized Catwalk Spine:** A continuous 1 B wide, sealed inspection corridor running along Level L5 from the Bridge Aft Door (r2) through rows r3-r16. Allows the flight engineer to physically inspect the power vault, cargo sorters, and drone bay locking pins during flight.
+3. **Vertical Ladderwells:**
+   - **Bow Ladderwell (r2, X0):** Connects L1 ventral airlock, L4 bridge, and L7 dorsal roof deck.
+   - **Stern Ladderwell (r16, X0):** Connects L1 ventral inspection hatch, L5 catwalk spine, and L7 flight deck.
+4. **Universal Life Support (ULSS):** 1× Large O2 Tank (200,000 L at r2·L3), 2× Air Vents (`ORC Vent Bridge` and `ORC Vent Spine`), sealed with hermetic breach doors at Station r2 and Station r16.
 
-Build the spine belly as three Z-axis rails at L1.
+---
+
+## Phase 1 · Keel Spine & Ventral Structure
+
+### Step 1 · Belly Frame Rails & Ventral Anchors (L1)
+
+Build the primary structural spine belly as three longitudinal Z-axis rails at Level L1, installing two magnetic plates for planet voxel anchoring.
+
+```
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ [LOCATOR] Subsystem: Keel Spine  ·  Grid Zone: Rows r0-r18  ·  Level: L1 Belly       │
+│ [VIEWPORT] Looking: Downward (+Y)  ·  Orientation: ▲ BOW (+Z) · ◄ PORT (-X) · STBD (+X)►│
+└──────────────────────────────────────────────────────────────────────────────────────┘
+```
 
 ┌──────────────────────────────────────────────────────────────────────────────────────┐
 │ STEP 1 PARTS TRAY                                                                    │
 ├─────────────────────┬─────┬───────────────┬──────────────────────────────────────────┤
 │ Block Type          │ Qty │ Mass / PCU    │ Critical Placement & Facing              │
 ├─────────────────────┼─────┼───────────────┼──────────────────────────────────────────┤
-│ Beam Block Straight │ 20  │ 16.0 t / 20   │ Z-axis rails (r0-r18) & X cross-ties     │
+│ Beam Block Straight │ 20  │ 16.0 t / 20   │ Z-axis keel rails (r0-r18) & cross-ties  │
 │ Beam Block Junction │ 16  │ 12.8 t / 16   │ Corner and post tie nodes (X ±1.5)       │
 │ Magnetic Plate      │ 2   │  4.8 t / 50   │ Face DOWN at X0, r3 and r15 (flush L1)   │
 └─────────────────────┴─────┴───────────────┴──────────────────────────────────────────┘
 
-
 ```
 Plan view, Y = L1 (belly)
 
-    X:  −1.5    0    +1.5
-         ■──────■──────■   r0 (Bow)
+    X:  -1.5    0    +1.5
+         ■──────■──────■   r0 (Bow Prow)
          │      │      │
-         ■──[ANCHOR 1]─■   r3 (under PC)
+         ■──[ANCHOR 1]─■   r3 (under PC Power Vault)
          │      │      │
          ■      ·      ■   r6
          │      │      │
-         ■      ·      ■   r9
+         ■      ·      ■   r9 (Datum Z0)
          │      │      │
          ■      ·      ■   r12
          │      │      │
-         ■──[ANCHOR 2]─■   r15 (under AS)
+         ■──[ANCHOR 2]─■   r15 (under AS Stern Section)
          │      │      │
-         ■──────■──────■   r18 (Stern)
+         ■──────■──────■   r18 (Stern Transom)
          └──────┴──────┘
 
-    ■ = Beam Block (junction / corner)
-    │ = Beam Block (straight, Z-axis)
-    ─ = Beam Block (straight, X-axis tie beams)
+    ■ = Beam Block (Junction / Corner)
+    │ = Beam Block (Straight, Z-axis)
+    ─ = Beam Block (Straight, X-axis tie beams)
     [ANCHOR 1, 2] = Magnetic Plate (facing down at X0, r3 and r15, flush at L1)
 ```
 
-**Blocks:**
-- 14 × Beam Block (straight, Z-axis) · 2 rails × 7 spans
-- 6 × Beam Block (straight, X-axis) · cross ties at r0, r3, r15, r18
-- 16 × Beam Block (junction or corner) · 8 points × 2 rails
-- 2 × Magnetic Plate (facing down) · `ORC Belly Anchor Bow` (r3) & `ORC Belly Anchor Stern` (r15) → `ORC Ventral Anchors`
+**Placement Sequence:**
+1. Lay parallel Beam Block rails at X = -1.5 and X = +1.5 running from r0 to r18.
+2. Tie rails transversely at r0, r3, r6, r9, r12, r15, r18.
+3. Mount 2× Magnetic Plates (`ORC Belly Anchor Bow` at r3, `ORC Belly Anchor Stern` at r15) facing DOWN flush with L1 belly line. Group: `ORC Ventral Anchors`.
 
-**✓ Check:** two parallel rails, 3 B apart, running 19 B from r0 to r18 at level L1. Two magnetic plates face down at r3 and r15, flush with the belly line to anchor to planet voxels.
+**✓ Check:** Two rigid parallel rails 3 B apart, spanning 19 B. Magnetic plates flush with keel.
 
 ---
 
-#### Step 2 · Spine posts (L1 → L7)
+### Step 2 · Spine Vertical Posts (L1 ──► L7)
 
-At each junction from Step 1, build a vertical post up to L7 (roof). Posts stand at X = ±1.5, at rows r0, r3, r6, r9, r12, r15, r18.
+At each junction node from Step 1, erect vertical beam posts to Level L7 (roof deck).
 
 ```
-Side elevation, X = −1.5 (port spine wall)
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ [LOCATOR] Subsystem: Spine Posts  ·  Grid Zone: Rows r0-r18  ·  Level: L1-L7        │
+│ [VIEWPORT] Looking: Starboard (+X) ·  Orientation: ▲ UP (+Y) · ◄ BOW (+Z) · STERN (-Z)►│
+└──────────────────────────────────────────────────────────────────────────────────────┘
+```
+
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ STEP 2 PARTS TRAY                                                                    │
+├─────────────────────┬─────┬───────────────┬──────────────────────────────────────────┤
+│ Block Type          │ Qty │ Mass / PCU    │ Critical Placement & Facing              │
+├─────────────────────┼─────┼───────────────┼──────────────────────────────────────────┤
+│ Beam Block Straight │ 84  │ 67.2 t / 84   │ Vertical Y-axis posts at X ±1.5 (r0-r18) │
+└─────────────────────┴─────┴───────────────┴──────────────────────────────────────────┘
+
+```
+Side elevation, X = -1.5 (Port spine wall)
 
     r0    r3    r6    r9    r12   r15   r18
-    ┃     ┃     ┃     ┃     ┃     ┃     ┃   L7
-    ┃     ┃     ┃     ┃     ┃     ┃     ┃   L6
-    ┃     ┃     ┃     ┃     ┃     ┃     ┃   L5
-    ┃     ┃     ┃     ┃     ┃     ┃     ┃   L4
-    ┃     ┃     ┃     ┃     ┃     ┃     ┃   L3
-    ┃     ┃     ┃     ┃     ┃     ┃     ┃   L2
-    ■     ■     ■     ■     ■     ■     ■   L1 (from step 1)
-
-    ┃ = Beam Block (straight, Y-axis)
-    ■ = existing junction
+    ┃     ┃     ┃     ┃     ┃     ┃     ┃   L7 Roof Deck
+    ┃     ┃     ┃     ┃     ┃     ┃     ┃   L6 Sub-Floor
+    ┃     ┃     ┃     ┃     ┃     ┃     ┃   L5 Catwalk
+    ┃     ┃     ┃     ┃     ┃     ┃     ┃   L4 Mid-Height
+    ┃     ┃     ┃     ┃     ┃     ┃     ┃   L3 Power Deck
+    ┃     ┃     ┃     ┃     ┃     ┃     ┃   L2 Lower Gallery
+    ■     ■     ■     ■     ■     ■     ■   L1 Belly (from Step 1)
 ```
 
-**Blocks:**
-- 84 × Beam Block (straight) · 14 posts × 6 levels each (L2-L7)
+**Placement Sequence:**
+1. Erect 7 vertical posts at X = -1.5 at rows r0, r3, r6, r9, r12, r15, r18 (6 B tall each).
+2. Erect 7 mirrored vertical posts at X = +1.5.
 
-**✓ Check:** 14 vertical posts, 7 B tall. The grid stands on its own.
+**✓ Check:** 14 vertical structural columns standing 7 B tall (17.5 m) in two parallel rows.
 
 ---
 
-#### Step 3 · Spine roof beams (L7)
+### Step 3 · Spine Roof Longerons (L7)
 
-Connect the post tops with Z-axis beams at L7, forming the roof spine. Also add the centre-line beams at L7 (X = 0) for the ore trunk.
+Tie all vertical post tops with Z-axis longerons at L7, forming the upper spine box.
+
+```
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ [LOCATOR] Subsystem: Roof Longerons  ·  Grid Zone: Rows r0-r18  ·  Level: L7 Roof    │
+│ [VIEWPORT] Looking: Downward (+Y)  ·  Orientation: ▲ BOW (+Z) · ◄ PORT (-X) · STBD (+X)►│
+└──────────────────────────────────────────────────────────────────────────────────────┘
+```
+
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ STEP 3 PARTS TRAY                                                                    │
+├─────────────────────┬─────┬───────────────┬──────────────────────────────────────────┤
+│ Block Type          │ Qty │ Mass / PCU    │ Critical Placement & Facing              │
+├─────────────────────┼─────┼───────────────┼──────────────────────────────────────────┤
+│ Beam Block Straight │ 21  │ 16.8 t / 21   │ Z-axis longitudinal longerons at L7      │
+│ Beam Block Junction │ 7   │  5.6 t / 7    │ Centerline X0 tie nodes (r0-r18)         │
+└─────────────────────┴─────┴───────────────┴──────────────────────────────────────────┘
 
 ```
 Plan view, Y = L7 (roof)
 
-    X:  −1.5    0    +1.5
+    X:  -1.5    0    +1.5
          ■══════■══════■   r0
          ║      ║      ║
          ■══════■══════■   r3
@@ -382,679 +676,527 @@ Plan view, Y = L7 (roof)
          ■══════■══════■   r15
          ║      ║      ║
          ■══════■══════■   r18
-
-    ■ = Beam Block (junction)
-    ║ = Beam Block (straight)
 ```
 
-**Blocks:**
-- 21 × Beam Block (straight) · 3 rails × 7 spans
-- 7 × Beam Block (junction) · centre-line junctions at r0, r3, r6, r9, r12, r15, r18
-
-**✓ Check:** the spine is now a 3 × 19 × 7 B skeletal frame. You can walk along the roof.
+**✓ Check:** The central spine forms a rigid 3 × 19 × 7 B skeletal truss. Fully walkable at L7.
 
 ---
 
-#### Step 4 · Cross-frames at r0, r6, r12, r18 (L1 and L7)
+### Step 4 · Transverse Cross-Frames at r0, r6, r12, r18 (L1 & L7)
 
-Extend the belly and roof cross-beams from the spine out to X = ±8 (the outer frame line). These form the bay row dividers.
+Extend transverse cross-beams outward from the spine (X ±1.5) to the outer frame boundary (X ±8). These divide the airframe into 6 discrete 5×5 B drone bay volumes.
 
 ```
-Plan view, Y = L1 (belly), showing cross-frames
-
-    X: −8              −1.5  0  +1.5              +8
-        ■════════════════■════■════■════════════════■  r0
-        ·                ║    ·    ║                ·
-        ·                ║    ·    ║                ·
-        ·                ║    ·    ║                ·
-        ■════════════════■════■════■════════════════■  r6
-        ·                ║    ·    ║                ·
-        ·                ║    ·    ║                ·
-        ·                ║    ·    ║                ·
-        ■════════════════■════■════■════════════════■  r12
-        ·                ║    ·    ║                ·
-        ·                ║    ·    ║                ·
-        ·                ║    ·    ║                ·
-        ■════════════════■════■════■════════════════■  r18
-
-    New blocks: the ═══ runs from spine wall (±1.5) to outer edge (±8)
-    = 6.5 B per side × 2 sides × 4 rows = 8 beams × 4 rows
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ [LOCATOR] Subsystem: Bay Cross-Frames  ·  Grid Zone: r0, r6, r12, r18  ·  L1 & L7    │
+│ [VIEWPORT] Looking: Downward (+Y)  ·  Orientation: ▲ BOW (+Z) · ◄ PORT (-X) · STBD (+X)►│
+└──────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-**Blocks:**
-- 52 × Beam Block (straight, X-axis) · belly + roof, 4 rows, both sides
-- 16 × Beam Block (junction) · end-points at X = ±8, L1 and L7
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ STEP 4 PARTS TRAY                                                                    │
+├─────────────────────┬─────┬───────────────┬──────────────────────────────────────────┤
+│ Block Type          │ Qty │ Mass / PCU    │ Critical Placement & Facing              │
+├─────────────────────┼─────┼───────────────┼──────────────────────────────────────────┤
+│ Beam Block Straight │ 52  │ 41.6 t / 52   │ Transverse X-axis spans (X ±1.5 to ±8)   │
+│ Beam Block Junction │ 16  │ 12.8 t / 16   │ Outer frame boundary nodes at X ±8       │
+└─────────────────────┴─────┴───────────────┴──────────────────────────────────────────┘
 
-**Repeat at L7** (roof level) with the same layout.
+```
+Plan view, Y = L1 (belly), showing transverse outrigging
 
-**✓ Check:** 4 cross-frames divide the hull into 3 bay zones per side. The outer corners at X = ±8 are where the outrigger arms will root.
+    X: -8              -1.5  0  +1.5              +8
+        ■════════════════■════■════■════════════════■  r0 (Bow cross-frame)
+        ·                ║    ·    ║                ·
+        ·  [Bay P1 Area] ║    ·    ║ [Bay S1 Area]  ·
+        ·                ║    ·    ║                ·
+        ■════════════════■════■════■════════════════■  r6 (Mid-1 cross-frame)
+        ·                ║    ·    ║                ·
+        ·  [Bay P2 Area] ║    ·    ║ [Bay S2 Area]  ·
+        ·                ║    ·    ║                ·
+        ■════════════════■════■════■════════════════■  r12 (Mid-2 cross-frame)
+        ·                ║    ·    ║                ·
+        ·  [Bay P3 Area] ║    ·    ║ [Bay S3 Area]  ·
+        ·                ║    ·    ║                ·
+        ■════════════════■════■════■════════════════■  r18 (Stern cross-frame)
+```
+
+**Placement Sequence:**
+1. Install 6.5 B beam spans port and starboard at rows r0, r6, r12, r18 at Level L1.
+2. Mirror exactly at Level L7.
+
+**✓ Check:** 4 full-width cross-frames divide the hull into 3 major bay zones per flank.
 
 ---
 
-#### Step 5 · Outer frame rails (L1 → L7 at X = ±8)
+### Step 5 · Outer Hull Perimeter Rails (X = ±8, L1 ──► L7)
 
-Connect the cross-frame end-points with Z-axis rails and vertical posts at X = ±8.
+Connect the cross-frame outer tips with longitudinal rails and vertical posts at X = ±8.
 
 ```
-Side elevation, X = −8 (port outer frame)
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ [LOCATOR] Subsystem: Outer Boundary Rails  ·  Grid Zone: X ±8  ·  Level: L1-L7       │
+│ [VIEWPORT] Looking: Inboard (+X)  ·  Orientation: ▲ UP (+Y) · ◄ BOW (+Z) · STERN (-Z)► │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+```
+
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ STEP 5 PARTS TRAY                                                                    │
+├─────────────────────┬─────┬───────────────┬──────────────────────────────────────────┤
+│ Block Type          │ Qty │ Mass / PCU    │ Critical Placement & Facing              │
+├─────────────────────┼─────┼───────────────┼──────────────────────────────────────────┤
+│ Beam Block Straight │ 60  │ 48.0 t / 60   │ Outer perimeter rails (L1/L7) & posts    │
+└─────────────────────┴─────┴───────────────┴──────────────────────────────────────────┘
+
+```
+Side elevation, X = -8 (Port outer frame)
 
     r0    r6    r12   r18
-    ┌─────┬─────┬─────┐  L7
+    ┌─────┬─────┬─────┐  L7 Roof
     │     │     │     │
     │     │     │     │
+    │ P1  │ P2  │ P3  │
     │     │     │     │
     │     │     │     │
-    │     │     │     │
-    └─────┴─────┴─────┘  L1
-
-    │ = Beam Block (Y-axis posts)
-    ─ = Beam Block (Z-axis rails at L1 and L7)
+    └─────┴─────┴─────┘  L1 Belly
 ```
 
-**Blocks (per side):**
-- 3 × Beam Block (Z-axis, L1) · r0→r6, r6→r12, r12→r18
-- 3 × Beam Block (Z-axis, L7) · same
-- 4 × 6 = 24 Beam Block (Y-axis) · posts L1→L7 at r0, r6, r12, r18
-
-**Both sides total:** 60 Beam Blocks
-
-**✓ Check:** the hull is now a rectangular skeleton, 17 × 19 × 7 B. Bays are open at the bottom on both sides.
+**✓ Check:** Hull footprint is a defined 17 × 19 × 7 B bounding skeleton. Bays open below.
 
 ---
 
-#### Step 6 · Inner frame rails (X = ±2, L1 → L7)
+### Step 6 · Inner Bay Guide Rails (X = ±2, L1 ──► L7)
 
-The inner frame runs between the spine wall and the bay, separating the bay volume from the utility corridor.
+Install the inner guide frame at X = ±2, separating the 5×5 B drone well from the central spine.
 
-```
-Cross-section at r9, looking toward bow
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ STEP 6 PARTS TRAY                                                                    │
+├─────────────────────┬─────┬───────────────┬──────────────────────────────────────────┤
+│ Block Type          │ Qty │ Mass / PCU    │ Critical Placement & Facing              │
+├─────────────────────┼─────┼───────────────┼──────────────────────────────────────────┤
+│ Beam Block Straight │ 108 │ 86.4 t / 108  │ Inner rails (L1/L7) and Y-posts (r0-r18) │
+└─────────────────────┴─────┴───────────────┴──────────────────────────────────────────┘
 
-    X: −8    −5    −2  −1.5  0  +1.5  +2    +5    +8
-       ┃           ┃    ║         ║    ┃           ┃  L7
-       ┃           ┃    ║         ║    ┃           ┃
-       ┃    bay    ┃    ║  spine  ║    ┃    bay    ┃
-       ┃           ┃    ║         ║    ┃           ┃
-       ┃           ┃    ║         ║    ┃           ┃
-       ┃           ┃    ║         ║    ┃           ┃
-       ┃           ┃    ║         ║    ┃           ┃  L1
-
-    New: ┃ at X = ±2 (inner frame posts and rails)
-```
-
-**Blocks (per side):**
-- 7 × Beam Block (Y-axis posts) · at r0, r3, r6, r9, r12, r15, r18
-- Per post: 6 blocks (L1→L7) = 42 posts
-- 6 × Beam Block (Z-axis rails, L1) · r0→r3, r3→r6, ... r15→r18
-- 6 × Beam Block (Z-axis rails, L7) · same
-
-**Both sides total:** 108 Beam Blocks
-
-**✓ Check:** looking down through a bay opening, you see the 5 B wide clear lane between the inner frame (X ±2) and the outer frame (X ±8), closed on top at L7, open below at L1.
+**✓ Check:** Looking down through any bay, a clear 5×5 B unobstructed vertical drop exists between X ±2 and X ±8.
 
 ---
 
-#### Step 7 · Bay mid-height rings (L4, at each bay)
+### Step 7 · Bay Mid-Height Stabilizer Rings (L4)
 
-Add a horizontal ring at L4 in each bay frame for structural stiffness and turret/sensor mounting.
+Install horizontal tie beams at Level L4 inside each bay frame to anchor guide jaw hinges and sensor mounts.
+
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ STEP 7 PARTS TRAY                                                                    │
+├─────────────────────┬─────┬───────────────┬──────────────────────────────────────────┤
+│ Block Type          │ Qty │ Mass / PCU    │ Critical Placement & Facing              │
+├─────────────────────┼─────┼───────────────┼──────────────────────────────────────────┤
+│ Beam Block Straight │ 24  │ 19.2 t / 24   │ L4 horizontal perimeter ring in 6 bays   │
+└─────────────────────┴─────┴───────────────┴──────────────────────────────────────────┘
 
 ```
-Cross-section at r3 (bay P1 / S1 centre), Y = L4
+Cross-section at r3 (Bay P1 / S1 Center), Y = L4
 
-    X: −8         −2         +2         +8
-       ■═══════════■          ■═══════════■  L4 ring
+    X: -8         -2         +2         +8
+       ■═══════════■          ■═══════════■  L4 Ring (Anchor for guide jaws)
        ║           ║          ║           ║
-       ║   bay P1  ║          ║   bay S1  ║
-       ║   5×5 B   ║          ║   5×5 B   ║
-       ║  clear    ║          ║  clear    ║
-       ■═══════════■          ■═══════════■  L1
+       ║  Bay P1   ║          ║  Bay S1   ║
+       ║  5×5 B    ║          ║  5×5 B    ║
+       ║  Clear    ║          ║  Clear    ║
+       ■═══════════■          ■═══════════■  L1 Belly
 ```
-
-**Blocks per bay:** 4 × Beam Block (horizontal ring, X-axis at L4, fore and aft walls)
-
-**6 bays total:** 24 Beam Blocks
-
-**✓ Check:** each bay has a mid-height shelf for mounting sensors, lights, and repair turrets.
 
 ---
 
-#### Step 8 · Roof deck (L7, Structural Frame 3×1×3)
+### Pre-Enclosure Inspection Gate 1.1A: Spine & Ventral Anchor Integrity
 
-Cover the entire roof from r0 to r18, X = −8 to +8 with Structural Frame 3×1×3 panels, resting on the L7 beams.
-
-```
-Plan view, Y = L7 (roof)
-
-    X: −8                     0                     +8
-       ┌─────────────────────────────────────────────┐  r0
-       │  ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░  │
-       │  ░░░░░░░░░░░  Structural   ░░░░░░░░░░░░░  │
-       │  ░░░░░░░░░░░  Frame 3×1×3  ░░░░░░░░░░░░░  │  r0-r7
-       │               ┌───────────┐                 │
-       │  ░░░░░░░░░░░  │███████████│ ░░░░░░░░░░░░░  │  r8-r14
-       │  ░░░░░░░░░░░  │MP BLAST   │ ░░░░░░░░░░░░░  │  (7×7 B Heavy Armour)
-       │  ░░░░░░░░░░░  │DECK (L7)  │ ░░░░░░░░░░░░░  │
-       │               └───────────┘                 │
-       │  ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░  │  r15-r18
-       └─────────────────────────────────────────────┘
-
-    ░░ = Structural Frame 3×1×3 (lightweight roof deck)
-    ██ = Heavy Armour Blocks (7×7 B blast deck at r8-r14, flush at L7)
-
-    Leave openings for:
-     · Antenna mast (X0, above r1)
-     · MP connector (X0, r11)
-     · Bay connectors (X ±5, r3 / r9 / r15) · trunk branches drop through
-```
-
-**Blocks:**
-- ≈ 30 × Structural Frame 3×1×3† (general roof deck)
-- 49 × Heavy Armour Block (7×7 B blast floor at r8-r14, X −3 to +3)
-
-**✓ Check:** the roof is walkable. The MP zone (r8-r14) has a solid Heavy Armour floor flush with the surrounding frame panels. Openings exist at every connector and antenna position.
+> [!IMPORTANT]
+> **POINT OF NO RETURN:** Verify all keel rails, vertical posts, and ventral magnetic plates before installing enclosed power components or conveyors.
+>
+> 1. [ ] Keel longerons run unbroken from r0 to r18 at Level L1 (X = ±1.5).
+> 2. [ ] `ORC Belly Anchor Bow` (r3) and `ORC Belly Anchor Stern` (r15) face straight down, flush with L1.
+> 3. [ ] All 14 vertical posts reach Level L7 with zero deflection.
+> 4. [ ] All 6 drone bay clear openings measure exactly 5×5 B (12.5 × 12.5 m).
 
 ---
 
-#### Step 9 · Ore trunk (L7, centre line)
+## Phase 2 · Power Core Vault & Ore Buffer
 
-Run the ore conveyor trunk along X = 0, L7 (just under the roof deck), from r3 to r15. Add branches at each bay centre.
+### Step 8 · Primary Power Core Vault (PC, r3-r6)
 
-```
-Plan view, Y = L7 (under roof deck), ore trunk only
-
-    X: −5              0              +5
-                       ║
-        ·──────────────╫──────────────·  r3  (P1/S1 branch)
-                       ║
-                       ║
-                       ║
-        ·──────────────╫──────────────·  r9  (P2/S2 branch)
-                       ║
-                       ║
-                       ║
-        ·──────────────╫──────────────·  r15 (P3/S3 branch)
-                       ║
-
-    ║ = Large conveyor tube / junction (Z-axis)
-    · = Large conveyor tube / junction (X-axis branch to bay connector)
-    ╫ = Large conveyor junction (T or cross)
-```
-
-**Blocks:**
-- 12 × Large conveyor tube (Z-axis, r3→r15)
-- 6 × Large conveyor tube (X-axis branches, ≈3 B each side)
-- 3 × Large conveyor junction (T-pieces at r3, r9, r15)
-
-**✓ Check:** a continuous conveyor path runs from every bay connector position down to the hold inlet position at r10. This is the **ore network only**; the service network is separate.
-
----
-
-#### Step 10 · Power core (PC, r3-r6)
-
-Fill the spine between r3 and r6 with the power core as a 1 B wide **Inline Stack at X = 0**, flanked by Heavy Armour side walls at X = ±1 isolating the nuclear core from the drone bays.
+Assemble the nuclear reactor citadel and battery storage vault in the central spine between rows r3 and r6. Flank the equipment stack with Heavy Armour side walls at X = ±1.
 
 ```
-Cross-section at r4, looking toward bow
-
-    X: −1 (port wall)     X = 0 (center rack)     X = +1 (stbd wall)
-       ╔═════════════════╤═════════════════════╤═════════════════╗  L7 (under roof deck)
-       ║  Heavy Armour   │  Service Conveyor   │  Heavy Armour   ║  L6
-       ║  Heavy Armour   │  Small Reactor 2    │  Heavy Armour   ║  L5
-       ║  Heavy Armour   │  Small Reactor 6    │  Heavy Armour   ║  L4
-       ║  Heavy Armour   │  Large Battery 2    │  Heavy Armour   ║  L3
-       ║  Heavy Armour   │  Gyroscope 2        │  Heavy Armour   ║  L2
-       ╚═════════════════╧═════════════════════╧═════════════════╝  L1 (belly)
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ [LOCATOR] Subsystem: Power Core  ·  Grid Zone: Rows r3-r6  ·  Level: L2-L6 (X0)      │
+│ [VIEWPORT] Looking: Starboard (+X) ·  Orientation: ▲ UP (+Y) · ◄ BOW (+Z) · STERN (-Z)►│
+└──────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ STEP 8 PARTS TRAY                                                                    │
+├─────────────────────┬─────┬───────────────┬──────────────────────────────────────────┤
+│ Block Type          │ Qty │ Mass / PCU    │ Critical Placement & Facing              │
+├─────────────────────┼─────┼───────────────┼──────────────────────────────────────────┤
+│ Small Nuclear Reac  │ 6   │ 19.8 t / 150  │ Centerline X0: r3·L5, r4·L5, r5·L5, r6·L5│
+│                     │     │               │ and r3·L4, r4·L4                         │
+│ Large Battery       │ 2   │ 52.0 t / 40   │ Centerline X0: r3·L3, r4·L3              │
+│ Gyroscope (Large)   │ 4   │ 49.6 t / 20   │ Centerline X0: r5·L3, r6·L3, r3·L2, r4·L2│
+│ Small Cargo Cont    │ 1   │  1.2 t / 10   │ `ORC U Store` at r5·L4 (X0)              │
+│ Large Conveyor Tube │ 7   │  8.4 t / 7    │ Service line at L6 and reactor feeds     │
+│ Heavy Armour Block  │ 48  │ 96.0 t / 48   │ Radiation isolation vault walls at X ±1  │
+└─────────────────────┴─────┴───────────────┴──────────────────────────────────────────┘
+
 ```
-Side elevation at X = 0 (Centerline equipment rack)
+Side elevation at X = 0 (Centerline Power Stack)
 
           r3              r4              r5              r6
-    ┌───────────────┬───────────────┬───────────────┬───────────────┐  L7 roof
-    │ Serv Conveyor │ Serv Conveyor │ Serv Conveyor │ Serv Conveyor │  L6 (Service spine)
+    ┌───────────────┬───────────────┬───────────────┬───────────────┐  L7 Roof
+    │ Serv Conveyor │ Serv Conveyor │ Serv Conveyor │ Serv Conveyor │  L6 Service Line
     ├───────────────┼───────────────┼───────────────┼───────────────┤
-    │ Small Reac 1  │ Small Reac 2  │ Small Reac 3  │ Small Reac 4  │  L5
+    │ Small Reac 1  │ Small Reac 2  │ Small Reac 3  │ Small Reac 4  │  L5 Nuclear Citadel
     ├───────────────┼───────────────┼───────────────┼───────────────┤
-    │ Small Reac 5  │ Small Reac 6  │  ORC U Store  │ Serv Conveyor │  L4
+    │ Small Reac 5  │ Small Reac 6  │  ORC U Store  │ Serv Conveyor │  L4 Fuel Deck
     ├───────────────┼───────────────┼───────────────┼───────────────┤
-    │ Large Batt 1  │ Large Batt 2  │  Gyroscope 1  │  Gyroscope 2  │  L3
+    │ Large Batt 1  │ Large Batt 2  │  Gyroscope 1  │  Gyroscope 2  │  L3 Energy Buffer
     ├───────────────┼───────────────┼───────────────┼───────────────┤
-    │  Gyroscope 3  │  Gyroscope 4  │ Serv Conveyor │ Serv Conveyor │  L2
-    └───────────────┴───────────────┴───────────────┴───────────────┘  L1 belly
-
-    Conveyor plumbing:
-    - Service line runs along L6 (Z-axis).
-    - Reactors 1-4 connect directly to L6 conveyor.
-    - Reactors 5-6 connect to Reactors 1-2 and the `ORC U Store` at r5·L4.
-    - `ORC U Store` auto-feeds fuel to all 6 reactors through the service line.
+    │  Gyroscope 3  │  Gyroscope 4  │ Serv Conveyor │ Serv Conveyor │  L2 Gyro Deck
+    └───────────────┴───────────────┴───────────────┴───────────────┘  L1 Belly
 ```
 
-**Blocks:**
+**Placement Sequence:**
+1. Weld 4× Gyroscopes (`ORC Gyros`) on centerline at r3·L2, r4·L2, r5·L3, r6·L3.
+2. Install 2× Large Batteries (`ORC Batteries`) at r3·L3 and r4·L3. Set initial state to Recharge.
+3. Install `ORC U Store` (Small Cargo) at r5·L4.
+4. Mount 6× Small Nuclear Reactors (`ORC Reactors`) at designated cells. Connect conveyor ports directly to the L6 service trunk.
+5. Seal port and starboard faces (X = ±1) with 48× Heavy Armour Blocks to isolate radiation.
 
-| Block | Qty | Name / group | Cell (row · level at X = 0) |
-|-------|-----|-------------|-----------------------------|
-| Small reactor | 6 | `ORC Reactors` | r3·L5, r4·L5, r5·L5, r6·L5, r3·L4, r4·L4 |
-| Large battery | 2 | `ORC Batteries` (Recharge) | r3·L3, r4·L3 |
-| Gyroscope (large) | 4 | `ORC Gyros` | r5·L3, r6·L3, r3·L2, r4·L2 |
-| Small cargo container | 1 | `ORC U Store` | r5·L4 |
-| Large conveyor junction/tube | 7 | Service line | r3-r6 at L6; r6·L4; r5-r6 at L2 |
-| Heavy armour block | 48 | PC shell | Walls at X = ±1 (L2-L6), r3 & r6 bulkheads, L1 & L7 caps |
-
-**✓ Check:** all 6 reactors, both batteries, and `ORC U Store` connect to the service conveyor. Heavy armour fully encloses the power vault. Batteries are set to Recharge. Gyros show in `ORC Gyros`.
+**✓ Check:** All 6 reactors and `ORC U Store` connect to the L6 service line. Vault is fully armored.
 
 ---
 
-#### Step 11 · Ore hold (HD, r7-r15)
+### Step 9 · Ore Hold & Sorter Interlock (HD, r7-r15)
 
-Place the large cargo container in the spine at r10-r12, with the gate sorter above it and the drain sorter below.
+Install the 3×3×3 Large Cargo container in the central spine at rows r10-r12, flanked by the intake gate and drain sorters.
 
 ```
-Side elevation (X = 0), ore hold zone
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ [LOCATOR] Subsystem: Ore Buffer  ·  Grid Zone: Rows r7-r15  ·  Level: L2-L6 (X0)     │
+│ [VIEWPORT] Looking: Starboard (+X) ·  Orientation: ▲ UP (+Y) · ◄ BOW (+Z) · STERN (-Z)►│
+└──────────────────────────────────────────────────────────────────────────────────────┘
+```
+
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ STEP 9 PARTS TRAY                                                                    │
+├─────────────────────┬─────┬───────────────┬──────────────────────────────────────────┤
+│ Block Type          │ Qty │ Mass / PCU    │ Critical Placement & Facing              │
+├─────────────────────┼─────┼───────────────┼──────────────────────────────────────────┤
+│ Large Cargo Cont    │ 1   │ 21.0 t / 25   │ `ORC Ore Hold` (3×3×3 B, r10-r12, L3-L5) │
+│ Conveyor Sorter     │ 2   │  4.0 t / 30   │ `ORC HD Gate` (L5), `ORC HD Drain` (L6)  │
+│ Large Conveyor Tube │ 12  │ 14.4 t / 12   │ Overhead ore collection trunk at L6/L7   │
+└─────────────────────┴─────┴───────────────┴──────────────────────────────────────────┘
+
+```
+Side elevation (X = 0), Ore Hold Core
 
     r7    r8    r9    r10   r11   r12   r13   r14   r15
-    ║     ║     ║     ╔═════╤═════╗     ║     ║     ║   L7
-    ║     ║     ║     ║     │     ║     ║     ║     ║
-    ║     ║     ║     ║  CARGO    ║     ║     ║     ║   L4 centre
-    ║     ║     ║     ║  CONTAINER║     ║     ║     ║
-    ║     ║     ║     ╚═════╧═════╝     ║     ║     ║   L1
-                      ↑ HD Gate         ↓ HD Drain
-                      (from trunk)      (to MP)
-
-    The large cargo container occupies 3 × 3 × 3 B
-    centred at r11, X0, L3-L5.
+    ║     ║     ║     ╔═════╤═════╗     ║     ║     ║   L7 Mule Deck
+    ║     ║     ║     ║     │     ║     ║     ║     ║   L6 (HD Drain Sorter)
+    ║     ║     ║     ║ ORC Ore   ║     ║     ║     ║   L5 (Catwalk Spine)
+    ║     ║     ║     ║ Hold      ║     ║     ║     ║   L4 (Hold Core)
+    ║     ║     ║     ║ (3×3×3 B) ║     ║     ║     ║   L3 (Ventral Inspection)
+    ║     ║     ║     ╚═════╧═════╝     ║     ║     ║   L2 (HD Gate Sorter)
 ```
 
-**Blocks:**
+**Placement Sequence:**
+1. Center `ORC Ore Hold` at r11, X0, spanning Levels L3 to L5.
+2. Install `ORC HD Gate` (Conveyor Sorter) at r8·L5 facing AFT into the cargo hold (Whitelist: Ore, Stone).
+3. Install `ORC HD Drain` (Conveyor Sorter) at r12·L6 facing UP toward the Mule Pad (Whitelist: Ore; Drain All = ON).
 
-| Block | Qty | Name |
-|-------|-----|------|
-| Large cargo container | 1 | `ORC Hold` |
-| Conveyor sorter | 1 | `ORC HD Gate` (whitelist: ore; trunk → hold) |
-| Conveyor sorter | 1 | `ORC HD Drain` (whitelist: ore; hold → MP) |
-| Light armour | ~18 | HD shell |
-
-**✓ Check:** ore path is continuous: trunk → Gate → Hold → Drain. Gate and Drain are both OFF at this stage (ECs wire them in Phase 7).
+**✓ Check:** Cargo hold connects via Gate to the overhead trunk and via Drain to the dorsal deck.
 
 ---
 
-#### Step 12 · Aft service section (AS, r16-r18)
+### Step 10 · Aft Engineering & Hydrogen Reserve (AS, r16-r18)
 
-```
-Side elevation (X = 0)
+Install the emergency hydrogen reserve and parts store in the stern engineering bay.
 
-    r16   r17   r18
-    ╔═════╤═════╗  L7
-    ║     │     ║  L6
-    ║  H2 TANK  ║  L5    ORC AS H2
-    ║     │     ║  L4
-    ║  PARTS    ║  L3    ORC Parts Store
-    ║  STORE    ║  L2
-    ╚═════╧═════╝  L1
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ STEP 10 PARTS TRAY                                                                   │
+├─────────────────────┬─────┬───────────────┬──────────────────────────────────────────┤
+│ Block Type          │ Qty │ Mass / PCU    │ Critical Placement & Facing              │
+├─────────────────────┼─────┼───────────────┼──────────────────────────────────────────┤
+│ Large Hydrogen Tank │ 1   │  8.2 t / 25   │ `ORC AS H2` (Centerline r17, L4-L6)      │
+│ Small Cargo Cont    │ 1   │  1.2 t / 10   │ `ORC Parts Store` (Centerline r17, L2-L3)│
+└─────────────────────┴─────┴───────────────┴──────────────────────────────────────────┘
 
-    Light armour shell.
-```
-
-**Blocks:**
-
-| Block | Qty | Name |
-|-------|-----|------|
-| Hydrogen tank | 1 | `ORC AS H2` |
-| Small cargo container | 1 | `ORC Parts Store` |
-| Light armour | ~18 | AS shell |
-
-Connect the H2 tank to the service line (branches to OR-2P and OR-2S later).
-
-**✓ Check:** H2 tank shows in terminal, service line reaches from PC through HD body to AS.
+**Placement Sequence:**
+1. Mount `ORC Parts Store` at r17, X0, L2-L3, plumbed to the L4 service gallery line.
+2. Mount `ORC AS H2` tank at r17, X0, L4-L6, connected to outrigger H2 branches.
 
 ---
 
-#### Step 13 · Mule pad (MP, roof, r8-r14) & Gantry Cradle
+### Pre-Enclosure Inspection Gate 1.2A: Power Vault & Sorter Piping
 
-#### 2.5D Isometric Callout · Pad-Mounted Gantry Cradle (r8-r14, X ±3)
-
-```
-                       [Mule Hull 7×7 B]
-                              │
-    Port Flank                ▼               Starboard Flank
-  [CLAMP RUB RAIL]                       [CLAMP RUB RAIL]
-         ▲                                      ▲
-         │                                      │
-    [MAG PLATE] ◄── 30° Swing Inward ──► [MAG PLATE]
-         │                                      │
-    [MOTOR HINGE]                          [MOTOR HINGE]
-    (Mounted X −3, r11)                    (Mounted X +3, r11)
-  ═══════╧══════════════════════════════════════╧═══════
-                    FLUSH HEAVY ARMOUR DECK (L7)
-                           [ORC MP Conn]
-```
-
-#### AI Scripting & Hardware Contract Card · Mule Pad
-
-| Device | Block Name | Group Membership | Action 1 (On True / Trigger) | Action 2 (On False) |
-|---|---|---|---|---|
-| **Event Controller** | `ORC EC MP` | `ORC Logic` | `ORC MP Cradle` Angle $
-ightarrow$ 30° · `ORC MP Conn` Lock ON | `ORC MP Cradle` Angle $
-ightarrow$ 0° · `ORC MP Conn` Lock OFF |
-| **Approach Sensor** | `ORC Sensor MP` | `ORC Sensors` | `ORC MP Lights` $
-ightarrow$ ON · Sound Chime | `ORC MP Lights` $
-ightarrow$ OFF |
-| **Ore Sorter** | `ORC HD Drain` | `ORC Sorters` | Drain All $
-ightarrow$ ON (Pumps ore to Mule) | Drain All $
-ightarrow$ OFF |
-| **Service Sorter** | `ORC MP Intake` | `ORC Sorters` | Whitelist: Uranium, Components $
-ightarrow$ Pull | Standby |
-
-
-Build the standardized **Gantry Cradle** docking pad on the roof deck on top of the 7×7 B Heavy Armour blast floor.
-
-```
-Plan view, Y = L7 (roof), MP blast deck & Gantry Cradle
-
-    X:  −3                  0                  +3
-         ·                  ·                  ·    r8
-                           PAD
-         ·             ┌────▼────┐             ·    r9
-                       │         │
-    [CRADLE HINGE] ──► │  [CON]  │ ◄── [CRADLE HINGE] r11 (Motorized clamps)
-    [MAG CLAMP]        │         │        [MAG CLAMP]
-         ·             └────▲────┘             ·    r13
-                           PAD
-         ·                  ·                  ·    r14
-
-    Floor = 49 × Heavy Armour Blocks (7 × 7 B, r8-r14, X −3 to +3), flush at L7
-    [CON] = ORC MP Conn (connector, facing UP, at X0, r11)
-    PAD   = Heavy armour foot target (4 total): X0·r8, X0·r14, X−3·r11, X+3·r11
-    [CRADLE] = Twin motorized Hinges @ L7 with 1 B Beam Arm + Magnetic Plate (Auto-Lock)
-               Outer port: X −3, r11 · Outer stbd: X +3, r11 → ORC MP Cradle
-    ▼ ▲   = Below deck at L6: ORC HD Drain (hold → Mule) and ORC MP Intake (Mule → service line)
-```
-
-Below the connector, on a short riser at level L6:
-- `ORC HD Drain` sorter → sends ore from hold to the Mule
-- `ORC MP Intake` sorter → pulls uranium + components from the Mule into service line
-
-**Blocks:**
-
-| Block | Qty | Name / group | Purpose |
-|-------|-----|-------------|---------|
-| Heavy Armour Block | 49 | MP blast deck (placed in Step 8) | Blast & touchdown plate |
-| Connector (facing up) | 1 | `ORC MP Conn` | Ore & power transfer |
-| Hinge | 2 | `ORC MP Cradle Port` / `Stbd` → `ORC MP Cradle` | Clamps Mule chassis |
-| Magnetic plate | 2 | `ORC MP Cradle Clamp Port` / `Stbd` | Rigid latch on Mule waist |
-| Conveyor sorter | 1 | `ORC MP Intake` (whitelist: U ingot + components) | Service replenishment |
-| Conveyor sorter | 1 | `ORC HD Drain` (whitelist: ore) | Ore drain to Mule |
-| Camera | 1 | `ORC Cam MP` (looking aft over the pad) | Alignment visual |
-
-**Automated EC Docking Sequence (wired in Step 26):**
-1. Approach: Mule descends over pad $\rightarrow$ `ORC Sensor MP` detects Mule at 2 m $\rightarrow$ `ORC MP Lights` ON.
-2. Clamp: Cradle hinges rotate 30° inward $\rightarrow$ Magnetic plates lock to Mule frame $\rightarrow$ `ORC MP Conn` locks.
-3. Drain: `ORC HD Drain` ON $\rightarrow$ transfers 650 t ore.
-4. Release: Hold empty $\rightarrow$ Cradle clamps release $\rightarrow$ Hinges swing 0° flush $\rightarrow$ Mule departs.
-
-**✓ Check:** Gantry Cradle arms swing inward to clamp a test grid over `ORC MP Conn`. Magnetic plates lock firmly. Deck withstands thruster wash.
+> [!IMPORTANT]
+> **POINT OF NO RETURN:** Perform pneumatic and inventory pull tests before sealing the spine roof deck.
+>
+> 1. [ ] Fill `ORC U Store` with 5 kg Uranium ingots; confirm auto-flow to all 6 reactors.
+> 2. [ ] Deposit test Stone into bay drop tube; verify `ORC HD Gate` allows entry into `ORC Ore Hold`.
+> 3. [ ] Verify `ORC HD Drain` refuses passage of Uranium or Components.
+> 4. [ ] Confirm 0.00 MW leak from batteries when set to Recharge.
 
 ---
 
-#### Step 14 · Solar array (roof)
+## Phase 3 · Dorsal Mule Landing Deck & Flight Deck Systems
 
-Place large solar panels on the roof deck outside the MP zone, leaving a **1 B clear perimeter buffer** around the Mule Pad to prevent thruster scorch.
+### Step 11 · Mule Landing Deck Blast Floor (r8-r14, L7)
+
+Construct the reinforced 7×7 B Heavy Armour landing deck to absorb the thruster wash and landing impacts of the 650 t MULE-01 Heavy Freight Shuttle.
 
 ```
-Plan view, Y = L7 (roof)
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ [LOCATOR] Subsystem: Mule Deck  ·  Grid Zone: Rows r8-r14  ·  Level: L7 Roof         │
+│ [VIEWPORT] Looking: Downward (+Y)  ·  Orientation: ▲ BOW (+Z) · ◄ PORT (-X) · STBD (+X)►│
+└──────────────────────────────────────────────────────────────────────────────────────┘
+```
 
-    X: −8            −4            0            +4            +8
-       ┌─────────────────────────────────────────────────────────┐  r0
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ STEP 11 PARTS TRAY                                                                   │
+├─────────────────────┬─────┬───────────────┬──────────────────────────────────────────┤
+│ Block Type          │ Qty │ Mass / PCU    │ Critical Placement & Facing              │
+├─────────────────────┼─────┼───────────────┼──────────────────────────────────────────┤
+│ Heavy Armour Block  │ 49  │ 98.0 t / 49   │ 7×7 B blast pad (r8-r14, X -3 to +3)     │
+│ Structural Frame    │ 30  │ 12.0 t / 30   │ Roof walkway panels outside blast pad    │
+│ Large Solar Panel   │ 24  │ 19.2 t / 96   │ Roof solar array outside 1 B hazard zone │
+└─────────────────────┴─────┴───────────────┴──────────────────────────────────────────┘
+
+```
+Plan view, Y = L7 (Roof Deck)
+
+    X: -8            -4            0            +4            +8
+       ┌─────────────────────────────────────────────────────────┐  r0 (Bow)
        │  ☀ ☀ ☀ ☀ ☀ ☀ ☀ ☀         ANT         ☀ ☀ ☀ ☀ ☀ ☀ ☀ ☀  │
        │  ☀ ☀ ☀ ☀ ☀ ☀ ☀ ☀ ☀ ☀ ☀ ☀ ☀ ☀ ☀ ☀ ☀ ☀ ☀ ☀ ☀ ☀ ☀ ☀ ☀  │  r0-r6
-       │  ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░  │  r7 (1 B buffer)
+       │  ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░  │  r7 (1 B Hazard Buffer)
        │  ☀ ☀ ☀ ☀ ░░░░  ┌─────────────────┐  ░░░░ ☀ ☀ ☀ ☀ ☀ ☀  │
        │  ☀ ☀ ☀ ☀ ░░░░  │  MP BLAST DECK │  ░░░░ ☀ ☀ ☀ ☀ ☀ ☀  │  r8-r14
        │  ☀ ☀ ☀ ☀ ░░░░  │  (Heavy Armour)│  ░░░░ ☀ ☀ ☀ ☀ ☀ ☀  │  (X±4 buffer)
        │  ☀ ☀ ☀ ☀ ░░░░  └─────────────────┘  ░░░░ ☀ ☀ ☀ ☀ ☀ ☀  │
-       │  ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░  │  r15 (1 B buffer)
-       │  ☀ ☀ ☀ ☀ ☀ ☀ ☀ ☀ ☀ ☀ ☀ ☀ ☀ ☀ ☀ ☀ ☀ ☀ ☀ ☀ ☀ ☀ ☀ ☀ ☀  │  r16-r18
+       │  ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░  │  r15 (1 B Hazard Buffer)
+       │  ☀ ☀ ☀ ☀ ☀ ☀ ☀ ☀ ☀ ☀ ☀ ☀ ☀ ☀ ☀ ☀ ☀ ☀ ☀ ☀ ☀ ☀ ☀ ☀ ☀  │  r16-r18 (Stern)
        └─────────────────────────────────────────────────────────┘
 
-    ☀ = Large solar panel (facing up)
-    ░░ = 1 B clear buffer (Structural Frame only, no solar panels within Mule flame envelope)
-    Keep solar only if total array mass ≤ 20 t (commissioning test)
+    ☀ = Large Solar Panel (facing UP)  ·  ░░ = 1 B clear safety buffer (Structural Frame)
 ```
 
-**Blocks:**
-- ≈ 24 × Large solar panel† → `ORC Solar`
-
-**✓ Check:** solar panels are flat on the roof, facing up. No solar panels sit within 1 B of the MP Heavy Armour deck perimeter. Record array mass at commissioning.
+**Placement Sequence:**
+1. Lay 49× Heavy Armour Blocks at r8-r14, X -3 to +3, flush with Level L7.
+2. Outline perimeter with Slot 05 Heavy Battered Red paint (1 B safety boundary).
+3. Mount 24× Large Solar Panels (`ORC Solar`) on exterior roof flanks, ensuring zero solar panels sit within the 1 B thruster scorch perimeter.
 
 ---
 
-### Phase 1 checkpoint
+### Step 12 · Gantry Cradle & Mule Docking Interlock (r11, L7)
 
-At this point you have:
+Install the motorized clamping cradle and flush transshipment connector on the Mule Pad.
+
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ STEP 12 PARTS TRAY                                                                   │
+├─────────────────────┬─────┬───────────────┬──────────────────────────────────────────┤
+│ Block Type          │ Qty │ Mass / PCU    │ Critical Placement & Facing              │
+├─────────────────────┼─────┼───────────────┼──────────────────────────────────────────┤
+│ Connector           │ 1   │  4.0 t / 25   │ `ORC MP Conn` (facing UP at r11, X0, L7) │
+│ Large Hinge         │ 2   │  4.0 t / 20   │ `ORC MP Cradle Port/Stbd` at X ±3, r11   │
+│ Magnetic Plate      │ 2   │  4.8 t / 50   │ Clamping plates on hinge arms (Auto-Lock)│
+│ Conveyor Sorter     │ 1   │  2.0 t / 15   │ `ORC MP Intake` (under deck at L6)       │
+│ Camera              │ 1   │  0.2 t / 10   │ `ORC Cam MP` (facing aft over pad)       │
+│ Spotlight           │ 2   │  0.4 t / 10   │ `ORC MP Lights` (aimed 45° upward)       │
+└─────────────────────┴─────┴───────────────┴──────────────────────────────────────────┘
 
 ```
-Side view of the complete spine + roof
+Gantry Cradle Transverse Cross-Section (r11, Looking Toward Bow)
 
-    OR-1                                              OR-3
-    (next)                                            (next)
-      ↓                                                ↓
-      ·    r0    r3    r6    r9    r12   r15   r18     ·
-           ┌═════╤═════╤═════╤═════╤═════╤═════┐ L7  roof + solar
-           │ CC  │█████│     │ MP  │     │ AS  │
-           │(emp)│ PC  │     │[CON]│     │[H2] │
-           │     │█████│     │     │     │[PRT]│
-           │     │ R×6 │  ┌──┼──┐  │     │     │
-           │     │BAT×2│  │HOLD │  │     │     │
-           │     │GYR×4│  └──┼──┘  │     │     │
-           └═════╧═════╧═════╧═════╧═════╧═════┘ L1  belly
-
-    █ = heavy armour
-    Everything else = beam skeleton + light armour
-    Bays are framed but empty (connectors, turrets in Phase 3)
-    Ore trunk runs along the roof, branches at r3, r9, r15
-    Service line runs through the spine body
+                       [MULE-01 HULL 7×7 B]
+                                │
+      Port Flank                ▼               Starboard Flank
+    [CLAMP RUB RAIL]                       [CLAMP RUB RAIL]
+           ▲                                      ▲
+           │                                      │
+      [MAG PLATE] ◄── 30° Swing Inward ──► [MAG PLATE]
+           │                                      │
+      [MOTOR HINGE]                          [MOTOR HINGE]
+      (Mounted X -3, r11)                    (Mounted X +3, r11)
+    ═══════╧══════════════════════════════════════╧═══════
+                      FLUSH HEAVY ARMOUR DECK (L7)
+                             [ORC MP Conn]
 ```
 
-**Phase 1 is complete when:**
-- [ ] Spine skeleton stands (beam frame 3 × 19 × 7 B)
-- [ ] Bay frames stand (outer frame at X ±8, inner at X ±2, cross-frames at r0, r6, r12, r18)
-- [ ] Roof deck covers the hull
-- [ ] Ore trunk runs from r3 to r15 with 6 branches
-- [ ] PC: 6 reactors, 2 batteries (Recharge), 4 gyros, U Store
-- [ ] HD: hold with Gate and Drain sorters
-- [ ] AS: H2 tank, Parts Store
-- [ ] MP: connector, 4 pads, camera
-- [ ] Service line runs PC → AS, separate from ore network
-- [ ] Solar array on roof (mass recorded)
+**Mechanical Settings:**
+- Hinges (`ORC MP Cradle`): Braking Torque 20.0 MN·m†, Velocity 10 RPM. Limits: 0° (parked flush) to 30° (engaged).
+- Mag Plates: Auto-Lock = ON.
+- Connector (`ORC MP Conn`): Auto-Lock = ON.
 
 ---
 
-### Phase 2 · Control core (CC)
+### Pre-Enclosure Inspection Gate 1.3A: Mule Deck Blast Floor & Gantry Cradle
 
-#### Step 15 · CC heavy armour shell (r0-r2)
-
-Enclose the bow 3 rows of the spine in heavy armour.
-
-```
-Plan view, Y = L4 (mid-height), CC
-
-    X: −1.5    0    +1.5
-        ╔══════╤══════╗  r0  (bow face, heavy armour)
-        ║      │      ║
-        ║      │      ║  r1
-        ║      │      ║
-        ║      │      ║  r2
-        ╚══════╧══════╝
-
-    ╔═╗ = Heavy armour walls (all 4 sides + top + bottom)
-    Interior: 1 × 2 × 6 B (1 column wide, 2 rows deep, 6 levels tall)
-```
-
-**Blocks:**
-- ~36 × Heavy armour block · shell around r0-r2
-
-**✓ Check:** CC is a sealed armoured box with access from the r2 (aft) face or the roof.
+> [!IMPORTANT]
+> **POINT OF NO RETURN:** Test mechanical cradle articulation and connector lock before proceeding to bridge avionics.
+>
+> 1. [ ] `ORC MP Conn` faces straight up, exactly flush with L7 deck line.
+> 2. [ ] Cradle hinges rotate cleanly between 0° and 30° without voxel collision.
+> 3. [ ] `ORC Sensor MP` detects descending grid at 20 m and triggers `ORC MP Lights`.
+> 4. [ ] `ORC MP Intake` pulls Uranium into `ORC U Store` without admitting ore.
 
 ---
 
-#### Step 16 · CC control blocks
+## Phase 4 · Control Core & Human Bridge
 
-Install all control blocks in the centre column (X = 0), rows r1-r2.
+### Step 13 · Armored Bridge Shell (CC, r0-r2)
+
+Construct the heavily armored Command Core citadel at the bow prow, spanning Levels L3 to L6.
 
 ```
-Cell layout, X = 0 (looking from stbd)
-
-    r1         r2
-    ┌──────────┬──────────┐  L6
-    │          │          │
-    ├──────────┼──────────┤  L5
-    │ TMR      │ TMR      │  Heartbeat · Home
-    │ Heartbt  │ Home     │
-    ├──────────┼──────────┤  L4
-    │ PB       │ EC       │  ORC CC PB · ORC EC Cargo
-    │          │ Cargo    │
-    ├──────────┼──────────┤  L3
-    │ RC       │ RC       │  Main · Spare
-    │ Main     │ Spare    │  (both facing +Z)
-    ├──────────┼──────────┤  L2
-    │ EC       │ EC       │  Lift · Power
-    │ Lift     │ Power    │
-    └──────────┴──────────┘  L1
-
-    All blocks named per Part 2 §1
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ [LOCATOR] Subsystem: Control Core Shell  ·  Grid Zone: r0-r2  ·  Level: L3-L6 (X0)   │
+│ [VIEWPORT] Looking: Aft (-Z)  ·  Orientation: ▲ UP (+Y) · ◄ STBD (+X) · PORT (-X)►   │
+└──────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-Also install at r1, L6: `ORC EC MP` (mule pad event controller)
-
-**Blocks:**
-
-| Block | Qty | Name | Cell |
-|-------|-----|------|------|
-| Remote Control | 2 | `ORC CC RC Main` · `ORC CC RC Spare` | r1·L3 · r2·L3 |
-| Programmable Block | 1 | `ORC CC PB` | r1·L4 |
-| Timer Block | 2 | `ORC TMR Heartbeat` · `ORC TMR Home` | r1·L5 · r2·L5 |
-| Event Controller | 4 | `ORC EC Lift` · `Power` · `Cargo` · `MP` | r1·L2 · r2·L2 · r2·L4 · r1·L6 |
-| Camera | 1 | `ORC Cam Bow` | r0·L4, in bow face |
-
-**Settings:**
-- Both RCs: forward = +Z, up = +Y. Main = main controller. Waypoint `HOME` = base GPS. Dampeners ON.
-- Batteries (from Step 10): set to Recharge.
-
-**✓ Check:** all 10 control blocks show in terminal with correct names. Both RCs face the bow (+Z). `ORC Cam Bow` sees forward.
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ STEP 13 PARTS TRAY                                                                   │
+├─────────────────────┬─────┬───────────────┬──────────────────────────────────────────┤
+│ Block Type          │ Qty │ Mass / PCU    │ Critical Placement & Facing              │
+├─────────────────────┼─────┼───────────────┼──────────────────────────────────────────┤
+│ Heavy Armour Block  │ 36  │ 72.0 t / 36   │ Armored bow citadel shell at r0-r2       │
+│ Reinforced Glass    │ 12  │  2.4 t / 12   │ Forward panoramic canopy at r0·L5-L6     │
+│ Sliding Door        │ 1   │  1.0 t / 10   │ `ORC Door Bridge` at r2·L4               │
+└─────────────────────┴─────┴───────────────┴──────────────────────────────────────────┘
 
 ---
 
-#### Step 17 · Antenna mast
+### Step 14 · Bridge Avionics & Flight Control Core
+
+Install the redundant flight controllers, programmable block, and pilot stations inside the Command Core.
+
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ STEP 14 PARTS TRAY                                                                   │
+├─────────────────────┬─────┬───────────────┬──────────────────────────────────────────┤
+│ Block Type          │ Qty │ Mass / PCU    │ Critical Placement & Facing              │
+├─────────────────────┼─────┼───────────────┼──────────────────────────────────────────┤
+│ Remote Control      │ 2   │  1.0 t / 50   │ `ORC CC RC Main` (r1·L3), `Spare` (r2·L3)│
+│ Programmable Block  │ 1   │  0.5 t / 25   │ `ORC CC PB` (r1·L4, X0)                  │
+│ Timer Block         │ 2   │  0.4 t / 20   │ `ORC TMR Heartbeat` (r1·L5), `Home` (r2) │
+│ Event Controller    │ 4   │  0.8 t / 40   │ `ORC EC Lift`, `Power`, `Cargo`, `MP`    │
+│ Control Seat        │ 2   │  0.8 t / 30   │ `ORC Helm Pilot`, `ORC Helm DroneOps`    │
+│ Survival Kit        │ 1   │  2.2 t / 20   │ `ORC Survival Kit` (r1·L4, port wall)    │
+│ Air Vent            │ 1   │  0.2 t / 10   │ `ORC Vent Bridge` (ceiling at r1·L6)     │
+│ Antenna & Cam       │ 2   │  0.5 t / 20   │ `ORC CC Antenna` & `ORC Cam Mast` (roof) │
+└─────────────────────┴─────┴───────────────┴──────────────────────────────────────────┘
 
 ```
-    Side view at X = 0
+Command Core Avionics Rack, X = 0 (Looking from Starboard)
 
-         ╤  antenna
-         │  mast (1-2 B above roof)
-    ═════╪═════  L7 roof deck
-         │
-         ║  CC interior
+    r1                r2
+    ┌─────────────────┬─────────────────┐  L6 Upper Canopy
+    │ ORC Vent Bridge │ ORC EC MP       │
+    ├─────────────────┼─────────────────┤  L5 Bridge Ceiling
+    │ TMR Heartbeat   │ TMR Home        │
+    ├─────────────────┼─────────────────┤  L4 Bridge Floor
+    │ ORC CC PB       │ ORC EC Cargo    │
+    ├─────────────────┼─────────────────┤  L3 Avionics Rack
+    │ RC Main (+Z)    │ RC Spare (+Z)   │
+    ├─────────────────┼─────────────────┤  L2 Life Support
+    │ ORC EC Lift     │ ORC EC Power    │
+    └─────────────────┴─────────────────┘  L1 Ventral Deck
 ```
 
-**Blocks:**
-
-| Block | Qty | Name |
-|-------|-----|------|
-| Antenna | 1 | `ORC CC Antenna` (on roof above r1, X0) |
-| Camera | 1 | `ORC Cam Mast` (on mast head, facing aft) |
-
-**✓ Check:** antenna broadcasts. `ORC Cam Mast` shows a whole-roof overview looking aft.
+**Configuration Settings:**
+- Remote Controls: Forward = +Z (Bow), Up = +Y (Roof). Dampeners = ON. Waypoint `HOME` loaded.
+- Air Vent: Depressurize = OFF. Pressurizes the bridge cabin from the L3 O2 tank.
 
 ---
 
-### Phase 2 checkpoint
+### Pre-Enclosure Inspection Gate 1.4A: Command Bridge Seals & Avionics
 
-- [ ] CC armoured shell complete
-- [ ] All 10 control blocks placed, named, in correct cells
-- [ ] Both RCs face +Z with `HOME` waypoint
-- [ ] Antenna mast through roof, broadcasting
-- [ ] Bow and mast cameras work
-
----
-
-### Phase 3 · Bay rows (BR-P, then mirror to BR-S)
-
-#### Step 18 · Bay ceiling connectors (port side)
-
-At each bay centre (X = −5, at r3, r9, r15), place a connector facing **down** on the ore trunk branch.
-
-```
-Cross-section at r3 (bay P1), looking toward bow
-
-    X: −8         −5         −2   −1.5
-       ┃           ┃          ┃    ║   L7
-       ┃          [CON↓]      ┃    ║   ceiling connector
-       ┃           │          ┃    ║   (ore trunk branch)
-       ┃     P1    │    util  ┃    ║
-       ┃    clear  │   corr.  ┃    ║
-       ┃     5B    │          ┃    ║
-       ┃           ┃          ┃    ║   L1
-              open below
-
-    [CON↓] = ORC BR-P1 Conn (connector facing down)
-    Branch from the ore trunk (X = 0) runs to X = −5
-```
-
-**Blocks per bay:**
-
-| Block | Qty | Name |
-|-------|-----|------|
-| Connector (facing down) | 1 | `ORC BR-P1 Conn` / `P2` / `P3` |
-
-All 3 → group `ORC Bay Conns`
-
-**Role allocation (Blae 2026-10-17):**
-- **P1, S1, P3, S3:** Remora vertical drillers (primary ore extraction).
-- **P2:** Kestrel (scout / deposit prospector).
-- **S2:** Albatross (utility / survey craft).
-
-**✓ Check:** each connector is centred in its bay ceiling, facing straight down, and connected to the ore trunk. P2/S2 connectors also have service line access.
+> [!IMPORTANT]
+> **POINT OF NO RETURN:** Verify atmospheric hermetic seal and avionics boot before fitting drone bays.
+>
+> 1. [ ] Command Core achieves 100% O2 room pressurization when `ORC Door Bridge` is closed.
+> 2. [ ] Both Remote Controls face +Z and align with `ORC Cam Bow`.
+> 3. [ ] `ORC CC PB` boots `Carrier.Orca` script with 0 compilation errors.
+> 4. [ ] `ORC TMR Heartbeat` successfully resets watchdog on 1.0 s ping.
 
 ---
 
-#### Step 19 · Central bay repair turret & L4 gallery pipe (port side)
+## Phase 5 · Drone Bays & Mechanical Guide Jaws
 
-Install **1 central repair turret** at bay P2 (r9), mounted on the inner wall (X = −2) at L4 (mid-height ring), facing outboard (−X). Its range covers all three port bays (P1, P2, P3).
+### Step 15 · Bay Overhead Connectors (Bays P1-P3, S1-S3)
 
-Run the service conveyor line horizontally along X = −2 at level L4 from r3 to r17, connecting the turret directly to `ORC Parts Store` in AS (r17).
+Install 6× overhead ceiling connectors facing straight down on the L6 ore collection trunk branches.
 
 ```
-Cross-section at r9 (bay P2), Y = L4
-
-    X: −8 (outer frame)   X = −5 (P2 centre)   X = −2 (inner frame)
-       ┃                                        ┃
-       ┃                   bay P2          [RPR]■═══ [L4 Service Gallery Pipe]
-       ┃                   (clear)              ┃    (connects r3 ↔ r9 ↔ r17)
-       ┃                                        ┃
-
-    [RPR] = Laser Multitool turret (mod), mounted at X −2, r9, L4
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ [LOCATOR] Subsystem: Drone Bay Drops  ·  Grid Zone: Bays P1-P3, S1-S3  ·  Level: L6-L7│
+│ [VIEWPORT] Looking: Downward (+Y)  ·  Orientation: ▲ BOW (+Z) · ◄ PORT (-X) · STBD (+X)►│
+└──────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-**Blocks (port side):**
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ STEP 15 PARTS TRAY                                                                   │
+├─────────────────────┬─────┬───────────────┬──────────────────────────────────────────┤
+│ Block Type          │ Qty │ Mass / PCU    │ Critical Placement & Facing              │
+├─────────────────────┼─────┼───────────────┼──────────────────────────────────────────┤
+│ Connector           │ 6   │ 24.0 t / 150  │ Facing DOWN at bay centers (X ±5, r3/r9/r15)│
+└─────────────────────┴─────┴───────────────┴──────────────────────────────────────────┘
 
-| Block | Qty | Name / group | Cell |
-|-------|-----|-------------|------|
-| Laser multitool turret (mod) | 1 | `ORC Repair BR-P2` → `ORC Repair` | X −2, r9, L4 |
-| Large conveyor tube (Z-axis) | 12 | Service gallery pipe | X −2, L4 (r3→r17) |
-| Large conveyor junction | 1 | Turret tap | X −2, r9, L4 |
+```
+Cross-Section of Bay Ceiling Drop (Bay P1 at r3, Looking Toward Bow)
 
-**Settings:** weld only, own grids, never grind†. Connected to service line (not ore trunk).
+    X: -8         -5         -2   -1.5
+       ┃           ┃          ┃    ║   L7 Roof Deck
+       ┃         [CON↓]       ┃    ║   Overhead Ceiling Connector
+       ┃           │          ┃    ║   (plumbed to L6 Ore Trunk)
+       ┃     P1    │    Util  ┃    ║
+       ┃    Clear  │   Corrid.┃    ║
+       ┃     5 B   │          ┃    ║
+       ┃           ┃          ┃    ║   L1 Ventral Opening
+              Open Below
+```
 
-**✓ Check:** turret is plumbed to `ORC Parts Store`. From its central mount at r9, its laser beam reaches docked craft in P1 (r3), P2 (r9), and P3 (r15).
+**Bay Allocation:**
+- **Bay P1 & S1 (r3, X ±5):** REMORA-01 Vertical Shaft Drillers (Primary mining).
+- **Bay P2 (r9, X -5):** KESTREL-01 Fast Prospector Scout Drone (Ore reconnaissance).
+- **Bay S2 (r9, X +5):** ALBATROSS-01 Utility & Field-Repair Craft (Mobile maintenance).
+- **Bay P3 & S3 (r15, X ±5):** REMORA-01 Vertical Shaft Drillers (Primary mining).
 
 ---
 
-#### Step 19b · Folding Mechanical Guide Jaws (port side)
+### Step 16 · Folding Mechanical Guide Jaws (Bays P1-P3, S1-S3)
 
-Install twin motorized guide jaws at L5 to physically clamp and center the ascending Remora drone.
+Install motorized twin-hinge guide jaws at Level L4 inside each bay to physically capture, align, and steady docking craft during turbulent atmospheric operations.
 
 ```
-Plan view at L5 (Bay P1 Guide Jaws in action)
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ [LOCATOR] Subsystem: Bay Guide Jaws  ·  Grid Zone: All 6 Bays  ·  Level: L4 Mid-Deck │
+│ [VIEWPORT] Looking: Downward (+Y)  ·  Orientation: ▲ BOW (+Z) · ◄ PORT (-X) · STBD (+X)►│
+└──────────────────────────────────────────────────────────────────────────────────────┘
+```
 
- X: −8 (outer frame)            X = −5 (bay centre)            X = −2 (inner frame)
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ STEP 16 PARTS TRAY                                                                   │
+├─────────────────────┬─────┬───────────────┬──────────────────────────────────────────┤
+│ Block Type          │ Qty │ Mass / PCU    │ Critical Placement & Facing              │
+├─────────────────────┼─────┼───────────────┼──────────────────────────────────────────┤
+│ Large Hinge         │ 12  │ 24.0 t / 120  │ Outer (X ±8) & Inner (X ±2) hinges @ L4  │
+│ Beam Block Straight │ 24  │ 19.2 t / 24   │ 2 B extension arms per hinge             │
+│ Magnetic Plate      │ 12  │ 28.8 t / 300  │ Clamp heads on arm tips (Auto-Lock ON)   │
+└─────────────────────┴─────┴───────────────┴──────────────────────────────────────────┘
+
+```
+Plan view at L4 (Bay P1 Guide Jaws in Clamping Action)
+
+ X: -8 (Outer Frame)            X = -5 (Bay Center)            X = -2 (Inner Frame)
     ┃                                                          ┃
     [HINGE]                                                    [HINGE]
      ╲                                                        ╱
@@ -1065,398 +1207,341 @@ Plan view at L5 (Bay P1 Guide Jaws in action)
                                │  5.5 × 5.5 m │
                                └──────────────┘
 
-    [HINGE]     = Motorized Hinge at level L5:
-                  Outer: X −8, r3 · Inner: X −2, r3 (P1)
-    [MAG PLATE] = Magnetic Plate (Auto-Lock ON) at arm tip
+    [HINGE]     = Motorized Hinge at level L4 (Outer: X -8, Inner: X -2)
+    [MAG PLATE] = Magnetic Plate (Auto-Lock ON) gripping drone waist rub rails
 ```
 
-**Mechanical settings:**
-- Hinges: Torque 1.0 MN·m, Velocity 15 RPM. Upper limit 45° (deployed), Lower limit 0° (parked flush against truss).
-- Magnetic Plates: Auto-Lock ON, strength 100%.
-
-**Blocks per bay:**
-
-| Block | Qty | Name / group |
-|-------|-----|-------------|
-| Hinge | 2 | `ORC BR-P1 Hinge Outer` / `Inner` → `ORC Bay Jaws` |
-| Beam Block (straight) | 4 | Jaw arms (2 B per arm) |
-| Magnetic plate | 2 | `ORC BR-P1 Jaw Clamp Outer` / `Inner` → `ORC Bay Jaw Clamps` |
-
-**✓ Check:** Hinges swing smoothly from 0° (flush with wall) to 45° (reaching X −4 and X −6 to grip the 5.5 m drone). Magnetic plates engage upon contact.
+**Mechanical Settings:**
+- Hinges (`ORC Bay Jaws`): Braking Torque 1.0 MN·m, Velocity 15 RPM. Angle Limits: 0° (retracted flush against truss) to 45° (clamped on drone).
+- Mag Plates (`ORC Bay Jaw Clamps`): Auto-Lock = ON.
 
 ---
 
-#### Step 20 · Bay sensors and lights (port side)
+### Step 17 · Central Bay Repair Turrets (P2 & S2, L4)
 
-```
-Bay ceiling plan, bay P1 (looking down)
+Install 2× Laser Multitool turrets (Simple Laser Multitools Mod) at the mid-height shelf of central bays P2 and S2 to provide spherical repair coverage over all 6 docked drones.
 
-    X: −8                    −5                    −2
-       ┌──────────────────────┬──────────────────────┐  r1 (fore wall)
-       │                     [CON]                   │
-       │  inner-aft           │          inner-fore  │
-       │  corner              │          corner      │
-       │  [LIGHT]             │          [SENSOR]    │  r3 bay centre
-       │                      │                      │
-       │                      │                      │
-       └──────────────────────┴──────────────────────┘  r5 (aft wall)
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ STEP 17 PARTS TRAY                                                                   │
+├─────────────────────┬─────┬───────────────┬──────────────────────────────────────────┤
+│ Block Type          │ Qty │ Mass / PCU    │ Critical Placement & Facing              │
+├─────────────────────┼─────┼───────────────┼──────────────────────────────────────────┤
+│ Laser Multitool Turr│ 2   │  6.0 t / 500  │ `ORC Repair P2` (X -2), `S2` (X +2) @ L4 │
+│ Large Conveyor Tube │ 26  │ 31.2 t / 26   │ L4 service gallery line (r3 to r17)      │
+└─────────────────────┴─────┴───────────────┴──────────────────────────────────────────┘
 
-    [SENSOR] = ORC Sensor BR-P1 (inner-fore corner, ceiling)
-    [LIGHT]  = Spotlight (inner-aft corner, aimed down the lane)
-    Sensor switches its own spotlight: no EC needed
-```
-
-**Blocks per bay:**
-
-| Block | Qty | Name / group |
-|-------|-----|-------------|
-| Sensor | 1 | `ORC Sensor BR-P1` / `P2` / `P3` |
-| Spotlight | 1 | → `ORC Bay Lights` |
-| Camera (facing down) | 1 | `ORC Cam BR-P1` → `ORC Cams` |
-
-**Sensor settings:** field = bay volume + 15 m below the lane; detect own small grids†.
-**Sensor action:** spotlight ON when detected, OFF when not.
-
-**✓ Check:** fly a small grid under a bay → spotlight turns on and camera sees it.
+**Settings:** Mode = Weld Only, Target Own Grids, Never Grind. Plumbed to `ORC Parts Store`.
 
 ---
 
-#### Step 21 · Mirror to starboard (BR-S)
+### Pre-Enclosure Inspection Gate 1.5A: Drone Bay Clearance & Hinge Kinematics
 
-Repeat Steps 18-20 for bays S1, S2, S3 at X = +5 (connectors), with 1 central repair turret tap at S2 (X +2, r9·L4), mirrored guide jaws (hinges at X +2 and X +8), and sensor/light corners.
-
-**✓ Check:** all 6 bays have: ceiling connector, twin motorized guide jaws, sensor, spotlight, camera. Central bays P2 and S2 each host 1 Laser Multitool repair turret.
-- Total in `ORC Bay Conns` = 6
-- Total in `ORC Repair` = 2 (P2 and S2 at r9·L4)
-- Total in `ORC Bay Jaws` = 12 hinges
-- Total in `ORC Bay Jaw Clamps` = 12 magnetic plates
-- Total in `ORC Bay Lights` = 6
-
----
-
-### Phase 3 checkpoint
-
-- [ ] 6 bay connectors (facing down), all on ore trunk branches
-- [ ] 2 central repair turrets (P2 and S2 at r9, L4, plumbed to L4 service gallery)
-- [ ] 12 motorized guide jaws (twin hinges per bay @ L5 with magnetic clamp tips)
-- [ ] 6 bay sensors + 6 spotlights (sensor switches its own light)
-- [ ] 6 bay cameras
-- [ ] All named per §1 and in correct groups
+> [!IMPORTANT]
+> **POINT OF NO RETURN:** Conduct mechanical swing clearance tests before mounting outriggers.
+>
+> 1. [ ] All 12 guide jaw hinges swing from 0° flush to 45° clamp without clipping frame beams.
+> 2. [ ] Magnetic plates auto-lock upon contact with simulated Remora drone waist frame.
+> 3. [ ] Repair turrets at P2 and S2 achieve unbroken line-of-sight to bay centers of P1, P2, P3 and S1, S2, S3.
+> 4. [ ] All 6 bay spotlights and approach sensors cycle correctly on target entry.
 
 ---
 
-### Phase 4 · Outriggers (OR)
+## Phase 6 · Outrigger Pylons & Thrust Nacelles
 
-#### Step 22 · Corner atmo arms (OR-1P, OR-1S, OR-3P, OR-3S)
+### Step 18 · Cantilever A-Frame Corner Outriggers (OR-1P, OR-1S, OR-3P, OR-3S)
 
-Build the template arm at OR-1P first as a **Cantilevered A-frame diagonal truss**, then copy and mirror.
+Construct 4× heavy diagonal cantilever outrigger pylons at the hull corners, each mounting a 3×3×5 B Large Atmospheric Thruster and heavy landing gear leg.
 
 ```
-Elevation of OR-1P (looking forward along Z-axis)
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ [LOCATOR] Subsystem: Corner Outriggers ·  Grid Zone: Rows r1, r17  ·  Level: L0-L7   │
+│ [VIEWPORT] Looking: Forward (+Z)  ·  Orientation: ▲ UP (+Y) · ◄ INBOARD · OUTBOARD►  │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+```
 
-    Hull (outer frame)      Cantilevered A-frame truss           Tip
-    X = −8                  X = −9      X = −10..−12             X = −12
-      ┃                      ┌───────────┬────────────────────────┐  L7 roof
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ STEP 18 PARTS TRAY                                                                   │
+├─────────────────────┬─────┬───────────────┬──────────────────────────────────────────┤
+│ Block Type          │ Qty │ Mass / PCU    │ Critical Placement & Facing              │
+├─────────────────────┼─────┼───────────────┼──────────────────────────────────────────┤
+│ Large Atmo Thruster │ 4   │ 132.0 t / 400 │ `ORC Lift` nacelles at X ±11, r1 and r17 │
+│ Heavy Landing Gear  │ 4   │  9.6 t / 200  │ `ORC Gear` at X ±9, extending to L0      │
+│ Diagonal Beam Block │ 48  │ 38.4 t / 48   │ Cantilever A-frame structural trusses    │
+│ Camera (Down)       │ 4   │  0.8 t / 40   │ `ORC Cam Gear` landing monitoring cams   │
+└─────────────────────┴─────┴───────────────┴──────────────────────────────────────────┘
+
+```
+Elevation of Corner Outrigger OR-1P (Looking Forward along Z-axis)
+
+    Hull Frame (Outer)      Cantilevered A-Frame Truss           Outboard Nacelle
+    X = -8                  X = -9      X = -10..-12             X = -12
+      ┃                      ┌───────────┬────────────────────────┐  L7 Roof Deck
       ■══════════════════════╪═══════════╧════════════════════════■
-      ║ ╲ Diagonal Beam      │           │ Top mounting cap       │
+      ║ ╲ Diagonal Beam      │           │ Upper Truss Cap        │
       ║   ╲                  │           │                        │
-      ║     ╲                │ [GEAR]    │ [LARGE ATMO ↓]         │  L4 mid
-      ║       ╲              │ 1×1×3 B   │ 3×3×5 B                │
-      ║         ╲            │ (inboard) │                        │
-      ■═══════════╧══════════╪═══════════╪════════════════════════■  L1 belly
-      ║ ╱ Diagonal Beam      │           │ Nozzle line            │  ─── nozzle
+      ║     ╲                │ [GEAR]    │ [LARGE ATMO ↓]         │  L4 Mid-Deck
+      ║       ╲              │ 1×1×3 B   │ 3×3×5 B Nacelle        │  (6.48 MN Lift)
+      ║         ╲            │ (Inboard) │                        │
+      ■═══════════╧══════════╪═══════════╪════════════════════════■  L1 Belly
+      ║ ╱ Diagonal Beam      │           │ Nozzle Line            │  ─── Nozzle
       ║                      │           └────────────────────────┘
-      ╨                      ▼ Foot at L0 (≥ 1 B below nozzle)
-
-    Geometry:
-    - Root: Outer frame (X = −8), row r1.
-    - Projection: 4 B total. Thruster box sits at X = −10 to −12 (3 B wide).
-    - Cantilever truss: Diagonal Beams link L1 belly and L7 roof to the thruster housing.
-    - Landing gear: 1×1×3 B leg mounted at X = −9 (inboard), foot extends 1 B below nozzle.
+      ╨                      ▼ Foot at L0 (≥ 1 B below nozzle line)
 ```
 
-Plan view of all 4 corner arms:
-
-```
-    X: −tip        −8         0         +8        +tip
-                    ┃                    ┃
-    ┌───────────────┤                    ├───────────────┐
-    │  OR-1P  [A↓]  │                    │  [A↓] OR-1S   │  r1
-    └───────────────┤                    ├───────────────┘
-                    ┃                    ┃
-                    ┃    (bays + spine)   ┃
-                    ┃                    ┃
-    ┌───────────────┤                    ├───────────────┐
-    │  OR-3P  [A↓]  │                    │  [A↓] OR-3S   │  r17
-    └───────────────┤                    ├───────────────┘
-                    ┃                    ┃
-
-    [A↓] = Large atmospheric thruster, facing down
-    Arm length = thruster footprint† + 1 B gap
-```
-
-**Blocks per arm:**
-
-| Block | Qty | Name / group |
-|-------|-----|-------------|
-| Large atmospheric thruster | 1 | → `ORC Lift` |
-| Landing gear | 1 | → `ORC Gear` |
-| Camera (facing down) | 1 | → `ORC Cams` |
-| Beam Blocks | per arm | Arm structure |
-| Diagonal Beams | per arm | Tip → roof and tip → belly bracing |
-
-**4 corner arms total:** 4 large atmo (`ORC Lift`), 4 landing gear (`ORC Gear`), 4 cameras
-
-**✓ Check:** `ORC Lift` group has 4 thrusters. All face down. No exhaust hits the bay lanes or MP zone. Landing gear feet are below the nozzle line.
+**Geometry & Physics:**
+- Pylons project 4 B outboard from X ±8 to X ±12.
+- Large Atmo nozzles sit at Level L1; Landing Gear feet extend to Level L0 (2.5 m below thruster nozzles) ensuring thruster exhaust never touches the planetary surface when grounded.
 
 ---
 
-#### Step 23 · Mid H2 arms (OR-2P, OR-2S)
+### Step 19 · Midships Emergency Hydrogen Outriggers (OR-2P, OR-2S, r9)
 
-Same arm template but with a large H2 thruster instead of atmo, no landing gear. Connect H2 line to AS tank.
+Construct 2× midships cantilever outriggers at row r9 mounting twin Large Hydrogen Thrusters for emergency ascent.
 
-```
-Plan view
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ STEP 19 PARTS TRAY                                                                   │
+├─────────────────────┬─────┬───────────────┬──────────────────────────────────────────┤
+│ Block Type          │ Qty │ Mass / PCU    │ Critical Placement & Facing              │
+├─────────────────────┼─────┼───────────────┼──────────────────────────────────────────┤
+│ Large H2 Thruster   │ 2   │ 14.4 t / 200  │ `ORC H2 Assist` at X ±11, r9·L1 (DOWN)   │
+│ Large Conveyor Tube │ 8   │  9.6 t / 8    │ High-pressure fuel run from AS H2 tank   │
+│ Diagonal Beam Block │ 24  │ 19.2 t / 24   │ Midships A-frame reinforcement bracing   │
+└─────────────────────┴─────┴───────────────┴──────────────────────────────────────────┘
 
-    X: −tip        −8         0         +8        +tip
-                    ┃                    ┃
-    ┌───────────────┤                    ├───────────────┐
-    │  OR-2P  [H2↓] │                    │  [H2↓] OR-2S  │  r9
-    └───────────────┤                    ├───────────────┘
-                    ┃                    ┃
-
-    [H2↓] = Large hydrogen thruster, facing down, DEFAULT OFF
-```
-
-**Blocks per arm:**
-
-| Block | Qty | Name / group |
-|-------|-----|-------------|
-| Large hydrogen thruster | 1 | → `ORC H2 Assist` (set OFF) |
-| Beam Blocks + Diagonal Beams | per arm | Structure + bracing |
-
-**✓ Check:** `ORC H2 Assist` has 2 thrusters, both OFF. H2 line runs from AS tank to both arms.
+**Settings:** Group `ORC H2 Assist` = Default OFF. Automatically engaged by `ORC EC Lift` or `ORC EC Power`.
 
 ---
 
-### Phase 4 checkpoint
+### Step 20 · 6-DOF Lateral Attitude Propulsion Grid
 
-- [ ] 6 outrigger arms built (4 corner + 2 mid)
-- [ ] `ORC Lift`: 4 large atmo, all facing down
-- [ ] `ORC H2 Assist`: 2 large H2, facing down, OFF
-- [ ] `ORC Gear`: 4 landing gear on corner arms
-- [ ] H2 line connected AS → OR-2P and OR-2S
-- [ ] No exhaust hits bay lanes, MP zone, or other arms
-- [ ] Diagonal beam bracing on all arms
-
----
-
-### Phase 5 · Lateral thrust and gyros
-
-#### Step 24 · Lateral thrusters
+Install 28× Small Atmospheric Thrusters around the perimeter frame to provide 6-axis translational and rotational authority.
 
 ```
-Plan view, thruster positions
-
-    X: −8.5                   0                   +8.5
-       ┌───────────────────────────────────────────────┐
-       │  ◄  ◄               bow                ►  ►  │  r0  Lat -Z (push bow)
-       │                                               │
-       │                                               │
-       ▲ r5                                        ▼ r5│      Lat +X / -X
-       │                                               │
-       │                                               │
-       │                                               │
-       ▲ r13                                       ▼r13│
-       │                                               │
-       │                                               │
-       │  ◄  ◄              stern                ►  ►  │  r18 Lat +Z (push stern)
-       └───────────────────────────────────────────────┘
-
-    ◄ ► ▲ ▼ = small atmo thrusters (4 per group, 16 total)
-    Group names = direction they PUSH the Orca
-    ▲ on port (X −8.5) = ORC Lat +X (pushes stbd)
-    ▼ on stbd (X +8.5) = ORC Lat -X (pushes port)
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ [LOCATOR] Subsystem: Attitude Thrusters ·  Grid Zone: Perimeter  ·  Level: L1 & L7   │
+│ [VIEWPORT] Looking: Downward (+Y)  ·  Orientation: ▲ BOW (+Z) · ◄ PORT (-X) · STBD (+X)►│
+└──────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-**Blocks:**
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ STEP 20 PARTS TRAY                                                                   │
+├─────────────────────┬─────┬───────────────┬──────────────────────────────────────────┤
+│ Block Type          │ Qty │ Mass / PCU    │ Critical Placement & Facing              │
+├─────────────────────┼─────┼───────────────┼──────────────────────────────────────────┤
+│ Small Atmo Thruster │ 28  │ 22.4 t / 280  │ 6-axis lateral & attitude thrust cluster │
+└─────────────────────┴─────┴───────────────┴──────────────────────────────────────────┘
 
-| Group | Face | Thrusters | Positions |
-|-------|------|-----------|-----------|
-| `ORC Lat +X` | Port, X −8.5 | 4 small atmo | r5, r13 (2 each) |
-| `ORC Lat -X` | Stbd, X +8.5 | 4 small atmo | r5, r13 (2 each) |
-| `ORC Lat -Z` | Bow, r0 | 4 small atmo | X ±5 (2 each side) |
-| `ORC Lat +Z` | Stern, r18 | 4 small atmo | X ±5 (2 each side) |
-
-**Total:** 16 small atmospheric thrusters
-
-**✓ Check:** fire each group alone. Orca moves in the correct direction. No flame hits arms, lanes or MP.
-
----
-
-### Phase 6 · Instrumentation (cameras, sensors, lights)
-
-#### Step 25 · Remaining cameras and sensors
-
-Install the items not already placed in earlier steps.
-
-| Block | Position | Name |
-|-------|----------|------|
-| Camera | Spine underside, r8, facing down | `ORC Cam Belly` |
-| Sensor | Roof, r15, X+1 | `ORC Sensor MP` (field above MP ≈ 20 m; detect own grids) |
-| Spotlight × 2 | Roof, r11, X ±side of MP conn | `ORC MP Lights` (aimed up 45°) |
-| Ore detector | Spine underside, r15 | `ORC Ore Detector` (broadcast on) |
-
-**`ORC Sensor MP` action:** switches `ORC MP Lights` on/off.
-
-**✓ Check:** 14 cameras total in `ORC Cams`. MP sensor detects a grid approaching from above and lights up.
+| Group Name | Mounting Location | Qty | Thrust Vector | Purpose |
+|---|---|---|---|---|
+| `ORC Lat +X` | Port Outer Frame (X -8.5, r5 & r13) | 6 | Pushes STARBOARD (+X) | Lateral Stationkeeping |
+| `ORC Lat -X` | Stbd Outer Frame (X +8.5, r5 & r13) | 6 | Pushes PORT (-X) | Lateral Stationkeeping |
+| `ORC Lat +Z` | Stern Transom (r18, X ±5, L1 & L7) | 8 | Pushes FORWARD (+Z) | Cruise Propulsion |
+| `ORC Lat -Z` | Bow Prow (r0, X ±5, L1 & L7) | 8 | Pushes AFT (-Z) | Braking & Deceleration |
 
 ---
 
-### Phase 7 · Event controllers and timers
+### Pre-Enclosure Inspection Gate 1.6A: Outrigger Structural Bracing & Thruster Plumbing
 
-#### Step 26 · Wire the EC/TMR ladder
+> [!IMPORTANT]
+> **POINT OF NO RETURN:** Conduct full thrust test fires on all 6 outrigger nacelles before commissioning.
+>
+> 1. [ ] 4× Large Atmo thrusters in `ORC Lift` fire downward with zero thruster wash damage to bay lanes.
+> 2. [ ] 4× Landing Gear lock firmly to terrain at Level L0 with thruster nozzles suspended 2.5 m above surface.
+> 3. [ ] 2× Large H2 thrusters show green fuel supply from `ORC AS H2` tank and remain OFF in standby.
+> 4. [ ] Lateral thruster groups execute pure translational motion without induce pitch or roll coupling.
 
-All blocks placed in Step 16. Now configure them:
+---
+
+## Phase 7 · Instrumentation, Sensors & EC/TMR Automation Ladder
+
+### Step 21 · Sensor Grid & Perimeter Instrumentation
+
+Install all remaining tactical cameras, docking guidance lights, and subsurface ore detectors.
+
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ STEP 21 PARTS TRAY                                                                   │
+├─────────────────────┬─────┬───────────────┬──────────────────────────────────────────┤
+│ Block Type          │ Qty │ Mass / PCU    │ Critical Placement & Facing              │
+├─────────────────────┼─────┼───────────────┼──────────────────────────────────────────┤
+│ Ore Detector        │ 1   │  2.5 t / 10   │ `ORC Ore Detector` (Ventral Keel r15·L1) │
+│ Camera              │ 8   │  1.6 t / 80   │ Bay cameras (6) + Belly cam (1) + Transom│
+│ Sensor              │ 6   │  1.2 t / 60   │ Bay approach sensors (`ORC Sensor BR-*`) │
+│ Spotlight           │ 6   │  1.2 t / 30   │ Bay approach spotlights (`ORC Bay Lights`)│
+└─────────────────────┴─────┴───────────────┴──────────────────────────────────────────┘
+
+---
+
+### Step 22 · Wire Native Block Failsafe Matrix (Rule C4)
+
+Configure the 4× Event Controllers and 2× Timer Blocks to establish autonomous hardware-level safety independent of programmable block execution:
 
 ```
-Ladder diagram
+                  FAILSAFE AUTOMATION LADDER (RULE C4)
 
-    ┌─────────────────┐     ┌──────────────────────────────┐
-    │ ORC TMR         │     │ When timer expires:           │
-    │ Heartbeat (5 s) │────►│  · Dampeners ON               │
-    │ (PB ping 1.0 s) │     │  · ORC Gyros override OFF     │
-    │                 │     │  · ORC Lift override OFF       │
-    └─────────────────┘     │  · Start ORC TMR Home         │
-                            └──────────────────────────────┘
-                                         │
-                                         ▼
-    ┌─────────────────┐     ┌──────────────────────────────┐
-    │ ORC TMR Home    │────►│ RC Main autopilot ON → HOME  │
-    └─────────────────┘     └──────────────────────────────┘
+    ┌───────────────────────────┐         ┌──────────────────────────────────┐
+    │ `ORC TMR Heartbeat` (5 s) │────────►│ If PB fails to ping within 5 s:  │
+    │ [PB Watchdog Reset]       │         │  · Inertial Dampeners ──► ON     │
+    │                           │         │  · Gyro Overrides ──────► OFF    │
+    └───────────────────────────┘         │  · Start `ORC TMR Home` (Auto-RTB)
+                                          └──────────────────────────────────┘
 
-    ┌─────────────────┐     ┌──────────────────────────────┐
-    │ ORC EC Lift     │     │ TRUE:  ORC H2 Assist ON      │
-    │ thrust ≥ 85%†   │────►│ FALSE: ORC H2 Assist OFF     │
-    └─────────────────┘     └──────────────────────────────┘
+    ┌───────────────────────────┐         ┌──────────────────────────────────┐
+    │ `ORC EC Lift`             │────────►│ TRUE:  `ORC H2 Assist` ──► ON    │
+    │ [Thrust ≥ 85%†]           │         │ FALSE: `ORC H2 Assist` ──► OFF   │
+    └───────────────────────────┘         └──────────────────────────────────┘
 
-    ┌─────────────────┐     ┌──────────────────────────────┐
-    │ ORC EC Power    │     │ TRUE:                         │
-    │ reactor fail or │────►│  · ORC Batteries → Auto       │
-    │ uranium low†    │     │  · ORC H2 Assist ON           │
-    └─────────────────┘     │  · Start ORC TMR Home         │
-                            └──────────────────────────────┘
+    ┌───────────────────────────┐         ┌──────────────────────────────────┐
+    │ `ORC EC Power`            │────────►│ TRUE (Reactors < 10% / Uranium): │
+    │ [Reactor Output / Fuel]   │         │  · `ORC Batteries` ──► Auto      │
+    │                           │         │  · `ORC H2 Assist` ──► ON        │
+    └───────────────────────────┘         │  · Trigger `ORC TMR Home`        │
+                                          └──────────────────────────────────┘
 
-    ┌─────────────────┐     ┌──────────────────────────────┐
-    │ ORC EC Cargo    │     │ TRUE:  ORC HD Gate OFF        │
-    │ hold fill ≥ %   │────►│ FALSE: ORC HD Gate ON         │
-    └─────────────────┘     └──────────────────────────────┘
+    ┌───────────────────────────┐         ┌──────────────────────────────────┐
+    │ `ORC EC Cargo`            │────────►│ TRUE (Ore Hold ≥ 90% full):      │
+    │ [Hold Capacity Threshold] │         │  · `ORC HD Gate` ──► OFF (Lock)  │
+    │                           │         │  · Sound Warning Chime           │
+    └───────────────────────────┘         │  · PB Summons MULE-01 via IGC    │
+                                          └──────────────────────────────────┘
 
-    ┌─────────────────┐     ┌──────────────────────────────┐
-    │ ORC EC MP       │     │ TRUE:  ORC HD Drain ON        │
-    │ MP Conn locked  │────►│        ORC MP Intake ON       │
-    └─────────────────┘     │ FALSE: both OFF               │
-                            └──────────────────────────────┘
+    ┌───────────────────────────┐         ┌──────────────────────────────────┐
+    │ `ORC EC MP`               │────────►│ TRUE (Mule Clamped on Pad):      │
+    │ [Mule Pad Conn Locked]    │         │  · `ORC HD Drain` ──► Drain ON   │
+    │                           │         │  · `ORC MP Intake` ──► Whitelist │
+    └───────────────────────────┘         │ FALSE: Both Sorters ──► Standby  │
+                                          └──────────────────────────────────┘
 ```
 
-**✓ Check:** each EC/TMR fires in isolation (test by triggering its condition manually in creative).
+---
+
+## 7 · Hardware-to-Scripting Contract & Zero-GC PB Specs
+
+### 7.1 Standardized Block Taxonomy & Group Memberships
+
+All terminal blocks utilize the strict `[ORC]` system prefix:
+
+| Group Name | Primary Managed Blocks | Hardware Function & Role |
+|---|---|---|
+| `ORC CC` | `ORC CC RC Main`, `ORC CC RC Spare`, `ORC CC PB`, `ORC CC Antenna` | Core C2 Avionics & Navigation |
+| `ORC PC` | `ORC Reactors` (6), `ORC Batteries` (2), `ORC Gyros` (4), `ORC U Store` | Primary 90 MW Power Citadel |
+| `ORC HD` | `ORC Ore Hold`, `ORC HD Gate`, `ORC HD Drain` | Central Ore Transshipment Buffer |
+| `ORC AS` | `ORC AS H2`, `ORC Parts Store` | Stern Engineering & Gas Reserves |
+| `ORC MP` | `ORC MP Conn`, `ORC MP Cradle`, `ORC MP Cradle Clamps`, `ORC Sensor MP`| Dorsal 7×7 B Freight Shuttle Pad |
+| `ORC BR` | `ORC Bay Conns` (6), `ORC Bay Sensors` (6), `ORC Bay Lights` (6) | 6× Guided Drone Bay Drops |
+| `ORC JAWS`| `ORC Bay Jaws` (12 Hinges), `ORC Bay Jaw Clamps` (12 Mag Plates) | Mechanical Capture Guide Jaws |
+| `ORC OR` | `ORC Lift` (4 Large Atmo), `ORC H2 Assist` (2 Large H2), `ORC Gear` (4)| Heavy Thrust Outriggers |
+| `ORC LAT` | `ORC Lat +X`, `ORC Lat -X`, `ORC Lat +Z`, `ORC Lat -Z` (28 Small Atmo) | 6-DOF Attitude Control Cluster |
+| `ORC LOGIC`| `ORC EC Lift`, `ORC EC Power`, `ORC EC Cargo`, `ORC EC MP`, Timers | Hardware Failsafe Ladder |
 
 ---
 
-### Phase 8 · Commissioning
+### 7.2 Zero-GC PB Architecture (`scripts/Carrier.Orca/`)
 
-#### Step 27 · Static tests
+The carrier core script executes inside `[ORC] PB Carrier Core` running on an `Update10` periodic cycle (6 Hz), adhering strictly to zero-allocation architecture:
 
-- [ ] Run `tools/bp-inspect.py "ORCA-01"` · record mass
-- [ ] Every group from §1 exists and is complete
-- [ ] Solar array mass ≤ 20 t? If not, strip it
-
-#### Step 28 · Hover tests
-
-- [ ] Empty hover · record thrust %
-- [ ] 90° yaw and pitch hold · add gyro pairs until acceptable
-- [ ] Each lateral group alone · correct direction, no flame contact
-- [ ] Each lift thruster with a test block under every lane · no damage
-
-#### Step 29 · Load tests
-
-- [ ] Hold at cap, drones docked · thrust ≈ 77%
-- [ ] Past cap · EC Lift turns H2 on; unload → off
-
-#### Step 30 · Docking tests
-
-- [ ] Small-grid Connector locks to bay connector†
-- [ ] Each bay: drone docks, ore passes Gate, drone recharges
-- [ ] Hold at cap: Gate closes
-- [ ] MP test: Drain sends ore only; Intake takes U + components only; both stop on release
-- [ ] Ore never reaches U Store or Parts Store; uranium never reaches Hold
-- [ ] Repair turret fixes a damaged docked drone block, touches nothing else
-- [ ] Turret reaches every face of a docked drone (add outer turret if not)
-
-#### Step 31 · Safety tests
-
-- [ ] PB off → dampeners hold → HOME after delay
-- [ ] Reactors off at hover → batteries Auto, H2 on → controlled descent
-- [ ] RC Spare as main controller → HOME works
-
-#### Step 32 · Full loop test
-
-- [ ] One unattended loop: mine → offload → ferry → refine → return
-
-#### Commissioning record
-
-| Measurement | Value |
-|-------------|-------|
-| Mass, empty (t) | |
-| Empty hover thrust (%) | |
-| `ORC EC Cargo` threshold (%) | |
-| Arm length (B) | |
-| Gyro count | |
-| Solar panels fitted · noon output (MW) | |
-| `ORC TMR Heartbeat` delay (s) | 5.0 s (1.0 s IGC beat) |
-| `ORC TMR Home` delay (s) | |
-| RC speed limit (m/s) | |
+1. **State Machine (`OrcaCarrierState`):**
+   - `STATIONARY_HOVER`: Carrier maintains geostationary position over mining field with auto-dampeners.
+   - `DRONE_DOCKING`: Activated when bay sensor detects incoming drone. Opens guide jaws to 45°, locks mag plates upon contact, seats overhead connector, closes jaws.
+   - `ORE_DRAIN`: Monitors cargo fill level. Computes fill rate $dM/dt$. When buffer exceeds 80%, broadcasts `TMS.MULE.CALL;ORC-01;HOLD_FULL` over IGC.
+   - `MULE_TRANSSHIP`: Engages gantry cradle clamps, locks `ORC MP Conn`, activates `ORC HD Drain` until empty, releases clamps.
+2. **Strict Grid Scoping:** Every terminal query enforces `b => b.CubeGrid == Me.CubeGrid` to ignore docked drone subgrids.
+3. **Minifier Safety:** Avoids `enum.ToString()` or `nameof()`; uses static string tables and `SbFormat`.
 
 ---
 
-### Block summary
+### 7.3 Master IGC Network Protocol Dictionary
 
-| Block | Total | Group |
-|-------|-------|-------|
-| Large atmospheric thruster | 4 | `ORC Lift` |
-| Large hydrogen thruster | 2 | `ORC H2 Assist` |
-| Small atmospheric thruster | 16 | `ORC Lat +X/-X/+Z/-Z` |
-| Small reactor | 6 | `ORC Reactors` |
-| Large battery | 2 | `ORC Batteries` |
-| Gyroscope (large) | 4+ | `ORC Gyros` |
-| Large cargo container | 1 | `ORC Hold` |
-| Small cargo container | 2 | `ORC U Store` · `ORC Parts Store` |
-| Hydrogen tank | 1 | `ORC AS H2` |
-| Connector (down, bay ceiling) | 6 | `ORC Bay Conns` |
-| Connector (up, MP) | 1 | `ORC MP Conn` |
-| Conveyor sorter | 3 | `ORC HD Gate` · `ORC HD Drain` · `ORC MP Intake` |
-| Laser multitool turret (mod) | 2 | `ORC Repair` (P2 & S2 @ r9·L4) |
-| Hinge | 14 | `ORC Bay Jaws` (12) · `ORC MP Cradle` (2) |
-| Magnetic plate | 16 | `ORC Bay Jaw Clamps` (12) · `ORC MP Cradle Clamps` (2) · `ORC Ventral Anchors` (2) |
-| Landing gear | 4 | `ORC Gear` (corner outriggers) |
-| Remote Control | 2 | `ORC CC RC Main/Spare` |
-| Programmable Block | 1 | `ORC CC PB` |
-| Timer Block | 2 | `ORC TMR Heartbeat/Home` |
-| Event Controller | 4 | `ORC EC Lift/Power/Cargo/MP` |
-| Antenna | 1 | `ORC CC Antenna` |
-| Camera | 14 | `ORC Cams` |
-| Sensor | 7 | 6 bay + 1 MP |
-| Spotlight | 8 | 6 bay + 2 MP |
-| Ore detector | 1 | `ORC Ore Detector` |
-| Large solar panel | ≈24† | `ORC Solar` |
-| Beam Block | ~320† | Structure & jaw arms |
-| Structural Frame 3×1×3 | ~30† | Roof deck |
-| Diagonal Beam | ~48† | Arm bracing (A-frame truss) |
-| Heavy armour block | ~135† | CC (36) + PC (48) + MP blast deck (49) |
-| Light armour block | ~36† | HD + AS shells |
-| Large conveyor tube/junction | ~52† | Ore trunk (18) + PC (7) + L4 service pipe (26) + AS |
+| Channel | Payload Schema | Direction | Purpose |
+|---|---|---|---|
+| `TMS.ORCA.STATUS` | `ORC-01;<State>;<OreFill%>;<Batt%>;<UraniumHours>;<BaysFree>` | Broadcast Out | Carrier health & logistics telemetry |
+| `TMS.MULE.CALL` | `ORC-01;<Priority>;<OreMass_t>;<GPS_Coords>` | Unicast Out | Calls MULE-01 shuttle for cargo pickup |
+| `FLT.REM.STATUS` | `<DroneID>;<HoldFill%>;<Battery%>;<Status>` | Broadcast In | Receives incoming status from Remoras |
+| `TMS.SCOUT.VEIN` | `<ScoutID>;<OreType>;<Depth_m>;<GPS_Coords>` | Broadcast In | Receives deposit coordinates from Kestrel |
 
+---
 
+## 8 · Acceptance Testing Protocols (Suites A-G)
+
+```
+========================================================================================
+ACCEPTANCE TESTING PROTOCOL: ORCA-01 HEAVY MINING CARRIER
+EXECUTION ENVIRONMENT: Space Engineers Earth-Like (1.0 g Gravity, 1.0 atm Density)
+========================================================================================
+```
+
+### Suite A: Structural Geometry & Weight Budget Check
+- [ ] Airframe conforms to 17 × 19 × 7 B bounding envelope without mechanical collision.
+- [ ] Total dry mass registers at 764.0 t (± 2.0%).
+- [ ] Center of Mass (CoM) aligns within 0.2 B of midships row r9 on centerline X0.
+
+### Suite B: Vertical Lift & Attitude Stability Test
+- [ ] Empty hover consumes ≤ 25% thrust on 4× Large Atmo thrusters (gravity load 7.49 MN).
+- [ ] Fully laden test (simulated 2,166 t mass with 4 drones docked + 1,200 t cargo buffer) hovers stably at ≤ 70% thrust rating.
+- [ ] Pitch and yaw stability test: 90° attitude hold maintains heading without oscillation.
+
+### Suite C: Mechanical Guide Jaw Capture & Docking Loop
+- [ ] Fly test REMORA-01 grid into Bay P1 lane.
+- [ ] `ORC Sensor BR-P1` detects grid at 15 m; spotlight illuminates lane.
+- [ ] Motorized guide jaws swing inward from 0° to 45°, mag plates auto-lock to drone frame.
+- [ ] Drone overhead connector seats into `ORC BR-P1 Conn` with zero structural shear.
+
+### Suite D: Conveyor Segregation & High-Speed Sorter Drain
+- [ ] Deposit 100 t Iron Ore into Bay P1 connector; verify transfer through `ORC HD Gate` into `ORC Ore Hold`.
+- [ ] Verify zero Iron Ore enters `ORC U Store` or `ORC Parts Store`.
+- [ ] Land test MULE-01 shuttle on roof deck; verify `ORC EC MP` triggers `ORC HD Drain`.
+- [ ] Transfer 650 t ore into Mule within < 90 s.
+
+### Suite E: Emergency Power Loss & Hydrogen Failover
+- [ ] Cut nuclear reactor master breaker during full hover.
+- [ ] `ORC EC Power` detects reactor deficit; instantly switches `ORC Batteries` from Recharge to Auto.
+- [ ] 2× Large H2 thrusters ignite automatically; carrier maintains hover altitude with zero altitude loss.
+
+### Suite F: Zero-GC PB Execution & IGC Telemetry
+- [ ] Run `Carrier.Orca` script for 1,000 game ticks in Space Engineers profiler.
+- [ ] Verify GC allocations register at exactly 0 B/tick.
+- [ ] Verify `TMS.ORCA.STATUS` broadcasts valid telemetry packet every 100 ticks.
+
+### Suite G: Complete Autonomous Fleet Loop
+- [ ] 4× Remora drones deploy from bays, drill test shaft, return, and dock into jaws.
+- [ ] Carrier buffers 1,200 t ore; PB automatically summons MULE-01 via `TMS.MULE.CALL`.
+- [ ] Mule docks on roof pad, drains 650 t, departs to Ground Base.
+- [ ] Full operational cycle completes with zero human pilot intervention.
+
+---
+
+## 9 · Master Block Summary
+
+| Block Name / Type | Total Qty | Subsystem Group | Primary Function |
+|---|---|---|---|
+| **Large Atmospheric Thruster** | 4 | `ORC Lift` | 25.92 MN downward primary atmospheric lift |
+| **Large Hydrogen Thruster** | 2 | `ORC H2 Assist` | 28.80 MN emergency vertical ascent thrust |
+| **Small Atmospheric Thruster** | 28 | `ORC LAT` | 6-DOF attitude control, lateral stationkeeping |
+| **Small Nuclear Reactor** | 6 | `ORC Reactors` | 90.0 MW continuous primary electrical power |
+| **Large Battery** | 2 | `ORC Batteries` | 6.0 MWh / 48.0 MW burst discharge energy buffer |
+| **Large Gyroscope** | 4 | `ORC Gyros` | Attitude control and angular stabilization |
+| **Large Cargo Container (3×3×3)**| 1 | `ORC Ore Hold` | 1,200 t raw ore transshipment buffer |
+| **Small Cargo Container** | 2 | `ORC U Store`, `Parts` | Uranium fuel and repair components stores |
+| **Large Hydrogen Tank** | 1 | `ORC AS H2` | 2,500,000 L emergency fuel storage |
+| **Overhead Bay Connector (Down)** | 6 | `ORC Bay Conns` | Drone docking and raw ore collection feeds |
+| **Dorsal Mule Connector (Up)** | 1 | `ORC MP Conn` | High-speed transshipment feed to freight shuttle |
+| **Conveyor Sorter** | 3 | `ORC HD Gate/Drain`, `MP`| Segregated ore filtering and drain interlocks |
+| **Laser Multitool Turret (Mod)** | 2 | `ORC Repair` | Spherical non-contact repair of docked drones |
+| **Large Hinge** | 14 | `ORC Bay Jaws`, `MP Cradle`| 12 bay guide jaws + 2 Mule clamp arms |
+| **Magnetic Plate** | 16 | `ORC Bay Jaw Clamps`, `MP`| Waist docking clamps + 2 ventral ground anchors |
+| **Heavy Landing Gear** | 4 | `ORC Gear` | Corner outrigger landing gear legs (L0) |
+| **Remote Control** | 2 | `ORC CC RC Main/Spare` | Redundant C2 navigation and autopilot |
+| **Programmable Block** | 1 | `ORC CC PB` | Executes `Carrier.Orca` zero-GC script |
+| **Timer Block** | 2 | `ORC TMR Heartbeat/Home`| Heartbeat watchdog and emergency RTB autopilot |
+| **Event Controller** | 4 | `ORC EC Lift/Power/Cargo/MP`| Hardware failsafe matrix (Rule C4) |
+| **Laser & Broadcast Antenna** | 1 | `ORC CC Antenna` | Fleet IGC communications mesh |
+| **Cameras & Sensors** | 21 | `ORC Cams`, `ORC Sensors`| Guidance, docking alignment, approach detection |
+| **Spotlights & Nav Lights** | 8 | `ORC Bay Lights`, `MP` | Worksite illumination and docking cues |
+| **Ore Detector** | 1 | `ORC Ore Detector` | Subsurface deposit scanning |
+| **Large Solar Panel** | 24 | `ORC Solar` | Auxiliary renewable trickle charge |
+| **Beam & Diagonal Blocks** | ~380 | Structural Frame | Industrial skeleton, A-frame trusses, jaw arms |
+| **Heavy Armour Blocks** | ~135 | Armored Vaults | Bridge shell, reactor vault, Mule blast deck |
+| **Light Armour Blocks** | ~36 | Fairings & Shells | Hold fairings and engineering covers |
+| **Large Conveyor Tubes/Junctions**| ~52 | Conveyor Network | Ore trunk, service gallery, and manifold lines |
 
 ---
 
