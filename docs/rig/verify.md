@@ -46,4 +46,8 @@ Items marked † in any project doc. Checked = verified in the RIG Test world or
 | V41 | Simple Laser Multitool mining mode power draw (≈2.0 MW each†) & extraction rate | Mastodon Tusk Booms | |
 | V42 | Land train 2-axis drawbar hinge torque (30 MN·m†) vs 2,500 t trailer drag on 15° slope | Caterpillar Train Hitch | |
 | V43 | Large-grid collector intake throughput (5× collectors vs 2,500 t bulk ore in < 90 s†) | Ground Base Caterpillar Dock | |
+| V44 | Large Refinery continuous power draw at full load (3.3 MW per unit†) | Ground Base Refinery Bank | |
+| V45 | Large Assembler continuous power draw at full load (560 kW per unit†) | Ground Base Assembler Bank | |
+| V46 | Laser Antenna maximum power draw during atmospheric beam link (2.5 MW†) | Ground Base C2 Comms Mast | |
+| V47 | Large grid hinge braking torque for Mule cradle clamping arms (20.0 MN·m†) | Ground Base Mule Pad | |
 

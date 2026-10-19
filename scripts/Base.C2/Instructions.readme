@@ -3,12 +3,22 @@
 ## Subsystem: Ground Base & Central Fleet Command (C2) Subsystem
 * **Target Block:** `[GND] PB FleetOps`
 * **Grid Size:** Large Grid (24 × 28 B Surface Station)
-* **Update Frequency:** `Update10`
-* **Managed Subsystem Groups:** `GND PAD, GND CAT, GND REF, GND ASM, GND C2`
-* **IGC Network Channels:** `TMS.BASE.QUOTAS (out), TMS.MULE.CALL (out), RIG.C2.STATUS (out)`
+* **Update Frequency:** `Update10` (Fast status/watchdog) + `Update100` (JIT dispatch/quotas)
+* **Managed Subsystem Groups:** `GND PAD, GND CAT, GND REF, GND ASM, GND C2, GND Power Batteries`
+* **IGC Network Channels:**
+  * Outgoing: `TMS.BASE.DEMAND`, `TMS.LOGISTICS.JIT`, `RIG.C2.STATUS`, `TMS.MULE.CALL`
+  * Incoming: `TMS.C2.HANDOVER`, `TMS.MULE.STATUS`, `TMS.CAT.STATUS`, `TMS.MAST.STATUS`, `TMS.ORCA.STATUS`
 
 ## System Description
-Coordinates dual-tier terrestrial intake (Air Mule Pad + Ground Cat Dock), manages 4-Refinery / 4-Assembler industrial quotas, and drives 6-panel panoramic C2 video wall.
+Operates as the central planetary Command & Control (C2) fleet coordinator, receiving dynamic C2 authority handover from Mastodon MKI (`TMS.C2.HANDOVER`), monitoring dual-tier terrestrial intake (Air Mule Pad + Ground Cat Dock), computing JIT transport dispatch schedules based on industrial consumption rates, and broadcasting demand quotas to active fleet logistics assets.
+
+## Terminal Commands
+* `PING`: Heartbeat ping to reset software watchdog.
+* `RELOAD`: Reload CustomData configuration and refresh terminal block handles.
+* `HANDOVER`: Manually force C2 authority assumption from Mastodon MKI.
+* `DISPATCH_MULE`: Trigger JIT priority dispatch request for MULE-01 high-value ore transfer.
+* `DISPATCH_CAT`: Trigger JIT bulk dispatch request for CATERPILLAR-01 consist.
+* `DEMAND_SYNC`: Force recalculation and broadcast of `TMS.BASE.DEMAND` pull quotas.
 
 ## Zero-GC PB Rules
 1. C# 6 only, nested in Program, namespace `IngameScript`.
