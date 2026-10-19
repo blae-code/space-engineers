@@ -55,4 +55,5 @@ Items marked † in any project doc. Checked = verified in the RIG Test world or
 | V50 | ALBATROSS-01 laden braking distance from 50 km/h on 4× Reverse Atmo thrusters (< 12.0 m†) | ALBATROSS-01 Flight Array | |
 | V51 | Large-grid atmospheric thruster lateral drift deceleration on 28× Small Atmo thrusters (≈ 5.86 m/s²† laden) | orca-instructions.md §0.6 | |
 | V52 | Extruder Ring 6-stage piston linear extension rate (0.05 m/s†) vs weld speed | extruder-ring-instructions.md §5.1 | |
+| V53 | Floating Rig Earth 1 g hover throttle margin on 52× Large Atmo thrusters (72.8%†) | floating-rig-instructions.md §8.5 | |
 
