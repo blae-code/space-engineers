@@ -16,16 +16,31 @@ MDK landmines and the PB sandbox rules. Where they conflict, `CLAUDE(RIG).md` wi
 **This local repo is authoritative.** `origin` is `github.com/blae-code/space-engineers`; push only
 when a milestone is called, never on routine commits.
 
-## Division of labour (Claude Code ↔ local model)
-Work is split to save Claude credits. **Claude writes the contract; the local model writes the code.**
+## Division of labour (Gemini ↔ Claude Code ↔ local model)
+Work is split to save Claude credits. **Gemini drafts, Claude reviews and gates, the local model
+executes cards.**
+- **Gemini** (Antigravity extension, 2026-10-17) does the token-heavy work first: spec and plan
+  drafts, card decks, docs, research, bulk reading and bulk code drafts. Its rules: `GEMINI.md`
+  (+ `.agent/rules/se-project.md` pointer). It commits through the same hooks with an `Agent: Gemini`
+  trailer and adds a `pending` row to `docs/review-queue.md`.
+- **Claude's default is review, not authorship.** At session start read `docs/review-queue.md`; for
+  each pending row run the gate (`card-check`, `checkpoint.py`, `dotnet test`, `check-size.fish`) and
+  read its output. Read the diff only for docs/specs (no gate) or a WARN/FAIL. Set the status:
+  `reviewed` · `fixed` (≤ ≈10 lines, Claude commit) · `bounced` (reason + failing test for code).
+  A token-heavy task that comes up mid-session goes to the queue or `docs/ideas.md` as a brief for
+  Gemini instead of being done here.
+- **A Gemini card deck is not executed until its row reads `reviewed`**, so one agent never writes
+  both the tests and the code. `tools/hooks/commit-msg` refuses an `Agent: Gemini`/`Agent: Qwen`
+  commit touching `tools/`, `.continue/`, `.agent/`, `CLAUDE*.md` or `GEMINI.md`. It keys off the
+  trailer, so it is a guardrail; the review is the boundary.
 - **Bulk read work goes to the local model directly** (2026-10-16): when `lms ps` shows
   `qwen/qwen3-coder-30b` resident, Claude may call it on `127.0.0.1:1234` for per-file extraction or
   summaries (scripts in the session scratchpad), then spot-check the output against the source.
   Never name a non-resident model (that JIT-loads it and evicts the resident gear).
 The **local model** (qwen3-coder-30b-a3b in Continue, Agent mode, 64k ctx) executes task cards and
-answers read-only codebase questions (`/ask`). **Claude Code** owns specs, plans, cards (interface +
-tests/case tables), game-API adapters, the gates in `tools/`, checkpoints, escalations and in-game
-debugging. Evidence for the split: carded work went 28/28 (C01–C30). Uncarded work on 2026-10-02 broke
+answers read-only codebase questions (`/ask`). **Claude Code** owns the final say on specs, plans
+and cards (interface + tests/case tables; Gemini drafts them, Claude reviews), game-API adapters, the
+gates in `tools/`, checkpoints, escalations and in-game debugging. Evidence for the split: carded work went 28/28 (C01–C30). Uncarded work on 2026-10-02 broke
 zero-GC in a render path and produced speculative roadmaps, so it was reverted.
 - **Cards** live in any `docs/superpowers/plans/*-cards/` deck, numbered across decks (C31 onward
   after slice 1). Each card has `Kind:` on its header line:
