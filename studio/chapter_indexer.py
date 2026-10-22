@@ -23,6 +23,29 @@ VALID_SHAPES = {
     "rotor", "slope2x1", "solar", "turret", "welder", "wheel5x5",
 }
 VALID_SUBSYSTEMS = {"avionics", "boom", "conveyor", "flightdeck", "power", "propulsion", "structure"}
+ORIENTATION_STATUSES = {"documented", "dynamic", "needs-review"}
+ORIENTATION_FEATURES = {
+    "axis", "conveyor-flow", "dynamic-turret", "forward-face", "ladder", "piston-shaft", "top-face",
+    "wheel-hub",
+}
+ORIENTATION_SENSITIVE_SHAPES = {
+    "assembler", "cockpit", "engine", "halfslope", "hinge", "piston", "refinery",
+    "rotor", "slope2x1", "solar", "turret", "welder", "wheel5x5",
+}
+ORIENTATION_SENSITIVE_SUBTYPES = {
+    "AirVentBlock", "AirlockDoorBlock", "ButtonPanelSciFi", "CameraBlock", "ConveyorEjector",
+    "CryoChamber", "LargeBlockConnector", "LargeBlockConveyor", "LargeConveyorSorter",
+    "LargeLadder", "LargeMagneticPlate", "LargeMergeBlock", "LargeShipWelder", "LaserAntenna",
+    "MedicalRoom", "NarrowLadderBlock", "ProgrammableBlock", "SeismicSurveyingLandingGear",
+    "SensorBlock", "SpotlightBlock",
+}
+
+
+def is_orientation_sensitive(block):
+    return (
+        block.get("shape") in ORIENTATION_SENSITIVE_SHAPES or
+        block.get("subtype") in ORIENTATION_SENSITIVE_SUBTYPES
+    )
 
 
 def read_json(path):
@@ -208,6 +231,26 @@ def validate_model(model, path):
             subsystem = block.get("subsystem", "structure")
             if subsystem not in VALID_SUBSYSTEMS:
                 error(f"{block_prefix}.subsystem {subsystem!r} is not supported")
+            orientation_status = block.get("orientationStatus")
+            orientation_evidence = block.get("orientationEvidence")
+            orientation_feature = block.get("orientationFeature")
+            if orientation_status is not None:
+                if orientation_status not in ORIENTATION_STATUSES:
+                    error(f"{block_prefix}.orientationStatus must be one of {sorted(ORIENTATION_STATUSES)}")
+                if not isinstance(orientation_evidence, str) or not orientation_evidence.strip():
+                    error(f"{block_prefix}.orientationEvidence must explain the orientation decision")
+            elif orientation_evidence is not None or orientation_feature is not None:
+                error(f"{block_prefix} orientation evidence/features require orientationStatus")
+            if orientation_feature is not None:
+                features = orientation_feature if isinstance(orientation_feature, list) else [orientation_feature]
+                if not features or any(feature not in ORIENTATION_FEATURES for feature in features):
+                    error(f"{block_prefix}.orientationFeature must contain values from {sorted(ORIENTATION_FEATURES)}")
+            if model.get("id") == "MAS-01" and is_orientation_sensitive(block) and orientation_status is None:
+                error(f"{block_prefix} is missing Mastodon orientation audit status")
+            if orientation_status == "documented" and block.get("rot") is None:
+                error(f"{block_prefix} documented orientation must include an explicit degree rotation")
+            if orientation_status == "needs-review" and block.get("rot") is not None:
+                error(f"{block_prefix} needs-review orientation must not include an inferred rotation")
             for vector_name in ("rot", "scale"):
                 vector = block.get(vector_name)
                 if vector is not None:

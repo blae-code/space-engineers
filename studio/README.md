@@ -57,6 +57,8 @@ Chapter manuals in `manuals/chapters/` are the canonical source for build prose.
 
 Mastodon model metadata also records unverified design targets and the physical interfaces, future PB responsibilities, manual fallbacks, and commissioning checks for each bespoke subsystem. These entries describe planned integration only; they do not imply that scripts or in-game validation are supplied.
 
+Directional Mastodon placements use `rot` as block-local Space Engineers XYZ Euler degrees. The renderer converts the reflected Z coordinate frame before applying rotations. Orientation status/evidence is stored per directional placement; unspecified cases remain `needs-review` rather than receiving inferred rotations. The selected-block inspector shows the evidence, the Instructions tab lists unresolved placements for the step, and a HUD badge counts them. Validate rotation conversion with `node --test studio/tests/orientation.test.mjs`.
+
 ### Start a chapter
 
 Create a manual and model scaffold. The scaffold is intentionally incomplete until its data is authored:

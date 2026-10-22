@@ -2,7 +2,7 @@ import * as THREE from 'three';
 
 // Loaded only with ?test=1. Puts the studio into a requested state, then publishes
 // render stats and palette-slot contrast for tests/visual/run_visual.py.
-//   ?test=1&model=mastodon&step=last&mode=x-ray&cam=iso
+//   ?test=1&model=mastodon&step=last&mode=x-ray&cam=iso&focus=step
 // step: first | mid | last | <0-based index> | <step id such as 10.4>
 
 const MASK_OTHER = [0, 255, 0];
@@ -171,6 +171,44 @@ function renderStats(world) {
   };
 }
 
+function orientationSummary(world, stepIndex) {
+  const counts = { documented: 0, dynamic: 0, 'needs-review': 0, 'not-audited': 0 };
+  const currentStep = { documented: 0, dynamic: 0, 'needs-review': 0, 'not-audited': 0 };
+  const placements = world.blocks.map((mesh) => {
+    const { orientationStatus, rotationDegrees, stepId, name } = mesh.userData;
+    counts[orientationStatus] = (counts[orientationStatus] || 0) + 1;
+    if (mesh.userData.stepIndex === stepIndex) {
+      currentStep[orientationStatus] = (currentStep[orientationStatus] || 0) + 1;
+    }
+    return {
+      stepId,
+      name,
+      orientationStatus,
+      rotationDegrees,
+      rotationRadians: [mesh.rotation.x, mesh.rotation.y, mesh.rotation.z]
+    };
+  });
+  return { counts, currentStep, placements };
+}
+
+function focusStep(world, stepIndex) {
+  world.blocks.forEach((mesh) => {
+    mesh.visible = mesh.userData.stepIndex === stepIndex && mesh.visible;
+  });
+  const meshes = world.blocks.filter((mesh) => mesh.visible);
+  if (!meshes.length) throw new Error(`Step ${stepIndex} has no placements to focus`);
+  const bounds = new THREE.Box3();
+  meshes.forEach((mesh) => bounds.expandByObject(mesh));
+  const sphere = bounds.getBoundingSphere(new THREE.Sphere());
+  world.modelCenter.copy(sphere.center);
+  world.modelRadius = Math.max(sphere.radius, world.blockMeters * 3);
+  world.setCameraView(world.cameraMode);
+  world.camera.position.sub(world.controls.target).multiplyScalar(0.8).add(world.controls.target);
+  world.controls.update();
+  world.comMarker.visible = false;
+  world.arrowHelper.visible = false;
+}
+
 function clickButton(selector) {
   const button = document.querySelector(selector);
   if (!button) throw new Error(`No control matches ${selector}`);
@@ -206,18 +244,34 @@ export async function installTestHarness(app, params) {
     app.updateStep(resolveStepIndex(app.modelData.steps, params.get('step')));
     if (params.get('mode')) clickButton(`.mode-btn[data-mode="${params.get('mode')}"]`);
     if (params.get('cam')) clickButton(`.camera-btn[data-cam="${params.get('cam')}"]`);
-
-    await nextFrame();
-    await nextFrame();
+    if (params.get('tab')) clickButton(`.rail-tab[data-tab="${params.get('tab')}"]`);
+    const scrollTarget = params.get('scroll');
+    if (scrollTarget) {
+      const target = document.getElementById(scrollTarget);
+      if (!target) throw new Error(`No element matches scroll target "${scrollTarget}"`);
+      target.scrollIntoView({ block: 'center' });
+    }
 
     const world = app.voxelWorld;
+    if (params.get('focus') === 'step') focusStep(world, app.currentStepIdx);
+    const selectedName = params.get('select');
+    if (selectedName) {
+      const selected = world.blocks.find((mesh) => mesh.userData.name === selectedName);
+      if (!selected) throw new Error(`Unknown block "${selectedName}"`);
+      world.selectBlock(selected);
+    }
+    await nextFrame();
+    await nextFrame();
+
     const step = app.modelData.steps[app.currentStepIdx];
+    const orientation = orientationSummary(world, app.currentStepIdx);
     const payload = {
       model: app.modelData.id,
       stepIndex: app.currentStepIdx,
       stepId: step.step,
       mode: world.renderMode,
       cam: world.cameraMode,
+      orientation,
       stats: renderStats(world)
     };
     if (params.get('contrast') !== '0') payload.contrast = measureSlotContrast(world);
@@ -225,6 +279,7 @@ export async function installTestHarness(app, params) {
     window.__studio = {
       stats: () => renderStats(world),
       contrast: () => measureSlotContrast(world),
+      orientations: () => orientationSummary(world, app.currentStepIdx),
       state: () => ({ model: app.modelData.id, stepIndex: app.currentStepIdx, mode: world.renderMode, cam: world.cameraMode })
     };
     publish(payload, '1');

@@ -85,6 +85,19 @@ class AppController {
     document.getElementById('sel-block-subtype').textContent = data.subtype || data.shape;
     document.getElementById('sel-block-coords').textContent = `[${data.pos.join(', ')}]`;
     document.getElementById('sel-block-subsystem').textContent = (data.subsystem || 'structure').toUpperCase();
+    const orientationStatus = data.orientationStatus || 'not-audited';
+    const orientationLabel = orientationStatus === 'documented'
+      ? `Documented · [${data.rotationDegrees.join(', ')}]°`
+      : orientationStatus === 'dynamic'
+        ? 'Dynamic · no fixed bearing'
+        : orientationStatus === 'needs-review'
+          ? 'REVIEW REQUIRED'
+          : 'Not audited';
+    const orientationElement = document.getElementById('sel-block-orientation');
+    orientationElement.textContent = orientationLabel;
+    orientationElement.dataset.status = orientationStatus;
+    document.getElementById('sel-block-orientation-evidence').textContent =
+      data.orientationEvidence || 'No orientation evidence recorded.';
     document.getElementById('sel-block-palette').textContent = `Slot ${data.paletteSlot} (${data.paletteName || ''})`;
     document.getElementById('sel-block-step').textContent = `Step ${data.stepId || data.stepIndex + 1}`;
     document.getElementById('sel-block-phase').textContent = `Phase ${data.phase || ''}`;
@@ -272,6 +285,22 @@ class AppController {
 
     // Update HUD
     document.getElementById('hud-step-badge').textContent = `STEP ${step.step}`;
+    const orientationReviews = step.blocks.filter((block) => block.orientationStatus === 'needs-review').length;
+    const orientationBadge = document.getElementById('hud-orientation-review');
+    orientationBadge.hidden = orientationReviews === 0;
+    orientationBadge.textContent = `ORIENTATION REVIEW · ${orientationReviews}`;
+    orientationBadge.title = `${orientationReviews} placement${orientationReviews === 1 ? '' : 's'} need orientation review`;
+    const reviewCard = document.getElementById('orientation-review-card');
+    const reviewList = document.getElementById('orientation-review-list');
+    const reviewBlocks = step.blocks.filter((block) => block.orientationStatus === 'needs-review');
+    reviewCard.hidden = reviewBlocks.length === 0;
+    reviewList.replaceChildren(...reviewBlocks.map((block) => {
+      const item = document.createElement('li');
+      const name = block.name || block.subtype || block.shape;
+      item.textContent = `${name} [${block.pos.join(', ')}]`;
+      item.title = block.orientationEvidence || '';
+      return item;
+    }));
     document.getElementById('hud-step-desc').textContent = `${step.title} (${step.level})`;
     document.getElementById('hud-phase-badge').textContent = `PHASE ${step.phase}`;
     document.getElementById('step-slider').setAttribute('aria-valuetext', `Step ${step.step}: ${step.title}`);

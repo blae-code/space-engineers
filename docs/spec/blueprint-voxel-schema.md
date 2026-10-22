@@ -50,6 +50,12 @@ All coordinates follow the Space Engineers Large/Small grid conventions:
   * `Three.Y = (SE.Y - 0.5) * blockMeters`
   * `Three.Z = -SE.Z * blockMeters` (SE `+Z` is Forward; Three.js `-Z` is Forward).
   * `blockMeters` is `2.5` for Large Grid and `0.5` for Small Grid.
+* **Block Rotation Mapping:**
+  * `rot`, when present, is a block-local Space Engineers Euler vector `[X, Y, Z]` in **degrees**, applied in `XYZ` order. An absent `rot` is zero rotation.
+  * The reflected `Z` axis means the renderer must not pass these values directly to Three.js. For Three.js `XYZ` Euler rotation, convert to radians as `[-X, -Y, +Z] × π/180`; translation remains the coordinate mapping above.
+  * `orientationStatus` is `documented`, `dynamic`, or `needs-review`. Each audited placement carries `orientationEvidence`. `dynamic` means there is no fixed bearing (for example, a traversing turret); `needs-review` deliberately means the manual/model does not justify guessing a rotation.
+  * `orientationFeature` adds a procedural facing/axis cue to the simplified preview mesh; it does not claim to reproduce the block's full in-game model.
+  * Mastodon rendering highlights the number of current-step placements needing review. Selecting a block exposes its status, degree rotation, and evidence in the inspector.
 
 ---
 

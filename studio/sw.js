@@ -1,4 +1,4 @@
-const CACHE_NAME = 'se3d-visualizer-v10';
+const CACHE_NAME = 'se3d-visualizer-v11';
 const SHELL_ASSETS = [
   './',
   './index.html',
@@ -10,6 +10,7 @@ const SHELL_ASSETS = [
   './css/app.css',
   './js/app.js',
   './js/VoxelWorld.js',
+  './js/Orientation.mjs',
   './js/Slicer2D.js',
   './js/SnapshotApi.js',
   './vendor/three.module.js',

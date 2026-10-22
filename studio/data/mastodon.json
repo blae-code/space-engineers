@@ -1190,7 +1190,14 @@
           "shape": "halfslope",
           "subtype": "HeavyArmorHalfSlope",
           "paletteSlot": 0,
-          "subsystem": "structure"
+          "subsystem": "structure",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.2: port and starboard half-slope bevels face inward toward X=0.",
+          "rot": [
+            0,
+            180,
+            0
+          ]
         },
         {
           "pos": [
@@ -1201,7 +1208,14 @@
           "shape": "halfslope",
           "subtype": "HeavyArmorHalfSlope",
           "paletteSlot": 0,
-          "subsystem": "structure"
+          "subsystem": "structure",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.2: port and starboard half-slope bevels face inward toward X=0.",
+          "rot": [
+            0,
+            0,
+            0
+          ]
         },
         {
           "pos": [
@@ -1212,7 +1226,14 @@
           "shape": "halfslope",
           "subtype": "HeavyArmorHalfSlope",
           "paletteSlot": 0,
-          "subsystem": "structure"
+          "subsystem": "structure",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.2: port and starboard half-slope bevels face inward toward X=0.",
+          "rot": [
+            0,
+            180,
+            0
+          ]
         },
         {
           "pos": [
@@ -1223,7 +1244,14 @@
           "shape": "halfslope",
           "subtype": "HeavyArmorHalfSlope",
           "paletteSlot": 0,
-          "subsystem": "structure"
+          "subsystem": "structure",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.2: port and starboard half-slope bevels face inward toward X=0.",
+          "rot": [
+            0,
+            0,
+            0
+          ]
         },
         {
           "pos": [
@@ -1234,7 +1262,14 @@
           "shape": "halfslope",
           "subtype": "HeavyArmorHalfSlope",
           "paletteSlot": 0,
-          "subsystem": "structure"
+          "subsystem": "structure",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.2: port and starboard half-slope bevels face inward toward X=0.",
+          "rot": [
+            0,
+            180,
+            0
+          ]
         },
         {
           "pos": [
@@ -1245,7 +1280,14 @@
           "shape": "halfslope",
           "subtype": "HeavyArmorHalfSlope",
           "paletteSlot": 0,
-          "subsystem": "structure"
+          "subsystem": "structure",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.2: port and starboard half-slope bevels face inward toward X=0.",
+          "rot": [
+            0,
+            0,
+            0
+          ]
         },
         {
           "pos": [
@@ -1256,7 +1298,14 @@
           "shape": "halfslope",
           "subtype": "HeavyArmorHalfSlope",
           "paletteSlot": 0,
-          "subsystem": "structure"
+          "subsystem": "structure",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.2: port and starboard half-slope bevels face inward toward X=0.",
+          "rot": [
+            0,
+            180,
+            0
+          ]
         },
         {
           "pos": [
@@ -1267,7 +1316,14 @@
           "shape": "halfslope",
           "subtype": "HeavyArmorHalfSlope",
           "paletteSlot": 0,
-          "subsystem": "structure"
+          "subsystem": "structure",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.2: port and starboard half-slope bevels face inward toward X=0.",
+          "rot": [
+            0,
+            0,
+            0
+          ]
         },
         {
           "pos": [
@@ -1278,7 +1334,14 @@
           "shape": "halfslope",
           "subtype": "HeavyArmorHalfSlope",
           "paletteSlot": 0,
-          "subsystem": "structure"
+          "subsystem": "structure",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.2: port and starboard half-slope bevels face inward toward X=0.",
+          "rot": [
+            0,
+            180,
+            0
+          ]
         },
         {
           "pos": [
@@ -1289,7 +1352,14 @@
           "shape": "halfslope",
           "subtype": "HeavyArmorHalfSlope",
           "paletteSlot": 0,
-          "subsystem": "structure"
+          "subsystem": "structure",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.2: port and starboard half-slope bevels face inward toward X=0.",
+          "rot": [
+            0,
+            0,
+            0
+          ]
         },
         {
           "pos": [
@@ -1300,7 +1370,14 @@
           "shape": "halfslope",
           "subtype": "HeavyArmorHalfSlope",
           "paletteSlot": 0,
-          "subsystem": "structure"
+          "subsystem": "structure",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.2: port and starboard half-slope bevels face inward toward X=0.",
+          "rot": [
+            0,
+            180,
+            0
+          ]
         },
         {
           "pos": [
@@ -1311,7 +1388,14 @@
           "shape": "halfslope",
           "subtype": "HeavyArmorHalfSlope",
           "paletteSlot": 0,
-          "subsystem": "structure"
+          "subsystem": "structure",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.2: port and starboard half-slope bevels face inward toward X=0.",
+          "rot": [
+            0,
+            0,
+            0
+          ]
         },
         {
           "pos": [
@@ -1322,7 +1406,14 @@
           "shape": "halfslope",
           "subtype": "HeavyArmorHalfSlope",
           "paletteSlot": 0,
-          "subsystem": "structure"
+          "subsystem": "structure",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.2: port and starboard half-slope bevels face inward toward X=0.",
+          "rot": [
+            0,
+            180,
+            0
+          ]
         },
         {
           "pos": [
@@ -1333,7 +1424,14 @@
           "shape": "halfslope",
           "subtype": "HeavyArmorHalfSlope",
           "paletteSlot": 0,
-          "subsystem": "structure"
+          "subsystem": "structure",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.2: port and starboard half-slope bevels face inward toward X=0.",
+          "rot": [
+            0,
+            0,
+            0
+          ]
         },
         {
           "pos": [
@@ -1344,7 +1442,14 @@
           "shape": "halfslope",
           "subtype": "HeavyArmorHalfSlope",
           "paletteSlot": 0,
-          "subsystem": "structure"
+          "subsystem": "structure",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.2: port and starboard half-slope bevels face inward toward X=0.",
+          "rot": [
+            0,
+            180,
+            0
+          ]
         },
         {
           "pos": [
@@ -1355,7 +1460,14 @@
           "shape": "halfslope",
           "subtype": "HeavyArmorHalfSlope",
           "paletteSlot": 0,
-          "subsystem": "structure"
+          "subsystem": "structure",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.2: port and starboard half-slope bevels face inward toward X=0.",
+          "rot": [
+            0,
+            0,
+            0
+          ]
         },
         {
           "pos": [
@@ -1366,7 +1478,14 @@
           "shape": "halfslope",
           "subtype": "HeavyArmorHalfSlope",
           "paletteSlot": 0,
-          "subsystem": "structure"
+          "subsystem": "structure",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.2: port and starboard half-slope bevels face inward toward X=0.",
+          "rot": [
+            0,
+            180,
+            0
+          ]
         },
         {
           "pos": [
@@ -1377,7 +1496,14 @@
           "shape": "halfslope",
           "subtype": "HeavyArmorHalfSlope",
           "paletteSlot": 0,
-          "subsystem": "structure"
+          "subsystem": "structure",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.2: port and starboard half-slope bevels face inward toward X=0.",
+          "rot": [
+            0,
+            0,
+            0
+          ]
         },
         {
           "pos": [
@@ -1388,7 +1514,14 @@
           "shape": "halfslope",
           "subtype": "HeavyArmorHalfSlope",
           "paletteSlot": 0,
-          "subsystem": "structure"
+          "subsystem": "structure",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.2: port and starboard half-slope bevels face inward toward X=0.",
+          "rot": [
+            0,
+            180,
+            0
+          ]
         },
         {
           "pos": [
@@ -1399,7 +1532,14 @@
           "shape": "halfslope",
           "subtype": "HeavyArmorHalfSlope",
           "paletteSlot": 0,
-          "subsystem": "structure"
+          "subsystem": "structure",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.2: port and starboard half-slope bevels face inward toward X=0.",
+          "rot": [
+            0,
+            0,
+            0
+          ]
         },
         {
           "pos": [
@@ -1410,7 +1550,14 @@
           "shape": "halfslope",
           "subtype": "HeavyArmorHalfSlope",
           "paletteSlot": 0,
-          "subsystem": "structure"
+          "subsystem": "structure",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.2: port and starboard half-slope bevels face inward toward X=0.",
+          "rot": [
+            0,
+            180,
+            0
+          ]
         },
         {
           "pos": [
@@ -1421,7 +1568,14 @@
           "shape": "halfslope",
           "subtype": "HeavyArmorHalfSlope",
           "paletteSlot": 0,
-          "subsystem": "structure"
+          "subsystem": "structure",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.2: port and starboard half-slope bevels face inward toward X=0.",
+          "rot": [
+            0,
+            0,
+            0
+          ]
         },
         {
           "pos": [
@@ -1432,7 +1586,14 @@
           "shape": "halfslope",
           "subtype": "HeavyArmorHalfSlope",
           "paletteSlot": 0,
-          "subsystem": "structure"
+          "subsystem": "structure",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.2: port and starboard half-slope bevels face inward toward X=0.",
+          "rot": [
+            0,
+            180,
+            0
+          ]
         },
         {
           "pos": [
@@ -1443,7 +1604,14 @@
           "shape": "halfslope",
           "subtype": "HeavyArmorHalfSlope",
           "paletteSlot": 0,
-          "subsystem": "structure"
+          "subsystem": "structure",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.2: port and starboard half-slope bevels face inward toward X=0.",
+          "rot": [
+            0,
+            0,
+            0
+          ]
         },
         {
           "pos": [
@@ -1454,7 +1622,14 @@
           "shape": "halfslope",
           "subtype": "HeavyArmorHalfSlope",
           "paletteSlot": 0,
-          "subsystem": "structure"
+          "subsystem": "structure",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.2: port and starboard half-slope bevels face inward toward X=0.",
+          "rot": [
+            0,
+            180,
+            0
+          ]
         },
         {
           "pos": [
@@ -1465,7 +1640,14 @@
           "shape": "halfslope",
           "subtype": "HeavyArmorHalfSlope",
           "paletteSlot": 0,
-          "subsystem": "structure"
+          "subsystem": "structure",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.2: port and starboard half-slope bevels face inward toward X=0.",
+          "rot": [
+            0,
+            0,
+            0
+          ]
         },
         {
           "pos": [
@@ -1476,7 +1658,14 @@
           "shape": "halfslope",
           "subtype": "HeavyArmorHalfSlope",
           "paletteSlot": 0,
-          "subsystem": "structure"
+          "subsystem": "structure",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.2: port and starboard half-slope bevels face inward toward X=0.",
+          "rot": [
+            0,
+            180,
+            0
+          ]
         },
         {
           "pos": [
@@ -1487,7 +1676,14 @@
           "shape": "halfslope",
           "subtype": "HeavyArmorHalfSlope",
           "paletteSlot": 0,
-          "subsystem": "structure"
+          "subsystem": "structure",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.2: port and starboard half-slope bevels face inward toward X=0.",
+          "rot": [
+            0,
+            0,
+            0
+          ]
         },
         {
           "pos": [
@@ -1498,7 +1694,14 @@
           "shape": "halfslope",
           "subtype": "HeavyArmorHalfSlope",
           "paletteSlot": 0,
-          "subsystem": "structure"
+          "subsystem": "structure",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.2: port and starboard half-slope bevels face inward toward X=0.",
+          "rot": [
+            0,
+            180,
+            0
+          ]
         },
         {
           "pos": [
@@ -1509,7 +1712,14 @@
           "shape": "halfslope",
           "subtype": "HeavyArmorHalfSlope",
           "paletteSlot": 0,
-          "subsystem": "structure"
+          "subsystem": "structure",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.2: port and starboard half-slope bevels face inward toward X=0.",
+          "rot": [
+            0,
+            0,
+            0
+          ]
         },
         {
           "pos": [
@@ -1520,7 +1730,14 @@
           "shape": "halfslope",
           "subtype": "HeavyArmorHalfSlope",
           "paletteSlot": 0,
-          "subsystem": "structure"
+          "subsystem": "structure",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.2: port and starboard half-slope bevels face inward toward X=0.",
+          "rot": [
+            0,
+            180,
+            0
+          ]
         },
         {
           "pos": [
@@ -1531,7 +1748,14 @@
           "shape": "halfslope",
           "subtype": "HeavyArmorHalfSlope",
           "paletteSlot": 0,
-          "subsystem": "structure"
+          "subsystem": "structure",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.2: port and starboard half-slope bevels face inward toward X=0.",
+          "rot": [
+            0,
+            0,
+            0
+          ]
         },
         {
           "pos": [
@@ -1542,7 +1766,14 @@
           "shape": "halfslope",
           "subtype": "HeavyArmorHalfSlope",
           "paletteSlot": 0,
-          "subsystem": "structure"
+          "subsystem": "structure",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.2: port and starboard half-slope bevels face inward toward X=0.",
+          "rot": [
+            0,
+            180,
+            0
+          ]
         },
         {
           "pos": [
@@ -1553,7 +1784,14 @@
           "shape": "halfslope",
           "subtype": "HeavyArmorHalfSlope",
           "paletteSlot": 0,
-          "subsystem": "structure"
+          "subsystem": "structure",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.2: port and starboard half-slope bevels face inward toward X=0.",
+          "rot": [
+            0,
+            0,
+            0
+          ]
         },
         {
           "pos": [
@@ -1564,7 +1802,14 @@
           "shape": "halfslope",
           "subtype": "HeavyArmorHalfSlope",
           "paletteSlot": 0,
-          "subsystem": "structure"
+          "subsystem": "structure",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.2: port and starboard half-slope bevels face inward toward X=0.",
+          "rot": [
+            0,
+            180,
+            0
+          ]
         },
         {
           "pos": [
@@ -1575,7 +1820,14 @@
           "shape": "halfslope",
           "subtype": "HeavyArmorHalfSlope",
           "paletteSlot": 0,
-          "subsystem": "structure"
+          "subsystem": "structure",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.2: port and starboard half-slope bevels face inward toward X=0.",
+          "rot": [
+            0,
+            0,
+            0
+          ]
         },
         {
           "pos": [
@@ -1586,7 +1838,14 @@
           "shape": "halfslope",
           "subtype": "HeavyArmorHalfSlope",
           "paletteSlot": 0,
-          "subsystem": "structure"
+          "subsystem": "structure",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.2: port and starboard half-slope bevels face inward toward X=0.",
+          "rot": [
+            0,
+            180,
+            0
+          ]
         },
         {
           "pos": [
@@ -1597,7 +1856,14 @@
           "shape": "halfslope",
           "subtype": "HeavyArmorHalfSlope",
           "paletteSlot": 0,
-          "subsystem": "structure"
+          "subsystem": "structure",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.2: port and starboard half-slope bevels face inward toward X=0.",
+          "rot": [
+            0,
+            0,
+            0
+          ]
         },
         {
           "pos": [
@@ -1608,7 +1874,14 @@
           "shape": "halfslope",
           "subtype": "HeavyArmorHalfSlope",
           "paletteSlot": 0,
-          "subsystem": "structure"
+          "subsystem": "structure",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.2: port and starboard half-slope bevels face inward toward X=0.",
+          "rot": [
+            0,
+            180,
+            0
+          ]
         },
         {
           "pos": [
@@ -1619,7 +1892,14 @@
           "shape": "halfslope",
           "subtype": "HeavyArmorHalfSlope",
           "paletteSlot": 0,
-          "subsystem": "structure"
+          "subsystem": "structure",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.2: port and starboard half-slope bevels face inward toward X=0.",
+          "rot": [
+            0,
+            0,
+            0
+          ]
         },
         {
           "pos": [
@@ -1630,7 +1910,9 @@
           "shape": "slope2x1",
           "subtype": "HeavyArmorSlope2x1Base",
           "paletteSlot": 0,
-          "subsystem": "structure"
+          "subsystem": "structure",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Preview rotation is not verified; review the manual callout before accepting this facing."
         },
         {
           "pos": [
@@ -1641,7 +1923,9 @@
           "shape": "slope2x1",
           "subtype": "HeavyArmorSlope2x1Tip",
           "paletteSlot": 0,
-          "subsystem": "structure"
+          "subsystem": "structure",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Preview rotation is not verified; review the manual callout before accepting this facing."
         },
         {
           "pos": [
@@ -1652,7 +1936,9 @@
           "shape": "slope2x1",
           "subtype": "HeavyArmorSlope2x1Base",
           "paletteSlot": 0,
-          "subsystem": "structure"
+          "subsystem": "structure",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Preview rotation is not verified; review the manual callout before accepting this facing."
         },
         {
           "pos": [
@@ -1663,7 +1949,9 @@
           "shape": "slope2x1",
           "subtype": "HeavyArmorSlope2x1Tip",
           "paletteSlot": 0,
-          "subsystem": "structure"
+          "subsystem": "structure",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Preview rotation is not verified; review the manual callout before accepting this facing."
         }
       ]
     },
@@ -1941,7 +2229,15 @@
           "subtype": "LargeBlockConveyor",
           "paletteSlot": 4,
           "subsystem": "conveyor",
-          "name": "MAS Conveyor Bow Intake"
+          "name": "MAS Conveyor Bow Intake",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.3: bow intake conveyor faces forward (+Z).",
+          "rot": [
+            0,
+            0,
+            0
+          ],
+          "orientationFeature": "conveyor-flow"
         }
       ]
     },
@@ -1989,7 +2285,15 @@
           "subtype": "Suspension5x5Left",
           "paletteSlot": 0,
           "subsystem": "propulsion",
-          "name": "MAS Wheel P1"
+          "name": "MAS Wheel P1",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.4: wheel hubs face outward; suspension axle is horizontal across X.",
+          "rot": [
+            0,
+            0,
+            0
+          ],
+          "orientationFeature": "wheel-hub"
         },
         {
           "pos": [
@@ -2001,7 +2305,15 @@
           "subtype": "Suspension5x5Right",
           "paletteSlot": 0,
           "subsystem": "propulsion",
-          "name": "MAS Wheel S1"
+          "name": "MAS Wheel S1",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.4: wheel hubs face outward; suspension axle is horizontal across X.",
+          "rot": [
+            0,
+            0,
+            0
+          ],
+          "orientationFeature": "wheel-hub"
         },
         {
           "pos": [
@@ -2013,7 +2325,15 @@
           "subtype": "Suspension5x5Left",
           "paletteSlot": 0,
           "subsystem": "propulsion",
-          "name": "MAS Wheel P2"
+          "name": "MAS Wheel P2",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.4: wheel hubs face outward; suspension axle is horizontal across X.",
+          "rot": [
+            0,
+            0,
+            0
+          ],
+          "orientationFeature": "wheel-hub"
         },
         {
           "pos": [
@@ -2025,7 +2345,15 @@
           "subtype": "Suspension5x5Right",
           "paletteSlot": 0,
           "subsystem": "propulsion",
-          "name": "MAS Wheel S2"
+          "name": "MAS Wheel S2",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.4: wheel hubs face outward; suspension axle is horizontal across X.",
+          "rot": [
+            0,
+            0,
+            0
+          ],
+          "orientationFeature": "wheel-hub"
         },
         {
           "pos": [
@@ -2037,7 +2365,15 @@
           "subtype": "Suspension5x5Left",
           "paletteSlot": 0,
           "subsystem": "propulsion",
-          "name": "MAS Wheel P3"
+          "name": "MAS Wheel P3",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.4: wheel hubs face outward; suspension axle is horizontal across X.",
+          "rot": [
+            0,
+            0,
+            0
+          ],
+          "orientationFeature": "wheel-hub"
         },
         {
           "pos": [
@@ -2049,7 +2385,15 @@
           "subtype": "Suspension5x5Right",
           "paletteSlot": 0,
           "subsystem": "propulsion",
-          "name": "MAS Wheel S3"
+          "name": "MAS Wheel S3",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.4: wheel hubs face outward; suspension axle is horizontal across X.",
+          "rot": [
+            0,
+            0,
+            0
+          ],
+          "orientationFeature": "wheel-hub"
         }
       ]
     },
@@ -2107,7 +2451,15 @@
           "subtype": "LargeConveyorSorter",
           "paletteSlot": 4,
           "subsystem": "conveyor",
-          "name": "MAS Sorter Tailings"
+          "name": "MAS Sorter Tailings",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.5: sorter arrow points downward (−Y).",
+          "rot": [
+            90,
+            0,
+            0
+          ],
+          "orientationFeature": "conveyor-flow"
         },
         {
           "pos": [
@@ -2119,7 +2471,15 @@
           "subtype": "ConveyorEjector",
           "paletteSlot": 4,
           "subsystem": "conveyor",
-          "name": "MAS Ejector Tailings 1"
+          "name": "MAS Ejector Tailings 1",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.5: tailings ejector discharge is angled 45° downward and aft.",
+          "rot": [
+            135,
+            0,
+            0
+          ],
+          "orientationFeature": "conveyor-flow"
         },
         {
           "pos": [
@@ -2131,7 +2491,15 @@
           "subtype": "ConveyorEjector",
           "paletteSlot": 4,
           "subsystem": "conveyor",
-          "name": "MAS Ejector Tailings 2"
+          "name": "MAS Ejector Tailings 2",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.5: tailings ejector discharge is angled 45° downward and aft.",
+          "rot": [
+            135,
+            0,
+            0
+          ],
+          "orientationFeature": "conveyor-flow"
         }
       ]
     },
@@ -2311,7 +2679,15 @@
           "subtype": "LargeHydrogenEngine",
           "paletteSlot": 6,
           "subsystem": "power",
-          "name": "MAS Engine H2"
+          "name": "MAS Engine H2",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.8: engine extends aft and its forward conveyor port connects to the reactor spine.",
+          "rot": [
+            0,
+            0,
+            0
+          ],
+          "orientationFeature": "forward-face"
         }
       ]
     },
@@ -2609,7 +2985,15 @@
           "subtype": "LargeAdvancedRotor",
           "paletteSlot": 2,
           "subsystem": "propulsion",
-          "name": "MAS Hitch Yaw"
+          "name": "MAS Hitch Yaw",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.10: yaw rotor front port faces aft (−Z).",
+          "rot": [
+            -90,
+            0,
+            0
+          ],
+          "orientationFeature": "top-face"
         },
         {
           "pos": [
@@ -2621,7 +3005,15 @@
           "subtype": "LargeHinge",
           "paletteSlot": 2,
           "subsystem": "propulsion",
-          "name": "MAS Hitch Pitch"
+          "name": "MAS Hitch Pitch",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.10: pitch hinge barrel axis is horizontal along X.",
+          "rot": [
+            0,
+            0,
+            90
+          ],
+          "orientationFeature": "axis"
         },
         {
           "pos": [
@@ -2633,7 +3025,15 @@
           "subtype": "LargeAdvancedRotor",
           "paletteSlot": 2,
           "subsystem": "propulsion",
-          "name": "MAS Hitch Roll"
+          "name": "MAS Hitch Roll",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.10: roll rotor is aligned horizontally along the Z axis.",
+          "rot": [
+            90,
+            0,
+            0
+          ],
+          "orientationFeature": "axis"
         },
         {
           "pos": [
@@ -2645,7 +3045,9 @@
           "subtype": "LargeMagneticPlate",
           "paletteSlot": 2,
           "subsystem": "propulsion",
-          "name": "MAS Hitch Clamp Port"
+          "name": "MAS Hitch Clamp Port",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Preview rotation is not verified; review the manual callout before accepting this facing."
         },
         {
           "pos": [
@@ -2657,7 +3059,9 @@
           "subtype": "LargeMagneticPlate",
           "paletteSlot": 2,
           "subsystem": "propulsion",
-          "name": "MAS Hitch Clamp Stbd"
+          "name": "MAS Hitch Clamp Stbd",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Preview rotation is not verified; review the manual callout before accepting this facing."
         },
         {
           "pos": [
@@ -2669,7 +3073,9 @@
           "subtype": "LargeMergeBlock",
           "paletteSlot": 2,
           "subsystem": "structure",
-          "name": "MAS Hitch Sever Tongue"
+          "name": "MAS Hitch Sever Tongue",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Preview rotation is not verified; review the manual callout before accepting this facing."
         },
         {
           "pos": [
@@ -2681,7 +3087,9 @@
           "subtype": "CameraBlock",
           "paletteSlot": 7,
           "subsystem": "avionics",
-          "name": "MAS Cam Hitch"
+          "name": "MAS Cam Hitch",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Preview rotation is not verified; review the manual callout before accepting this facing."
         }
       ]
     },
@@ -2736,7 +3144,9 @@
           "subtype": "AirlockDoorBlock",
           "paletteSlot": 9,
           "subsystem": "structure",
-          "name": "MAS Door Gangway Fwd"
+          "name": "MAS Door Gangway Fwd",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Preview rotation is not verified; review the manual callout before accepting this facing."
         },
         {
           "pos": [
@@ -2748,7 +3158,9 @@
           "subtype": "AirlockDoorBlock",
           "paletteSlot": 9,
           "subsystem": "structure",
-          "name": "MAS Door Gangway Aft"
+          "name": "MAS Door Gangway Aft",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Preview rotation is not verified; review the manual callout before accepting this facing."
         },
         {
           "pos": [
@@ -2760,7 +3172,9 @@
           "subtype": "HeavyArmorSlope",
           "paletteSlot": 0,
           "subsystem": "structure",
-          "name": "MAS Gangway Fairing Port"
+          "name": "MAS Gangway Fairing Port",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Preview rotation is not verified; review the manual callout before accepting this facing."
         },
         {
           "pos": [
@@ -2772,7 +3186,9 @@
           "subtype": "HeavyArmorSlope",
           "paletteSlot": 0,
           "subsystem": "structure",
-          "name": "MAS Gangway Fairing Stbd"
+          "name": "MAS Gangway Fairing Stbd",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Preview rotation is not verified; review the manual callout before accepting this facing."
         }
       ]
     },
@@ -3053,7 +3469,15 @@
           "subtype": "PistonOutrigger",
           "paletteSlot": 1,
           "subsystem": "propulsion",
-          "name": "MAS Outrigger P-Fwd"
+          "name": "MAS Outrigger P-Fwd",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.14: outrigger piston shafts point down (−Y).",
+          "rot": [
+            180,
+            0,
+            0
+          ],
+          "orientationFeature": "piston-shaft"
         },
         {
           "pos": [
@@ -3065,7 +3489,15 @@
           "subtype": "PistonOutrigger",
           "paletteSlot": 1,
           "subsystem": "propulsion",
-          "name": "MAS Outrigger S-Fwd"
+          "name": "MAS Outrigger S-Fwd",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.14: outrigger piston shafts point down (−Y).",
+          "rot": [
+            180,
+            0,
+            0
+          ],
+          "orientationFeature": "piston-shaft"
         },
         {
           "pos": [
@@ -3077,7 +3509,15 @@
           "subtype": "PistonOutrigger",
           "paletteSlot": 1,
           "subsystem": "propulsion",
-          "name": "MAS Outrigger P-Aft"
+          "name": "MAS Outrigger P-Aft",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.14: outrigger piston shafts point down (−Y).",
+          "rot": [
+            180,
+            0,
+            0
+          ],
+          "orientationFeature": "piston-shaft"
         },
         {
           "pos": [
@@ -3089,7 +3529,15 @@
           "subtype": "PistonOutrigger",
           "paletteSlot": 1,
           "subsystem": "propulsion",
-          "name": "MAS Outrigger S-Aft"
+          "name": "MAS Outrigger S-Aft",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.14: outrigger piston shafts point down (−Y).",
+          "rot": [
+            180,
+            0,
+            0
+          ],
+          "orientationFeature": "piston-shaft"
         },
         {
           "pos": [
@@ -3101,7 +3549,9 @@
           "subtype": "SeismicSurveyingLandingGear",
           "paletteSlot": 1,
           "subsystem": "propulsion",
-          "name": "MAS Seismic Outrigger P-Fwd"
+          "name": "MAS Seismic Outrigger P-Fwd",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Preview rotation is not verified; review the manual callout before accepting this facing."
         },
         {
           "pos": [
@@ -3113,7 +3563,9 @@
           "subtype": "SeismicSurveyingLandingGear",
           "paletteSlot": 1,
           "subsystem": "propulsion",
-          "name": "MAS Seismic Outrigger S-Fwd"
+          "name": "MAS Seismic Outrigger S-Fwd",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Preview rotation is not verified; review the manual callout before accepting this facing."
         },
         {
           "pos": [
@@ -3125,7 +3577,9 @@
           "subtype": "SeismicSurveyingLandingGear",
           "paletteSlot": 1,
           "subsystem": "propulsion",
-          "name": "MAS Seismic Outrigger P-Aft"
+          "name": "MAS Seismic Outrigger P-Aft",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Preview rotation is not verified; review the manual callout before accepting this facing."
         },
         {
           "pos": [
@@ -3137,7 +3591,9 @@
           "subtype": "SeismicSurveyingLandingGear",
           "paletteSlot": 1,
           "subsystem": "propulsion",
-          "name": "MAS Seismic Outrigger S-Aft"
+          "name": "MAS Seismic Outrigger S-Aft",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Preview rotation is not verified; review the manual callout before accepting this facing."
         }
       ]
     },
@@ -3192,7 +3648,15 @@
           "subtype": "LargeAdvancedRotor",
           "paletteSlot": 3,
           "subsystem": "boom",
-          "name": "MAS Turret Azimuth"
+          "name": "MAS Turret Azimuth",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.15: azimuth rotor stator port faces up (+Y).",
+          "rot": [
+            0,
+            0,
+            0
+          ],
+          "orientationFeature": "top-face"
         }
       ]
     },
@@ -3247,7 +3711,15 @@
           "subtype": "LargeHinge",
           "paletteSlot": 3,
           "subsystem": "boom",
-          "name": "MAS Boom Shoulder"
+          "name": "MAS Boom Shoulder",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.16: shoulder pitch hinge barrel axis is horizontal along X.",
+          "rot": [
+            0,
+            0,
+            90
+          ],
+          "orientationFeature": "axis"
         },
         {
           "pos": [
@@ -3338,7 +3810,15 @@
           "subtype": "LargeHinge",
           "paletteSlot": 3,
           "subsystem": "boom",
-          "name": "MAS Boom Elbow"
+          "name": "MAS Boom Elbow",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.17: elbow pitch hinge barrel axis is horizontal along X.",
+          "rot": [
+            0,
+            0,
+            90
+          ],
+          "orientationFeature": "axis"
         },
         {
           "pos": [
@@ -3429,7 +3909,15 @@
           "subtype": "LargeAdvancedRotor",
           "paletteSlot": 3,
           "subsystem": "boom",
-          "name": "MAS Wrist Roll"
+          "name": "MAS Wrist Roll",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.18: wrist rotor head faces down (−Y).",
+          "rot": [
+            180,
+            0,
+            0
+          ],
+          "orientationFeature": "top-face"
         },
         {
           "pos": [
@@ -3441,7 +3929,9 @@
           "subtype": "LargeHinge",
           "paletteSlot": 3,
           "subsystem": "boom",
-          "name": "MAS Wrist Pitch"
+          "name": "MAS Wrist Pitch",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Preview rotation is not verified; review the manual callout before accepting this facing."
         }
       ]
     },
@@ -3517,7 +4007,9 @@
           "subtype": "SimpleLaserMultitool",
           "paletteSlot": 3,
           "subsystem": "boom",
-          "name": "MAS Laser 1"
+          "name": "MAS Laser 1",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Preview rotation is not verified; review the manual callout before accepting this facing."
         },
         {
           "pos": [
@@ -3529,7 +4021,9 @@
           "subtype": "SimpleLaserMultitool",
           "paletteSlot": 3,
           "subsystem": "boom",
-          "name": "MAS Laser 2"
+          "name": "MAS Laser 2",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Preview rotation is not verified; review the manual callout before accepting this facing."
         },
         {
           "pos": [
@@ -3541,7 +4035,9 @@
           "subtype": "LargeMagneticPlate",
           "paletteSlot": 9,
           "subsystem": "boom",
-          "name": "MAS Tool Grapple"
+          "name": "MAS Tool Grapple",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Preview rotation is not verified; review the manual callout before accepting this facing."
         },
         {
           "pos": [
@@ -3553,7 +4049,9 @@
           "subtype": "LargeMagneticPlate",
           "paletteSlot": 1,
           "subsystem": "structure",
-          "name": "MAS Clamp Boom Stow"
+          "name": "MAS Clamp Boom Stow",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Preview rotation is not verified; review the manual callout before accepting this facing."
         }
       ]
     },
@@ -3587,7 +4085,9 @@
           "subtype": "ProgrammableBlock",
           "paletteSlot": 7,
           "subsystem": "avionics",
-          "name": "[MAS] PB Kinematics Macro Core"
+          "name": "[MAS] PB Kinematics Macro Core",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Preview rotation is not verified; review the manual callout before accepting this facing."
         }
       ]
     },
@@ -3686,7 +4186,9 @@
           "subtype": "AirlockDoorBlock",
           "paletteSlot": 9,
           "subsystem": "structure",
-          "name": "MAS Door Boarding Outer"
+          "name": "MAS Door Boarding Outer",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Preview rotation is not verified; review the manual callout before accepting this facing."
         },
         {
           "pos": [
@@ -3742,7 +4244,9 @@
           "subtype": "AirlockDoorBlock",
           "paletteSlot": 9,
           "subsystem": "structure",
-          "name": "MAS Door Boarding Inner"
+          "name": "MAS Door Boarding Inner",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Preview rotation is not verified; review the manual callout before accepting this facing."
         },
         {
           "pos": [
@@ -4143,7 +4647,15 @@
           "subtype": "CockpitOpen",
           "paletteSlot": 7,
           "subsystem": "avionics",
-          "name": "MAS Helm"
+          "name": "MAS Helm",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.22: all three control-station fronts face forward (+Z).",
+          "rot": [
+            0,
+            0,
+            0
+          ],
+          "orientationFeature": "forward-face"
         },
         {
           "pos": [
@@ -4155,7 +4667,15 @@
           "subtype": "CockpitOpen",
           "paletteSlot": 7,
           "subsystem": "avionics",
-          "name": "MAS Station Boom"
+          "name": "MAS Station Boom",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.22: all three control-station fronts face forward (+Z).",
+          "rot": [
+            0,
+            0,
+            0
+          ],
+          "orientationFeature": "forward-face"
         },
         {
           "pos": [
@@ -4167,7 +4687,15 @@
           "subtype": "CockpitOpen",
           "paletteSlot": 7,
           "subsystem": "avionics",
-          "name": "MAS Station Fleet"
+          "name": "MAS Station Fleet",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.22: all three control-station fronts face forward (+Z).",
+          "rot": [
+            0,
+            0,
+            0
+          ],
+          "orientationFeature": "forward-face"
         }
       ]
     },
@@ -4223,7 +4751,14 @@
           "subtype": "HeavyArmorGlassSloped",
           "paletteSlot": 7,
           "subsystem": "structure",
-          "name": "Glacis Canopy"
+          "name": "Glacis Canopy",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.23: glacis glass is mounted along the forward edge as a forward-facing sloped canopy.",
+          "rot": [
+            0,
+            -90,
+            0
+          ]
         },
         {
           "pos": [
@@ -4235,7 +4770,9 @@
           "subtype": "HeavyArmorSlope2x1Base",
           "paletteSlot": 7,
           "subsystem": "structure",
-          "name": "Cab Visor"
+          "name": "Cab Visor",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Preview rotation is not verified; review the manual callout before accepting this facing."
         },
         {
           "pos": [
@@ -4247,7 +4784,14 @@
           "subtype": "HeavyArmorGlassSloped",
           "paletteSlot": 7,
           "subsystem": "structure",
-          "name": "Glacis Canopy"
+          "name": "Glacis Canopy",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.23: glacis glass is mounted along the forward edge as a forward-facing sloped canopy.",
+          "rot": [
+            0,
+            -90,
+            0
+          ]
         },
         {
           "pos": [
@@ -4259,7 +4803,9 @@
           "subtype": "HeavyArmorSlope2x1Base",
           "paletteSlot": 7,
           "subsystem": "structure",
-          "name": "Cab Visor"
+          "name": "Cab Visor",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Preview rotation is not verified; review the manual callout before accepting this facing."
         },
         {
           "pos": [
@@ -4271,7 +4817,14 @@
           "subtype": "HeavyArmorGlassSloped",
           "paletteSlot": 7,
           "subsystem": "structure",
-          "name": "Glacis Canopy"
+          "name": "Glacis Canopy",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.23: glacis glass is mounted along the forward edge as a forward-facing sloped canopy.",
+          "rot": [
+            0,
+            -90,
+            0
+          ]
         },
         {
           "pos": [
@@ -4283,7 +4836,9 @@
           "subtype": "HeavyArmorSlope2x1Base",
           "paletteSlot": 7,
           "subsystem": "structure",
-          "name": "Cab Visor"
+          "name": "Cab Visor",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Preview rotation is not verified; review the manual callout before accepting this facing."
         },
         {
           "pos": [
@@ -4295,7 +4850,14 @@
           "subtype": "HeavyArmorGlassSloped",
           "paletteSlot": 7,
           "subsystem": "structure",
-          "name": "Glacis Canopy"
+          "name": "Glacis Canopy",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.23: glacis glass is mounted along the forward edge as a forward-facing sloped canopy.",
+          "rot": [
+            0,
+            -90,
+            0
+          ]
         },
         {
           "pos": [
@@ -4307,7 +4869,9 @@
           "subtype": "HeavyArmorSlope2x1Base",
           "paletteSlot": 7,
           "subsystem": "structure",
-          "name": "Cab Visor"
+          "name": "Cab Visor",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Preview rotation is not verified; review the manual callout before accepting this facing."
         },
         {
           "pos": [
@@ -4319,7 +4883,14 @@
           "subtype": "HeavyArmorGlassSloped",
           "paletteSlot": 7,
           "subsystem": "structure",
-          "name": "Glacis Canopy"
+          "name": "Glacis Canopy",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.23: glacis glass is mounted along the forward edge as a forward-facing sloped canopy.",
+          "rot": [
+            0,
+            -90,
+            0
+          ]
         },
         {
           "pos": [
@@ -4331,7 +4902,9 @@
           "subtype": "HeavyArmorSlope2x1Base",
           "paletteSlot": 7,
           "subsystem": "structure",
-          "name": "Cab Visor"
+          "name": "Cab Visor",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Preview rotation is not verified; review the manual callout before accepting this facing."
         },
         {
           "pos": [
@@ -4343,7 +4916,14 @@
           "subtype": "HeavyArmorGlassSloped",
           "paletteSlot": 7,
           "subsystem": "structure",
-          "name": "Glacis Canopy"
+          "name": "Glacis Canopy",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.23: glacis glass is mounted along the forward edge as a forward-facing sloped canopy.",
+          "rot": [
+            0,
+            -90,
+            0
+          ]
         },
         {
           "pos": [
@@ -4355,7 +4935,9 @@
           "subtype": "HeavyArmorSlope2x1Base",
           "paletteSlot": 7,
           "subsystem": "structure",
-          "name": "Cab Visor"
+          "name": "Cab Visor",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Preview rotation is not verified; review the manual callout before accepting this facing."
         },
         {
           "pos": [
@@ -4367,7 +4949,14 @@
           "subtype": "HeavyArmorGlassSloped",
           "paletteSlot": 7,
           "subsystem": "structure",
-          "name": "Glacis Canopy"
+          "name": "Glacis Canopy",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.23: glacis glass is mounted along the forward edge as a forward-facing sloped canopy.",
+          "rot": [
+            0,
+            -90,
+            0
+          ]
         },
         {
           "pos": [
@@ -4379,7 +4968,9 @@
           "subtype": "HeavyArmorSlope2x1Base",
           "paletteSlot": 7,
           "subsystem": "structure",
-          "name": "Cab Visor"
+          "name": "Cab Visor",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Preview rotation is not verified; review the manual callout before accepting this facing."
         }
       ]
     },
@@ -4447,7 +5038,9 @@
           "subtype": "ProgrammableBlock",
           "paletteSlot": 7,
           "subsystem": "avionics",
-          "name": "[MAS] PB Excavator"
+          "name": "[MAS] PB Excavator",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Preview rotation is not verified; review the manual callout before accepting this facing."
         },
         {
           "pos": [
@@ -4459,7 +5052,9 @@
           "subtype": "ProgrammableBlock",
           "paletteSlot": 7,
           "subsystem": "avionics",
-          "name": "[MAS] PB RIG//OS-Lite"
+          "name": "[MAS] PB RIG//OS-Lite",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Preview rotation is not verified; review the manual callout before accepting this facing."
         },
         {
           "pos": [
@@ -4471,7 +5066,9 @@
           "subtype": "LaserAntenna",
           "paletteSlot": 7,
           "subsystem": "avionics",
-          "name": "MAS Laser Antenna 40km"
+          "name": "MAS Laser Antenna 40km",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Preview rotation is not verified; review the manual callout before accepting this facing."
         }
       ]
     },
@@ -4559,7 +5156,9 @@
           "subtype": "ButtonPanelSciFi",
           "paletteSlot": 7,
           "subsystem": "avionics",
-          "name": "MAS BP Bridge Airlock"
+          "name": "MAS BP Bridge Airlock",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Preview rotation is not verified; review the manual callout before accepting this facing."
         },
         {
           "pos": [
@@ -4571,7 +5170,9 @@
           "subtype": "ButtonPanelSciFi",
           "paletteSlot": 7,
           "subsystem": "avionics",
-          "name": "MAS BP Bridge LifeSupport"
+          "name": "MAS BP Bridge LifeSupport",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Preview rotation is not verified; review the manual callout before accepting this facing."
         }
       ]
     },
@@ -4624,7 +5225,15 @@
           "subtype": "LargeHinge",
           "paletteSlot": 9,
           "subsystem": "structure",
-          "name": "MAS Crew Ladder Hinge"
+          "name": "MAS Crew Ladder Hinge",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.27: ladder hinge barrel axis is horizontal along Z.",
+          "rot": [
+            90,
+            0,
+            0
+          ],
+          "orientationFeature": "axis"
         },
         {
           "pos": [
@@ -4637,11 +5246,14 @@
           "paletteSlot": 9,
           "subsystem": "structure",
           "name": "MAS Ladder Boarding Segment 1",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.27: both ladder segments rotate into the downward-extending boarding ladder.",
           "rot": [
             90,
             0,
             0
-          ]
+          ],
+          "orientationFeature": "ladder"
         },
         {
           "pos": [
@@ -4654,11 +5266,14 @@
           "paletteSlot": 9,
           "subsystem": "structure",
           "name": "MAS Ladder Boarding Segment 2",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.27: both ladder segments rotate into the downward-extending boarding ladder.",
           "rot": [
             90,
             0,
             0
-          ]
+          ],
+          "orientationFeature": "ladder"
         },
         {
           "pos": [
@@ -4670,7 +5285,9 @@
           "subtype": "SensorBlock",
           "paletteSlot": 9,
           "subsystem": "avionics",
-          "name": "MAS Sensor Ladder"
+          "name": "MAS Sensor Ladder",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Preview rotation is not verified; review the manual callout before accepting this facing."
         }
       ]
     },
@@ -4730,7 +5347,10 @@
           "subtype": "LargeGatlingTurret",
           "paletteSlot": 7,
           "subsystem": "avionics",
-          "name": "MAS Turret Bow"
+          "name": "MAS Turret Bow",
+          "orientationStatus": "dynamic",
+          "orientationEvidence": "Manual Step 10.28: turret has a traversing head and no fixed bearing; the preview barrel direction is illustrative.",
+          "orientationFeature": "dynamic-turret"
         },
         {
           "pos": [
@@ -4742,7 +5362,10 @@
           "subtype": "SimpleLaserMultitoolTurret",
           "paletteSlot": 3,
           "subsystem": "avionics",
-          "name": "MAS MT Turret Bow"
+          "name": "MAS MT Turret Bow",
+          "orientationStatus": "dynamic",
+          "orientationEvidence": "Manual Step 10.28: turret has a traversing head and no fixed bearing; the preview barrel direction is illustrative.",
+          "orientationFeature": "dynamic-turret"
         },
         {
           "pos": [
@@ -4754,7 +5377,10 @@
           "subtype": "InteriorTurret",
           "paletteSlot": 7,
           "subsystem": "avionics",
-          "name": "MAS Turret Flank Port"
+          "name": "MAS Turret Flank Port",
+          "orientationStatus": "dynamic",
+          "orientationEvidence": "Manual Step 10.28: turret has a traversing head and no fixed bearing; the preview barrel direction is illustrative.",
+          "orientationFeature": "dynamic-turret"
         },
         {
           "pos": [
@@ -4766,7 +5392,10 @@
           "subtype": "InteriorTurret",
           "paletteSlot": 7,
           "subsystem": "avionics",
-          "name": "MAS Turret Flank Stbd"
+          "name": "MAS Turret Flank Stbd",
+          "orientationStatus": "dynamic",
+          "orientationEvidence": "Manual Step 10.28: turret has a traversing head and no fixed bearing; the preview barrel direction is illustrative.",
+          "orientationFeature": "dynamic-turret"
         }
       ]
     },
@@ -5417,7 +6046,9 @@
           "subtype": "LargeMagneticPlate",
           "paletteSlot": 2,
           "subsystem": "propulsion",
-          "name": "MAS Hitch Capture Plate"
+          "name": "MAS Hitch Capture Plate",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Preview rotation is not verified; review the manual callout before accepting this facing."
         }
       ]
     },
@@ -5470,7 +6101,15 @@
           "subtype": "Suspension5x5Left",
           "paletteSlot": 0,
           "subsystem": "propulsion",
-          "name": "MAS Wheel P4"
+          "name": "MAS Wheel P4",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.30: wheel hubs face outward; suspension axle is horizontal across X.",
+          "rot": [
+            0,
+            0,
+            0
+          ],
+          "orientationFeature": "wheel-hub"
         },
         {
           "pos": [
@@ -5482,7 +6121,15 @@
           "subtype": "Suspension5x5Right",
           "paletteSlot": 0,
           "subsystem": "propulsion",
-          "name": "MAS Wheel S4"
+          "name": "MAS Wheel S4",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.30: wheel hubs face outward; suspension axle is horizontal across X.",
+          "rot": [
+            0,
+            0,
+            0
+          ],
+          "orientationFeature": "wheel-hub"
         },
         {
           "pos": [
@@ -5494,7 +6141,15 @@
           "subtype": "Suspension5x5Left",
           "paletteSlot": 0,
           "subsystem": "propulsion",
-          "name": "MAS Wheel P5"
+          "name": "MAS Wheel P5",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.30: wheel hubs face outward; suspension axle is horizontal across X.",
+          "rot": [
+            0,
+            0,
+            0
+          ],
+          "orientationFeature": "wheel-hub"
         },
         {
           "pos": [
@@ -5506,7 +6161,15 @@
           "subtype": "Suspension5x5Right",
           "paletteSlot": 0,
           "subsystem": "propulsion",
-          "name": "MAS Wheel S5"
+          "name": "MAS Wheel S5",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.30: wheel hubs face outward; suspension axle is horizontal across X.",
+          "rot": [
+            0,
+            0,
+            0
+          ],
+          "orientationFeature": "wheel-hub"
         }
       ]
     },
@@ -5696,7 +6359,15 @@
           "subtype": "LargeAssembler",
           "paletteSlot": 5,
           "subsystem": "conveyor",
-          "name": "MAS Utility Assembler"
+          "name": "MAS Utility Assembler",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.32: dual inventory/conveyor doors face the central aisle at X=0.",
+          "rot": [
+            0,
+            90,
+            0
+          ],
+          "orientationFeature": "forward-face"
         },
         {
           "pos": [
@@ -5720,7 +6391,9 @@
           "subtype": "MedicalRoom",
           "paletteSlot": 5,
           "subsystem": "avionics",
-          "name": "MAS Medical Bay"
+          "name": "MAS Medical Bay",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Preview rotation is not verified; review the manual callout before accepting this facing."
         },
         {
           "pos": [
@@ -5732,7 +6405,9 @@
           "subtype": "CryoChamber",
           "paletteSlot": 5,
           "subsystem": "avionics",
-          "name": "MAS Cryo Pod 1"
+          "name": "MAS Cryo Pod 1",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Preview rotation is not verified; review the manual callout before accepting this facing."
         },
         {
           "pos": [
@@ -5744,7 +6419,9 @@
           "subtype": "CryoChamber",
           "paletteSlot": 5,
           "subsystem": "avionics",
-          "name": "MAS Cryo Pod 2"
+          "name": "MAS Cryo Pod 2",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Preview rotation is not verified; review the manual callout before accepting this facing."
         }
       ]
     },
@@ -5818,7 +6495,9 @@
           "subtype": "BasicRefinery",
           "paletteSlot": 4,
           "subsystem": "conveyor",
-          "name": "MAS Field Refinery"
+          "name": "MAS Field Refinery",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Preview rotation is not verified; review the manual callout before accepting this facing."
         },
         {
           "pos": [
@@ -5830,7 +6509,15 @@
           "subtype": "LargeConveyorSorter",
           "paletteSlot": 4,
           "subsystem": "conveyor",
-          "name": "MAS Sorter Ammo Fwd"
+          "name": "MAS Sorter Ammo Fwd",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.33: ammunition sorter points forward (+Z) toward the tractor spine.",
+          "rot": [
+            0,
+            0,
+            0
+          ],
+          "orientationFeature": "conveyor-flow"
         }
       ]
     },
@@ -5933,7 +6620,9 @@
           "subtype": "AirlockDoorBlock",
           "paletteSlot": 9,
           "subsystem": "flightdeck",
-          "name": "MAS Door Flight Deck Inner"
+          "name": "MAS Door Flight Deck Inner",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Preview rotation is not verified; review the manual callout before accepting this facing."
         },
         {
           "pos": [
@@ -5945,7 +6634,9 @@
           "subtype": "AirlockDoorBlock",
           "paletteSlot": 9,
           "subsystem": "flightdeck",
-          "name": "MAS Door Roof Outer"
+          "name": "MAS Door Roof Outer",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Preview rotation is not verified; review the manual callout before accepting this facing."
         },
         {
           "pos": [
@@ -5957,7 +6648,9 @@
           "subtype": "AirlockDoorBlock",
           "paletteSlot": 9,
           "subsystem": "flightdeck",
-          "name": "MAS Door Stern Inner"
+          "name": "MAS Door Stern Inner",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Preview rotation is not verified; review the manual callout before accepting this facing."
         },
         {
           "pos": [
@@ -5969,7 +6662,9 @@
           "subtype": "AirlockDoorBlock",
           "paletteSlot": 9,
           "subsystem": "flightdeck",
-          "name": "MAS Door Stern Outer"
+          "name": "MAS Door Stern Outer",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Preview rotation is not verified; review the manual callout before accepting this facing."
         },
         {
           "pos": [
@@ -5981,7 +6676,9 @@
           "subtype": "LargeLadder",
           "paletteSlot": 9,
           "subsystem": "flightdeck",
-          "name": "MAS Ladder Flight Deck"
+          "name": "MAS Ladder Flight Deck",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Preview rotation is not verified; review the manual callout before accepting this facing."
         },
         {
           "pos": [
@@ -5993,7 +6690,9 @@
           "subtype": "LargeLadder",
           "paletteSlot": 9,
           "subsystem": "flightdeck",
-          "name": "MAS Ladder Stern"
+          "name": "MAS Ladder Stern",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Preview rotation is not verified; review the manual callout before accepting this facing."
         },
         {
           "pos": [
@@ -6005,7 +6704,9 @@
           "subtype": "AirVentBlock",
           "paletteSlot": 7,
           "subsystem": "power",
-          "name": "MAS Vent Airlock Roof"
+          "name": "MAS Vent Airlock Roof",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Preview rotation is not verified; review the manual callout before accepting this facing."
         },
         {
           "pos": [
@@ -6017,7 +6718,9 @@
           "subtype": "AirVentBlock",
           "paletteSlot": 7,
           "subsystem": "power",
-          "name": "MAS Vent Airlock Stern"
+          "name": "MAS Vent Airlock Stern",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Preview rotation is not verified; review the manual callout before accepting this facing."
         },
         {
           "pos": [
@@ -6053,7 +6756,9 @@
           "subtype": "ButtonPanelSciFi",
           "paletteSlot": 9,
           "subsystem": "flightdeck",
-          "name": "MAS BP Flight Deck"
+          "name": "MAS BP Flight Deck",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Preview rotation is not verified; review the manual callout before accepting this facing."
         },
         {
           "pos": [
@@ -6065,7 +6770,9 @@
           "subtype": "ButtonPanelSciFi",
           "paletteSlot": 9,
           "subsystem": "flightdeck",
-          "name": "MAS BP Stern Dump"
+          "name": "MAS BP Stern Dump",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Preview rotation is not verified; review the manual callout before accepting this facing."
         },
         {
           "pos": [
@@ -6140,7 +6847,9 @@
           "subtype": "AirVentBlock",
           "paletteSlot": 0,
           "subsystem": "avionics",
-          "name": "MAS Vent Atmo Intake Port"
+          "name": "MAS Vent Atmo Intake Port",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Preview rotation is not verified; review the manual callout before accepting this facing."
         },
         {
           "pos": [
@@ -6152,7 +6861,9 @@
           "subtype": "AirVentBlock",
           "paletteSlot": 0,
           "subsystem": "avionics",
-          "name": "MAS Vent Atmo Intake Stbd"
+          "name": "MAS Vent Atmo Intake Stbd",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Preview rotation is not verified; review the manual callout before accepting this facing."
         }
       ]
     },
@@ -6294,7 +7005,9 @@
           "subtype": "ProgrammableBlock",
           "paletteSlot": 7,
           "subsystem": "avionics",
-          "name": "[MAS-U] PB Utility"
+          "name": "[MAS-U] PB Utility",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Preview rotation is not verified; review the manual callout before accepting this facing."
         }
       ]
     },
@@ -6339,7 +7052,10 @@
           "subtype": "SimpleLaserMultitoolTurret",
           "paletteSlot": 3,
           "subsystem": "avionics",
-          "name": "MAS MT Turret Port"
+          "name": "MAS MT Turret Port",
+          "orientationStatus": "dynamic",
+          "orientationEvidence": "Manual Step 10.36B: turret has a traversing head and no fixed bearing; the preview barrel direction is illustrative.",
+          "orientationFeature": "dynamic-turret"
         },
         {
           "pos": [
@@ -6351,7 +7067,10 @@
           "subtype": "SimpleLaserMultitoolTurret",
           "paletteSlot": 3,
           "subsystem": "avionics",
-          "name": "MAS MT Turret Stbd"
+          "name": "MAS MT Turret Stbd",
+          "orientationStatus": "dynamic",
+          "orientationEvidence": "Manual Step 10.36B: turret has a traversing head and no fixed bearing; the preview barrel direction is illustrative.",
+          "orientationFeature": "dynamic-turret"
         }
       ]
     },
@@ -6979,7 +7698,15 @@
           "subtype": "LargeBlockConnector",
           "paletteSlot": 4,
           "subsystem": "conveyor",
-          "name": "MAS MP Conn"
+          "name": "MAS MP Conn",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.37: Mule connector faces upward (+Y).",
+          "rot": [
+            -90,
+            0,
+            0
+          ],
+          "orientationFeature": "forward-face"
         },
         {
           "pos": [
@@ -6991,7 +7718,15 @@
           "subtype": "LargeConveyorSorter",
           "paletteSlot": 4,
           "subsystem": "conveyor",
-          "name": "MAS MP Sorter"
+          "name": "MAS MP Sorter",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.37: receiving sorter points upward (+Y) into the connector.",
+          "rot": [
+            -90,
+            0,
+            0
+          ],
+          "orientationFeature": "conveyor-flow"
         },
         {
           "pos": [
@@ -7003,7 +7738,18 @@
           "subtype": "LargeHinge",
           "paletteSlot": 1,
           "subsystem": "flightdeck",
-          "name": "MAS MP Clamp Hinge Port"
+          "name": "MAS MP Clamp Hinge Port",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.37: port hinge base faces inward toward X=0; its vertical pivot axis is preserved.",
+          "rot": [
+            0,
+            90,
+            0
+          ],
+          "orientationFeature": [
+            "axis",
+            "forward-face"
+          ]
         },
         {
           "pos": [
@@ -7015,7 +7761,18 @@
           "subtype": "LargeHinge",
           "paletteSlot": 1,
           "subsystem": "flightdeck",
-          "name": "MAS MP Clamp Hinge Stbd"
+          "name": "MAS MP Clamp Hinge Stbd",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.37: starboard hinge base faces inward toward X=0; its vertical pivot axis is preserved.",
+          "rot": [
+            0,
+            -90,
+            0
+          ],
+          "orientationFeature": [
+            "axis",
+            "forward-face"
+          ]
         }
       ]
     },
@@ -7060,7 +7817,15 @@
           "subtype": "SolarPanel",
           "paletteSlot": 0,
           "subsystem": "power",
-          "name": "MAS Solar 1"
+          "name": "MAS Solar 1",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.38: solar panels are mounted flush on the roof with their active face upward.",
+          "rot": [
+            0,
+            0,
+            0
+          ],
+          "orientationFeature": "top-face"
         },
         {
           "pos": [
@@ -7072,7 +7837,15 @@
           "subtype": "SolarPanel",
           "paletteSlot": 0,
           "subsystem": "power",
-          "name": "MAS Solar 2"
+          "name": "MAS Solar 2",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.38: solar panels are mounted flush on the roof with their active face upward.",
+          "rot": [
+            0,
+            0,
+            0
+          ],
+          "orientationFeature": "top-face"
         },
         {
           "pos": [
@@ -7084,7 +7857,15 @@
           "subtype": "SolarPanel",
           "paletteSlot": 0,
           "subsystem": "power",
-          "name": "MAS Solar 3"
+          "name": "MAS Solar 3",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.38: solar panels are mounted flush on the roof with their active face upward.",
+          "rot": [
+            0,
+            0,
+            0
+          ],
+          "orientationFeature": "top-face"
         },
         {
           "pos": [
@@ -7096,7 +7877,15 @@
           "subtype": "SolarPanel",
           "paletteSlot": 0,
           "subsystem": "power",
-          "name": "MAS Solar 4"
+          "name": "MAS Solar 4",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.38: solar panels are mounted flush on the roof with their active face upward.",
+          "rot": [
+            0,
+            0,
+            0
+          ],
+          "orientationFeature": "top-face"
         }
       ]
     },
@@ -7573,7 +8362,15 @@
           "subtype": "LargeBlockConnector",
           "paletteSlot": 8,
           "subsystem": "flightdeck",
-          "name": "MAS Kestrel Dock 1"
+          "name": "MAS Kestrel Dock 1",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.40: Kestrel docking connector faces upward (+Y).",
+          "rot": [
+            -90,
+            0,
+            0
+          ],
+          "orientationFeature": "forward-face"
         },
         {
           "pos": [
@@ -7585,7 +8382,15 @@
           "subtype": "LargeBlockConnector",
           "paletteSlot": 8,
           "subsystem": "flightdeck",
-          "name": "MAS Kestrel Dock 2"
+          "name": "MAS Kestrel Dock 2",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.40: Kestrel docking connector faces upward (+Y).",
+          "rot": [
+            -90,
+            0,
+            0
+          ],
+          "orientationFeature": "forward-face"
         }
       ]
     },
@@ -7637,7 +8442,15 @@
           "subtype": "LargeShipWelder",
           "paletteSlot": 4,
           "subsystem": "flightdeck",
-          "name": "MAS Welder Pad Kestrel 1"
+          "name": "MAS Welder Pad Kestrel 1",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.41: welder head faces upward (+Y) toward the docked drone hull.",
+          "rot": [
+            -90,
+            0,
+            0
+          ],
+          "orientationFeature": "forward-face"
         },
         {
           "pos": [
@@ -7649,7 +8462,15 @@
           "subtype": "LargeShipWelder",
           "paletteSlot": 4,
           "subsystem": "flightdeck",
-          "name": "MAS Welder Pad Kestrel 2"
+          "name": "MAS Welder Pad Kestrel 2",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.41: welder head faces upward (+Y) toward the docked drone hull.",
+          "rot": [
+            -90,
+            0,
+            0
+          ],
+          "orientationFeature": "forward-face"
         }
       ]
     },
@@ -7697,7 +8518,9 @@
           "subtype": "SpotlightBlock",
           "paletteSlot": 1,
           "subsystem": "avionics",
-          "name": "MAS Floodlight -3_-10"
+          "name": "MAS Floodlight -3_-10",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Preview rotation is not verified; review the manual callout before accepting this facing."
         },
         {
           "pos": [
@@ -7709,7 +8532,9 @@
           "subtype": "SpotlightBlock",
           "paletteSlot": 1,
           "subsystem": "avionics",
-          "name": "MAS Floodlight 3_-10"
+          "name": "MAS Floodlight 3_-10",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Preview rotation is not verified; review the manual callout before accepting this facing."
         },
         {
           "pos": [
@@ -7721,7 +8546,9 @@
           "subtype": "SpotlightBlock",
           "paletteSlot": 1,
           "subsystem": "avionics",
-          "name": "MAS Floodlight -3_-24"
+          "name": "MAS Floodlight -3_-24",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Preview rotation is not verified; review the manual callout before accepting this facing."
         },
         {
           "pos": [
@@ -7733,7 +8560,9 @@
           "subtype": "SpotlightBlock",
           "paletteSlot": 1,
           "subsystem": "avionics",
-          "name": "MAS Floodlight 3_-24"
+          "name": "MAS Floodlight 3_-24",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Preview rotation is not verified; review the manual callout before accepting this facing."
         }
       ]
     },
@@ -7822,7 +8651,9 @@
           "subtype": "LargeBlockConnector",
           "paletteSlot": 2,
           "subsystem": "conveyor",
-          "name": "MAS Stern Dump Conn"
+          "name": "MAS Stern Dump Conn",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Preview rotation is not verified; review the manual callout before accepting this facing."
         },
         {
           "pos": [
@@ -7834,7 +8665,15 @@
           "subtype": "PistonLinear",
           "paletteSlot": 2,
           "subsystem": "propulsion",
-          "name": "MAS Piston Stern Dock"
+          "name": "MAS Piston Stern Dock",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.43: stern dock piston head extends aft (−Z).",
+          "rot": [
+            -90,
+            0,
+            0
+          ],
+          "orientationFeature": "piston-shaft"
         },
         {
           "pos": [
@@ -7846,7 +8685,15 @@
           "subtype": "LargeConveyorSorter",
           "paletteSlot": 4,
           "subsystem": "conveyor",
-          "name": "MAS Stern Sorter"
+          "name": "MAS Stern Sorter",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.43: stern sorter points aft (−Z) into the piston base.",
+          "rot": [
+            0,
+            180,
+            0
+          ],
+          "orientationFeature": "conveyor-flow"
         },
         {
           "pos": [
@@ -7858,7 +8705,15 @@
           "subtype": "PistonOutrigger",
           "paletteSlot": 1,
           "subsystem": "propulsion",
-          "name": "MAS Outrigger Utility Port"
+          "name": "MAS Outrigger Utility Port",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.43: utility outrigger piston shafts extend down (−Y).",
+          "rot": [
+            180,
+            0,
+            0
+          ],
+          "orientationFeature": "piston-shaft"
         },
         {
           "pos": [
@@ -7870,7 +8725,15 @@
           "subtype": "PistonOutrigger",
           "paletteSlot": 1,
           "subsystem": "propulsion",
-          "name": "MAS Outrigger Utility Stbd"
+          "name": "MAS Outrigger Utility Stbd",
+          "orientationStatus": "documented",
+          "orientationEvidence": "Manual Step 10.43: utility outrigger piston shafts extend down (−Y).",
+          "rot": [
+            180,
+            0,
+            0
+          ],
+          "orientationFeature": "piston-shaft"
         },
         {
           "pos": [
@@ -7882,7 +8745,9 @@
           "subtype": "LargeMagneticPlate",
           "paletteSlot": 1,
           "subsystem": "propulsion",
-          "name": "MAS Seismic Pad Rear Port"
+          "name": "MAS Seismic Pad Rear Port",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Preview rotation is not verified; review the manual callout before accepting this facing."
         },
         {
           "pos": [
@@ -7894,7 +8759,9 @@
           "subtype": "LargeMagneticPlate",
           "paletteSlot": 1,
           "subsystem": "propulsion",
-          "name": "MAS Seismic Pad Rear Stbd"
+          "name": "MAS Seismic Pad Rear Stbd",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Preview rotation is not verified; review the manual callout before accepting this facing."
         }
       ]
     },
@@ -7939,7 +8806,10 @@
           "subtype": "LargeGatlingTurret",
           "paletteSlot": 7,
           "subsystem": "avionics",
-          "name": "MAS Turret Stern"
+          "name": "MAS Turret Stern",
+          "orientationStatus": "dynamic",
+          "orientationEvidence": "Manual Step 10.44: turret has a traversing head and no fixed bearing; the preview barrel direction is illustrative.",
+          "orientationFeature": "dynamic-turret"
         },
         {
           "pos": [
@@ -7951,7 +8821,9 @@
           "subtype": "LargeBlockConveyor",
           "paletteSlot": 4,
           "subsystem": "conveyor",
-          "name": "MAS Conveyor Stern Turret"
+          "name": "MAS Conveyor Stern Turret",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Preview rotation is not verified; review the manual callout before accepting this facing."
         }
       ]
     },
@@ -8121,7 +8993,10 @@
           "subtype": "SimpleLaserMultitoolTurret",
           "paletteSlot": 3,
           "subsystem": "avionics",
-          "name": "MAS MT Turret Stern"
+          "name": "MAS MT Turret Stern",
+          "orientationStatus": "dynamic",
+          "orientationEvidence": "Manual Step 10.44B: turret has a traversing head and no fixed bearing; the preview barrel direction is illustrative.",
+          "orientationFeature": "dynamic-turret"
         },
         {
           "pos": [

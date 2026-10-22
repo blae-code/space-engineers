@@ -41,6 +41,15 @@ class PwaAssetTests(unittest.TestCase):
         self.assertIn('id="btn-update-app"', html)
         self.assertIn('id="pwa-status"', html)
 
+    def test_service_worker_precaches_rotation_module_and_orientation_review_ui(self):
+        worker = (STUDIO_DIR / "sw.js").read_text(encoding="utf-8")
+        html = (STUDIO_DIR / "index.html").read_text(encoding="utf-8")
+        self.assertIn("'./js/Orientation.mjs'", worker)
+        self.assertIn("se3d-visualizer-v11", worker)
+        self.assertIn('id="hud-orientation-review"', html)
+        self.assertIn('id="sel-block-orientation"', html)
+        self.assertIn('id="orientation-review-card"', html)
+
 
 if __name__ == "__main__":
     unittest.main()

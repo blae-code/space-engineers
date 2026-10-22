@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { OrbitControls } from '../vendor/OrbitControls.js';
+import { toThreeEulerRadians } from './Orientation.mjs';
 
 export class VoxelWorld {
   constructor(canvasContainer, callbacks = {}, options = {}) {
@@ -185,6 +186,23 @@ export class VoxelWorld {
       linewidth: 3,
       depthTest: false
     });
+    this.orientationFaceMaterial = new THREE.MeshBasicMaterial({ color: 0x48c8ff });
+    this.orientationFlowMaterial = new THREE.MeshBasicMaterial({ color: 0x1abc9c });
+    this.orientationShaftMaterial = new THREE.MeshStandardMaterial({
+      color: 0xe6a100,
+      metalness: 0.65,
+      roughness: 0.35
+    });
+    this.orientationHubMaterial = new THREE.MeshStandardMaterial({
+      color: 0xe6a100,
+      metalness: 0.7,
+      roughness: 0.3
+    });
+    this.orientationAxisMaterial = new THREE.MeshStandardMaterial({
+      color: 0x48c8ff,
+      metalness: 0.55,
+      roughness: 0.35
+    });
     this.edgeMaterial = new THREE.LineBasicMaterial({
       color: 0x000000,
       linewidth: 1.2,
@@ -344,8 +362,12 @@ export class VoxelWorld {
   }
 
   // Grid-scaled procedural preview geometry, not game-rendered block meshes.
-  getGeometryForShape(shape) {
+  getGeometryForShape(shape, subtype) {
     const B = this.blockMeters;
+
+    if (subtype === 'NarrowLadderBlock') {
+      return new THREE.BoxGeometry(B * 0.08, B * 0.08, B);
+    }
 
     switch (shape) {
       case 'half':
@@ -450,6 +472,75 @@ export class VoxelWorld {
     }
   }
 
+  addOrientationDetails(mesh, block, blockMeters) {
+    const features = Array.isArray(block.orientationFeature)
+      ? block.orientationFeature
+      : [block.orientationFeature];
+    features.forEach((feature) => {
+      if (feature === 'forward-face' || feature === 'conveyor-flow' || feature === 'top-face') {
+        const flow = feature === 'conveyor-flow';
+        const top = feature === 'top-face';
+        const direction = top ? new THREE.Vector3(0, 1, 0) : new THREE.Vector3(0, 0, -1);
+        const marker = new THREE.Mesh(
+          new THREE.ConeGeometry(blockMeters * 0.12, blockMeters * 0.28, 12),
+          flow ? this.orientationFlowMaterial : this.orientationFaceMaterial
+        );
+        marker.position.copy(direction.clone().multiplyScalar(blockMeters * 0.36));
+        marker.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), direction);
+        mesh.add(marker);
+      } else if (feature === 'piston-shaft') {
+        const shaft = new THREE.Mesh(
+          new THREE.CylinderGeometry(blockMeters * 0.14, blockMeters * 0.14, blockMeters * 0.8, 12),
+          this.orientationShaftMaterial
+        );
+        shaft.position.y = blockMeters * 0.65;
+        mesh.add(shaft);
+      } else if (feature === 'wheel-hub') {
+        const side = block.subtype === 'Suspension5x5Left' ? -1 : 1;
+        const hub = new THREE.Mesh(
+          new THREE.CylinderGeometry(blockMeters * 0.18, blockMeters * 0.18, blockMeters * 0.08, 16),
+          this.orientationHubMaterial
+        );
+        hub.rotation.z = Math.PI / 2;
+        hub.position.x = side * blockMeters * 0.49;
+        mesh.add(hub);
+      } else if (feature === 'axis') {
+        const capGeometry = new THREE.CylinderGeometry(blockMeters * 0.24, blockMeters * 0.24, blockMeters * 0.06, 16);
+        [-1, 1].forEach((side) => {
+          const cap = new THREE.Mesh(capGeometry, this.orientationAxisMaterial);
+          cap.position.y = side * blockMeters * 0.48;
+          mesh.add(cap);
+        });
+      } else if (feature === 'dynamic-turret') {
+        const head = new THREE.Mesh(
+          new THREE.SphereGeometry(blockMeters * 0.26, 12, 8),
+          this.orientationAxisMaterial
+        );
+        head.position.y = blockMeters * 0.32;
+        const barrel = new THREE.Mesh(
+          new THREE.CylinderGeometry(blockMeters * 0.08, blockMeters * 0.08, blockMeters * 0.75, 10),
+          this.orientationHubMaterial
+        );
+        barrel.rotation.x = Math.PI / 2;
+        barrel.position.set(0, blockMeters * 0.32, -blockMeters * 0.42);
+        mesh.add(head, barrel);
+      } else if (feature === 'ladder') {
+        const railGeometry = new THREE.BoxGeometry(blockMeters * 0.08, blockMeters * 0.08, blockMeters);
+        [-1, 1].forEach((side) => {
+          const rail = new THREE.Mesh(railGeometry, this.orientationShaftMaterial);
+          rail.position.x = side * blockMeters * 0.34;
+          mesh.add(rail);
+        });
+        const rungGeometry = new THREE.BoxGeometry(blockMeters * 0.76, blockMeters * 0.07, blockMeters * 0.08);
+        for (let rungIndex = -2; rungIndex <= 2; rungIndex++) {
+          const rung = new THREE.Mesh(rungGeometry, this.orientationHubMaterial);
+          rung.position.z = rungIndex * blockMeters * 0.19;
+          mesh.add(rung);
+        }
+      }
+    });
+  }
+
   loadModel(data) {
     this.modelData = data;
     this.blockMeters = data.blockMeters;
@@ -470,7 +561,7 @@ export class VoxelWorld {
 
     data.steps.forEach((step, stepIdx) => {
       step.blocks.forEach((b) => {
-        const geom = this.getGeometryForShape(b.shape);
+        const geom = this.getGeometryForShape(b.shape, b.subtype);
         const slotIdx = Math.min(Math.max(b.paletteSlot || 0, 0), this.paletteMaterials.length - 1);
         const mat = this.paletteMaterials[slotIdx];
 
@@ -484,12 +575,12 @@ export class VoxelWorld {
         const zPos = -b.pos[2] * B;
 
         mesh.position.set(xPos, yPos, zPos);
-        if (b.rot) {
-          mesh.rotation.set(b.rot[0], b.rot[1], b.rot[2]);
-        }
+        mesh.rotation.order = 'XYZ';
+        mesh.rotation.set(...toThreeEulerRadians(b.rot || [0, 0, 0]));
         if (b.scale) {
           mesh.scale.set(b.scale[0], b.scale[1], b.scale[2]);
         }
+        this.addOrientationDetails(mesh, b, B);
 
         const edges = new THREE.EdgesGeometry(geom, 25);
         const line = new THREE.LineSegments(edges, this.edgeMaterial);
@@ -507,7 +598,11 @@ export class VoxelWorld {
           subtype: b.subtype || b.shape,
           paletteSlot: slotIdx,
           paletteName: data.palette[slotIdx]?.name || 'Standard',
-          shape: b.shape
+          shape: b.shape,
+          orientationStatus: b.orientationStatus || 'not-audited',
+          orientationEvidence: b.orientationEvidence || '',
+          orientationFeature: b.orientationFeature || '',
+          rotationDegrees: b.rot || [0, 0, 0]
         };
 
         this.rootGroup.add(mesh);

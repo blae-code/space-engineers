@@ -37,7 +37,7 @@ function createWorkerHarness() {
   };
   const caches = {
     open: async () => cache,
-    keys: async () => ['se3d-visualizer-v9', 'unrelated-cache'],
+    keys: async () => ['se3d-visualizer-v10', 'unrelated-cache'],
     delete: async (key) => {
       calls.deletedCaches.push(key);
       return true;
@@ -78,6 +78,7 @@ test('new worker waits for an explicit update request', async () => {
   assert.equal(calls.skipWaiting, 0);
   assert.ok(calls.cacheAssets.includes('./icon-192.png'));
   assert.ok(calls.cacheAssets.includes('./icon-512.png'));
+  assert.ok(calls.cacheAssets.includes('./js/Orientation.mjs'));
   for (const chapter of chapterRegistry) {
     assert.ok(calls.cacheAssets.includes(`./data/${encodeURIComponent(chapter.file)}`));
   }
@@ -97,7 +98,7 @@ test('activation removes old app caches and claims current clients', async () =>
   listeners.get('activate')({ waitUntil: (promise) => activationPromises.push(promise) });
   await Promise.all(activationPromises);
 
-  assert.deepEqual(calls.deletedCaches, ['se3d-visualizer-v9']);
+  assert.deepEqual(calls.deletedCaches, ['se3d-visualizer-v10']);
   assert.equal(calls.clientsClaimed, 1);
 });
 

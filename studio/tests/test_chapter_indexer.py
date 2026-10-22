@@ -39,6 +39,63 @@ class ChapterIndexerTests(unittest.TestCase):
         self.assertEqual(model["stats"]["dryMassTonnes"], 1258.2)
         self.assertEqual(model["stats"]["pcu"], 10080)
 
+    def test_mastodon_directional_placements_are_audited_with_manual_evidence(self):
+        model = chapter_indexer.read_json(chapter_indexer.DATA_DIR / "mastodon.json")
+        audited = [
+            block
+            for step in model["steps"]
+            for block in step["blocks"]
+            if chapter_indexer.is_orientation_sensitive(block)
+        ]
+        self.assertTrue(audited)
+        self.assertTrue(all(block.get("orientationStatus") in chapter_indexer.ORIENTATION_STATUSES for block in audited))
+        self.assertTrue(all(block.get("orientationEvidence", "").strip() for block in audited))
+
+        unresolved = [block for block in audited if block["orientationStatus"] == "needs-review"]
+        self.assertTrue(unresolved)
+        self.assertTrue(all("rot" not in block for block in unresolved))
+
+        dynamic_turrets = [block for block in audited if block["orientationStatus"] == "dynamic"]
+        self.assertTrue(dynamic_turrets)
+        self.assertTrue(all(block["shape"] == "turret" for block in dynamic_turrets))
+
+        by_name = {
+            block.get("name"): block
+            for step in model["steps"]
+            for block in step["blocks"]
+            if block.get("name")
+        }
+        for name, expected in (
+            ("MAS Hitch Yaw", [-90, 0, 0]),
+            ("MAS Boom Shoulder", [0, 0, 90]),
+            ("MAS Crew Ladder Hinge", [90, 0, 0]),
+            ("MAS MP Conn", [-90, 0, 0]),
+            ("MAS Welder Pad Kestrel 1", [-90, 0, 0]),
+        ):
+            with self.subTest(name=name):
+                self.assertEqual(by_name[name]["orientationStatus"], "documented")
+                self.assertEqual(by_name[name]["rot"], expected)
+
+        ladder_steps = next(step for step in model["steps"] if step["step"] == "10.27")
+        ladder_segments = [block for block in ladder_steps["blocks"] if block.get("subtype") == "NarrowLadderBlock"]
+        self.assertEqual(len(ladder_segments), 2)
+        self.assertTrue(all(block["rot"] == [90, 0, 0] for block in ladder_segments))
+        self.assertTrue(all(block["orientationStatus"] == "documented" for block in ladder_segments))
+
+    def test_mastodon_validator_rejects_unaudited_directional_placement(self):
+        model = chapter_indexer.read_json(chapter_indexer.DATA_DIR / "mastodon.json")
+        block = next(
+            block
+            for step in model["steps"]
+            for block in step["blocks"]
+            if block.get("shape") == "wheel5x5"
+        )
+        del block["orientationStatus"]
+        del block["orientationEvidence"]
+        del block["orientationFeature"]
+        errors = chapter_indexer.validate_model(model, "mastodon.json")
+        self.assertTrue(any("missing Mastodon orientation audit status" in error for error in errors))
+
     def test_rejects_unknown_design_subsystem_step(self):
         model = {
             "id": "TEST-01",

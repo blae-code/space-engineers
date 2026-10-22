@@ -92,6 +92,7 @@
             <div id="hud-step-badge" class="hud-pill">STEP 10.1</div>
             <div id="hud-phase-badge" class="hud-pill teal">PHASE 10-1</div>
           </div>
+          <div id="hud-orientation-review" class="hud-pill" hidden></div>
           <div id="hud-step-desc" class="hud-pill" style="border-left-color: #354252;">Twin Longitudinal Box Girders</div>
           <div class="hud-pill preview-warning" title="Visual placements are not a validated in-game blueprint.">
             ILLUSTRATIVE VOXEL PREVIEW · VERIFY IN-GAME
@@ -195,6 +196,8 @@
               <div><span>Subtype:</span> <strong id="sel-block-subtype">Armor Block</strong></div>
               <div><span>Coords:</span> <strong id="sel-block-coords">[0, 2, 0]</strong></div>
               <div><span>Subsystem:</span> <strong id="sel-block-subsystem">Structure</strong></div>
+              <div id="sel-block-orientation-row"><span>Orientation:</span> <strong id="sel-block-orientation">Not audited</strong></div>
+              <div id="sel-block-orientation-evidence-row"><span>Evidence:</span> <strong id="sel-block-orientation-evidence">—</strong></div>
               <div><span>Palette:</span> <strong id="sel-block-palette">Slot 0</strong></div>
               <div><span>Added In:</span> <strong id="sel-block-step">Step 10.1</strong></div>
               <div><span>Phase:</span> <strong id="sel-block-phase">Phase 10-1</strong></div>
@@ -299,6 +302,12 @@
             <div class="card">
               <h3>Placement Instructions</h3>
               <ol id="instructions-list" style="padding-left:18px; line-height:1.6; font-size:12px; color:var(--muted); display:flex; flex-direction:column; gap:6px;"></ol>
+            </div>
+
+            <div class="card orientation-review-card" id="orientation-review-card" hidden>
+              <h3>Orientation Review Required</h3>
+              <p>Facing is not encoded as a verified rotation. No direction has been inferred; review these placements before treating their preview orientation as final.</p>
+              <ul id="orientation-review-list"></ul>
             </div>
 
             <div class="card">
