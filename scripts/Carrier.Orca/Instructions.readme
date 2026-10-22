@@ -1,0 +1,35 @@
+# Carrier.Orca · In-Game MDK2 Script Project
+
+## Subsystem: ORCA-01 Heavy Mining Carrier Core Subsystem
+* **Target Block:** `[ORC] PB Carrier Core`
+* **Grid Size:** Large Grid (17 × 19 × 7 B)
+* **Update Frequency:** `Update10` (Kinematics / Sensors) + `Update100` (Telemetry / Logistics)
+* **Managed Subsystem Groups:** `ORC CC, ORC PC, ORC HD, ORC AS, ORC MP, ORC BR, ORC JAWS, ORC OR, ORC LAT`
+* **IGC Network Channels:**
+  * Outbound Broadcast: `TMS.ORCA.STATUS` (State, Ore%, Batt%, Reactor MW, Free Bays)
+  * Outbound Unicast: `TMS.MULE.CALL` (JIT Cargo Transshipment summon)
+  * Inbound Broadcast: `FLT.REM.STATUS` (Remora miner status), `TMS.MULE.STATUS` (Shuttle state), `TMS.SCOUT.VEIN` (Kestrel prospector data)
+
+## System Description
+Coordinates 4× REMORA-01 vertical shaft drillers (Bays P1/S1, P3/S3), 2× support craft (Bay P2 Kestrel prospector, Bay S2 Albatross repair craft), motorized folding bay guide jaws (12× hinges @ 45°), and the dorsal 7×7 B Mule landing pad gantry cradle.
+
+## Operational State Machine
+1. `HOVER_STANDBY`: Geostationary hover over mining site with inertial dampeners.
+2. `BAY_OPERATION`: Approach sensors detect incoming/departing drones; guide jaws deployed.
+3. `MULE_TRANSSHIP`: Mule clamped on dorsal pad; high-speed ore drain active.
+4. `EMERGENCY_ASCENT`: Triggered by reactor failure or extreme load; engages 2× Large H2 boost thrusters.
+
+## Terminal Commands
+* `PING`: Resets hardware watchdog.
+* `JAWS OPEN`: Deploys all bay guide jaws to 45° clamp position.
+* `JAWS CLOSE`: Retracts all bay guide jaws to 0° flush position.
+* `CALL_MULE`: Manually broadcasts JIT summon to MULE-01 shuttle.
+* `EMERGENCY`: Toggles emergency ascent mode (ignites 28.8 MN H2 boost).
+* `RELOAD`: Re-reads configuration and terminal block handles.
+
+## Zero-GC PB Rules
+1. C# 6 only, nested in Program, namespace `IngameScript`.
+2. Zero allocations in hot paths (`Main`, `Update10`, `Update100`).
+3. Strings formatted via `SbFormat`.
+4. Strict grid scoping: `b => b.CubeGrid == Me.CubeGrid`.
+5. Minifier safe: never use `enum.ToString()` or `nameof()`.

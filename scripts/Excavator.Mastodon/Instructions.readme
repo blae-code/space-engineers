@@ -1,0 +1,33 @@
+# Excavator.Mastodon · In-Game MDK2 Script Project
+
+## Subsystem: MASTODON-01 Locomotive & Excavator Machine Kinematics
+* **Target Block:** `[MAS] PB Excavator`
+* **Grid Size:** Large Grid Tractor Unit (`MAS-01-T` · 11 W × 20 L × 5 H B · 6 Wheels)
+* **Update Frequency:** `Update1` (Kinematics & Control) + `Update10` (Subsystems & Environmental)
+* **Managed Subsystem Groups:** `MAS STAB, MAS BOOM, MAS TOOL, MAS WHEEL, MAS HITCH, MAS AIRLOCKS, MAS VENTS CABIN, MAS VENTS AIRLOCK`
+* **IGC Network Channels:**
+  * Outbound Kinematics: `TMS.MAS.STATUS`
+  * Consist Drawbar Bus: `TMS.CONSIST.SYNC, TMS.CONSIST.TRACTION, TMS.CONSIST.SEVER`
+  * Environmental & Airlock Bus: `TMS.ENV.MODE, TMS.AIRLOCK.CYCLE`
+
+## System Description
+Implements full physical machine kinematics, outriggers, and environmental life support for the MASTODON-01 MKI tractor:
+1. **Bedrock Outriggers & Auto-Leveling:** 4× hydraulic corner outriggers (`MAS Outrigger Fwd/Aft Port/Stbd`) with automated gyro/gravity vector sampling to level the chassis against sloped terrain (up to 20°).
+2. **5-DOF Articulated Boom Kinematics:** Analytical two-link inverse kinematics solver controlling Turret Azimuth (`MAS Turret Azimuth`), Shoulder Pitch (`MAS Boom Shoulder`), Elbow Pitch (`MAS Boom Elbow`), Wrist Pitch (`MAS Tool Wrist Pitch`), and Wrist Roll (`MAS Wrist Roll`).
+3. **Automated Excavation & Recovery Macros:**
+   * `BENCH`: Planar horizontal/vertical raster sweep across quarry face.
+   * `BORE`: Concentric cylindrical vertical column bore with continuous 5.0 rpm tool spin and locked vertical downward aim (`vector [0, -1, 0]`).
+   * `TRENCH`: Linear trench and roadbed carving along travel heading.
+   * `CRANE`: Manual offset hover and magnetic grapple recovery (`MAS Tool Grapple`).
+   * `SALVAGE`: Planar raster deconstruction sweep at 15-30 m standoff.
+   * `STOW` / `DEPLOY`: Rigid dorsal spine travel stow into chassis trough clamp (`MAS Clamp Boom Stow`) at 5.2 m transit height.
+4. **ToolCore Tri-Mode Laser Switching:** Cycles laser tools between Mining Beam (Drill), Salvage Beam (Grinder), and Fabrication Beam (Welder).
+5. **Consist Dynamics & DPU Traction:** 3-axis heavy gimbal tow hitch dampening with twin magnetic stabilizer clamps (`MAS Hitch Clamp Port/Stbd`) engaged at speed > 30 km/h; dynamic DPU throttle and regenerative braking coordination.
+6. **Cabin Ventilation & Airlock Cycling:** Multi-zone hermetic cabin isolation, dual-mode atmospheric scavenging vs closed loop, and active gas-reclamation decontamination airlock cycling.
+
+## Zero-GC PB Rules
+1. C# 6 only, nested in Program, namespace `IngameScript`.
+2. Zero allocations in hot paths (`Main`, `Update1`, `Update10`).
+3. Numbers and text formatted via `SbFormat`.
+4. Strict grid scoping: `b => b.CubeGrid == Me.CubeGrid`.
+5. Minifier safe: never use `enum.ToString()` or `nameof()`.

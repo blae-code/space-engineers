@@ -1,0 +1,21 @@
+{
+  "A": 10,
+  "H": 6,
+  "R": 3,
+  "d": 17,
+  "h": 28,
+  "kind": "hub",
+  "label": "HUB",
+  "mass": null,
+  "notes": "Hex core 16 x 17 B (1x2 slopes), 28 B. 6 corner spines. Decks H1 Command, H2 Habitat, H3 Gas & utility, H4 Power (R x3), H5 Junction (6 P roots), H6 Lift (16 slots: 10 A + 6 H).",
+  "online": true,
+  "phase": 1,
+  "rot": 0,
+  "shape": "hex",
+  "sizeTBD": false,
+  "status": "planned",
+  "w": 16,
+  "x": 0,
+  "y": 14,
+  "z": 0
+}

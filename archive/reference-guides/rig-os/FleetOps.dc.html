@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>RIG//OS fleet ops wall</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&amp;family=Saira+Stencil+One&amp;display=swap">
+<style>
+body{margin:0;background:#0c0d0b}
+button:focus-visible{outline:2px solid #ffffff;outline-offset:1px}
+</style>
+</helmet>
+<div style="width:1600px;height:900px;box-sizing:border-box;padding:20px;background:#191b18;display:flex;flex-direction:column;gap:12px;font-family:'JetBrains Mono',monospace;color:#c9c6b8">
+
+<div style="height:44px;display:flex;align-items:center;gap:14px">
+<div style="width:120px;height:12px;background:repeating-linear-gradient(-45deg,#d9a400 0 10px,#121212 10px 20px)"></div>
+<div style="font-family:'Saira Stencil One',sans-serif;font-size:20px;letter-spacing:3px;color:#b9b4a2">RIG · H1 · FLEET OPS WALL · LCD ×3</div>
+<div style="flex-grow:1;height:1px;background:#3a3c37"></div>
+<div style="font-size:11px;letter-spacing:1px;color:#8d8a7e">FILTER</div>
+<sc-for list="{{filters}}" as="f" hint-placeholder-count="3"><button type="button" onClick="{{f.pick}}" style="height:44px;min-width:84px;padding:0 12px;border:1px solid #050605;border-radius:4px;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:700;background:{{f.b}};color:{{f.c}};box-shadow:inset 0 -3px 0 #0e0f0d">{{f.lbl}}</button></sc-for>
+<button type="button" onClick="{{toggleLinks}}" style="height:44px;padding:0 12px;border:1px solid #050605;border-radius:4px;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:700;background:{{linkB}};color:{{linkC}};box-shadow:inset 0 -3px 0 #0e0f0d">LINKS</button>
+</div>
+
+<div style="height:456px;box-sizing:border-box;border:2px solid #050605;padding:8px;background:#0a0b09;border-radius:6px;box-shadow:inset 0 0 0 1px #2c2e2a">
+<div style="position:relative;height:436px;box-sizing:border-box;padding:8px 12px;background:{{bg}};color:{{fg}};text-shadow:{{glow}};font-size:14px;line-height:18px;overflow:hidden;border-radius:3px">
+<sc-for list="{{prof}}" as="ln" hint-placeholder-count="22"><div style="height:18px;white-space:pre;overflow:hidden"><sc-for list="{{ln.segs}}" as="sg" hint-placeholder-count="2"><span style="color:{{sg.c}};background:{{sg.b}}">{{sg.s}}</span></sc-for></div></sc-for>
+<sc-if value="{{crt}}" hint-placeholder-val="{{true}}"><div aria-hidden="true" style="position:absolute;left:0;top:0;right:0;bottom:0;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(0,0,0,0.30) 0px,rgba(0,0,0,0.30) 1px,transparent 1px,transparent 3px)"></div><div aria-hidden="true" style="position:absolute;left:0;top:0;right:0;bottom:0;pointer-events:none;background:radial-gradient(ellipse at center,rgba(0,0,0,0) 65%,rgba(0,0,0,0.5) 100%)"></div></sc-if>
+</div>
+</div>
+
+<div style="flex-grow:1;display:flex;gap:12px;min-height:0">
+<div style="width:900px;box-sizing:border-box;border:2px solid #050605;padding:8px;background:#0a0b09;border-radius:6px;box-shadow:inset 0 0 0 1px #2c2e2a">
+<div style="position:relative;height:100%;box-sizing:border-box;padding:8px 12px;background:{{bg}};color:{{fg}};text-shadow:{{glow}};font-size:14px;line-height:18px;overflow:hidden;border-radius:3px">
+<sc-for list="{{roster}}" as="ln" hint-placeholder-count="14">
+<sc-if value="{{ln.isBtn}}" hint-placeholder-val="{{false}}"><button type="button" onClick="{{ln.pick}}" style="display:block;width:100%;height:18px;margin:0;padding:0;border:0;background:{{ln.bg}};color:inherit;font:inherit;text-align:left;white-space:pre;overflow:hidden;cursor:pointer;text-shadow:inherit"><sc-for list="{{ln.segs}}" as="sg" hint-placeholder-count="2"><span style="color:{{sg.c}};background:{{sg.b}}">{{sg.s}}</span></sc-for></button></sc-if>
+<sc-if value="{{ln.isTxt}}" hint-placeholder-val="{{true}}"><div style="height:18px;white-space:pre;overflow:hidden"><sc-for list="{{ln.segs}}" as="sg" hint-placeholder-count="2"><span style="color:{{sg.c}};background:{{sg.b}}">{{sg.s}}</span></sc-for></div></sc-if>
+</sc-for>
+<sc-if value="{{crt}}" hint-placeholder-val="{{true}}"><div aria-hidden="true" style="position:absolute;left:0;top:0;right:0;bottom:0;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(0,0,0,0.30) 0px,rgba(0,0,0,0.30) 1px,transparent 1px,transparent 3px)"></div></sc-if>
+</div>
+</div>
+<div style="flex-grow:1;min-width:0;box-sizing:border-box;border:2px solid #050605;padding:8px;background:#0a0b09;border-radius:6px;box-shadow:inset 0 0 0 1px #2c2e2a">
+<div style="position:relative;height:100%;box-sizing:border-box;padding:8px 12px;background:{{bg}};color:{{fg}};text-shadow:{{glow}};font-size:14px;line-height:18px;overflow:hidden;border-radius:3px">
+<sc-for list="{{telem}}" as="ln" hint-placeholder-count="14"><div style="height:18px;white-space:pre;overflow:hidden"><sc-for list="{{ln.segs}}" as="sg" hint-placeholder-count="2"><span style="color:{{sg.c}};background:{{sg.b}}">{{sg.s}}</span></sc-for></div></sc-for>
+<sc-if value="{{crt}}" hint-placeholder-val="{{true}}"><div aria-hidden="true" style="position:absolute;left:0;top:0;right:0;bottom:0;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(0,0,0,0.30) 0px,rgba(0,0,0,0.30) 1px,transparent 1px,transparent 3px)"></div></sc-if>
+</div>
+</div>
+</div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"phosphor":{"editor":"enum","options":["AMBER","GREEN","CYAN","BONE"],"default":"AMBER","section":"Display"},"crt":{"editor":"boolean","default":true,"section":"Display"},"antennaKm":{"editor":"range","min":10,"max":50,"step":5,"default":50,"unit":"km","section":"Comms"},"relayKm":{"editor":"range","min":5,"max":50,"step":5,"default":25,"unit":"km","section":"Comms"},"$preview":{"width":1600,"height":900}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { t: 0, sel: 'PM-01', filt: 0, links: true };
+  }
+  componentDidMount() { this._iv = setInterval(() => this.setState({ t: this.state.t + 1 }), 1000); }
+  componentWillUnmount() { clearInterval(this._iv); }
+
+  pal() {
+    const m = { AMBER: ['#ffb000', '#140d02'], GREEN: ['#3dff8a', '#03120a'], CYAN: ['#62e3ff', '#03111a'], BONE: ['#ece6cf', '#0d0d0b'] };
+    const p = m[this.props.phosphor ?? 'AMBER'] || m.AMBER;
+    this.P = { fg: p[0], bg: p[1], al: '#ff5a45' };
+    return this.P;
+  }
+  tone(tn) {
+    const P = this.P, on = this.state.t % 2 === 0;
+    switch (tn) {
+      case 'd': return [P.fg + 'b8', 'transparent'];
+      case 'f': return [P.fg + '4a', 'transparent'];
+      case 'a': return [P.al, 'transparent'];
+      case 'i': return [P.bg, P.fg];
+      case 'ia': return [P.bg, P.al];
+      case 'w': return on ? [P.bg, P.fg] : [P.fg, 'transparent'];
+      case 'wa': return on ? [P.bg, P.al] : [P.al, 'transparent'];
+      default: return [P.fg, 'transparent'];
+    }
+  }
+  T(s, tn) { const c = this.tone(tn || 'n'); return { s: s, c: c[0], b: c[1] }; }
+  bar(p, w) { const n = Math.max(0, Math.min(w, Math.round(p / 100 * w))); return '█'.repeat(n) + '░'.repeat(w - n); }
+  spark(vals) { const k = '▁▂▃▄▅▆▇█'; return vals.map((v) => k[Math.max(0, Math.min(7, Math.round(v / 100 * 7)))]).join(''); }
+  rowsToSegs(g, tn) {
+    return g.map((row, r) => {
+      const segs = []; let cur = '', ct = tn[r][0];
+      for (let c = 0; c < row.length; c++) { if (tn[r][c] !== ct) { segs.push(this.T(cur, ct)); cur = ''; ct = tn[r][c]; } cur += row[c]; }
+      segs.push(this.T(cur, ct));
+      return { segs: segs };
+    });
+  }
+
+  drones() {
+    const t = this.state.t, sw = (a, p, k) => Math.round((a + k * Math.sin(t / p)) * 10) / 10;
+    return [
+      { id: 'PM-01', g: 'P1', cls: 'MNR-P', st: 'MINING', zone: 'SURF S-07', brg: 42, km: sw(14.2, 9, 0.2), band: 'SURF', bat: 82, crg: 61, via: 'RIG', age: 1, job: 'J-0142', ore: 'Fe', v: 90 },
+      { id: 'PM-02', g: 'P2', cls: 'MNR-P', st: 'MINING', zone: 'SURF S-11', brg: 118, km: sw(22.6, 8, 0.2), band: 'SURF', bat: 67, crg: 88, via: 'RIG', age: 1, job: 'J-0143', ore: 'Ni', v: 90 },
+      { id: 'PM-03', g: 'P3', cls: 'MNR-P', st: 'RTB', zone: 'ASCENT', brg: 201, km: sw(9.8, 5, 0.6), band: 'LOW', bat: 41, crg: 97, via: 'RIG', age: 2, job: 'J-0139', ore: 'Si', v: 90 },
+      { id: 'PM-04', g: 'P4', cls: 'MNR-P', st: 'PROSPECT', zone: 'SURF S-19', brg: 296, km: sw(61.0, 12, 0.4), band: 'SURF', bat: 74, crg: 12, via: 'RLY-1', age: 3, job: 'J-0146', ore: 'Au', v: 90 },
+      { id: 'OM-01', g: 'O1', cls: 'MNR-O', st: 'MINING', zone: 'ORB ICE-A', brg: 15, km: sw(38.0, 10, 0.5), band: 'ORB', bat: 90, crg: 54, via: 'RLY-2', age: 2, job: 'J-0144', ore: 'Ice', v: 100 },
+      { id: 'OM-02', g: 'O2', cls: 'MNR-O', st: 'TRANSIT', zone: 'ORB>RIG', brg: 340, km: sw(27.0, 4, 0.8), band: 'ATMO', bat: 76, crg: 93, via: 'RIG', age: 1, job: 'J-0140', ore: 'Ice', v: 100 },
+      { id: 'OM-03', g: 'O3', cls: 'MNR-O', st: 'PROSPECT', zone: 'ORB U-C', brg: 160, km: sw(84.0, 14, 0.6), band: 'ORB', bat: 88, crg: 5, via: 'RLY-2', age: 8 + (t % 30), job: 'J-0145', ore: 'U', v: 100 },
+      { id: 'RLY-1', g: 'R1', cls: 'RELAY', st: 'STATION', zone: 'HI-ATMO W', brg: 290, km: 35.0, band: 'RIGALT', bat: 96, crg: 0, via: 'RIG', age: 1, job: null, ore: null, v: 0 },
+      { id: 'RLY-2', g: 'R2', cls: 'RELAY', st: 'STATION', zone: 'LOW ORBIT', brg: 355, km: 12.0, band: 'ORB', bat: 99, crg: 0, via: 'RIG', age: 1, job: null, ore: null, v: 0 }
+    ];
+  }
+
+  profile(D, selId) {
+    const W = 178, H = 21, cx = 89, kmPerCol = 100 / 84;
+    const rowOf = { ORB: 2, ATMO: 6, RIGALT: 9, RIG: 10, LOW: 13, SURF: 16 };
+    const g = [], tn = [];
+    for (let r = 0; r < H; r++) { g.push(Array(W).fill(' ')); tn.push(Array(W).fill('f')); }
+    const put = (r, c, ch, t) => { if (r >= 0 && r < H && c >= 0 && c < W) { g[r][c] = ch; tn[r][c] = t; } };
+    const text = (r, c, s, t) => { for (let i = 0; i < s.length; i++) put(r, c + i, s[i], t); };
+    const colOf = (d) => Math.round(cx + (d.km * Math.sin(d.brg * Math.PI / 180)) / kmPerCol);
+    for (let c = 0; c < W; c += 2) put(4, c, '┄', 'f');
+    text(0, 1, 'LOW ORBIT · vacuum · ion / H2 thrust only', 'd');
+    text(4, 1, 'ATMO EDGE', 'd');
+    for (let c = 0; c < W; c++) {
+      const x = (c - cx) / cx, sr = 17 + Math.round(3.2 * x * x);
+      for (let r = sr; r < H; r++) put(r, c, r === sr ? '▀' : '▒', r === sr ? 'd' : 'f');
+    }
+    text(18, cx - 12, ' SURFACE · [PLANET TBD] ', 'd');
+    const ell = (r0, c0, rc, rr, ch, t) => { for (let a = 0; a < 360; a += 1.5) { const q = a * Math.PI / 180; const r = Math.round(r0 - rr * Math.sin(q)), c = Math.round(c0 + rc * Math.cos(q)); if (r >= 0 && r < H && c >= 0 && c < W && (g[r][c] === ' ' || g[r][c] === '┄')) put(r, c, ch, t); } };
+    const aK = Number(this.props.antennaKm ?? 50), rK = Number(this.props.relayKm ?? 25);
+    ell(rowOf.RIG, cx, aK / kmPerCol, 7 * aK / 50, ':', 'd');
+    D.filter((d) => d.cls === 'RELAY').forEach((d) => ell(rowOf[d.band], colOf(d), rK / kmPerCol, 5 * rK / 50, '∙', 'f'));
+    for (let k = -100; k <= 100; k += 25) { const c = Math.round(cx + k / kmPerCol); put(H - 1, c, '┴', 'd'); text(H - 1, c + 1, String(Math.abs(k)), 'd'); }
+    text(H - 1, 1, 'W km', 'd'); text(H - 1, W - 5, 'km E', 'd');
+    const srAt = (c) => { const x = (c - cx) / cx; return 17 + Math.round(3.2 * x * x); };
+    const pos = (d) => d.band === 'SURF' ? [srAt(colOf(d)) - 1, colOf(d)] : [rowOf[d.band], colOf(d)];
+    if (this.state.links) {
+      D.forEach((d) => {
+        const a = pos(d), b = d.via === 'RIG' ? [rowOf.RIG, cx] : pos(D.find((x) => x.id === d.via));
+        const n = Math.max(Math.abs(b[1] - a[1]), Math.abs(b[0] - a[0]) * 2, 1);
+        const st = d.age > 10;
+        for (let i = 1; i < n; i++) {
+          const r = Math.round(a[0] + (b[0] - a[0]) * i / n), c = Math.round(a[1] + (b[1] - a[1]) * i / n);
+          if (i % 2 === 0 && (g[r][c] === ' ' || g[r][c] === '┄' || g[r][c] === ':' || g[r][c] === '∙')) put(r, c, st ? '×' : '·', st ? 'a' : (d.id === selId ? 'n' : 'd'));
+        }
+      });
+    }
+    text(rowOf.RIG, cx - 1, '[◆]', 'n');
+    text(rowOf.RIG + 1, cx - 2, 'RIG', 'd');
+    D.forEach((d) => {
+      const p = pos(d), st = d.age > 10, on = d.id === selId;
+      text(p[0], p[1], d.g, on ? (st ? 'ia' : 'i') : (st ? 'wa' : 'n'));
+      text(p[0] - 1, p[1], d.st === 'RTB' ? '↑' : d.st === 'TRANSIT' ? '↓' : '', 'd');
+    });
+    return this.rowsToSegs(g, tn);
+  }
+
+  renderVals() {
+    const s = this.state, P = this.pal(), T = (x, tn) => this.T(x, tn), D = this.drones();
+    const filtNames = ['ALL', 'SURFACE', 'ORBIT'];
+    const keep = (d) => s.filt === 0 || (s.filt === 1 ? (d.cls === 'MNR-P') : (d.cls === 'MNR-O' || d.id === 'RLY-2'));
+    const shown = D.filter(keep);
+    const sel = D.find((d) => d.id === s.sel) || D[0];
+    const crt = this.props.crt ?? true;
+    const clock = (k) => { const x = s.t - k, hh = 14 + Math.floor((32 * 60 + x) / 3600), mm = (32 + Math.floor(x / 60)) % 60, ss = ((x % 60) + 60) % 60; return String(hh).padStart(2, '0') + ':' + String(mm).padStart(2, '0') + ':' + String(ss).padStart(2, '0'); };
+
+    const head = [T(' FLEET SECTION · E–W cut through RIG · altitude bands not to scale ', 'i'),
+      T('   ":" RIG antenna ' + (this.props.antennaKm ?? 50) + ' km   "∙" relay ' + (this.props.relayKm ?? 25) + ' km   "·" link   "×" stale   ↑ ascending  ↓ descending   ' + clock(0), 'd')];
+    const prof = [{ segs: head }].concat(this.profile(shown, sel.id));
+
+    const roster = [];
+    const add = (...segs) => roster.push({ segs: segs, isBtn: false, isTxt: true, bg: 'transparent', pick: null });
+    add(T(' ROSTER ', 'i'), T('  ' + filtNames[s.filt] + ' · ' + shown.length + ' contacts · click a row to track', 'd'));
+    add(T('   ID     CLASS  STATE     ZONE         DIST     BAT  CRG  HOPS  LINK         ETA RTB', 'd'));
+    shown.forEach((d) => {
+      const on = d.id === sel.id, st = d.age > 10;
+      const hops = d.via === 'RIG' ? 1 : 2;
+      const eta = d.v ? Math.round(d.km * 1000 / d.v) : 0;
+      const etaS = d.v ? Math.floor(eta / 60) + 'm' + String(eta % 60).padStart(2, '0') + 's' : '—';
+      roster.push({ isBtn: true, isTxt: false, bg: on ? P.fg + '2e' : 'transparent', pick: () => this.setState({ sel: d.id }),
+        segs: [T(on ? ' ▶ ' : '   '), T(d.id.padEnd(7) + d.cls.padEnd(7)), T(d.st.padEnd(10), d.st === 'RTB' ? 'w' : 'n'), T(d.zone.padEnd(13) + (d.km.toFixed(1) + 'k').padEnd(9)),
+          T(String(d.bat).padStart(3) + '% ', d.bat <= 25 ? 'a' : 'n'), T(String(d.crg).padStart(3) + '% ', d.crg >= 95 ? 'w' : 'n'), T(String(hops).padStart(3) + '   '),
+          T((st ? 'STALE ' + d.age + 's' : 'OK ' + d.age + 's').padEnd(13), st ? 'wa' : 'n'), T(etaS, 'd')] });
+    });
+    add(T(''));
+    add(T(' RELAY LOAD ', 'i'), T('  RLY-1 serves ' + D.filter((d) => d.via === 'RLY-1').length + ' · RLY-2 serves ' + D.filter((d) => d.via === 'RLY-2').length + ' · direct ' + D.filter((d) => d.via === 'RIG' && d.cls !== 'RELAY').length, 'd'));
+
+    const telem = [];
+    const tl = (...segs) => telem.push({ segs: segs });
+    const seed = (k, base) => Array.from({ length: 32 }, (_, i) => Math.max(0, Math.min(100, base + 8 * Math.sin((s.t - 31 + i) / k) - (31 - i) * 0.4)));
+    tl(T(' TRACK ' + sel.id + ' ', 'i'), T('  ' + sel.cls + ' · ' + sel.st + ' · ' + (sel.job || 'no job') + (sel.ore ? ' · ' + sel.ore : ''), 'd'));
+    tl(T('ZONE  ' + sel.zone + '  brg ' + String(sel.brg).padStart(3, '0') + '°  ' + sel.km.toFixed(1) + ' km  band ' + sel.band));
+    tl(T('PATH  RIG ══ ' + (sel.via !== 'RIG' ? sel.via + ' ══ ' : '') + sel.id), T('   last packet ' + sel.age + ' s', sel.age > 10 ? 'wa' : 'd'));
+    tl(T(''));
+    tl(T('BAT   '), T(this.bar(sel.bat, 24), sel.bat <= 25 ? 'a' : 'n'), T(' ' + String(sel.bat).padStart(3) + '%  '), T(this.spark(seed(5, sel.bat)), 'd'));
+    tl(T('CRG   '), T(this.bar(sel.crg, 24), sel.crg >= 95 ? 'w' : 'n'), T(' ' + String(sel.crg).padStart(3) + '%  '), T(this.spark(seed(7, sel.crg)), 'd'));
+    tl(T('      ' + ''.padEnd(30) + '-32 s ' + ''.padEnd(20) + 'now', 'f'));
+    tl(T(''));
+    tl(T(' PACKET LOG ', 'i'), T('  IGC · newest first', 'd'));
+    const msgs = [
+      'RX RIG.JOB  STATUS ' + sel.id + ' ' + sel.st + ' bat ' + sel.bat + ' crg ' + sel.crg,
+      sel.st === 'RTB' ? 'TX RIG.DOCK DOCK_ASSIGN ' + sel.id + ' bay A3' : 'RX RIG.JOB  STATUS ' + sel.id + ' pos ok',
+      sel.st === 'RTB' ? 'RX RIG.DOCK DOCK_REQ ' + sel.id : 'RX RIG.JOB  STATUS ' + sel.id + ' ' + sel.st,
+      sel.job ? 'TX RIG.JOB  JOB ' + sel.job + ' → ' + sel.id : 'RX RIG.JOB  STATUS ' + sel.id + ' station',
+      'TX RIG.DOCK LAUNCH ' + sel.id
+    ];
+    const stale = sel.age > 10;
+    msgs.forEach((m, i) => tl(T(clock(sel.age + i * 7) + '  ', 'd'), T(m, i === 0 && stale ? 'a' : 'n')));
+    if (stale) tl(T('!! no packet for ' + sel.age + ' s · policy HOLD60>RTB', 'wa'));
+
+    return {
+      fg: P.fg, bg: P.bg, glow: crt ? '0 0 6px ' + P.fg + '88' : 'none', crt: crt,
+      prof, roster, telem,
+      filters: filtNames.map((n, i) => ({ lbl: n, pick: () => this.setState({ filt: i }), b: i === s.filt ? P.fg : '#22241f', c: i === s.filt ? P.bg : P.fg })),
+      toggleLinks: () => this.setState({ links: !s.links }), linkB: s.links ? P.fg : '#22241f', linkC: s.links ? P.bg : P.fg
+    };
+  }
+}
+</script>
+</body>
+</html>

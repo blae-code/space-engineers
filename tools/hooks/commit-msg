@@ -1,0 +1,40 @@
+#!/usr/bin/env python3
+"""Stamp a `Card: Cxx` trailer on any commit whose staged files belong to one task card.
+
+card-check --committed and next-card find a card's commit by this trailer, which is the only way to
+find a wire card's commit (it edits files that already exist). An existing trailer is left alone.
+
+Also refuses an `Agent: Gemini` / `Agent: Qwen` commit that touches the gates or the agents' own
+rule files (GUARDED below). It keys off the trailer, so it is a guardrail, not a boundary: the real
+check is Claude reviewing every docs/review-queue.md entry.
+"""
+import re
+import subprocess
+import sys
+from pathlib import Path
+
+# The repo being committed (a worktree too: core.hooksPath may point at another checkout's hooks).
+TOP = subprocess.run(["git", "rev-parse", "--show-toplevel"], capture_output=True, text=True).stdout.strip()
+sys.path.insert(0, str(Path(TOP) / "tools"))
+from cards import ROOT, owners  # noqa: E402
+
+msg_file = Path(sys.argv[1])
+staged = subprocess.run(["git", "diff", "--cached", "--name-only", "--diff-filter=ACMR"],
+                        cwd=ROOT, capture_output=True, text=True).stdout.split()
+msg = msg_file.read_text()
+
+# Gates and agent rule files are Claude's. --no-renames lists both sides of a move; deletions count.
+GUARDED = re.compile(r"^(tools/|\.continue/|\.agent/|CLAUDE[^/]*\.md$|GEMINI\.md$)")
+agent = re.search(r"^Agent:\s*(Gemini|Qwen)\b", msg, re.M | re.I)
+if agent:
+    touched = subprocess.run(["git", "diff", "--cached", "--name-only", "--no-renames"],
+                             cwd=ROOT, capture_output=True, text=True).stdout.split("\n")
+    bad = [f for f in touched if GUARDED.match(f)]
+    if bad:
+        print("commit-msg: refused — Agent: " + agent.group(1) + " may not touch " + ", ".join(bad))
+        sys.exit(1)
+
+own = owners()
+cards = sorted({own[f] for f in staged if f in own})
+if len(cards) == 1 and "\nCard: " not in "\n" + msg:
+    msg_file.write_text(msg.rstrip("\n") + "\n\nCard: " + cards[0] + "\n")

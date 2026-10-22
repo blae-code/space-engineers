@@ -1,0 +1,66 @@
+diff --git a/CLAUDE.md b/CLAUDE.md
+index abcdef1..1234567 100644
+--- a/CLAUDE.md
++++ b/CLAUDE.md
+@@ -7,5 +7,5 @@
+-- Canonical design: `reference/` (build guide, Crawler/Mule guides, RIG//OS prototypes, sandbox).
++- Canonical design: `manuals/MASTER-BUILD-MANUAL.md` and `archive/reference-guides/`.
+-- Spec changes are logged in `docs/rig/CHANGELOG.md` (`| date | change |`). Mods: `docs/rig/mods.md`.
++- Spec changes are logged in `docs/CHANGELOG.md` (`| date | change |`). Mods: `docs/mods.md`.
+-- The Fleet code (`Fleet.*`, PAM-successor miner, console, carrier, dispatcher) is frozen at tag
+-  `fleet-freeze` and is being merged into the Rig (`docs/merge/`). Its slice specs/plans/cards stay in
+-  `docs/superpowers/` until they move to `legacy/drone-fleet/`.
++- The Fleet code is frozen at tag `fleet-freeze` and archived in `archive/legacy-drone-fleet/`.
+-- In-game build specs: `docs/build-specs/`. `mining-drone.script.cs` is a **snapshot** of the deployed
++- In-game build specs: `archive/legacy-drone-fleet/deploy/`.
+@@ -45,3 +45,3 @@
+-- **Cards** live in any `docs/superpowers/plans/*-cards/` deck, numbered across decks (C31 onward
++- **Cards** live in any `archive/legacy-drone-fleet/planning/plans/*-cards/` deck, numbered across decks (C31 onward
+@@ -85,5 +85,5 @@
+-dotnet build Fleet.Drone.Miner -c Release   # compile vs Bin64, minify, DEPLOY to the game
+-dotnet build Fleet.Console -c Release       # the mothership console script
+-dotnet build Fleet.Carrier -c Release       # the carrier bay beacon (slice 2)
++dotnet build archive/legacy-drone-fleet/Fleet.Drone.Miner -c Release
++dotnet build archive/legacy-drone-fleet/Fleet.Console     -c Release
++dotnet build archive/legacy-drone-fleet/Fleet.Carrier     -c Release
+-fish tools/check-size.fish                  # every deployed script.cs < 100,000 chars (warn >= 90,000)
+-dotnet test Fleet.Tests                     # NUnit on Mono (net48)
++fish tools/check-size.fish
++dotnet test archive/legacy-drone-fleet/Fleet.Tests
+diff --git a/tools/cards.py b/tools/cards.py
+index abcdef1..1234567 100644
+--- a/tools/cards.py
++++ b/tools/cards.py
+@@ -11,4 +11,4 @@
+-PLANS = ROOT / "docs/superpowers/plans"
++PLANS = ROOT / "archive/legacy-drone-fleet/planning/plans"
+ CARD_ID = re.compile(r"C\d{2,3}")
+ # Script code: everything the in-game compiler sees. Tests and tools are not script code.
+-SCRIPT = re.compile(r"^Fleet\.(Engine|Flight|Drone\.Miner|Console|Carrier|Mothership)/.*\.cs$")
++SCRIPT = re.compile(r"^(archive/legacy-drone-fleet/)?Fleet\.(Engine|Flight|Drone\.Miner|Console|Carrier|Mothership)/.*\.cs$")
+diff --git a/tools/checkpoint.py b/tools/checkpoint.py
+index abcdef1..1234567 100644
+--- a/tools/checkpoint.py
++++ b/tools/checkpoint.py
+@@ -23,3 +23,3 @@
+-    ini = ROOT / "Fleet.Drone.Miner/mdk.local.ini"
++    ini = ROOT / "archive/legacy-drone-fleet/Fleet.Drone.Miner/mdk.local.ini"
+@@ -39,5 +39,5 @@
+-    code, text = run(["dotnet", "test", "Fleet.Tests"])
++    code, text = run(["dotnet", "test", "archive/legacy-drone-fleet/Fleet.Tests"])
+-    code, text = run(["dotnet", "build", "Fleet.Drone.Miner", "-c", "Release"])
++    code, text = run(["dotnet", "build", "archive/legacy-drone-fleet/Fleet.Drone.Miner", "-c", "Release"])
+diff --git a/tools/check-size.fish b/tools/check-size.fish
+index abcdef1..1234567 100755
+--- a/tools/check-size.fish
++++ b/tools/check-size.fish
+@@ -7,3 +7,3 @@
+-    set -l ini $root/$proj/mdk.local.ini
++    set -l ini $root/archive/legacy-drone-fleet/$proj/mdk.local.ini
+diff --git a/tools/snapshot.fish b/tools/snapshot.fish
+index abcdef1..1234567 100755
+--- a/tools/snapshot.fish
++++ b/tools/snapshot.fish
+@@ -6,3 +6,3 @@
+-set -l ini $root/Fleet.Drone.Miner/mdk.local.ini
++set -l ini $root/archive/legacy-drone-fleet/Fleet.Drone.Miner/mdk.local.ini

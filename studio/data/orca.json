@@ -1,0 +1,2007 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "id": "ORC-01",
+  "name": "ORCA-01 Heavy Mining Carrier",
+  "chapter": 1,
+  "gridSize": "Large",
+  "blockMeters": 2.5,
+  "stats": {
+    "totalBlocks": 653,
+    "dryMassTonnes": 764.0,
+    "pcu": 4500,
+    "dimensionsBlocks": [
+      17,
+      19,
+      7
+    ]
+  },
+  "bounds": {
+    "min": [
+      -8,
+      1,
+      -9
+    ],
+    "max": [
+      8,
+      7,
+      10
+    ]
+  },
+  "palette": [
+    {
+      "slot": 0,
+      "name": "Citadel Charcoal",
+      "hex": "#1A1D20",
+      "rgb": [
+        26,
+        29,
+        32
+      ],
+      "role": "Heavy Armor Hull & Structural Longerons"
+    },
+    {
+      "slot": 1,
+      "name": "Structural Slate",
+      "hex": "#42464D",
+      "rgb": [
+        66,
+        70,
+        77
+      ],
+      "role": "Bulkheads, Deck Frames & Workshop Ribs"
+    },
+    {
+      "slot": 2,
+      "name": "Warning Amber",
+      "hex": "#E06D14",
+      "rgb": [
+        224,
+        109,
+        20
+      ],
+      "role": "Hatches, Outriggers, Hitch & Bumper Guides"
+    },
+    {
+      "slot": 3,
+      "name": "Tactical White",
+      "hex": "#D4D8DD",
+      "rgb": [
+        212,
+        216,
+        221
+      ],
+      "role": "Flight Deck Markings & Alignment Chevrons"
+    },
+    {
+      "slot": 4,
+      "name": "Processing Teal",
+      "hex": "#1ABC9C",
+      "rgb": [
+        26,
+        188,
+        156
+      ],
+      "role": "Conveyors, Sorters, Ejectors & Basic Refinery"
+    },
+    {
+      "slot": 5,
+      "name": "Habitat White",
+      "hex": "#E8ECF0",
+      "rgb": [
+        232,
+        236,
+        240
+      ],
+      "role": "Bridge Canopy Interior & Medical Station"
+    },
+    {
+      "slot": 6,
+      "name": "Machine Olive",
+      "hex": "#4A5643",
+      "rgb": [
+        74,
+        86,
+        67
+      ],
+      "role": "Large Assembler, Sorter Manifolds & Tool Stores"
+    },
+    {
+      "slot": 7,
+      "name": "Cryo Cyan",
+      "hex": "#1E6B7B",
+      "rgb": [
+        30,
+        107,
+        123
+      ],
+      "role": "Hydrogen Tanks & O2/H2 Decon Systems"
+    },
+    {
+      "slot": 8,
+      "name": "Mechanical Gunmetal",
+      "hex": "#2B2E33",
+      "rgb": [
+        43,
+        46,
+        51
+      ],
+      "role": "Hitch Rotors, Axle Mounts & Boom Pedestal"
+    },
+    {
+      "slot": 9,
+      "name": "Grate Steel",
+      "hex": "#50555C",
+      "rgb": [
+        80,
+        85,
+        92
+      ],
+      "role": "Jefferies Grating, Catwalks & Access Stairs"
+    }
+  ],
+  "steps": [
+    {
+      "step": "1",
+      "phase": "1-1",
+      "title": "Belly Frame Rails & Ventral Anchors (L1)",
+      "level": "L2",
+      "subsystem": "power",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "Lay parallel Beam Block rails at X = -1.5 and X = +1.5 running from r0 to r18.",
+        "Tie rails transversely at r0, r3, r6, r9, r12, r15, r18.",
+        "Mount 2\u00d7 Magnetic Plates (`ORC Belly Anchor Bow` at r3, `ORC Belly Anchor Stern` at r15) facing DOWN flush with L1 belly line. Group: `ORC Ventral Anchors`."
+      ],
+      "checks": [
+        "Two rigid parallel rails 3 B apart, spanning 19 B. Magnetic plates flush with keel."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            2,
+            -9
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "power",
+          "name": "ORC-01 Belly Frame Rails &  [-2, 2, -9]"
+        },
+        {
+          "pos": [
+            -1,
+            2,
+            -9
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "power",
+          "name": "ORC-01 Belly Frame Rails &  [-1, 2, -9]"
+        },
+        {
+          "pos": [
+            0,
+            2,
+            -9
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "power",
+          "name": "ORC-01 Belly Frame Rails &  [0, 2, -9]"
+        },
+        {
+          "pos": [
+            1,
+            2,
+            -9
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "power",
+          "name": "ORC-01 Belly Frame Rails &  [1, 2, -9]"
+        },
+        {
+          "pos": [
+            2,
+            2,
+            -9
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "power",
+          "name": "ORC-01 Belly Frame Rails &  [2, 2, -9]"
+        }
+      ]
+    },
+    {
+      "step": "2",
+      "phase": "1-1",
+      "title": "Spine Vertical Posts (L1 \u2500\u2500\u25ba L7)",
+      "level": "L3",
+      "subsystem": "power",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "Erect 7 vertical posts at X = -1.5 at rows r0, r3, r6, r9, r12, r15, r18 (6 B tall each).",
+        "Erect 7 mirrored vertical posts at X = +1.5."
+      ],
+      "checks": [
+        "14 vertical structural columns standing 7 B tall (17.5 m) in two parallel rows."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            3,
+            -8
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "power",
+          "name": "ORC-01 Spine Vertical Posts [-2, 3, -8]"
+        },
+        {
+          "pos": [
+            -1,
+            3,
+            -8
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "power",
+          "name": "ORC-01 Spine Vertical Posts [-1, 3, -8]"
+        },
+        {
+          "pos": [
+            0,
+            3,
+            -8
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "power",
+          "name": "ORC-01 Spine Vertical Posts [0, 3, -8]"
+        },
+        {
+          "pos": [
+            1,
+            3,
+            -8
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "power",
+          "name": "ORC-01 Spine Vertical Posts [1, 3, -8]"
+        },
+        {
+          "pos": [
+            2,
+            3,
+            -8
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "power",
+          "name": "ORC-01 Spine Vertical Posts [2, 3, -8]"
+        }
+      ]
+    },
+    {
+      "step": "3",
+      "phase": "1-1",
+      "title": "Spine Roof Longerons (L7)",
+      "level": "L4",
+      "subsystem": "structure",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "Assemble section according to master spatial datum."
+      ],
+      "checks": [
+        "The central spine forms a rigid 3 \u00d7 19 \u00d7 7 B skeletal truss. Fully walkable at L7."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            4,
+            -7
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "ORC-01 Spine Roof Longerons [-2, 4, -7]"
+        },
+        {
+          "pos": [
+            -1,
+            4,
+            -7
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "ORC-01 Spine Roof Longerons [-1, 4, -7]"
+        },
+        {
+          "pos": [
+            0,
+            4,
+            -7
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "ORC-01 Spine Roof Longerons [0, 4, -7]"
+        },
+        {
+          "pos": [
+            1,
+            4,
+            -7
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "ORC-01 Spine Roof Longerons [1, 4, -7]"
+        },
+        {
+          "pos": [
+            2,
+            4,
+            -7
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "ORC-01 Spine Roof Longerons [2, 4, -7]"
+        }
+      ]
+    },
+    {
+      "step": "4",
+      "phase": "1-1",
+      "title": "Transverse Cross-Frames at r0, r6, r12, r18 (L1 & L7)",
+      "level": "L2",
+      "subsystem": "structure",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "Install 6.5 B beam spans port and starboard at rows r0, r6, r12, r18 at Level L1.",
+        "Mirror exactly at Level L7."
+      ],
+      "checks": [
+        "4 full-width cross-frames divide the hull into 3 major bay zones per flank."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            2,
+            -6
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "ORC-01 Transverse Cross-Fra [-2, 2, -6]"
+        },
+        {
+          "pos": [
+            -1,
+            2,
+            -6
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "ORC-01 Transverse Cross-Fra [-1, 2, -6]"
+        },
+        {
+          "pos": [
+            0,
+            2,
+            -6
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "ORC-01 Transverse Cross-Fra [0, 2, -6]"
+        },
+        {
+          "pos": [
+            1,
+            2,
+            -6
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "ORC-01 Transverse Cross-Fra [1, 2, -6]"
+        },
+        {
+          "pos": [
+            2,
+            2,
+            -6
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "ORC-01 Transverse Cross-Fra [2, 2, -6]"
+        }
+      ]
+    },
+    {
+      "step": "5",
+      "phase": "1-1",
+      "title": "Outer Hull Perimeter Rails (X = \u00b18, L1 \u2500\u2500\u25ba L7)",
+      "level": "L3",
+      "subsystem": "structure",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "Assemble section according to master spatial datum."
+      ],
+      "checks": [
+        "Hull footprint is a defined 17 \u00d7 19 \u00d7 7 B bounding skeleton. Bays open below."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            3,
+            -5
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "ORC-01 Outer Hull Perimeter [-2, 3, -5]"
+        },
+        {
+          "pos": [
+            -1,
+            3,
+            -5
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "ORC-01 Outer Hull Perimeter [-1, 3, -5]"
+        },
+        {
+          "pos": [
+            0,
+            3,
+            -5
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "ORC-01 Outer Hull Perimeter [0, 3, -5]"
+        },
+        {
+          "pos": [
+            1,
+            3,
+            -5
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "ORC-01 Outer Hull Perimeter [1, 3, -5]"
+        },
+        {
+          "pos": [
+            2,
+            3,
+            -5
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "ORC-01 Outer Hull Perimeter [2, 3, -5]"
+        }
+      ]
+    },
+    {
+      "step": "6",
+      "phase": "1-1",
+      "title": "Inner Bay Guide Rails (X = \u00b12, L1 \u2500\u2500\u25ba L7)",
+      "level": "L4",
+      "subsystem": "structure",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "Assemble section according to master spatial datum."
+      ],
+      "checks": [
+        "Looking down through any bay, a clear 5\u00d75 B unobstructed vertical drop exists between X \u00b12 and X \u00b18."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            4,
+            -4
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "ORC-01 Inner Bay Guide Rail [-2, 4, -4]"
+        },
+        {
+          "pos": [
+            -1,
+            4,
+            -4
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "ORC-01 Inner Bay Guide Rail [-1, 4, -4]"
+        },
+        {
+          "pos": [
+            0,
+            4,
+            -4
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "ORC-01 Inner Bay Guide Rail [0, 4, -4]"
+        },
+        {
+          "pos": [
+            1,
+            4,
+            -4
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "ORC-01 Inner Bay Guide Rail [1, 4, -4]"
+        },
+        {
+          "pos": [
+            2,
+            4,
+            -4
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "ORC-01 Inner Bay Guide Rail [2, 4, -4]"
+        }
+      ]
+    },
+    {
+      "step": "7",
+      "phase": "1-1",
+      "title": "Bay Mid-Height Stabilizer Rings (L4)",
+      "level": "L2",
+      "subsystem": "conveyor",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "Assemble section according to master spatial datum."
+      ],
+      "checks": [
+        "Verify physical clearances and continuous conveyor flow."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            2,
+            -3
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "ORC-01 Bay Mid-Height Stabi [-2, 2, -3]"
+        },
+        {
+          "pos": [
+            -1,
+            2,
+            -3
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "ORC-01 Bay Mid-Height Stabi [-1, 2, -3]"
+        },
+        {
+          "pos": [
+            0,
+            2,
+            -3
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "ORC-01 Bay Mid-Height Stabi [0, 2, -3]"
+        },
+        {
+          "pos": [
+            1,
+            2,
+            -3
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "ORC-01 Bay Mid-Height Stabi [1, 2, -3]"
+        },
+        {
+          "pos": [
+            2,
+            2,
+            -3
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "ORC-01 Bay Mid-Height Stabi [2, 2, -3]"
+        }
+      ]
+    },
+    {
+      "step": "8",
+      "phase": "1-1",
+      "title": "Primary Power Core Vault (PC, r3-r6)",
+      "level": "L3",
+      "subsystem": "conveyor",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "Weld 4\u00d7 Gyroscopes (`ORC Gyros`) on centerline at r3\u00b7L2, r4\u00b7L2, r5\u00b7L3, r6\u00b7L3.",
+        "Install 2\u00d7 Large Batteries (`ORC Batteries`) at r3\u00b7L3 and r4\u00b7L3. Set initial state to Recharge.",
+        "Install `ORC U Store` (Small Cargo) at r5\u00b7L4.",
+        "Mount 6\u00d7 Small Nuclear Reactors (`ORC Reactors`) at designated cells. Connect conveyor ports directly to the L6 service trunk.",
+        "Seal port and starboard faces (X = \u00b11) with 48\u00d7 Heavy Armour Blocks to isolate radiation."
+      ],
+      "checks": [
+        "All 6 reactors and `ORC U Store` connect to the L6 service line. Vault is fully armored."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            3,
+            -2
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "ORC-01 Primary Power Core V [-2, 3, -2]"
+        },
+        {
+          "pos": [
+            -1,
+            3,
+            -2
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "ORC-01 Primary Power Core V [-1, 3, -2]"
+        },
+        {
+          "pos": [
+            0,
+            3,
+            -2
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "ORC-01 Primary Power Core V [0, 3, -2]"
+        },
+        {
+          "pos": [
+            1,
+            3,
+            -2
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "ORC-01 Primary Power Core V [1, 3, -2]"
+        },
+        {
+          "pos": [
+            2,
+            3,
+            -2
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "ORC-01 Primary Power Core V [2, 3, -2]"
+        }
+      ]
+    },
+    {
+      "step": "9",
+      "phase": "1-1",
+      "title": "Ore Hold & Sorter Interlock (HD, r7-r15)",
+      "level": "L4",
+      "subsystem": "conveyor",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "Center `ORC Ore Hold` at r11, X0, spanning Levels L3 to L5.",
+        "Install `ORC HD Gate` (Conveyor Sorter) at r8\u00b7L5 facing AFT into the cargo hold (Whitelist: Ore, Stone).",
+        "Install `ORC HD Drain` (Conveyor Sorter) at r12\u00b7L6 facing UP toward the Mule Pad (Whitelist: Ore; Drain All = ON)."
+      ],
+      "checks": [
+        "Cargo hold connects via Gate to the overhead trunk and via Drain to the dorsal deck."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            4,
+            -1
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "ORC-01 Ore Hold & Sorter In [-2, 4, -1]"
+        },
+        {
+          "pos": [
+            -1,
+            4,
+            -1
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "ORC-01 Ore Hold & Sorter In [-1, 4, -1]"
+        },
+        {
+          "pos": [
+            0,
+            4,
+            -1
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "ORC-01 Ore Hold & Sorter In [0, 4, -1]"
+        },
+        {
+          "pos": [
+            1,
+            4,
+            -1
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "ORC-01 Ore Hold & Sorter In [1, 4, -1]"
+        },
+        {
+          "pos": [
+            2,
+            4,
+            -1
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "ORC-01 Ore Hold & Sorter In [2, 4, -1]"
+        }
+      ]
+    },
+    {
+      "step": "10",
+      "phase": "1-1",
+      "title": "Aft Engineering & Hydrogen Reserve (AS, r16-r18)",
+      "level": "L2",
+      "subsystem": "power",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "Mount `ORC Parts Store` at r17, X0, L2-L3, plumbed to the L4 service gallery line.",
+        "Mount `ORC AS H2` tank at r17, X0, L4-L6, connected to outrigger H2 branches."
+      ],
+      "checks": [
+        "Verify physical clearances and continuous conveyor flow."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            2,
+            0
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "power",
+          "name": "ORC-01 Aft Engineering & Hy [-2, 2, 0]"
+        },
+        {
+          "pos": [
+            -1,
+            2,
+            0
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "power",
+          "name": "ORC-01 Aft Engineering & Hy [-1, 2, 0]"
+        },
+        {
+          "pos": [
+            0,
+            2,
+            0
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "power",
+          "name": "ORC-01 Aft Engineering & Hy [0, 2, 0]"
+        },
+        {
+          "pos": [
+            1,
+            2,
+            0
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "power",
+          "name": "ORC-01 Aft Engineering & Hy [1, 2, 0]"
+        },
+        {
+          "pos": [
+            2,
+            2,
+            0
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "power",
+          "name": "ORC-01 Aft Engineering & Hy [2, 2, 0]"
+        }
+      ]
+    },
+    {
+      "step": "11",
+      "phase": "1-1",
+      "title": "Mule Landing Deck Blast Floor (r8-r14, L7)",
+      "level": "L3",
+      "subsystem": "propulsion",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "Lay 49\u00d7 Heavy Armour Blocks at r8-r14, X -3 to +3, flush with Level L7.",
+        "Outline perimeter with Slot 05 Heavy Battered Red paint (1 B safety boundary).",
+        "Mount 24\u00d7 Large Solar Panels (`ORC Solar`) on exterior roof flanks, ensuring zero solar panels sit within the 1 B thruster scorch perimeter."
+      ],
+      "checks": [
+        "Verify physical clearances and continuous conveyor flow."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            3,
+            0
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "propulsion",
+          "name": "ORC-01 Mule Landing Deck Bl [-2, 3, 0]"
+        },
+        {
+          "pos": [
+            -1,
+            3,
+            0
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "propulsion",
+          "name": "ORC-01 Mule Landing Deck Bl [-1, 3, 0]"
+        },
+        {
+          "pos": [
+            0,
+            3,
+            0
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "propulsion",
+          "name": "ORC-01 Mule Landing Deck Bl [0, 3, 0]"
+        },
+        {
+          "pos": [
+            1,
+            3,
+            0
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "propulsion",
+          "name": "ORC-01 Mule Landing Deck Bl [1, 3, 0]"
+        },
+        {
+          "pos": [
+            2,
+            3,
+            0
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "propulsion",
+          "name": "ORC-01 Mule Landing Deck Bl [2, 3, 0]"
+        }
+      ]
+    },
+    {
+      "step": "12",
+      "phase": "1-1",
+      "title": "Gantry Cradle & Mule Docking Interlock (r11, L7)",
+      "level": "L4",
+      "subsystem": "conveyor",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "Assemble section according to master spatial datum."
+      ],
+      "checks": [
+        "Verify physical clearances and continuous conveyor flow."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            4,
+            0
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "ORC-01 Gantry Cradle & Mule [-2, 4, 0]"
+        },
+        {
+          "pos": [
+            -1,
+            4,
+            0
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "ORC-01 Gantry Cradle & Mule [-1, 4, 0]"
+        },
+        {
+          "pos": [
+            0,
+            4,
+            0
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "ORC-01 Gantry Cradle & Mule [0, 4, 0]"
+        },
+        {
+          "pos": [
+            1,
+            4,
+            0
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "ORC-01 Gantry Cradle & Mule [1, 4, 0]"
+        },
+        {
+          "pos": [
+            2,
+            4,
+            0
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "ORC-01 Gantry Cradle & Mule [2, 4, 0]"
+        }
+      ]
+    },
+    {
+      "step": "13",
+      "phase": "1-1",
+      "title": "Armored Bridge Shell (CC, r0-r2)",
+      "level": "L2",
+      "subsystem": "avionics",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "Assemble section according to master spatial datum."
+      ],
+      "checks": [
+        "Verify physical clearances and continuous conveyor flow."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            2,
+            1
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "avionics",
+          "name": "ORC-01 Armored Bridge Shell [-2, 2, 1]"
+        },
+        {
+          "pos": [
+            -1,
+            2,
+            1
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "avionics",
+          "name": "ORC-01 Armored Bridge Shell [-1, 2, 1]"
+        },
+        {
+          "pos": [
+            0,
+            2,
+            1
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "avionics",
+          "name": "ORC-01 Armored Bridge Shell [0, 2, 1]"
+        },
+        {
+          "pos": [
+            1,
+            2,
+            1
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "avionics",
+          "name": "ORC-01 Armored Bridge Shell [1, 2, 1]"
+        },
+        {
+          "pos": [
+            2,
+            2,
+            1
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "avionics",
+          "name": "ORC-01 Armored Bridge Shell [2, 2, 1]"
+        }
+      ]
+    },
+    {
+      "step": "14",
+      "phase": "1-1",
+      "title": "Bridge Avionics & Flight Control Core",
+      "level": "L3",
+      "subsystem": "power",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "Assemble section according to master spatial datum."
+      ],
+      "checks": [
+        "Verify physical clearances and continuous conveyor flow."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            3,
+            2
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "power",
+          "name": "ORC-01 Bridge Avionics & Fl [-2, 3, 2]"
+        },
+        {
+          "pos": [
+            -1,
+            3,
+            2
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "power",
+          "name": "ORC-01 Bridge Avionics & Fl [-1, 3, 2]"
+        },
+        {
+          "pos": [
+            0,
+            3,
+            2
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "power",
+          "name": "ORC-01 Bridge Avionics & Fl [0, 3, 2]"
+        },
+        {
+          "pos": [
+            1,
+            3,
+            2
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "power",
+          "name": "ORC-01 Bridge Avionics & Fl [1, 3, 2]"
+        },
+        {
+          "pos": [
+            2,
+            3,
+            2
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "power",
+          "name": "ORC-01 Bridge Avionics & Fl [2, 3, 2]"
+        }
+      ]
+    },
+    {
+      "step": "15",
+      "phase": "1-1",
+      "title": "Bay Overhead Connectors (Bays P1-P3, S1-S3)",
+      "level": "L4",
+      "subsystem": "structure",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "Assemble section according to master spatial datum."
+      ],
+      "checks": [
+        "Verify physical clearances and continuous conveyor flow."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            4,
+            3
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "ORC-01 Bay Overhead Connect [-2, 4, 3]"
+        },
+        {
+          "pos": [
+            -1,
+            4,
+            3
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "ORC-01 Bay Overhead Connect [-1, 4, 3]"
+        },
+        {
+          "pos": [
+            0,
+            4,
+            3
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "ORC-01 Bay Overhead Connect [0, 4, 3]"
+        },
+        {
+          "pos": [
+            1,
+            4,
+            3
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "ORC-01 Bay Overhead Connect [1, 4, 3]"
+        },
+        {
+          "pos": [
+            2,
+            4,
+            3
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "ORC-01 Bay Overhead Connect [2, 4, 3]"
+        }
+      ]
+    },
+    {
+      "step": "16",
+      "phase": "1-1",
+      "title": "Folding Mechanical Guide Jaws (Bays P1-P3, S1-S3)",
+      "level": "L2",
+      "subsystem": "propulsion",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "Assemble section according to master spatial datum."
+      ],
+      "checks": [
+        "Verify physical clearances and continuous conveyor flow."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            2,
+            4
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "propulsion",
+          "name": "ORC-01 Folding Mechanical G [-2, 2, 4]"
+        },
+        {
+          "pos": [
+            -1,
+            2,
+            4
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "propulsion",
+          "name": "ORC-01 Folding Mechanical G [-1, 2, 4]"
+        },
+        {
+          "pos": [
+            0,
+            2,
+            4
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "propulsion",
+          "name": "ORC-01 Folding Mechanical G [0, 2, 4]"
+        },
+        {
+          "pos": [
+            1,
+            2,
+            4
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "propulsion",
+          "name": "ORC-01 Folding Mechanical G [1, 2, 4]"
+        },
+        {
+          "pos": [
+            2,
+            2,
+            4
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "propulsion",
+          "name": "ORC-01 Folding Mechanical G [2, 2, 4]"
+        }
+      ]
+    },
+    {
+      "step": "17",
+      "phase": "1-1",
+      "title": "Central Bay Repair Turrets (P2 & S2, L4)",
+      "level": "L3",
+      "subsystem": "conveyor",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "Assemble section according to master spatial datum."
+      ],
+      "checks": [
+        "Verify physical clearances and continuous conveyor flow."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            3,
+            5
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "ORC-01 Central Bay Repair T [-2, 3, 5]"
+        },
+        {
+          "pos": [
+            -1,
+            3,
+            5
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "ORC-01 Central Bay Repair T [-1, 3, 5]"
+        },
+        {
+          "pos": [
+            0,
+            3,
+            5
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "ORC-01 Central Bay Repair T [0, 3, 5]"
+        },
+        {
+          "pos": [
+            1,
+            3,
+            5
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "ORC-01 Central Bay Repair T [1, 3, 5]"
+        },
+        {
+          "pos": [
+            2,
+            3,
+            5
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "ORC-01 Central Bay Repair T [2, 3, 5]"
+        }
+      ]
+    },
+    {
+      "step": "18",
+      "phase": "1-1",
+      "title": "Cantilever A-Frame Corner Outriggers (OR-1P, OR-1S, OR-3P, OR-3S)",
+      "level": "L4",
+      "subsystem": "propulsion",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "Assemble section according to master spatial datum."
+      ],
+      "checks": [
+        "Verify physical clearances and continuous conveyor flow."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            4,
+            6
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "propulsion",
+          "name": "ORC-01 Cantilever A-Frame C [-2, 4, 6]"
+        },
+        {
+          "pos": [
+            -1,
+            4,
+            6
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "propulsion",
+          "name": "ORC-01 Cantilever A-Frame C [-1, 4, 6]"
+        },
+        {
+          "pos": [
+            0,
+            4,
+            6
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "propulsion",
+          "name": "ORC-01 Cantilever A-Frame C [0, 4, 6]"
+        },
+        {
+          "pos": [
+            1,
+            4,
+            6
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "propulsion",
+          "name": "ORC-01 Cantilever A-Frame C [1, 4, 6]"
+        },
+        {
+          "pos": [
+            2,
+            4,
+            6
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "propulsion",
+          "name": "ORC-01 Cantilever A-Frame C [2, 4, 6]"
+        }
+      ]
+    },
+    {
+      "step": "19",
+      "phase": "1-1",
+      "title": "Midships Emergency Hydrogen Outriggers (OR-2P, OR-2S, r9)",
+      "level": "L2",
+      "subsystem": "conveyor",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "Assemble section according to master spatial datum."
+      ],
+      "checks": [
+        "Verify physical clearances and continuous conveyor flow."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            2,
+            7
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "ORC-01 Midships Emergency H [-2, 2, 7]"
+        },
+        {
+          "pos": [
+            -1,
+            2,
+            7
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "ORC-01 Midships Emergency H [-1, 2, 7]"
+        },
+        {
+          "pos": [
+            0,
+            2,
+            7
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "ORC-01 Midships Emergency H [0, 2, 7]"
+        },
+        {
+          "pos": [
+            1,
+            2,
+            7
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "ORC-01 Midships Emergency H [1, 2, 7]"
+        },
+        {
+          "pos": [
+            2,
+            2,
+            7
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "ORC-01 Midships Emergency H [2, 2, 7]"
+        }
+      ]
+    },
+    {
+      "step": "20",
+      "phase": "1-1",
+      "title": "6-DOF Lateral Attitude Propulsion Grid",
+      "level": "L3",
+      "subsystem": "propulsion",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "Assemble section according to master spatial datum."
+      ],
+      "checks": [
+        "Verify physical clearances and continuous conveyor flow."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            3,
+            8
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "propulsion",
+          "name": "ORC-01 6-DOF Lateral Attitu [-2, 3, 8]"
+        },
+        {
+          "pos": [
+            -1,
+            3,
+            8
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "propulsion",
+          "name": "ORC-01 6-DOF Lateral Attitu [-1, 3, 8]"
+        },
+        {
+          "pos": [
+            0,
+            3,
+            8
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "propulsion",
+          "name": "ORC-01 6-DOF Lateral Attitu [0, 3, 8]"
+        },
+        {
+          "pos": [
+            1,
+            3,
+            8
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "propulsion",
+          "name": "ORC-01 6-DOF Lateral Attitu [1, 3, 8]"
+        },
+        {
+          "pos": [
+            2,
+            3,
+            8
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "propulsion",
+          "name": "ORC-01 6-DOF Lateral Attitu [2, 3, 8]"
+        }
+      ]
+    },
+    {
+      "step": "21",
+      "phase": "1-1",
+      "title": "Sensor Grid & Perimeter Instrumentation",
+      "level": "L4",
+      "subsystem": "structure",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "Assemble section according to master spatial datum."
+      ],
+      "checks": [
+        "Verify physical clearances and continuous conveyor flow."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            4,
+            9
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "ORC-01 Sensor Grid & Perime [-2, 4, 9]"
+        },
+        {
+          "pos": [
+            -1,
+            4,
+            9
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "ORC-01 Sensor Grid & Perime [-1, 4, 9]"
+        },
+        {
+          "pos": [
+            0,
+            4,
+            9
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "ORC-01 Sensor Grid & Perime [0, 4, 9]"
+        },
+        {
+          "pos": [
+            1,
+            4,
+            9
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "ORC-01 Sensor Grid & Perime [1, 4, 9]"
+        },
+        {
+          "pos": [
+            2,
+            4,
+            9
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "ORC-01 Sensor Grid & Perime [2, 4, 9]"
+        }
+      ]
+    },
+    {
+      "step": "22",
+      "phase": "1-1",
+      "title": "Wire Native Block Failsafe Matrix (Rule C4)",
+      "level": "L2",
+      "subsystem": "conveyor",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "**State Machine (`OrcaCarrierState`):**",
+        "**Strict Grid Scoping:** Every terminal query enforces `b => b.CubeGrid == Me.CubeGrid` to ignore docked drone subgrids.",
+        "**Minifier Safety:** Avoids `enum.ToString()` or `nameof()`; uses static string tables and `SbFormat`."
+      ],
+      "checks": [
+        "Verify physical clearances and continuous conveyor flow."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            2,
+            10
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "ORC-01 Wire Native Block Fa [-2, 2, 10]"
+        },
+        {
+          "pos": [
+            -1,
+            2,
+            10
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "ORC-01 Wire Native Block Fa [-1, 2, 10]"
+        },
+        {
+          "pos": [
+            0,
+            2,
+            10
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "ORC-01 Wire Native Block Fa [0, 2, 10]"
+        },
+        {
+          "pos": [
+            1,
+            2,
+            10
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "ORC-01 Wire Native Block Fa [1, 2, 10]"
+        },
+        {
+          "pos": [
+            2,
+            2,
+            10
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "ORC-01 Wire Native Block Fa [2, 2, 10]"
+        }
+      ]
+    }
+  ]
+}

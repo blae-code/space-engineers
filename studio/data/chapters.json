@@ -1,0 +1,122 @@
+[
+  {
+    "id": "ORC-01",
+    "chapter": 1,
+    "chapterLabel": "1",
+    "name": "ORCA-01 Heavy Mining Carrier",
+    "file": "orca.json",
+    "grid": "Large",
+    "tier": "Air Tier · Fast / Rare",
+    "blocks": 653,
+    "mass": "764.0 t",
+    "pcu": 4500
+  },
+  {
+    "id": "REM-01",
+    "chapter": 2,
+    "chapterLabel": "2",
+    "name": "REMORA-01 Vertical Shaft Driller",
+    "file": "remora.json",
+    "grid": "Small",
+    "tier": "Air Tier · Vertical Miner",
+    "blocks": 133,
+    "mass": "48.5 t",
+    "pcu": 1774
+  },
+  {
+    "id": "MUL-01",
+    "chapter": 3,
+    "chapterLabel": "3",
+    "name": "MULE-01 Heavy Freight Shuttle",
+    "file": "mule.json",
+    "grid": "Large",
+    "tier": "Air Tier · Logistics Ferry",
+    "blocks": 142,
+    "mass": "128.0 t",
+    "pcu": 1850
+  },
+  {
+    "id": "GND-01",
+    "chapter": 4,
+    "chapterLabel": "4",
+    "name": "Ground Base, Refinery Complex & Fleet C2",
+    "file": "ground-base.json",
+    "grid": "Large",
+    "tier": "Surface Industrial Core",
+    "blocks": 1420,
+    "mass": "2840.0 t",
+    "pcu": 14200
+  },
+  {
+    "id": "EXT-01",
+    "chapter": 5,
+    "chapterLabel": "5",
+    "name": "Rig Linear Extruder Ring Shipyard",
+    "file": "extruder-ring.json",
+    "grid": "Large",
+    "tier": "Surface Shipyard",
+    "blocks": 860,
+    "mass": "1850.0 t",
+    "pcu": 8900
+  },
+  {
+    "id": "RIG-01",
+    "chapter": 6,
+    "chapterLabel": "6-8",
+    "name": "Floating Rig Structure (25 kt Fortress)",
+    "file": "floating-rig.json",
+    "grid": "Large",
+    "tier": "Fortress Tier · Aerial Fleet Hub",
+    "blocks": 4980,
+    "mass": "25000.0 t",
+    "pcu": 29500
+  },
+  {
+    "id": "MAS-01",
+    "chapter": 10,
+    "chapterLabel": "10",
+    "name": "MASTODON-01 MKI Expeditionary Excavator & Mobile FOB",
+    "file": "mastodon.json",
+    "grid": "Large",
+    "tier": "Ground Tier · Heavy Extraction",
+    "blocks": 1128,
+    "mass": "1258.2 t",
+    "pcu": 10080
+  },
+  {
+    "id": "CAT-01",
+    "chapter": 11,
+    "chapterLabel": "11",
+    "name": "CATERPILLAR-01 Bulk Land Train",
+    "file": "caterpillar.json",
+    "grid": "Large",
+    "tier": "Ground Tier · Bulk Mass Hauler",
+    "blocks": 404,
+    "mass": "368.5 t",
+    "pcu": 3950
+  },
+  {
+    "id": "KES-01",
+    "chapter": 12,
+    "chapterLabel": "12",
+    "name": "KESTREL-01 Prospector Scout Drone",
+    "file": "kestrel.json",
+    "grid": "Small",
+    "tier": "Air Tier · Geological Recon",
+    "blocks": 68,
+    "mass": "4.8 t",
+    "pcu": 850
+  },
+  {
+    "id": "ALB-01",
+    "chapter": 13,
+    "chapterLabel": "13",
+    "name": "ALBATROSS-01 Utility & Field Repair Craft",
+    "file": "albatross.json",
+    "grid": "Small",
+    "tier": "Air Tier · Engineering & Salvage",
+    "blocks": 84,
+    "mass": "8.5 t",
+    "pcu": 1120
+  }
+]

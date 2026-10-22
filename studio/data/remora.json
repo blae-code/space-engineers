@@ -1,0 +1,1323 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "id": "REM-01",
+  "name": "REMORA-01 Vertical Shaft Driller",
+  "chapter": 2,
+  "gridSize": "Small",
+  "blockMeters": 0.5,
+  "stats": {
+    "totalBlocks": 133,
+    "dryMassTonnes": 48.5,
+    "pcu": 1774,
+    "dimensionsBlocks": [
+      11,
+      11,
+      15
+    ]
+  },
+  "bounds": {
+    "min": [
+      -5,
+      1,
+      -5
+    ],
+    "max": [
+      5,
+      15,
+      5
+    ]
+  },
+  "palette": [
+    {
+      "slot": 0,
+      "name": "Citadel Charcoal",
+      "hex": "#1A1D20",
+      "rgb": [
+        26,
+        29,
+        32
+      ],
+      "role": "Heavy Armor Hull & Structural Longerons"
+    },
+    {
+      "slot": 1,
+      "name": "Structural Slate",
+      "hex": "#42464D",
+      "rgb": [
+        66,
+        70,
+        77
+      ],
+      "role": "Bulkheads, Deck Frames & Workshop Ribs"
+    },
+    {
+      "slot": 2,
+      "name": "Warning Amber",
+      "hex": "#E06D14",
+      "rgb": [
+        224,
+        109,
+        20
+      ],
+      "role": "Hatches, Outriggers, Hitch & Bumper Guides"
+    },
+    {
+      "slot": 3,
+      "name": "Tactical White",
+      "hex": "#D4D8DD",
+      "rgb": [
+        212,
+        216,
+        221
+      ],
+      "role": "Flight Deck Markings & Alignment Chevrons"
+    },
+    {
+      "slot": 4,
+      "name": "Processing Teal",
+      "hex": "#1ABC9C",
+      "rgb": [
+        26,
+        188,
+        156
+      ],
+      "role": "Conveyors, Sorters, Ejectors & Basic Refinery"
+    },
+    {
+      "slot": 5,
+      "name": "Habitat White",
+      "hex": "#E8ECF0",
+      "rgb": [
+        232,
+        236,
+        240
+      ],
+      "role": "Bridge Canopy Interior & Medical Station"
+    },
+    {
+      "slot": 6,
+      "name": "Machine Olive",
+      "hex": "#4A5643",
+      "rgb": [
+        74,
+        86,
+        67
+      ],
+      "role": "Large Assembler, Sorter Manifolds & Tool Stores"
+    },
+    {
+      "slot": 7,
+      "name": "Cryo Cyan",
+      "hex": "#1E6B7B",
+      "rgb": [
+        30,
+        107,
+        123
+      ],
+      "role": "Hydrogen Tanks & O2/H2 Decon Systems"
+    },
+    {
+      "slot": 8,
+      "name": "Mechanical Gunmetal",
+      "hex": "#2B2E33",
+      "rgb": [
+        43,
+        46,
+        51
+      ],
+      "role": "Hitch Rotors, Axle Mounts & Boom Pedestal"
+    },
+    {
+      "slot": 9,
+      "name": "Grate Steel",
+      "hex": "#50555C",
+      "rgb": [
+        80,
+        85,
+        92
+      ],
+      "role": "Jefferies Grating, Catwalks & Access Stairs"
+    }
+  ],
+  "steps": [
+    {
+      "step": "1",
+      "phase": "2-1",
+      "title": "Crown Docking Mount & Alignment Chamfers (L20-L22)",
+      "level": "L2",
+      "subsystem": "structure",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "Assemble section according to master spatial datum."
+      ],
+      "checks": [
+        "Connector face sits centered on axis (0, 0) and stands 1 sb proud of the hull."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            2,
+            -5
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "REM-01 Crown Docking Mount  [-2, 2, -5]"
+        },
+        {
+          "pos": [
+            -1,
+            2,
+            -5
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "REM-01 Crown Docking Mount  [-1, 2, -5]"
+        },
+        {
+          "pos": [
+            0,
+            2,
+            -5
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "REM-01 Crown Docking Mount  [0, 2, -5]"
+        },
+        {
+          "pos": [
+            1,
+            2,
+            -5
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "REM-01 Crown Docking Mount  [1, 2, -5]"
+        },
+        {
+          "pos": [
+            2,
+            2,
+            -5
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "REM-01 Crown Docking Mount  [2, 2, -5]"
+        }
+      ]
+    },
+    {
+      "step": "2",
+      "phase": "2-1",
+      "title": "Continuous Vertical Conveyor Spine Tube (L6-L20)",
+      "level": "L3",
+      "subsystem": "conveyor",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "Assemble section according to master spatial datum."
+      ],
+      "checks": [
+        "Verify physical clearances and continuous conveyor flow."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            3,
+            -4
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "REM-01 Continuous Vertical  [-2, 3, -4]"
+        },
+        {
+          "pos": [
+            -1,
+            3,
+            -4
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "REM-01 Continuous Vertical  [-1, 3, -4]"
+        },
+        {
+          "pos": [
+            0,
+            3,
+            -4
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "REM-01 Continuous Vertical  [0, 3, -4]"
+        },
+        {
+          "pos": [
+            1,
+            3,
+            -4
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "REM-01 Continuous Vertical  [1, 3, -4]"
+        },
+        {
+          "pos": [
+            2,
+            3,
+            -4
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "REM-01 Continuous Vertical  [2, 3, -4]"
+        }
+      ]
+    },
+    {
+      "step": "3",
+      "phase": "2-1",
+      "title": "8-Port Collector Manifold & Stone Buffer Core (L6-L10)",
+      "level": "L4",
+      "subsystem": "conveyor",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "Assemble section according to master spatial datum."
+      ],
+      "checks": [
+        "Verify physical clearances and continuous conveyor flow."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            4,
+            -3
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "REM-01 8-Port Collector Man [-2, 4, -3]"
+        },
+        {
+          "pos": [
+            -1,
+            4,
+            -3
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "REM-01 8-Port Collector Man [-1, 4, -3]"
+        },
+        {
+          "pos": [
+            0,
+            4,
+            -3
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "REM-01 8-Port Collector Man [0, 4, -3]"
+        },
+        {
+          "pos": [
+            1,
+            4,
+            -3
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "REM-01 8-Port Collector Man [1, 4, -3]"
+        },
+        {
+          "pos": [
+            2,
+            4,
+            -3
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "REM-01 8-Port Collector Man [2, 4, -3]"
+        }
+      ]
+    },
+    {
+      "step": "4",
+      "phase": "2-1",
+      "title": "Central Nose Sensor Eye & Illumination (L0-L6)",
+      "level": "L2",
+      "subsystem": "structure",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "Assemble section according to master spatial datum."
+      ],
+      "checks": [
+        "Verify physical clearances and continuous conveyor flow."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            2,
+            -2
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "REM-01 Central Nose Sensor  [-2, 2, -2]"
+        },
+        {
+          "pos": [
+            -1,
+            2,
+            -2
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "REM-01 Central Nose Sensor  [-1, 2, -2]"
+        },
+        {
+          "pos": [
+            0,
+            2,
+            -2
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "REM-01 Central Nose Sensor  [0, 2, -2]"
+        },
+        {
+          "pos": [
+            1,
+            2,
+            -2
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "REM-01 Central Nose Sensor  [1, 2, -2]"
+        },
+        {
+          "pos": [
+            2,
+            2,
+            -2
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "REM-01 Central Nose Sensor  [2, 2, -2]"
+        }
+      ]
+    },
+    {
+      "step": "5",
+      "phase": "2-1",
+      "title": "8-Drill Perimeter Cutter Ring (L0-L6)",
+      "level": "L3",
+      "subsystem": "conveyor",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "Snap each drill's top intake port to one of the 8 collector manifold outlets at Level L6.",
+        "Group all 8 drills into `REM Drills`."
+      ],
+      "checks": [
+        "All 8 drills point nose-down at Level L0. Drill teeth extend 2 sb below the central camera."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            3,
+            -1
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "REM-01 8-Drill Perimeter Cu [-2, 3, -1]"
+        },
+        {
+          "pos": [
+            -1,
+            3,
+            -1
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "REM-01 8-Drill Perimeter Cu [-1, 3, -1]"
+        },
+        {
+          "pos": [
+            0,
+            3,
+            -1
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "REM-01 8-Drill Perimeter Cu [0, 3, -1]"
+        },
+        {
+          "pos": [
+            1,
+            3,
+            -1
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "REM-01 8-Drill Perimeter Cu [1, 3, -1]"
+        },
+        {
+          "pos": [
+            2,
+            3,
+            -1
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "REM-01 8-Drill Perimeter Cu [2, 3, -1]"
+        }
+      ]
+    },
+    {
+      "step": "6",
+      "phase": "2-1",
+      "title": "Corner Large Atmo Lift Pods & 4 sb Thermal Gap (L10-L15)",
+      "level": "L4",
+      "subsystem": "propulsion",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "Assemble section according to master spatial datum."
+      ],
+      "checks": [
+        "Verify physical clearances and continuous conveyor flow."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            4,
+            -1
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "propulsion",
+          "name": "REM-01 Corner Large Atmo Li [-2, 4, -1]"
+        },
+        {
+          "pos": [
+            -1,
+            4,
+            -1
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "propulsion",
+          "name": "REM-01 Corner Large Atmo Li [-1, 4, -1]"
+        },
+        {
+          "pos": [
+            0,
+            4,
+            -1
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "propulsion",
+          "name": "REM-01 Corner Large Atmo Li [0, 4, -1]"
+        },
+        {
+          "pos": [
+            1,
+            4,
+            -1
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "propulsion",
+          "name": "REM-01 Corner Large Atmo Li [1, 4, -1]"
+        },
+        {
+          "pos": [
+            2,
+            4,
+            -1
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "propulsion",
+          "name": "REM-01 Corner Large Atmo Li [2, 4, -1]"
+        }
+      ]
+    },
+    {
+      "step": "7",
+      "phase": "2-1",
+      "title": "Centerline Gyroscope Cluster (L11-L14)",
+      "level": "L2",
+      "subsystem": "structure",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "Assemble section according to master spatial datum."
+      ],
+      "checks": [
+        "Verify physical clearances and continuous conveyor flow."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            2,
+            0
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "REM-01 Centerline Gyroscope [-2, 2, 0]"
+        },
+        {
+          "pos": [
+            -1,
+            2,
+            0
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "REM-01 Centerline Gyroscope [-1, 2, 0]"
+        },
+        {
+          "pos": [
+            0,
+            2,
+            0
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "REM-01 Centerline Gyroscope [0, 2, 0]"
+        },
+        {
+          "pos": [
+            1,
+            2,
+            0
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "REM-01 Centerline Gyroscope [1, 2, 0]"
+        },
+        {
+          "pos": [
+            2,
+            2,
+            0
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "REM-01 Centerline Gyroscope [2, 2, 0]"
+        }
+      ]
+    },
+    {
+      "step": "8",
+      "phase": "2-1",
+      "title": "4-Face Lateral Flat Atmo Array (L11-L14)",
+      "level": "L3",
+      "subsystem": "propulsion",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "Assemble section according to master spatial datum."
+      ],
+      "checks": [
+        "Verify physical clearances and continuous conveyor flow."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            3,
+            0
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "propulsion",
+          "name": "REM-01 4-Face Lateral Flat  [-2, 3, 0]"
+        },
+        {
+          "pos": [
+            -1,
+            3,
+            0
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "propulsion",
+          "name": "REM-01 4-Face Lateral Flat  [-1, 3, 0]"
+        },
+        {
+          "pos": [
+            0,
+            3,
+            0
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "propulsion",
+          "name": "REM-01 4-Face Lateral Flat  [0, 3, 0]"
+        },
+        {
+          "pos": [
+            1,
+            3,
+            0
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "propulsion",
+          "name": "REM-01 4-Face Lateral Flat  [1, 3, 0]"
+        },
+        {
+          "pos": [
+            2,
+            3,
+            0
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "propulsion",
+          "name": "REM-01 4-Face Lateral Flat  [2, 3, 0]"
+        }
+      ]
+    },
+    {
+      "step": "9",
+      "phase": "2-1",
+      "title": "Waist Magnetic Clamping Collar (L11-L14)",
+      "level": "L4",
+      "subsystem": "power",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "Assemble section according to master spatial datum."
+      ],
+      "checks": [
+        "Verify physical clearances and continuous conveyor flow."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            4,
+            1
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "power",
+          "name": "REM-01 Waist Magnetic Clamp [-2, 4, 1]"
+        },
+        {
+          "pos": [
+            -1,
+            4,
+            1
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "power",
+          "name": "REM-01 Waist Magnetic Clamp [-1, 4, 1]"
+        },
+        {
+          "pos": [
+            0,
+            4,
+            1
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "power",
+          "name": "REM-01 Waist Magnetic Clamp [0, 4, 1]"
+        },
+        {
+          "pos": [
+            1,
+            4,
+            1
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "power",
+          "name": "REM-01 Waist Magnetic Clamp [1, 4, 1]"
+        },
+        {
+          "pos": [
+            2,
+            4,
+            1
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "power",
+          "name": "REM-01 Waist Magnetic Clamp [2, 4, 1]"
+        }
+      ]
+    },
+    {
+      "step": "10",
+      "phase": "2-1",
+      "title": "Twin Large Battery Bank (L15-L17)",
+      "level": "L2",
+      "subsystem": "conveyor",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "Assemble section according to master spatial datum."
+      ],
+      "checks": [
+        "Total power storage = 2.16 MWh; peak output = 8.0 MW. Group: `REM Batteries`."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            2,
+            1
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "REM-01 Twin Large Battery B [-2, 2, 1]"
+        },
+        {
+          "pos": [
+            -1,
+            2,
+            1
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "REM-01 Twin Large Battery B [-1, 2, 1]"
+        },
+        {
+          "pos": [
+            0,
+            2,
+            1
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "REM-01 Twin Large Battery B [0, 2, 1]"
+        },
+        {
+          "pos": [
+            1,
+            2,
+            1
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "REM-01 Twin Large Battery B [1, 2, 1]"
+        },
+        {
+          "pos": [
+            2,
+            2,
+            1
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "REM-01 Twin Large Battery B [2, 2, 1]"
+        }
+      ]
+    },
+    {
+      "step": "11",
+      "phase": "2-1",
+      "title": "Flight Control Core & Avionics Citadel (L17-L19)",
+      "level": "L3",
+      "subsystem": "power",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "Assemble section according to master spatial datum."
+      ],
+      "checks": [
+        "Verify physical clearances and continuous conveyor flow."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            3,
+            2
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "power",
+          "name": "REM-01 Flight Control Core  [-2, 3, 2]"
+        },
+        {
+          "pos": [
+            -1,
+            3,
+            2
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "power",
+          "name": "REM-01 Flight Control Core  [-1, 3, 2]"
+        },
+        {
+          "pos": [
+            0,
+            3,
+            2
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "power",
+          "name": "REM-01 Flight Control Core  [0, 3, 2]"
+        },
+        {
+          "pos": [
+            1,
+            3,
+            2
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "power",
+          "name": "REM-01 Flight Control Core  [1, 3, 2]"
+        },
+        {
+          "pos": [
+            2,
+            3,
+            2
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "power",
+          "name": "REM-01 Flight Control Core  [2, 3, 2]"
+        }
+      ]
+    },
+    {
+      "step": "12",
+      "phase": "2-1",
+      "title": "Safety Timers & Native Event Controllers (L18-L20)",
+      "level": "L4",
+      "subsystem": "power",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "Assemble section according to master spatial datum."
+      ],
+      "checks": [
+        "Verify physical clearances and continuous conveyor flow."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            4,
+            3
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "power",
+          "name": "REM-01 Safety Timers & Nati [-2, 4, 3]"
+        },
+        {
+          "pos": [
+            -1,
+            4,
+            3
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "power",
+          "name": "REM-01 Safety Timers & Nati [-1, 4, 3]"
+        },
+        {
+          "pos": [
+            0,
+            4,
+            3
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "power",
+          "name": "REM-01 Safety Timers & Nati [0, 4, 3]"
+        },
+        {
+          "pos": [
+            1,
+            4,
+            3
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "power",
+          "name": "REM-01 Safety Timers & Nati [1, 4, 3]"
+        },
+        {
+          "pos": [
+            2,
+            4,
+            3
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "power",
+          "name": "REM-01 Safety Timers & Nati [2, 4, 3]"
+        }
+      ]
+    },
+    {
+      "step": "13",
+      "phase": "2-1",
+      "title": "Docking Crown Guide Chamfers & Impact Bumpers (L20-L22)",
+      "level": "L2",
+      "subsystem": "structure",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "Assemble section according to master spatial datum."
+      ],
+      "checks": [
+        "Verify physical clearances and continuous conveyor flow."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            2,
+            4
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "REM-01 Docking Crown Guide  [-2, 2, 4]"
+        },
+        {
+          "pos": [
+            -1,
+            2,
+            4
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "REM-01 Docking Crown Guide  [-1, 2, 4]"
+        },
+        {
+          "pos": [
+            0,
+            2,
+            4
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "REM-01 Docking Crown Guide  [0, 2, 4]"
+        },
+        {
+          "pos": [
+            1,
+            2,
+            4
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "REM-01 Docking Crown Guide  [1, 2, 4]"
+        },
+        {
+          "pos": [
+            2,
+            2,
+            4
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "REM-01 Docking Crown Guide  [2, 2, 4]"
+        }
+      ]
+    },
+    {
+      "step": "14",
+      "phase": "2-1",
+      "title": "Final Livery, Decals & Antenna Broadcast Setup",
+      "level": "L3",
+      "subsystem": "conveyor",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "**State Machine (`RemoraDrillerState`):**",
+        "**Strict Grid Scoping:** `b => b.CubeGrid == Me.CubeGrid` prevents querying host Orca blocks.",
+        "**Stone Handling:** Retains all stone; no ejectors; computes mass delta $dM/dt$."
+      ],
+      "checks": [
+        "Verify physical clearances and continuous conveyor flow."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            3,
+            5
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "REM-01 Final Livery, Decals [-2, 3, 5]"
+        },
+        {
+          "pos": [
+            -1,
+            3,
+            5
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "REM-01 Final Livery, Decals [-1, 3, 5]"
+        },
+        {
+          "pos": [
+            0,
+            3,
+            5
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "REM-01 Final Livery, Decals [0, 3, 5]"
+        },
+        {
+          "pos": [
+            1,
+            3,
+            5
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "REM-01 Final Livery, Decals [1, 3, 5]"
+        },
+        {
+          "pos": [
+            2,
+            3,
+            5
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "REM-01 Final Livery, Decals [2, 3, 5]"
+        }
+      ]
+    }
+  ]
+}

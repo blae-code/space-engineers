@@ -1,0 +1,684 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "id": "KES-01",
+  "name": "KESTREL-01 Prospector Scout Drone",
+  "chapter": 12,
+  "gridSize": "Small",
+  "blockMeters": 0.5,
+  "stats": {
+    "totalBlocks": 68,
+    "dryMassTonnes": 4.8,
+    "pcu": 850,
+    "dimensionsBlocks": [
+      7,
+      9,
+      5
+    ]
+  },
+  "bounds": {
+    "min": [
+      -3,
+      1,
+      -4
+    ],
+    "max": [
+      3,
+      5,
+      4
+    ]
+  },
+  "palette": [
+    {
+      "slot": 0,
+      "name": "Citadel Charcoal",
+      "hex": "#1A1D20",
+      "rgb": [
+        26,
+        29,
+        32
+      ],
+      "role": "Heavy Armor Hull & Structural Longerons"
+    },
+    {
+      "slot": 1,
+      "name": "Structural Slate",
+      "hex": "#42464D",
+      "rgb": [
+        66,
+        70,
+        77
+      ],
+      "role": "Bulkheads, Deck Frames & Workshop Ribs"
+    },
+    {
+      "slot": 2,
+      "name": "Warning Amber",
+      "hex": "#E06D14",
+      "rgb": [
+        224,
+        109,
+        20
+      ],
+      "role": "Hatches, Outriggers, Hitch & Bumper Guides"
+    },
+    {
+      "slot": 3,
+      "name": "Tactical White",
+      "hex": "#D4D8DD",
+      "rgb": [
+        212,
+        216,
+        221
+      ],
+      "role": "Flight Deck Markings & Alignment Chevrons"
+    },
+    {
+      "slot": 4,
+      "name": "Processing Teal",
+      "hex": "#1ABC9C",
+      "rgb": [
+        26,
+        188,
+        156
+      ],
+      "role": "Conveyors, Sorters, Ejectors & Basic Refinery"
+    },
+    {
+      "slot": 5,
+      "name": "Habitat White",
+      "hex": "#E8ECF0",
+      "rgb": [
+        232,
+        236,
+        240
+      ],
+      "role": "Bridge Canopy Interior & Medical Station"
+    },
+    {
+      "slot": 6,
+      "name": "Machine Olive",
+      "hex": "#4A5643",
+      "rgb": [
+        74,
+        86,
+        67
+      ],
+      "role": "Large Assembler, Sorter Manifolds & Tool Stores"
+    },
+    {
+      "slot": 7,
+      "name": "Cryo Cyan",
+      "hex": "#1E6B7B",
+      "rgb": [
+        30,
+        107,
+        123
+      ],
+      "role": "Hydrogen Tanks & O2/H2 Decon Systems"
+    },
+    {
+      "slot": 8,
+      "name": "Mechanical Gunmetal",
+      "hex": "#2B2E33",
+      "rgb": [
+        43,
+        46,
+        51
+      ],
+      "role": "Hitch Rotors, Axle Mounts & Boom Pedestal"
+    },
+    {
+      "slot": 9,
+      "name": "Grate Steel",
+      "hex": "#50555C",
+      "rgb": [
+        80,
+        85,
+        92
+      ],
+      "role": "Jefferies Grating, Catwalks & Access Stairs"
+    }
+  ],
+  "steps": [
+    {
+      "step": "12.1",
+      "phase": "12-1",
+      "title": "Belly Connector & Twin Landing Skids (L1)",
+      "level": "L2",
+      "subsystem": "conveyor",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "Place 1 Small Grid Connector `KES Dock Conn` at coordinate `[X: 0, Y: 0, Z: 0]` at Level L1, facing straight DOWN (\u2212Y).",
+        "Install 2 Conveyor Junction cubes immediately above the connector to form the vertical routing trunk.",
+        "Construct twin landing skids using Heavy Armor Half Blocks at X = \u00b12 sb, spanning from Z \u22123 to +3 sb.",
+        "Mount 1\u00d7 Camera `KES Cam Ground` recessed at [X0, Z +1, L1] facing straight DOWN."
+      ],
+      "checks": [
+        "Verify physical clearances and continuous conveyor flow."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            2,
+            -4
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "KES-01 Belly Connector & Tw [-2, 2, -4]"
+        },
+        {
+          "pos": [
+            -1,
+            2,
+            -4
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "KES-01 Belly Connector & Tw [-1, 2, -4]"
+        },
+        {
+          "pos": [
+            0,
+            2,
+            -4
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "KES-01 Belly Connector & Tw [0, 2, -4]"
+        },
+        {
+          "pos": [
+            1,
+            2,
+            -4
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "KES-01 Belly Connector & Tw [1, 2, -4]"
+        },
+        {
+          "pos": [
+            2,
+            2,
+            -4
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "KES-01 Belly Connector & Tw [2, 2, -4]"
+        }
+      ]
+    },
+    {
+      "step": "12.2",
+      "phase": "12-1",
+      "title": "Geological Ore Detector & Downward Lift Cluster (L1-L2)",
+      "level": "L3",
+      "subsystem": "conveyor",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "Mount 1\u00d7 Ore Detector `KES Ore Detector` at [X0, Z +2, L2] on the forward conveyor trunk facing downward.",
+        "Mount 4\u00d7 Small Atmospheric Thrusters into the skid recesses, all exhausting straight DOWN (\u2212Y):",
+        "Assign all 4 to terminal group `KES Thrusters Lift`."
+      ],
+      "checks": [
+        "Verify physical clearances and continuous conveyor flow."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            3,
+            -2
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "KES-01 Geological Ore Detec [-2, 3, -2]"
+        },
+        {
+          "pos": [
+            -1,
+            3,
+            -2
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "KES-01 Geological Ore Detec [-1, 3, -2]"
+        },
+        {
+          "pos": [
+            0,
+            3,
+            -2
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "KES-01 Geological Ore Detec [0, 3, -2]"
+        },
+        {
+          "pos": [
+            1,
+            3,
+            -2
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "KES-01 Geological Ore Detec [1, 3, -2]"
+        },
+        {
+          "pos": [
+            2,
+            3,
+            -2
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "KES-01 Geological Ore Detec [2, 3, -2]"
+        }
+      ]
+    },
+    {
+      "step": "12.3",
+      "phase": "12-1",
+      "title": "Power Vault & Fuel Storage (L2)",
+      "level": "L4",
+      "subsystem": "conveyor",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "Install 1\u00d7 Small Cargo Container `KES Hold Samples` at [X0, Z +1, L2] immediately behind the ore detector.",
+        "Install 2\u00d7 Small Grid Batteries `KES Battery 1, 2` flanking the center line at [X \u22121, Z 0, L2] and [X +1, Z 0, L2].",
+        "Install 1\u00d7 Small Nuclear Reactor `KES Reactor` at [X0, Z \u22122, L2] plumbed into the aft conveyor trunk.",
+        "Assign batteries to group `KES Batteries` (1.0 MWh aggregate capacity, 2.0 MW max discharge)."
+      ],
+      "checks": [
+        "Verify physical clearances and continuous conveyor flow."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            4,
+            0
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "KES-01 Power Vault & Fuel S [-2, 4, 0]"
+        },
+        {
+          "pos": [
+            -1,
+            4,
+            0
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "KES-01 Power Vault & Fuel S [-1, 4, 0]"
+        },
+        {
+          "pos": [
+            0,
+            4,
+            0
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "KES-01 Power Vault & Fuel S [0, 4, 0]"
+        },
+        {
+          "pos": [
+            1,
+            4,
+            0
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "KES-01 Power Vault & Fuel S [1, 4, 0]"
+        },
+        {
+          "pos": [
+            2,
+            4,
+            0
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "KES-01 Power Vault & Fuel S [2, 4, 0]"
+        }
+      ]
+    },
+    {
+      "step": "12.4",
+      "phase": "12-1",
+      "title": "Omnidirectional Vector Array (L2-L3)",
+      "level": "L2",
+      "subsystem": "power",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "**Forward Cruise (2\u00d7):** `KES Thruster Fwd 1, 2` at [X \u00b12, Z \u22124, L3] facing Aft (\u2212Z) to push Bow (+Z) (160 kN drive).",
+        "**Reverse Braking (2\u00d7):** `KES Thruster Rev 1, 2` at [X \u00b12, Z +3, L3] facing Bow (+Z) to push Aft (\u2212Z) (160 kN braking).",
+        "**Port Translation (2\u00d7):** `KES Thruster Port 1, 2` at [X \u22123, Z \u00b11, L3] facing Port (\u2212X) to push Starboard (+X).",
+        "**Starboard Translation (2\u00d7):** `KES Thruster Stbd 1, 2` at [X +3, Z \u00b11, L3] facing Starboard (+X) to push Port (\u2212X).",
+        "**Down-Push Assist (2\u00d7):** `KES Thruster Down 1, 2` at [X \u00b11, Z 0, L3] facing UP (+Y) to push straight DOWN (\u2212Y).",
+        "Assign all 10 to terminal group `KES Thrusters Maneuver`."
+      ],
+      "checks": [
+        "Verify physical clearances and continuous conveyor flow."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            2,
+            0
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "power",
+          "name": "KES-01 Omnidirectional Vect [-2, 2, 0]"
+        },
+        {
+          "pos": [
+            -1,
+            2,
+            0
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "power",
+          "name": "KES-01 Omnidirectional Vect [-1, 2, 0]"
+        },
+        {
+          "pos": [
+            0,
+            2,
+            0
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "power",
+          "name": "KES-01 Omnidirectional Vect [0, 2, 0]"
+        },
+        {
+          "pos": [
+            1,
+            2,
+            0
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "power",
+          "name": "KES-01 Omnidirectional Vect [1, 2, 0]"
+        },
+        {
+          "pos": [
+            2,
+            2,
+            0
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "power",
+          "name": "KES-01 Omnidirectional Vect [2, 2, 0]"
+        }
+      ]
+    },
+    {
+      "step": "12.5",
+      "phase": "12-1",
+      "title": "Autonomous Avionics Spine (L3-L4)",
+      "level": "L3",
+      "subsystem": "power",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "Mount 1\u00d7 Remote Control `KES Remote Control` at [X0, Z +1, L3]. Ensure Forward = Bow (+Z) and Up = Roof (+Y).",
+        "Mount 1\u00d7 Micro Gyroscope `KES Gyro` at [X0, Z 0, L3] directly at the Center of Mass.",
+        "Mount 1\u00d7 Programmable Block `[KES] PB Scout` at [X0, Z \u22121, L3].",
+        "Mount 1\u00d7 Radio Antenna `KES Antenna` at [X0, Z \u22123, L4]. Set broadcast range to `10,000 m`\u2020.",
+        "Mount 1\u00d7 Camera `KES Cam Nose` at [X0, Z +4, L4] pointing Bow (+Z) with high-zoom reconnaissance optics.",
+        "Mount 2\u00d7 Spotlights `KES Light Port / Stbd` at [X \u00b11, Z +4, L4] angled 5\u00b0 downward."
+      ],
+      "checks": [
+        "Verify physical clearances and continuous conveyor flow."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            3,
+            2
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "power",
+          "name": "KES-01 Autonomous Avionics  [-2, 3, 2]"
+        },
+        {
+          "pos": [
+            -1,
+            3,
+            2
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "power",
+          "name": "KES-01 Autonomous Avionics  [-1, 3, 2]"
+        },
+        {
+          "pos": [
+            0,
+            3,
+            2
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "power",
+          "name": "KES-01 Autonomous Avionics  [0, 3, 2]"
+        },
+        {
+          "pos": [
+            1,
+            3,
+            2
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "power",
+          "name": "KES-01 Autonomous Avionics  [1, 3, 2]"
+        },
+        {
+          "pos": [
+            2,
+            3,
+            2
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "power",
+          "name": "KES-01 Autonomous Avionics  [2, 3, 2]"
+        }
+      ]
+    },
+    {
+      "step": "12.6",
+      "phase": "12-1",
+      "title": "Aerodynamic Fuselage Fairing & Sponsons (L4-L5)",
+      "level": "L4",
+      "subsystem": "power",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "Enclose the upper avionics deck with a smooth aerodynamic wedge fairing in Scout White (Slot 8).",
+        "Install Hazard Amber (Slot 1) wingtip navigation markers at [X \u00b13, Z +2, L4].",
+        "Frame the nose optics with 45\u00b0 sloped armor blocks to deflect atmospheric dust and bird strikes.",
+        "Add yellow grab bars (Slot 5) along the spine for field recovery operations.",
+        "`KES TMR Heartbeat` (5.0 s loop) fails to receive a PB reset pulse and expires.",
+        "Immediate hardwired failsafe actions triggered by timer:",
+        "If docked at host pad when failure occurs:"
+      ],
+      "checks": [
+        "**Dry Mass Verification:** Spawn KESTREL-01 in creative; terminal reports dry mass `\u2248 4.8 t`.",
+        "**Hover Throttle Test:** Lift off to 50 m altitude in Earth 1.0 g; verify 4\u00d7 lift thrusters hover at `14-16%` load (`\u2248 330 kW` draw).",
+        "**Climb Acceleration:** Apply 100% vertical lift collective; verify climb velocity reaches 100 m/s in $< 2.0\\text{ seconds}$\u2020 ($a \\ge 50\\text{ m/s}^2$).",
+        "**Vein Acquisition:** Fly over buried Uranium and Platinum deposits; confirm `KES Ore Detector` registers deposits up to 50 m depth.",
+        "**IGC Packet Verification:** Check C2 Video Wall (LCD 1/6); verify `TMS.SCOUT.VEIN` broadcast updates target queue with correct GPS and depth metadata.",
+        "**Contour Hugging:** Engage autopilot terrain following at 80 km/h at 15 m altitude; confirm forward optics and down-push thrusters arrest vertical bounce over ridge crests without ground strike.",
+        "**Lateral Drift Stability:** Execute high-speed S-turns at 100 m/s; verify 10-thruster maneuver ring maintains zero slip angle.",
+        "**Approach Sequence:** Approach Mastodon MKI bow at 5 m/s; align `KES Cam Ground` crosshairs with `MAS Welder Pad Kestrel 1`; confirm soft touchdown.",
+        "**Pad Latch & Weld Check:** Confirm `KES Dock Conn` locks on first contact; verify Mastodon pad welder executes repair pulse without damaging skids.",
+        "**Bay Entry Alignment:** Approach Orca Bay P2; confirm lateral clearance is $\\ge 1.0\\text{ B}$ on all sides; verify clean transition from ambient atmosphere to carrier bay hangar.",
+        "**Power Shutdown:** Confirm `KES EC Dock` triggers battery `Recharge` and cuts all thrusters instantly upon lock.",
+        "**Base Terminal Capture:** Touch down on Ground Base light drone pad; confirm 2\u00d7 Small Batteries pull 2.0 MW shore charge, reaching 100% state of charge in $< 30\\text{ minutes}$.",
+        "**Simulated PB Crash:** Recompile `[KES] PB Scout` with an empty script during 80 m/s flight; verify `KES TMR Heartbeat` times out at 5.0 s, dampeners engage, overrides cut, and drone halts into stable altitude hold."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            4,
+            4
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "power",
+          "name": "KES-01 Aerodynamic Fuselage [-2, 4, 4]"
+        },
+        {
+          "pos": [
+            -1,
+            4,
+            4
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "power",
+          "name": "KES-01 Aerodynamic Fuselage [-1, 4, 4]"
+        },
+        {
+          "pos": [
+            0,
+            4,
+            4
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "power",
+          "name": "KES-01 Aerodynamic Fuselage [0, 4, 4]"
+        },
+        {
+          "pos": [
+            1,
+            4,
+            4
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "power",
+          "name": "KES-01 Aerodynamic Fuselage [1, 4, 4]"
+        },
+        {
+          "pos": [
+            2,
+            4,
+            4
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "power",
+          "name": "KES-01 Aerodynamic Fuselage [2, 4, 4]"
+        }
+      ]
+    }
+  ]
+}

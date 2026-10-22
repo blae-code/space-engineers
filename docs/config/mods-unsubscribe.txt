@@ -1,0 +1,191 @@
+# Workshop items to unsubscribe (generated 2026-10-16 from docs/rig/mods.md)
+# Everything subscribed that is not in the Keep section. Planet-pack candidates are kept until chosen.
+# Format: id<TAB>category<TAB>title. Delete a line to keep that item.
+1523204540	ADDS BLOCKS	(ARMCO) BTL-S3 Y-Wing Kit
+1380830774	ADDS BLOCKS	(ARMCO) ImperialMod
+1527082967	ADDS BLOCKS	(ARMCO) Misc Pack (Temp)
+1493130951	ADDS BLOCKS	(ARMCO) Rebel Alliance Turret Kit
+1656790406	ADDS BLOCKS	(ARMCO) Repulsor Engines
+1387348007	ADDS BLOCKS	(ARMCO) RZ-1 A-Wing kit
+1817426174	ADDS BLOCKS	(ARMCO) Starwars Master File
+1457376670	ADDS BLOCKS	(ARMCO) T-65B X-wing Kit
+531659576	ADDS BLOCKS	[EEM] Exploration Enhancement Mod
+1919062467	ADDS BLOCKS	[Mexpex] MWI - Homing Weaponry (24)
+3676411599	ADDS BLOCKS	Adjustable Mining Laser - Laser Drill + Mining Display
+1810920525	ADDS BLOCKS	AQD - Armored Thrusters (Deprecated)
+3232490488	ADDS BLOCKS	AQD - Lights
+2443903220	ADDS BLOCKS	AQD - Vanilla Extension - Core
+2391318591	ADDS BLOCKS	Assertive Loot
+2336089504	ADDS BLOCKS	Bot_spawner
+2809355711	ADDS BLOCKS	Consolidation Armament - Definitive Weapon Pack
+2933383148	ADDS BLOCKS	Consolidation Armament II - Definitive Weapon Pack
+914369510	ADDS BLOCKS	Corruption PvE Combat
+2604451892	ADDS BLOCKS	Forcefield Generators (Hangar Doors)
+2997539634	ADDS BLOCKS	Interactable Light Blocks
+1719832915	ADDS BLOCKS	More Pistons
+2016817336	ADDS BLOCKS	NorthWind Weapons
+1114854185	ADDS BLOCKS	retractable landing gear
+1215572313	ADDS BLOCKS	Reward Blocks Pack
+2841920953	ADDS BLOCKS	Shower Light
+3209005014	ADDS BLOCKS	Tank Tracks Builder
+2200451495	ADDS BLOCKS	Water Mod
+3154371364	ADDS BLOCKS	WeaponCore - 3.0
+1755654702	BLUEPRINT	(ARMCO) Imperial Light Incursions
+1843206463	BLUEPRINT	?
+3155707452	BLUEPRINT	?
+2894956551	BLUEPRINT	[MCI] Lighthouse Class Shipyard
+2283775819	BLUEPRINT	ACI-Rival
+2465585201	BLUEPRINT	AQD - Quality of Life - Core
+3740799255	BLUEPRINT	Atlantis Test
+3386169837	BLUEPRINT	BACTRIAN - Emplacement Destroyer
+3356895834	BLUEPRINT	Base Explorer E-0 (No mods | Mobile Base | Rover)
+3217700134	BLUEPRINT	Chopin II Deep Space Station [Star Trek]
+2965299129	BLUEPRINT	Dune Runner
+2575235081	BLUEPRINT	London Traction City - Mortal Engines
+2123673649	BLUEPRINT	MES NPC Expanded Universe Encounters
+2802625870	BLUEPRINT	MES Wreckage
+2446673560	BLUEPRINT	Modular Space Station Kit [MSSK] Pack 1
+374737796	BLUEPRINT	Modular Stations: 3-way Glass Corridor Module
+374737381	BLUEPRINT	Modular Stations: 4-way Glass Corridor Module
+374727038	BLUEPRINT	Modular Stations: 6-way Adapter Module
+374736502	BLUEPRINT	Modular Stations: 90° Bend Glass Corridor Module
+374731027	BLUEPRINT	Modular Stations: 90° Bend Module Mk1
+374731737	BLUEPRINT	Modular Stations: 90° Bend Module Mk2
+374720356	BLUEPRINT	Modular Stations: Acceleration Ring Module Mk1
+374721041	BLUEPRINT	Modular Stations: Acceleration Ring Module Mk2
+374724570	BLUEPRINT	Modular Stations: Accelerator Ring with Lounge and Approach Indicators
+374745678	BLUEPRINT	Modular Stations: Back up Power Module Mk1
+374746156	BLUEPRINT	Modular Stations: Back up Power Module Mk2
+375100219	BLUEPRINT	Modular Stations: Cargo Module Mk1
+375101148	BLUEPRINT	Modular Stations: Cargo Module Mk2
+375107461	BLUEPRINT	Modular Stations: Collection Module with Collection Pit Mk1 WIP
+375108414	BLUEPRINT	Modular Stations: Collection Module with Collection Pit Mk2
+375106742	BLUEPRINT	Modular Stations: Collection Module with liftable Collector Mk1 WIP
+375106037	BLUEPRINT	Modular Stations: Collection Module with liftable Collector Mk2
+374728614	BLUEPRINT	Modular Stations: Communication Tower Module
+374728126	BLUEPRINT	Modular Stations: Docking Arch Module
+374735935	BLUEPRINT	Modular Stations: double length Glass Corridor Module
+374727575	BLUEPRINT	Modular Stations: empty Module
+375047541	BLUEPRINT	Modular Stations: Escape Pod Port cover Mk1
+375053169	BLUEPRINT	Modular Stations: Escape Pod Port cover Mk2
+374719879	BLUEPRINT	Modular Stations: extra large Docking Ring Module
+375099549	BLUEPRINT	Modular Stations: Factory Module Mk1
+375098960	BLUEPRINT	Modular Stations: Factory Module Mk2
+375058640	BLUEPRINT	Modular Stations: Flattop empty Port Cover
+375057579	BLUEPRINT	Modular Stations: Flattop Landing Pad Module
+375060114	BLUEPRINT	Modular Stations: Flattop Port Cover with Airlock Mk1
+375059640	BLUEPRINT	Modular Stations: Flattop Port Cover with Airlock Mk2
+375061034	BLUEPRINT	Modular Stations: Flattop Port Cover with Window Mk1
+375060615	BLUEPRINT	Modular Stations: Flattop Port Cover with Window Mk2
+375058034	BLUEPRINT	Modular Stations: Flattop Port Cover with Window Mk3
+374721546	BLUEPRINT	Modular Stations: Glass Docking Ring Lounge
+374739747	BLUEPRINT	Modular Stations: Habitation Module Mk1
+374740318	BLUEPRINT	Modular Stations: Habitation Module Mk2a
+374740702	BLUEPRINT	Modular Stations: Habitation Module Mk2b
+382061652	BLUEPRINT	Modular Stations: Large Docking Ring Module Mk2
+375083442	BLUEPRINT	Modular Stations: Large Hangar
+374742754	BLUEPRINT	Modular Stations: Large Power Module
+375104633	BLUEPRINT	Modular Stations: linear Collection Module Mk1
+375104061	BLUEPRINT	Modular Stations: linear Collection Module Mk2
+374729707	BLUEPRINT	Modular Stations: linear Hallway Module
+374741424	BLUEPRINT	Modular Stations: Medical Bay Module
+375518005	BLUEPRINT	Modular Stations: Medium Hangar
+375055528	BLUEPRINT	Modular Stations: Port cover with Airlock and long Docking arm
+375054949	BLUEPRINT	Modular Stations: Port cover with Airlock and short Docking arm
+375046729	BLUEPRINT	Modular Stations: Port cover with Airlock Mk1
+375053631	BLUEPRINT	Modular Stations: Port cover with Airlock Mk2
+375039962	BLUEPRINT	Modular Stations: Port Cover with Defence Turrets Mk1
+375039472	BLUEPRINT	Modular Stations: Port Cover with Defence Turrets Mk2
+375039113	BLUEPRINT	Modular Stations: Port Cover with folding Solar cells 4x3
+375037392	BLUEPRINT	Modular Stations: Port Cover with folding Solar cells 6x2
+375034958	BLUEPRINT	Modular Stations: Port cover with Large Solar array and BBU Mk1
+375036074	BLUEPRINT	Modular Stations: Port cover with Large Solar array and BBU Mk2
+375036856	BLUEPRINT	Modular Stations: Port Cover with Solar cells
+375046067	BLUEPRINT	Modular Stations: Port cover with Window Mk1
+375045044	BLUEPRINT	Modular Stations: Port cover with Window Mk2
+375045544	BLUEPRINT	Modular Stations: Port cover with Window Mk3
+374739351	BLUEPRINT	Modular Stations: Promenade Module
+374743613	BLUEPRINT	Modular Stations: Reactor Module Mk1
+374744807	BLUEPRINT	Modular Stations: Reactor Module Mk2
+375097469	BLUEPRINT	Modular Stations: Repair Shop Module Mk1
+375097857	BLUEPRINT	Modular Stations: Repair Shop Module Mk2
+374734709	BLUEPRINT	Modular Stations: Security Module Mk1
+374735114	BLUEPRINT	Modular Stations: Security Module Mk2
+374735471	BLUEPRINT	Modular Stations: single length Glass Corridor Module
+374726229	BLUEPRINT	Modular Stations: Small Docking Ring Mk1
+374725384	BLUEPRINT	Modular Stations: Small Docking Ring Mk2
+375065479	BLUEPRINT	Modular Stations: Small Hangar Mk1
+375066512	BLUEPRINT	Modular Stations: Small Hangar Mk2
+374732436	BLUEPRINT	Modular Stations: Stairwell Module Mk1
+374732920	BLUEPRINT	Modular Stations: Stairwell Module Mk2a
+374733457	BLUEPRINT	Modular Stations: Stairwell Module Mk2b
+374730138	BLUEPRINT	Modular Stations: Y-Adapter Module, left
+374730460	BLUEPRINT	Modular Stations: Y-Adapter Module, right
+2144496841	BLUEPRINT	Nomad - Survival Rover Land Base (Vanilla)
+1162841676	BLUEPRINT	Rdav's Fleet Command MKII
+525460808	BLUEPRINT	Reavers: Terror of the Verse
+2539299261	BLUEPRINT	Wasteland Encounters V2 Continued
+1510183381	DATA MOD (no blocks)	[SEE] Super Engineered Encounters
+798346436	DATA MOD (no blocks)	Atlantis - Skybox
+2839553181	DATA MOD (no blocks)	In Depth LCDs
+2178783350	DATA MOD (no blocks)	Small Spiders
+1671940088	DATA MOD (no blocks)	Uglies Unleashed
+720952412	NOT DOWNLOADED	"Graveler II" Mining Crane (Vanilla)
+821764014	NOT DOWNLOADED	(DX11) Iris Door
+294619787	NOT DOWNLOADED	(DX11)Docking Ring
+672966056	NOT DOWNLOADED	[Archive] IMDC Skirmish Fleet ~AI-Drone Retrofit~
+683627084	NOT DOWNLOADED	[NO MODS] Serpent Drone Carrier - AI controlled drones
+643820962	NOT DOWNLOADED	Airlock Block
+321588701	NOT DOWNLOADED	Automated Inventory Sorting
+1302425114	NOT DOWNLOADED	Defender Drone (V 3.0)
+666348624	NOT DOWNLOADED	IMDC Station Dry Dock
+392134049	NOT DOWNLOADED	Industrial Hangar
+318305397	NOT DOWNLOADED	Industrial Thruster (Sage)
+331756575	NOT DOWNLOADED	Large ring rotors with central tunnel
+782912712	NOT DOWNLOADED	Mobile Mining Base [Modless]
+931309474	NOT DOWNLOADED	Particle Shield
+882507554	NOT DOWNLOADED	PFS - CV - Wyvern II Carrier
+533968556	NOT DOWNLOADED	R.U.S.T. V-2 Gunboat
+612031393	NOT DOWNLOADED	Refueling Station "Solar"
+416466806	NOT DOWNLOADED	Ship Speed Increase
+536195488	NOT DOWNLOADED	The Orpington (NO MODS)
+771720381	NOT DOWNLOADED	The Rangatira Carrier MSV-4
+490662877	NOT DOWNLOADED	The Salvador
+3383994502	PB SCRIPT	[PAM] Path Auto Miner | (Real Solar Systems ver.)
+822950976	PB SCRIPT	Automatic LCDs 2
+913293538	PB SCRIPT	Isy's Block Renaming Script
+908443218	PB SCRIPT	Isy's Docked Ships Info
+1216126863	PB SCRIPT	Isy's Inventory Manager
+859401813	PB SCRIPT	Isy's Ship Refueler
+699142028	PB SCRIPT	Isy's Solar Alignment Script
+2146371052	PB SCRIPT	Spug's Easy Auto-Docking 2
+945655546	PLANET	Bring Back Cyberhounds
+2411541991	PLANET	More Encounters - Content
+2315059547	PLANET	More Encounters Faction Wars Npc Vs NPC vs player
+1775277473	PLANET	More NPC Encounters V5
+2043717871	PLANET	More NPC Encounters V6 - Rival Ai (Now with NPCs for Water Mod)
+2789619117	PLANET	Star System Generator
+2304715504	SCRIPT MOD (no blocks)	[QoL] Production Quota
+2880317963	SCRIPT MOD (no blocks)	Animation Engine
+1843256487	SCRIPT MOD (no blocks)	AutoCloseDoors
+317841523	SCRIPT MOD (no blocks)	Automatic Doors & Airlocks
+2053202808	SCRIPT MOD (no blocks)	Block Restrictions
+1813797680	SCRIPT MOD (no blocks)	Cargo Fill Level LCDs
+2417159596	SCRIPT MOD (no blocks)	GridPickupMod
+3017795356	SCRIPT MOD (no blocks)	ModAdjusterV2
+2307665159	SCRIPT MOD (no blocks)	Research System Framework
+3208995513	SCRIPT MOD (no blocks)	Tank Tracks Framework & API
+1896299812	SCRIPT MOD (no blocks)	TeamSpot
+363665372	WORLD	Modular Stations Part 01: Component for Accelerator Ring
+363665548	WORLD	Modular Stations Part 02: Docking Ring Modules
+363665718	WORLD	Modular Stations Part 03: Comm-Tower, Docking Arch, 6-way Adapter and empty Module
+363665894	WORLD	Modular Stations Part 04: Stairwells, 90° Bends, Hallway and Y-Shaped Modules
+363666045	WORLD	Modular Stations Part 05: Security and Glass Corridor Modules
+363666197	WORLD	Modular Stations Part 06: Promenade, Habitation and Medical Bay Module
+363666413	WORLD	Modular Stations Part 07: Reactor and Battery Modules
+363666601	WORLD	Modular Stations Part 08: Port Covers with Defence Turrets or Solar Panels
+363666841	WORLD	Modular Stations Part 09: Port Cover with Windows, Airlocks and Escape Pods
+363667020	WORLD	Modular Stations Part 10: Flattop Landing Pad with Port covers
+363667276	WORLD	Modular Stations Part 11: Hangars
+363667685	WORLD	Modular Stations Part 12: Repair, Factory and Cargo Modules
+363667925	WORLD	Modular Stations Part 13: Collector Modules

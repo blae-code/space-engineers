@@ -1,0 +1,1537 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "id": "GND-01",
+  "name": "Ground Base, Refinery Complex & Fleet C2",
+  "chapter": 4,
+  "gridSize": "Large",
+  "blockMeters": 2.5,
+  "stats": {
+    "totalBlocks": 1420,
+    "dryMassTonnes": 2840.0,
+    "pcu": 14200,
+    "dimensionsBlocks": [
+      35,
+      45,
+      12
+    ]
+  },
+  "bounds": {
+    "min": [
+      -17,
+      1,
+      -22
+    ],
+    "max": [
+      17,
+      12,
+      22
+    ]
+  },
+  "palette": [
+    {
+      "slot": 0,
+      "name": "Citadel Charcoal",
+      "hex": "#1A1D20",
+      "rgb": [
+        26,
+        29,
+        32
+      ],
+      "role": "Heavy Armor Hull & Structural Longerons"
+    },
+    {
+      "slot": 1,
+      "name": "Structural Slate",
+      "hex": "#42464D",
+      "rgb": [
+        66,
+        70,
+        77
+      ],
+      "role": "Bulkheads, Deck Frames & Workshop Ribs"
+    },
+    {
+      "slot": 2,
+      "name": "Warning Amber",
+      "hex": "#E06D14",
+      "rgb": [
+        224,
+        109,
+        20
+      ],
+      "role": "Hatches, Outriggers, Hitch & Bumper Guides"
+    },
+    {
+      "slot": 3,
+      "name": "Tactical White",
+      "hex": "#D4D8DD",
+      "rgb": [
+        212,
+        216,
+        221
+      ],
+      "role": "Flight Deck Markings & Alignment Chevrons"
+    },
+    {
+      "slot": 4,
+      "name": "Processing Teal",
+      "hex": "#1ABC9C",
+      "rgb": [
+        26,
+        188,
+        156
+      ],
+      "role": "Conveyors, Sorters, Ejectors & Basic Refinery"
+    },
+    {
+      "slot": 5,
+      "name": "Habitat White",
+      "hex": "#E8ECF0",
+      "rgb": [
+        232,
+        236,
+        240
+      ],
+      "role": "Bridge Canopy Interior & Medical Station"
+    },
+    {
+      "slot": 6,
+      "name": "Machine Olive",
+      "hex": "#4A5643",
+      "rgb": [
+        74,
+        86,
+        67
+      ],
+      "role": "Large Assembler, Sorter Manifolds & Tool Stores"
+    },
+    {
+      "slot": 7,
+      "name": "Cryo Cyan",
+      "hex": "#1E6B7B",
+      "rgb": [
+        30,
+        107,
+        123
+      ],
+      "role": "Hydrogen Tanks & O2/H2 Decon Systems"
+    },
+    {
+      "slot": 8,
+      "name": "Mechanical Gunmetal",
+      "hex": "#2B2E33",
+      "rgb": [
+        43,
+        46,
+        51
+      ],
+      "role": "Hitch Rotors, Axle Mounts & Boom Pedestal"
+    },
+    {
+      "slot": 9,
+      "name": "Grate Steel",
+      "hex": "#50555C",
+      "rgb": [
+        80,
+        85,
+        92
+      ],
+      "role": "Jefferies Grating, Catwalks & Access Stairs"
+    }
+  ],
+  "steps": [
+    {
+      "step": "4.1",
+      "phase": "4-1",
+      "title": "Bedrock Plateau Excavation & Perimeter Retaining Walls (L0-L1)",
+      "level": "L2",
+      "subsystem": "structure",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "Lay the perimeter retaining wall using Heavy Armor Blocks along X = \u00b112 (Z \u221214 to +14) and Z = \u00b114 (X \u221212 to +12) at Level L1.",
+        "Anchor corner footings 2 blocks deep into terrain (Level L0) to prevent voxel clipping or structural floating.",
+        "Bevel the exterior tarmac perimeter with Heavy Armor Slopes angled 45\u00b0 to provide smooth ramp transitions for ground vehicles."
+      ],
+      "checks": [
+        "Verify physical clearances and continuous conveyor flow."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            2,
+            -22
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "GND-01 Bedrock Plateau Exca [-2, 2, -22]"
+        },
+        {
+          "pos": [
+            -1,
+            2,
+            -22
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "GND-01 Bedrock Plateau Exca [-1, 2, -22]"
+        },
+        {
+          "pos": [
+            0,
+            2,
+            -22
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "GND-01 Bedrock Plateau Exca [0, 2, -22]"
+        },
+        {
+          "pos": [
+            1,
+            2,
+            -22
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "GND-01 Bedrock Plateau Exca [1, 2, -22]"
+        },
+        {
+          "pos": [
+            2,
+            2,
+            -22
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "GND-01 Bedrock Plateau Exca [2, 2, -22]"
+        }
+      ]
+    },
+    {
+      "step": "4.2",
+      "phase": "4-1",
+      "title": "Sub-Surface Conveyor Trenches A & B (L0)",
+      "level": "L3",
+      "subsystem": "conveyor",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "Excavate Trench A (3 B wide \u00d7 1 B deep) along X \u22124 spanning Z +5 to +13 at Level L0. Plumb with 8\u00d7 Large Conveyor Junctions to feed the Caterpillar receiving dock.",
+        "Excavate Trench B (3 B wide \u00d7 1 B deep) along X +3 spanning Z +5 to +13 at Level L0. Plumb with 6\u00d7 Large Conveyor Junctions to feed the Mule gantry pad.",
+        "Connect both trenches across transverse headers at Z = +5 to the central industrial manifold raceway."
+      ],
+      "checks": [
+        "Verify physical clearances and continuous conveyor flow."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            3,
+            -19
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "GND-01 Sub-Surface Conveyor [-2, 3, -19]"
+        },
+        {
+          "pos": [
+            -1,
+            3,
+            -19
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "GND-01 Sub-Surface Conveyor [-1, 3, -19]"
+        },
+        {
+          "pos": [
+            0,
+            3,
+            -19
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "GND-01 Sub-Surface Conveyor [0, 3, -19]"
+        },
+        {
+          "pos": [
+            1,
+            3,
+            -19
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "GND-01 Sub-Surface Conveyor [1, 3, -19]"
+        },
+        {
+          "pos": [
+            2,
+            3,
+            -19
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "GND-01 Sub-Surface Conveyor [2, 3, -19]"
+        }
+      ]
+    },
+    {
+      "step": "4.3",
+      "phase": "4-1",
+      "title": "Foundation Blast Slabs & Tarmac Deck Plating (L1)",
+      "level": "L4",
+      "subsystem": "conveyor",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "Lay reinforced Heavy Armor Blocks across the entire 24 \u00d7 28 B surface deck at Level L1, enclosing the sub-surface raceways.",
+        "Leave open intake collar sockets at [X +3, Z +9] (for the Mule pad connector) and along X \u22124, Z +8 to +10 (for the 5\u00d7 Caterpillar collectors).",
+        "Paint the entire tarmac foundation Palette Slot 0 (Industrial Slate)."
+      ],
+      "checks": [
+        "Foundation is 100% sealed with zero exposed voxel terrain gaps.",
+        "Trench raceways provide unrestricted large-port conveyor flow beneath the surface."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            4,
+            -16
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "GND-01 Foundation Blast Sla [-2, 4, -16]"
+        },
+        {
+          "pos": [
+            -1,
+            4,
+            -16
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "GND-01 Foundation Blast Sla [-1, 4, -16]"
+        },
+        {
+          "pos": [
+            0,
+            4,
+            -16
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "GND-01 Foundation Blast Sla [0, 4, -16]"
+        },
+        {
+          "pos": [
+            1,
+            4,
+            -16
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "GND-01 Foundation Blast Sla [1, 4, -16]"
+        },
+        {
+          "pos": [
+            2,
+            4,
+            -16
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "GND-01 Foundation Blast Sla [2, 4, -16]"
+        }
+      ]
+    },
+    {
+      "step": "4.4",
+      "phase": "4-1",
+      "title": "MULE-01 Touchdown Blast Deck (7\u00d77 B Flush Deck) (L1)",
+      "level": "L2",
+      "subsystem": "structure",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "Construct the 7 \u00d7 7 B touchdown deck spanning X 0 to +6, Z +6 to +12 at Level L1.",
+        "Paint the deck perimeter with alternating Hazard Amber (Slot 1) and Industrial Slate (Slot 0) warning chevrons.",
+        "Install Large Connector `GND PAD Conn` flush in the deck center at [X +3, Z +9, Level L1], facing straight UP (+Y), plumbed directly into Trench B."
+      ],
+      "checks": [
+        "Verify physical clearances and continuous conveyor flow."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            2,
+            -13
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "GND-01 MULE-01 Touchdown Bl [-2, 2, -13]"
+        },
+        {
+          "pos": [
+            -1,
+            2,
+            -13
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "GND-01 MULE-01 Touchdown Bl [-1, 2, -13]"
+        },
+        {
+          "pos": [
+            0,
+            2,
+            -13
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "GND-01 MULE-01 Touchdown Bl [0, 2, -13]"
+        },
+        {
+          "pos": [
+            1,
+            2,
+            -13
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "GND-01 MULE-01 Touchdown Bl [1, 2, -13]"
+        },
+        {
+          "pos": [
+            2,
+            2,
+            -13
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "GND-01 MULE-01 Touchdown Bl [2, 2, -13]"
+        }
+      ]
+    },
+    {
+      "step": "4.5",
+      "phase": "4-1",
+      "title": "Motorized Gantry Cradle Clamping Arms & Mag Plates (L1-L2)",
+      "level": "L3",
+      "subsystem": "structure",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "Mount 1\u00d7 Motor Hinge `GND PAD Cradle Hinge Port` at [X +1, Z +10, Level L1] with hinge pin longitudinal (Z-axis) and base facing East (+X).",
+        "Mount 1\u00d7 Motor Hinge `GND PAD Cradle Hinge Stbd` at [X +5, Z +10, Level L1] with hinge pin longitudinal (Z-axis) and base facing West (\u2212X).",
+        "Weld Large Magnetic Plates `GND PAD Cradle Clamp Port/Stbd` onto the hinge heads, set to `Auto-Lock = ON`.",
+        "Install Sensor Block `GND PAD Sensor` at [X +3, Z +12, Level L1]. Configure detection field: 15 m radius centered 5 m above pad."
+      ],
+      "checks": [
+        "Verify physical clearances and continuous conveyor flow."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            3,
+            -10
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "GND-01 Motorized Gantry Cra [-2, 3, -10]"
+        },
+        {
+          "pos": [
+            -1,
+            3,
+            -10
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "GND-01 Motorized Gantry Cra [-1, 3, -10]"
+        },
+        {
+          "pos": [
+            0,
+            3,
+            -10
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "GND-01 Motorized Gantry Cra [0, 3, -10]"
+        },
+        {
+          "pos": [
+            1,
+            3,
+            -10
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "GND-01 Motorized Gantry Cra [1, 3, -10]"
+        },
+        {
+          "pos": [
+            2,
+            3,
+            -10
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "GND-01 Motorized Gantry Cra [2, 3, -10]"
+        }
+      ]
+    },
+    {
+      "step": "4.6",
+      "phase": "4-1",
+      "title": "CATERPILLAR-01 Unload Dock, Wheel Curbs & Stop Bumpers (L1-L2)",
+      "level": "L4",
+      "subsystem": "propulsion",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "Construct the heavy rail receiving trench along X \u22126 to \u22121, Z +6 to +12 at Level L1.",
+        "Install raised Heavy Armor Slope curbs along X = \u22126 and X = \u22121 to physically funnel the land train's 5\u00d75 wheels into alignment.",
+        "Weld heavy collision stop blocks using Blast Door Blocks at Z = +5 (X \u22123 to \u22125).",
+        "Mount Large Connector `GND CAT Dump Conn` horizontally at [X \u22124, Z +5, Level L2] facing North (+Z). Height: exactly 2.5 m above tarmac."
+      ],
+      "checks": [
+        "Verify physical clearances and continuous conveyor flow."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            4,
+            -7
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "propulsion",
+          "name": "GND-01 CATERPILLAR-01 Unloa [-2, 4, -7]"
+        },
+        {
+          "pos": [
+            -1,
+            4,
+            -7
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "propulsion",
+          "name": "GND-01 CATERPILLAR-01 Unloa [-1, 4, -7]"
+        },
+        {
+          "pos": [
+            0,
+            4,
+            -7
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "propulsion",
+          "name": "GND-01 CATERPILLAR-01 Unloa [0, 4, -7]"
+        },
+        {
+          "pos": [
+            1,
+            4,
+            -7
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "propulsion",
+          "name": "GND-01 CATERPILLAR-01 Unloa [1, 4, -7]"
+        },
+        {
+          "pos": [
+            2,
+            4,
+            -7
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "propulsion",
+          "name": "GND-01 CATERPILLAR-01 Unloa [2, 4, -7]"
+        }
+      ]
+    },
+    {
+      "step": "4.7",
+      "phase": "4-1",
+      "title": "5\u00d7 In-Deck Gravity Collectors & Bulk Sorter Manifold (L1)",
+      "level": "L2",
+      "subsystem": "conveyor",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "Mount 5\u00d7 Large Grid Collectors `GND CAT Hopper Coll 1..5` flush in the deck at Level L1, facing straight UP (+Y):",
+        "Plumb all 5 collectors into sub-surface Trench A.",
+        "Install Large Conveyor Sorter `GND CAT Sorter Bulk` downstream of the collectors at [X \u22124, Z +5, Level L0] with flow arrow South (\u2212Z). Whitelist: `Iron`, `Nickel`, `Silicon`, `Cobalt`, `Stone`. Set `Drain All = ON`."
+      ],
+      "checks": [
+        "Verify physical clearances and continuous conveyor flow."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            2,
+            -4
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "GND-01 5\u00d7 In-Deck Gravity C [-2, 2, -4]"
+        },
+        {
+          "pos": [
+            -1,
+            2,
+            -4
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "GND-01 5\u00d7 In-Deck Gravity C [-1, 2, -4]"
+        },
+        {
+          "pos": [
+            0,
+            2,
+            -4
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "GND-01 5\u00d7 In-Deck Gravity C [0, 2, -4]"
+        },
+        {
+          "pos": [
+            1,
+            2,
+            -4
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "GND-01 5\u00d7 In-Deck Gravity C [1, 2, -4]"
+        },
+        {
+          "pos": [
+            2,
+            2,
+            -4
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "GND-01 5\u00d7 In-Deck Gravity C [2, 2, -4]"
+        }
+      ]
+    },
+    {
+      "step": "4.8",
+      "phase": "4-1",
+      "title": "West Smelting Bank (Refineries 1 & 2 + 8 Yield Modules) (L1-L2)",
+      "level": "L3",
+      "subsystem": "structure",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "Mount 2\u00d7 Large Refineries `GND REF 1` and `GND REF 2` at [X \u22125, Z +3] and [X \u22125, Z +1] at Level L1, with large ports facing North/South.",
+        "Attach 4\u00d7 Yield Modules to the exterior Port face of `GND REF 1` and 4\u00d7 Yield Modules to `GND REF 2`.",
+        "Plumb the intake ports directly to Trench B (Rare Ore Stream from Mule Pad)."
+      ],
+      "checks": [
+        "Verify physical clearances and continuous conveyor flow."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            3,
+            -1
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "GND-01 West Smelting Bank ( [-2, 3, -1]"
+        },
+        {
+          "pos": [
+            -1,
+            3,
+            -1
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "GND-01 West Smelting Bank ( [-1, 3, -1]"
+        },
+        {
+          "pos": [
+            0,
+            3,
+            -1
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "GND-01 West Smelting Bank ( [0, 3, -1]"
+        },
+        {
+          "pos": [
+            1,
+            3,
+            -1
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "GND-01 West Smelting Bank ( [1, 3, -1]"
+        },
+        {
+          "pos": [
+            2,
+            3,
+            -1
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "GND-01 West Smelting Bank ( [2, 3, -1]"
+        }
+      ]
+    },
+    {
+      "step": "4.9",
+      "phase": "4-1",
+      "title": "East Smelting Bank (Refineries 3 & 4 + 8 Yield Modules) (L1-L2)",
+      "level": "L4",
+      "subsystem": "conveyor",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "Mount 2\u00d7 Large Refineries `GND REF 3` and `GND REF 4` at [X +4, Z +3] and [X +4, Z +1] at Level L1.",
+        "Attach 4\u00d7 Yield Modules to the exterior Starboard face of `GND REF 3` and 4\u00d7 Yield Modules to `GND REF 4`.",
+        "Plumb the intake ports directly to Trench A (Bulk Ore Stream from Caterpillar Dock).",
+        "Tie all 4 refinery discharge ports into the central Refined Ingot Trunk running South along centerline X0."
+      ],
+      "checks": [
+        "Verify physical clearances and continuous conveyor flow."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            4,
+            1
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "GND-01 East Smelting Bank ( [-2, 4, 1]"
+        },
+        {
+          "pos": [
+            -1,
+            4,
+            1
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "GND-01 East Smelting Bank ( [-1, 4, 1]"
+        },
+        {
+          "pos": [
+            0,
+            4,
+            1
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "GND-01 East Smelting Bank ( [0, 4, 1]"
+        },
+        {
+          "pos": [
+            1,
+            4,
+            1
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "GND-01 East Smelting Bank ( [1, 4, 1]"
+        },
+        {
+          "pos": [
+            2,
+            4,
+            1
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "GND-01 East Smelting Bank ( [2, 4, 1]"
+        }
+      ]
+    },
+    {
+      "step": "4.10",
+      "phase": "4-1",
+      "title": "4-Assembler Manufacturing Array & 16\u00d7 Speed Modules (L1-L2)",
+      "level": "L2",
+      "subsystem": "structure",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "Mount 4\u00d7 Large Assemblers `GND ASM 1..4` at [X \u22124, Z \u22122], [X \u22124, Z \u22124], [X +3, Z \u22122], and [X +3, Z \u22124] at Level L1.",
+        "Plumb top and side upgrade ports with 4\u00d7 Speed Modules per assembler (16 total).",
+        "Configure `GND ASM 1` as **Master Controller**; set `Cooperative Mode = ON` on `GND ASM 2, 3, 4`.",
+        "Verify terminal displays `Productivity: 400%` across all 4 units."
+      ],
+      "checks": [
+        "Verify physical clearances and continuous conveyor flow."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            2,
+            4
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "GND-01 4-Assembler Manufact [-2, 2, 4]"
+        },
+        {
+          "pos": [
+            -1,
+            2,
+            4
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "GND-01 4-Assembler Manufact [-1, 2, 4]"
+        },
+        {
+          "pos": [
+            0,
+            2,
+            4
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "GND-01 4-Assembler Manufact [0, 2, 4]"
+        },
+        {
+          "pos": [
+            1,
+            2,
+            4
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "GND-01 4-Assembler Manufact [1, 2, 4]"
+        },
+        {
+          "pos": [
+            2,
+            2,
+            4
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "GND-01 4-Assembler Manufact [2, 2, 4]"
+        }
+      ]
+    },
+    {
+      "step": "4.11",
+      "phase": "4-1",
+      "title": "Component Buffer Warehouse & Extruder Push Sorter (L1-L3)",
+      "level": "L3",
+      "subsystem": "conveyor",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "Mount 1\u00d7 Large Cargo Container `GND STR Components` (3\u00d73\u00d73 B) centered at [X +3, Z \u221210, Level L1-L3].",
+        "Plumb the container's northern ports into the Assembler component outflow trunk.",
+        "Mount 1\u00d7 Large Conveyor Sorter `GND Sorter Extruder Feed` at [X +3, Z \u221213, Level L1] with flow arrow South (\u2212Z), feeding the Chapter 5 Extruder Ring shipyard. Set `Drain All = ON`."
+      ],
+      "checks": [
+        "Verify physical clearances and continuous conveyor flow."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            3,
+            7
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "GND-01 Component Buffer War [-2, 3, 7]"
+        },
+        {
+          "pos": [
+            -1,
+            3,
+            7
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "GND-01 Component Buffer War [-1, 3, 7]"
+        },
+        {
+          "pos": [
+            0,
+            3,
+            7
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "GND-01 Component Buffer War [0, 3, 7]"
+        },
+        {
+          "pos": [
+            1,
+            3,
+            7
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "GND-01 Component Buffer War [1, 3, 7]"
+        },
+        {
+          "pos": [
+            2,
+            3,
+            7
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "GND-01 Component Buffer War [2, 3, 7]"
+        }
+      ]
+    },
+    {
+      "step": "4.12",
+      "phase": "4-1",
+      "title": "18 MWh Large Battery Bank & Nuclear Backup Vault (L1-L2)",
+      "level": "L4",
+      "subsystem": "conveyor",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "Install 6\u00d7 Large Batteries `GND BAT 1..6` arranged in a 3 \u00d7 2 grid centered at [X \u22124, Z \u22129, Level L1-L2]. Total capacity: 18.0 MWh; surge output: 72.0 MW. Set to `Auto`.",
+        "Install 2\u00d7 Small Nuclear Reactors `GND RCT Aux 1..2` at [X \u22124, Z \u221212, Level L2]. Total capacity: 30.0 MW backup. Plumb with small conveyor tubing for automated uranium feed.",
+        "Enclose the power vault with Heavy Armor Blocks painted Palette Slot 6 (High-Voltage Red)."
+      ],
+      "checks": [
+        "Verify physical clearances and continuous conveyor flow."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            4,
+            10
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "GND-01 18 MWh Large Battery [-2, 4, 10]"
+        },
+        {
+          "pos": [
+            -1,
+            4,
+            10
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "GND-01 18 MWh Large Battery [-1, 4, 10]"
+        },
+        {
+          "pos": [
+            0,
+            4,
+            10
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "GND-01 18 MWh Large Battery [0, 4, 10]"
+        },
+        {
+          "pos": [
+            1,
+            4,
+            10
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "GND-01 18 MWh Large Battery [1, 4, 10]"
+        },
+        {
+          "pos": [
+            2,
+            4,
+            10
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "GND-01 18 MWh Large Battery [2, 4, 10]"
+        }
+      ]
+    },
+    {
+      "step": "4.13",
+      "phase": "4-1",
+      "title": "Level L2 Server Room, PB Rack & Dedicated UPS (L2)",
+      "level": "L2",
+      "subsystem": "power",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "Build the enclosed 5 \u00d7 5 B server room deck at Level L2 ([X \u22129, Z +3]).",
+        "Mount 3\u00d7 Programmable Blocks along the northern bulkhead:",
+        "Mount 1\u00d7 Large Battery `GND BAT C2 UPS` in the southern floor cavity.",
+        "Install Event Controller `GND EC PowerGuard` and Timer Block `GND Timer Watchdog`."
+      ],
+      "checks": [
+        "Verify physical clearances and continuous conveyor flow."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            2,
+            13
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "power",
+          "name": "GND-01 Level L2 Server Room [-2, 2, 13]"
+        },
+        {
+          "pos": [
+            -1,
+            2,
+            13
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "power",
+          "name": "GND-01 Level L2 Server Room [-1, 2, 13]"
+        },
+        {
+          "pos": [
+            0,
+            2,
+            13
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "power",
+          "name": "GND-01 Level L2 Server Room [0, 2, 13]"
+        },
+        {
+          "pos": [
+            1,
+            2,
+            13
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "power",
+          "name": "GND-01 Level L2 Server Room [1, 2, 13]"
+        },
+        {
+          "pos": [
+            2,
+            2,
+            13
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "power",
+          "name": "GND-01 Level L2 Server Room [2, 2, 13]"
+        }
+      ]
+    },
+    {
+      "step": "4.14",
+      "phase": "4-1",
+      "title": "Level L3-L4 Panoramic Command Bridge & 3-Operator Desks (L3-L4)",
+      "level": "L3",
+      "subsystem": "avionics",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "Construct the elevated command deck at Level L3 cantilevered outward over the western tarmac.",
+        "Mount 3\u00d7 Control Stations side-by-side facing East (+X) overlooking the facility:",
+        "Enclose the bridge with 2-layer Sloped Armor Glass angled 45\u00b0 outward, providing a 270\u00b0 panoramic view over the North Apron, Industrial Foundry, and South Yard.",
+        "Mount 1\u00d7 Sliding Airtight Door `GND Door Decon Bridge` and Air Vent `GND Vent Decon Bridge` to form a pressurized decontamination airlock."
+      ],
+      "checks": [
+        "Verify physical clearances and continuous conveyor flow."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            3,
+            16
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "avionics",
+          "name": "GND-01 Level L3-L4 Panorami [-2, 3, 16]"
+        },
+        {
+          "pos": [
+            -1,
+            3,
+            16
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "avionics",
+          "name": "GND-01 Level L3-L4 Panorami [-1, 3, 16]"
+        },
+        {
+          "pos": [
+            0,
+            3,
+            16
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "avionics",
+          "name": "GND-01 Level L3-L4 Panorami [0, 3, 16]"
+        },
+        {
+          "pos": [
+            1,
+            3,
+            16
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "avionics",
+          "name": "GND-01 Level L3-L4 Panorami [1, 3, 16]"
+        },
+        {
+          "pos": [
+            2,
+            3,
+            16
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "avionics",
+          "name": "GND-01 Level L3-L4 Panorami [2, 3, 16]"
+        }
+      ]
+    },
+    {
+      "step": "4.15",
+      "phase": "4-1",
+      "title": "Level L4 6-Panel Panoramic LCD Video Wall (L4)",
+      "level": "L4",
+      "subsystem": "avionics",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "Assemble section according to master spatial datum."
+      ],
+      "checks": [
+        "Verify physical clearances and continuous conveyor flow."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            4,
+            19
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "avionics",
+          "name": "GND-01 Level L4 6-Panel Pan [-2, 4, 19]"
+        },
+        {
+          "pos": [
+            -1,
+            4,
+            19
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "avionics",
+          "name": "GND-01 Level L4 6-Panel Pan [-1, 4, 19]"
+        },
+        {
+          "pos": [
+            0,
+            4,
+            19
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "avionics",
+          "name": "GND-01 Level L4 6-Panel Pan [0, 4, 19]"
+        },
+        {
+          "pos": [
+            1,
+            4,
+            19
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "avionics",
+          "name": "GND-01 Level L4 6-Panel Pan [1, 4, 19]"
+        },
+        {
+          "pos": [
+            2,
+            4,
+            19
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "avionics",
+          "name": "GND-01 Level L4 6-Panel Pan [2, 4, 19]"
+        }
+      ]
+    },
+    {
+      "step": "4.16",
+      "phase": "4-1",
+      "title": "Level L5-L9 Comms Spire & Floating Rig Laser Link (L5-L9)",
+      "level": "L2",
+      "subsystem": "conveyor",
+      "partsTray": [
+        {
+          "type": "Armor Full Block",
+          "qty": 5,
+          "slot": 0,
+          "mass": 1.2,
+          "note": "Primary section module"
+        }
+      ],
+      "instructions": [
+        "Erect the 10 m communications mast from the bridge roof at [X \u22129, Z +1] spanning Levels L5 to L9.",
+        "Mount 1\u00d7 Large Grid Radio Antenna `GND Antenna Fleet` at Level L6. Set broadcast range to `50,000 m`.",
+        "Mount 2\u00d7 Fixed Cameras: `GND Cam North Pads` (facing +Z) and `GND Cam South Yard` (facing \u2212Z).",
+        "Crown the mast tip at Level L9 with 1\u00d7 Laser Antenna `GND Laser Rig Relay` painted Palette Slot 9 (White). Acquire and lock GPS coordinates of the Floating Rig Fortress in the upper atmosphere."
+      ],
+      "checks": [
+        "**Tarmac Vacuum Seal:** Verify zero voxel penetration or air leakage through the 24 \u00d7 28 B heavy armor blast floor; verify sub-surface trenches remain pressurized where sealed.",
+        "**Cradle Proximity Trigger:** Approach pad in MULE-01; confirm `GND PAD Sensor` detects craft at 10 m and swings cradle arms inward 30\u00b0; land on pad; confirm magnetic plates lock rub rails and connector locks automatically.",
+        "**High-Speed Rare Ore Drain:** Feed 500 t Uranium Ore from Mule hold; confirm rare ore sorter drains cargo at $> 80\\text{ t/min}$ into West Smelting Bank.",
+        "**Reverse Alignment Check:** Reverse CATERPILLAR-01 consist into dock; confirm guide curbs center the wheels and stop bumpers absorb kinetic impact.",
+        "**2,500 t Bulk Ore Purge:** Lock `GND CAT Dump Conn`; confirm 5\u00d7 in-deck collectors and bulk sorter evacuate all 3 hopper cars in $< 90\\text{ seconds}$ without conveyor back-pressure.",
+        "**Simultaneous Smelting Run:** Feed 2,000 t Iron Ore and 500 t Gold Ore concurrently; verify dual sorters isolate bulk and rare streams; verify all 4 refineries operate at 200% yield effectiveness without tripping power.",
+        "**Pylon Production Burst:** Queue 20,000 Steel Plates and 4,000 Motors; confirm `GND ASM 1` distributes load across Assemblers 2-4 cooperatively; verify 400% productivity output feeds continuous stock to `GND STR Components`.",
+        "**Simultaneous Docking & Extrusion:** Engage Extruder welders (8.8 MW), 4 refineries (13.2 MW), 4 assemblers (2.2 MW), and shore charging for both Mule and Cat (18 MW); confirm battery bank delivers 42.2 MW surge load without brownout.",
+        "**Genesis Handover Trial:** Broadcast `TMS.C2.HANDOVER` from Mastodon; confirm `[GND] PB FleetOps` assumes regional C2 authority, initializes pull quotas (`TMS.BASE.DEMAND`), and synchronizes fleet telemetry.",
+        "**Multi-Screen Display Verification:** Deploy Orca, Remora, Mule, Mastodon, and Caterpillar; confirm Video Wall panels 1-6 display live, zero-flicker monospace status layouts with correct subsystem metrics.",
+        "**High-Altitude Beam Lock:** Establish laser connection with Floating Rig Fortress hovering at 15 km altitude; verify uninterrupted bidirectional telemetry during planetary atmospheric turbulence.",
+        "**Decon Cycle Verification:** Enter C2 bridge from Level L2; confirm `GND Door Decon Bridge` executes 3.0 s UV decontamination washdown before inner door unseals; verify bridge cabin maintains 100% O2 life support."
+      ],
+      "blocks": [
+        {
+          "pos": [
+            -2,
+            2,
+            22
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "GND-01 Level L5-L9 Comms Sp [-2, 2, 22]"
+        },
+        {
+          "pos": [
+            -1,
+            2,
+            22
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "GND-01 Level L5-L9 Comms Sp [-1, 2, 22]"
+        },
+        {
+          "pos": [
+            0,
+            2,
+            22
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "GND-01 Level L5-L9 Comms Sp [0, 2, 22]"
+        },
+        {
+          "pos": [
+            1,
+            2,
+            22
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "GND-01 Level L5-L9 Comms Sp [1, 2, 22]"
+        },
+        {
+          "pos": [
+            2,
+            2,
+            22
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "GND-01 Level L5-L9 Comms Sp [2, 2, 22]"
+        }
+      ]
+    }
+  ]
+}

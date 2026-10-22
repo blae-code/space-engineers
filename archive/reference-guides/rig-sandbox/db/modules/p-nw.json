@@ -1,0 +1,21 @@
+{
+  "A": 7,
+  "H": 4,
+  "R": 0,
+  "d": 8,
+  "h": 7,
+  "kind": "pylon",
+  "label": "P-NW",
+  "mass": null,
+  "notes": "Stepped 1:2 arm: MFG (proposed). Cross-head: lateral A, 2 INT bays.",
+  "online": true,
+  "phase": 1,
+  "rot": 116.565,
+  "shape": "box",
+  "sizeTBD": true,
+  "status": "planned",
+  "w": 22,
+  "x": -8.92,
+  "y": 7.5,
+  "z": -16.34
+}

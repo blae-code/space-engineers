@@ -1,0 +1,36 @@
+# Drone.Remora · In-Game MDK2 Script Project
+
+## Subsystem: REMORA-01 Vertical Shaft Driller Core Subsystem
+* **Target Block:** `[REM] PB Miner`
+* **Grid Size:** Small Grid (11 × 11 sb / 5.5 × 5.5 m footprint, 22 sb / 11.0 m height)
+* **Update Frequency:** `Update10` (Kinematics / Depth) + `Update100` (Telemetry / Logistics)
+* **Managed Subsystem Groups:** `REM Lift, REM Lat F/A/P/S, REM Drills, REM Batteries, REM Gyros, REM Cams, REM Lights, REM Logic`
+* **IGC Network Channels:**
+  * Outbound Broadcast: `FLT.REM.STATUS` (DroneID, State, Cargo%, Batt%, Depth_m, Rate_kg_s)
+  * Inbound Broadcast: `FLT.DISP.LEASE` (Drilling assignment lease from host Orca carrier)
+  * Inbound Unicast: `TMS.MINER.CMD` (Remote commands: PING, DRILL START/STOP, ABORT, RELOAD)
+
+## System Description
+Autonomous vertical borehole miner that docks into ORCA-01 bays P1, S1, P3, S3. Employs an 8-drill circular cutter head (9×9 sb ring), retains 100% of mined stone (Decision 32), and executes depth-controlled vertical extraction with zero-GC telemetry.
+
+## Operational State Machine
+1. `DOCKED_CHARGING`: Locked to Orca bay ceiling connector; batteries charging; ore draining.
+2. `DESCENT_BORE`: Descending vertically at 0.5-1.0 m/s with 8 drills active.
+3. `EXTRACTION_SWEEP`: Rotary wobble / orbital sweeping to clear ore vein pockets.
+4. `CLIMB_OUT`: Ascending vertically to shaft collar with full payload.
+5. `DOCKING_CAPTURE`: Entering Orca bay throat, engaging waist collar into guide jaws.
+6. `EMERGENCY_ABORT`: Immediate drill shutdown, 100% lift thrust climb to safe waypoint.
+
+## Terminal Commands
+* `PING`: Resets hardware watchdog.
+* `DRILL START`: Sets current GPS as collar datum, spins up drills, and begins descent.
+* `DRILL STOP`: Shuts off drills, engages climb out.
+* `ABORT`: Emergency abort; cuts drills and ascends vertically.
+* `RELOAD`: Re-reads configuration and terminal block handles.
+
+## Zero-GC PB Rules
+1. C# 6 only, nested in Program, namespace `IngameScript`.
+2. Zero allocations in hot paths (`Main`, `Update10`, `Update100`).
+3. Strings formatted via `SbFormat`.
+4. Strict grid scoping: `b => b.CubeGrid == Me.CubeGrid`.
+5. Minifier safe: never use `enum.ToString()` or `nameof()`.
