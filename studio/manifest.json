@@ -1,17 +1,33 @@
 {
   "short_name": "SE3D",
   "name": "Space Engineers 3D Chapter & Blueprint Visualizer",
+  "description": "Explore Space Engineers build chapters in an interactive 3D and 2D viewer, online or offline.",
+  "id": "./",
+  "scope": "./",
+  "categories": ["utilities", "productivity"],
   "icons": [
+    {
+      "src": "icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any"
+    },
     {
       "src": "icon.svg",
       "type": "image/svg+xml",
-      "sizes": "512x512"
+      "sizes": "512x512",
+      "purpose": "any"
     }
   ],
   "start_url": "./index.html",
   "background_color": "#0c1118",
   "theme_color": "#e6a100",
   "display": "standalone",
-  "orientation": "landscape"
+  "display_override": ["standalone", "minimal-ui"]
 }
-

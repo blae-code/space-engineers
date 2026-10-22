@@ -7,20 +7,68 @@ class AppController {
     this.currentStepIdx = 0;
     this.modelData = null;
     this.activeLevel = 'L2';
-    this.currentFile = 'mastodon.json';
+    this.storageWarningShown = false;
+    this.blueprintRequestId = 0;
+    this.installPromptEvent = null;
+    this.serviceWorkerRegistration = null;
+    this.applyingServiceWorkerUpdate = false;
+    this.didReloadForServiceWorkerUpdate = false;
     this.init();
   }
 
   async init() {
+    const params = new URLSearchParams(window.location.search);
+    const testMode = params.get('test') === '1';
+
     this.canvasContainer = document.getElementById('canvas-container');
     this.voxelWorld = new VoxelWorld(this.canvasContainer, {
       onBlockSelected: (data) => this.handleBlockSelected(data)
-    });
+    }, { testMode });
 
     this.bindEvents();
-    this.registerServiceWorker();
+    // Test runs skip the service worker so no cached state leaks between captures.
+    if (!testMode) {
+      this.bindPwaEvents();
+      this.registerServiceWorker();
+    } else {
+      document.querySelector('.pwa-controls')?.setAttribute('hidden', '');
+    }
 
-    await this.loadBlueprint('./data/mastodon.json');
+    await this.loadChapterRegistry();
+
+    if (testMode) {
+      const { installTestHarness } = await import('./TestHarness.js');
+      await installTestHarness(this, params);
+    }
+  }
+
+  async loadChapterRegistry() {
+    const status = document.getElementById('load-status');
+    try {
+      const response = await fetch('./data/chapters.json');
+      if (!response.ok) throw new Error(`Chapter registry request failed (${response.status})`);
+      const registry = await response.json();
+      if (!Array.isArray(registry) || registry.length === 0 || registry.some((chapter) =>
+        !chapter || typeof chapter.file !== 'string' || !/^[a-zA-Z0-9_-]+\.json$/.test(chapter.file) ||
+        typeof chapter.name !== 'string' || !Number.isInteger(chapter.chapter)
+      )) {
+        throw new Error('Chapter registry is empty or malformed');
+      }
+      const select = document.getElementById('chapter-select');
+      select.replaceChildren(...registry.map((chapter) => {
+        const option = document.createElement('option');
+        option.value = chapter.file;
+        option.textContent = `CH ${chapter.chapterLabel || chapter.chapter} · ${chapter.name}`;
+        return option;
+      }));
+      const initial = registry.find((chapter) => chapter.id === 'MAS-01') || registry[0];
+      select.value = initial.file;
+      await this.loadBlueprint(initial.file);
+    } catch (error) {
+      console.error('Failed to load chapter registry:', error);
+      if (status) status.textContent = `Unable to load chapter registry: ${error.message}`;
+      document.getElementById('hud-step-desc').textContent = 'Chapter registry unavailable';
+    }
   }
 
   handleBlockSelected(data) {
@@ -77,9 +125,20 @@ class AppController {
   }
 
   async loadBlueprint(url) {
+    const requestId = ++this.blueprintRequestId;
+    const status = document.getElementById('load-status');
+    if (status) status.textContent = `Loading ${url}…`;
     try {
-      const res = await fetch(url);
-      this.modelData = await res.json();
+      const response = await fetch(`./data/${encodeURIComponent(url)}`);
+      if (!response.ok) throw new Error(`Blueprint request failed (${response.status})`);
+      const model = await response.json();
+      if (requestId !== this.blueprintRequestId) return;
+      if (!model || !Array.isArray(model.steps) || !Array.isArray(model.palette) || !model.bounds) {
+        throw new Error('Blueprint data is incomplete or malformed');
+      }
+      this.modelData = model;
+      this.totalModelPlacements = model.steps.reduce((total, step) =>
+        total + (Array.isArray(step.blocks) ? step.blocks.length : 0), 0);
       this.voxelWorld.loadModel(this.modelData);
 
       this.initStepSlider();
@@ -88,9 +147,12 @@ class AppController {
       this.updateStep(0);
       this.updateSliceView();
       this.updateCollabStats();
-    } catch (err) {
-      console.error('Failed to load blueprint data:', err);
-      document.getElementById('hud-step-desc').textContent = 'Error loading blueprint JSON';
+      if (status) status.textContent = '';
+    } catch (error) {
+      if (requestId !== this.blueprintRequestId) return;
+      console.error(`Failed to load blueprint ${url}:`, error);
+      if (status) status.textContent = `Unable to load ${url}: ${error.message}`;
+      document.getElementById('hud-step-desc').textContent = 'Blueprint unavailable';
     }
   }
 
@@ -111,20 +173,26 @@ class AppController {
       btn.onclick = () => {
         const sub = btn.dataset.sub;
         const isActive = btn.classList.toggle('active');
+        btn.setAttribute('aria-pressed', String(isActive));
         this.voxelWorld.toggleSubsystem(sub, isActive);
       };
     });
   }
 
-  getStorageKey(prefix) {
-    return `se3d_${prefix}_${this.modelData?.id || 'default'}`;
+  getStorageKey(prefix, modelId = this.modelData?.id) {
+    return `se3d_${prefix}_${modelId || 'default'}`;
   }
 
   getStoredChecks() {
     try {
       const val = localStorage.getItem(this.getStorageKey('checks'));
-      return val ? JSON.parse(val) : {};
-    } catch (e) {
+      const checks = val ? JSON.parse(val) : {};
+      if (!checks || typeof checks !== 'object' || Array.isArray(checks)) {
+        throw new Error('Saved verification state is not an object');
+      }
+      return checks;
+    } catch (error) {
+      this.reportStorageFailure(error);
       return {};
     }
   }
@@ -135,22 +203,39 @@ class AppController {
       checks[checkKey] = isChecked;
       localStorage.setItem(this.getStorageKey('checks'), JSON.stringify(checks));
       this.updateCollabStats();
-    } catch (e) {}
+      return true;
+    } catch (error) {
+      this.reportStorageFailure(error);
+      return false;
+    }
   }
 
-  getStoredNote(stepId) {
+  getStoredNote(stepId, modelId = this.modelData?.id) {
     try {
-      return localStorage.getItem(`${this.getStorageKey('note')}_${stepId}`) || '';
-    } catch (e) {
+      return localStorage.getItem(`${this.getStorageKey('note', modelId)}_${stepId}`) || '';
+    } catch (error) {
+      this.reportStorageFailure(error);
       return '';
     }
   }
 
-  setStoredNote(stepId, noteText) {
+  setStoredNote(stepId, noteText, modelId = this.modelData?.id) {
     try {
-      localStorage.setItem(`${this.getStorageKey('note')}_${stepId}`, noteText);
+      localStorage.setItem(`${this.getStorageKey('note', modelId)}_${stepId}`, noteText);
       this.updateCollabStats();
-    } catch (e) {}
+      return true;
+    } catch (error) {
+      this.reportStorageFailure(error);
+      return false;
+    }
+  }
+
+  reportStorageFailure(error) {
+    console.warn('Local collaboration state could not be read or saved:', error);
+    if (this.storageWarningShown) return;
+    this.storageWarningShown = true;
+    const status = document.getElementById('notes-status');
+    if (status) status.textContent = 'Local storage unavailable; changes may not be saved.';
   }
 
   updateCollabStats() {
@@ -177,6 +262,7 @@ class AppController {
   }
 
   updateStep(idx) {
+    idx = Math.max(0, Math.min(idx, this.modelData.steps.length - 1));
     this.currentStepIdx = idx;
     document.getElementById('step-slider').value = idx;
     this.voxelWorld.setStep(idx);
@@ -188,6 +274,9 @@ class AppController {
     document.getElementById('hud-step-badge').textContent = `STEP ${step.step}`;
     document.getElementById('hud-step-desc').textContent = `${step.title} (${step.level})`;
     document.getElementById('hud-phase-badge').textContent = `PHASE ${step.phase}`;
+    document.getElementById('step-slider').setAttribute('aria-valuetext', `Step ${step.step}: ${step.title}`);
+    document.getElementById('btn-prev-step').disabled = idx === 0;
+    document.getElementById('btn-next-step').disabled = idx === this.modelData.steps.length - 1;
 
     // Update Inspector Sidebar Header
     document.getElementById('meta-model-name').textContent = this.modelData.name;
@@ -199,15 +288,47 @@ class AppController {
 
     // Calculate current cumulative stats
     let totalBlocks = 0;
-    let totalMass = 0;
     for (let i = 0; i <= idx; i++) {
-      this.modelData.steps[i].blocks.forEach(() => {
-        totalBlocks++;
-        totalMass += (this.modelData.gridSize === 'Large' ? 1.2 : 0.08);
-      });
+      totalBlocks += this.modelData.steps[i].blocks.length;
     }
-    document.getElementById('meta-blocks-count').textContent = `${totalBlocks} / ${this.modelData.stats?.totalBlocks || 'TBD'}`;
-    document.getElementById('meta-mass').textContent = `${totalMass.toFixed(1)} t`;
+    const stats = this.modelData.stats || {};
+    const buildBlocks = Number(stats.totalBlocks);
+    document.getElementById('meta-blocks-count').textContent =
+      `${totalBlocks} / ${this.totalModelPlacements} preview placements · ${
+        Number.isFinite(buildBlocks) ? `~${buildBlocks.toLocaleString()} full-build blocks (unverified)` : 'full-build count unavailable'
+      }`;
+    document.getElementById('meta-mass').textContent =
+      Number.isFinite(Number(stats.dryMassTonnes))
+        ? `~${Number(stats.dryMassTonnes).toLocaleString()} t · unverified target`
+        : 'Unverified target unavailable';
+    document.getElementById('meta-pcu').textContent =
+      Number.isFinite(Number(stats.pcu))
+        ? `~${Number(stats.pcu).toLocaleString()} · unverified target`
+        : 'Unverified target unavailable';
+    document.getElementById('meta-payload').textContent =
+      Number.isFinite(Number(stats.orePayloadTonnes))
+        ? `${Number(stats.orePayloadTonnes).toLocaleString()} t · unverified target`
+        : 'Unverified target unavailable';
+    document.getElementById('meta-tool-reach').textContent =
+      Number.isFinite(Number(stats.toolReachTargetMeters))
+        ? `${Number(stats.toolReachTargetMeters).toLocaleString()} m · unverified target`
+        : 'Unverified target unavailable';
+    const powerTargets = [
+      Number.isFinite(Number(stats.powerBaseloadMW)) ? `${stats.powerBaseloadMW} MW generation` : null,
+      Number.isFinite(Number(stats.powerPeakMW)) ? `${stats.powerPeakMW} MW peak discharge` : null,
+      Number.isFinite(Number(stats.batteryCapacityMWh)) ? `${stats.batteryCapacityMWh} MWh storage` : null
+    ].filter(Boolean);
+    document.getElementById('meta-power-targets').textContent =
+      powerTargets.length > 0 ? `${powerTargets.join(' / ')} · unverified` : 'Unverified targets unavailable';
+    const dimensions = stats.dimensionsBlocks;
+    document.getElementById('meta-envelope').textContent =
+      Array.isArray(dimensions) && dimensions.length === 3
+        ? `${dimensions.join(' × ')} B · target`
+        : 'Unverified target unavailable';
+    const designWarning = this.modelData.designFigureStatus?.label ||
+      'Model placements and design figures are not a validated in-game blueprint.';
+    document.getElementById('meta-design-warning').textContent = designWarning;
+    this.updateDesignInterfaces(step);
 
     // Update Parts Tray
     const partsBody = document.getElementById('parts-tray-body');
@@ -215,17 +336,33 @@ class AppController {
     if (step.partsTray && step.partsTray.length > 0) {
       step.partsTray.forEach((p) => {
         const pal = this.modelData.palette?.find((item) => item.slot === Number(p.slot));
-        const colorSwatch = pal
-          ? `<span class="swatch-dot" style="display:inline-block; width:10px; height:10px; border-radius:50%; background:${pal.hex}; border:1px solid rgba(255,255,255,0.4); margin-right:5px; vertical-align:middle;"></span>`
-          : '';
-        const palName = pal ? `<span style="color:var(--muted); font-size:10px; display:block;">${pal.name}</span>` : '';
         const row = document.createElement('tr');
-        row.innerHTML = `
-          <td><strong>${p.type}</strong></td>
-          <td class="mono">${p.qty}</td>
-          <td class="mono" style="white-space:nowrap;">${colorSwatch}Slot ${p.slot}${palName}</td>
-          <td style="font-size:11px;">${p.note || p.massPcu || ''}</td>
-        `;
+        const typeCell = row.insertCell();
+        const type = document.createElement('strong');
+        type.textContent = p.type || 'Unspecified block';
+        typeCell.appendChild(type);
+        const quantityCell = row.insertCell();
+        quantityCell.className = 'mono';
+        quantityCell.textContent = String(p.qty ?? '');
+        const paletteCell = row.insertCell();
+        paletteCell.className = 'mono';
+        paletteCell.style.whiteSpace = 'nowrap';
+        if (pal) {
+          const swatch = document.createElement('span');
+          swatch.className = 'swatch-dot';
+          swatch.style.cssText = `background:${pal.hex}; border:1px solid rgba(255,255,255,0.4); margin-right:5px; vertical-align:middle;`;
+          paletteCell.appendChild(swatch);
+        }
+        paletteCell.append(`Slot ${p.slot ?? '—'}`);
+        if (pal) {
+          const paletteName = document.createElement('span');
+          paletteName.style.cssText = 'color:var(--muted); font-size:10px; display:block;';
+          paletteName.textContent = pal.name;
+          paletteCell.appendChild(paletteName);
+        }
+        const roleCell = row.insertCell();
+        roleCell.style.fontSize = '11px';
+        roleCell.textContent = p.note || p.massPcu || '';
         partsBody.appendChild(row);
       });
     } else {
@@ -244,12 +381,14 @@ class AppController {
 
         const item = document.createElement('label');
         item.className = 'check-item';
-        item.innerHTML = `
-          <input type="checkbox" ${isChecked ? 'checked' : ''}>
-          <span>${c}</span>
-        `;
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.checked = isChecked;
+        const text = document.createElement('span');
+        text.textContent = c;
+        item.append(checkbox, text);
 
-        item.querySelector('input').addEventListener('change', (e) => {
+        checkbox.addEventListener('change', (e) => {
           this.setStoredCheck(checkKey, e.target.checked);
         });
 
@@ -288,6 +427,46 @@ class AppController {
     this.updateSliceView();
   }
 
+  updateDesignInterfaces(step) {
+    const card = document.getElementById('design-interfaces-card');
+    const list = document.getElementById('design-interfaces-list');
+    if (!card || !list) return;
+
+    const stepId = String(step.step);
+    const systems = (this.modelData.designSubsystems || [])
+      .filter((system) => Array.isArray(system.steps) && system.steps.includes(stepId));
+    list.replaceChildren();
+
+    if (systems.length === 0) {
+      card.style.display = 'none';
+      return;
+    }
+
+    card.style.display = 'block';
+    systems.forEach((system) => {
+      const entry = document.createElement('section');
+      entry.className = 'design-interface-entry';
+      const heading = document.createElement('h4');
+      heading.textContent = system.label;
+      entry.appendChild(heading);
+
+      [
+        ['Physical interface', system.physicalInterface],
+        ['Future PB responsibility', system.futurePB],
+        ['Manual fallback', system.manualFallback],
+        ['Commissioning gate', system.commissioning]
+      ].forEach(([label, value]) => {
+        if (typeof value !== 'string' || !value.trim()) return;
+        const row = document.createElement('p');
+        const key = document.createElement('strong');
+        key.textContent = `${label}: `;
+        row.append(key, document.createTextNode(value));
+        entry.appendChild(row);
+      });
+      list.appendChild(entry);
+    });
+  }
+
   updateSliceView() {
     const level = this.activeLevel;
     const svgWrap = document.getElementById('slice-svg-container');
@@ -305,14 +484,28 @@ class AppController {
     lines.push(`Generated: ${new Date().toISOString()} · Space Engineers 3D Studio\n`);
     lines.push(`## Model Overview`);
     lines.push(`* **Grid Metric:** ${this.modelData.gridSize} (${this.modelData.blockMeters} m)`);
-    lines.push(`* **Total Blocks:** ${this.modelData.stats.totalBlocks}`);
-    lines.push(`* **Dry Mass:** ${this.modelData.stats.dryMassTonnes} t`);
-    lines.push(`* **PCU:** ${this.modelData.stats.pcu}\n`);
+    lines.push(`* **Spatial Preview Placements:** ${this.totalModelPlacements}`);
+    lines.push(`* **Design Figure Status:** ${this.modelData.designFigureStatus?.label || 'Unverified'}\n`);
+    lines.push(`* **Estimated Full-Build Blocks:** ~${this.modelData.stats.totalBlocks} (unverified)`);
+    lines.push(`* **Dry Mass Target:** ~${this.modelData.stats.dryMassTonnes} t (unverified)`);
+    lines.push(`* **PCU Target:** ~${this.modelData.stats.pcu} (unverified)`);
+    lines.push(`* **Payload Target:** ${this.modelData.stats.orePayloadTonnes} t (unverified)`);
+    lines.push(`* **Tool-Reach Target:** ${this.modelData.stats.toolReachTargetMeters} m (unverified)`);
+    lines.push(`* **Power/Storage Targets:** ${this.modelData.stats.powerBaseloadMW} MW generation, ${this.modelData.stats.powerPeakMW} MW peak discharge, ${this.modelData.stats.batteryCapacityMWh} MWh (unverified)\n`);
     lines.push(`---`);
 
     this.modelData.steps.forEach((step) => {
       lines.push(`\n### Step ${step.step} · ${step.title} (${step.level})`);
       lines.push(`* **Phase:** ${step.phase} · **Subsystem:** ${step.subsystem}`);
+      const designSubsystems = (this.modelData.designSubsystems || [])
+        .filter((system) => Array.isArray(system.steps) && system.steps.includes(String(step.step)));
+      designSubsystems.forEach((system) => {
+        lines.push(`\n**${system.label} · Future interface (not implemented)**`);
+        lines.push(`* Physical interface: ${system.physicalInterface}`);
+        lines.push(`* Future PB responsibility: ${system.futurePB}`);
+        lines.push(`* Manual fallback: ${system.manualFallback}`);
+        lines.push(`* Commissioning gate: ${system.commissioning}`);
+      });
 
       if (step.checks && step.checks.length > 0) {
         lines.push(`\n**Verification Checks:**`);
@@ -336,8 +529,8 @@ class AppController {
     // Chapter dropdown selector
     const chapterSelect = document.getElementById('chapter-select');
     chapterSelect.addEventListener('change', (e) => {
-      this.currentFile = e.target.value;
-      this.loadBlueprint(`./data/${e.target.value}`);
+      clearTimeout(saveTimeout);
+      this.loadBlueprint(e.target.value);
     });
 
     // Inspector Tab switching
@@ -345,6 +538,7 @@ class AppController {
       tab.addEventListener('click', () => {
         document.querySelectorAll('.rail-tab').forEach((t) => t.classList.remove('active'));
         tab.classList.add('active');
+        document.querySelectorAll('.rail-tab').forEach((t) => t.setAttribute('aria-pressed', String(t === tab)));
 
         document.querySelectorAll('.tab-panel').forEach((p) => (p.style.display = 'none'));
         const activePanel = document.getElementById(`tab-panel-${tab.dataset.tab}`);
@@ -360,11 +554,16 @@ class AppController {
     notesInput.addEventListener('input', (e) => {
       notesStatus.textContent = 'Saving...';
       clearTimeout(saveTimeout);
+      const modelId = this.modelData?.id;
+      const stepId = this.modelData?.steps[this.currentStepIdx]?.step;
+      const noteText = e.target.value;
       saveTimeout = setTimeout(() => {
-        const step = this.modelData.steps[this.currentStepIdx];
-        if (step) {
-          this.setStoredNote(step.step, e.target.value);
-          notesStatus.textContent = 'Saved to localStorage';
+        if (modelId && stepId !== undefined) {
+          const saved = this.setStoredNote(stepId, noteText, modelId);
+          if (saved && this.modelData?.id === modelId &&
+              this.modelData.steps[this.currentStepIdx]?.step === stepId) {
+            notesStatus.textContent = 'Saved to localStorage';
+          }
         }
       }, 350);
     });
@@ -373,8 +572,7 @@ class AppController {
       const step = this.modelData.steps[this.currentStepIdx];
       if (step) {
         notesInput.value = '';
-        this.setStoredNote(step.step, '');
-        notesStatus.textContent = 'Note cleared';
+        if (this.setStoredNote(step.step, '')) notesStatus.textContent = 'Note cleared';
       }
     });
 
@@ -393,6 +591,7 @@ class AppController {
       btn.addEventListener('click', () => {
         document.querySelectorAll('.camera-btn').forEach((b) => b.classList.remove('active'));
         btn.classList.add('active');
+        document.querySelectorAll('.camera-btn').forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
         this.voxelWorld.setCameraView(btn.dataset.cam);
       });
     });
@@ -402,6 +601,7 @@ class AppController {
       btn.addEventListener('click', () => {
         document.querySelectorAll('.mode-btn').forEach((b) => b.classList.remove('active'));
         btn.classList.add('active');
+        document.querySelectorAll('.mode-btn').forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
         this.voxelWorld.setRenderMode(btn.dataset.mode);
       });
     });
@@ -413,6 +613,7 @@ class AppController {
         const isRotating = !this.voxelWorld.controls.autoRotate;
         this.voxelWorld.controls.autoRotate = isRotating;
         btnOrbit.classList.toggle('active', isRotating);
+        btnOrbit.setAttribute('aria-pressed', String(isRotating));
       });
     }
 
@@ -434,6 +635,7 @@ class AppController {
         clippingActive = !clippingActive;
         clipPanel.style.display = clippingActive ? 'flex' : 'none';
         btnClip.classList.toggle('active', clippingActive);
+        btnClip.setAttribute('aria-pressed', String(clippingActive));
         if (!clippingActive) {
           this.voxelWorld.setClipping('all', null, false);
         } else {
@@ -550,11 +752,13 @@ class AppController {
     // 2D Slice Drawer Toggle
     const sliceDrawer = document.getElementById('slice-drawer');
     document.getElementById('btn-toggle-slice').addEventListener('click', () => {
-      sliceDrawer.classList.toggle('collapsed');
+      const isOpen = sliceDrawer.classList.toggle('collapsed') === false;
+      document.getElementById('btn-toggle-slice').setAttribute('aria-pressed', String(isOpen));
       this.updateSliceView();
     });
     document.getElementById('btn-close-slice').addEventListener('click', () => {
       sliceDrawer.classList.add('collapsed');
+      document.getElementById('btn-toggle-slice').setAttribute('aria-pressed', 'false');
     });
 
     // 2D Slice Block Node Click -> 3D Selection
@@ -576,6 +780,7 @@ class AppController {
       btn.addEventListener('click', () => {
         document.querySelectorAll('.level-btn').forEach((b) => b.classList.remove('active'));
         btn.classList.add('active');
+        document.querySelectorAll('.level-btn').forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
         this.activeLevel = btn.dataset.lvl;
         this.updateSliceView();
       });
@@ -620,7 +825,7 @@ class AppController {
 
     document.getElementById('btn-export-sbc').addEventListener('click', () => {
       const sbc = SnapshotApi.generateSbcXml(this.modelData, this.currentStepIdx);
-      SnapshotApi.downloadFile(`${this.modelData.id}-bp.sbc`, sbc, 'application/xml');
+      SnapshotApi.downloadFile(`${this.modelData.id}-step-${this.modelData.steps[this.currentStepIdx].step}-draft.xml`, sbc, 'application/xml');
     });
 
     document.getElementById('btn-export-json').addEventListener('click', () => {
@@ -658,6 +863,7 @@ class AppController {
       } else if (e.key === 'Escape') {
         this.voxelWorld.deselectBlock();
         sliceDrawer?.classList.add('collapsed');
+        document.getElementById('btn-toggle-slice').setAttribute('aria-pressed', 'false');
       } else if (['1', '2', '3', '4'].includes(e.key)) {
         const tabMap = { '1': 'build', '2': 'instructions', '3': 'collab', '4': 'export' };
         const targetTab = document.querySelector(`.rail-tab[data-tab="${tabMap[e.key]}"]`);
@@ -666,12 +872,145 @@ class AppController {
     });
   }
 
-  registerServiceWorker() {
+  bindPwaEvents() {
+    const installButton = document.getElementById('btn-install-app');
+    const updateButton = document.getElementById('btn-update-app');
+
+    window.addEventListener('beforeinstallprompt', (event) => {
+      event.preventDefault();
+      this.installPromptEvent = event;
+      if (!this.isAppInstalled() && installButton) installButton.hidden = false;
+    });
+
+    window.addEventListener('appinstalled', () => {
+      this.installPromptEvent = null;
+      if (installButton) installButton.hidden = true;
+      this.setPwaStatus('App installed', 'ready');
+    });
+
+    installButton?.addEventListener('click', async () => {
+      const promptEvent = this.installPromptEvent;
+      if (!promptEvent) return;
+
+      this.installPromptEvent = null;
+      installButton.hidden = true;
+      installButton.disabled = true;
+      try {
+        await promptEvent.prompt();
+        const choice = await promptEvent.userChoice;
+        this.setPwaStatus(
+          choice.outcome === 'accepted' ? 'Install accepted' : 'Install dismissed',
+          choice.outcome === 'accepted' ? 'ready' : 'online'
+        );
+      } catch (error) {
+        console.warn('Unable to start app installation:', error);
+        this.setPwaStatus('App installation failed', 'error');
+      } finally {
+        installButton.disabled = false;
+      }
+    });
+
+    updateButton?.addEventListener('click', () => {
+      const waitingWorker = this.serviceWorkerRegistration?.waiting;
+      if (!waitingWorker) {
+        this.setPwaStatus('No app update is waiting', 'ready');
+        return;
+      }
+
+      this.applyingServiceWorkerUpdate = true;
+      updateButton.disabled = true;
+      updateButton.textContent = 'Updating…';
+      waitingWorker.postMessage({ type: 'SKIP_WAITING' });
+    });
+
+    window.addEventListener('online', () => this.updatePwaStatus());
+    window.addEventListener('offline', () => this.updatePwaStatus());
+
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('./sw.js').catch((err) => {
-        console.log('ServiceWorker registration skipped:', err);
+      navigator.serviceWorker.addEventListener('controllerchange', () => {
+        this.updatePwaStatus();
+        if (this.applyingServiceWorkerUpdate && !this.didReloadForServiceWorkerUpdate) {
+          this.didReloadForServiceWorkerUpdate = true;
+          window.location.reload();
+        }
       });
     }
+
+    this.updatePwaStatus();
+  }
+
+  isAppInstalled() {
+    return Boolean(
+      (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) ||
+      navigator.standalone === true
+    );
+  }
+
+  setPwaStatus(message, state) {
+    const status = document.getElementById('pwa-status');
+    if (!status) return;
+    status.textContent = message;
+    status.dataset.state = state;
+  }
+
+  updatePwaStatus() {
+    const serviceWorkerAvailable = 'serviceWorker' in navigator;
+    const controlled = serviceWorkerAvailable && Boolean(navigator.serviceWorker.controller);
+
+    if (!navigator.onLine) {
+      this.setPwaStatus(
+        controlled ? 'Offline · cached viewer available' : 'Offline · cache not ready',
+        controlled ? 'offline' : 'error'
+      );
+    } else if (!serviceWorkerAvailable) {
+      this.setPwaStatus('Offline support unavailable', 'error');
+    } else if (controlled) {
+      this.setPwaStatus('Online · offline viewer ready', 'ready');
+    } else {
+      this.setPwaStatus('Online · preparing offline access', 'pending');
+    }
+  }
+
+  async registerServiceWorker() {
+    if (!('serviceWorker' in navigator)) {
+      this.updatePwaStatus();
+      return;
+    }
+
+    try {
+      const registration = await navigator.serviceWorker.register('./sw.js');
+      this.serviceWorkerRegistration = registration;
+      registration.addEventListener('updatefound', () => {
+        const installingWorker = registration.installing;
+        if (!installingWorker) return;
+        installingWorker.addEventListener('statechange', () => {
+          if (installingWorker.state !== 'installed') return;
+          if (navigator.serviceWorker.controller) this.showServiceWorkerUpdate();
+          else this.updatePwaStatus();
+        });
+      });
+
+      if (registration.waiting && navigator.serviceWorker.controller) {
+        this.showServiceWorkerUpdate();
+      }
+      this.updatePwaStatus();
+      registration.update().catch((error) => {
+        console.warn('Service worker update check failed:', error);
+      });
+    } catch (error) {
+      console.warn('Service worker registration failed:', error);
+      this.setPwaStatus('Offline caching unavailable', 'error');
+      const status = document.getElementById('load-status');
+      if (status && !status.textContent) {
+        status.textContent = 'Offline caching is unavailable in this browser session.';
+      }
+    }
+  }
+
+  showServiceWorkerUpdate() {
+    const updateButton = document.getElementById('btn-update-app');
+    if (updateButton) updateButton.hidden = false;
+    this.setPwaStatus('Update available · refresh when ready', 'update');
   }
 }
 

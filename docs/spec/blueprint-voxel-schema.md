@@ -8,7 +8,7 @@ Master specification for digital 3D/2D representation of Space Engineers bluepri
 
 The Space Engineers 3D Chapter Visualizer provides a unified spatial bridge between two audiences:
 1. **Human Engineers**: Interactive 3D WebGL viewport (Three.js), step-by-step build scrubber (mimicking the in-game SE Projector with ghosted hologram blocks), 2D layer deck floorplans, subsystem x-ray filtering, and exploded layer animations.
-2. **AI Agents (Gemini, Claude, Qwen)**: Deterministic voxel coordinates `[X, Y, Z]`, strict JSON block schemas, 2D orthographic ASCII text matrices, pure vector SVG projections, and headless PNG snapshot endpoints.
+2. **Programmatic consumers**: Integer voxel coordinates `[X, Y, Z]`, validated model JSON, 2D ASCII slices, SVG projections, and browser-generated PNG snapshots.
 
 ```
                      ┌─────────────────────────────────────────┐
@@ -46,9 +46,10 @@ All coordinates follow the Space Engineers Large/Small grid conventions:
   * **Y (Vertical / Deck):** Keel/Lowest Plane is `L1` (`Y = 1`), advancing upward (`+Y`).
   * **Z (Length):** Aft/Stern is negative (`-Z`), Bow/Forward is positive (`+Z`), Midline is `Z = 0`.
 * **Three.js World Mapping:**
-  * `Three.X = SE.X * 2.5`
-  * `Three.Y = (SE.Y - 0.5) * 2.5`
-  * `Three.Z = -SE.Z * 2.5` (SE `+Z` is Forward; Three.js `-Z` is Forward).
+  * `Three.X = SE.X * blockMeters`
+  * `Three.Y = (SE.Y - 0.5) * blockMeters`
+  * `Three.Z = -SE.Z * blockMeters` (SE `+Z` is Forward; Three.js `-Z` is Forward).
+  * `blockMeters` is `2.5` for Large Grid and `0.5` for Small Grid.
 
 ---
 
@@ -63,19 +64,19 @@ All coordinates follow the Space Engineers Large/Small grid conventions:
   "gridSize": "Large",
   "blockMeters": 2.5,
   "stats": {
-    "totalBlocks": 1126,
-    "dryMassTonnes": 1151.8,
-    "pcu": 10015,
+    "totalBlocks": 1128,
+    "dryMassTonnes": 1258.2,
+    "pcu": 10080,
     "dimensionsMeters": [27.5, 105.0, 17.5],
     "dimensionsBlocks": [11, 42, 7],
-    "operatingRadius": "35-45 m",
+    "toolReachTargetMeters": 35.0,
     "powerBaseloadMW": 30.0,
     "powerPeakMW": 72.0,
     "batteryCapacityMWh": 18.0,
     "orePayloadTonnes": 2500.0
   },
   "bounds": {
-    "min": [-5, 1, -26],
+    "min": [-5, 1, -29],
     "max": [5, 7, 12]
   },
   "palette": [
@@ -160,7 +161,7 @@ Legend: ■ Armor Block  ○ Conveyor  ▲ Half/Bevel  W 5x5 Wheel  R Reactor
 
 ## 6. Local Server REST API Endpoints
 
-The zero-dependency Python server (`web/serve.py`) serves the static PWA and provides programmatically queryable endpoints:
+The zero-dependency Python server (`studio/serve.py`) serves the static PWA and provides programmatically queryable endpoints:
 
 | Endpoint | Method | Format | Purpose |
 |---|---|---|---|
@@ -174,7 +175,7 @@ The zero-dependency Python server (`web/serve.py`) serves the static PWA and pro
 
 Command to start:
 ```bash
-python3 web/serve.py 8080
+python3 studio/serve.py 8080
 ```
 
 ---
@@ -189,7 +190,9 @@ To enable seamless pairing between human engineers and AI agents:
 
 ---
 
-## 8. Complete Fleet Registry (`web/data/chapters.json`)
+## 8. Current Chapter Registry (`studio/data/chapters.json`)
+
+The registry contains reported model statistics. These values and the authored placements are design data, not proof of a validated in-game blueprint.
 
 | Chapter | Code | Model Name | Grid | Total Blocks | Dry Mass | PCU |
 |---|---|---|---|---|---|---|
@@ -199,23 +202,20 @@ To enable seamless pairing between human engineers and AI agents:
 | **Ch 4** | `GND-01` | Ground Base, Refinery Complex & Fleet C2 | Large | 1,420 | 2,840.0 t | 14,200 |
 | **Ch 5** | `EXT-01` | Rig Linear Extruder Ring Shipyard | Large | 860 | 1,850.0 t | 8,900 |
 | **Ch 6-8**| `RIG-01` | Floating Rig Structure (25 kt Fortress) | Large | 4,980 | 25,000.0 t | 29,500 |
-| **Ch 10** | `MAS-01` | MASTODON-01 MKI Excavator & Mobile FOB | Large | 1,126 | 1,151.8 t | 10,015 |
+| **Ch 10** | `MAS-01` | MASTODON-01 MKI Excavator & Mobile FOB | Large | 1,128 | 1,258.2 t | 10,080 |
 | **Ch 11** | `CAT-01` | CATERPILLAR-01 Bulk Land Train | Large | 404 | 368.5 t | 3,950 |
 | **Ch 12** | `KES-01` | KESTREL-01 Prospector Scout Drone | Small | 68 | 4.8 t | 850 |
 | **Ch 13** | `ALB-01` | ALBATROSS-01 Utility & Field Repair Craft | Small | 84 | 8.5 t | 1,120 |
 
 ---
 
-## 9. Verification List
+## 9. Validation Status
 
 | Item | Status | Verification Detail |
 |---|---|---|
-| Three.js r171 vendor assets | Verified | `web/vendor/three.module.js` and `OrbitControls.js` bundled locally |
-| PWA Manifest | Verified | `web/manifest.json` standalone desktop install enabled |
-| Offline Service Worker | Verified | `web/sw.js` precaches all scripts, styles, and chapter data |
-| Chapter 10 Full Integration | Verified | `web/data/mastodon.json` compiled with all 47 steps, instructions, configs, and checks |
-| Complete Fleet Compilation | Verified | All 10 fleet models compiled into `web/data/` |
-| Local Server REST API | Verified | `web/serve.py` tested and functional |
-| Collaboration State Persistence | Verified | Checkboxes and notes persist via browser `localStorage` |
-
-
+| Model schema and coordinate bounds | Automated | `python3 studio/chapter_indexer.py --all` validates the current 10 model files |
+| CH10 manual compiler | Automated | Tests confirm 47 manual steps compile while preserving explicit placements |
+| Browser rendering and responsive layout | Requires browser QA | Procedural meshes are illustrative previews, not game-rendered block geometry |
+| Offline installation and cache behavior | Requires browser QA | Service-worker precache entries are derived from the chapter registry |
+| In-game geometry, mass, PCU, and capacities | Not verified | Compare against a trusted `.sbc` blueprint and validate in Creative before operational use |
+| SBC XML export | Draft only | Export contains the authored visual placement subset and is not a validated game blueprint |

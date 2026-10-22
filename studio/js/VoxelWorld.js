@@ -2,9 +2,11 @@ import * as THREE from 'three';
 import { OrbitControls } from '../vendor/OrbitControls.js';
 
 export class VoxelWorld {
-  constructor(canvasContainer, callbacks = {}) {
+  constructor(canvasContainer, callbacks = {}, options = {}) {
     this.container = canvasContainer;
     this.callbacks = callbacks; // e.g. onBlockSelected, onBlockHovered
+    // Test mode: frozen animation clock and no damping, so captures are deterministic.
+    this.testMode = Boolean(options.testMode);
 
     this.blocks = [];
     this.currentStepIndex = 0;
@@ -16,6 +18,9 @@ export class VoxelWorld {
     this.palette = [];
     this.paletteMaterials = [];
     this.paletteXRayMaterials = [];
+    this.blockMeters = 2.5;
+    this.modelCenter = new THREE.Vector3();
+    this.modelRadius = 10;
     this.hologramMaterial = null;
     this.futureWireframeMaterial = null;
 
@@ -67,9 +72,9 @@ export class VoxelWorld {
     this.container.appendChild(this.renderer.domElement);
 
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
-    this.controls.enableDamping = true;
+    this.controls.enableDamping = !this.testMode;
     this.controls.dampingFactor = 0.05;
-    this.controls.target.set(0, 5, 0);
+    this.controls.target.copy(this.modelCenter);
     this.controls.maxPolarAngle = Math.PI / 2 + 0.08;
 
     // Advanced Lighting Suite (Sun + Planetary Horizon Bounce + Tactical Rim)
@@ -116,10 +121,19 @@ export class VoxelWorld {
     const starGeo = new THREE.BufferGeometry();
     const starPositions = new Float32Array(starCount * 3);
 
+    // Seeded (mulberry32) so the sky is identical on every load and in visual tests.
+    let seed = 0x5e3d;
+    const random = () => {
+      seed = (seed + 0x6d2b79f5) | 0;
+      let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+
     for (let i = 0; i < starCount * 3; i += 3) {
-      starPositions[i] = (Math.random() - 0.5) * 1600;
-      starPositions[i + 1] = Math.random() * 600 + 40;
-      starPositions[i + 2] = (Math.random() - 0.5) * 1600;
+      starPositions[i] = (random() - 0.5) * 1600;
+      starPositions[i + 1] = random() * 600 + 40;
+      starPositions[i + 2] = (random() - 0.5) * 1600;
     }
 
     starGeo.setAttribute('position', new THREE.BufferAttribute(starPositions, 3));
@@ -171,9 +185,16 @@ export class VoxelWorld {
       linewidth: 3,
       depthTest: false
     });
+    this.edgeMaterial = new THREE.LineBasicMaterial({
+      color: 0x000000,
+      linewidth: 1.2,
+      clippingPlanes: this.clipPlanes
+    });
   }
 
   setPalette(palette) {
+    this.paletteMaterials.forEach((material) => material.dispose());
+    this.paletteXRayMaterials.forEach((material) => material.dispose());
     this.palette = palette;
     this.paletteMaterials = palette.map((p) => {
       return new THREE.MeshStandardMaterial({
@@ -197,16 +218,28 @@ export class VoxelWorld {
   }
 
   initHelpers() {
-    // Space Engineers 2.5 m Coordinate Ground Grid (100 B x 100 B)
-    const gridHelper = new THREE.GridHelper(250, 100, 0xe6a100, 0x1c2430);
-    gridHelper.position.y = 0;
-    this.scene.add(gridHelper);
-
-    // Cardinal Orientation Compass Arrow (Forward North = -Z in Three.js, +Z in SE)
+    this.createGridHelper(100);
     const arrowDir = new THREE.Vector3(0, 0, -1);
-    const arrowOrigin = new THREE.Vector3(0, 0.15, 30);
-    const arrowHelper = new THREE.ArrowHelper(arrowDir, arrowOrigin, 14, 0xe6a100, 4, 2.5);
-    this.scene.add(arrowHelper);
+    this.arrowHelper = new THREE.ArrowHelper(arrowDir, new THREE.Vector3(0, 0.15, 0), 14, 0xe6a100, 4, 2.5);
+    this.scene.add(this.arrowHelper);
+  }
+
+  createGridHelper(blocksAcross) {
+    if (this.gridHelper) {
+      this.scene.remove(this.gridHelper);
+      this.gridHelper.geometry.dispose();
+      const materials = Array.isArray(this.gridHelper.material)
+        ? this.gridHelper.material
+        : [this.gridHelper.material];
+      materials.forEach((material) => material.dispose());
+    }
+    this.gridHelper = new THREE.GridHelper(
+      blocksAcross * this.blockMeters,
+      blocksAcross,
+      0xe6a100,
+      0x1c2430
+    );
+    this.scene.add(this.gridHelper);
   }
 
   createCoMMarker() {
@@ -224,7 +257,7 @@ export class VoxelWorld {
   }
 
   createSelectionBox() {
-    const geom = new THREE.BoxGeometry(2.52, 2.52, 2.52);
+    const geom = new THREE.BoxGeometry(1, 1, 1);
     const edges = new THREE.EdgesGeometry(geom);
     const box = new THREE.LineSegments(edges, this.selectionMaterial);
     box.visible = false;
@@ -279,9 +312,9 @@ export class VoxelWorld {
 
     this.selectionBox.position.copy(center);
     this.selectionBox.scale.set(
-      Math.max(size.x, 2.5) / 2.5,
-      Math.max(size.y, 2.5) / 2.5,
-      Math.max(size.z, 2.5) / 2.5
+      Math.max(size.x, this.blockMeters * 1.01),
+      Math.max(size.y, this.blockMeters * 1.01),
+      Math.max(size.z, this.blockMeters * 1.01)
     );
     this.selectionBox.visible = true;
 
@@ -310,9 +343,9 @@ export class VoxelWorld {
     }
   }
 
-  // Authentic Space Engineers Procedural Block Geometry Generator
+  // Grid-scaled procedural preview geometry, not game-rendered block meshes.
   getGeometryForShape(shape) {
-    const B = 2.5;
+    const B = this.blockMeters;
 
     switch (shape) {
       case 'half':
@@ -419,15 +452,21 @@ export class VoxelWorld {
 
   loadModel(data) {
     this.modelData = data;
+    this.blockMeters = data.blockMeters;
+    this.comMarker.scale.setScalar(this.blockMeters * 0.35);
     this.setPalette(data.palette);
 
     while (this.rootGroup.children.length > 0) {
-      this.rootGroup.remove(this.rootGroup.children[0]);
+      const child = this.rootGroup.children[0];
+      child.traverse((node) => {
+        if (node.geometry) node.geometry.dispose();
+      });
+      this.rootGroup.remove(child);
     }
     this.blocks = [];
     this.deselectBlock();
 
-    const B = 2.5;
+    const B = this.blockMeters;
 
     data.steps.forEach((step, stepIdx) => {
       step.blocks.forEach((b) => {
@@ -452,12 +491,8 @@ export class VoxelWorld {
           mesh.scale.set(b.scale[0], b.scale[1], b.scale[2]);
         }
 
-        // Crisp block chamfer edge wireframe with clipping support
         const edges = new THREE.EdgesGeometry(geom, 25);
-        const line = new THREE.LineSegments(
-          edges,
-          new THREE.LineBasicMaterial({ color: 0x000000, linewidth: 1.2, clippingPlanes: this.clipPlanes })
-        );
+        const line = new THREE.LineSegments(edges, this.edgeMaterial);
         mesh.add(line);
 
         mesh.userData = {
@@ -480,6 +515,26 @@ export class VoxelWorld {
       });
     });
 
+    const bounds = data.bounds;
+    const min = bounds.min;
+    const max = bounds.max;
+    this.modelCenter.set(
+      (min[0] + max[0]) * 0.5 * B,
+      ((min[1] + max[1]) * 0.5 - 0.5) * B,
+      -(min[2] + max[2]) * 0.5 * B
+    );
+    this.modelRadius = Math.hypot(
+      (max[0] - min[0] + 1) * B,
+      (max[1] - min[1] + 1) * B,
+      (max[2] - min[2] + 1) * B
+    ) * 0.5;
+    const gridBlocksAcross = Math.max(100, Math.ceil((this.modelRadius * 4) / B));
+    this.createGridHelper(gridBlocksAcross);
+    this.arrowHelper.position.set(this.modelCenter.x, 0.15, this.modelCenter.z + this.modelRadius);
+    this.arrowHelper.setLength(Math.max(B * 4, this.modelRadius * 0.35));
+    this.cameraPersp.far = Math.max(1200, this.modelRadius * 10);
+    this.cameraPersp.updateProjectionMatrix();
+    this.setCameraView(this.cameraMode);
     this.updateVisibility();
     this.computeCoM();
   }
@@ -494,7 +549,7 @@ export class VoxelWorld {
     this.explodeFactor = factor;
     this.blocks.forEach((mesh) => {
       const level = mesh.userData.pos[1];
-      const offset = (level - 1) * factor * 10.0;
+      const offset = (level - 1) * factor * this.blockMeters * 4;
       mesh.position.y = mesh.userData.baseY + offset;
     });
 
@@ -511,7 +566,7 @@ export class VoxelWorld {
 
   setClipping(axis, value, enabled = true) {
     this.clippingEnabled = enabled;
-    const B = 2.5;
+    const B = this.blockMeters;
 
     if (!enabled || (axis === 'all' && value === null)) {
       this.clipPlanes.forEach((p) => (p.constant = 1000));
@@ -599,31 +654,45 @@ export class VoxelWorld {
 
   setCameraView(viewName) {
     this.cameraMode = viewName;
-    const dist = 75;
+    const dist = Math.max(this.modelRadius * 3.2, this.blockMeters * 8);
+    const aspect = this.container.clientWidth / Math.max(1, this.container.clientHeight);
+    const halfHeight = Math.max(this.modelRadius * 1.15, this.blockMeters * 4);
 
-    switch (viewName) {
-      case 'plan':
-        this.camera.position.set(0, dist * 1.3, 0);
-        this.controls.target.set(0, 5, 0);
-        break;
-      case 'side':
-        this.camera.position.set(-dist, 8, 0);
-        this.controls.target.set(0, 5, 0);
-        break;
-      case 'bow':
-        this.camera.position.set(0, 8, -dist);
-        this.controls.target.set(0, 5, 0);
-        break;
-      case 'stern':
-        this.camera.position.set(0, 8, dist);
-        this.controls.target.set(0, 5, 0);
-        break;
-      case 'iso':
-      default:
-        this.camera.position.set(dist * 0.75, dist * 0.55, dist * 0.75);
-        this.controls.target.set(0, 5, 0);
-        break;
+    if (viewName === 'plan') {
+      this.camera = this.cameraOrtho;
+      this.cameraOrtho.left = -halfHeight * aspect;
+      this.cameraOrtho.right = halfHeight * aspect;
+      this.cameraOrtho.top = halfHeight;
+      this.cameraOrtho.bottom = -halfHeight;
+      this.cameraOrtho.up.set(0, 0, -1);
+      this.cameraOrtho.position.set(this.modelCenter.x, this.modelCenter.y + dist, this.modelCenter.z);
+      this.cameraOrtho.lookAt(this.modelCenter);
+      this.cameraOrtho.updateProjectionMatrix();
+    } else {
+      this.camera = this.cameraPersp;
+      this.cameraPersp.up.set(0, 1, 0);
+      switch (viewName) {
+        case 'side':
+          this.cameraPersp.position.set(this.modelCenter.x - dist, this.modelCenter.y, this.modelCenter.z);
+          break;
+        case 'bow':
+          this.cameraPersp.position.set(this.modelCenter.x, this.modelCenter.y, this.modelCenter.z - dist);
+          break;
+        case 'stern':
+          this.cameraPersp.position.set(this.modelCenter.x, this.modelCenter.y, this.modelCenter.z + dist);
+          break;
+        case 'iso':
+        default:
+          this.cameraPersp.position.set(
+            this.modelCenter.x + dist * 0.75,
+            this.modelCenter.y + dist * 0.55,
+            this.modelCenter.z + dist * 0.75
+          );
+          break;
+      }
     }
+    this.controls.object = this.camera;
+    this.controls.target.copy(this.modelCenter);
     this.controls.update();
   }
 
@@ -636,15 +705,23 @@ export class VoxelWorld {
     if (!this.container) return;
     const width = this.container.clientWidth;
     const height = this.container.clientHeight;
+    if (!width || !height) return;
 
     this.cameraPersp.aspect = width / height;
     this.cameraPersp.updateProjectionMatrix();
+    const halfHeight = Math.max(this.modelRadius * 1.15, this.blockMeters * 4);
+    this.cameraOrtho.left = -halfHeight * (width / height);
+    this.cameraOrtho.right = halfHeight * (width / height);
+    this.cameraOrtho.top = halfHeight;
+    this.cameraOrtho.bottom = -halfHeight;
+    this.cameraOrtho.updateProjectionMatrix();
 
     this.renderer.setSize(width, height);
   }
 
-  animate(time) {
+  animate(frameTime) {
     requestAnimationFrame(this.animate);
+    const time = this.testMode ? 0 : frameTime;
 
     // Dynamic Pulsing Hologram Fresnel Glow
     if (this.hologramMaterial) {

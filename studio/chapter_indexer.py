@@ -1,575 +1,535 @@
 #!/usr/bin/env python3
-"""Unified Chapter Indexer & Blueprint Compiler for Space Engineers 3D Studio.
-
-Ingests chapter markdown instructions (e.g. docs/rig/chapters/*-instructions.md)
-and compiles them into standardized, validated Voxel JSON datasets for WebGL
-visualization, 2D deck floorplans, and machine-readable AI agent inspection.
-
-Usage:
-  python3 web/chapter_indexer.py docs/rig/chapters/mastodon-instructions.md
-  python3 web/chapter_indexer.py --all
-  python3 web/chapter_indexer.py --validate web/data/mastodon.json
-  python3 web/chapter_indexer.py --stats
-"""
+"""Validate chapter models, compile manual prose, and generate the chapter registry."""
 
 import argparse
-import glob
 import json
-import os
+import math
 import re
 import sys
+from pathlib import Path
 
-# Standard 10-Slot Space Engineers Paint Palette
-MASTER_PALETTE = [
-    { "slot": 0, "name": "Citadel Charcoal", "hex": "#1A1D20", "rgb": [26, 29, 32], "role": "Heavy Armor Hull & Structural Longerons" },
-    { "slot": 1, "name": "Structural Slate", "hex": "#42464D", "rgb": [66, 70, 77], "role": "Bulkheads, Deck Frames & Workshop Ribs" },
-    { "slot": 2, "name": "Warning Amber", "hex": "#E06D14", "rgb": [224, 109, 20], "role": "Hatches, Outriggers, Hitch & Bumper Guides" },
-    { "slot": 3, "name": "Tactical White", "hex": "#D4D8DD", "rgb": [212, 216, 221], "role": "Flight Deck Markings & Alignment Chevrons" },
-    { "slot": 4, "name": "Processing Teal", "hex": "#1ABC9C", "rgb": [26, 188, 156], "role": "Conveyors, Sorters, Ejectors & Basic Refinery" },
-    { "slot": 5, "name": "Habitat White", "hex": "#E8ECF0", "rgb": [232, 236, 240], "role": "Bridge Canopy Interior & Medical Station" },
-    { "slot": 6, "name": "Machine Olive", "hex": "#4A5643", "rgb": [74, 86, 67], "role": "Large Assembler, Sorter Manifolds & Tool Stores" },
-    { "slot": 7, "name": "Cryo Cyan", "hex": "#1E6B7B", "rgb": [30, 107, 123], "role": "Hydrogen Tanks & O2/H2 Decon Systems" },
-    { "slot": 8, "name": "Mechanical Gunmetal", "hex": "#2B2E33", "rgb": [43, 46, 51], "role": "Hitch Rotors, Axle Mounts & Boom Pedestal" },
-    { "slot": 9, "name": "Grate Steel", "hex": "#50555C", "rgb": [80, 85, 92], "role": "Jefferies Grating, Catwalks & Access Stairs" }
-]
 
-CHAPTER_CONFIGS = {
-    "mastodon-instructions.md": {
-        "id": "MAS-01",
-        "chapter": 10,
-        "name": "MASTODON-01 MKI Expeditionary Excavator & Mobile FOB",
-        "file": "mastodon.json",
-        "grid": "Large",
-        "blockMeters": 2.5,
-        "tier": "Ground Tier · Heavy Extraction",
-        "bounds": { "min": [-5, 1, -26], "max": [5, 7, 12] },
-        "stats": {
-            "totalBlocks": 1126,
-            "dryMassTonnes": 1151.8,
-            "pcu": 10015,
-            "dimensionsBlocks": [11, 42, 7],
-            "dimensionsMeters": [27.5, 105.0, 17.5]
-        },
-        "palette": [
-            { "slot": 0, "name": "Industrial Dark Gray", "hex": "#2B303A", "rgb": [43, 48, 58], "role": "Lower chassis box girders, wheel arch frames, belly skid plates" },
-            { "slot": 1, "name": "Hazard Amber", "hex": "#E6A100", "rgb": [230, 161, 0], "role": "Roof Mule Gantry Pad (7x7 B), cradle arms, outrigger warning chevrons" },
-            { "slot": 2, "name": "Heavy Rail Crimson", "hex": "#9E2A2B", "rgb": [158, 42, 43], "role": "Stern train dump bumper, rear alignment push-blocks, drawbar hitches" },
-            { "slot": 3, "name": "Excavator Ochre", "hex": "#E67E22", "rgb": [230, 126, 34], "role": "45 m Long-Reach Articulated Boom, arm casings, laser tool head" },
-            { "slot": 4, "name": "Processing Teal", "hex": "#1ABC9C", "rgb": [26, 188, 156], "role": "Central Ore Conveyor Spine, bow intake throat, manifold junctions" },
-            { "slot": 5, "name": "Logistics Emerald", "hex": "#27AE60", "rgb": [39, 174, 96], "role": "Tractor ore buffer and Utility component storage holds" },
-            { "slot": 6, "name": "High-Voltage Alert Red", "hex": "#C0392B", "rgb": [192, 57, 43], "role": "Tractor Power Vault (2x Small Nuclear Reactors, 2x Large Batteries)" },
-            { "slot": 7, "name": "Fleet Command Navy", "hex": "#1B263B", "rgb": [27, 38, 59], "role": "Forward Armored C2 Bridge exterior shell, operator consoles" },
-            { "slot": 8, "name": "Scout Flight White", "hex": "#ECF0F1", "rgb": [236, 240, 241], "role": "Forward twin Kestrel scout drone landing pads (P1, S1) on Utility roof" },
-            { "slot": 9, "name": "High-Viz Safety Yellow", "hex": "#F1C40F", "rgb": [241, 196, 15], "role": "Exterior catwalks, maintenance ladders, corner outrigger foot pads" }
-        ]
-    },
-    "orca-instructions.md": {
-        "id": "ORC-01",
-        "chapter": 1,
-        "name": "ORCA-01 Heavy Mining Carrier",
-        "file": "orca.json",
-        "grid": "Large",
-        "blockMeters": 2.5,
-        "tier": "Air Tier · Fast / Rare",
-        "bounds": { "min": [-8, 1, -9], "max": [8, 7, 10] },
-        "stats": {
-            "totalBlocks": 653,
-            "dryMassTonnes": 764.0,
-            "pcu": 4500,
-            "dimensionsBlocks": [17, 19, 7],
-            "dimensionsMeters": [42.5, 47.5, 17.5]
-        }
-    },
-    "remora-instructions.md": {
-        "id": "REM-01",
-        "chapter": 2,
-        "name": "REMORA-01 Vertical Shaft Driller",
-        "file": "remora.json",
-        "grid": "Small",
-        "blockMeters": 0.5,
-        "tier": "Air Tier · Vertical Miner",
-        "bounds": { "min": [-5, 1, -5], "max": [5, 15, 5] },
-        "stats": {
-            "totalBlocks": 133,
-            "dryMassTonnes": 48.5,
-            "pcu": 1774,
-            "dimensionsBlocks": [11, 11, 15],
-            "dimensionsMeters": [5.5, 5.5, 7.5]
-        }
-    },
-    "mule-instructions.md": {
-        "id": "MUL-01",
-        "chapter": 3,
-        "name": "MULE-01 Heavy Freight Shuttle",
-        "file": "mule.json",
-        "grid": "Large",
-        "blockMeters": 2.5,
-        "tier": "Air Tier · Logistics Ferry",
-        "bounds": { "min": [-3, 1, -3], "max": [3, 5, 3] },
-        "stats": {
-            "totalBlocks": 142,
-            "dryMassTonnes": 128.0,
-            "pcu": 1850,
-            "dimensionsBlocks": [7, 7, 5],
-            "dimensionsMeters": [17.5, 17.5, 12.5]
-        }
-    },
-    "ground-base-instructions.md": {
-        "id": "GND-01",
-        "chapter": 4,
-        "name": "Ground Base, Refinery Complex & Fleet C2",
-        "file": "ground-base.json",
-        "grid": "Large",
-        "blockMeters": 2.5,
-        "tier": "Surface Industrial Core",
-        "bounds": { "min": [-17, 1, -22], "max": [17, 12, 22] },
-        "stats": {
-            "totalBlocks": 1420,
-            "dryMassTonnes": 2840.0,
-            "pcu": 14200,
-            "dimensionsBlocks": [35, 45, 12],
-            "dimensionsMeters": [87.5, 112.5, 30.0]
-        }
-    },
-    "extruder-ring-instructions.md": {
-        "id": "EXT-01",
-        "chapter": 5,
-        "name": "Rig Linear Extruder Ring Shipyard",
-        "file": "extruder-ring.json",
-        "grid": "Large",
-        "blockMeters": 2.5,
-        "tier": "Surface Shipyard",
-        "bounds": { "min": [-12, 1, -25], "max": [12, 14, 25] },
-        "stats": {
-            "totalBlocks": 860,
-            "dryMassTonnes": 1850.0,
-            "pcu": 8900,
-            "dimensionsBlocks": [24, 50, 14],
-            "dimensionsMeters": [60.0, 125.0, 35.0]
-        }
-    },
-    "floating-rig-instructions.md": {
-        "id": "RIG-01",
-        "chapter": 6,
-        "name": "Floating Rig Structure (25 kt Fortress)",
-        "file": "floating-rig.json",
-        "grid": "Large",
-        "blockMeters": 2.5,
-        "tier": "Fortress Tier · Aerial Fleet Hub",
-        "bounds": { "min": [-18, 1, -18], "max": [18, 28, 18] },
-        "stats": {
-            "totalBlocks": 4980,
-            "dryMassTonnes": 25000.0,
-            "pcu": 29500,
-            "dimensionsBlocks": [36, 36, 28],
-            "dimensionsMeters": [90.0, 90.0, 70.0]
-        }
-    },
-    "caterpillar-instructions.md": {
-        "id": "CAT-01",
-        "chapter": 11,
-        "name": "CATERPILLAR-01 Bulk Land Train",
-        "file": "caterpillar.json",
-        "grid": "Large",
-        "blockMeters": 2.5,
-        "tier": "Ground Tier · Bulk Mass Hauler",
-        "bounds": { "min": [-3, 1, -21], "max": [3, 5, 21] },
-        "stats": {
-            "totalBlocks": 404,
-            "dryMassTonnes": 368.5,
-            "pcu": 3950,
-            "dimensionsBlocks": [7, 42, 5],
-            "dimensionsMeters": [17.5, 105.0, 12.5]
-        }
-    },
-    "kestrel-instructions.md": {
-        "id": "KES-01",
-        "chapter": 12,
-        "name": "KESTREL-01 Prospector Scout Drone",
-        "file": "kestrel.json",
-        "grid": "Small",
-        "blockMeters": 0.5,
-        "tier": "Air Tier · Geological Recon",
-        "bounds": { "min": [-3, 1, -4], "max": [3, 5, 4] },
-        "stats": {
-            "totalBlocks": 68,
-            "dryMassTonnes": 4.8,
-            "pcu": 850,
-            "dimensionsBlocks": [7, 9, 5],
-            "dimensionsMeters": [3.5, 4.5, 2.5]
-        }
-    },
-    "albatross-instructions.md": {
-        "id": "ALB-01",
-        "chapter": 13,
-        "name": "ALBATROSS-01 Utility & Field Repair Craft",
-        "file": "albatross.json",
-        "grid": "Small",
-        "blockMeters": 0.5,
-        "tier": "Air Tier · Engineering & Salvage",
-        "bounds": { "min": [-4, 1, -5], "max": [4, 5, 5] },
-        "stats": {
-            "totalBlocks": 84,
-            "dryMassTonnes": 8.5,
-            "pcu": 1120,
-            "dimensionsBlocks": [9, 11, 5],
-            "dimensionsMeters": [4.5, 5.5, 2.5]
-        }
-    }
+ROOT = Path(__file__).resolve().parent
+DATA_DIR = ROOT / "data"
+MANUALS_DIR = ROOT.parent / "manuals" / "chapters"
+STEP_HEADING = re.compile(
+    r"^###\s+Step\s+([0-9A-Za-z][0-9A-Za-z.-]*)\s*[·:]\s*(.+?)\s*$",
+    re.MULTILINE,
+)
+PALETTE_COLOR = re.compile(r"^#[0-9A-Fa-f]{6}$")
+VALID_SHAPES = {
+    "assembler", "battery", "cargo", "cargo_small", "catwalk", "cockpit", "conveyor",
+    "cube", "engine", "half", "halfslope", "hinge", "piston", "reactor", "refinery",
+    "rotor", "slope2x1", "solar", "turret", "welder", "wheel5x5",
 }
+VALID_SUBSYSTEMS = {"avionics", "boom", "conveyor", "flightdeck", "power", "propulsion", "structure"}
 
-def parse_parts_tray(tray_text):
-    """Parses markdown table into parts tray entries."""
+
+def read_json(path):
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        raise ValueError(f"{path}: {exc}") from exc
+
+
+def is_int(value):
+    return isinstance(value, int) and not isinstance(value, bool)
+
+
+def validate_model(model, path):
+    errors = []
+    label = str(path)
+
+    def error(message):
+        errors.append(f"{label}: {message}")
+
+    if not isinstance(model, dict):
+        return [f"{label}: model root must be an object"]
+
+    for key in ("id", "name", "chapter", "gridSize", "blockMeters", "stats", "bounds", "palette", "steps"):
+        if key not in model:
+            error(f"missing required field {key!r}")
+
+    if not isinstance(model.get("id"), str) or not re.fullmatch(r"[A-Z0-9-]+", model["id"]):
+        error("'id' must contain only uppercase letters, digits, and hyphens")
+    if not isinstance(model.get("name"), str) or not model["name"].strip():
+        error("'name' must be a non-empty string")
+    if not is_int(model.get("chapter")) or model["chapter"] < 1:
+        error("'chapter' must be a positive integer")
+    if "chapterLabel" in model and (not isinstance(model["chapterLabel"], str) or not model["chapterLabel"].strip()):
+        error("'chapterLabel' must be a non-empty string when provided")
+
+    grid = model.get("gridSize")
+    if grid not in ("Large", "Small"):
+        error("'gridSize' must be 'Large' or 'Small'")
+    expected_meters = {"Large": 2.5, "Small": 0.5}.get(grid)
+    if not isinstance(model.get("blockMeters"), (int, float)) or model.get("blockMeters") != expected_meters:
+        error("'blockMeters' must match the Space Engineers grid size (Large: 2.5, Small: 0.5)")
+
+    stats = model.get("stats")
+    if not isinstance(stats, dict):
+        error("'stats' must be an object")
+    else:
+        for key in ("totalBlocks", "dryMassTonnes", "pcu"):
+            value = stats.get(key)
+            if not isinstance(value, (int, float)) or isinstance(value, bool) or not math.isfinite(value) or value < 0:
+                error(f"'stats.{key}' must be a finite non-negative number")
+
+        dims_blocks = stats.get("dimensionsBlocks")
+        valid_dims_blocks = (
+            isinstance(dims_blocks, list) and len(dims_blocks) == 3 and
+            all(is_int(value) and value > 0 for value in dims_blocks)
+        )
+        if not valid_dims_blocks:
+            error("'stats.dimensionsBlocks' must be a 3-element positive integer array ordered as [X, Z, Y]")
+
+        dims_meters = stats.get("dimensionsMeters")
+        valid_dims_meters = (
+            isinstance(dims_meters, list) and len(dims_meters) == 3 and
+            all(isinstance(value, (int, float)) and not isinstance(value, bool) and math.isfinite(value) and value > 0
+                for value in dims_meters)
+        )
+        if dims_meters is not None and not valid_dims_meters:
+            error("'stats.dimensionsMeters' must be a 3-element positive numeric array ordered as [X, Z, Y]")
+
+    bounds = model.get("bounds")
+    valid_bounds = isinstance(bounds, dict)
+    if valid_bounds:
+        for key in ("min", "max"):
+            vector = bounds.get(key)
+            if not isinstance(vector, list) or len(vector) != 3 or not all(is_int(v) for v in vector):
+                error(f"'bounds.{key}' must be a 3-element integer array")
+                valid_bounds = False
+        if valid_bounds and any(bounds["min"][i] > bounds["max"][i] for i in range(3)):
+            error("'bounds.min' must not exceed 'bounds.max'")
+            valid_bounds = False
+    else:
+        error("'bounds' must be an object")
+
+    if isinstance(stats, dict):
+        dims_blocks = stats.get("dimensionsBlocks")
+        dims_meters = stats.get("dimensionsMeters")
+        valid_dims_blocks = (
+            isinstance(dims_blocks, list) and len(dims_blocks) == 3 and
+            all(is_int(value) and value > 0 for value in dims_blocks)
+        )
+        valid_dims_meters = (
+            isinstance(dims_meters, list) and len(dims_meters) == 3 and
+            all(isinstance(value, (int, float)) and not isinstance(value, bool) and math.isfinite(value) and value > 0
+                for value in dims_meters)
+        )
+        if model.get("id") == "MAS-01" and valid_bounds and valid_dims_blocks:
+            expected_dims_blocks = [
+                bounds["max"][0] - bounds["min"][0] + 1,  # X span
+                bounds["max"][2] - bounds["min"][2] + 1,  # Z span
+                bounds["max"][1] - bounds["min"][1] + 1,  # Y span
+            ]
+            if dims_blocks != expected_dims_blocks:
+                error(
+                    "MAS-01 'stats.dimensionsBlocks' must match bounds spans in [X, Z, Y] order; "
+                    f"expected {expected_dims_blocks}, got {dims_blocks}"
+                )
+        if valid_dims_blocks and valid_dims_meters and isinstance(model.get("blockMeters"), (int, float)):
+            expected_dims_meters = [dims_blocks[index] * model["blockMeters"] for index in range(3)]
+            if any(not math.isclose(expected_dims_meters[index], dims_meters[index], rel_tol=0.0, abs_tol=1e-6)
+                   for index in range(3)):
+                error(
+                    "'stats.dimensionsMeters' must equal dimensionsBlocks × blockMeters in [X, Z, Y] order; "
+                    f"expected {expected_dims_meters}, got {dims_meters}"
+                )
+
+    palette = model.get("palette")
+    palette_slots = set()
+    if not isinstance(palette, list) or not palette:
+        error("'palette' must be a non-empty array")
+        palette = []
+    for index, color in enumerate(palette):
+        if not isinstance(color, dict):
+            error(f"'palette[{index}]' must be an object")
+            continue
+        slot = color.get("slot")
+        if not is_int(slot) or slot < 0:
+            error(f"'palette[{index}].slot' must be a non-negative integer")
+        elif slot in palette_slots:
+            error(f"duplicate palette slot {slot}")
+        else:
+            palette_slots.add(slot)
+        if not isinstance(color.get("name"), str) or not color["name"]:
+            error(f"'palette[{index}].name' must be a non-empty string")
+        if not isinstance(color.get("hex"), str) or not PALETTE_COLOR.fullmatch(color["hex"]):
+            error(f"'palette[{index}].hex' must be a six-digit hex color")
+
+    steps = model.get("steps")
+    if not isinstance(steps, list) or not steps:
+        error("'steps' must be a non-empty array")
+        steps = []
+    step_ids = set()
+    for step_index, step in enumerate(steps):
+        prefix = f"'steps[{step_index}]'"
+        if not isinstance(step, dict):
+            error(f"{prefix} must be an object")
+            continue
+        step_id = step.get("step")
+        if not isinstance(step_id, (str, int)) or not str(step_id).strip():
+            error(f"{prefix}.step must be a non-empty string or integer")
+        elif str(step_id) in step_ids:
+            error(f"duplicate step id {step_id!r}")
+        else:
+            step_ids.add(str(step_id))
+        if not isinstance(step.get("title"), str) or not step["title"].strip():
+            error(f"{prefix}.title must be a non-empty string")
+        if not isinstance(step.get("phase"), str) or not step["phase"].strip():
+            error(f"{prefix}.phase must be a non-empty string")
+        if not isinstance(step.get("level"), str) or not re.fullmatch(r"L\d+(?:-L?\d+)?", step["level"]):
+            error(f"{prefix}.level must use the L<number> or L<number>-L<number> format")
+        blocks = step.get("blocks")
+        if not isinstance(blocks, list):
+            error(f"{prefix}.blocks must be an array of explicit placements")
+            continue
+        if not blocks:
+            error(f"{prefix}.blocks must contain at least one explicit placement")
+        for block_index, block in enumerate(blocks):
+            block_prefix = f"{prefix}.blocks[{block_index}]"
+            if not isinstance(block, dict):
+                error(f"{block_prefix} must be an object")
+                continue
+            pos = block.get("pos")
+            if not isinstance(pos, list) or len(pos) != 3 or not all(is_int(v) for v in pos):
+                error(f"{block_prefix}.pos must be a 3-element integer array")
+                continue
+            if valid_bounds and any(pos[i] < bounds["min"][i] or pos[i] > bounds["max"][i] for i in range(3)):
+                error(f"{block_prefix}.pos {pos} is outside declared bounds")
+            slot = block.get("paletteSlot", 0)
+            if not is_int(slot) or slot not in palette_slots:
+                error(f"{block_prefix}.paletteSlot {slot!r} is not defined in the palette")
+            shape = block.get("shape")
+            if shape not in VALID_SHAPES:
+                error(f"{block_prefix}.shape {shape!r} is not supported by the 3D renderer")
+            subsystem = block.get("subsystem", "structure")
+            if subsystem not in VALID_SUBSYSTEMS:
+                error(f"{block_prefix}.subsystem {subsystem!r} is not supported")
+            for vector_name in ("rot", "scale"):
+                vector = block.get(vector_name)
+                if vector is not None:
+                    if (not isinstance(vector, list) or len(vector) != 3 or
+                            not all(isinstance(value, (int, float)) and not isinstance(value, bool) and math.isfinite(value) for value in vector)):
+                        error(f"{block_prefix}.{vector_name} must be a finite 3-element numeric array")
+                    elif vector_name == "scale" and any(value <= 0 for value in vector):
+                        error(f"{block_prefix}.scale values must be positive")
+
+    figure_status = model.get("designFigureStatus")
+    if figure_status is not None:
+        if (not isinstance(figure_status, dict) or
+                figure_status.get("status") != "unverified" or
+                not isinstance(figure_status.get("label"), str) or
+                not figure_status["label"].strip()):
+            error("'designFigureStatus' must identify unverified figures with a non-empty label")
+
+    design_subsystems = model.get("designSubsystems")
+    if design_subsystems is not None:
+        if not isinstance(design_subsystems, list):
+            error("'designSubsystems' must be an array")
+        else:
+            subsystem_ids = set()
+            required_fields = ("label", "physicalInterface", "futurePB", "manualFallback", "commissioning")
+            for index, subsystem in enumerate(design_subsystems):
+                prefix = f"'designSubsystems[{index}]'"
+                if not isinstance(subsystem, dict):
+                    error(f"{prefix} must be an object")
+                    continue
+                subsystem_id = subsystem.get("id")
+                if not isinstance(subsystem_id, str) or not subsystem_id.strip():
+                    error(f"{prefix}.id must be a non-empty string")
+                elif subsystem_id in subsystem_ids:
+                    error(f"duplicate design subsystem id {subsystem_id!r}")
+                else:
+                    subsystem_ids.add(subsystem_id)
+                for field in required_fields:
+                    if not isinstance(subsystem.get(field), str) or not subsystem[field].strip():
+                        error(f"{prefix}.{field} must be a non-empty string")
+                referenced_steps = subsystem.get("steps")
+                if (not isinstance(referenced_steps, list) or not referenced_steps or
+                        not all(isinstance(value, (str, int)) for value in referenced_steps)):
+                    error(f"{prefix}.steps must be a non-empty array of step IDs")
+                else:
+                    for referenced_step in referenced_steps:
+                        if str(referenced_step) not in step_ids:
+                            error(f"{prefix}.steps references unknown step {referenced_step!r}")
+
+    return errors
+
+
+def parse_parts_tray(section):
     parts = []
-    lines = [l.strip() for l in tray_text.strip().split("\n") if l.strip().startswith("|")]
-    if len(lines) >= 3:
-        for line in lines[2:]:
-            cols = [c.strip() for c in line.split("|")[1:-1]]
-            if len(cols) >= 3:
-                b_type = cols[0]
-                qty_str = cols[1]
-                slot_str = cols[2] if len(cols) > 2 else "Slot 0"
-                mass_pcu = cols[3] if len(cols) > 3 else ""
-                note = cols[4] if len(cols) > 4 else ""
-                try:
-                    qty = int(re.search(r"\d+", qty_str).group())
-                except:
-                    qty = 1
-                slot = 0
-                slot_match = re.search(r"Slot\s+(\d+)", slot_str)
-                if slot_match:
-                    slot = int(slot_match.group(1))
-                parts.append({
-                    "type": b_type,
-                    "qty": qty,
-                    "slot": slot,
-                    "massPcu": mass_pcu,
-                    "note": note
-                })
+    rows = [line.strip() for line in section.splitlines() if line.strip().startswith("|")]
+    for line in rows[2:]:
+        columns = [column.strip() for column in line.split("|")[1:-1]]
+        if len(columns) < 4:
+            continue
+        quantity = re.search(r"\d+", columns[1])
+        slot = re.search(r"Slot\s+(\d+)", columns[2], re.IGNORECASE)
+        parts.append({
+            "type": columns[0],
+            "qty": int(quantity.group()) if quantity else 1,
+            "slot": int(slot.group(1)) if slot else 0,
+            "massPcu": columns[3],
+            "note": columns[4] if len(columns) > 4 else "",
+        })
     return parts
 
-def parse_checks(step_text):
-    """Extracts verification checklist items."""
-    checks = []
-    m_check = re.search(r"\*\*✓ Check:\*\*\s*(.+?)(?=\n\n|\n---|####|\Z)", step_text, re.DOTALL)
-    if m_check:
-        checks.append(m_check.group(1).strip().replace("\n", " "))
-    gates = re.findall(r"\*\s*\[[ x]\]\s*(.+)", step_text)
-    for g in gates:
-        checks.append(g.strip())
-    return checks
 
-def parse_instructions(step_text):
-    """Extracts step-by-step assembly instructions."""
-    m = re.search(r"#### Placement Instructions\s*\n([\s\S]+?)(?=\n####|\n\*\*✓|\n---|```|\Z)", step_text)
-    if m:
-        return [l.strip() for l in m.group(1).strip().split("\n") if l.strip()]
-    lines = [l.strip() for l in re.findall(r"^\d+\.\s+(.+)$", step_text, re.MULTILINE)]
-    return lines if lines else ["Assemble section per spatial coordinate triad."]
+def parse_step_prose(step_text, step_id):
+    def section(name):
+        step_prefix = rf"(?:Step\s+{re.escape(step_id)}\s+)?" if name == "Parts Tray" else ""
+        match = re.search(
+            rf"^####\s+{step_prefix}{re.escape(name)}\s*\n([\s\S]*?)(?=^####\s|^\*\*✓ Check:\*\*|^---|\Z)",
+            step_text,
+            re.MULTILINE | re.IGNORECASE,
+        )
+        return match.group(1).strip() if match else ""
 
-def parse_terminal_config(step_text):
-    """Extracts terminal block configuration blocks."""
-    m = re.search(r"#### Terminal Configuration & Sliders\s*\n([\s\S]+?)(?=\n####|\n\*\*✓|\n---|```|\Z)", step_text)
-    if m:
-        return m.group(1).strip()
-    return ""
+    instructions_text = section("Placement Instructions")
+    instructions = [line.strip() for line in instructions_text.splitlines() if line.strip()]
+    parts = parse_parts_tray(section("Parts Tray"))
+    terminal = section("Terminal Configuration & Sliders")
+    check_match = re.search(r"\*\*✓ Check:\*\*\s*(.+?)(?=\n\n|\n---|^####|\Z)", step_text, re.DOTALL | re.MULTILINE)
+    checks = [check_match.group(1).strip().replace("\n", " ")] if check_match else []
+    checks.extend(re.findall(r"^\s*\*\s*\[[ x]\]\s*(.+)$", step_text, re.MULTILINE))
+    return instructions, parts, terminal, checks
 
-def classify_subsystem(text):
-    """Classifies subsystem layer from text content."""
-    t = text.lower()
-    if any(k in t for k in ["boom", "tool head", "drill head", "welder head", "grapple"]):
-        return "boom"
-    if any(k in t for k in ["flight deck", "pad", "hangar", "apron", "runway"]):
-        return "flightdeck"
-    if any(k in t for k in ["cockpit", "bridge", "helm", "avionics", "pb", "programmable block", "remote control"]):
-        return "avionics"
-    if any(k in t for k in ["reactor", "battery", "engine", "hydrogen tank", "o2/h2", "tank h2", "power"]):
-        return "power"
-    if any(k in t for k in ["wheel", "suspension", "outrigger", "hitch", "dpu", "thruster", "atmo", "ion"]):
-        return "propulsion"
-    if any(k in t for k in ["conveyor", "sorter", "ejector", "cargo", "refinery", "assembler", "pipe"]):
-        return "conveyor"
-    return "structure"
 
-def determine_level(title):
-    """Extracts Level string (e.g. L1, L2, L1-L2) from title."""
-    m = re.search(r"\((L[0-9]+(?:-[0-9A-Za-z]+)?)\)", title)
-    return m.group(1) if m else "L2"
+def compile_manual(manual_path, model_path):
+    manual_text = manual_path.read_text(encoding="utf-8")
+    model = read_json(model_path)
+    matches = list(STEP_HEADING.finditer(manual_text))
+    if not matches:
+        raise ValueError(f"{manual_path}: no `### Step <id> · <title>` headings found")
 
-def compile_chapter(md_path, out_json_path=None, custom_cfg=None):
-    """Compiles a single markdown chapter instructions file into Voxel JSON."""
-    basename = os.path.basename(md_path)
-    cfg = custom_cfg or CHAPTER_CONFIGS.get(basename)
+    source_steps = {str(step.get("step")): step for step in model.get("steps", []) if isinstance(step, dict)}
+    compiled_steps = []
+    for index, match in enumerate(matches):
+        step_id, title = match.group(1), match.group(2).strip()
+        end = matches[index + 1].start() if index + 1 < len(matches) else len(manual_text)
+        step_text = manual_text[match.end():end]
+        source = source_steps.get(step_id)
+        if source is None:
+            raise ValueError(f"{manual_path}: step {step_id!r} has no matching explicit placement entry in {model_path}")
+        if not isinstance(source.get("blocks"), list) or not source["blocks"]:
+            raise ValueError(f"{model_path}: step {step_id!r} must contain explicitly authored block placements")
 
-    if not cfg:
-        # Generate default config derived from filename
-        ch_num = 1
-        m_num = re.search(r"\d+", basename)
-        if m_num: ch_num = int(m_num.group())
-        short_id = basename.replace("-instructions.md", "").upper()[:4] + "-01"
-        cfg = {
-            "id": short_id,
-            "chapter": ch_num,
-            "name": basename.replace("-instructions.md", "").replace("-", " ").title(),
-            "file": basename.replace("-instructions.md", ".json"),
-            "grid": "Large",
-            "blockMeters": 2.5,
-            "tier": "Logistics Tier",
-            "bounds": { "min": [-5, 1, -10], "max": [5, 6, 10] },
-            "stats": { "totalBlocks": 100, "dryMassTonnes": 120.0, "pcu": 1000, "dimensionsBlocks": [11, 21, 6] }
-        }
+        instructions, parts, terminal, checks = parse_step_prose(step_text, step_id)
+        compiled = dict(source)
+        compiled["step"] = step_id
+        compiled["title"] = title
+        level = re.search(r"\((L[0-9]+(?:-[0-9A-Za-z]+)?)\)", title)
+        if level:
+            compiled["level"] = level.group(1)
+        compiled["instructions"] = instructions
+        compiled["partsTray"] = parts
+        compiled["terminalConfig"] = terminal
+        compiled["checks"] = checks
+        compiled_steps.append(compiled)
 
-    with open(md_path, "r", encoding="utf-8") as f:
-        content = f.read()
+    if set(source_steps) != {step["step"] for step in compiled_steps}:
+        missing = sorted(set(source_steps) - {step["step"] for step in compiled_steps})
+        raise ValueError(f"{manual_path}: model steps not represented by manual headings: {', '.join(missing)}")
+    model["steps"] = compiled_steps
+    errors = validate_model(model, model_path)
+    if errors:
+        raise ValueError("\n".join(errors))
+    write_json(model_path, model)
+    print(f"Compiled {len(compiled_steps)} steps from {manual_path} into {model_path}")
 
-    # Match Step headings: ### Step X · Title or ### Step X: Title or ### Section X · Title
-    step_pattern = r"\n### (?:Step\s+([0-9A-Za-z\.]+)|Phase\s+([0-9\-]+)|Section\s+([0-9\.]+))(?:\s*[:·]\s*)([^\n]+)\n"
-    matches = list(re.finditer(step_pattern, content))
 
-    steps = []
-    min_x, max_x = cfg["bounds"]["min"][0], cfg["bounds"]["max"][0]
-    min_z, max_z = cfg["bounds"]["min"][2], cfg["bounds"]["max"][2]
+def write_json(path, value):
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temporary = path.with_suffix(path.suffix + ".tmp")
+    temporary.write_text(json.dumps(value, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    temporary.replace(path)
 
-    # For Mastodon (Chapter 10), import the exact 47-step block coordinates if available
-    is_mastodon = (cfg["id"] == "MAS-01")
-    mastodon_step_blocks = None
-    if is_mastodon and os.path.exists("web/compile_mastodon.py"):
-        try:
-            import importlib.util
-            spec = importlib.util.spec_from_file_location("compile_mastodon", "web/compile_mastodon.py")
-            mod = importlib.util.module_from_spec(spec)
-            spec.loader.exec_module(mod)
-            mastodon_step_blocks = mod.generate_blocks_for_step
-        except Exception:
-            mastodon_step_blocks = None
 
-    for i, m in enumerate(matches):
-        step_id = m.group(1) or m.group(2) or m.group(3) or str(i + 1)
-        title = m.group(4).strip()
-        start_idx = m.end()
-        end_idx = matches[i + 1].start() if i + 1 < len(matches) else len(content)
-        body = content[start_idx:end_idx]
+def existing_registry():
+    path = DATA_DIR / "chapters.json"
+    if not path.exists():
+        return {}
+    try:
+        return {entry.get("id"): entry for entry in read_json(path) if isinstance(entry, dict)}
+    except (ValueError, TypeError):
+        return {}
 
-        level_str = determine_level(title)
-        subsystem = classify_subsystem(title + " " + body)
-        if is_mastodon:
-            try:
-                num = float(re.search(r"10\.(\d+)", step_id).group(1))
-                if num <= 5: phase_num = "10-1"
-                elif num <= 14: phase_num = "10-2"
-                elif num <= 20: phase_num = "10-3"
-                elif num <= 28: phase_num = "10-4"
-                elif num <= 36: phase_num = "10-5"
-                else: phase_num = "10-6"
-            except Exception:
-                phase_num = f"{cfg['chapter']}-{1 + (i // 8)}"
-        else:
-            phase_num = f"{cfg['chapter']}-{1 + (i // 8)}"
-        instructions = parse_instructions(body)
-        checks = parse_checks(body)
-        term_config = parse_terminal_config(body)
 
-        # Parts tray
-        tray_match = re.search(r"####\s*(?:Pre-Step\s+)?(?:Step\s+[0-9A-Za-z\.]+\s+)?Parts Tray\s*\n([\s\S]+?)(?=\n####|\n\*\*✓|\n---|```|\Z)", body)
-        parts_tray = parse_parts_tray(tray_match.group(1)) if tray_match else []
-        if not parts_tray:
-            if "macro" in title.lower():
-                parts_tray = [{ "type": "Software / Kinematics Macro", "qty": 1, "slot": 0, "massPcu": "0.0 t / 25 PCU", "note": "Kinematic supervisory configuration" }]
-            else:
-                parts_tray = [{ "type": "Armor Full Block", "qty": 4, "slot": 0, "massPcu": "1.2 t / 25 PCU", "note": "Primary section framing" }]
-
-        # Blocks generation
-        if is_mastodon and mastodon_step_blocks:
-            norm_id = f"Step 10.{step_id.replace('Step ', '').replace('10.', '')}"
-            blocks = mastodon_step_blocks(norm_id, subsystem, level_str)
-        else:
-            # Deterministic procedural coordinates for step based on section bounds
-            blocks = []
-            z_pos = int(min_z + (max_z - min_z) * (i / max(1, len(matches) - 1)))
-            lvl_num = int(re.search(r"\d+", level_str).group()) if re.search(r"\d+", level_str) else 2
-            palette_slot = 0 if subsystem == "structure" else 4 if subsystem == "conveyor" else 2 if subsystem == "power" else 8
-            shape = "conveyor" if subsystem == "conveyor" else "cube"
-            subtype = "LargeBlockArmorBlock" if cfg["grid"] == "Large" else "SmallBlockArmorBlock"
-
-            for x in range(max(min_x, -2), min(max_x + 1, 3)):
-                blocks.append({
-                    "pos": [x, lvl_num, z_pos],
-                    "shape": shape,
-                    "subtype": subtype,
-                    "paletteSlot": palette_slot,
-                    "subsystem": subsystem,
-                    "name": f"{cfg['id']} {title[:20]} [{x}, {lvl_num}, {z_pos}]"
-                })
-
-        step_dict = {
-            "step": step_id,
-            "phase": phase_num,
-            "level": level_str,
-            "title": title,
-            "subsystem": subsystem,
-            "partsTray": parts_tray,
-            "instructions": instructions,
-            "checks": checks if checks else ["Verify physical clearances and conveyor line continuity."],
-            "blocks": blocks
-        }
-        if term_config:
-            step_dict["terminalConfig"] = term_config
-
-        steps.append(step_dict)
-
-    model = {
-        "$schema": "https://json-schema.org/draft/2020-12/schema",
-        "id": cfg["id"],
-        "name": cfg["name"],
-        "chapter": cfg["chapter"],
-        "gridSize": cfg["grid"],
-        "blockMeters": cfg["blockMeters"],
-        "stats": cfg["stats"],
-        "bounds": cfg["bounds"],
-        "palette": cfg.get("palette", MASTER_PALETTE),
-        "steps": steps
+def registry_entry(model, previous):
+    stats = model["stats"]
+    return {
+        "id": model["id"],
+        "chapter": model["chapter"],
+        "chapterLabel": model.get("chapterLabel", str(model["chapter"])),
+        "name": model["name"],
+        "file": model.get("file", ""),
+        "grid": model["gridSize"],
+        "tier": model.get("tier") or previous.get(model["id"], {}).get("tier", ""),
+        "blocks": stats["totalBlocks"],
+        "mass": f'{stats["dryMassTonnes"]:.1f} t',
+        "pcu": stats["pcu"],
     }
 
-    out_file = out_json_path or os.path.join("web", "data", cfg["file"])
-    os.makedirs(os.path.dirname(out_file), exist_ok=True)
-    with open(out_file, "w", encoding="utf-8") as f:
-        json.dump(model, f, indent=2)
 
-    print(f"Successfully compiled {cfg['id']} ({len(steps)} steps) -> {out_file}")
-    return model
+def load_models():
+    paths = sorted(
+        path for path in DATA_DIR.glob("*.json")
+        if path.name != "chapters.json" and not path.name.startswith("notes_")
+    )
+    if not paths:
+        raise ValueError(f"no chapter models found in {DATA_DIR}")
+    models = []
+    for path in paths:
+        model = read_json(path)
+        model["file"] = path.name
+        models.append((path, model))
+    return models
 
-def validate_model(json_path):
-    """Validates a model JSON against schema invariants."""
-    if not os.path.exists(json_path):
-        print(f"ERROR: File not found: {json_path}")
-        return False
 
-    with open(json_path, "r", encoding="utf-8") as f:
-        try:
-            m = json.load(f)
-        except Exception as e:
-            print(f"ERROR: Invalid JSON in {json_path}: {e}")
-            return False
+def validate_all():
+    errors = []
+    seen_ids = set()
+    seen_chapters = set()
+    models = load_models()
+    for path, model in models:
+        errors.extend(validate_model(model, path))
+        if isinstance(model, dict):
+            if model.get("id") in seen_ids:
+                errors.append(f"{path}: duplicate model id {model.get('id')!r}")
+            seen_ids.add(model.get("id"))
+            if model.get("chapter") in seen_chapters:
+                errors.append(f"{path}: duplicate chapter number {model.get('chapter')!r}")
+            seen_chapters.add(model.get("chapter"))
+    return models, errors
 
-    required_keys = ["$schema", "id", "name", "chapter", "gridSize", "blockMeters", "stats", "bounds", "palette", "steps"]
-    missing = [k for k in required_keys if k not in m]
-    if missing:
-        print(f"FAIL: Missing top-level keys: {missing}")
-        return False
 
-    bounds = m["bounds"]
-    min_b = bounds["min"]
-    max_b = bounds["max"]
+def generate_registry():
+    models, errors = validate_all()
+    if errors:
+        raise ValueError("\n".join(errors))
+    previous = existing_registry()
+    entries = [registry_entry(model, previous) for _, model in models]
+    entries.sort(key=lambda entry: entry["chapter"])
+    write_json(DATA_DIR / "chapters.json", entries)
+    print(f"Validated {len(entries)} models and generated {DATA_DIR / 'chapters.json'}")
 
-    total_blocks = 0
-    oob_blocks = 0
-    invalid_palettes = 0
 
-    valid_subsystems = {"structure", "conveyor", "power", "propulsion", "avionics", "flightdeck", "boom"}
+def create_chapter(chapter, slug, model_id, name, grid, tier):
+    if chapter < 1:
+        raise ValueError("chapter number must be positive")
+    if not re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", slug):
+        raise ValueError("slug must use lowercase letters, digits, and hyphens")
+    if not re.fullmatch(r"[A-Z0-9-]+", model_id):
+        raise ValueError("model ID must contain only uppercase letters, digits, and hyphens")
+    if not name.strip():
+        raise ValueError("model name must not be empty")
+    manual_path = MANUALS_DIR / f"{chapter:02d}-{slug}.md"
+    model_path = DATA_DIR / f"{slug}.json"
+    if manual_path.exists() or model_path.exists():
+        raise ValueError(f"chapter scaffold already exists: {manual_path} or {model_path}")
+    existing_paths = (
+        path for path in DATA_DIR.glob("*.json")
+        if path.name != "chapters.json" and not path.name.startswith("notes_")
+    )
+    for existing_path in existing_paths:
+        existing_model = read_json(existing_path)
+        if existing_model.get("id") == model_id:
+            raise ValueError(f"model ID {model_id!r} already exists in {existing_path}")
+        if existing_model.get("chapter") == chapter:
+            raise ValueError(f"chapter number {chapter} already exists in {existing_path}")
+    meters = {"Large": 2.5, "Small": 0.5}[grid]
+    model = {
+        "id": model_id,
+        "name": name,
+        "chapter": chapter,
+        "chapterLabel": str(chapter),
+        "gridSize": grid,
+        "blockMeters": meters,
+        "tier": tier,
+        "stats": {
+            "totalBlocks": 0,
+            "dryMassTonnes": 0,
+            "pcu": 0,
+            "dimensionsBlocks": [0, 0, 0],
+            "dimensionsMeters": [0, 0, 0],
+        },
+        "bounds": {"min": [0, 0, 0], "max": [0, 0, 0]},
+        "palette": [],
+        "phases": [],
+        "steps": [],
+    }
+    manual = (
+        f"# Chapter {chapter} · {name}\n\n"
+        "> Canonical build prose. Use one `### Step <id> · <title>` heading for each placement step.\n"
+        "> Add explicit integer-coordinate placements to the matching `steps[].blocks` array in "
+        f"`studio/data/{slug}.json`; the compiler never invents geometry.\n\n"
+        f"### Step {chapter}.1 · First build step (L1)\n\n"
+        "#### Parts Tray\n\n"
+        "| Block | Qty | Palette | Mass / PCU | Notes |\n"
+        "|---|---:|---|---|---|\n"
+        "| Example block | 1 | Slot 0 | TBD | Replace with the authored bill of materials |\n\n"
+        "#### Placement Instructions\n\n"
+        "1. Replace this text with the canonical placement instructions.\n\n"
+        "**✓ Check:** Confirm the step matches the in-game reference.\n"
+    )
+    write_json(model_path, model)
+    manual_path.parent.mkdir(parents=True, exist_ok=True)
+    manual_path.write_text(manual, encoding="utf-8")
+    print(f"Created {manual_path} and {model_path}")
 
-    for s_idx, step in enumerate(m["steps"]):
-        for b in step["blocks"]:
-            total_blocks += 1
-            pos = b["pos"]
-            if pos[0] < min_b[0] or pos[0] > max_b[0] or \
-               pos[1] < min_b[1] or pos[1] > max_b[1] or \
-               pos[2] < min_b[2] or pos[2] > max_b[2]:
-                oob_blocks += 1
-
-            slot = b.get("paletteSlot", 0)
-            if slot < 0 or slot >= len(m["palette"]):
-                invalid_palettes += 1
-
-            sub = b.get("subsystem", "structure")
-            if sub not in valid_subsystems:
-                print(f"WARNING: Unknown subsystem '{sub}' at step {step['step']}")
-
-    print(f"Validation Result · {m['id']} ({m['name']}):")
-    print(f"  · Grid Metric: {m['gridSize']} ({m['blockMeters']} m)")
-    print(f"  · Steps: {len(m['steps'])}")
-    print(f"  · Voxel Blocks: {total_blocks}")
-    print(f"  · Out-of-Bounds Blocks: {oob_blocks}")
-    print(f"  · Palette Violations: {invalid_palettes}")
-
-    if oob_blocks > 0 or invalid_palettes > 0:
-        print("STATUS: FAILED invariants check.")
-        return False
-
-    print("STATUS: PASSED schema and spatial invariants.")
-    return True
-
-def compile_all():
-    """Compiles all registered fleet chapters and updates master registry."""
-    registry = []
-    print("Compiling all chapters in docs/rig/chapters/...")
-
-    for fname, cfg in CHAPTER_CONFIGS.items():
-        md_path = os.path.join("docs", "rig", "chapters", fname)
-        if os.path.exists(md_path):
-            m = compile_chapter(md_path, custom_cfg=cfg)
-            registry.append({
-                "id": m["id"],
-                "chapter": m["chapter"],
-                "name": m["name"],
-                "file": cfg["file"],
-                "grid": m["gridSize"],
-                "tier": cfg["tier"],
-                "blocks": m["stats"]["totalBlocks"],
-                "mass": f"{m['stats']['dryMassTonnes']} t",
-                "pcu": m["stats"]["pcu"]
-            })
-        else:
-            print(f"Notice: Chapter file {md_path} not found on disk, skipping.")
-
-    registry.sort(key=lambda x: x["chapter"])
-    reg_path = os.path.join("web", "data", "chapters.json")
-    with open(reg_path, "w", encoding="utf-8") as f:
-        json.dump(registry, f, indent=2)
-
-    print(f"Master fleet index generated with {len(registry)} models in {reg_path}")
 
 def print_stats():
-    """Prints tabular overview of all compiled fleet models."""
-    reg_path = os.path.join("web", "data", "chapters.json")
-    if not os.path.exists(reg_path):
-        print("No registry found. Run with --all first.")
-        return
+    models, errors = validate_all()
+    if errors:
+        raise ValueError("\n".join(errors))
+    print(f"Models: {len(models)}")
+    for _, model in models:
+        block_count = sum(len(step["blocks"]) for step in model["steps"])
+        print(f"{model['id']} · CH {model['chapter']}: {len(model['steps'])} steps, {block_count} placements")
 
-    with open(reg_path, "r", encoding="utf-8") as f:
-        registry = json.load(f)
-
-    print(f"{'CH':<4} | {'ID':<8} | {'NAME':<42} | {'GRID':<6} | {'BLOCKS':<7} | {'MASS':<10} | {'PCU':<6}")
-    print("-" * 92)
-    for r in registry:
-        print(f"{r['chapter']:<4} | {r['id']:<8} | {r['name'][:40]:<42} | {r['grid']:<6} | {r['blocks']:<7} | {r['mass']:<10} | {r['pcu']:<6}")
 
 def main():
-    parser = argparse.ArgumentParser(description="Space Engineers 3D Studio Chapter Indexer & Compiler")
-    parser.add_argument("path", nargs="?", help="Path to markdown instructions file (e.g. docs/rig/chapters/mastodon-instructions.md)")
-    parser.add_argument("--out", "-o", help="Custom output JSON path")
-    parser.add_argument("--all", "-a", action="store_true", help="Compile all fleet chapters and update master registry")
-    parser.add_argument("--validate", "-v", help="Validate a compiled JSON model against schema")
-    parser.add_argument("--stats", "-s", action="store_true", help="Print summary table of compiled fleet models")
-
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--validate", metavar="MODEL", help="validate one model JSON file")
+    parser.add_argument("--compile", metavar="MANUAL", help="compile manual prose into a model's matching steps")
+    parser.add_argument("--model", help="model JSON path used with --compile")
+    parser.add_argument("--all", action="store_true", help="validate all models and regenerate the chapter registry")
+    parser.add_argument("--stats", action="store_true", help="print model and placement counts")
+    parser.add_argument("--new", nargs=6, metavar=("CHAPTER", "SLUG", "ID", "NAME", "GRID", "TIER"),
+                        help="scaffold a manual and explicit-placement model source")
     args = parser.parse_args()
 
-    if args.stats:
-        print_stats()
-        return
+    try:
+        if args.new:
+            chapter, slug, model_id, name, grid, tier = args.new
+            if grid not in ("Large", "Small"):
+                raise ValueError("grid must be Large or Small")
+            create_chapter(int(chapter), slug, model_id, name, grid, tier)
+        elif args.compile:
+            if not args.model:
+                parser.error("--compile requires --model")
+            compile_manual(Path(args.compile).resolve(), Path(args.model).resolve())
+        elif args.validate:
+            path = Path(args.validate).resolve()
+            errors = validate_model(read_json(path), path)
+            if errors:
+                raise ValueError("\n".join(errors))
+            print(f"Valid model: {path}")
+        elif args.all:
+            generate_registry()
+        elif args.stats:
+            print_stats()
+        else:
+            parser.print_help()
+            return 2
+    except (OSError, ValueError, TypeError) as exc:
+        print(f"ERROR: {exc}", file=sys.stderr)
+        return 1
+    return 0
 
-    if args.validate:
-        valid = validate_model(args.validate)
-        sys.exit(0 if valid else 1)
-
-    if args.all:
-        compile_all()
-        return
-
-    if args.path:
-        compile_chapter(args.path, out_json_path=args.out)
-        return
-
-    parser.print_help()
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

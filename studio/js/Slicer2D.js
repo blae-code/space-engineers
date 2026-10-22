@@ -1,4 +1,14 @@
 export class Slicer2D {
+  static escapeXml(value) {
+    return String(value ?? '').replace(/[&<>"']/g, (character) => ({
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&apos;'
+    })[character]);
+  }
+
   static getSymbolForShape(shape, subtype = '') {
     switch (shape) {
       case 'cube':
@@ -186,18 +196,20 @@ export class Slicer2D {
           const px = padding + (b.pos[0] - minX) * cellSize;
           const py = padding + (maxZ - b.pos[2]) * cellSize;
           const slot = modelData.palette[b.paletteSlot || 0];
-          const color = slot ? slot.hex : '#42464D';
+          const color = slot && /^#[0-9A-Fa-f]{6}$/.test(slot.hex) ? slot.hex : '#42464D';
+          const name = Slicer2D.escapeXml(b.name || b.subtype || b.shape);
+          const subsystem = Slicer2D.escapeXml(b.subsystem);
 
           const isActiveStep = (sIdx === maxStepIndex);
           const strokeColor = isActiveStep ? '#1abc9c' : '#000000';
           const strokeWidth = isActiveStep ? 2 : 1;
 
-          svg += `<g class="slice-block-node" data-pos="${b.pos.join(',')}" data-name="${b.name || b.subtype || b.shape}" data-sub="${b.subsystem}">`;
+          svg += `<g class="slice-block-node" data-pos="${b.pos.join(',')}" data-name="${name}" data-sub="${subsystem}">`;
           svg += `<rect x="${px + 2}" y="${py + 2}" width="${cellSize - 4}" height="${cellSize - 4}" rx="3" fill="${color}" stroke="${strokeColor}" stroke-width="${strokeWidth}"/>`;
 
           const symbol = Slicer2D.getSymbolForShape(b.shape);
           svg += `<text x="${px + cellSize / 2}" y="${py + cellSize / 2 + 4}" fill="#f2f5f6" font-family="'Space Mono', monospace" font-size="11" font-weight="bold" text-anchor="middle" pointer-events="none">${symbol}</text>`;
-          svg += `<title>[X:${b.pos[0]}, Z:${b.pos[2]}] ${b.name || b.subtype || b.shape} (${b.subsystem})</title>`;
+          svg += `<title>[X:${b.pos[0]}, Z:${b.pos[2]}] ${name} (${subsystem})</title>`;
           svg += `</g>`;
         }
       });

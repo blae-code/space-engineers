@@ -3,6 +3,7 @@
   "id": "RIG-01",
   "name": "Floating Rig Structure (25 kt Fortress)",
   "chapter": 6,
+  "chapterLabel": "6-8",
   "gridSize": "Large",
   "blockMeters": 2.5,
   "stats": {
