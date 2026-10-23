@@ -2,7 +2,7 @@
 // Target Block: [MAS] PB Excavator
 // Grid: Large Grid Tractor Unit (MAS-01-T) · Update: Update1 / Update10
 // Subsystem Groups: MAS STAB, MAS BOOM, MAS TOOL, MAS WHEEL, MAS HITCH, MAS AIRLOCKS, MAS VENTS CABIN, MAS VENTS AIRLOCK
-// IGC Channels: TMS.MAS.STATUS, TMS.CONSIST.SYNC, TMS.CONSIST.TRACTION, TMS.CONSIST.SEVER, TMS.AIRLOCK.CYCLE, TMS.ENV.MODE
+// IGC Channels: TMS.MAS.STATUS, TMS.MAS.ORE_TARGET, TMS.CONSIST.SYNC, TMS.CONSIST.TRACTION, TMS.CONSIST.SEVER, TMS.AIRLOCK.CYCLE, TMS.ENV.MODE
 // Rule C4: Native blocks provide safety; PB provides decision & kinematic logic.
 
 using System;
@@ -155,6 +155,7 @@ namespace IngameScript
         readonly StringBuilder _sbEcho = new StringBuilder(512);
         readonly StringBuilder _sbIgc = new StringBuilder(256);
         readonly List<string> _args = new List<string>(8);
+        readonly TmsOreTargetQueue _oreTarget = new TmsOreTargetQueue();
 
         int _currentState = STATE_TRANSIT;
         int _activeMacro = MACRO_STOW;
@@ -170,6 +171,8 @@ namespace IngameScript
         bool _dpuPushActive;
         bool _sternDockExtended;
         float _vehicleSpeedKmh;
+        IMyBroadcastListener _oreTargetListener;
+        string _oreTargetStatus = "NO TARGET";
         #endregion
 
         public Program()
@@ -177,6 +180,7 @@ namespace IngameScript
             Runtime.UpdateFrequency = UpdateFrequency.Update1 | UpdateFrequency.Update10;
             LoadConfiguration();
             InitHardware();
+            _oreTargetListener = IGC.RegisterBroadcastListener(TmsProtocol.MastodonOreTargetTag);
             Echo("Excavator.Mastodon Initialized.");
         }
 
@@ -189,6 +193,7 @@ namespace IngameScript
         {
             if (!string.IsNullOrEmpty(argument))
             {
+                ProcessOreTargetMessages();
                 HandleCommand(argument);
                 return;
             }
@@ -398,8 +403,10 @@ namespace IngameScript
         #endregion
 
         #region Subsystems & Environmental Loop (10 Hz Loop)
-        void UpdateSubsystemsLoop()
+        private void UpdateSubsystemsLoop()
         {
+            ProcessOreTargetMessages();
+
             // 1. DPU Throttle Synchronization across consist drawbar
             if (_helm != null)
             {
@@ -553,6 +560,7 @@ namespace IngameScript
 
                 _currentState = STATE_EXCAVATING;
                 _macroTimer = 0.0;
+                ApplyPendingOreTarget();
             }
             else if (string.Compare(cmd, "STABILIZE", StringComparison.OrdinalIgnoreCase) == 0 || string.Compare(cmd, "LEVEL", StringComparison.OrdinalIgnoreCase) == 0)
             {
@@ -600,6 +608,47 @@ namespace IngameScript
                 LoadConfiguration();
                 InitHardware();
             }
+
+            if (_currentState != STATE_EXCAVATING)
+                ApplyPendingOreTarget();
+        }
+
+        void ProcessOreTargetMessages()
+        {
+            if (_oreTargetListener == null) return;
+            while (_oreTargetListener.HasPendingMessage)
+            {
+                MyIGCMessage message = _oreTargetListener.AcceptMessage();
+                string oreType;
+                int priority;
+                if (!TmsProtocol.TryReadOreTarget(message.Data as string, _args, out oreType,
+                    out priority))
+                {
+                    _oreTargetStatus = "INVALID";
+                    continue;
+                }
+
+                bool valid = _oreTarget.TryQueue(oreType, priority,
+                    _currentState == STATE_EXCAVATING);
+                if (valid)
+                    UpdateOreTargetStatus();
+                else
+                    _oreTargetStatus = "INVALID";
+            }
+        }
+
+        void ApplyPendingOreTarget()
+        {
+            if (_oreTarget.ApplyPending())
+                UpdateOreTargetStatus();
+        }
+
+        void UpdateOreTargetStatus()
+        {
+            if (_oreTarget.HasPending)
+                _oreTargetStatus = "PENDING";
+            else
+                _oreTargetStatus = _oreTarget.Active.OreType == "NONE" ? "CLEARED" : "ACTIVE";
         }
 
         void SetHitchClamps(bool clamp)
@@ -713,6 +762,14 @@ namespace IngameScript
             _sbEcho.Append("MASTODON-01 · EXCAVATOR KINEMATICS\n");
             _sbEcho.Append("State: ").Append(StateNames[_currentState]).Append('\n');
             _sbEcho.Append("Macro: ").Append(MacroNames[_activeMacro]).Append('\n');
+            _sbEcho.Append("Ore label: ").Append(_oreTarget.Active.OreType).Append(" P");
+            SbFormat.AppendInt(_sbEcho, _oreTarget.Active.Priority);
+            if (_oreTarget.HasPending)
+            {
+                _sbEcho.Append(" -> ").Append(_oreTarget.Pending.OreType).Append(" P");
+                SbFormat.AppendInt(_sbEcho, _oreTarget.Pending.Priority);
+            }
+            _sbEcho.Append(" (").Append(_oreTargetStatus).Append(")\n");
             _sbEcho.Append("Tool Mode: ").Append(ToolModeNames[_currentToolMode]).Append('\n');
             _sbEcho.Append("Hitch: ").Append(_hitchClampsEngaged ? "LOCKED (HIGHWAY)" : "FLEX (3-AXIS)").Append('\n');
             _sbEcho.Append("DPU Push: ").Append(_dpuPushActive ? "ACTIVE (HILL CLIMB)" : "COAST").Append('\n');

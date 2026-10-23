@@ -83,6 +83,31 @@ namespace IngameScript
             return false;
         }
 
+        public bool TryGetHighestPriorityDemand(out DemandRecord demand)
+        {
+            int bestIndex = -1;
+            for (int i = 0; i < OreCount; i++)
+            {
+                DemandRecord candidate = _records[i];
+                if (!candidate.Fresh || candidate.DeficitKg <= 0) continue;
+
+                if (bestIndex < 0 ||
+                    candidate.Priority > _records[bestIndex].Priority ||
+                    (candidate.Priority == _records[bestIndex].Priority &&
+                        candidate.DeficitKg > _records[bestIndex].DeficitKg))
+                    bestIndex = i;
+            }
+
+            if (bestIndex >= 0)
+            {
+                demand = _records[bestIndex];
+                return true;
+            }
+
+            demand = new DemandRecord();
+            return false;
+        }
+
         public bool TryGetAt(int index, out DemandRecord demand)
         {
             if (index < 0 || index >= OreCount)

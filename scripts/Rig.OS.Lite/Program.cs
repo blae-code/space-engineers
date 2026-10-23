@@ -112,6 +112,10 @@ namespace IngameScript
         float _vehicleSpeedKmh;
         string _jitStatus = "ROUTES READY";
         string _baseDemandStatus = "WAITING";
+        string _lastOreTarget = "NONE";
+        int _lastOreTargetPriority;
+        bool _oreTargetPublished;
+        string _oreTargetStatus = "WAITING";
         #endregion
 
         public Program()
@@ -151,13 +155,14 @@ namespace IngameScript
         }
 
         #region Fleet Bus & Logic Loop (10 Hz)
-        void UpdateFleetBusTick()
+        private void UpdateFleetBusTick()
         {
             _tickCounter++;
             _c2Watchdog.Tick(0.166);
             _baseDemand.Tick();
             if (_baseDemand.FreshCount == 0 && _baseDemandStatus == "LIVE")
                 _baseDemandStatus = "STALE";
+            UpdateOreTargetBroadcast();
 
             // 1. Update Asset Liveness & Stale Flagging
             for (int i = 0; i < MAX_ASSETS; i++)
@@ -343,6 +348,9 @@ namespace IngameScript
             _sbEcho.Append('/');
             SbFormat.AppendInt(_sbEcho, _baseDemand.FreshCount);
             _sbEcho.Append(" deficits/fresh");
+            _sbEcho.Append("\nOre label: ").Append(_lastOreTarget).Append(" P");
+            SbFormat.AppendInt(_sbEcho, _lastOreTargetPriority);
+            _sbEcho.Append(" · ").Append(_oreTargetStatus);
             Echo(_sbEcho.ToString());
         }
 
@@ -394,6 +402,9 @@ namespace IngameScript
             _sbLcd.Append('/');
             SbFormat.AppendInt(_sbLcd, _baseDemand.FreshCount);
             _sbLcd.Append(" deficits/fresh\n");
+            _sbLcd.Append("║ Ore label: ").Append(_lastOreTarget).Append(" P");
+            SbFormat.AppendInt(_sbLcd, _lastOreTargetPriority);
+            _sbLcd.Append(" (").Append(_oreTargetStatus).Append(")\n");
             for (int i = 0; i < TmsDemandLedger.OreCount; i++)
             {
                 TmsDemandLedger.DemandRecord demand;
@@ -414,6 +425,34 @@ namespace IngameScript
             _sbLcd.Append("╚══════════════════════════════════════════╝");
 
             _lcdBoom.WriteText(_sbLcd);
+        }
+
+        void UpdateOreTargetBroadcast()
+        {
+            TmsDemandLedger.DemandRecord demand;
+            string oreType = "NONE";
+            int priority = 0;
+            if (_baseDemand.TryGetHighestPriorityDemand(out demand))
+            {
+                oreType = demand.OreType;
+                priority = demand.Priority;
+            }
+
+            if (_oreTargetPublished && _lastOreTarget == oreType &&
+                _lastOreTargetPriority == priority)
+                return;
+
+            if (!TmsProtocol.TryWriteOreTarget(_sbIgc, oreType, priority))
+            {
+                _oreTargetStatus = "FORMAT ERROR";
+                return;
+            }
+
+            IGC.SendBroadcastMessage(TmsProtocol.MastodonOreTargetTag, _sbIgc.ToString());
+            _lastOreTarget = oreType;
+            _lastOreTargetPriority = priority;
+            _oreTargetPublished = true;
+            _oreTargetStatus = oreType == "NONE" ? "CLEARED" : "SENT";
         }
 
         void RenderFleetScreen()

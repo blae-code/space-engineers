@@ -11,6 +11,7 @@ namespace IngameScript
         public const string MuleDispatchTag = "TMS.MULE.DISPATCH";
         public const string CatDispatchTag = "TMS.CAT.DISPATCH";
         public const string BaseDemandTag = "TMS.BASE.DEMAND";
+        public const string MastodonOreTargetTag = "TMS.MAS.ORE_TARGET";
 
         public static bool TryReadHandover(string payload, out string targetNode, out string timestamp)
         {
@@ -286,6 +287,32 @@ namespace IngameScript
             return true;
         }
 
+        public static bool TryReadOreTarget(string payload, List<string> fields, out string oreType,
+            out int priority)
+        {
+            oreType = "";
+            priority = 0;
+            if (!TryReadFields(payload, fields, 3, "TARGET")) return false;
+
+            int parsedPriority;
+            if (!int.TryParse(fields[2], out parsedPriority) ||
+                !IsValidOreTarget(fields[1], parsedPriority))
+                return false;
+
+            oreType = fields[1];
+            priority = parsedPriority;
+            return true;
+        }
+
+        public static bool TryWriteOreTarget(StringBuilder buffer, string oreType, int priority)
+        {
+            if (buffer == null || !IsValidOreTarget(oreType, priority)) return false;
+
+            buffer.Clear().Append("TARGET;").Append(oreType).Append(';');
+            AppendNonNegativeInt(buffer, priority);
+            return true;
+        }
+
         static bool TryReadFields(string payload, List<string> fields, int count, string verb)
         {
             if (fields == null) return false;
@@ -317,6 +344,16 @@ namespace IngameScript
                 }
             }
             return true;
+        }
+
+        static bool IsValidOreTarget(string oreType, int priority)
+        {
+            if (string.Equals(oreType, "NONE", StringComparison.Ordinal))
+                return priority == 0;
+
+            int configuredPriority;
+            return TmsDemandMath.TryGetPriority(oreType, out configuredPriority) &&
+                priority >= 1 && priority <= 5;
         }
 
         static bool IsValidField(string value)

@@ -61,6 +61,7 @@ Autonomous operations across moving atmospheric carriers (Orca), vertical miners
 | `TMS.BASE.DEMAND` | Base C2 -> Mastodon / Orca | `DEMAND;<ore_type>;<priority:1..5>;<deficit_kg>;<target_stock_kg>` | Measured ingot reserve deficit for pull-economy planning. |
 | `TMS.LOGISTICS.JIT` | Mastodon / Base -> logistics dispatcher | `JIT;<requester_id>;<tier:AIR\|GND>;<eta_target_sec>;<ore_type>;<est_mass_kg>;<source_gps>` | Requests transport before a source hold saturates; the dispatcher emits a separate assignment with route coordinates. |
 | `TMS.MAS.STATUS` | Mastodon -> Base / Fleet | `<mastodon_id>;<state>;<active_macro>;<cargo_kg>;<rate_kg_s>;<power_mode>;<speed_kmh>` | Excavator state, cargo, extraction rate, power mode, and vehicle speed telemetry. |
+| `TMS.MAS.ORE_TARGET` | RIG//OS-Lite -> Mastodon | `TARGET;<ore_type>;<priority>` or `TARGET;NONE;0` | Demand-selected ore label only; Mastodon queues changes during excavation and applies them at a safe operator boundary. |
 | `TMS.CAT.STATUS` | Caterpillar -> Base / C2 / Mastodon | `<cat_id>;<state>;<cargo_kg>;<consist_length_b>;<dump_ready_bool>` | Land-train state, payload, consist length, and terminal unload readiness. |
 | `TMS.CONVOY.SYNC` | Mastodon -> Caterpillar | `CONVOY;<lead_id>;<speed_ms>;<heading_deg>;<ejector_active_bool>` | Synchronizes Caterpillar trailing speed behind Mastodon roadbed spreader. |
 | `TMS.ZONE.CLAIM` | Mastodon -> Peer Mastodons | `ZONE;<grid_id>;<state>;<gps_bounding_min>;<gps_bounding_max>;<macro_mode>` | Deconflicts heavy excavation envelopes in multi-rig quarry operations. |
@@ -89,8 +90,13 @@ Update100, including zero deficits. `deficit_kg` is `max(0, ceil(target_stock_kg
 Current stock sums the matching ingot subtype across inventories on the Base PB's grid only. The
 configured `IronTons` reserve is converted to kg. Current priorities are 5 for Uranium, Platinum,
 Gold, and Magnesium, and 3 for Iron. RIG//OS-Lite retains each valid entry for at most 30 Update10
-calls without refresh and displays the fresh deficits. Demand reception does not itself actuate a
-miner.
+calls without refresh and displays the fresh deficits. It selects only fresh positive deficits by
+priority descending, deficit descending, then fixed mineral order (Uranium, Platinum, Gold,
+Magnesium, Iron). Changes are broadcast on `TMS.MAS.ORE_TARGET`; `TARGET;NONE;0` clears the selected
+label when no fresh deficit remains. The label does not identify a deposit or command movement,
+boom, or tools. The operator positions Mastodon over the deposit. During excavation, Mastodon holds
+the latest update pending until the next operator-issued `MACRO` command or until it leaves
+excavation.
 
 
 ---

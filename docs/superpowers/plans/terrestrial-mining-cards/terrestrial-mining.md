@@ -10,3 +10,4 @@ execution and should each land as a separate, scoped change.
 | C35 | TMS routed dispatch contract and receivers | C34 | claude |
 | C36 | Base refinery ingot demand | C35 | claude |
 | C37 | RIG//OS-Lite demand receiver | C36 | claude |
+| C38 | Demand-selected Mastodon ore label | C37 | claude |
