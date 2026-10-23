@@ -2,7 +2,7 @@
 // Target Block: [CAT] PB Train Master
 // Grid: Large Grid (42 B Consist · 16 Wheels) · Update: Update1 + Update100
 // Subsystem Groups: CAT Train Wheels, CAT Hitches, CAT Holds, CAT Loco Power, CAT Lights
-// IGC Channels: TMS.CAT.STATUS (out), TMS.BASE.RECEIVING (in), TMS.MAST.TRANSFER (in), TMS.CONVOY.SYNC (in)
+// IGC Channels: TMS.CAT.STATUS (out), TMS.CAT.DISPATCH (in), TMS.CONVOY.SYNC (in)
 // Rule C4: Native blocks provide safety; PB provides decision logic.
 
 using System;
@@ -21,9 +21,15 @@ namespace IngameScript
         readonly StringBuilder _sbIgc = new StringBuilder(256);
         readonly List<string> _args = new List<string>(8);
         readonly HeartbeatWatchdog _watchdog = new HeartbeatWatchdog(5.0);
+        IMyBroadcastListener _dispatchListener;
         int _tickCounter;
         int _telemetryTicks;
         string _powerMode = "MODE 3: CRUISE";
+        string _assignmentState = "NONE";
+        string _destinationId = "";
+        string _destinationGps = "";
+        string _assignedOreType = "";
+        string _requestId = "";
         bool _dumpActive;
         double _grossMassKg = 368500.0;
         double _payloadOreKg;
@@ -35,6 +41,7 @@ namespace IngameScript
             Runtime.UpdateFrequency = UpdateFrequency.Update1 | UpdateFrequency.Update100;
             LoadConfiguration();
             InitHardware();
+            InitNetwork();
             Echo("Train.Caterpillar Initialized.");
         }
 
@@ -73,6 +80,7 @@ namespace IngameScript
         void UpdateTickSlow()
         {
             _telemetryTicks++;
+            ProcessInboundIgc();
             BroadcastStatus();
 
             _sbEcho.Clear();
@@ -88,6 +96,19 @@ namespace IngameScript
             SbFormat.AppendDouble(_sbEcho, _speedKmh, 1);
             _sbEcho.Append("\nDump Active: ");
             _sbEcho.Append(_dumpActive ? "TRUE" : "FALSE");
+            _sbEcho.Append("\nAssignment: ");
+            _sbEcho.Append(_assignmentState);
+            if (_assignmentState == "ASSIGNED")
+            {
+                _sbEcho.Append(" · ");
+                _sbEcho.Append(_destinationId);
+                _sbEcho.Append(" · ");
+                _sbEcho.Append(_destinationGps);
+                _sbEcho.Append(" · ");
+                _sbEcho.Append(_assignedOreType);
+                _sbEcho.Append(" · ");
+                _sbEcho.Append(_requestId);
+            }
             Echo(_sbEcho.ToString());
         }
 
@@ -143,6 +164,43 @@ namespace IngameScript
             {
                 // Parse CustomData
             }
+        }
+
+        void InitNetwork()
+        {
+            _dispatchListener = IGC.RegisterBroadcastListener(TmsProtocol.CatDispatchTag);
+        }
+
+        void ProcessInboundIgc()
+        {
+            if (_dispatchListener == null) return;
+            while (_dispatchListener.HasPendingMessage)
+            {
+                MyIGCMessage msg = _dispatchListener.AcceptMessage();
+                HandleIgcPacket(msg.Tag, msg.Data as string);
+            }
+        }
+
+        void HandleIgcPacket(string tag, string payload)
+        {
+            if (tag != TmsProtocol.CatDispatchTag || payload == null) return;
+
+            string catId;
+            string destinationId;
+            string destinationGps;
+            string oreType;
+            string requestId;
+            if (!TmsProtocol.TryReadCatRouteDispatch(payload, _args, out catId, out destinationId,
+                out destinationGps, out oreType, out requestId))
+                return;
+            if (catId != "CAT-01") return;
+
+            _destinationId = destinationId;
+            _destinationGps = destinationGps;
+            _assignedOreType = oreType;
+            _requestId = requestId;
+            _assignmentState = "ASSIGNED";
+            _watchdog.Ping();
         }
 
         void InitHardware()

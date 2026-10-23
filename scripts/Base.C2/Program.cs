@@ -2,8 +2,8 @@
 // Target Block: [GND] PB FleetOps
 // Grid: Large Grid (24 × 28 B Surface Station) · Update: Update10 + Update100
 // Subsystem Groups: GND PAD, GND CAT, GND REF, GND ASM, GND C2, GND Power Batteries
-// IGC Channels: TMS.BASE.DEMAND (out), TMS.LOGISTICS.JIT (out), RIG.C2.STATUS (out), TMS.MULE.CALL (out)
-// Incoming: TMS.C2.HANDOVER, TMS.MULE.STATUS, TMS.CAT.STATUS, TMS.MAST.STATUS, TMS.ORCA.STATUS
+// IGC Channels: TMS.LOGISTICS.JIT (in), TMS.MULE.DISPATCH / TMS.CAT.DISPATCH (out)
+// Other: TMS.BASE.DEMAND / RIG.C2.STATUS (out), TMS.C2.HANDOVER / vehicle STATUS (in)
 // Rule C4: Native blocks provide safety; PB provides decision logic.
 
 using System;
@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Text;
 using Sandbox.ModAPI.Ingame;
 using VRage.Game.ModAPI.Ingame.Utilities;
+using VRageMath;
 
 namespace IngameScript
 {
@@ -20,6 +21,8 @@ namespace IngameScript
         readonly MyIni _ini = new MyIni();
         readonly StringBuilder _sbEcho = new StringBuilder(1024);
         readonly StringBuilder _sbIgc = new StringBuilder(512);
+        readonly StringBuilder _sbGps = new StringBuilder(128);
+        readonly StringBuilder _sbRequestId = new StringBuilder(32);
         readonly List<string> _args = new List<string>(16);
         readonly HeartbeatWatchdog _watchdog = new HeartbeatWatchdog(5.0);
 
@@ -45,6 +48,7 @@ namespace IngameScript
         IMyBroadcastListener _catStatusListener;
         IMyBroadcastListener _mastStatusListener;
         IMyBroadcastListener _orcaStatusListener;
+        IMyBroadcastListener _jitListener;
 
         // Logistics & Operational Metrics
         string _mulePadStatus = "IDLE";
@@ -55,8 +59,8 @@ namespace IngameScript
         double _batteryMaxMWh = 18.0;
         int _activeRefineries;
         int _activeAssemblers;
-        bool _muleDispatchRequested;
-        bool _catDispatchRequested;
+        int _dispatchSequence;
+        string _dispatchStatus = "IDLE";
 
         // Quotas (kg target reserves)
         int _demandUraniumKg = 500;
@@ -77,8 +81,9 @@ namespace IngameScript
 
         public void Save()
         {
-            // Persist master status to Storage
-            Storage = _isC2Master ? "MASTER=1" : "MASTER=0";
+            _sbIgc.Clear().Append(_isC2Master ? "MASTER=1" : "MASTER=0").Append(";SEQ=");
+            SbFormat.AppendInt(_sbIgc, _dispatchSequence);
+            Storage = _sbIgc.ToString();
         }
 
         public void Main(string argument, UpdateType updateSource)
@@ -105,9 +110,6 @@ namespace IngameScript
             _tickFast++;
             _watchdog.Tick(1.0 / 6.0);
 
-            // Process inbound IGC packets
-            ProcessInboundIgc();
-
             // Refresh physical dock status
             RefreshDockSensors();
         }
@@ -118,13 +120,13 @@ namespace IngameScript
 
             // Assess industrial and substation telemetry
             EvaluateIndustrialGrid();
+            ProcessInboundIgc();
 
             // Broadcast demand and C2 state if master
             if (_isC2Master)
             {
                 BroadcastC2Status();
                 BroadcastBaseDemand();
-                EvaluateJitDispatch();
             }
 
             RenderEcho();
@@ -184,26 +186,6 @@ namespace IngameScript
             }
         }
 
-        void EvaluateJitDispatch()
-        {
-            // If refinery active capacity drops and stocks are needed, dispatch transport
-            if (_catDispatchRequested)
-            {
-                _sbIgc.Clear();
-                _sbIgc.Append("DISPATCH;CAT-01;TRENCH-1;BULK_ORE");
-                IGC.SendBroadcastMessage("TMS.LOGISTICS.JIT", _sbIgc.ToString());
-                _catDispatchRequested = false;
-            }
-
-            if (_muleDispatchRequested)
-            {
-                _sbIgc.Clear();
-                _sbIgc.Append("DISPATCH;MUL-01;PAD-1;RARE_ORE");
-                IGC.SendBroadcastMessage("TMS.LOGISTICS.JIT", _sbIgc.ToString());
-                _muleDispatchRequested = false;
-            }
-        }
-
         void BroadcastC2Status()
         {
             _sbIgc.Clear();
@@ -257,6 +239,7 @@ namespace IngameScript
             ProcessListener(_catStatusListener);
             ProcessListener(_mastStatusListener);
             ProcessListener(_orcaStatusListener);
+            ProcessListener(_jitListener);
         }
 
         void ProcessListener(IMyBroadcastListener listener)
@@ -292,6 +275,12 @@ namespace IngameScript
                 return;
             }
 
+            if (tag == TmsProtocol.LogisticsJitTag)
+            {
+                HandleJitRequest(payload);
+                return;
+            }
+
             IgcProtocol.Split(payload, _args);
             if (_args.Count == 0) return;
 
@@ -309,6 +298,71 @@ namespace IngameScript
             {
                 _watchdog.Ping();
             }
+        }
+
+        void HandleJitRequest(string payload)
+        {
+            if (!_isC2Master) return;
+
+            string requesterId;
+            string tier;
+            string etaSeconds;
+            string oreType;
+            string estimatedMassKg;
+            string sourceGps;
+            if (!TmsProtocol.TryReadJitRequest(payload, _args, out requesterId, out tier,
+                out etaSeconds, out oreType, out estimatedMassKg, out sourceGps))
+                return;
+            int eta;
+            int mass;
+            if (requesterId != "MAS-01" || !int.TryParse(etaSeconds, out eta) || eta < 0 ||
+                !int.TryParse(estimatedMassKg, out mass) || mass < 0 ||
+                (tier != "AIR" && tier != "GND"))
+                return;
+
+            _dispatchSequence = (_dispatchSequence == int.MaxValue) ? 1 : _dispatchSequence + 1;
+            _sbRequestId.Clear().Append("REQ-GND-01-");
+            SbFormat.AppendInt(_sbRequestId, _dispatchSequence);
+            string requestId = _sbRequestId.ToString();
+
+            if (tier == "AIR")
+            {
+                if (_padConnector == null)
+                {
+                    _dispatchStatus = "MULE ROUTE ERROR: GND PAD CONNECTOR MISSING";
+                    return;
+                }
+
+                Vector3D deliveryPosition = _padConnector.GetPosition();
+                BuildGps("GND-01", deliveryPosition, _sbGps);
+                if (!TmsProtocol.TryWriteMuleRouteDispatch(_sbIgc, "MUL-01", sourceGps,
+                    _sbGps.ToString(), oreType, requestId))
+                {
+                    _dispatchStatus = "MULE ROUTE ERROR: INVALID REQUEST";
+                    return;
+                }
+                IGC.SendBroadcastMessage(TmsProtocol.MuleDispatchTag, _sbIgc.ToString());
+                _dispatchStatus = "MULE ASSIGNED " + requestId;
+            }
+            else if (tier == "GND")
+            {
+                if (!TmsProtocol.TryWriteCatDispatch(_sbIgc, "CAT-01", requesterId, sourceGps,
+                    oreType, requestId))
+                {
+                    _dispatchStatus = "CAT ROUTE ERROR: INVALID REQUEST";
+                    return;
+                }
+                IGC.SendBroadcastMessage(TmsProtocol.CatDispatchTag, _sbIgc.ToString());
+                _dispatchStatus = "CAT ASSIGNED " + requestId;
+            }
+        }
+
+        void BuildGps(string name, Vector3D position, StringBuilder buffer)
+        {
+            buffer.Clear().Append("GPS:").Append(name).Append(':');
+            SbFormat.AppendDouble(buffer, position.X, 1).Append(':');
+            SbFormat.AppendDouble(buffer, position.Y, 1).Append(':');
+            SbFormat.AppendDouble(buffer, position.Z, 1).Append(':');
         }
 
         void HandleCommand(string argument)
@@ -331,11 +385,11 @@ namespace IngameScript
             }
             else if (string.Compare(cmd, "DISPATCH_MULE", StringComparison.OrdinalIgnoreCase) == 0)
             {
-                _muleDispatchRequested = true;
+                _dispatchStatus = "MULE DISPATCH REQUIRES A VALID JIT ROUTE";
             }
             else if (string.Compare(cmd, "DISPATCH_CAT", StringComparison.OrdinalIgnoreCase) == 0)
             {
-                _catDispatchRequested = true;
+                _dispatchStatus = "CAT DISPATCH REQUIRES A VALID JIT ROUTE";
             }
             else if (string.Compare(cmd, "DEMAND_SYNC", StringComparison.OrdinalIgnoreCase) == 0)
             {
@@ -351,8 +405,29 @@ namespace IngameScript
 
         void LoadConfiguration()
         {
-            if (Storage != null && Storage.Contains("MASTER=1"))
-                _isC2Master = true;
+            if (!string.IsNullOrEmpty(Storage))
+            {
+                IgcProtocol.Split(Storage, _args);
+                for (int i = 0; i < _args.Count; i++)
+                {
+                    if (_args[i] == "MASTER=1")
+                    {
+                        _isC2Master = true;
+                    }
+                    else if (_args[i] == "MASTER=0")
+                    {
+                        _isC2Master = false;
+                    }
+                    else if (_args[i].StartsWith("SEQ=", StringComparison.Ordinal))
+                    {
+                        int sequence;
+                        if (int.TryParse(_args[i].Substring(4), out sequence) && sequence >= 0)
+                            _dispatchSequence = sequence;
+                        else
+                            _dispatchStatus = "STORAGE ERROR: DISPATCH SEQUENCE RESET";
+                    }
+                }
+            }
 
             _ini.Clear();
             MyIniParseResult result;
@@ -407,6 +482,7 @@ namespace IngameScript
             _catStatusListener = IGC.RegisterBroadcastListener("TMS.CAT.STATUS");
             _mastStatusListener = IGC.RegisterBroadcastListener("TMS.MAS.STATUS");
             _orcaStatusListener = IGC.RegisterBroadcastListener("TMS.ORCA.STATUS");
+            _jitListener = IGC.RegisterBroadcastListener(TmsProtocol.LogisticsJitTag);
         }
 
         void RenderEcho()
@@ -433,7 +509,8 @@ namespace IngameScript
             SbFormat.AppendInt(_sbEcho, _activeRefineries);
             _sbEcho.Append(" Refineries · ");
             SbFormat.AppendInt(_sbEcho, _activeAssemblers);
-            _sbEcho.Append(" Assemblers Active");
+            _sbEcho.Append(" Assemblers Active\nDispatch: ");
+            _sbEcho.Append(_dispatchStatus);
             Echo(_sbEcho.ToString());
         }
     }

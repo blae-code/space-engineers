@@ -7,7 +7,7 @@
 * **Managed Subsystem Groups:** `MAS COMM, MAS HOLD, MAS TURRETS, MAS LIGHTS, MAS SCREENS`
 * **IGC Network Channels:**
   * Network C2: `RIG.C2.HEARTBEAT (out/in), RIG.C2.HANDOVER (out/in)`
-  * Logistics Dispatch: `TMS.LOGISTICS.JIT (out), TMS.MULE.CALL (out), TMS.CAT.CALL (out)`
+  * Logistics Dispatch: `TMS.LOGISTICS.JIT (out)`; AIR source GPS uses grid-scoped `MAS MP Conn`; GND source GPS is a coarse Mastodon PB/grid rendezvous, not a docking coordinate
   * Tactical & Defense: `TMS.DEFENSE.TARGET (out/in), TMS.METEOR.ALERT (out/in)`
   * Swarm & Tasking: `TMS.SCOUT.TASK (out), TMS.SCOUT.VEIN (in), TMS.BASE.DEMAND (in)`
   * Inbound Telemetry: `TMS.CAT.STATUS (in), TMS.MULE.STATUS (in), TMS.MAS.STATUS (in)`
@@ -20,8 +20,8 @@ Implements the expeditionary operating system `RIG//OS-Lite` for the Mastodon MK
    * Upon Ground Base commissioning, accepts `TMS.C2.HANDOVER`, transferring master scheduling to `GND-01` and transitioning to subordinate worker/FOB state (`REGIONAL_WORKER`).
 3. **Predictive JIT Logistics ($dM/dt$):**
    * Real-time extraction rate tracking ($dM/dt$ kg/s) and buffer fill time estimation.
-   * Auto-dispatches hauler transports at 75-80% capacity to eliminate excavator idle waiting.
-   * Dual-tier triage: rare minerals (U, Pt, Au, Mg) routed to `MULE-01` top-deck pad; bulk ores (Fe, Ni, Si, stone) routed to `CATERPILLAR-01` stern push-bumper.
+   * Emits validated JIT requests at 75-80% capacity; the active Ground Base C2 root converts them into separate Mule or Caterpillar assignments.
+   * Dual-tier triage: rare minerals (U, Pt, Au, Mg) route to `MUL-01` from `MAS MP Conn`; bulk ores (Fe, Ni, Si, stone) route toward `CAT-01` using a coarse Mastodon-grid rendezvous. Final vehicle movement and docking remain under their later control slices.
 4. **Demand-Driven Pull Mining:** Integrates Ground Base refinery deficit broadcasts (`TMS.BASE.DEMAND`) and tasks scout drones (`TMS.SCOUT.TASK`) to seek missing ores.
 5. **Tactical CIWS & Meteor Defense:** Coordinates shared anti-air/missile targeting mesh (`TMS.DEFENSE.TARGET`) and triggers early warning alarms upon incoming meteors.
 6. **Bridge Monospace LCD Viewports:** Monospace text ASCII HUD telemetry rendered across 3 bridge consoles (`MAS LCD Helm`, `MAS LCD Boom`, `MAS LCD Fleet`).

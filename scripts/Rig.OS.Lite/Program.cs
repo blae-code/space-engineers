@@ -79,6 +79,7 @@ namespace IngameScript
         IMyTextPanel _lcdHelm;
         IMyTextPanel _lcdBoom;
         IMyTextPanel _lcdFleet;
+        IMyShipConnector _mulePickupConnector;
 
         readonly List<IMyCargoContainer> _cargoHolds = new List<IMyCargoContainer>(4);
         readonly List<IMyLargeTurretBase> _ciwsTurrets = new List<IMyLargeTurretBase>(4);
@@ -95,6 +96,7 @@ namespace IngameScript
         readonly MyIni _ini = new MyIni();
         readonly StringBuilder _sbEcho = new StringBuilder(512);
         readonly StringBuilder _sbIgc = new StringBuilder(256);
+        readonly StringBuilder _sbGps = new StringBuilder(128);
         readonly StringBuilder _sbTimestamp = new StringBuilder(16);
         readonly StringBuilder _sbLcd = new StringBuilder(1024);
         readonly List<string> _args = new List<string>(8);
@@ -107,6 +109,7 @@ namespace IngameScript
         string _kinematicsState = "TRANSIT";
         string _kinematicsMacro = "TRAVEL_STOW";
         float _vehicleSpeedKmh;
+        string _jitStatus = "ROUTES READY";
         #endregion
 
         public Program()
@@ -220,22 +223,14 @@ namespace IngameScript
                 if (_rareOreRatio > 0.20)
                 {
                     // High-value rare ore: pre-dispatch MULE-01 to top-deck gantry
-                    _jitAirDispatched = true;
-                    _sbIgc.Clear();
-                    _sbIgc.Append("JIT;MAS-01;AIR;");
-                    SbFormat.AppendInt(_sbIgc, (int)_secondsUntilFull);
-                    _sbIgc.Append(";RARE_ORE;45000");
-                    IGC.SendBroadcastMessage("TMS.LOGISTICS.JIT", _sbIgc.ToString());
+                    _jitAirDispatched = BroadcastJitRequest(
+                        "AIR", (int)_secondsUntilFull, "RARE_ORE", 45000);
                 }
                 else
                 {
                     // Bulk ore: pre-dispatch CATERPILLAR-01 to stern bumper
-                    _jitGndDispatched = true;
-                    _sbIgc.Clear();
-                    _sbIgc.Append("JIT;MAS-01;GND;");
-                    SbFormat.AppendInt(_sbIgc, (int)_secondsUntilFull);
-                    _sbIgc.Append(";BULK_ORE;2500000");
-                    IGC.SendBroadcastMessage("TMS.LOGISTICS.JIT", _sbIgc.ToString());
+                    _jitGndDispatched = BroadcastJitRequest(
+                        "GND", (int)_secondsUntilFull, "BULK_ORE", 2500000);
                 }
             }
             else if (fillRatio < 0.20)
@@ -244,6 +239,42 @@ namespace IngameScript
                 _jitAirDispatched = false;
                 _jitGndDispatched = false;
             }
+        }
+
+        bool BroadcastJitRequest(string tier, int etaSeconds, string oreType, int estimatedMassKg)
+        {
+            Vector3D position;
+            if (tier == "AIR")
+            {
+                if (_mulePickupConnector == null || !_mulePickupConnector.IsWorking)
+                {
+                    _jitStatus = "AIR ROUTE BLOCKED: MAS MP Conn unavailable";
+                    return false;
+                }
+                position = _mulePickupConnector.GetPosition();
+            }
+            else if (tier == "GND")
+            {
+                position = Me.GetPosition();
+            }
+            else
+            {
+                _jitStatus = "JIT ROUTE BLOCKED: invalid tier";
+                return false;
+            }
+
+            _sbGps.Clear().Append("GPS:MAS-01:");
+            SbFormat.AppendDouble(_sbGps, position.X, 1).Append(':');
+            SbFormat.AppendDouble(_sbGps, position.Y, 1).Append(':');
+            SbFormat.AppendDouble(_sbGps, position.Z, 1).Append(':');
+
+            if (!TmsProtocol.TryWriteJitRequest(
+                _sbIgc, "MAS-01", tier, etaSeconds, oreType, estimatedMassKg, _sbGps.ToString()))
+                return false;
+
+            IGC.SendBroadcastMessage(TmsProtocol.LogisticsJitTag, _sbIgc.ToString());
+            _jitStatus = (tier == "AIR") ? "AIR JIT SENT" : "GROUND JIT SENT (COARSE RENDEZVOUS)";
+            return true;
         }
 
         void MonitorTacticalPerimeter()
@@ -347,6 +378,7 @@ namespace IngameScript
             _sbLcd.Append(" s\n");
             _sbLcd.Append("║ Air Pre-Call: ").Append(_jitAirDispatched ? "DISPATCHED" : "READY").Append('\n');
             _sbLcd.Append("║ Gnd Pre-Call: ").Append(_jitGndDispatched ? "DISPATCHED" : "READY").Append('\n');
+            _sbLcd.Append("║ Routes: ").Append(_jitStatus).Append('\n');
             _sbLcd.Append("╚══════════════════════════════════════════╝");
 
             _lcdBoom.WriteText(_sbLcd);
@@ -526,17 +558,12 @@ namespace IngameScript
             {
                 if (_args.Count > 1 && string.Compare(_args[1], "AIR", StringComparison.OrdinalIgnoreCase) == 0)
                 {
-                    _jitAirDispatched = true;
-                    _sbIgc.Clear();
-                    _sbIgc.Append("JIT;MAS-01;AIR;60;RARE_ORE;45000");
+                    _jitAirDispatched = BroadcastJitRequest("AIR", 60, "RARE_ORE", 45000);
                 }
                 else
                 {
-                    _jitGndDispatched = true;
-                    _sbIgc.Clear();
-                    _sbIgc.Append("JIT;MAS-01;GND;180;BULK_ORE;2500000");
+                    _jitGndDispatched = BroadcastJitRequest("GND", 180, "BULK_ORE", 2500000);
                 }
-                IGC.SendBroadcastMessage("TMS.LOGISTICS.JIT", _sbIgc.ToString());
             }
             else if (string.Compare(cmd, "TASK", StringComparison.OrdinalIgnoreCase) == 0)
             {
@@ -573,6 +600,10 @@ namespace IngameScript
 
         void InitHardware()
         {
+            _mulePickupConnector = GridTerminalSystem.GetBlockWithName("MAS MP Conn") as IMyShipConnector;
+            if (_mulePickupConnector != null && _mulePickupConnector.CubeGrid != Me.CubeGrid)
+                _mulePickupConnector = null;
+
             _lcdHelm = GridTerminalSystem.GetBlockWithName("MAS LCD Helm") as IMyTextPanel;
             if (_lcdHelm != null && _lcdHelm.CubeGrid != Me.CubeGrid) _lcdHelm = null;
             _lcdBoom = GridTerminalSystem.GetBlockWithName("MAS LCD Boom") as IMyTextPanel;

@@ -2,7 +2,7 @@
 // Target Block: [MUL] PB Shuttle
 // Grid: Large Grid (7 × 7 B) · Update: Update10 + Update100
 // Subsystem Groups: MUL Lift, MUL Maneuver, MUL Batteries, MUL Gyros, MUL Cams
-// IGC Channels: TMS.MULE.STATUS (out), TMS.MULE.CALL (in), TMS.LOGISTICS.JIT (in), TMS.MULE.DISPATCH (in)
+// IGC Channels: TMS.MULE.STATUS (out), TMS.MULE.DISPATCH (in)
 // Rule C4: Native blocks provide safety; PB provides decision logic.
 
 using System;
@@ -38,13 +38,15 @@ namespace IngameScript
         readonly List<IMyGyro> _gyros = new List<IMyGyro>(2);
 
         // IGC Listeners
-        IMyBroadcastListener _callListener;
-        IMyBroadcastListener _jitListener;
         IMyBroadcastListener _dispatchListener;
 
         // Operational State & Telemetry
         string _flightState = "IDLE_DOCKED";
+        string _pickupGps = "GPS:NONE:0:0:0:";
         string _destinationGps = "GPS:NONE:0:0:0:";
+        string _assignedPayloadType = "";
+        string _requestId = "";
+        bool _hasAssignment;
         double _grossMassKg = 157000.0;
         double _payloadOreKg;
         double _batteryStoredMWh;
@@ -91,9 +93,6 @@ namespace IngameScript
             _tickFast++;
             _watchdog.Tick(1.0 / 6.0);
 
-            // Process inbound IGC messages
-            ProcessInboundIgc();
-
             // Refresh physical dock status
             RefreshDockState();
         }
@@ -104,6 +103,8 @@ namespace IngameScript
 
             // Assess mass, payload, and energy reserves
             EvaluateShipMassAndPower();
+
+            ProcessInboundIgc();
 
             // Broadcast periodic telemetry status
             BroadcastStatus();
@@ -185,8 +186,6 @@ namespace IngameScript
             }
 
             // Process Broadcast Listeners
-            ProcessListener(_callListener);
-            ProcessListener(_jitListener);
             ProcessListener(_dispatchListener);
         }
 
@@ -202,22 +201,25 @@ namespace IngameScript
 
         void HandleIgcPacket(string tag, string payload)
         {
-            if (payload == null) return;
-            IgcProtocol.Split(payload, _args);
-            if (_args.Count == 0) return;
+            if (tag != TmsProtocol.MuleDispatchTag || payload == null) return;
 
-            if (tag == "TMS.MULE.CALL" || tag == "TMS.LOGISTICS.JIT" || tag == "TMS.MULE.DISPATCH")
-            {
-                // DISPATCH;MUL-01;pad_id;payload_type
-                if (_args.Count >= 2 && string.Compare(_args[1], "MUL-01", StringComparison.OrdinalIgnoreCase) == 0)
-                {
-                    _watchdog.Ping();
-                    if (_args.Count > 3)
-                    {
-                        _destinationGps = _args[3];
-                    }
-                }
-            }
+            string muleId;
+            string pickupGps;
+            string destinationGps;
+            string payloadType;
+            string requestId;
+            if (!TmsProtocol.TryReadMuleRouteDispatch(payload, _args, out muleId, out pickupGps,
+                out destinationGps, out payloadType, out requestId))
+                return;
+            if (muleId != "MUL-01") return;
+
+            _pickupGps = pickupGps;
+            _destinationGps = destinationGps;
+            _assignedPayloadType = payloadType;
+            _requestId = requestId;
+            _hasAssignment = true;
+            _flightState = "ASSIGNED";
+            _watchdog.Ping();
         }
 
         void HandleCommand(string argument)
@@ -360,9 +362,7 @@ namespace IngameScript
 
         void InitNetwork()
         {
-            _callListener = IGC.RegisterBroadcastListener("TMS.MULE.CALL");
-            _jitListener = IGC.RegisterBroadcastListener("TMS.LOGISTICS.JIT");
-            _dispatchListener = IGC.RegisterBroadcastListener("TMS.MULE.DISPATCH");
+            _dispatchListener = IGC.RegisterBroadcastListener(TmsProtocol.MuleDispatchTag);
         }
 
         void RenderEcho()
@@ -371,6 +371,17 @@ namespace IngameScript
             _sbEcho.Append("Drone.Mule (Shuttle) · ACTIVE\n");
             _sbEcho.Append("State: ");
             _sbEcho.Append(_flightState);
+            if (_hasAssignment)
+            {
+                _sbEcho.Append("\nRoute: ");
+                _sbEcho.Append(_pickupGps);
+                _sbEcho.Append(" → ");
+                _sbEcho.Append(_destinationGps);
+                _sbEcho.Append("\nPayload: ");
+                _sbEcho.Append(_assignedPayloadType);
+                _sbEcho.Append(" · Request: ");
+                _sbEcho.Append(_requestId);
+            }
             _sbEcho.Append("\nWatchdog: ");
             _sbEcho.Append(_watchdog.IsTimedOut ? "TIMED_OUT\n" : "SYNCED\n");
             _sbEcho.Append("Gross Mass (t): ");
