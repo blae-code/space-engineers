@@ -23,7 +23,7 @@ It is engineered simultaneously for two distinct audiences:
 * [Volume I · Terrestrial Mining Fleet (Air Tier · Fast / Rare)](#volume-i-terrestrial-mining-fleet-air-tier-fast-rare)
   * [Chapter 1 · ORCA-01 Heavy Mining Carrier (17 × 19 × 7 B)](#chapter-1-orca-01-heavy-mining-carrier)
   * [Chapter 2 · REMORA-01 Vertical Shaft Driller (11 × 11 sb)](#chapter-2-remora-01-vertical-shaft-driller)
-  * [Chapter 3 · MULE-01 Heavy Freight Shuttle (7 × 7 B)](#chapter-3-mule-01-heavy-freight-shuttle)
+  * [Chapter 3 · MULE-01 Heavy Freight Shuttle (7 × 7 × 3 B)](#chapter-3-mule-01-heavy-freight-shuttle)
   * [Chapter 12 · KESTREL-01 Prospector Scout Drone (7 × 9 × 5 sb)](#chapter-12-kestrel-01-prospector-scout-drone-kes-01)
   * [Chapter 13 · ALBATROSS-01 Utility & Field-Repair Craft (9 × 11 × 5 sb)](#chapter-13-albatross-01-utility-field-repair-craft-alb-01)
 * [Volume II · Surface Infrastructure & Industrial Core](#volume-ii-surface-infrastructure-industrial-core)
@@ -2473,6 +2473,9 @@ Each step features: an exact ASCII schematic, Spatial Locator HUD, in-game paint
 * **Mass:** Dry Mass `≈ 142.8 t` · Maximum Payload Ore `650.0 t` · Gross Laden Mass `≈ 792.8 t`.
 * **Propulsion:** Pure Electric Atmospheric (10.4 MN Downward Lift + 6.48 MN 6-Axis Maneuvering Array).
 
+> [!NOTE]
+> Dimensions and placements are provisional design intent, not a validated blueprint. The 7 × 7 × 3 B envelope is used for the model. Mass and BOM figures remain unresolved: this directive gives 142.8 t dry, a later summary gives 157.0 t, and the Studio registry reports 128.0 t with 142 blocks. Verify against a trusted blueprint or in-game build before use.
+
 ---
 
 ## 0 · Reference Grid, Coordinate System & Design Envelope
@@ -4330,18 +4333,21 @@ Each step features: an exact ASCII schematic, Spatial Locator HUD, in-game paint
 * **Mass:** Facility Structural Mass `≈ 948.5 t` · Installed Power Capacity: 30 MW Continuous Nuclear + 72 MW Battery Surge.
 * **Operating Environment:** Earth 1 g baseline, planetary surface level, quarry bench connection.
 
+> [!NOTE]
+> Dimensions, mass, BOM and placements are provisional design intent, not a validated blueprint. The 24 × 28 × 9 B envelope governs the model. Foundation coordinates use X −12..+11 and Z −14..+13 so each inclusive integer range contains exactly 24 × 28 positions. Because both footprint dimensions are even, these integer block-center bounds have a centroid at X −0.5, Z −0.5 relative to the stated X0/Z0 datum; confirm the final coordinate origin and centering against a trusted blueprint or in-game build. Verify all figures and placement geometry before use.
+
 ---
 
 ## 0 · Reference Grid, In-Game Paint Palette & Master Facility Layout
 
 ### 0.1 Coordinate Triad & Axis Conventions
 * **Origin (X0, Y0, Z0):** Geometric center of the foundation deck surface at Level L1 along centerline X0.
-* **X (Beam / Transverse):** West is negative (−), East is positive (+), Centerline is 0. Spans X −12 to +12 (24 blocks wide = 60.0 m).
+* **X (Beam / Transverse):** West is negative (−), East is positive (+), Centerline is 0. Spans X −12 to +11 (24 blocks wide = 60.0 m).
   * West Flank (C2 Tower): X −11 to −7 (5 blocks wide = 12.5 m).
   * Centerline Logistics & Process Core: X −6 to +6 (13 blocks wide = 32.5 m).
   * East Retaining Wall & Expansion Apron: X +7 to +11 (5 blocks wide = 12.5 m).
 * **Y (Elevation):** Sub-surface bedrock anchor and trench raceways are Level L0 (Y = −2.5 m); tarmac foundation surface is Level L1 (Y = 0); industrial deck midline is Level L2; C2 Bridge observation deck is Level L3; bridge ceiling is Level L4; comms spire tip is Level L9 (Y = +22.5 m).
-* **Z (Length / Longitudinal):** South (toward Extruder Ring) is negative (−), North (toward Logistics Approach) is positive (+). Spans Z −14 to +14 (28 blocks long = 70.0 m).
+* **Z (Length / Longitudinal):** South (toward Extruder Ring) is negative (−), North (toward Logistics Approach) is positive (+). Spans Z −14 to +13 (28 blocks long = 70.0 m).
   * North Logistics Apron (Mule Pad & Cat Dock): Z +6 to +13 (8 blocks length = 20.0 m).
   * Central Industrial Core (Refineries & Assemblers): Z −6 to +5 (12 blocks length = 30.0 m).
   * South Power Vault & Buffer Storage: Z −13 to −7 (7 blocks length = 17.5 m).
@@ -4701,7 +4707,7 @@ To ensure complete physical ergonomics and survivability for engineering personn
        [PHASE 4-1 SPATIAL LOCATOR HUD]
        Facility: Ground Base Foundation (GND-01)
        Envelope: 24 W × 28 L × 2 H B (60.0 × 70.0 × 5.0 m)
-       Coordinate Range: X −12 to +12, Z −14 to +14, Level L0 to L1
+       Coordinate Range: X −12 to +11, Z −14 to +13, Level L0 to L1
        Key Datums:
        · Foundation Surface Deck: Level L1 (Y = 0)
        · Sub-Surface Bedrock Trench Depth: Level L0 (Y = −2.5 m)
@@ -4721,7 +4727,7 @@ To ensure complete physical ergonomics and survivability for engineering personn
 
 ### Step 4.1 · Bedrock Plateau Excavation & Perimeter Retaining Walls (L0-L1)
 Excavate a level 60 × 70 m plateau into bedrock:
-1. Lay the perimeter retaining wall using Heavy Armor Blocks along X = ±12 (Z −14 to +14) and Z = ±14 (X −12 to +12) at Level L1.
+1. Lay the perimeter retaining wall using Heavy Armor Blocks along X = −12 and +11 (Z −14 to +13) and Z = −14 and +13 (X −12 to +11) at Level L1.
 2. Anchor corner footings 2 blocks deep into terrain (Level L0) to prevent voxel clipping or structural floating.
 3. Bevel the exterior tarmac perimeter with Heavy Armor Slopes angled 45° to provide smooth ramp transitions for ground vehicles.
 
@@ -4737,7 +4743,7 @@ Recess two longitudinal conveyor raceways beneath the tarmac deck to keep all ra
 
 ### Step 4.3 · Foundation Blast Slabs & Tarmac Deck Plating (L1)
 1. Lay reinforced Heavy Armor Blocks across the entire 24 × 28 B surface deck at Level L1, enclosing the sub-surface raceways.
-2. Leave open intake collar sockets at [X +3, Z +9] (for the Mule pad connector) and along X −4, Z +8 to +10 (for the 5× Caterpillar collectors).
+2. Leave open intake collar sockets at [X +3, Z +9] (for the Mule pad connector) and around the 5-collector cluster at [X −5, Z +8], [X −5 and −3, Z +9], and [X −5 and −3, Z +10].
 3. Paint the entire tarmac foundation Palette Slot 0 (Industrial Slate).
 
 > [!CAUTION]
@@ -4804,7 +4810,7 @@ Assemble the active landing cradle mechanism per **Decision 45**:
 1. Mount 1× Motor Hinge `GND PAD Cradle Hinge Port` at [X +1, Z +10, Level L1] with hinge pin longitudinal (Z-axis) and base facing East (+X).
 2. Mount 1× Motor Hinge `GND PAD Cradle Hinge Stbd` at [X +5, Z +10, Level L1] with hinge pin longitudinal (Z-axis) and base facing West (−X).
 3. Weld Large Magnetic Plates `GND PAD Cradle Clamp Port/Stbd` onto the hinge heads, set to `Auto-Lock = ON`.
-4. Install Sensor Block `GND PAD Sensor` at [X +3, Z +12, Level L1]. Configure detection field: 15 m radius centered 5 m above pad.
+4. Install Sensor Block `GND PAD Sensor` at [X +3, Z +12, Level L2], above the deck trench route. Configure detection field: 15 m radius centered 5 m above pad.
 
 #### Joint Tuning Sliders:
 * **Share Inertia Tensor = `ON`** on both cradle hinges.
@@ -4825,7 +4831,7 @@ Assemble the active landing cradle mechanism per **Decision 45**:
 1. Mount 5× Large Grid Collectors `GND CAT Hopper Coll 1..5` flush in the deck at Level L1, facing straight UP (+Y):
    * `COLL 1, 2`: [X −5, Z +10] and [X −3, Z +10]
    * `COLL 3, 4`: [X −5, Z +9] and [X −3, Z +9]
-   * `COLL 5`: [X −4, Z +8]
+   * `COLL 5`: [X −5, Z +8]
 2. Plumb all 5 collectors into sub-surface Trench A.
 3. Install Large Conveyor Sorter `GND CAT Sorter Bulk` downstream of the collectors at [X −4, Z +5, Level L0] with flow arrow South (−Z). Whitelist: `Iron`, `Nickel`, `Silicon`, `Cobalt`, `Stone`. Set `Drain All = ON`.
 
@@ -9338,6 +9344,9 @@ Each step features: an exact ASCII schematic, Spatial Locator HUD, in-game paint
 * **Fast-Dump Terminal Performance (Decision 51):** High-speed pressurized discharge manifold empties 2,500 t of bulk ore into Ground Base in `< 90 seconds` via stern connector and in-deck collectors.
 * **Operating Environment:** Earth 1 g baseline, surface roadbed, quarry benches, and cross-country haulage corridors.
 
+> [!NOTE]
+> Dimensions, mass, BOM and placements are provisional design intent, not a validated blueprint. The 42-block envelope governs: Z −16..+25 contains the 32 blocks of vehicle bodies, six blocks of drawbar joints, and a four-block stern terminal extension at Z −16..−13. The tender body occupies Z −12..−4. Verify the consist geometry, terminal alignment and all design figures against a trusted blueprint or in-game build.
+
 ---
 
 ## 0 · Reference Grid, In-Game Paint Palette & Master Consist Layout
@@ -9346,14 +9355,15 @@ Each step features: an exact ASCII schematic, Spatial Locator HUD, in-game paint
 * **Origin (X0, Y0, Z0):** Midpoint of the Tractor Locomotive wheelbase at Level L1, along centerline X0.
 * **X (Beam / Transverse):** Port is negative (−), Starboard is positive (+), Centerline is 0. Spans X −3.5 to +3.5 on Locomotive (7 B wide = 17.5 m) and X −2.5 to +2.5 on Hopper Cars (5 B wide = 12.5 m).
 * **Y (Elevation):** Wheel contact patch is Level L0 (Y = −1.25 m); wheel hubs and chassis box girders are Level L1 (Y = 0); cab deck and hopper midline are Level L2; hopper holds are Level L3; cab/hopper roof is Level L4 (10.0 m total height).
-* **Z (Length / Longitudinal):** Stern discharge bumper is negative (−), Bow push-bumper is positive (+). Spans Z −17 to +25 (42 blocks total = 105.0 m).
-  * Tractor Locomotive (`CAT-01-L`): Z +16 to +25 (9 blocks length = 22.5 m). Wheelbase datum Z0 is at Z +21.
-  * Drawbar Hitch 1: Z +14 to +16 (2 blocks mechanical span = 5.0 m).
-  * Hopper Car 1 (`CAT-01-C1`): Z +7 to +14 (7 blocks length = 17.5 m).
-  * Drawbar Hitch 2: Z +5 to +7 (2 blocks mechanical span = 5.0 m).
-  * Hopper Car 2 (`CAT-01-C2`): Z −2 to +5 (7 blocks length = 17.5 m).
-  * Drawbar Hitch 3: Z −4 to −2 (2 blocks mechanical span = 5.0 m).
-  * Hopper Car 3 / Tender (`CAT-01-C3`): Z −17 to −4 (9 blocks length = 22.5 m).
+* **Z (Length / Longitudinal):** Stern discharge bumper is negative (−), Bow push-bumper is positive (+). Spans Z −16 to +25 (42 blocks total = 105.0 m).
+  * Tractor Locomotive (`CAT-01-L`): Z +17 to +25 (9 blocks length = 22.5 m). Wheelbase datum Z0 is at Z +21.
+  * Drawbar Hitch 1: Z +15 to +16 (2 blocks mechanical span = 5.0 m).
+  * Hopper Car 1 (`CAT-01-C1`): Z +8 to +14 (7 blocks length = 17.5 m).
+  * Drawbar Hitch 2: Z +6 to +7 (2 blocks mechanical span = 5.0 m).
+  * Hopper Car 2 (`CAT-01-C2`): Z −1 to +5 (7 blocks length = 17.5 m).
+  * Drawbar Hitch 3: Z −3 to −2 (2 blocks mechanical span = 5.0 m).
+  * Hopper Car 3 / Tender (`CAT-01-C3`): Z −12 to −4 (9 blocks length = 22.5 m).
+  * Stern terminal extension: Z −16 to −13 (4 blocks, including the sorter, unload connector, and collision bumper).
 
 ```
 Spatial Alignment Triad:
@@ -9402,7 +9412,7 @@ To achieve a cohesive industrial locomotive aesthetic matching the Mastodon MKI 
 Level
 L4  │         [SLOT 7: NAVY CAB]               [SLOT 3: ORANGE TOP FUNNELS & CATWALKS (CAR 1-3)]
 L3  │ ═══════[SLOT 7: NAVY CAB ROOF]════════════[SLOT 3: ORANGE HOPPER CAR ARMOR CASING]══════════
-L2  │ ───────────────────[SLOT 1: CRIMSON BELTLINE STRIPE (Z +25 to Z −17)]──────────────────────
+L2  │ ───────────────────[SLOT 1: CRIMSON BELTLINE STRIPE (Z +25 to Z −16)]──────────────────────
 L1  │ ═══════[SLOT 0: INDUSTRIAL DARK GRAY CHASSIS BOX GIRDERS & WHEEL MOUNTS]════════════════════
 L0  │    (O)=======(O)       [SLOT 2: DRAWBAR]      (O)=======(O)       [SLOT 2]      (O)=======(O)
         Axle 1    Axle 2                           Axle 3    Axle 4                  Axle 5    Axle 6
@@ -9416,7 +9426,7 @@ L0  │    (O)=======(O)       [SLOT 2: DRAWBAR]      (O)=======(O)       [SLOT 
 | **Armored Driver Cab** | Slot 7 (Fleet Command Navy) | `#1B263B` | Levels L3-L4 forward cab shell, brow visor, roof crown, and rear cab bulkhead |
 | **Hopper Car Envelopes** | Slot 3 (Freight Orange) | `#D35400` | Levels L2-L4 hopper hull side plates, top funnel chamfers, and corner transitions |
 | **3-Axis Drawbar Hitches**| Slot 2 (Hazard Amber) | `#E6A100` | Levels L1-L2 articulated hinges, drawbar tongues, and magnetic clamp arms |
-| **Crash & Alignment Bumpers**| Slot 1 (Heavy Rail Crimson) | `#9E2A2B` | Bow push-bumper (Z +25) and stern terminal dump bumper (Z −17) with yellow striping |
+| **Crash & Alignment Bumpers**| Slot 1 (Heavy Rail Crimson) | `#9E2A2B` | Bow push-bumper (Z +25) and stern terminal dump bumper (Z −16) with yellow striping |
 
 ---
 
@@ -9433,30 +9443,30 @@ Z: +21   │ [LARGE BATTERY 1,2]     [SMALL REACTOR]       [LARGE BATTERY 3,4]�
 Z: +19  (O) [WH 3: DRIVE P]       [CONVEYOR SPINE]      (O) [WH 4: DRIVE S]   ◄── Axle 2 (Fixed Drive)
 Z: +17   └─────────────────────────[HITCH 1 BULKHEAD]────────────────────┘
 Z: +15   ══════════════════════════[DRAWBAR HITCH 1]══════════════════════   ◄── 3-Axis Joint 1
-Z: +14   ┌─────────────────────────[FRONT BULKHEAD]───────────────────────┐
+Z: +14   ┌─────────────────────────[CAR 1 FRONT BULKHEAD]─────────────────┐
 Z: +13  (O) [WH 5: DPU P]         [CONVEYOR RISER]      (O) [WH 6: DPU S]     ◄── Axle 3 (Hopper 1 Fwd)
-Z: +11   │ ╲                      ┌──────────────┐                      ╱ │
-Z: +10.5 │  ╲                     │  CAT HOLD 1  │                     ╱  │   ◄── Large Cargo (3×3×3 B)
-Z: +10   │   TOP FUNNEL CHUTE     │ (1,386,000 L)│     TOP FUNNEL CHUTE   │       Top Funnel Intake (L4)
+Z: +11   │  ╲                     │  CAT HOLD 1  │                     ╱  │   ◄── Large Cargo (3×3×3 B)
+Z: +12   │   TOP FUNNEL CHUTE     │ (1,386,000 L)│     TOP FUNNEL CHUTE   │       Top Funnel Intake (L4)
 Z: +8   (O) [WH 7: DPU P]         │              │      (O) [WH 8: DPU S]     ◄── Axle 4 (Hopper 1 Aft)
-Z: +7    └────────────────────────┴──────────────┴────────────────────────┘
-Z: +5    ══════════════════════════[DRAWBAR HITCH 2]══════════════════════   ◄── 3-Axis Joint 2
-Z: +4    ┌─────────────────────────[FRONT BULKHEAD]───────────────────────┐
-Z: +3   (O) [WH 9: DPU P]         [CONVEYOR RISER]      (O) [WH 10: DPU S]    ◄── Axle 5 (Hopper 2 Fwd)
-Z: +1    │ ╲                      ┌──────────────┐                      ╱ │
-Z: +0.5  │  ╲                     │  CAT HOLD 2  │                     ╱  │   ◄── Large Cargo (3×3×3 B)
-Z: 0     │   TOP FUNNEL CHUTE     │ (1,386,000 L)│     TOP FUNNEL CHUTE   │
-Z: −2   (O) [WH 11: DPU P]        │              │      (O) [WH 12: DPU S]    ◄── Axle 6 (Hopper 2 Aft)
-Z: −3    └────────────────────────┴──────────────┴────────────────────────┘
-Z: −5    ══════════════════════════[DRAWBAR HITCH 3]══════════════════════   ◄── 3-Axis Joint 3
-Z: −6    ┌─────────────────────────[FRONT BULKHEAD]───────────────────────┐
-Z: −7   (O) [WH 13: DPU P]        [CONVEYOR RISER]      (O) [WH 14: DPU S]    ◄── Axle 7 (Tender Fwd)
-Z: −9    │ ╲                      ┌──────────────┐                      ╱ │
-Z: −10.5 │  ╲                     │  CAT HOLD 3  │                     ╱  │   ◄── Large Cargo (3×3×3 B)
-Z: −11   │   TOP FUNNEL CHUTE     │ (1,386,000 L)│     TOP FUNNEL CHUTE   │
-Z: −13  (O) [WH 15: DPU P]        └──────┬───────┘      (O) [WH 16: DPU S]    ◄── Axle 8 (Tender Aft)
+Z: +8    └────────────────────────┴──────────────┴────────────────────────┘
+Z: +7    ══════════════════════════[DRAWBAR HITCH 2]══════════════════════   ◄── 3-Axis Joint 2
+Z: +5    ┌─────────────────────────[CAR 2 FRONT BULKHEAD]─────────────────┐
+Z: +4   (O) [WH 9: DPU P]         [CONVEYOR RISER]      (O) [WH 10: DPU S]    ◄── Axle 5 (Hopper 2 Fwd)
+Z: +3    │ ╲                      ┌──────────────┐                      ╱ │
+Z: +2    │  ╲                     │  CAT HOLD 2  │                     ╱  │   ◄── Large Cargo (3×3×3 B)
+Z: +1    │   TOP FUNNEL CHUTE     │ (1,386,000 L)│     TOP FUNNEL CHUTE   │
+Z: −1   (O) [WH 11: DPU P]        │              │      (O) [WH 12: DPU S]    ◄── Axle 6 (Hopper 2 Aft)
+Z: −2    ══════════════════════════[DRAWBAR HITCH 3]══════════════════════   ◄── 3-Axis Joint 3
+Z: −3    ══════════════════════════════════════════════════════════════════
+Z: −4    ┌─────────────────────────[CAR 3 FRONT BULKHEAD]─────────────────┐
+Z: −6   (O) [WH 13: DPU P]        [CONVEYOR RISER]      (O) [WH 14: DPU S]    ◄── Axle 7 (Tender Fwd)
+Z: −8    │  ╲                     │  CAT HOLD 3  │                     ╱  │   ◄── Large Cargo (3×3×3 B)
+Z: −9    │   TOP FUNNEL CHUTE     │ (1,386,000 L)│     TOP FUNNEL CHUTE   │
+Z: −10  (O) [WH 15: DPU P]        └──────┬───────┘      (O) [WH 16: DPU S]    ◄── Axle 8 (Tender Aft)
+Z: −12   └────────────────────────┴──────┴───────────────────────────┘
+Z: −13   │                    STERN TERMINAL EXTENSION                   │
 Z: −15   │                        [CAT TRAIN SORTER]                      │   ◄── Drain All = ON
-Z: −17   └────────────────────────[CAT TRAIN UNLOAD]──────────────────────┘   ◄── Stern Dump Bumper (L2)
+Z: −16   └────────────────────────[CAT TRAIN UNLOAD]──────────────────────┘   ◄── Stern Dump Bumper (L2)
 ```
 
 ---
@@ -9465,7 +9475,7 @@ Z: −17   └──────────────────────
 
 ```
 [MASTER CONSIST PROFILE ELEVATION · TOTAL LENGTH: 42 B / 105.0 m]
-      Z: +25 (Bow)      +21      +17     +14      +10.5     +7      +4       +0.5     −3      −6      −10.5    −17 (Stern)
+      Z: +25 (Bow)      +21      +17      +15      +11      +8      +6       +2      −1      −3       −8      −12    −16 (Stern)
 Level
 L4       ┌───────────────┐               ┌───────────────┐      ┌───────────────┐      ┌─────────────────────────┐
          │ INDUSTRIAL    │               │ TOP FUNNEL    │      │ TOP FUNNEL    │      │ TOP FUNNEL & CATWALK    │
@@ -9552,7 +9562,7 @@ L2  │       ┌──[CAT HITCH PITCH HINGE]──┐
 L1  │   ════╧═══════════════════════════╧════ ◄── Low-Profile Tension Drawbar Tongue
 L0  │    ◄────── 2.5 m Ground Clearance ─────►
 
-Station 4 · Hopper Car Cargo Body (Z = +10.5, Looking Stern)
+Station 4 · Hopper Car Cargo Body (Z = +11, Looking Stern)
 Level
 L4  │   ┌───╲                     ╱───┐       ◄── Heavy Armor Slopes Form 45° Top Funnel Chute
 L3  │   │    ┌───────────────────┐    │
@@ -9561,7 +9571,7 @@ L2  │   │    │ (LOGISTICS GREEN) │    │       ◄── Orange Hull Sh
 L1  │   └──┬─┴───────────────────┴─┬──┘
     │     (O) [DPU TRACTION WHEELS](O)        ◄── 5×5 Suspension Wheels (X = ±2.5)
 
-Station 5 · Stern Unload Bumper & Dump Manifold (Z = −17, Looking Bow)
+Station 5 · Stern Unload Bumper & Dump Manifold (Z = −16, Looking Bow)
 Level
 L3  │   ┌─────────────────────────────┐
     │   │ REAR COLLISION BLUNT BUMPER │       ◄── Heavy Armor Blast Doors & Crimson Slopes
@@ -9701,13 +9711,13 @@ To ensure 100% physical accessibility for survival engineers in field conditions
        [PHASE 11-1 SPATIAL LOCATOR HUD]
        Unit: Tractor Locomotive (CAT-01-L)
        Envelope: 7 W × 9 L × 2 H B (17.5 × 22.5 × 5.0 m)
-       Coordinate Range: X −3.5 to +3.5, Z +16 to +25, Level L1 to L2
+       Coordinate Range: X −3.5 to +3.5, Z +17 to +25, Level L1 to L2
        Key Datums:
        · Front Push-Bumper Datum: Z = +25, Level L1-L2
        · Rear Hitch Attachment Bulkhead: Z = +16, Level L1-L2
        · Front Steering Axle 1: Z = +23, X = ±3.5 (5×5 Wheels)
        · Rear Fixed Drive Axle 2: Z = +19, X = ±3.5 (5×5 Wheels)
-       · Chassis Centerline Box Girder: X0, Z +16 to +25
+       · Chassis Centerline Box Girder: X0, Z +17 to +25
 ```
 
 ### Pre-Step Master Parts Tray: Phase 11-1
@@ -9722,9 +9732,9 @@ To ensure 100% physical accessibility for survival engineers in field conditions
 ---
 
 ### Step 11.1 · Twin Longitudinal Box Girders & Underbody Skid Keel (L1)
-Build the primary foundation spine of the locomotive from Z +16 to +25:
-1. Lay two parallel Heavy Armor box girders at X = −2 and X = +2 spanning Z +16 to +25 at Level L1.
-2. Tie the girders together with transverse cross-beams at Z = +16, Z = +21, and Z = +25.
+Build the primary foundation spine of the locomotive from Z +17 to +25:
+1. Lay two parallel Heavy Armor box girders at X = −2 and X = +2 spanning Z +17 to +25 at Level L1.
+2. Tie the girders together with transverse cross-beams at Z = +17, Z = +21, and Z = +25.
 3. Install continuous Heavy Armor Half-Blocks along centerline X0, forming a flat underside skid plate providing 1.25 m clearance above ground.
 4. Bevel the girder outer edges using Heavy Armor Half-Slopes sloping inward toward X0.
 
@@ -9744,7 +9754,7 @@ Z: +16   ■════════════════╧═════�
 Install the primary ore transport conduit through the chassis core:
 1. Lay 7× Large Conveyor Tubes along centerline X0 from Z +17 to Z +24 at Level L1.
 2. Mount 1× Large Conveyor Junction at [X0, Z +25, L1] angled upward to feed the bow push-bumper connector.
-3. Mount 1× Large Conveyor Junction at [X0, Z +16, L2] angled aft (−Z) to feed Drawbar Hitch 1.
+3. Mount 1× Large Conveyor Junction at [X0, Z +17, L2] angled aft (−Z) to feed Drawbar Hitch 1.
 
 ---
 
@@ -9796,7 +9806,7 @@ Visual Checkpoint Silhouette (Looking Port at Locomotive Chassis L1-L2):
        [PHASE 11-2 SPATIAL LOCATOR HUD]
        Unit: Locomotive Upper Hull & Cab (CAT-01-L)
        Envelope: 7 W × 9 L × 3 H B (17.5 × 22.5 × 7.5 m)
-       Coordinate Range: X −3.5 to +3.5, Z +16 to +25, Level L2 to L4
+       Coordinate Range: X −3.5 to +3.5, Z +17 to +25, Level L2 to L4
        Key Datums:
        · Armored Cab Center: [X0, Z +22, Level L3]
        · Nuclear Reactor Vault: [X0, Z +21, Level L3]
@@ -9845,7 +9855,7 @@ Visual Checkpoint Silhouette (Looking Port at Locomotive Chassis L1-L2):
 ### Step 11.8 · Comms Mast, Roof Warning Beacon & Emergency Decouple Merge (L3-L4)
 1. Mount 1× Large Grid Radio Antenna `CAT Loco Antenna` at [X0, Z +18, Level L4]. Set broadcast range to 25,000 m.
 2. Mount 1× Rotating Warning Beacon `CAT Loco Beacon` at [X0, Z +20, Level L4]. Set color to Amber (`#E6A100`) and spin rate to 30 rpm.
-3. Install 1× Merge Block `CAT Hitch Decouple 1` at [X0, Z +16, Level L2] facing aft (−Z) to provide pyrotechnic consist emergency severance if trailers become pinned.
+3. Install 1× Merge Block `CAT Hitch Decouple 1` at [X −2, Z +16, Level L2] facing aft (−Z) to provide pyrotechnic consist emergency severance if trailers become pinned.
 
 > [!IMPORTANT]
 > **PRE-ENCLOSURE INSPECTION GATE 11.2A: CAB & POWER ACCEPTANCE**
@@ -9912,7 +9922,7 @@ Assemble the 3-axis articulated mechanical link between leading and trailing uni
 ```
 
 > [!NOTE]
-> Repeat Step 11.9 for Drawbar Hitch 2 (Z +5 to +7) and Drawbar Hitch 3 (Z −4 to −2).
+> Repeat Step 11.9 for Drawbar Hitch 2 (Z +6 to +7) and Drawbar Hitch 3 (Z −3 to −2).
 
 ---
 
@@ -9923,11 +9933,11 @@ Assemble the 3-axis articulated mechanical link between leading and trailing uni
        Unit: Modular Hopper Cars 1 & 2 (CAT-01-C1 & CAT-01-C2)
        Envelope: 5 W × 7 L × 4 H B (12.5 × 17.5 × 10.0 m per car)
        Coordinate Range:
-       · Car 1: X −2.5 to +2.5, Z +7 to +14, Level L1 to L4
-       · Car 2: X −2.5 to +2.5, Z −2 to +5, Level L1 to L4
+       · Car 1: X −2.5 to +2.5, Z +8 to +14, Level L1 to L4
+       · Car 2: X −2.5 to +2.5, Z −1 to +5, Level L1 to L4
        Hold Centroid:
-       · Car 1 Hold: [X0, Z +10.5, Level L2-L3] (Large Cargo 3×3×3 B)
-       · Car 2 Hold: [X0, Z +1.5, Level L2-L3] (Large Cargo 3×3×3 B)
+       · Car 1 Hold: [X0, Z +11, Level L2-L3] (Large Cargo 3×3×3 B)
+       · Car 2 Hold: [X0, Z +2, Level L2-L3] (Large Cargo 3×3×3 B)
 ```
 
 ### Pre-Step Master Parts Tray: Phase 11-4 (Per Hopper Car)
@@ -9941,7 +9951,7 @@ Assemble the 3-axis articulated mechanical link between leading and trailing uni
 ---
 
 ### Step 11.10 · Hopper Car 1 Chassis & DPU Traction Wheels (L1)
-1. Construct the 5 W × 7 L heavy armor chassis spanning Z +7 to +14 at Level L1.
+1. Construct the 5 W × 7 L heavy armor chassis spanning Z +8 to +14 at Level L1.
 2. Mount 2× Wheel Suspension 5×5 Left units at [X −2.5, Z +13, L1] (`WH 5: DPU P`) and [X −2.5, Z +8, L1] (`WH 7: DPU P`).
 3. Mount 2× Wheel Suspension 5×5 Right units at [X +2.5, Z +13, L1] (`WH 6: DPU S`) and [X +2.5, Z +8, L1] (`WH 8: DPU S`).
 4. Lock steering at `0.0°` (fixed straight-line tracking). Set propulsion torque to `100%` and assign to group `CAT Car Wheels`.
@@ -9949,13 +9959,13 @@ Assemble the 3-axis articulated mechanical link between leading and trailing uni
 ---
 
 ### Step 11.11 · Hopper Car 1 Large Cargo Hold & Top Funnel Chutes (L2-L4)
-1. Mount 1× Large Cargo Container `CAT Hold 1` (3×3×3 B) centered at [X0, Z +10.5, Level L2-L3]. Capacity: 1,386,000 L.
-2. Tie the forward bottom port to the inbound conveyor riser at [X0, Z +14, L2]; tie the aft bottom port to the outbound riser at [X0, Z +7, L2].
+1. Mount 1× Large Cargo Container `CAT Hold 1` (3×3×3 B) centered at [X0, Z +11, Level L2-L3]. Capacity: 1,386,000 L.
+2. Tie the forward bottom port to the inbound conveyor riser at [X0, Z +13, L2]; tie the aft bottom port to the outbound riser at [X0, Z +7, L2].
 3. Frame the container's upward-facing large port with Heavy Armor Slopes 2×1×1 angled inward at 45° painted Palette Slot 3 (Orange), forming a wide top-loading funnel chute for filling from quarry hoppers.
-4. Install side maintenance access ports on the Port sill at [X −2.5, Z +10.5, L2].
+4. Install side maintenance access ports on the Port sill at [X −2.5, Z +11, L2].
 
 > [!NOTE]
-> Repeat Steps 11.10 and 11.11 for Hopper Car 2 spanning Z −2 to +5 (`CAT Hold 2`, Axles 5 & 6, Wheels `WH 9..12`).
+> Repeat Steps 11.10 and 11.11 for Hopper Car 2 spanning Z −1 to +5 (`CAT Hold 2`, Axles 5 & 6, Wheels `WH 9..12` at Z +4 and −1; hold center [X0, Z +2]).
 
 ---
 
@@ -9965,12 +9975,13 @@ Assemble the 3-axis articulated mechanical link between leading and trailing uni
        [PHASE 11-5 SPATIAL LOCATOR HUD]
        Unit: Hopper Car 3 / Tender (CAT-01-C3)
        Envelope: 5 W × 9 L × 4 H B (12.5 × 22.5 × 10.0 m)
-       Coordinate Range: X −2.5 to +2.5, Z −17 to −8, Level L1 to L4
+       Coordinate Range: X −2.5 to +2.5, Z −12 to −4, Level L1 to L4
        Key Datums:
-       · Car 3 Hold Centroid: [X0, Z −11.5, Level L2-L3]
+       · Car 3 Hold Centroid: [X0, Z −8, Level L2-L3]
        · Sorter Discharge Pump: [X0, Z −15, Level L2]
-       · Stern Unload Connector: [X0, Z −17, Level L2] (Height: 2.5 m)
-       · Collision Push-Bumper: Z = −17, Level L1-L2
+       · Stern Terminal Extension: Z −16 to −13 (4 B)
+       · Stern Unload Connector: [X0, Z −16, Level L2] (Height: 2.5 m)
+       · Collision Push-Bumper: Z = −16, Level L1-L2
 ```
 
 ### Pre-Step Master Parts Tray: Phase 11-5
@@ -9984,9 +9995,9 @@ Assemble the 3-axis articulated mechanical link between leading and trailing uni
 ---
 
 ### Step 11.12 · Tender Hold 3 & DPU Axles 7 & 8 (L1-L3)
-1. Build the extended 5 W × 9 L chassis spanning Z −17 to −8 at Level L1.
-2. Install Axles 7 and 8 with 4× 5×5 suspension wheels (`WH 13..16`) at Z = −9 and Z = −13. Configure for 100% propulsion assist.
-3. Mount Large Cargo Container `CAT Hold 3` centered at [X0, Z −11.5, Level L2-L3].
+1. Build the extended 5 W × 9 L chassis spanning Z −12 to −4 at Level L1.
+2. Install Axles 7 and 8 with 4× 5×5 suspension wheels (`WH 13..16`) at Z = −6 and Z = −10. Configure for 100% propulsion assist.
+3. Mount Large Cargo Container `CAT Hold 3` centered at [X0, Z −8, Level L2-L3].
 4. Install top funnel chutes and catwalk framing matching Cars 1 and 2.
 
 ---
@@ -9995,13 +10006,13 @@ Assemble the 3-axis articulated mechanical link between leading and trailing uni
 Install the automated terminal dump system:
 1. Mount 1× Large Conveyor Sorter `CAT Train Sorter` horizontally at [X0, Z −15, Level L2] with flow arrow pointing stern (−Z).
 2. Configure sorter whitelist with bulk minerals: `Iron`, `Nickel`, `Silicon`, `Cobalt`, `Magnesium`, and `Stone`. Set `Drain All = OFF` by default (triggered by docking EC).
-3. Mount 1× Large Connector `CAT Train Unload Conn` at [X0, Z −17, Level L2] facing stern (−Z), plumbed directly to the sorter outlet. Centerline height: exactly 2.5 m above tarmac.
+3. Mount 1× Large Connector `CAT Train Unload Conn` at [X0, Z −16, Level L2] facing stern (−Z), plumbed directly to the sorter outlet. Centerline height: exactly 2.5 m above tarmac.
 4. Mount Event Controller `CAT EC Dump` adjacent to the sorter at [X −1, Z −15, L2].
 
 ---
 
 ### Step 11.14 · Heavy Collision Bumper & Ground Base Alignment Horns (L1-L2)
-1. Across the rear transom (Z = −17, Level L1-L2), weld Heavy Armor Blast Door Blocks painted Palette Slot 1 (Crimson).
+1. Across the rear transom (Z = −16, Level L1-L2), weld Heavy Armor Blast Door Blocks painted Palette Slot 1 (Crimson).
 2. Install Heavy Armor Corner 2×1×1 slopes at X = ±2, forming rigid guide wedges angled aft (−Z) to absorb docking kinetic shock and funnel the connector into the Ground Base receiving dock.
 3. Install yellow warning chevrons (Palette Slot 9) across the bumper face.
 
@@ -10046,7 +10057,7 @@ Install the automated terminal dump system:
 * `CAT Hitch Clamp Port/Stbd 1..3` : Magnetic anti-sway stabilizer clamps on drawbars.
 * `CAT Hold 1, 2, 3` : Large Cargo Containers in Hoppers 1, 2, and 3 [Level L2-L3].
 * `CAT Train Sorter` : Large Conveyor Sorter on tender rear manifold [X0, Z −15, L2].
-* `CAT Train Unload Conn` : Large Connector on stern bumper [X0, Z −17, L2].
+* `CAT Train Unload Conn` : Large Connector on stern bumper [X0, Z −16, L2].
 * `CAT EC Dump` : Event Controller automating terminal fast-dump sequence.
 * `CAT EC AntiJackknife` : Event Controller automating speed-based drawbar damping.
 * `CAT EC Traction` : Event Controller modulating DPU wheel torque based on payload mass.

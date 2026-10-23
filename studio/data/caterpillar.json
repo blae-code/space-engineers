@@ -12,19 +12,24 @@
     "dimensionsBlocks": [
       7,
       42,
-      5
+      4
+    ],
+    "dimensionsMeters": [
+      17.5,
+      105.0,
+      10.0
     ]
   },
   "bounds": {
     "min": [
       -3,
       1,
-      -21
+      -16
     ],
     "max": [
       3,
-      5,
-      21
+      4,
+      25
     ]
   },
   "palette": [
@@ -148,82 +153,290 @@
       "subsystem": "structure",
       "partsTray": [
         {
-          "type": "Armor Full Block",
+          "type": "Preview placement: HeavyArmorHalfSlope",
           "qty": 5,
           "slot": 0,
-          "mass": 1.2,
-          "note": "Primary section module"
+          "note": "Authored placements only; not a complete BOM."
+        },
+        {
+          "type": "Preview placement: LargeHeavyBlockArmorBlock",
+          "qty": 13,
+          "slot": 0,
+          "note": "Authored placements only; not a complete BOM."
         }
       ],
       "instructions": [
-        "Lay two parallel Heavy Armor box girders at X = \u22122 and X = +2 spanning Z +16 to +25 at Level L1.",
-        "Tie the girders together with transverse cross-beams at Z = +16, Z = +21, and Z = +25.",
+        "Build the primary foundation spine of the locomotive from Z +17 to +25 at Level L1.",
+        "Lay two parallel Heavy Armor box girders at X = −2 and X = +2 spanning Z +17 to +25 at Level L1.",
+        "Tie the girders together with transverse cross-beams at Z = +17, Z = +21, and Z = +25.",
         "Install continuous Heavy Armor Half-Blocks along centerline X0, forming a flat underside skid plate providing 1.25 m clearance above ground.",
         "Bevel the girder outer edges using Heavy Armor Half-Slopes sloping inward toward X0."
       ],
       "checks": [
-        "Verify physical clearances and continuous conveyor flow."
+        "Check both box girders are tied at Z +17, +21, and +25, with the center keel clear of the conveyor spine."
       ],
       "blocks": [
         {
           "pos": [
             -2,
-            2,
-            -21
+            1,
+            17
           ],
           "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
+          "subtype": "LargeHeavyBlockArmorBlock",
           "paletteSlot": 0,
           "subsystem": "structure",
-          "name": "CAT-01 Twin Longitudinal Bo [-2, 2, -21]"
+          "name": "CAT Loco Box Girder Port Z17",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.1 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
-            -1,
-            2,
-            -21
+            -2,
+            1,
+            19
           ],
           "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
+          "subtype": "LargeHeavyBlockArmorBlock",
           "paletteSlot": 0,
           "subsystem": "structure",
-          "name": "CAT-01 Twin Longitudinal Bo [-1, 2, -21]"
+          "name": "CAT Loco Box Girder Port Z19",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.1 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
-            0,
-            2,
-            -21
+            -2,
+            1,
+            21
           ],
           "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
+          "subtype": "LargeHeavyBlockArmorBlock",
           "paletteSlot": 0,
           "subsystem": "structure",
-          "name": "CAT-01 Twin Longitudinal Bo [0, 2, -21]"
+          "name": "CAT Loco Box Girder Port Z21",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.1 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -2,
+            1,
+            23
+          ],
+          "shape": "cube",
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "CAT Loco Box Girder Port Z23",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.1 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -2,
+            1,
+            25
+          ],
+          "shape": "cube",
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "CAT Loco Box Girder Port Z25",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.1 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            2,
+            1,
+            17
+          ],
+          "shape": "cube",
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "CAT Loco Box Girder Stbd Z17",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.1 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            2,
+            1,
+            19
+          ],
+          "shape": "cube",
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "CAT Loco Box Girder Stbd Z19",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.1 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            2,
+            1,
+            21
+          ],
+          "shape": "cube",
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "CAT Loco Box Girder Stbd Z21",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.1 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            2,
+            1,
+            23
+          ],
+          "shape": "cube",
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "CAT Loco Box Girder Stbd Z23",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.1 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            2,
+            1,
+            25
+          ],
+          "shape": "cube",
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "CAT Loco Box Girder Stbd Z25",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.1 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
             1,
-            2,
-            -21
+            1,
+            17
           ],
           "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
+          "subtype": "LargeHeavyBlockArmorBlock",
           "paletteSlot": 0,
           "subsystem": "structure",
-          "name": "CAT-01 Twin Longitudinal Bo [1, 2, -21]"
+          "name": "CAT Loco Cross Tie Z17",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.1 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
-            2,
-            2,
-            -21
+            1,
+            1,
+            21
           ],
           "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
+          "subtype": "LargeHeavyBlockArmorBlock",
           "paletteSlot": 0,
           "subsystem": "structure",
-          "name": "CAT-01 Twin Longitudinal Bo [2, 2, -21]"
+          "name": "CAT Loco Cross Tie Z21",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.1 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            1,
+            1,
+            25
+          ],
+          "shape": "cube",
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "CAT Loco Cross Tie Z25",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.1 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -1,
+            1,
+            18
+          ],
+          "shape": "halfslope",
+          "subtype": "HeavyArmorHalfSlope",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "CAT Loco Inboard Keel Bevel -1 18",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 11.1 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.1 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -1,
+            1,
+            21
+          ],
+          "shape": "halfslope",
+          "subtype": "HeavyArmorHalfSlope",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "CAT Loco Inboard Keel Bevel -1 21",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 11.1 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.1 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -1,
+            1,
+            24
+          ],
+          "shape": "halfslope",
+          "subtype": "HeavyArmorHalfSlope",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "CAT Loco Inboard Keel Bevel -1 24",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 11.1 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.1 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            1,
+            1,
+            18
+          ],
+          "shape": "halfslope",
+          "subtype": "HeavyArmorHalfSlope",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "CAT Loco Inboard Keel Bevel 1 18",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 11.1 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.1 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            1,
+            1,
+            24
+          ],
+          "shape": "halfslope",
+          "subtype": "HeavyArmorHalfSlope",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "CAT Loco Inboard Keel Bevel 1 24",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 11.1 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.1 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         }
       ]
     },
@@ -235,167 +448,241 @@
       "subsystem": "conveyor",
       "partsTray": [
         {
-          "type": "Armor Full Block",
-          "qty": 5,
-          "slot": 0,
-          "mass": 1.2,
-          "note": "Primary section module"
+          "type": "Preview placement: LargeBlockConveyor",
+          "qty": 1,
+          "slot": 4,
+          "note": "Authored placements only; not a complete BOM."
+        },
+        {
+          "type": "Preview placement: LargeBlockConveyorTube",
+          "qty": 8,
+          "slot": 4,
+          "note": "Authored placements only; not a complete BOM."
         }
       ],
       "instructions": [
-        "Lay 7\u00d7 Large Conveyor Tubes along centerline X0 from Z +17 to Z +24 at Level L1.",
-        "Mount 1\u00d7 Large Conveyor Junction at [X0, Z +25, L1] angled upward to feed the bow push-bumper connector.",
-        "Mount 1\u00d7 Large Conveyor Junction at [X0, Z +16, L2] angled aft (\u2212Z) to feed Drawbar Hitch 1."
+        "Lay 7× Large Conveyor Tubes along centerline X0 from Z +17 to Z +24 at Level L1.",
+        "Mount 1× Large Conveyor Junction at [X0, Z +25, L1] angled upward to feed the bow push-bumper connector.",
+        "Mount 1× Large Conveyor Junction at [X0, Z +16, L2] angled aft (−Z) to feed Drawbar Hitch 1."
       ],
       "checks": [
-        "Verify physical clearances and continuous conveyor flow."
+        "Verify the center conveyor run is continuous and both bow and aft junctions meet their specified interfaces."
       ],
       "blocks": [
         {
           "pos": [
-            -2,
-            3,
-            -18
+            0,
+            1,
+            17
           ],
           "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
+          "subtype": "LargeBlockConveyorTube",
           "paletteSlot": 4,
           "subsystem": "conveyor",
-          "name": "CAT-01 Central Conveyor Rac [-2, 3, -18]"
-        },
-        {
-          "pos": [
-            -1,
-            3,
-            -18
-          ],
-          "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
-          "subsystem": "conveyor",
-          "name": "CAT-01 Central Conveyor Rac [-1, 3, -18]"
+          "name": "CAT Loco Conveyor Spine Z17",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.2 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
             0,
-            3,
-            -18
-          ],
-          "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
-          "subsystem": "conveyor",
-          "name": "CAT-01 Central Conveyor Rac [0, 3, -18]"
-        },
-        {
-          "pos": [
             1,
-            3,
-            -18
+            18
           ],
           "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
+          "subtype": "LargeBlockConveyorTube",
           "paletteSlot": 4,
           "subsystem": "conveyor",
-          "name": "CAT-01 Central Conveyor Rac [1, 3, -18]"
+          "name": "CAT Loco Conveyor Spine Z18",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.2 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
-            2,
-            3,
-            -18
+            0,
+            1,
+            19
           ],
           "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
+          "subtype": "LargeBlockConveyorTube",
           "paletteSlot": 4,
           "subsystem": "conveyor",
-          "name": "CAT-01 Central Conveyor Rac [2, 3, -18]"
+          "name": "CAT Loco Conveyor Spine Z19",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.2 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            0,
+            1,
+            20
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockConveyorTube",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "CAT Loco Conveyor Spine Z20",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.2 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            0,
+            1,
+            21
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockConveyorTube",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "CAT Loco Conveyor Spine Z21",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.2 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            0,
+            1,
+            22
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockConveyorTube",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "CAT Loco Conveyor Spine Z22",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.2 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            0,
+            1,
+            23
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockConveyorTube",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "CAT Loco Conveyor Spine Z23",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.2 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            0,
+            1,
+            24
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockConveyorTube",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "CAT Loco Conveyor Spine Z24",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.2 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            0,
+            2,
+            17
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockConveyor",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "CAT Loco Aft Hitch Junction",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.2 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         }
       ]
     },
     {
       "step": "11.3",
       "phase": "11-1",
-      "title": "5\u00d75 Suspension Wheel Mounts & Axles 1 & 2 Geometry (L1)",
+      "title": "5×5 Suspension Wheel Mounts & Axles 1 & 2 Geometry (L1)",
       "level": "L4",
       "subsystem": "propulsion",
       "partsTray": [
         {
-          "type": "Armor Full Block",
-          "qty": 5,
+          "type": "Preview placement: LargeBlockWheelSuspension5x5",
+          "qty": 4,
           "slot": 0,
-          "mass": 1.2,
-          "note": "Primary section module"
+          "note": "Authored placements only; not a complete BOM."
         }
       ],
       "instructions": [
-        "Mount 2\u00d7 Wheel Suspension 5\u00d75 Left units on the Port chassis sill at [X \u22123, Z +23, L1] (`WH 1: Steer P`) and [X \u22123, Z +19, L1] (`WH 3: Drive P`), facing outward (\u2212X).",
-        "Mount 2\u00d7 Wheel Suspension 5\u00d75 Right units on the Starboard sill at [X +3, Z +23, L1] (`WH 2: Steer S`) and [X +3, Z +19, L1] (`WH 4: Drive S`), facing outward (+X).",
+        "Mount 2× Wheel Suspension 5×5 Left units on the Port chassis sill at [X −3, Z +23, L1] (`WH 1: Steer P`) and [X −3, Z +19, L1] (`WH 3: Drive P`), facing outward (−X).",
+        "Mount 2× Wheel Suspension 5×5 Right units on the Starboard sill at [X +3, Z +23, L1] (`WH 2: Steer S`) and [X +3, Z +19, L1] (`WH 4: Drive S`), facing outward (+X).",
         "Ensure suspension stators orient with steering pivot pins strictly vertical (Y-axis)."
       ],
       "checks": [
-        "Verify physical clearances and continuous conveyor flow."
+        "Check all four suspension units are mounted at the locomotive wheelbase positions with steering pins vertical."
       ],
       "blocks": [
         {
           "pos": [
-            -2,
-            4,
-            -15
-          ],
-          "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 8,
-          "subsystem": "propulsion",
-          "name": "CAT-01 5\u00d75 Suspension Wheel [-2, 4, -15]"
-        },
-        {
-          "pos": [
-            -1,
-            4,
-            -15
-          ],
-          "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 8,
-          "subsystem": "propulsion",
-          "name": "CAT-01 5\u00d75 Suspension Wheel [-1, 4, -15]"
-        },
-        {
-          "pos": [
-            0,
-            4,
-            -15
-          ],
-          "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 8,
-          "subsystem": "propulsion",
-          "name": "CAT-01 5\u00d75 Suspension Wheel [0, 4, -15]"
-        },
-        {
-          "pos": [
+            -3,
             1,
-            4,
-            -15
+            23
           ],
-          "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 8,
+          "shape": "wheel5x5",
+          "subtype": "LargeBlockWheelSuspension5x5",
+          "paletteSlot": 0,
           "subsystem": "propulsion",
-          "name": "CAT-01 5\u00d75 Suspension Wheel [1, 4, -15]"
+          "name": "CAT WH 1 Steer P",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 11.3 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.3 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
-            2,
-            4,
-            -15
+            3,
+            1,
+            23
           ],
-          "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 8,
+          "shape": "wheel5x5",
+          "subtype": "LargeBlockWheelSuspension5x5",
+          "paletteSlot": 0,
           "subsystem": "propulsion",
-          "name": "CAT-01 5\u00d75 Suspension Wheel [2, 4, -15]"
+          "name": "CAT WH 2 Steer S",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 11.3 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.3 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -3,
+            1,
+            19
+          ],
+          "shape": "wheel5x5",
+          "subtype": "LargeBlockWheelSuspension5x5",
+          "paletteSlot": 0,
+          "subsystem": "propulsion",
+          "name": "CAT WH 3 Drive P",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 11.3 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.3 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            3,
+            1,
+            19
+          ],
+          "shape": "wheel5x5",
+          "subtype": "LargeBlockWheelSuspension5x5",
+          "paletteSlot": 0,
+          "subsystem": "propulsion",
+          "name": "CAT WH 4 Drive S",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 11.3 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.3 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         }
       ]
     },
@@ -407,169 +694,310 @@
       "subsystem": "conveyor",
       "partsTray": [
         {
-          "type": "Armor Full Block",
-          "qty": 5,
+          "type": "Preview placement: HeavyArmorHalfSlope",
+          "qty": 4,
           "slot": 0,
-          "mass": 1.2,
-          "note": "Primary section module"
+          "note": "Authored placements only; not a complete BOM."
+        },
+        {
+          "type": "Preview placement: LargeBlockArmorBlock",
+          "qty": 6,
+          "slot": 9,
+          "note": "Authored placements only; not a complete BOM."
         }
       ],
       "instructions": [
-        "Mount Heavy Armor Half-Blocks directly above each 5\u00d75 wheel hub at X = \u00b13 to \u00b14, Level L2.",
-        "Cap the outer mudguard sills with Heavy Armor Half-Slopes angled 45\u00b0 downward, protecting suspension stators from flying ballast stone.",
-        "Lay catwalk plates along X = \u00b13.5 between the wheel arches to create continuous side running boards for engineer access."
+        "Mount Heavy Armor Half-Blocks directly above each 5×5 wheel hub at X = ±3 to ±4, Level L2.",
+        "Cap the outer mudguard sills with Heavy Armor Half-Slopes angled 45° downward, protecting suspension stators from flying ballast stone.",
+        "Lay catwalk plates along X = ±3.5 between the wheel arches to create continuous side running boards for engineer access."
       ],
       "checks": [
-        "Subgrid dry mass verified: `\u2248 148.2 t`.",
-        "1.25 m belly skid clearance maintained under full suspension compression."
+        "Confirm the wheel-arch armor clears each suspension and the side running boards remain continuous."
       ],
       "blocks": [
         {
           "pos": [
-            -2,
+            -3,
             2,
-            -12
+            19
           ],
-          "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
-          "subsystem": "conveyor",
-          "name": "CAT-01 Flared Wheel Arch Mu [-2, 2, -12]"
+          "shape": "halfslope",
+          "subtype": "HeavyArmorHalfSlope",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "CAT Loco Wheel Arch -3 Z19",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 11.4 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.4 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
-            -1,
+            -3,
             2,
-            -12
+            23
           ],
-          "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
-          "subsystem": "conveyor",
-          "name": "CAT-01 Flared Wheel Arch Mu [-1, 2, -12]"
+          "shape": "halfslope",
+          "subtype": "HeavyArmorHalfSlope",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "CAT Loco Wheel Arch -3 Z23",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 11.4 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.4 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
-            0,
+            3,
             2,
-            -12
+            19
           ],
-          "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
-          "subsystem": "conveyor",
-          "name": "CAT-01 Flared Wheel Arch Mu [0, 2, -12]"
+          "shape": "halfslope",
+          "subtype": "HeavyArmorHalfSlope",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "CAT Loco Wheel Arch 3 Z19",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 11.4 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.4 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
-            1,
+            3,
             2,
-            -12
+            23
           ],
-          "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
-          "subsystem": "conveyor",
-          "name": "CAT-01 Flared Wheel Arch Mu [1, 2, -12]"
+          "shape": "halfslope",
+          "subtype": "HeavyArmorHalfSlope",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "CAT Loco Wheel Arch 3 Z23",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 11.4 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.4 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
+            -3,
             2,
-            2,
-            -12
+            20
           ],
-          "shape": "conveyor",
+          "shape": "catwalk",
           "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
-          "subsystem": "conveyor",
-          "name": "CAT-01 Flared Wheel Arch Mu [2, 2, -12]"
+          "paletteSlot": 9,
+          "subsystem": "structure",
+          "name": "CAT Loco Running Board -3 Z20",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.4 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -3,
+            2,
+            21
+          ],
+          "shape": "catwalk",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 9,
+          "subsystem": "structure",
+          "name": "CAT Loco Running Board -3 Z21",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.4 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -3,
+            2,
+            22
+          ],
+          "shape": "catwalk",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 9,
+          "subsystem": "structure",
+          "name": "CAT Loco Running Board -3 Z22",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.4 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            3,
+            2,
+            20
+          ],
+          "shape": "catwalk",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 9,
+          "subsystem": "structure",
+          "name": "CAT Loco Running Board 3 Z20",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.4 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            3,
+            2,
+            21
+          ],
+          "shape": "catwalk",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 9,
+          "subsystem": "structure",
+          "name": "CAT Loco Running Board 3 Z21",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.4 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            3,
+            2,
+            22
+          ],
+          "shape": "catwalk",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 9,
+          "subsystem": "structure",
+          "name": "CAT Loco Running Board 3 Z22",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.4 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         }
       ]
     },
     {
       "step": "11.5",
       "phase": "11-1",
-      "title": "Nuclear Power Core & 4\u00d7 Large Battery Vault (L2-L3)",
+      "title": "Nuclear Power Core & 4× Large Battery Vault (L2-L3)",
       "level": "L3",
       "subsystem": "conveyor",
       "partsTray": [
         {
-          "type": "Armor Full Block",
-          "qty": 5,
-          "slot": 0,
-          "mass": 1.2,
-          "note": "Primary section module"
+          "type": "Preview placement: LargeBlockBatteryBlock",
+          "qty": 4,
+          "slot": 6,
+          "note": "Authored placements only; not a complete BOM."
+        },
+        {
+          "type": "Preview placement: LargeBlockSmallGenerator",
+          "qty": 1,
+          "slot": 6,
+          "note": "Authored placements only; not a complete BOM."
+        },
+        {
+          "type": "Preview placement: LargeHeavyBlockArmorBlock",
+          "qty": 2,
+          "slot": 6,
+          "note": "Authored placements only; not a complete BOM."
         }
       ],
       "instructions": [
-        "Mount 1\u00d7 Small Nuclear Reactor `CAT Loco Reactor` centered at [X0, Z +21, Level L3] directly over the conveyor spine junction.",
-        "Install 2\u00d7 Large Batteries `CAT Loco Battery 1, 2` on the Port flank at [X \u22122, Z +21, Level L2-L3].",
-        "Install 2\u00d7 Large Batteries `CAT Loco Battery 3, 4` on the Starboard flank at [X +2, Z +21, Level L2-L3].",
+        "Mount 1× Small Nuclear Reactor `CAT Loco Reactor` centered at [X0, Z +21, Level L3] directly over the conveyor spine junction.",
+        "Install 2× Large Batteries `CAT Loco Battery 1, 2` on the Port flank at [X −2, Z +21, Level L2-L3].",
+        "Install 2× Large Batteries `CAT Loco Battery 3, 4` on the Starboard flank at [X +2, Z +21, Level L2-L3].",
         "Enclose the power vault with Heavy Armor Blocks painted Palette Slot 6 (High-Voltage Red)."
       ],
       "checks": [
-        "Verify physical clearances and continuous conveyor flow."
+        "Verify the reactor and four-battery vault have clear service access and connect to the power/conveyor core."
       ],
       "blocks": [
         {
           "pos": [
-            -2,
-            3,
-            -9
-          ],
-          "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
-          "subsystem": "conveyor",
-          "name": "CAT-01 Nuclear Power Core & [-2, 3, -9]"
-        },
-        {
-          "pos": [
-            -1,
-            3,
-            -9
-          ],
-          "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
-          "subsystem": "conveyor",
-          "name": "CAT-01 Nuclear Power Core & [-1, 3, -9]"
-        },
-        {
-          "pos": [
             0,
             3,
-            -9
+            21
           ],
-          "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
-          "subsystem": "conveyor",
-          "name": "CAT-01 Nuclear Power Core & [0, 3, -9]"
+          "shape": "reactor",
+          "subtype": "LargeBlockSmallGenerator",
+          "paletteSlot": 6,
+          "subsystem": "power",
+          "name": "CAT Loco Reactor",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.5 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
-            1,
-            3,
-            -9
+            -2,
+            2,
+            20
           ],
-          "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
-          "subsystem": "conveyor",
-          "name": "CAT-01 Nuclear Power Core & [1, 3, -9]"
+          "shape": "battery",
+          "subtype": "LargeBlockBatteryBlock",
+          "paletteSlot": 6,
+          "subsystem": "power",
+          "name": "CAT Loco Battery 1",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.5 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -2,
+            2,
+            21
+          ],
+          "shape": "battery",
+          "subtype": "LargeBlockBatteryBlock",
+          "paletteSlot": 6,
+          "subsystem": "power",
+          "name": "CAT Loco Battery 2",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.5 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
             2,
-            3,
-            -9
+            2,
+            20
           ],
-          "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
-          "subsystem": "conveyor",
-          "name": "CAT-01 Nuclear Power Core & [2, 3, -9]"
+          "shape": "battery",
+          "subtype": "LargeBlockBatteryBlock",
+          "paletteSlot": 6,
+          "subsystem": "power",
+          "name": "CAT Loco Battery 3",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.5 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            2,
+            2,
+            21
+          ],
+          "shape": "battery",
+          "subtype": "LargeBlockBatteryBlock",
+          "paletteSlot": 6,
+          "subsystem": "power",
+          "name": "CAT Loco Battery 4",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.5 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -1,
+            2,
+            21
+          ],
+          "shape": "cube",
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 6,
+          "subsystem": "structure",
+          "name": "CAT Loco Vault Armor -1",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.5 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            1,
+            2,
+            21
+          ],
+          "shape": "cube",
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 6,
+          "subsystem": "structure",
+          "name": "CAT Loco Vault Armor 1",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.5 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         }
       ]
     },
@@ -581,82 +1009,149 @@
       "subsystem": "avionics",
       "partsTray": [
         {
-          "type": "Armor Full Block",
-          "qty": 5,
-          "slot": 0,
-          "mass": 1.2,
-          "note": "Primary section module"
+          "type": "Preview placement: HeavyArmorSlope",
+          "qty": 4,
+          "slot": 7,
+          "note": "Authored placements only; not a complete BOM."
+        },
+        {
+          "type": "Preview placement: LargeBlockCockpit",
+          "qty": 1,
+          "slot": 7,
+          "note": "Authored placements only; not a complete BOM."
+        },
+        {
+          "type": "Preview placement: LargeHeavyBlockArmorBlock",
+          "qty": 1,
+          "slot": 7,
+          "note": "Authored placements only; not a complete BOM."
+        },
+        {
+          "type": "Preview placement: ProgrammableBlock",
+          "qty": 1,
+          "slot": 7,
+          "note": "Authored placements only; not a complete BOM."
         }
       ],
       "instructions": [
-        "Mount 1\u00d7 Industrial Cockpit `CAT Loco Helm` at [X0, Z +23, Level L3] facing forward (+Z).",
+        "Mount 1× Industrial Cockpit `CAT Loco Helm` at [X0, Z +23, Level L3] facing forward (+Z).",
         "Install Programmable Block `[CAT] PB Train Master` in the sub-cab avionics bay at [X0, Z +22, Level L2].",
-        "Frame the cab with Heavy Armor Slopes 2\u00d71\u00d71 sloping inward from the L2 beltline to the L4 roofline, forming chiseled lateral tumblehome.",
+        "Frame the cab with Heavy Armor Slopes 2×1×1 sloping inward from the L2 beltline to the L4 roofline, forming chiseled lateral tumblehome.",
         "Mount an overhanging cab brow visor at Level L4 (Z +24) to eliminate planetary solar glare and protect viewport glass from falling stone spall."
       ],
       "checks": [
-        "Verify physical clearances and continuous conveyor flow."
+        "Check the cockpit faces +Z, the PB rack is reachable, and the cab armor does not block the operator view."
       ],
       "blocks": [
         {
           "pos": [
-            -2,
-            4,
-            -6
+            0,
+            3,
+            23
           ],
-          "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 8,
+          "shape": "cockpit",
+          "subtype": "LargeBlockCockpit",
+          "paletteSlot": 7,
           "subsystem": "avionics",
-          "name": "CAT-01 Single-Operator Armo [-2, 4, -6]"
+          "name": "CAT Loco Helm",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 11.6 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.6 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
-            -1,
-            4,
-            -6
+            0,
+            2,
+            22
           ],
           "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 8,
+          "subtype": "ProgrammableBlock",
+          "paletteSlot": 7,
           "subsystem": "avionics",
-          "name": "CAT-01 Single-Operator Armo [-1, 4, -6]"
+          "name": "[CAT] PB Train Master",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 11.6 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.6 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -2,
+            3,
+            22
+          ],
+          "shape": "slope2x1",
+          "subtype": "HeavyArmorSlope",
+          "paletteSlot": 7,
+          "subsystem": "structure",
+          "name": "CAT Cab Tumblehome -2 Z22",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 11.6 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.6 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -2,
+            3,
+            23
+          ],
+          "shape": "slope2x1",
+          "subtype": "HeavyArmorSlope",
+          "paletteSlot": 7,
+          "subsystem": "structure",
+          "name": "CAT Cab Tumblehome -2 Z23",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 11.6 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.6 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            2,
+            3,
+            22
+          ],
+          "shape": "slope2x1",
+          "subtype": "HeavyArmorSlope",
+          "paletteSlot": 7,
+          "subsystem": "structure",
+          "name": "CAT Cab Tumblehome 2 Z22",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 11.6 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.6 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            2,
+            3,
+            23
+          ],
+          "shape": "slope2x1",
+          "subtype": "HeavyArmorSlope",
+          "paletteSlot": 7,
+          "subsystem": "structure",
+          "name": "CAT Cab Tumblehome 2 Z23",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 11.6 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.6 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
             0,
             4,
-            -6
+            24
           ],
           "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 8,
-          "subsystem": "avionics",
-          "name": "CAT-01 Single-Operator Armo [0, 4, -6]"
-        },
-        {
-          "pos": [
-            1,
-            4,
-            -6
-          ],
-          "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 8,
-          "subsystem": "avionics",
-          "name": "CAT-01 Single-Operator Armo [1, 4, -6]"
-        },
-        {
-          "pos": [
-            2,
-            4,
-            -6
-          ],
-          "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 8,
-          "subsystem": "avionics",
-          "name": "CAT-01 Single-Operator Armo [2, 4, -6]"
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 7,
+          "subsystem": "structure",
+          "name": "CAT Cab Brow Visor",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.6 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         }
       ]
     },
@@ -668,81 +1163,122 @@
       "subsystem": "conveyor",
       "partsTray": [
         {
-          "type": "Armor Full Block",
-          "qty": 5,
-          "slot": 0,
-          "mass": 1.2,
-          "note": "Primary section module"
+          "type": "Preview placement: BlastDoorBlock",
+          "qty": 3,
+          "slot": 1,
+          "note": "Authored placements only; not a complete BOM."
+        },
+        {
+          "type": "Preview placement: HeavyArmorSlope",
+          "qty": 2,
+          "slot": 1,
+          "note": "Authored placements only; not a complete BOM."
+        },
+        {
+          "type": "Preview placement: LargeBlockConnector",
+          "qty": 1,
+          "slot": 1,
+          "note": "Authored placements only; not a complete BOM."
         }
       ],
       "instructions": [
         "Across the forward face (Z = +25, Level L1-L2), weld Heavy Armor Blast Door Blocks painted Palette Slot 1 (Heavy Rail Crimson).",
-        "Mount 1\u00d7 Large Connector `CAT Loco Front Conn` at [X0, Z +25, Level L2] facing forward (+Z), plumbed to the central conveyor junction. Height: exactly 2.5 m above ground.",
-        "Flank the connector with Heavy Armor Corner 2\u00d71\u00d71 slopes at X = \u00b12, forming rigid guide horns that funnel the incoming Mastodon stern dock into lock alignment."
+        "Mount 1× Large Connector `CAT Loco Front Conn` at [X0, Z +25, Level L2] facing forward (+Z), plumbed to the central conveyor junction. Height: exactly 2.5 m above ground.",
+        "Flank the connector with Heavy Armor Corner 2×1×1 slopes at X = ±2, forming rigid guide horns that funnel the incoming Mastodon stern dock into lock alignment."
       ],
       "checks": [
-        "Verify physical clearances and continuous conveyor flow."
+        "Confirm the forward capture connector aligns with the Ground Base dock and the bumper does not obstruct its port."
       ],
       "blocks": [
         {
           "pos": [
-            -2,
-            2,
-            -3
+            -1,
+            1,
+            25
           ],
-          "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
-          "subsystem": "conveyor",
-          "name": "CAT-01 Heavy Bow Push-Bumpe [-2, 2, -3]"
+          "shape": "cube",
+          "subtype": "BlastDoorBlock",
+          "paletteSlot": 1,
+          "subsystem": "structure",
+          "name": "CAT Bow Push Bumper -1 L1",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.7 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
             -1,
             2,
-            -3
+            25
           ],
-          "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
-          "subsystem": "conveyor",
-          "name": "CAT-01 Heavy Bow Push-Bumpe [-1, 2, -3]"
-        },
-        {
-          "pos": [
-            0,
-            2,
-            -3
-          ],
-          "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
-          "subsystem": "conveyor",
-          "name": "CAT-01 Heavy Bow Push-Bumpe [0, 2, -3]"
+          "shape": "cube",
+          "subtype": "BlastDoorBlock",
+          "paletteSlot": 1,
+          "subsystem": "structure",
+          "name": "CAT Bow Push Bumper -1 L2",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.7 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
             1,
             2,
-            -3
+            25
           ],
-          "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
+          "shape": "cube",
+          "subtype": "BlastDoorBlock",
+          "paletteSlot": 1,
+          "subsystem": "structure",
+          "name": "CAT Bow Push Bumper 1 L2",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.7 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            0,
+            2,
+            25
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockConnector",
+          "paletteSlot": 1,
           "subsystem": "conveyor",
-          "name": "CAT-01 Heavy Bow Push-Bumpe [1, 2, -3]"
+          "name": "CAT Loco Front Conn",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 11.7 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.7 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -2,
+            2,
+            24
+          ],
+          "shape": "slope2x1",
+          "subtype": "HeavyArmorSlope",
+          "paletteSlot": 1,
+          "subsystem": "structure",
+          "name": "CAT Bow Guide Horn -2",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 11.7 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.7 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
             2,
             2,
-            -3
+            24
           ],
-          "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
-          "subsystem": "conveyor",
-          "name": "CAT-01 Heavy Bow Push-Bumpe [2, 2, -3]"
+          "shape": "slope2x1",
+          "subtype": "HeavyArmorSlope",
+          "paletteSlot": 1,
+          "subsystem": "structure",
+          "name": "CAT Bow Guide Horn 2",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 11.7 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.7 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         }
       ]
     },
@@ -754,81 +1290,80 @@
       "subsystem": "conveyor",
       "partsTray": [
         {
-          "type": "Armor Full Block",
-          "qty": 5,
-          "slot": 0,
-          "mass": 1.2,
-          "note": "Primary section module"
+          "type": "Preview placement: LargeBlockMergeBlock",
+          "qty": 1,
+          "slot": 1,
+          "note": "Authored placements only; not a complete BOM."
+        },
+        {
+          "type": "Preview placement: LargeBlockRadioAntenna",
+          "qty": 1,
+          "slot": 7,
+          "note": "Authored placements only; not a complete BOM."
+        },
+        {
+          "type": "Preview placement: RotatingLight",
+          "qty": 1,
+          "slot": 2,
+          "note": "Authored placements only; not a complete BOM."
         }
       ],
       "instructions": [
-        "Mount 1\u00d7 Large Grid Radio Antenna `CAT Loco Antenna` at [X0, Z +18, Level L4]. Set broadcast range to 25,000 m.",
-        "Mount 1\u00d7 Rotating Warning Beacon `CAT Loco Beacon` at [X0, Z +20, Level L4]. Set color to Amber (`#E6A100`) and spin rate to 30 rpm.",
-        "Install 1\u00d7 Merge Block `CAT Hitch Decouple 1` at [X0, Z +16, Level L2] facing aft (\u2212Z) to provide pyrotechnic consist emergency severance if trailers become pinned."
+        "Mount 1× Large Grid Radio Antenna `CAT Loco Antenna` at [X0, Z +18, Level L4]. Set broadcast range to 25,000 m.",
+        "Mount 1× Rotating Warning Beacon `CAT Loco Beacon` at [X0, Z +20, Level L4]. Set color to Amber (`#E6A100`) and spin rate to 30 rpm.",
+        "Install 1× Merge Block `CAT Hitch Decouple 1` at [X −2, Z +16, Level L2] facing aft (−Z) to provide emergency consist severance near the drawbar."
       ],
       "checks": [
-        "Verify physical clearances and continuous conveyor flow."
+        "Check antenna and beacon clear the cab roof; verify the emergency merge block is distinct from the drawbar rotor."
       ],
       "blocks": [
         {
           "pos": [
-            -2,
-            3,
-            0
+            0,
+            4,
+            18
           ],
-          "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
-          "subsystem": "conveyor",
-          "name": "CAT-01 Comms Mast, Roof War [-2, 3, 0]"
-        },
-        {
-          "pos": [
-            -1,
-            3,
-            0
-          ],
-          "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
-          "subsystem": "conveyor",
-          "name": "CAT-01 Comms Mast, Roof War [-1, 3, 0]"
+          "shape": "cube",
+          "subtype": "LargeBlockRadioAntenna",
+          "paletteSlot": 7,
+          "subsystem": "avionics",
+          "name": "CAT Loco Antenna",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 11.8 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.8 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
             0,
-            3,
-            0
+            4,
+            20
           ],
-          "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
-          "subsystem": "conveyor",
-          "name": "CAT-01 Comms Mast, Roof War [0, 3, 0]"
+          "shape": "cube",
+          "subtype": "RotatingLight",
+          "paletteSlot": 2,
+          "subsystem": "avionics",
+          "name": "CAT Loco Beacon",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 11.8 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.8 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
-            1,
-            3,
-            0
-          ],
-          "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
-          "subsystem": "conveyor",
-          "name": "CAT-01 Comms Mast, Roof War [1, 3, 0]"
-        },
-        {
-          "pos": [
+            -2,
             2,
-            3,
-            0
+            16
           ],
-          "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
+          "shape": "cube",
+          "subtype": "LargeBlockMergeBlock",
+          "paletteSlot": 1,
           "subsystem": "conveyor",
-          "name": "CAT-01 Comms Mast, Roof War [2, 3, 0]"
+          "name": "CAT Hitch Decouple 1",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 11.8 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.8 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         }
       ]
     },
@@ -840,83 +1375,134 @@
       "subsystem": "conveyor",
       "partsTray": [
         {
-          "type": "Armor Full Block",
-          "qty": 5,
-          "slot": 0,
-          "mass": 1.2,
-          "note": "Primary section module"
+          "type": "Preview placement: LargeBlockAdvancedRotor",
+          "qty": 2,
+          "slot": 2,
+          "note": "Authored placements only; not a complete BOM."
+        },
+        {
+          "type": "Preview placement: LargeBlockConveyorTube",
+          "qty": 1,
+          "slot": 4,
+          "note": "Authored placements only; not a complete BOM."
+        },
+        {
+          "type": "Preview placement: LargeBlockHinge",
+          "qty": 1,
+          "slot": 2,
+          "note": "Authored placements only; not a complete BOM."
+        },
+        {
+          "type": "Preview placement: LargeMagneticPlate",
+          "qty": 2,
+          "slot": 2,
+          "note": "Authored placements only; not a complete BOM."
         }
       ],
       "instructions": [
-        "Mount 1\u00d7 Advanced Rotor `CAT Hitch Yaw 1` on the leading car rear bulkhead at [X0, Z +16, Level L2] with rotor stator vertical (Y-axis), providing horizontal steering yaw from \u221245.0\u00b0 to +45.0\u00b0.",
-        "Weld 1\u00d7 Motor Hinge `CAT Hitch Pitch 1` onto the yaw rotor head with hinge pin horizontal (X-axis), providing vertical terrain cresting/trough pitch from \u221225.0\u00b0 to +25.0\u00b0.",
-        "Mount 1\u00d7 Advanced Rotor `CAT Hitch Roll 1` onto the hinge head with rotor stator aligned longitudinally (Z-axis), providing axial roll compliance from \u221220.0\u00b0 to +20.0\u00b0 across uneven ground.",
+        "Mount 1× Advanced Rotor `CAT Hitch Yaw 1` on the leading car rear bulkhead at [X0, Z +16, Level L2] with rotor stator vertical (Y-axis), providing horizontal steering yaw from −45.0° to +45.0°.",
+        "Weld 1× Motor Hinge `CAT Hitch Pitch 1` onto the yaw rotor head with hinge pin horizontal (X-axis), providing vertical terrain cresting/trough pitch from −25.0° to +25.0°.",
+        "Mount 1× Advanced Rotor `CAT Hitch Roll 1` onto the hinge head with rotor stator aligned longitudinally (Z-axis), providing axial roll compliance from −20.0° to +20.0° across uneven ground.",
         "Plumb large curved conveyor tubes across the joint to maintain continuous airtight conveyance.",
-        "Install twin magnetic stabilizer clamps `CAT Hitch Clamp Port/Stbd` at X = \u00b11.5 to eliminate high-speed highway oscillation."
+        "Install twin magnetic stabilizer clamps `CAT Hitch Clamp Port/Stbd` at X = ±1.5 to eliminate high-speed highway oscillation."
       ],
       "checks": [
-        "Verify physical clearances and continuous conveyor flow."
+        "Cycle yaw, pitch, and roll axes independently through their stated limits and verify no conveyor or frame collision."
       ],
       "blocks": [
         {
           "pos": [
-            -2,
-            4,
-            3
+            0,
+            2,
+            16
           ],
-          "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
-          "subsystem": "conveyor",
-          "name": "CAT-01 Kinematic 3-Axis Gim [-2, 4, 3]"
-        },
-        {
-          "pos": [
-            -1,
-            4,
-            3
-          ],
-          "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
-          "subsystem": "conveyor",
-          "name": "CAT-01 Kinematic 3-Axis Gim [-1, 4, 3]"
+          "shape": "rotor",
+          "subtype": "LargeBlockAdvancedRotor",
+          "paletteSlot": 2,
+          "subsystem": "propulsion",
+          "name": "CAT Hitch Yaw 1",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 11.9 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.9 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
             0,
-            4,
-            3
+            2,
+            15
           ],
-          "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
-          "subsystem": "conveyor",
-          "name": "CAT-01 Kinematic 3-Axis Gim [0, 4, 3]"
+          "shape": "hinge",
+          "subtype": "LargeBlockHinge",
+          "paletteSlot": 2,
+          "subsystem": "propulsion",
+          "name": "CAT Hitch Pitch 1",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 11.9 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.9 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            0,
+            2,
+            14
+          ],
+          "shape": "rotor",
+          "subtype": "LargeBlockAdvancedRotor",
+          "paletteSlot": 2,
+          "subsystem": "propulsion",
+          "name": "CAT Hitch Roll 1",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 11.9 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.9 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -1,
+            2,
+            16
+          ],
+          "shape": "cube",
+          "subtype": "LargeMagneticPlate",
+          "paletteSlot": 2,
+          "subsystem": "propulsion",
+          "name": "CAT Hitch Clamp Port",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 11.9 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.9 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
             1,
-            4,
-            3
+            2,
+            16
           ],
-          "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
-          "subsystem": "conveyor",
-          "name": "CAT-01 Kinematic 3-Axis Gim [1, 4, 3]"
+          "shape": "cube",
+          "subtype": "LargeMagneticPlate",
+          "paletteSlot": 2,
+          "subsystem": "propulsion",
+          "name": "CAT Hitch Clamp Stbd",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 11.9 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.9 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
+            1,
             2,
-            4,
-            3
+            15
           ],
           "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
+          "subtype": "LargeBlockConveyorTube",
           "paletteSlot": 4,
           "subsystem": "conveyor",
-          "name": "CAT-01 Kinematic 3-Axis Gim [2, 4, 3]"
+          "name": "CAT Hitch Flexible Conveyor",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.9 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         }
       ]
     },
@@ -928,82 +1514,175 @@
       "subsystem": "propulsion",
       "partsTray": [
         {
-          "type": "Armor Full Block",
-          "qty": 5,
+          "type": "Preview placement: LargeBlockWheelSuspension5x5",
+          "qty": 4,
           "slot": 0,
-          "mass": 1.2,
-          "note": "Primary section module"
+          "note": "Authored placements only; not a complete BOM."
+        },
+        {
+          "type": "Preview placement: LargeHeavyBlockArmorBlock",
+          "qty": 6,
+          "slot": 0,
+          "note": "Authored placements only; not a complete BOM."
         }
       ],
       "instructions": [
-        "Construct the 5 W \u00d7 7 L heavy armor chassis spanning Z +7 to +14 at Level L1.",
-        "Mount 2\u00d7 Wheel Suspension 5\u00d75 Left units at [X \u22122.5, Z +13, L1] (`WH 5: DPU P`) and [X \u22122.5, Z +8, L1] (`WH 7: DPU P`).",
-        "Mount 2\u00d7 Wheel Suspension 5\u00d75 Right units at [X +2.5, Z +13, L1] (`WH 6: DPU S`) and [X +2.5, Z +8, L1] (`WH 8: DPU S`).",
-        "Lock steering at `0.0\u00b0` (fixed straight-line tracking). Set propulsion torque to `100%` and assign to group `CAT Car Wheels`."
+        "Construct the 5 W × 7 L heavy armor chassis spanning Z +8 to +14 at Level L1.",
+        "Mount 2× Wheel Suspension 5×5 Left units at [X −2.5, Z +13, L1] (`WH 5: DPU P`) and [X −2.5, Z +8, L1] (`WH 7: DPU P`).",
+        "Mount 2× Wheel Suspension 5×5 Right units at [X +2.5, Z +13, L1] (`WH 6: DPU S`) and [X +2.5, Z +8, L1] (`WH 8: DPU S`).",
+        "Lock steering at `0.0°` (fixed straight-line tracking). Set propulsion torque to `100%` and assign to group `CAT Car Wheels`."
       ],
       "checks": [
-        "Verify physical clearances and continuous conveyor flow."
+        "Check the Hopper Car 1 chassis carries both DPU axles with consistent wheel clearance."
       ],
       "blocks": [
         {
           "pos": [
             -2,
-            2,
-            6
-          ],
-          "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 8,
-          "subsystem": "propulsion",
-          "name": "CAT-01 Hopper Car 1 Chassis [-2, 2, 6]"
-        },
-        {
-          "pos": [
-            -1,
-            2,
-            6
-          ],
-          "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 8,
-          "subsystem": "propulsion",
-          "name": "CAT-01 Hopper Car 1 Chassis [-1, 2, 6]"
-        },
-        {
-          "pos": [
-            0,
-            2,
-            6
-          ],
-          "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 8,
-          "subsystem": "propulsion",
-          "name": "CAT-01 Hopper Car 1 Chassis [0, 2, 6]"
-        },
-        {
-          "pos": [
             1,
-            2,
-            6
+            8
           ],
           "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 8,
-          "subsystem": "propulsion",
-          "name": "CAT-01 Hopper Car 1 Chassis [1, 2, 6]"
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "CAT Car 1 Chassis Sill -2 Z8",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.10 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -2,
+            1,
+            10
+          ],
+          "shape": "cube",
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "CAT Car 1 Chassis Sill -2 Z10",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.10 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -2,
+            1,
+            13
+          ],
+          "shape": "cube",
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "CAT Car 1 Chassis Sill -2 Z13",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.10 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
             2,
-            2,
-            6
+            1,
+            8
           ],
           "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 8,
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "CAT Car 1 Chassis Sill 2 Z8",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.10 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            2,
+            1,
+            10
+          ],
+          "shape": "cube",
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "CAT Car 1 Chassis Sill 2 Z10",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.10 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            2,
+            1,
+            13
+          ],
+          "shape": "cube",
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "CAT Car 1 Chassis Sill 2 Z13",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.10 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -3,
+            1,
+            13
+          ],
+          "shape": "wheel5x5",
+          "subtype": "LargeBlockWheelSuspension5x5",
+          "paletteSlot": 0,
           "subsystem": "propulsion",
-          "name": "CAT-01 Hopper Car 1 Chassis [2, 2, 6]"
+          "name": "CAT WH 5 DPU P",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 11.10 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.10 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            3,
+            1,
+            13
+          ],
+          "shape": "wheel5x5",
+          "subtype": "LargeBlockWheelSuspension5x5",
+          "paletteSlot": 0,
+          "subsystem": "propulsion",
+          "name": "CAT WH 6 DPU S",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 11.10 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.10 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -3,
+            1,
+            8
+          ],
+          "shape": "wheel5x5",
+          "subtype": "LargeBlockWheelSuspension5x5",
+          "paletteSlot": 0,
+          "subsystem": "propulsion",
+          "name": "CAT WH 7 DPU P",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 11.10 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.10 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            3,
+            1,
+            8
+          ],
+          "shape": "wheel5x5",
+          "subtype": "LargeBlockWheelSuspension5x5",
+          "paletteSlot": 0,
+          "subsystem": "propulsion",
+          "name": "CAT WH 8 DPU S",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 11.10 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.10 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         }
       ]
     },
@@ -1015,82 +1694,159 @@
       "subsystem": "conveyor",
       "partsTray": [
         {
-          "type": "Armor Full Block",
-          "qty": 5,
+          "type": "Preview placement: HeavyArmorSlope",
+          "qty": 4,
+          "slot": 3,
+          "note": "Authored placements only; not a complete BOM."
+        },
+        {
+          "type": "Preview placement: LargeBlockConveyor",
+          "qty": 2,
+          "slot": 4,
+          "note": "Authored placements only; not a complete BOM."
+        },
+        {
+          "type": "Preview placement: LargeBlockLargeContainer",
+          "qty": 1,
+          "slot": 5,
+          "note": "Authored placements only; not a complete BOM."
+        },
+        {
+          "type": "Preview placement: LargeHeavyBlockArmorBlock",
+          "qty": 1,
           "slot": 0,
-          "mass": 1.2,
-          "note": "Primary section module"
+          "note": "Authored placements only; not a complete BOM."
         }
       ],
       "instructions": [
-        "Mount 1\u00d7 Large Cargo Container `CAT Hold 1` (3\u00d73\u00d73 B) centered at [X0, Z +10.5, Level L2-L3]. Capacity: 1,386,000 L.",
-        "Tie the forward bottom port to the inbound conveyor riser at [X0, Z +14, L2]; tie the aft bottom port to the outbound riser at [X0, Z +7, L2].",
-        "Frame the container's upward-facing large port with Heavy Armor Slopes 2\u00d71\u00d71 angled inward at 45\u00b0 painted Palette Slot 3 (Orange), forming a wide top-loading funnel chute for filling from quarry hoppers.",
-        "Install side maintenance access ports on the Port sill at [X \u22122.5, Z +10.5, L2]."
+        "Mount 1× Large Cargo Container `CAT Hold 1` (3×3×3 B) centered at [X0, Z +11, Level L2-L3]. Capacity: 1,386,000 L.",
+        "Tie the forward bottom port to the inbound conveyor riser at [X0, Z +13, L2]; tie the aft bottom port to the outbound riser at [X0, Z +7, L2].",
+        "Frame the container's upward-facing large port with Heavy Armor Slopes 2×1×1 angled inward at 45° painted Palette Slot 3 (Orange), forming a wide top-loading funnel chute for filling from quarry hoppers.",
+        "Install side maintenance access ports on the Port sill at [X −2.5, Z +11, L2]."
       ],
       "checks": [
-        "Verify physical clearances and continuous conveyor flow."
+        "Verify the cargo hold risers connect at the forward and aft ports and the top funnel remains clear for loading."
       ],
       "blocks": [
         {
           "pos": [
-            -2,
-            3,
-            9
+            0,
+            2,
+            11
           ],
-          "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
+          "shape": "cargo",
+          "subtype": "LargeBlockLargeContainer",
+          "paletteSlot": 5,
           "subsystem": "conveyor",
-          "name": "CAT-01 Hopper Car 1 Large C [-2, 3, 9]"
-        },
-        {
-          "pos": [
-            -1,
-            3,
-            9
-          ],
-          "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
-          "subsystem": "conveyor",
-          "name": "CAT-01 Hopper Car 1 Large C [-1, 3, 9]"
+          "name": "CAT Hold 1",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.11 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
             0,
-            3,
-            9
+            2,
+            13
           ],
           "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
+          "subtype": "LargeBlockConveyor",
           "paletteSlot": 4,
           "subsystem": "conveyor",
-          "name": "CAT-01 Hopper Car 1 Large C [0, 3, 9]"
+          "name": "CAT Car 1 Forward Riser",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.11 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            0,
+            2,
+            7
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockConveyor",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "CAT Car 1 Aft Riser",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.11 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -2,
+            4,
+            11
+          ],
+          "shape": "slope2x1",
+          "subtype": "HeavyArmorSlope",
+          "paletteSlot": 3,
+          "subsystem": "structure",
+          "name": "CAT Car 1 Funnel Lip -2",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 11.11 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.11 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -1,
+            4,
+            11
+          ],
+          "shape": "slope2x1",
+          "subtype": "HeavyArmorSlope",
+          "paletteSlot": 3,
+          "subsystem": "structure",
+          "name": "CAT Car 1 Funnel Lip -1",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 11.11 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.11 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
             1,
-            3,
-            9
+            4,
+            11
           ],
-          "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
-          "subsystem": "conveyor",
-          "name": "CAT-01 Hopper Car 1 Large C [1, 3, 9]"
+          "shape": "slope2x1",
+          "subtype": "HeavyArmorSlope",
+          "paletteSlot": 3,
+          "subsystem": "structure",
+          "name": "CAT Car 1 Funnel Lip 1",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 11.11 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.11 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
             2,
-            3,
-            9
+            4,
+            11
           ],
-          "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
-          "subsystem": "conveyor",
-          "name": "CAT-01 Hopper Car 1 Large C [2, 3, 9]"
+          "shape": "slope2x1",
+          "subtype": "HeavyArmorSlope",
+          "paletteSlot": 3,
+          "subsystem": "structure",
+          "name": "CAT Car 1 Funnel Lip 2",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 11.11 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.11 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -2,
+            2,
+            11
+          ],
+          "shape": "cube",
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "CAT Car 1 Port Access Sill",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.11 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         }
       ]
     },
@@ -1102,82 +1858,265 @@
       "subsystem": "propulsion",
       "partsTray": [
         {
-          "type": "Armor Full Block",
-          "qty": 5,
+          "type": "Preview placement: HeavyArmorSlope",
+          "qty": 4,
+          "slot": 3,
+          "note": "Authored placements only; not a complete BOM."
+        },
+        {
+          "type": "Preview placement: LargeBlockLargeContainer",
+          "qty": 1,
+          "slot": 5,
+          "note": "Authored placements only; not a complete BOM."
+        },
+        {
+          "type": "Preview placement: LargeBlockWheelSuspension5x5",
+          "qty": 4,
           "slot": 0,
-          "mass": 1.2,
-          "note": "Primary section module"
+          "note": "Authored placements only; not a complete BOM."
+        },
+        {
+          "type": "Preview placement: LargeHeavyBlockArmorBlock",
+          "qty": 6,
+          "slot": 0,
+          "note": "Authored placements only; not a complete BOM."
         }
       ],
       "instructions": [
-        "Build the extended 5 W \u00d7 9 L chassis spanning Z \u221217 to \u22128 at Level L1.",
-        "Install Axles 7 and 8 with 4\u00d7 5\u00d75 suspension wheels (`WH 13..16`) at Z = \u22129 and Z = \u221213. Configure for 100% propulsion assist.",
-        "Mount Large Cargo Container `CAT Hold 3` centered at [X0, Z \u221211.5, Level L2-L3].",
+        "Build the extended 5 W × 9 L chassis spanning Z −12 to −4 at Level L1.",
+        "Install Axles 7 and 8 with 4× 5×5 suspension wheels (`WH 13..16`) at Z = −6 and Z = −10. Configure for 100% propulsion assist.",
+        "Mount Large Cargo Container `CAT Hold 3` centered at [X0, Z −8, Level L2-L3].",
         "Install top funnel chutes and catwalk framing matching Cars 1 and 2."
       ],
       "checks": [
-        "Verify physical clearances and continuous conveyor flow."
+        "Check the tender chassis supports Axles 7 and 8 and the third hold has a continuous conveyor route."
       ],
       "blocks": [
         {
           "pos": [
             -2,
-            4,
-            12
+            1,
+            -8
           ],
           "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 8,
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "CAT Tender Chassis Sill -2 Z-8",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.12 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -2,
+            1,
+            -10
+          ],
+          "shape": "cube",
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "CAT Tender Chassis Sill -2 Z-10",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.12 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -2,
+            1,
+            -12
+          ],
+          "shape": "cube",
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "CAT Tender Chassis Sill -2 Z-12",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.12 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            2,
+            1,
+            -8
+          ],
+          "shape": "cube",
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "CAT Tender Chassis Sill 2 Z-8",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.12 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            2,
+            1,
+            -10
+          ],
+          "shape": "cube",
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "CAT Tender Chassis Sill 2 Z-10",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.12 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            2,
+            1,
+            -12
+          ],
+          "shape": "cube",
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "CAT Tender Chassis Sill 2 Z-12",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.12 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -3,
+            1,
+            -6
+          ],
+          "shape": "wheel5x5",
+          "subtype": "LargeBlockWheelSuspension5x5",
+          "paletteSlot": 0,
           "subsystem": "propulsion",
-          "name": "CAT-01 Tender Hold 3 & DPU  [-2, 4, 12]"
+          "name": "CAT WH 13 DPU P",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 11.12 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.12 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            3,
+            1,
+            -6
+          ],
+          "shape": "wheel5x5",
+          "subtype": "LargeBlockWheelSuspension5x5",
+          "paletteSlot": 0,
+          "subsystem": "propulsion",
+          "name": "CAT WH 14 DPU S",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 11.12 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.12 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -3,
+            1,
+            -10
+          ],
+          "shape": "wheel5x5",
+          "subtype": "LargeBlockWheelSuspension5x5",
+          "paletteSlot": 0,
+          "subsystem": "propulsion",
+          "name": "CAT WH 15 DPU P",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 11.12 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.12 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            3,
+            1,
+            -10
+          ],
+          "shape": "wheel5x5",
+          "subtype": "LargeBlockWheelSuspension5x5",
+          "paletteSlot": 0,
+          "subsystem": "propulsion",
+          "name": "CAT WH 16 DPU S",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 11.12 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.12 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            0,
+            2,
+            -8
+          ],
+          "shape": "cargo",
+          "subtype": "LargeBlockLargeContainer",
+          "paletteSlot": 5,
+          "subsystem": "conveyor",
+          "name": "CAT Hold 3",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.12 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -2,
+            4,
+            -8
+          ],
+          "shape": "slope2x1",
+          "subtype": "HeavyArmorSlope",
+          "paletteSlot": 3,
+          "subsystem": "structure",
+          "name": "CAT Tender Funnel Lip -2",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 11.12 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.12 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
             -1,
             4,
-            12
+            -8
           ],
-          "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 8,
-          "subsystem": "propulsion",
-          "name": "CAT-01 Tender Hold 3 & DPU  [-1, 4, 12]"
-        },
-        {
-          "pos": [
-            0,
-            4,
-            12
-          ],
-          "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 8,
-          "subsystem": "propulsion",
-          "name": "CAT-01 Tender Hold 3 & DPU  [0, 4, 12]"
+          "shape": "slope2x1",
+          "subtype": "HeavyArmorSlope",
+          "paletteSlot": 3,
+          "subsystem": "structure",
+          "name": "CAT Tender Funnel Lip -1",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 11.12 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.12 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
             1,
             4,
-            12
+            -8
           ],
-          "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 8,
-          "subsystem": "propulsion",
-          "name": "CAT-01 Tender Hold 3 & DPU  [1, 4, 12]"
+          "shape": "slope2x1",
+          "subtype": "HeavyArmorSlope",
+          "paletteSlot": 3,
+          "subsystem": "structure",
+          "name": "CAT Tender Funnel Lip 1",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 11.12 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.12 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
             2,
             4,
-            12
+            -8
           ],
-          "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 8,
-          "subsystem": "propulsion",
-          "name": "CAT-01 Tender Hold 3 & DPU  [2, 4, 12]"
+          "shape": "slope2x1",
+          "subtype": "HeavyArmorSlope",
+          "paletteSlot": 3,
+          "subsystem": "structure",
+          "name": "CAT Tender Funnel Lip 2",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 11.12 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.12 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         }
       ]
     },
@@ -1189,82 +2128,81 @@
       "subsystem": "conveyor",
       "partsTray": [
         {
-          "type": "Armor Full Block",
-          "qty": 5,
-          "slot": 0,
-          "mass": 1.2,
-          "note": "Primary section module"
+          "type": "Preview placement: EventControllerBlock",
+          "qty": 1,
+          "slot": 7,
+          "note": "Authored placements only; not a complete BOM."
+        },
+        {
+          "type": "Preview placement: LargeBlockConnector",
+          "qty": 1,
+          "slot": 1,
+          "note": "Authored placements only; not a complete BOM."
+        },
+        {
+          "type": "Preview placement: LargeConveyorSorter",
+          "qty": 1,
+          "slot": 4,
+          "note": "Authored placements only; not a complete BOM."
         }
       ],
       "instructions": [
-        "Mount 1\u00d7 Large Conveyor Sorter `CAT Train Sorter` horizontally at [X0, Z \u221215, Level L2] with flow arrow pointing stern (\u2212Z).",
+        "Mount 1× Large Conveyor Sorter `CAT Train Sorter` horizontally at [X0, Z −15, Level L2] with flow arrow pointing stern (−Z).",
         "Configure sorter whitelist with bulk minerals: `Iron`, `Nickel`, `Silicon`, `Cobalt`, `Magnesium`, and `Stone`. Set `Drain All = OFF` by default (triggered by docking EC).",
-        "Mount 1\u00d7 Large Connector `CAT Train Unload Conn` at [X0, Z \u221217, Level L2] facing stern (\u2212Z), plumbed directly to the sorter outlet. Centerline height: exactly 2.5 m above tarmac.",
-        "Mount Event Controller `CAT EC Dump` adjacent to the sorter at [X \u22121, Z \u221215, L2]."
+        "Z −16, Level L2",
+        "Mount Event Controller `CAT EC Dump` adjacent to the sorter at [X −1, Z −15, L2]."
       ],
       "checks": [
-        "Verify physical clearances and continuous conveyor flow."
+        "Verify the sorter points toward the stern connector and the dump flow remains disabled until commanded."
       ],
       "blocks": [
         {
           "pos": [
-            -2,
+            0,
             2,
-            15
+            -15
           ],
           "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
+          "subtype": "LargeConveyorSorter",
           "paletteSlot": 4,
           "subsystem": "conveyor",
-          "name": "CAT-01 High-Speed Pressuriz [-2, 2, 15]"
-        },
-        {
-          "pos": [
-            -1,
-            2,
-            15
-          ],
-          "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
-          "subsystem": "conveyor",
-          "name": "CAT-01 High-Speed Pressuriz [-1, 2, 15]"
+          "name": "CAT Train Sorter",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 11.13 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.13 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
             0,
             2,
-            15
+            -16
           ],
-          "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
+          "shape": "cube",
+          "subtype": "LargeBlockConnector",
+          "paletteSlot": 1,
           "subsystem": "conveyor",
-          "name": "CAT-01 High-Speed Pressuriz [0, 2, 15]"
+          "name": "CAT Train Unload Conn",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 11.13 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.13 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
-            1,
+            -1,
             2,
-            15
+            -15
           ],
-          "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
-          "subsystem": "conveyor",
-          "name": "CAT-01 High-Speed Pressuriz [1, 2, 15]"
-        },
-        {
-          "pos": [
-            2,
-            2,
-            15
-          ],
-          "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
-          "subsystem": "conveyor",
-          "name": "CAT-01 High-Speed Pressuriz [2, 2, 15]"
+          "shape": "cube",
+          "subtype": "EventControllerBlock",
+          "paletteSlot": 7,
+          "subsystem": "avionics",
+          "name": "CAT EC Dump",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 11.13 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.13 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         }
       ]
     },
@@ -1276,81 +2214,148 @@
       "subsystem": "structure",
       "partsTray": [
         {
-          "type": "Armor Full Block",
+          "type": "Preview placement: BlastDoorBlock",
           "qty": 5,
-          "slot": 0,
-          "mass": 1.2,
-          "note": "Primary section module"
+          "slot": 1,
+          "note": "Authored placements only; not a complete BOM."
+        },
+        {
+          "type": "Preview placement: HeavyArmorSlope",
+          "qty": 2,
+          "slot": 1,
+          "note": "Authored placements only; not a complete BOM."
+        },
+        {
+          "type": "Preview placement: LargeHeavyBlockArmorBlock",
+          "qty": 1,
+          "slot": 9,
+          "note": "Authored placements only; not a complete BOM."
         }
       ],
       "instructions": [
-        "Across the rear transom (Z = \u221217, Level L1-L2), weld Heavy Armor Blast Door Blocks painted Palette Slot 1 (Crimson).",
-        "Install Heavy Armor Corner 2\u00d71\u00d71 slopes at X = \u00b12, forming rigid guide wedges angled aft (\u2212Z) to absorb docking kinetic shock and funnel the connector into the Ground Base receiving dock.",
+        "Across the rear transom (Z = −16, Level L1-L2), weld Heavy Armor Blast Door Blocks painted Palette Slot 1 (Crimson).",
+        "Install Heavy Armor Corner 2×1×1 slopes at X = ±2, forming rigid guide wedges angled aft (−Z) to absorb docking kinetic shock and funnel the connector into the Ground Base receiving dock.",
         "Install yellow warning chevrons (Palette Slot 9) across the bumper face."
       ],
       "checks": [
-        "Verify physical clearances and continuous conveyor flow."
+        "Check the rear bumper and alignment horns clear the unload connector and mate with the Ground Base receiving dock."
       ],
       "blocks": [
         {
           "pos": [
-            -2,
-            3,
-            18
+            -1,
+            1,
+            -16
           ],
           "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 0,
+          "subtype": "BlastDoorBlock",
+          "paletteSlot": 1,
           "subsystem": "structure",
-          "name": "CAT-01 Heavy Collision Bump [-2, 3, 18]"
+          "name": "CAT Stern Collision Bumper -1 L1",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.14 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
             -1,
-            3,
-            18
+            2,
+            -16
           ],
           "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 0,
+          "subtype": "BlastDoorBlock",
+          "paletteSlot": 1,
           "subsystem": "structure",
-          "name": "CAT-01 Heavy Collision Bump [-1, 3, 18]"
+          "name": "CAT Stern Collision Bumper -1 L2",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.14 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
             0,
-            3,
-            18
+            1,
+            -16
           ],
           "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 0,
+          "subtype": "BlastDoorBlock",
+          "paletteSlot": 1,
           "subsystem": "structure",
-          "name": "CAT-01 Heavy Collision Bump [0, 3, 18]"
+          "name": "CAT Stern Collision Bumper 0 L1",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.14 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
             1,
-            3,
-            18
+            1,
+            -16
           ],
           "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 0,
+          "subtype": "BlastDoorBlock",
+          "paletteSlot": 1,
           "subsystem": "structure",
-          "name": "CAT-01 Heavy Collision Bump [1, 3, 18]"
+          "name": "CAT Stern Collision Bumper 1 L1",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.14 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            1,
+            2,
+            -16
+          ],
+          "shape": "cube",
+          "subtype": "BlastDoorBlock",
+          "paletteSlot": 1,
+          "subsystem": "structure",
+          "name": "CAT Stern Collision Bumper 1 L2",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.14 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -2,
+            2,
+            -15
+          ],
+          "shape": "slope2x1",
+          "subtype": "HeavyArmorSlope",
+          "paletteSlot": 1,
+          "subsystem": "structure",
+          "name": "CAT Stern Alignment Horn -2",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 11.14 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.14 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
             2,
-            3,
-            18
+            2,
+            -15
+          ],
+          "shape": "slope2x1",
+          "subtype": "HeavyArmorSlope",
+          "paletteSlot": 1,
+          "subsystem": "structure",
+          "name": "CAT Stern Alignment Horn 2",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 11.14 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.14 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            2,
+            2,
+            -16
           ],
           "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 0,
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 9,
           "subsystem": "structure",
-          "name": "CAT-01 Heavy Collision Bump [2, 3, 18]"
+          "name": "CAT Stern Warning Chevron",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.14 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         }
       ]
     },
@@ -1362,96 +2367,294 @@
       "subsystem": "conveyor",
       "partsTray": [
         {
-          "type": "Armor Full Block",
-          "qty": 5,
-          "slot": 0,
-          "mass": 1.2,
-          "note": "Primary section module"
+          "type": "Preview placement: LargeBlockArmorBlock",
+          "qty": 14,
+          "slot": 9,
+          "note": "Authored placements only; not a complete BOM."
+        },
+        {
+          "type": "Preview placement: Spotlight",
+          "qty": 4,
+          "slot": 9,
+          "note": "Authored placements only; not a complete BOM."
         }
       ],
       "instructions": [
         "Connect all hopper top loading platforms with continuous steel catwalks spanning the inter-car drawbar gaps using articulated hinged footplates.",
         "Install safety handrails and yellow grab irons along all ladderwells.",
-        "Mount 4\u00d7 Worksite LED Spotlights `CAT Floodlight 1..4` along the hopper sills angled downward 45\u00b0 to illuminate nighttime quarry transfer operations."
+        "Mount 4× Worksite LED Spotlights `CAT Floodlight 1..4` along the hopper sills angled downward 45° to illuminate nighttime quarry transfer operations."
       ],
       "checks": [
-        "**Turn Radius Verification:** Drive the 42 B consist through a 90\u00b0 intersection at 25 km/h; verify Axle 1 steers smoothly through \u00b132\u00b0 and all 3 trailing cars track within an 18 m swept path without clipping curbs.",
-        "**Independent DPU Traction Verification:** With locomotive reactor powered OFF, engage battery power; confirm all 12 hopper suspension wheels provide active tractive effort and propel the empty consist to 40 km/h.",
-        "**3-Axis Terrain Compliance:** Navigate the consist over an uneven rocky ridge; confirm Drawbar Hitches 1-3 flex independently through pitch (\u00b125\u00b0), yaw (\u00b145\u00b0), and roll (\u00b120\u00b0) without chassis block collision or subgrid shearing.",
-        "**Share Inertia Tensor Audit:** Inspect all 6 drawbar rotors/hinges in terminal; confirm `Share Inertia Tensor = ON` on all joints; verify ZERO phantom physics oscillation while stationary on 15\u00b0 slopes.",
-        "**2,500 t Full Payload Hill-Climb:** Fill all 3 hopper containers with stone (2,868 t gross consist mass); ascend a 20\u00b0 voxel incline from a dead stop; verify consist accelerates smoothly to 45 km/h without wheel spin or reactor overload.",
-        "**Controlled Descent Braking:** Descend a 20\u00b0 slope at 50 km/h; apply full service brakes; confirm all 16 wheels brake synchronously, halting the consist in $< 65\\text{ m}$ with zero jackknifing.",
-        "**70 km/h Highway Test:** Cruise on flat terrain at 70 km/h; confirm `CAT EC AntiJackknife` triggers at 40 km/h, stiffening hitch damping to 85% and engaging magnetic stabilizer clamps; confirm zero trailer whip or harmonic sway.",
-        "**Push-Dock Mating:** Back locomotive bow bumper into Mastodon MKI stern alignment guide horns; confirm `CAT Loco Front Conn` locks smoothly at 2.5 m elevation.",
-        "**2,500 t Bulk Ore Fill:** Engage transfer sorters from Mastodon hold; verify all 3 hopper cars fill evenly to 100% capacity in $< 90\\text{ seconds}$ without conveyor bottleneck.",
-        "**Reverse Terminal Docking:** Reverse consist into Ground Base Bulk Receiving Dock; verify stern alignment wedges funnel `CAT Train Unload Conn` into lock with the base terminal connector.",
-        "**High-Speed Gravity/Pump Dump:** Verify `CAT EC Dump` automatically engages `CAT Train Sorter` (Drain All = ON); confirm 2,500 t of ore purges into the 5\u00d7 in-deck collectors in $< 90\\text{ seconds}$.",
-        "**Continuous Walk-Around:** Walk from the locomotive cab running boards across all 3 drawbar footplates to the tender rear bumper; confirm zero lethal fall gaps.",
-        "**Manual Port Inspection:** Access all 3 hopper maintenance ports from ground level; verify ability to manually transfer items into cargo holds.",
-        "**Emergency Severance Test:** While cruising at 40 km/h, trigger `CAT Hitch Decouple 1`; confirm locomotive breaks free cleanly while trailing hopper cars immediately engage emergency friction brakes and come to a safe stop."
+        "Walk the full catwalk route across each inter-car gap and confirm articulated footplates do not block loading."
       ],
       "blocks": [
         {
           "pos": [
             -2,
             4,
-            21
+            -10
           ],
-          "shape": "conveyor",
+          "shape": "catwalk",
           "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
-          "subsystem": "conveyor",
-          "name": "CAT-01 Continuous Consist M [-2, 4, 21]"
+          "paletteSlot": 9,
+          "subsystem": "structure",
+          "name": "CAT Consist Catwalk -2 Z-10",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.15 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
-            -1,
+            -2,
             4,
-            21
+            -5
           ],
-          "shape": "conveyor",
+          "shape": "catwalk",
           "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
-          "subsystem": "conveyor",
-          "name": "CAT-01 Continuous Consist M [-1, 4, 21]"
+          "paletteSlot": 9,
+          "subsystem": "structure",
+          "name": "CAT Consist Catwalk -2 Z-5",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.15 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
-            0,
+            -2,
             4,
-            21
+            0
           ],
-          "shape": "conveyor",
+          "shape": "catwalk",
           "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
-          "subsystem": "conveyor",
-          "name": "CAT-01 Continuous Consist M [0, 4, 21]"
+          "paletteSlot": 9,
+          "subsystem": "structure",
+          "name": "CAT Consist Catwalk -2 Z0",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.15 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
-            1,
+            -2,
             4,
-            21
+            5
           ],
-          "shape": "conveyor",
+          "shape": "catwalk",
           "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
-          "subsystem": "conveyor",
-          "name": "CAT-01 Continuous Consist M [1, 4, 21]"
+          "paletteSlot": 9,
+          "subsystem": "structure",
+          "name": "CAT Consist Catwalk -2 Z5",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.15 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -2,
+            4,
+            10
+          ],
+          "shape": "catwalk",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 9,
+          "subsystem": "structure",
+          "name": "CAT Consist Catwalk -2 Z10",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.15 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -2,
+            4,
+            15
+          ],
+          "shape": "catwalk",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 9,
+          "subsystem": "structure",
+          "name": "CAT Consist Catwalk -2 Z15",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.15 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -2,
+            4,
+            20
+          ],
+          "shape": "catwalk",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 9,
+          "subsystem": "structure",
+          "name": "CAT Consist Catwalk -2 Z20",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.15 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
             2,
             4,
-            21
+            -10
           ],
-          "shape": "conveyor",
+          "shape": "catwalk",
           "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
-          "subsystem": "conveyor",
-          "name": "CAT-01 Continuous Consist M [2, 4, 21]"
+          "paletteSlot": 9,
+          "subsystem": "structure",
+          "name": "CAT Consist Catwalk 2 Z-10",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.15 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            2,
+            4,
+            -5
+          ],
+          "shape": "catwalk",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 9,
+          "subsystem": "structure",
+          "name": "CAT Consist Catwalk 2 Z-5",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.15 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            2,
+            4,
+            0
+          ],
+          "shape": "catwalk",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 9,
+          "subsystem": "structure",
+          "name": "CAT Consist Catwalk 2 Z0",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.15 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            2,
+            4,
+            5
+          ],
+          "shape": "catwalk",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 9,
+          "subsystem": "structure",
+          "name": "CAT Consist Catwalk 2 Z5",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.15 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            2,
+            4,
+            10
+          ],
+          "shape": "catwalk",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 9,
+          "subsystem": "structure",
+          "name": "CAT Consist Catwalk 2 Z10",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.15 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            2,
+            4,
+            15
+          ],
+          "shape": "catwalk",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 9,
+          "subsystem": "structure",
+          "name": "CAT Consist Catwalk 2 Z15",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.15 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            2,
+            4,
+            20
+          ],
+          "shape": "catwalk",
+          "subtype": "LargeBlockArmorBlock",
+          "paletteSlot": 9,
+          "subsystem": "structure",
+          "name": "CAT Consist Catwalk 2 Z20",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.15 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -2,
+            3,
+            -8
+          ],
+          "shape": "cube",
+          "subtype": "Spotlight",
+          "paletteSlot": 9,
+          "subsystem": "avionics",
+          "name": "CAT Floodlight 1",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 11.15 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.15 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            2,
+            3,
+            -8
+          ],
+          "shape": "cube",
+          "subtype": "Spotlight",
+          "paletteSlot": 9,
+          "subsystem": "avionics",
+          "name": "CAT Floodlight 2",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 11.15 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.15 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -2,
+            3,
+            10
+          ],
+          "shape": "cube",
+          "subtype": "Spotlight",
+          "paletteSlot": 9,
+          "subsystem": "avionics",
+          "name": "CAT Floodlight 3",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 11.15 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.15 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            2,
+            3,
+            10
+          ],
+          "shape": "cube",
+          "subtype": "Spotlight",
+          "paletteSlot": 9,
+          "subsystem": "avionics",
+          "name": "CAT Floodlight 4",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 11.15 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 11 Step 11.15 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         }
       ]
     }
-  ]
+  ],
+  "designFigureStatus": {
+    "status": "unverified",
+    "label": "Manual-derived design figures and placements are provisional; verify before build or load planning.",
+    "source": "Chapter 11 provisional 42-block consist envelope and build steps"
+  },
+  "placementEvidenceNote": "Manual-derived major-component placements only, not a complete block blueprint. Z spans the corrected inclusive envelope -16..+25. Half-block manual anchors are represented by adjacent integer voxels; no unsupported visual rotation is inferred. Direction-sensitive placements remain needs-review pending trusted blueprint or in-game validation. Every authored voxel placement has placementEvidenceStatus needs-review because no trusted blueprint or in-game build verifies its model cell."
 }

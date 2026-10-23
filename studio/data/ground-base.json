@@ -10,21 +10,26 @@
     "dryMassTonnes": 2840.0,
     "pcu": 14200,
     "dimensionsBlocks": [
-      35,
-      45,
-      12
+      24,
+      28,
+      9
+    ],
+    "dimensionsMeters": [
+      60.0,
+      70.0,
+      22.5
     ]
   },
   "bounds": {
     "min": [
-      -17,
-      1,
-      -22
+      -12,
+      0,
+      -14
     ],
     "max": [
-      17,
-      12,
-      22
+      11,
+      8,
+      13
     ]
   },
   "palette": [
@@ -148,81 +153,188 @@
       "subsystem": "structure",
       "partsTray": [
         {
-          "type": "Armor Full Block",
-          "qty": 5,
+          "type": "Preview placement: LargeHeavyBlockArmorBlock",
+          "qty": 12,
           "slot": 0,
-          "mass": 1.2,
-          "note": "Primary section module"
+          "note": "Authored placements only; not a complete BOM."
         }
       ],
       "instructions": [
-        "Lay the perimeter retaining wall using Heavy Armor Blocks along X = \u00b112 (Z \u221214 to +14) and Z = \u00b114 (X \u221212 to +12) at Level L1.",
+        "Lay the perimeter retaining wall using Heavy Armor Blocks along X = −12 and +11 (Z −14 to +13) and Z = −14 and +13 (X −12 to +11) at Level L1.",
         "Anchor corner footings 2 blocks deep into terrain (Level L0) to prevent voxel clipping or structural floating.",
-        "Bevel the exterior tarmac perimeter with Heavy Armor Slopes angled 45\u00b0 to provide smooth ramp transitions for ground vehicles."
+        "Bevel the exterior tarmac perimeter with Heavy Armor Slopes angled 45° to provide smooth ramp transitions for ground vehicles."
       ],
       "checks": [
-        "Verify physical clearances and continuous conveyor flow."
+        "Check the retaining wall follows the reconciled 24 × 28 B footprint and its corner footings are anchored."
       ],
       "blocks": [
         {
           "pos": [
-            -2,
-            2,
-            -22
+            -12,
+            0,
+            -14
           ],
           "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
+          "subtype": "LargeHeavyBlockArmorBlock",
           "paletteSlot": 0,
           "subsystem": "structure",
-          "name": "GND-01 Bedrock Plateau Exca [-2, 2, -22]"
+          "name": "GND West South Retaining Corner",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.1 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
-            -1,
-            2,
-            -22
+            -12,
+            0,
+            13
           ],
           "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
+          "subtype": "LargeHeavyBlockArmorBlock",
           "paletteSlot": 0,
           "subsystem": "structure",
-          "name": "GND-01 Bedrock Plateau Exca [-1, 2, -22]"
+          "name": "GND West North Retaining Corner",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.1 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            11,
+            0,
+            -14
+          ],
+          "shape": "cube",
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "GND East South Retaining Corner",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.1 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            11,
+            0,
+            13
+          ],
+          "shape": "cube",
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "GND East North Retaining Corner",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.1 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -12,
+            0,
+            0
+          ],
+          "shape": "cube",
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "GND West Wall Datum",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.1 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            11,
+            0,
+            0
+          ],
+          "shape": "cube",
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "GND East Wall Datum",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.1 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
             0,
-            2,
-            -22
+            0,
+            -14
           ],
           "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
+          "subtype": "LargeHeavyBlockArmorBlock",
           "paletteSlot": 0,
           "subsystem": "structure",
-          "name": "GND-01 Bedrock Plateau Exca [0, 2, -22]"
+          "name": "GND South Wall Datum",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.1 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
-            1,
-            2,
-            -22
+            0,
+            0,
+            13
           ],
           "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
+          "subtype": "LargeHeavyBlockArmorBlock",
           "paletteSlot": 0,
           "subsystem": "structure",
-          "name": "GND-01 Bedrock Plateau Exca [1, 2, -22]"
+          "name": "GND North Wall Datum",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.1 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
-            2,
-            2,
-            -22
+            -12,
+            0,
+            -13
           ],
           "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
+          "subtype": "LargeHeavyBlockArmorBlock",
           "paletteSlot": 0,
           "subsystem": "structure",
-          "name": "GND-01 Bedrock Plateau Exca [2, 2, -22]"
+          "name": "GND West Footing",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.1 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            11,
+            0,
+            12
+          ],
+          "shape": "cube",
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "GND East Footing",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.1 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -11,
+            0,
+            13
+          ],
+          "shape": "cube",
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "GND North Footing",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.1 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            10,
+            0,
+            -14
+          ],
+          "shape": "cube",
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "GND South Footing",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.1 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         }
       ]
     },
@@ -234,81 +346,194 @@
       "subsystem": "conveyor",
       "partsTray": [
         {
-          "type": "Armor Full Block",
-          "qty": 5,
-          "slot": 0,
-          "mass": 1.2,
-          "note": "Primary section module"
+          "type": "Preview placement: LargeBlockConveyor",
+          "qty": 2,
+          "slot": 3,
+          "note": "Authored placements only; not a complete BOM."
+        },
+        {
+          "type": "Preview placement: LargeBlockConveyorTube",
+          "qty": 10,
+          "slot": 3,
+          "note": "Authored placements only; not a complete BOM."
         }
       ],
       "instructions": [
-        "Excavate Trench A (3 B wide \u00d7 1 B deep) along X \u22124 spanning Z +5 to +13 at Level L0. Plumb with 8\u00d7 Large Conveyor Junctions to feed the Caterpillar receiving dock.",
-        "Excavate Trench B (3 B wide \u00d7 1 B deep) along X +3 spanning Z +5 to +13 at Level L0. Plumb with 6\u00d7 Large Conveyor Junctions to feed the Mule gantry pad.",
+        "Excavate Trench A (3 B wide × 1 B deep) along X −4 spanning Z +5 to +13 at Level L0. Plumb with 8× Large Conveyor Junctions to feed the Caterpillar receiving dock.",
+        "Excavate Trench B (3 B wide × 1 B deep) along X +3 spanning Z +5 to +13 at Level L0. Plumb with 6× Large Conveyor Junctions to feed the Mule gantry pad.",
         "Connect both trenches across transverse headers at Z = +5 to the central industrial manifold raceway."
       ],
       "checks": [
-        "Verify physical clearances and continuous conveyor flow."
+        "Confirm both sub-surface trenches remain continuous and route toward their specified pad and collector interfaces."
       ],
       "blocks": [
         {
           "pos": [
-            -2,
-            3,
-            -19
+            -4,
+            0,
+            6
           ],
           "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
+          "subtype": "LargeBlockConveyorTube",
+          "paletteSlot": 3,
           "subsystem": "conveyor",
-          "name": "GND-01 Sub-Surface Conveyor [-2, 3, -19]"
+          "name": "GND Trench A Raceway 6",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.2 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
-            -1,
-            3,
-            -19
+            -4,
+            0,
+            8
           ],
           "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
+          "subtype": "LargeBlockConveyorTube",
+          "paletteSlot": 3,
           "subsystem": "conveyor",
-          "name": "GND-01 Sub-Surface Conveyor [-1, 3, -19]"
+          "name": "GND Trench A Raceway 8",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.2 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -4,
+            0,
+            10
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockConveyorTube",
+          "paletteSlot": 3,
+          "subsystem": "conveyor",
+          "name": "GND Trench A Raceway 10",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.2 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -4,
+            0,
+            12
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockConveyorTube",
+          "paletteSlot": 3,
+          "subsystem": "conveyor",
+          "name": "GND Trench A Raceway 12",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.2 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            3,
+            0,
+            6
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockConveyorTube",
+          "paletteSlot": 3,
+          "subsystem": "conveyor",
+          "name": "GND Trench B Raceway 6",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.2 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            3,
+            0,
+            8
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockConveyorTube",
+          "paletteSlot": 3,
+          "subsystem": "conveyor",
+          "name": "GND Trench B Raceway 8",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.2 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            3,
+            0,
+            10
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockConveyorTube",
+          "paletteSlot": 3,
+          "subsystem": "conveyor",
+          "name": "GND Trench B Raceway 10",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.2 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            3,
+            0,
+            12
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockConveyorTube",
+          "paletteSlot": 3,
+          "subsystem": "conveyor",
+          "name": "GND Trench B Raceway 12",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.2 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
             0,
-            3,
-            -19
+            0,
+            5
           ],
           "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
+          "subtype": "LargeBlockConveyor",
+          "paletteSlot": 3,
           "subsystem": "conveyor",
-          "name": "GND-01 Sub-Surface Conveyor [0, 3, -19]"
+          "name": "GND Trench Header 5",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.2 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
-            1,
-            3,
-            -19
+            0,
+            0,
+            -1
           ],
           "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
+          "subtype": "LargeBlockConveyor",
+          "paletteSlot": 3,
           "subsystem": "conveyor",
-          "name": "GND-01 Sub-Surface Conveyor [1, 3, -19]"
+          "name": "GND Trench Header -1",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.2 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
-            2,
             3,
-            -19
+            0,
+            7
           ],
           "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
+          "subtype": "LargeBlockConveyorTube",
+          "paletteSlot": 3,
           "subsystem": "conveyor",
-          "name": "GND-01 Sub-Surface Conveyor [2, 3, -19]"
+          "name": "GND Trench B Pad Intake Link",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.2 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -4,
+            0,
+            7
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockConveyorTube",
+          "paletteSlot": 3,
+          "subsystem": "conveyor",
+          "name": "GND Trench A Collector Intake Link",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.2 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         }
       ]
     },
@@ -320,168 +545,277 @@
       "subsystem": "conveyor",
       "partsTray": [
         {
-          "type": "Armor Full Block",
-          "qty": 5,
+          "type": "Preview placement: LargeHeavyBlockArmorBlock",
+          "qty": 10,
           "slot": 0,
-          "mass": 1.2,
-          "note": "Primary section module"
+          "note": "Authored placements only; not a complete BOM."
         }
       ],
       "instructions": [
-        "Lay reinforced Heavy Armor Blocks across the entire 24 \u00d7 28 B surface deck at Level L1, enclosing the sub-surface raceways.",
-        "Leave open intake collar sockets at [X +3, Z +9] (for the Mule pad connector) and along X \u22124, Z +8 to +10 (for the 5\u00d7 Caterpillar collectors).",
+        "Lay reinforced Heavy Armor Blocks across the entire 24 × 28 B surface deck at Level L1, enclosing the sub-surface raceways.",
+        "Leave open intake collar sockets at [X +3, Z +9] (for the Mule pad connector) and along X −4, Z +8 to +10 (for the 5× Caterpillar collectors).",
         "Paint the entire tarmac foundation Palette Slot 0 (Industrial Slate)."
       ],
       "checks": [
-        "Foundation is 100% sealed with zero exposed voxel terrain gaps.",
-        "Trench raceways provide unrestricted large-port conveyor flow beneath the surface."
+        "Verify the deck closes over the raceways without blocking the trench access points."
       ],
       "blocks": [
         {
           "pos": [
-            -2,
-            4,
-            -16
+            -11,
+            0,
+            -13
           ],
-          "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
-          "subsystem": "conveyor",
-          "name": "GND-01 Foundation Blast Sla [-2, 4, -16]"
+          "shape": "cube",
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "GND Tarmac West South Plate",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.3 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
-            -1,
-            4,
-            -16
+            -11,
+            0,
+            12
           ],
-          "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
-          "subsystem": "conveyor",
-          "name": "GND-01 Foundation Blast Sla [-1, 4, -16]"
+          "shape": "cube",
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "GND Tarmac West North Plate",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.3 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            10,
+            0,
+            -13
+          ],
+          "shape": "cube",
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "GND Tarmac East South Plate",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.3 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            10,
+            0,
+            12
+          ],
+          "shape": "cube",
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "GND Tarmac East North Plate",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.3 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
             0,
-            4,
-            -16
+            0,
+            -13
           ],
-          "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
-          "subsystem": "conveyor",
-          "name": "GND-01 Foundation Blast Sla [0, 4, -16]"
+          "shape": "cube",
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "GND Tarmac South Spine",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.3 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
-            1,
-            4,
-            -16
+            0,
+            0,
+            12
           ],
-          "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
-          "subsystem": "conveyor",
-          "name": "GND-01 Foundation Blast Sla [1, 4, -16]"
+          "shape": "cube",
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "GND Tarmac North Spine",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.3 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -11,
+            0,
+            0
+          ],
+          "shape": "cube",
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "GND Tarmac West Crossbeam",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.3 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            10,
+            0,
+            0
+          ],
+          "shape": "cube",
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "GND Tarmac East Crossbeam",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.3 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
             2,
-            4,
-            -16
+            0,
+            9
           ],
-          "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
-          "subsystem": "conveyor",
-          "name": "GND-01 Foundation Blast Sla [2, 4, -16]"
+          "shape": "cube",
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "GND Pad Collar Frame",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.3 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -6,
+            0,
+            8
+          ],
+          "shape": "cube",
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "GND CAT Collector Collar Frame",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.3 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         }
       ]
     },
     {
       "step": "4.4",
       "phase": "4-1",
-      "title": "MULE-01 Touchdown Blast Deck (7\u00d77 B Flush Deck) (L1)",
+      "title": "MULE-01 Touchdown Blast Deck (7×7 B Flush Deck) (L1)",
       "level": "L2",
       "subsystem": "structure",
       "partsTray": [
         {
-          "type": "Armor Full Block",
+          "type": "Preview placement: LargeBlockConnector",
+          "qty": 1,
+          "slot": 1,
+          "note": "Authored placements only; not a complete BOM."
+        },
+        {
+          "type": "Preview placement: LargeHeavyBlockArmorBlock",
           "qty": 5,
-          "slot": 0,
-          "mass": 1.2,
-          "note": "Primary section module"
+          "slot": 1,
+          "note": "Authored placements only; not a complete BOM."
         }
       ],
       "instructions": [
-        "Construct the 7 \u00d7 7 B touchdown deck spanning X 0 to +6, Z +6 to +12 at Level L1.",
+        "Construct the 7 × 7 B touchdown deck spanning X 0 to +6, Z +6 to +12 at Level L1.",
         "Paint the deck perimeter with alternating Hazard Amber (Slot 1) and Industrial Slate (Slot 0) warning chevrons.",
         "Install Large Connector `GND PAD Conn` flush in the deck center at [X +3, Z +9, Level L1], facing straight UP (+Y), plumbed directly into Trench B."
       ],
       "checks": [
-        "Verify physical clearances and continuous conveyor flow."
+        "Check the 7 × 7 B touchdown surface is level, the connector socket stays open, and the cradle clears the pad."
       ],
       "blocks": [
         {
           "pos": [
-            -2,
-            2,
-            -13
+            0,
+            0,
+            6
           ],
           "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 0,
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 1,
           "subsystem": "structure",
-          "name": "GND-01 MULE-01 Touchdown Bl [-2, 2, -13]"
+          "name": "GND PAD Deck Marker 0,6",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.4 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
-            -1,
-            2,
-            -13
+            6,
+            0,
+            6
           ],
           "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 0,
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 1,
           "subsystem": "structure",
-          "name": "GND-01 MULE-01 Touchdown Bl [-1, 2, -13]"
+          "name": "GND PAD Deck Marker 6,6",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.4 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
             0,
-            2,
-            -13
+            0,
+            9
           ],
           "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 0,
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 1,
           "subsystem": "structure",
-          "name": "GND-01 MULE-01 Touchdown Bl [0, 2, -13]"
+          "name": "GND PAD Deck Marker 0,9",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.4 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
-            1,
-            2,
-            -13
+            6,
+            0,
+            9
           ],
           "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 0,
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 1,
           "subsystem": "structure",
-          "name": "GND-01 MULE-01 Touchdown Bl [1, 2, -13]"
+          "name": "GND PAD Deck Marker 6,9",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.4 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
-            2,
-            2,
-            -13
+            6,
+            0,
+            12
           ],
           "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 0,
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 1,
           "subsystem": "structure",
-          "name": "GND-01 MULE-01 Touchdown Bl [2, 2, -13]"
+          "name": "GND PAD Deck Marker 6,12",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.4 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            3,
+            0,
+            9
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockConnector",
+          "paletteSlot": 1,
+          "subsystem": "conveyor",
+          "name": "GND PAD Conn",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 4.4 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.4 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         }
       ]
     },
@@ -493,82 +827,145 @@
       "subsystem": "structure",
       "partsTray": [
         {
-          "type": "Armor Full Block",
-          "qty": 5,
-          "slot": 0,
-          "mass": 1.2,
-          "note": "Primary section module"
+          "type": "Preview placement: LargeBlockHinge",
+          "qty": 2,
+          "slot": 1,
+          "note": "Authored placements only; not a complete BOM."
+        },
+        {
+          "type": "Preview placement: LargeHeavyBlockArmorBlock",
+          "qty": 2,
+          "slot": 1,
+          "note": "Authored placements only; not a complete BOM."
+        },
+        {
+          "type": "Preview placement: LargeMagneticPlate",
+          "qty": 2,
+          "slot": 1,
+          "note": "Authored placements only; not a complete BOM."
+        },
+        {
+          "type": "Preview placement: SensorBlock",
+          "qty": 1,
+          "slot": 1,
+          "note": "Authored placements only; not a complete BOM."
         }
       ],
       "instructions": [
-        "Mount 1\u00d7 Motor Hinge `GND PAD Cradle Hinge Port` at [X +1, Z +10, Level L1] with hinge pin longitudinal (Z-axis) and base facing East (+X).",
-        "Mount 1\u00d7 Motor Hinge `GND PAD Cradle Hinge Stbd` at [X +5, Z +10, Level L1] with hinge pin longitudinal (Z-axis) and base facing West (\u2212X).",
+        "Mount 1× Motor Hinge `GND PAD Cradle Hinge Port` at [X +1, Z +10, Level L1] with hinge pin longitudinal (Z-axis) and base facing East (+X).",
+        "Mount 1× Motor Hinge `GND PAD Cradle Hinge Stbd` at [X +5, Z +10, Level L1] with hinge pin longitudinal (Z-axis) and base facing West (−X).",
         "Weld Large Magnetic Plates `GND PAD Cradle Clamp Port/Stbd` onto the hinge heads, set to `Auto-Lock = ON`.",
         "Install Sensor Block `GND PAD Sensor` at [X +3, Z +12, Level L1]. Configure detection field: 15 m radius centered 5 m above pad."
       ],
       "checks": [
-        "Verify physical clearances and continuous conveyor flow."
+        "Cycle the cradle hinge through its intended travel and confirm the clamping arms clear the MULE landing rails."
       ],
       "blocks": [
         {
           "pos": [
-            -2,
-            3,
-            -10
-          ],
-          "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 0,
-          "subsystem": "structure",
-          "name": "GND-01 Motorized Gantry Cra [-2, 3, -10]"
-        },
-        {
-          "pos": [
-            -1,
-            3,
-            -10
-          ],
-          "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 0,
-          "subsystem": "structure",
-          "name": "GND-01 Motorized Gantry Cra [-1, 3, -10]"
-        },
-        {
-          "pos": [
+            1,
             0,
-            3,
-            -10
+            10
           ],
-          "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 0,
-          "subsystem": "structure",
-          "name": "GND-01 Motorized Gantry Cra [0, 3, -10]"
+          "shape": "hinge",
+          "subtype": "LargeBlockHinge",
+          "paletteSlot": 1,
+          "subsystem": "propulsion",
+          "name": "GND PAD Cradle Hinge Port",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 4.5 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.5 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            5,
+            0,
+            10
+          ],
+          "shape": "hinge",
+          "subtype": "LargeBlockHinge",
+          "paletteSlot": 1,
+          "subsystem": "propulsion",
+          "name": "GND PAD Cradle Hinge Stbd",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 4.5 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.5 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
             1,
-            3,
-            -10
+            1,
+            10
           ],
           "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 0,
-          "subsystem": "structure",
-          "name": "GND-01 Motorized Gantry Cra [1, 3, -10]"
+          "subtype": "LargeMagneticPlate",
+          "paletteSlot": 1,
+          "subsystem": "propulsion",
+          "name": "GND PAD Cradle Clamp Port",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 4.5 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.5 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
-            2,
-            3,
-            -10
+            5,
+            1,
+            10
           ],
           "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 0,
+          "subtype": "LargeMagneticPlate",
+          "paletteSlot": 1,
+          "subsystem": "propulsion",
+          "name": "GND PAD Cradle Clamp Stbd",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 4.5 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.5 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            3,
+            1,
+            12
+          ],
+          "shape": "cube",
+          "subtype": "SensorBlock",
+          "paletteSlot": 1,
+          "subsystem": "avionics",
+          "name": "GND PAD Sensor",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.5 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            1,
+            0,
+            9
+          ],
+          "shape": "cube",
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 1,
           "subsystem": "structure",
-          "name": "GND-01 Motorized Gantry Cra [2, 3, -10]"
+          "name": "GND PAD Port Arm Foot",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.5 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            5,
+            0,
+            9
+          ],
+          "shape": "cube",
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 1,
+          "subsystem": "structure",
+          "name": "GND PAD Stbd Arm Foot",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.5 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         }
       ]
     },
@@ -580,168 +977,322 @@
       "subsystem": "propulsion",
       "partsTray": [
         {
-          "type": "Armor Full Block",
-          "qty": 5,
-          "slot": 0,
-          "mass": 1.2,
-          "note": "Primary section module"
+          "type": "Preview placement: BlastDoorBlock",
+          "qty": 2,
+          "slot": 2,
+          "note": "Authored placements only; not a complete BOM."
+        },
+        {
+          "type": "Preview placement: LargeBlockConnector",
+          "qty": 1,
+          "slot": 2,
+          "note": "Authored placements only; not a complete BOM."
+        },
+        {
+          "type": "Preview placement: LargeHeavyBlockArmorBlock",
+          "qty": 6,
+          "slot": 2,
+          "note": "Authored placements only; not a complete BOM."
         }
       ],
       "instructions": [
-        "Construct the heavy rail receiving trench along X \u22126 to \u22121, Z +6 to +12 at Level L1.",
-        "Install raised Heavy Armor Slope curbs along X = \u22126 and X = \u22121 to physically funnel the land train's 5\u00d75 wheels into alignment.",
-        "Weld heavy collision stop blocks using Blast Door Blocks at Z = +5 (X \u22123 to \u22125).",
-        "Mount Large Connector `GND CAT Dump Conn` horizontally at [X \u22124, Z +5, Level L2] facing North (+Z). Height: exactly 2.5 m above tarmac."
+        "Construct the heavy rail receiving trench along X −6 to −1, Z +6 to +12 at Level L1.",
+        "Install raised Heavy Armor Slope curbs along X = −6 and X = −1 to physically funnel the land train's 5×5 wheels into alignment.",
+        "Weld heavy collision stop blocks using Blast Door Blocks at Z = +5 (X −3 to −5).",
+        "Mount Large Connector `GND CAT Dump Conn` horizontally at [X −4, Z +5, Level L2] facing North (+Z). Height: exactly 2.5 m above tarmac."
       ],
       "checks": [
-        "Verify physical clearances and continuous conveyor flow."
+        "Check the Caterpillar receiving rails, wheel curbs, and stop bumpers align without obstructing the unload path."
       ],
       "blocks": [
         {
           "pos": [
-            -2,
-            4,
-            -7
+            -6,
+            0,
+            7
           ],
           "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 8,
-          "subsystem": "propulsion",
-          "name": "GND-01 CATERPILLAR-01 Unloa [-2, 4, -7]"
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 2,
+          "subsystem": "structure",
+          "name": "GND CAT Rail Curb X-6 Z7",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.6 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -6,
+            0,
+            9
+          ],
+          "shape": "cube",
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 2,
+          "subsystem": "structure",
+          "name": "GND CAT Rail Curb X-6 Z9",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.6 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -6,
+            0,
+            11
+          ],
+          "shape": "cube",
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 2,
+          "subsystem": "structure",
+          "name": "GND CAT Rail Curb X-6 Z11",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.6 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
             -1,
-            4,
-            -7
-          ],
-          "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 8,
-          "subsystem": "propulsion",
-          "name": "GND-01 CATERPILLAR-01 Unloa [-1, 4, -7]"
-        },
-        {
-          "pos": [
             0,
-            4,
-            -7
+            7
           ],
           "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 8,
-          "subsystem": "propulsion",
-          "name": "GND-01 CATERPILLAR-01 Unloa [0, 4, -7]"
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 2,
+          "subsystem": "structure",
+          "name": "GND CAT Rail Curb X-1 Z7",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.6 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
+            -1,
+            0,
+            9
+          ],
+          "shape": "cube",
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 2,
+          "subsystem": "structure",
+          "name": "GND CAT Rail Curb X-1 Z9",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.6 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -1,
+            0,
+            11
+          ],
+          "shape": "cube",
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 2,
+          "subsystem": "structure",
+          "name": "GND CAT Rail Curb X-1 Z11",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.6 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -5,
+            0,
+            5
+          ],
+          "shape": "cube",
+          "subtype": "BlastDoorBlock",
+          "paletteSlot": 2,
+          "subsystem": "structure",
+          "name": "GND CAT Stop Bumper X-5",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.6 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -3,
+            0,
+            5
+          ],
+          "shape": "cube",
+          "subtype": "BlastDoorBlock",
+          "paletteSlot": 2,
+          "subsystem": "structure",
+          "name": "GND CAT Stop Bumper X-3",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.6 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -4,
             1,
-            4,
-            -7
+            5
           ],
           "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 8,
-          "subsystem": "propulsion",
-          "name": "GND-01 CATERPILLAR-01 Unloa [1, 4, -7]"
-        },
-        {
-          "pos": [
-            2,
-            4,
-            -7
-          ],
-          "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 8,
-          "subsystem": "propulsion",
-          "name": "GND-01 CATERPILLAR-01 Unloa [2, 4, -7]"
+          "subtype": "LargeBlockConnector",
+          "paletteSlot": 2,
+          "subsystem": "conveyor",
+          "name": "GND CAT Dump Conn",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 4.6 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.6 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         }
       ]
     },
     {
       "step": "4.7",
       "phase": "4-1",
-      "title": "5\u00d7 In-Deck Gravity Collectors & Bulk Sorter Manifold (L1)",
+      "title": "5× In-Deck Gravity Collectors & Bulk Sorter Manifold (L1)",
       "level": "L2",
       "subsystem": "conveyor",
       "partsTray": [
         {
-          "type": "Armor Full Block",
+          "type": "Preview placement: Collector",
           "qty": 5,
-          "slot": 0,
-          "mass": 1.2,
-          "note": "Primary section module"
+          "slot": 2,
+          "note": "Authored placements only; not a complete BOM."
+        },
+        {
+          "type": "Preview placement: LargeBlockConveyorTube",
+          "qty": 2,
+          "slot": 2,
+          "note": "Authored placements only; not a complete BOM."
+        },
+        {
+          "type": "Preview placement: LargeConveyorSorter",
+          "qty": 1,
+          "slot": 2,
+          "note": "Authored placements only; not a complete BOM."
         }
       ],
       "instructions": [
-        "Mount 5\u00d7 Large Grid Collectors `GND CAT Hopper Coll 1..5` flush in the deck at Level L1, facing straight UP (+Y):",
+        "Mount 5× Large Grid Collectors `GND CAT Hopper Coll 1..5` flush in the deck at Level L1, facing straight UP (+Y):",
         "Plumb all 5 collectors into sub-surface Trench A.",
-        "Install Large Conveyor Sorter `GND CAT Sorter Bulk` downstream of the collectors at [X \u22124, Z +5, Level L0] with flow arrow South (\u2212Z). Whitelist: `Iron`, `Nickel`, `Silicon`, `Cobalt`, `Stone`. Set `Drain All = ON`."
+        "Install Large Conveyor Sorter `GND CAT Sorter Bulk` downstream of the collectors at [X −4, Z +5, Level L0] with flow arrow South (−Z). Whitelist: `Iron`, `Nickel`, `Silicon`, `Cobalt`, `Stone`. Set `Drain All = ON`."
       ],
       "checks": [
-        "Verify physical clearances and continuous conveyor flow."
+        "Confirm each collector faces upward, connects to Trench A, and feeds the bulk sorter in the stated direction."
       ],
       "blocks": [
         {
           "pos": [
-            -2,
-            2,
-            -4
-          ],
-          "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
-          "subsystem": "conveyor",
-          "name": "GND-01 5\u00d7 In-Deck Gravity C [-2, 2, -4]"
-        },
-        {
-          "pos": [
-            -1,
-            2,
-            -4
-          ],
-          "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
-          "subsystem": "conveyor",
-          "name": "GND-01 5\u00d7 In-Deck Gravity C [-1, 2, -4]"
-        },
-        {
-          "pos": [
+            -5,
             0,
-            2,
-            -4
+            10
           ],
-          "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
+          "shape": "cube",
+          "subtype": "Collector",
+          "paletteSlot": 2,
           "subsystem": "conveyor",
-          "name": "GND-01 5\u00d7 In-Deck Gravity C [0, 2, -4]"
+          "name": "GND CAT Hopper Coll 1",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 4.7 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.7 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
-            1,
-            2,
-            -4
+            -3,
+            0,
+            10
           ],
-          "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
+          "shape": "cube",
+          "subtype": "Collector",
+          "paletteSlot": 2,
           "subsystem": "conveyor",
-          "name": "GND-01 5\u00d7 In-Deck Gravity C [1, 2, -4]"
+          "name": "GND CAT Hopper Coll 2",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 4.7 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.7 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
-            2,
-            2,
-            -4
+            -5,
+            0,
+            9
+          ],
+          "shape": "cube",
+          "subtype": "Collector",
+          "paletteSlot": 2,
+          "subsystem": "conveyor",
+          "name": "GND CAT Hopper Coll 3",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 4.7 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.7 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -3,
+            0,
+            9
+          ],
+          "shape": "cube",
+          "subtype": "Collector",
+          "paletteSlot": 2,
+          "subsystem": "conveyor",
+          "name": "GND CAT Hopper Coll 4",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 4.7 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.7 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -5,
+            0,
+            8
+          ],
+          "shape": "cube",
+          "subtype": "Collector",
+          "paletteSlot": 2,
+          "subsystem": "conveyor",
+          "name": "GND CAT Hopper Coll 5",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 4.7 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.7 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -4,
+            0,
+            5
           ],
           "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
+          "subtype": "LargeConveyorSorter",
+          "paletteSlot": 2,
           "subsystem": "conveyor",
-          "name": "GND-01 5\u00d7 In-Deck Gravity C [2, 2, -4]"
+          "name": "GND CAT Sorter Bulk",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 4.7 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.7 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -4,
+            0,
+            9
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockConveyorTube",
+          "paletteSlot": 2,
+          "subsystem": "conveyor",
+          "name": "GND CAT Collector Header Z9",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.7 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -4,
+            0,
+            11
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockConveyorTube",
+          "paletteSlot": 2,
+          "subsystem": "conveyor",
+          "name": "GND CAT Collector Header Z11",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.7 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         }
       ]
     },
@@ -753,81 +1304,162 @@
       "subsystem": "structure",
       "partsTray": [
         {
-          "type": "Armor Full Block",
-          "qty": 5,
-          "slot": 0,
-          "mass": 1.2,
-          "note": "Primary section module"
+          "type": "Preview placement: LargeBlockConveyor",
+          "qty": 3,
+          "slot": 3,
+          "note": "Authored placements only; not a complete BOM."
+        },
+        {
+          "type": "Preview placement: LargeBlockRefinery",
+          "qty": 2,
+          "slot": 3,
+          "note": "Authored placements only; not a complete BOM."
+        },
+        {
+          "type": "Preview placement: LargeBlockRefineryModule",
+          "qty": 4,
+          "slot": 3,
+          "note": "Authored placements only; not a complete BOM."
         }
       ],
       "instructions": [
-        "Mount 2\u00d7 Large Refineries `GND REF 1` and `GND REF 2` at [X \u22125, Z +3] and [X \u22125, Z +1] at Level L1, with large ports facing North/South.",
-        "Attach 4\u00d7 Yield Modules to the exterior Port face of `GND REF 1` and 4\u00d7 Yield Modules to `GND REF 2`.",
+        "Mount 2× Large Refineries `GND REF 1` and `GND REF 2` at [X −5, Z +3] and [X −5, Z +1] at Level L1, with large ports facing North/South.",
+        "Attach 4× Yield Modules to the exterior Port face of `GND REF 1` and 4× Yield Modules to `GND REF 2`.",
         "Plumb the intake ports directly to Trench B (Rare Ore Stream from Mule Pad)."
       ],
       "checks": [
-        "Verify physical clearances and continuous conveyor flow."
+        "Verify both west-bank refineries have accessible large ports and route outputs into the shared ingot trunk."
       ],
       "blocks": [
         {
           "pos": [
-            -2,
-            3,
-            -1
-          ],
-          "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 0,
-          "subsystem": "structure",
-          "name": "GND-01 West Smelting Bank ( [-2, 3, -1]"
-        },
-        {
-          "pos": [
-            -1,
-            3,
-            -1
-          ],
-          "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 0,
-          "subsystem": "structure",
-          "name": "GND-01 West Smelting Bank ( [-1, 3, -1]"
-        },
-        {
-          "pos": [
+            -5,
             0,
-            3,
-            -1
+            3
           ],
-          "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 0,
-          "subsystem": "structure",
-          "name": "GND-01 West Smelting Bank ( [0, 3, -1]"
+          "shape": "refinery",
+          "subtype": "LargeBlockRefinery",
+          "paletteSlot": 3,
+          "subsystem": "conveyor",
+          "name": "GND REF 1",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 4.8 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.8 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
-            1,
-            3,
-            -1
+            -5,
+            0,
+            1
           ],
-          "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 0,
-          "subsystem": "structure",
-          "name": "GND-01 West Smelting Bank ( [1, 3, -1]"
+          "shape": "refinery",
+          "subtype": "LargeBlockRefinery",
+          "paletteSlot": 3,
+          "subsystem": "conveyor",
+          "name": "GND REF 2",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 4.8 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.8 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
-            2,
-            3,
-            -1
+            -7,
+            0,
+            1
           ],
           "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 0,
-          "subsystem": "structure",
-          "name": "GND-01 West Smelting Bank ( [2, 3, -1]"
+          "subtype": "LargeBlockRefineryModule",
+          "paletteSlot": 3,
+          "subsystem": "conveyor",
+          "name": "GND REF Yield Port 1",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.8 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -7,
+            0,
+            2
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockRefineryModule",
+          "paletteSlot": 3,
+          "subsystem": "conveyor",
+          "name": "GND REF Yield Port 2",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.8 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -7,
+            0,
+            3
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockRefineryModule",
+          "paletteSlot": 3,
+          "subsystem": "conveyor",
+          "name": "GND REF Yield Port 3",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.8 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -7,
+            0,
+            4
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockRefineryModule",
+          "paletteSlot": 3,
+          "subsystem": "conveyor",
+          "name": "GND REF Yield Port 4",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.8 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -5,
+            0,
+            2
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockConveyor",
+          "paletteSlot": 3,
+          "subsystem": "conveyor",
+          "name": "GND Rare Intake Link 2",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.8 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -5,
+            0,
+            4
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockConveyor",
+          "paletteSlot": 3,
+          "subsystem": "conveyor",
+          "name": "GND Rare Intake Link 4",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.8 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -4,
+            0,
+            1
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockConveyor",
+          "paletteSlot": 3,
+          "subsystem": "conveyor",
+          "name": "GND Rare Refinery Outlet Link",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.8 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         }
       ]
     },
@@ -839,169 +1471,447 @@
       "subsystem": "conveyor",
       "partsTray": [
         {
-          "type": "Armor Full Block",
-          "qty": 5,
-          "slot": 0,
-          "mass": 1.2,
-          "note": "Primary section module"
+          "type": "Preview placement: LargeBlockConveyor",
+          "qty": 4,
+          "slot": 3,
+          "note": "Authored placements only; not a complete BOM."
+        },
+        {
+          "type": "Preview placement: LargeBlockRefinery",
+          "qty": 2,
+          "slot": 3,
+          "note": "Authored placements only; not a complete BOM."
+        },
+        {
+          "type": "Preview placement: LargeBlockRefineryModule",
+          "qty": 4,
+          "slot": 3,
+          "note": "Authored placements only; not a complete BOM."
         }
       ],
       "instructions": [
-        "Mount 2\u00d7 Large Refineries `GND REF 3` and `GND REF 4` at [X +4, Z +3] and [X +4, Z +1] at Level L1.",
-        "Attach 4\u00d7 Yield Modules to the exterior Starboard face of `GND REF 3` and 4\u00d7 Yield Modules to `GND REF 4`.",
+        "Mount 2× Large Refineries `GND REF 3` and `GND REF 4` at [X +4, Z +3] and [X +4, Z +1] at Level L1.",
+        "Attach 4× Yield Modules to the exterior Starboard face of `GND REF 3` and 4× Yield Modules to `GND REF 4`.",
         "Plumb the intake ports directly to Trench A (Bulk Ore Stream from Caterpillar Dock).",
         "Tie all 4 refinery discharge ports into the central Refined Ingot Trunk running South along centerline X0."
       ],
       "checks": [
-        "Verify physical clearances and continuous conveyor flow."
+        "Verify both east-bank refineries have accessible large ports and join the same ingot distribution path."
       ],
       "blocks": [
         {
           "pos": [
-            -2,
             4,
-            1
+            0,
+            3
           ],
-          "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
+          "shape": "refinery",
+          "subtype": "LargeBlockRefinery",
+          "paletteSlot": 3,
           "subsystem": "conveyor",
-          "name": "GND-01 East Smelting Bank ( [-2, 4, 1]"
+          "name": "GND REF 3",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 4.9 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.9 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
-            -1,
             4,
+            0,
             1
           ],
-          "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
+          "shape": "refinery",
+          "subtype": "LargeBlockRefinery",
+          "paletteSlot": 3,
           "subsystem": "conveyor",
-          "name": "GND-01 East Smelting Bank ( [-1, 4, 1]"
+          "name": "GND REF 4",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 4.9 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.9 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            6,
+            0,
+            1
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockRefineryModule",
+          "paletteSlot": 3,
+          "subsystem": "conveyor",
+          "name": "GND REF Yield Starboard 1",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.9 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            6,
+            0,
+            2
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockRefineryModule",
+          "paletteSlot": 3,
+          "subsystem": "conveyor",
+          "name": "GND REF Yield Starboard 2",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.9 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            6,
+            0,
+            3
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockRefineryModule",
+          "paletteSlot": 3,
+          "subsystem": "conveyor",
+          "name": "GND REF Yield Starboard 3",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.9 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            6,
+            0,
+            4
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockRefineryModule",
+          "paletteSlot": 3,
+          "subsystem": "conveyor",
+          "name": "GND REF Yield Starboard 4",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.9 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
             0,
-            4,
+            0,
             1
           ],
           "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
+          "subtype": "LargeBlockConveyor",
+          "paletteSlot": 3,
           "subsystem": "conveyor",
-          "name": "GND-01 East Smelting Bank ( [0, 4, 1]"
+          "name": "GND Refined Ingot Trunk 1",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.9 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
-            1,
             4,
-            1
+            0,
+            4
           ],
           "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
+          "subtype": "LargeBlockConveyor",
+          "paletteSlot": 3,
           "subsystem": "conveyor",
-          "name": "GND-01 East Smelting Bank ( [1, 4, 1]"
+          "name": "GND Bulk Trench A Intake Link North",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.9 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
-            2,
             4,
-            1
+            0,
+            2
           ],
           "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
+          "subtype": "LargeBlockConveyor",
+          "paletteSlot": 3,
           "subsystem": "conveyor",
-          "name": "GND-01 East Smelting Bank ( [2, 4, 1]"
+          "name": "GND Bulk Trench A Intake Link South",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.9 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            0,
+            0,
+            0
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockConveyor",
+          "paletteSlot": 3,
+          "subsystem": "conveyor",
+          "name": "GND Ingot Trunk Junction",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.9 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         }
       ]
     },
     {
       "step": "4.10",
       "phase": "4-1",
-      "title": "4-Assembler Manufacturing Array & 16\u00d7 Speed Modules (L1-L2)",
+      "title": "4-Assembler Manufacturing Array & 16× Speed Modules (L1-L2)",
       "level": "L2",
       "subsystem": "structure",
       "partsTray": [
         {
-          "type": "Armor Full Block",
-          "qty": 5,
-          "slot": 0,
-          "mass": 1.2,
-          "note": "Primary section module"
+          "type": "Preview placement: LargeBlockAssembler",
+          "qty": 4,
+          "slot": 4,
+          "note": "Authored placements only; not a complete BOM."
+        },
+        {
+          "type": "Preview placement: LargeBlockAssemblerModule",
+          "qty": 8,
+          "slot": 4,
+          "note": "Authored placements only; not a complete BOM."
+        },
+        {
+          "type": "Preview placement: LargeBlockConveyor",
+          "qty": 4,
+          "slot": 4,
+          "note": "Authored placements only; not a complete BOM."
         }
       ],
       "instructions": [
-        "Mount 4\u00d7 Large Assemblers `GND ASM 1..4` at [X \u22124, Z \u22122], [X \u22124, Z \u22124], [X +3, Z \u22122], and [X +3, Z \u22124] at Level L1.",
-        "Plumb top and side upgrade ports with 4\u00d7 Speed Modules per assembler (16 total).",
+        "Mount 4× Large Assemblers `GND ASM 1..4` at [X −4, Z −2], [X −4, Z −4], [X +3, Z −2], and [X +3, Z −4] at Level L1.",
+        "Plumb top and side upgrade ports with 4× Speed Modules per assembler (16 total).",
         "Configure `GND ASM 1` as **Master Controller**; set `Cooperative Mode = ON` on `GND ASM 2, 3, 4`.",
         "Verify terminal displays `Productivity: 400%` across all 4 units."
       ],
       "checks": [
-        "Verify physical clearances and continuous conveyor flow."
+        "Check all four assemblers have unobstructed conveyor connections to the component buffer and output route."
       ],
       "blocks": [
         {
           "pos": [
-            -2,
-            2,
-            4
-          ],
-          "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 0,
-          "subsystem": "structure",
-          "name": "GND-01 4-Assembler Manufact [-2, 2, 4]"
-        },
-        {
-          "pos": [
-            -1,
-            2,
-            4
-          ],
-          "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 0,
-          "subsystem": "structure",
-          "name": "GND-01 4-Assembler Manufact [-1, 2, 4]"
-        },
-        {
-          "pos": [
+            -4,
             0,
-            2,
-            4
+            -2
           ],
-          "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 0,
-          "subsystem": "structure",
-          "name": "GND-01 4-Assembler Manufact [0, 2, 4]"
+          "shape": "assembler",
+          "subtype": "LargeBlockAssembler",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "GND ASM 1",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 4.10 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.10 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
-            1,
-            2,
-            4
+            -4,
+            0,
+            -4
+          ],
+          "shape": "assembler",
+          "subtype": "LargeBlockAssembler",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "GND ASM 2",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 4.10 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.10 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            3,
+            0,
+            -2
+          ],
+          "shape": "assembler",
+          "subtype": "LargeBlockAssembler",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "GND ASM 3",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 4.10 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.10 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            3,
+            0,
+            -4
+          ],
+          "shape": "assembler",
+          "subtype": "LargeBlockAssembler",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "GND ASM 4",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 4.10 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.10 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -5,
+            0,
+            -2
           ],
           "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 0,
-          "subsystem": "structure",
-          "name": "GND-01 4-Assembler Manufact [1, 2, 4]"
+          "subtype": "LargeBlockAssemblerModule",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "GND ASM Speed Module 1",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.10 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -3,
+            0,
+            -2
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockAssemblerModule",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "GND ASM Speed Module 2",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.10 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -5,
+            0,
+            -4
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockAssemblerModule",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "GND ASM Speed Module 3",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.10 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -3,
+            0,
+            -4
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockAssemblerModule",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "GND ASM Speed Module 4",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.10 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
             2,
-            2,
-            4
+            0,
+            -2
           ],
           "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 0,
-          "subsystem": "structure",
-          "name": "GND-01 4-Assembler Manufact [2, 2, 4]"
+          "subtype": "LargeBlockAssemblerModule",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "GND ASM Speed Module 5",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.10 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            4,
+            0,
+            -2
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockAssemblerModule",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "GND ASM Speed Module 6",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.10 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            2,
+            0,
+            -4
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockAssemblerModule",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "GND ASM Speed Module 7",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.10 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            4,
+            0,
+            -4
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockAssemblerModule",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "GND ASM Speed Module 8",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.10 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -4,
+            0,
+            -1
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockConveyor",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "GND ASM West Ingot Feed",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.10 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            3,
+            0,
+            -1
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockConveyor",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "GND ASM East Ingot Feed",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.10 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -4,
+            0,
+            -5
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockConveyor",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "GND ASM Component Outflow West",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.10 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            3,
+            0,
+            -5
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockConveyor",
+          "paletteSlot": 4,
+          "subsystem": "conveyor",
+          "name": "GND ASM Component Outflow East",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.10 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         }
       ]
     },
@@ -1013,81 +1923,138 @@
       "subsystem": "conveyor",
       "partsTray": [
         {
-          "type": "Armor Full Block",
-          "qty": 5,
+          "type": "Preview placement: LargeBlockConveyor",
+          "qty": 3,
+          "slot": 5,
+          "note": "Authored placements only; not a complete BOM."
+        },
+        {
+          "type": "Preview placement: LargeBlockLargeContainer",
+          "qty": 1,
+          "slot": 5,
+          "note": "Authored placements only; not a complete BOM."
+        },
+        {
+          "type": "Preview placement: LargeConveyorSorter",
+          "qty": 1,
+          "slot": 5,
+          "note": "Authored placements only; not a complete BOM."
+        },
+        {
+          "type": "Preview placement: LargeHeavyBlockArmorBlock",
+          "qty": 2,
           "slot": 0,
-          "mass": 1.2,
-          "note": "Primary section module"
+          "note": "Authored placements only; not a complete BOM."
         }
       ],
       "instructions": [
-        "Mount 1\u00d7 Large Cargo Container `GND STR Components` (3\u00d73\u00d73 B) centered at [X +3, Z \u221210, Level L1-L3].",
+        "Mount 1× Large Cargo Container `GND STR Components` (3×3×3 B) centered at [X +3, Z −10, Level L1-L3].",
         "Plumb the container's northern ports into the Assembler component outflow trunk.",
-        "Mount 1\u00d7 Large Conveyor Sorter `GND Sorter Extruder Feed` at [X +3, Z \u221213, Level L1] with flow arrow South (\u2212Z), feeding the Chapter 5 Extruder Ring shipyard. Set `Drain All = ON`."
+        "Mount 1× Large Conveyor Sorter `GND Sorter Extruder Feed` at [X +3, Z −13, Level L1] with flow arrow South (−Z), feeding the Chapter 5 Extruder Ring shipyard. Set `Drain All = ON`."
       ],
       "checks": [
-        "Verify physical clearances and continuous conveyor flow."
+        "Confirm the component warehouse ports connect to the extruder push sorter without crossing blocked trench cells."
       ],
       "blocks": [
         {
           "pos": [
-            -2,
             3,
-            7
-          ],
-          "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
-          "subsystem": "conveyor",
-          "name": "GND-01 Component Buffer War [-2, 3, 7]"
-        },
-        {
-          "pos": [
-            -1,
-            3,
-            7
-          ],
-          "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
-          "subsystem": "conveyor",
-          "name": "GND-01 Component Buffer War [-1, 3, 7]"
-        },
-        {
-          "pos": [
-            0,
-            3,
-            7
-          ],
-          "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
-          "subsystem": "conveyor",
-          "name": "GND-01 Component Buffer War [0, 3, 7]"
-        },
-        {
-          "pos": [
             1,
+            -10
+          ],
+          "shape": "cargo",
+          "subtype": "LargeBlockLargeContainer",
+          "paletteSlot": 5,
+          "subsystem": "conveyor",
+          "name": "GND STR Components",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.11 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
             3,
-            7
+            0,
+            -13
           ],
           "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
+          "subtype": "LargeConveyorSorter",
+          "paletteSlot": 5,
           "subsystem": "conveyor",
-          "name": "GND-01 Component Buffer War [1, 3, 7]"
+          "name": "GND Sorter Extruder Feed",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 4.11 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.11 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            3,
+            0,
+            -10
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockConveyor",
+          "paletteSlot": 5,
+          "subsystem": "conveyor",
+          "name": "GND Component Outflow Trunk",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.11 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
             2,
+            0,
+            -10
+          ],
+          "shape": "cube",
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "GND Buffer West Support",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.11 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            4,
+            0,
+            -10
+          ],
+          "shape": "cube",
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "GND Buffer East Support",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.11 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
             3,
-            7
+            0,
+            -11
           ],
           "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
+          "subtype": "LargeBlockConveyor",
+          "paletteSlot": 5,
           "subsystem": "conveyor",
-          "name": "GND-01 Component Buffer War [2, 3, 7]"
+          "name": "GND Components-to-Extruder Feed Z-11",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.11 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            3,
+            0,
+            -12
+          ],
+          "shape": "conveyor",
+          "subtype": "LargeBlockConveyor",
+          "paletteSlot": 5,
+          "subsystem": "conveyor",
+          "name": "GND Components-to-Extruder Feed Z-12",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.11 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         }
       ]
     },
@@ -1099,81 +2066,138 @@
       "subsystem": "conveyor",
       "partsTray": [
         {
-          "type": "Armor Full Block",
-          "qty": 5,
-          "slot": 0,
-          "mass": 1.2,
-          "note": "Primary section module"
+          "type": "Preview placement: LargeBlockBatteryBlock",
+          "qty": 6,
+          "slot": 6,
+          "note": "Authored placements only; not a complete BOM."
+        },
+        {
+          "type": "Preview placement: LargeBlockSmallGenerator",
+          "qty": 2,
+          "slot": 6,
+          "note": "Authored placements only; not a complete BOM."
         }
       ],
       "instructions": [
-        "Install 6\u00d7 Large Batteries `GND BAT 1..6` arranged in a 3 \u00d7 2 grid centered at [X \u22124, Z \u22129, Level L1-L2]. Total capacity: 18.0 MWh; surge output: 72.0 MW. Set to `Auto`.",
-        "Install 2\u00d7 Small Nuclear Reactors `GND RCT Aux 1..2` at [X \u22124, Z \u221212, Level L2]. Total capacity: 30.0 MW backup. Plumb with small conveyor tubing for automated uranium feed.",
+        "Install 6× Large Batteries `GND BAT 1..6` arranged in a 3 × 2 grid centered at [X −4, Z −9, Level L1-L2]. Total capacity: 18.0 MWh; surge output: 72.0 MW. Set to `Auto`.",
+        "Install 2× Small Nuclear Reactors `GND RCT Aux 1..2` at [X −4, Z −12, Level L2]. Total capacity: 30.0 MW backup. Plumb with small conveyor tubing for automated uranium feed.",
         "Enclose the power vault with Heavy Armor Blocks painted Palette Slot 6 (High-Voltage Red)."
       ],
       "checks": [
-        "Verify physical clearances and continuous conveyor flow."
+        "Verify all six batteries are connected, accessible for service, and configured to Auto as specified."
       ],
       "blocks": [
         {
           "pos": [
-            -2,
-            4,
-            10
-          ],
-          "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
-          "subsystem": "conveyor",
-          "name": "GND-01 18 MWh Large Battery [-2, 4, 10]"
-        },
-        {
-          "pos": [
-            -1,
-            4,
-            10
-          ],
-          "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
-          "subsystem": "conveyor",
-          "name": "GND-01 18 MWh Large Battery [-1, 4, 10]"
-        },
-        {
-          "pos": [
-            0,
-            4,
-            10
-          ],
-          "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
-          "subsystem": "conveyor",
-          "name": "GND-01 18 MWh Large Battery [0, 4, 10]"
-        },
-        {
-          "pos": [
+            -5,
             1,
-            4,
-            10
+            -10
           ],
-          "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
-          "subsystem": "conveyor",
-          "name": "GND-01 18 MWh Large Battery [1, 4, 10]"
+          "shape": "battery",
+          "subtype": "LargeBlockBatteryBlock",
+          "paletteSlot": 6,
+          "subsystem": "power",
+          "name": "GND BAT 1",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.12 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
-            2,
-            4,
-            10
+            -4,
+            1,
+            -10
           ],
-          "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
-          "subsystem": "conveyor",
-          "name": "GND-01 18 MWh Large Battery [2, 4, 10]"
+          "shape": "battery",
+          "subtype": "LargeBlockBatteryBlock",
+          "paletteSlot": 6,
+          "subsystem": "power",
+          "name": "GND BAT 2",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.12 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -3,
+            1,
+            -10
+          ],
+          "shape": "battery",
+          "subtype": "LargeBlockBatteryBlock",
+          "paletteSlot": 6,
+          "subsystem": "power",
+          "name": "GND BAT 3",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.12 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -5,
+            1,
+            -9
+          ],
+          "shape": "battery",
+          "subtype": "LargeBlockBatteryBlock",
+          "paletteSlot": 6,
+          "subsystem": "power",
+          "name": "GND BAT 4",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.12 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -4,
+            1,
+            -9
+          ],
+          "shape": "battery",
+          "subtype": "LargeBlockBatteryBlock",
+          "paletteSlot": 6,
+          "subsystem": "power",
+          "name": "GND BAT 5",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.12 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -3,
+            1,
+            -9
+          ],
+          "shape": "battery",
+          "subtype": "LargeBlockBatteryBlock",
+          "paletteSlot": 6,
+          "subsystem": "power",
+          "name": "GND BAT 6",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.12 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -4,
+            1,
+            -12
+          ],
+          "shape": "reactor",
+          "subtype": "LargeBlockSmallGenerator",
+          "paletteSlot": 6,
+          "subsystem": "power",
+          "name": "GND RCT Aux 1",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.12 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -3,
+            1,
+            -12
+          ],
+          "shape": "reactor",
+          "subtype": "LargeBlockSmallGenerator",
+          "paletteSlot": 6,
+          "subsystem": "power",
+          "name": "GND RCT Aux 2",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.12 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         }
       ]
     },
@@ -1185,82 +2209,223 @@
       "subsystem": "power",
       "partsTray": [
         {
-          "type": "Armor Full Block",
-          "qty": 5,
+          "type": "Preview placement: EventControllerBlock",
+          "qty": 1,
+          "slot": 7,
+          "note": "Authored placements only; not a complete BOM."
+        },
+        {
+          "type": "Preview placement: LargeBlockBatteryBlock",
+          "qty": 1,
+          "slot": 6,
+          "note": "Authored placements only; not a complete BOM."
+        },
+        {
+          "type": "Preview placement: LargeHeavyBlockArmorBlock",
+          "qty": 6,
           "slot": 0,
-          "mass": 1.2,
-          "note": "Primary section module"
+          "note": "Authored placements only; not a complete BOM."
+        },
+        {
+          "type": "Preview placement: ProgrammableBlock",
+          "qty": 3,
+          "slot": 7,
+          "note": "Authored placements only; not a complete BOM."
+        },
+        {
+          "type": "Preview placement: TimerBlock",
+          "qty": 1,
+          "slot": 7,
+          "note": "Authored placements only; not a complete BOM."
         }
       ],
       "instructions": [
-        "Build the enclosed 5 \u00d7 5 B server room deck at Level L2 ([X \u22129, Z +3]).",
-        "Mount 3\u00d7 Programmable Blocks along the northern bulkhead:",
-        "Mount 1\u00d7 Large Battery `GND BAT C2 UPS` in the southern floor cavity.",
+        "Build the enclosed 5 × 5 B server room deck at Level L2 ([X −9, Z +3]).",
+        "Mount 3× Programmable Blocks along the northern bulkhead:",
+        "Mount 1× Large Battery `GND BAT C2 UPS` in the southern floor cavity.",
         "Install Event Controller `GND EC PowerGuard` and Timer Block `GND Timer Watchdog`."
       ],
       "checks": [
-        "Verify physical clearances and continuous conveyor flow."
+        "Check the server-room deck, programmable-block rack, and dedicated UPS are separated and serviceable."
       ],
       "blocks": [
         {
           "pos": [
-            -2,
-            2,
-            13
-          ],
-          "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 8,
-          "subsystem": "power",
-          "name": "GND-01 Level L2 Server Room [-2, 2, 13]"
-        },
-        {
-          "pos": [
-            -1,
-            2,
-            13
-          ],
-          "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 8,
-          "subsystem": "power",
-          "name": "GND-01 Level L2 Server Room [-1, 2, 13]"
-        },
-        {
-          "pos": [
-            0,
-            2,
-            13
-          ],
-          "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 8,
-          "subsystem": "power",
-          "name": "GND-01 Level L2 Server Room [0, 2, 13]"
-        },
-        {
-          "pos": [
+            -11,
             1,
-            2,
-            13
+            1
           ],
           "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 8,
-          "subsystem": "power",
-          "name": "GND-01 Level L2 Server Room [1, 2, 13]"
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "GND Server Room Deck -11,1",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.13 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
-            2,
-            2,
-            13
+            -9,
+            1,
+            1
           ],
           "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 8,
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "GND Server Room Deck -9,1",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.13 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -7,
+            1,
+            1
+          ],
+          "shape": "cube",
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "GND Server Room Deck -7,1",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.13 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -11,
+            1,
+            3
+          ],
+          "shape": "cube",
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "GND Server Room Deck -11,3",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.13 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -9,
+            1,
+            3
+          ],
+          "shape": "cube",
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "GND Server Room Deck -9,3",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.13 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -7,
+            1,
+            3
+          ],
+          "shape": "cube",
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "GND Server Room Deck -7,3",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.13 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -10,
+            1,
+            4
+          ],
+          "shape": "cube",
+          "subtype": "ProgrammableBlock",
+          "paletteSlot": 7,
+          "subsystem": "avionics",
+          "name": "[GND] PB FleetOps",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 4.13 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.13 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -9,
+            1,
+            4
+          ],
+          "shape": "cube",
+          "subtype": "ProgrammableBlock",
+          "paletteSlot": 7,
+          "subsystem": "avionics",
+          "name": "[GND] PB TrainOps",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 4.13 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.13 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -8,
+            1,
+            4
+          ],
+          "shape": "cube",
+          "subtype": "ProgrammableBlock",
+          "paletteSlot": 7,
+          "subsystem": "avionics",
+          "name": "[GND] PB AirOps",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 4.13 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.13 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -9,
+            1,
+            0
+          ],
+          "shape": "battery",
+          "subtype": "LargeBlockBatteryBlock",
+          "paletteSlot": 6,
           "subsystem": "power",
-          "name": "GND-01 Level L2 Server Room [2, 2, 13]"
+          "name": "GND BAT C2 UPS",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.13 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -10,
+            1,
+            2
+          ],
+          "shape": "cube",
+          "subtype": "EventControllerBlock",
+          "paletteSlot": 7,
+          "subsystem": "avionics",
+          "name": "GND EC PowerGuard",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 4.13 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.13 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -8,
+            1,
+            2
+          ],
+          "shape": "cube",
+          "subtype": "TimerBlock",
+          "paletteSlot": 7,
+          "subsystem": "avionics",
+          "name": "GND Timer Watchdog",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 4.13 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.13 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         }
       ]
     },
@@ -1272,82 +2437,203 @@
       "subsystem": "avionics",
       "partsTray": [
         {
-          "type": "Armor Full Block",
-          "qty": 5,
+          "type": "Preview placement: AirVentBlock",
+          "qty": 1,
+          "slot": 7,
+          "note": "Authored placements only; not a complete BOM."
+        },
+        {
+          "type": "Preview placement: AirlockDoorBlock",
+          "qty": 1,
+          "slot": 7,
+          "note": "Authored placements only; not a complete BOM."
+        },
+        {
+          "type": "Preview placement: LargeBlockControlStation",
+          "qty": 3,
+          "slot": 7,
+          "note": "Authored placements only; not a complete BOM."
+        },
+        {
+          "type": "Preview placement: LargeHeavyBlockArmorBlock",
+          "qty": 6,
           "slot": 0,
-          "mass": 1.2,
-          "note": "Primary section module"
+          "note": "Authored placements only; not a complete BOM."
         }
       ],
       "instructions": [
         "Construct the elevated command deck at Level L3 cantilevered outward over the western tarmac.",
-        "Mount 3\u00d7 Control Stations side-by-side facing East (+X) overlooking the facility:",
-        "Enclose the bridge with 2-layer Sloped Armor Glass angled 45\u00b0 outward, providing a 270\u00b0 panoramic view over the North Apron, Industrial Foundry, and South Yard.",
-        "Mount 1\u00d7 Sliding Airtight Door `GND Door Decon Bridge` and Air Vent `GND Vent Decon Bridge` to form a pressurized decontamination airlock."
+        "Mount 3× Control Stations side-by-side facing East (+X) overlooking the facility:",
+        "Enclose the bridge with 2-layer Sloped Armor Glass angled 45° outward, providing a 270° panoramic view over the North Apron, Industrial Foundry, and South Yard.",
+        "Mount 1× Sliding Airtight Door `GND Door Decon Bridge` and Air Vent `GND Vent Decon Bridge` to form a pressurized decontamination airlock."
       ],
       "checks": [
-        "Verify physical clearances and continuous conveyor flow."
+        "Confirm the elevated bridge deck supports three operator positions with clear viewport sightlines."
       ],
       "blocks": [
         {
           "pos": [
-            -2,
-            3,
-            16
-          ],
-          "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 8,
-          "subsystem": "avionics",
-          "name": "GND-01 Level L3-L4 Panorami [-2, 3, 16]"
-        },
-        {
-          "pos": [
-            -1,
-            3,
-            16
-          ],
-          "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 8,
-          "subsystem": "avionics",
-          "name": "GND-01 Level L3-L4 Panorami [-1, 3, 16]"
-        },
-        {
-          "pos": [
-            0,
-            3,
-            16
-          ],
-          "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 8,
-          "subsystem": "avionics",
-          "name": "GND-01 Level L3-L4 Panorami [0, 3, 16]"
-        },
-        {
-          "pos": [
-            1,
-            3,
-            16
-          ],
-          "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 8,
-          "subsystem": "avionics",
-          "name": "GND-01 Level L3-L4 Panorami [1, 3, 16]"
-        },
-        {
-          "pos": [
+            -11,
             2,
-            3,
-            16
+            1
           ],
           "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 8,
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "GND Bridge Cantilever -11,1",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.14 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -9,
+            2,
+            1
+          ],
+          "shape": "cube",
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "GND Bridge Cantilever -9,1",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.14 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -7,
+            2,
+            1
+          ],
+          "shape": "cube",
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "GND Bridge Cantilever -7,1",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.14 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -11,
+            2,
+            3
+          ],
+          "shape": "cube",
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "GND Bridge Cantilever -11,3",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.14 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -9,
+            2,
+            3
+          ],
+          "shape": "cube",
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "GND Bridge Cantilever -9,3",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.14 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -7,
+            2,
+            3
+          ],
+          "shape": "cube",
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "GND Bridge Cantilever -7,3",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.14 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -10,
+            2,
+            2
+          ],
+          "shape": "cockpit",
+          "subtype": "LargeBlockControlStation",
+          "paletteSlot": 7,
           "subsystem": "avionics",
-          "name": "GND-01 Level L3-L4 Panorami [2, 3, 16]"
+          "name": "GND Air Ops Desk",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 4.14 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.14 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -9,
+            2,
+            2
+          ],
+          "shape": "cockpit",
+          "subtype": "LargeBlockControlStation",
+          "paletteSlot": 7,
+          "subsystem": "avionics",
+          "name": "GND Ground Ops Desk",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 4.14 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.14 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -8,
+            2,
+            2
+          ],
+          "shape": "cockpit",
+          "subtype": "LargeBlockControlStation",
+          "paletteSlot": 7,
+          "subsystem": "avionics",
+          "name": "GND Yard Ops Desk",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 4.14 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.14 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -11,
+            2,
+            4
+          ],
+          "shape": "cube",
+          "subtype": "AirVentBlock",
+          "paletteSlot": 7,
+          "subsystem": "avionics",
+          "name": "GND Vent Decon Bridge",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 4.14 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.14 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -11,
+            2,
+            5
+          ],
+          "shape": "cube",
+          "subtype": "AirlockDoorBlock",
+          "paletteSlot": 7,
+          "subsystem": "avionics",
+          "name": "GND Door Decon Bridge",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 4.14 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.14 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         }
       ]
     },
@@ -1359,79 +2645,122 @@
       "subsystem": "avionics",
       "partsTray": [
         {
-          "type": "Armor Full Block",
-          "qty": 5,
+          "type": "Preview placement: LargeHeavyBlockArmorBlock",
+          "qty": 1,
           "slot": 0,
-          "mass": 1.2,
-          "note": "Primary section module"
+          "note": "Authored placements only; not a complete BOM."
+        },
+        {
+          "type": "Preview placement: LargeLCDPanel",
+          "qty": 6,
+          "slot": 7,
+          "note": "Authored placements only; not a complete BOM."
         }
       ],
       "instructions": [
-        "Assemble section according to master spatial datum."
+        "Mount six Large LCD Panels at Level L4 as the panoramic video wall over the command bridge."
       ],
       "checks": [
-        "Verify physical clearances and continuous conveyor flow."
+        "Verify all six LCD panels form the continuous 3 × 2 matrix and remain visible from the bridge."
       ],
       "blocks": [
         {
           "pos": [
-            -2,
-            4,
-            19
+            -10,
+            3,
+            0
           ],
           "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 8,
+          "subtype": "LargeLCDPanel",
+          "paletteSlot": 7,
           "subsystem": "avionics",
-          "name": "GND-01 Level L4 6-Panel Pan [-2, 4, 19]"
+          "name": "GND Panoramic LCD 1",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.15 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
-            -1,
-            4,
-            19
+            -10,
+            3,
+            1
           ],
           "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 8,
+          "subtype": "LargeLCDPanel",
+          "paletteSlot": 7,
           "subsystem": "avionics",
-          "name": "GND-01 Level L4 6-Panel Pan [-1, 4, 19]"
+          "name": "GND Panoramic LCD 2",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.15 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
-            0,
-            4,
-            19
+            -10,
+            3,
+            2
           ],
           "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 8,
+          "subtype": "LargeLCDPanel",
+          "paletteSlot": 7,
           "subsystem": "avionics",
-          "name": "GND-01 Level L4 6-Panel Pan [0, 4, 19]"
+          "name": "GND Panoramic LCD 3",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.15 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
-            1,
-            4,
-            19
+            -10,
+            3,
+            3
           ],
           "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 8,
+          "subtype": "LargeLCDPanel",
+          "paletteSlot": 7,
           "subsystem": "avionics",
-          "name": "GND-01 Level L4 6-Panel Pan [1, 4, 19]"
+          "name": "GND Panoramic LCD 4",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.15 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
-            2,
-            4,
-            19
+            -10,
+            3,
+            4
           ],
           "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 8,
+          "subtype": "LargeLCDPanel",
+          "paletteSlot": 7,
           "subsystem": "avionics",
-          "name": "GND-01 Level L4 6-Panel Pan [2, 4, 19]"
+          "name": "GND Panoramic LCD 5",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.15 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -10,
+            3,
+            5
+          ],
+          "shape": "cube",
+          "subtype": "LargeLCDPanel",
+          "paletteSlot": 7,
+          "subsystem": "avionics",
+          "name": "GND Panoramic LCD 6",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.15 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -10,
+            3,
+            -1
+          ],
+          "shape": "cube",
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "GND Video Wall Header",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.15 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         }
       ]
     },
@@ -1443,95 +2772,181 @@
       "subsystem": "conveyor",
       "partsTray": [
         {
-          "type": "Armor Full Block",
+          "type": "Preview placement: CameraBlock",
+          "qty": 2,
+          "slot": 9,
+          "note": "Authored placements only; not a complete BOM."
+        },
+        {
+          "type": "Preview placement: LargeBlockRadioAntenna",
+          "qty": 1,
+          "slot": 9,
+          "note": "Authored placements only; not a complete BOM."
+        },
+        {
+          "type": "Preview placement: LargeHeavyBlockArmorBlock",
           "qty": 5,
-          "slot": 0,
-          "mass": 1.2,
-          "note": "Primary section module"
+          "slot": 9,
+          "note": "Authored placements only; not a complete BOM."
+        },
+        {
+          "type": "Preview placement: LaserAntenna",
+          "qty": 1,
+          "slot": 9,
+          "note": "Authored placements only; not a complete BOM."
         }
       ],
       "instructions": [
-        "Erect the 10 m communications mast from the bridge roof at [X \u22129, Z +1] spanning Levels L5 to L9.",
-        "Mount 1\u00d7 Large Grid Radio Antenna `GND Antenna Fleet` at Level L6. Set broadcast range to `50,000 m`.",
-        "Mount 2\u00d7 Fixed Cameras: `GND Cam North Pads` (facing +Z) and `GND Cam South Yard` (facing \u2212Z).",
-        "Crown the mast tip at Level L9 with 1\u00d7 Laser Antenna `GND Laser Rig Relay` painted Palette Slot 9 (White). Acquire and lock GPS coordinates of the Floating Rig Fortress in the upper atmosphere."
+        "Erect the 10 m communications mast from the bridge roof at [X −9, Z +1] spanning Levels L5 to L9.",
+        "Mount 1× Large Grid Radio Antenna `GND Antenna Fleet` at Level L6. Set broadcast range to `50,000 m`.",
+        "Mount 2× Fixed Cameras: `GND Cam North Pads` (facing +Z) and `GND Cam South Yard` (facing −Z).",
+        "Crown the mast tip at Level L9 with 1× Laser Antenna `GND Laser Rig Relay` painted Palette Slot 9 (White). Acquire and lock GPS coordinates of the Floating Rig Fortress in the upper atmosphere."
       ],
       "checks": [
-        "**Tarmac Vacuum Seal:** Verify zero voxel penetration or air leakage through the 24 \u00d7 28 B heavy armor blast floor; verify sub-surface trenches remain pressurized where sealed.",
-        "**Cradle Proximity Trigger:** Approach pad in MULE-01; confirm `GND PAD Sensor` detects craft at 10 m and swings cradle arms inward 30\u00b0; land on pad; confirm magnetic plates lock rub rails and connector locks automatically.",
-        "**High-Speed Rare Ore Drain:** Feed 500 t Uranium Ore from Mule hold; confirm rare ore sorter drains cargo at $> 80\\text{ t/min}$ into West Smelting Bank.",
-        "**Reverse Alignment Check:** Reverse CATERPILLAR-01 consist into dock; confirm guide curbs center the wheels and stop bumpers absorb kinetic impact.",
-        "**2,500 t Bulk Ore Purge:** Lock `GND CAT Dump Conn`; confirm 5\u00d7 in-deck collectors and bulk sorter evacuate all 3 hopper cars in $< 90\\text{ seconds}$ without conveyor back-pressure.",
-        "**Simultaneous Smelting Run:** Feed 2,000 t Iron Ore and 500 t Gold Ore concurrently; verify dual sorters isolate bulk and rare streams; verify all 4 refineries operate at 200% yield effectiveness without tripping power.",
-        "**Pylon Production Burst:** Queue 20,000 Steel Plates and 4,000 Motors; confirm `GND ASM 1` distributes load across Assemblers 2-4 cooperatively; verify 400% productivity output feeds continuous stock to `GND STR Components`.",
-        "**Simultaneous Docking & Extrusion:** Engage Extruder welders (8.8 MW), 4 refineries (13.2 MW), 4 assemblers (2.2 MW), and shore charging for both Mule and Cat (18 MW); confirm battery bank delivers 42.2 MW surge load without brownout.",
-        "**Genesis Handover Trial:** Broadcast `TMS.C2.HANDOVER` from Mastodon; confirm `[GND] PB FleetOps` assumes regional C2 authority, initializes pull quotas (`TMS.BASE.DEMAND`), and synchronizes fleet telemetry.",
-        "**Multi-Screen Display Verification:** Deploy Orca, Remora, Mule, Mastodon, and Caterpillar; confirm Video Wall panels 1-6 display live, zero-flicker monospace status layouts with correct subsystem metrics.",
-        "**High-Altitude Beam Lock:** Establish laser connection with Floating Rig Fortress hovering at 15 km altitude; verify uninterrupted bidirectional telemetry during planetary atmospheric turbulence.",
-        "**Decon Cycle Verification:** Enter C2 bridge from Level L2; confirm `GND Door Decon Bridge` executes 3.0 s UV decontamination washdown before inner door unseals; verify bridge cabin maintains 100% O2 life support."
+        "Check the communications mast is supported from the bridge roof and antenna, cameras, and laser link have clear sightlines."
       ],
       "blocks": [
         {
           "pos": [
-            -2,
-            2,
-            22
+            -9,
+            4,
+            1
           ],
-          "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
-          "subsystem": "conveyor",
-          "name": "GND-01 Level L5-L9 Comms Sp [-2, 2, 22]"
+          "shape": "cube",
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 9,
+          "subsystem": "structure",
+          "name": "GND Comms Mast L5",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.16 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
-            -1,
-            2,
-            22
+            -10,
+            5,
+            1
           ],
-          "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
-          "subsystem": "conveyor",
-          "name": "GND-01 Level L5-L9 Comms Sp [-1, 2, 22]"
+          "shape": "cube",
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 9,
+          "subsystem": "structure",
+          "name": "GND Comms Mast L6",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.16 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
-            0,
-            2,
-            22
+            -9,
+            6,
+            1
           ],
-          "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
-          "subsystem": "conveyor",
-          "name": "GND-01 Level L5-L9 Comms Sp [0, 2, 22]"
+          "shape": "cube",
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 9,
+          "subsystem": "structure",
+          "name": "GND Comms Mast L7",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.16 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
-            1,
-            2,
-            22
+            -9,
+            7,
+            1
           ],
-          "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
-          "subsystem": "conveyor",
-          "name": "GND-01 Level L5-L9 Comms Sp [1, 2, 22]"
+          "shape": "cube",
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 9,
+          "subsystem": "structure",
+          "name": "GND Comms Mast L8",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.16 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
-            2,
-            2,
-            22
+            -10,
+            8,
+            1
           ],
-          "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
-          "subsystem": "conveyor",
-          "name": "GND-01 Level L5-L9 Comms Sp [2, 2, 22]"
+          "shape": "cube",
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 9,
+          "subsystem": "structure",
+          "name": "GND Comms Mast L9",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.16 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -9,
+            5,
+            1
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockRadioAntenna",
+          "paletteSlot": 9,
+          "subsystem": "avionics",
+          "name": "GND Antenna Fleet",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 4.16 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.16 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -9,
+            4,
+            5
+          ],
+          "shape": "cube",
+          "subtype": "CameraBlock",
+          "paletteSlot": 9,
+          "subsystem": "avionics",
+          "name": "GND Cam North Pads",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 4.16 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.16 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -9,
+            4,
+            -3
+          ],
+          "shape": "cube",
+          "subtype": "CameraBlock",
+          "paletteSlot": 9,
+          "subsystem": "avionics",
+          "name": "GND Cam South Yard",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 4.16 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.16 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -9,
+            8,
+            1
+          ],
+          "shape": "cube",
+          "subtype": "LaserAntenna",
+          "paletteSlot": 9,
+          "subsystem": "avionics",
+          "name": "GND Laser Rig Relay",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 4.16 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 4 Step 4.16 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         }
       ]
     }
-  ]
+  ],
+  "designFigureStatus": {
+    "status": "unverified",
+    "label": "Manual-derived design figures and placements are provisional; verify before build or load planning.",
+    "source": "Chapter 4 design directive, corrected envelope and build steps"
+  },
+  "placementEvidenceNote": "Manual-derived major-component placements only, not a complete block blueprint. The 24 x 28 x 9 B envelope governs; X/Z bounds are inclusive. The Studio Y axis compresses the source's L0-L9 datum into nine modeled layers, with buried trench features at the foundation layer; exact elevations and all directional orientations remain provisional pending trusted blueprint or in-game validation. Every authored voxel placement has placementEvidenceStatus needs-review because no trusted blueprint or in-game build verifies its model cell."
 }

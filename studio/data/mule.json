@@ -12,18 +12,23 @@
     "dimensionsBlocks": [
       7,
       7,
-      5
+      3
+    ],
+    "dimensionsMeters": [
+      17.5,
+      17.5,
+      7.5
     ]
   },
   "bounds": {
     "min": [
       -3,
-      1,
+      -1,
       -3
     ],
     "max": [
       3,
-      5,
+      1,
       3
     ]
   },
@@ -148,82 +153,79 @@
       "subsystem": "conveyor",
       "partsTray": [
         {
-          "type": "Armor Full Block",
-          "qty": 5,
+          "type": "Preview placement: CameraBlock",
+          "qty": 1,
+          "slot": 3,
+          "note": "Authored placements only; not a complete BOM."
+        },
+        {
+          "type": "Preview placement: LargeBlockConnector",
+          "qty": 1,
           "slot": 0,
-          "mass": 1.2,
-          "note": "Primary section module"
+          "note": "Authored placements only; not a complete BOM."
+        },
+        {
+          "type": "Preview placement: LargeBlockLargeContainer",
+          "qty": 1,
+          "slot": 3,
+          "note": "Authored placements only; not a complete BOM."
         }
       ],
       "instructions": [
-        "Place 1 standard Large Cargo Container (3\u00d73\u00d73 B) `MUL Cargo Hold` centered precisely at coordinate `[X: 0, Y: 0, Z: 0]`, spanning Levels L1 through L3.",
+        "Place 1 standard Large Cargo Container (3×3×3 B) `MUL Cargo Hold` centered precisely at coordinate `[X: 0, Y: 0, Z: 0]`, spanning Levels L1 through L3.",
         "Ensure the bottom center large conveyor port faces directly DOWN at Level L1.",
-        "Attach 1\u00d7 Large Grid Connector `MUL Dock Belly` to this bottom port, oriented facing straight DOWN (\u2212Y).",
-        "Mount 1\u00d7 Camera `MUL Cam Belly` recessed immediately adjacent to the connector at [X 0, Z +1, L1] pointing straight DOWN."
+        "Attach 1× Large Grid Connector `MUL Dock Belly` to this bottom port, oriented facing straight DOWN (−Y).",
+        "Mount 1× Camera `MUL Cam Belly` recessed immediately adjacent to the connector at [X 0, Z +1, L1] pointing straight DOWN."
       ],
       "checks": [
-        "Verify physical clearances and continuous conveyor flow."
+        "Confirm the cargo hold feeds the downward-facing belly connector and the recessed belly camera remains clear."
       ],
       "blocks": [
         {
           "pos": [
-            -2,
-            2,
-            -3
+            0,
+            0,
+            0
           ],
-          "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
+          "shape": "cargo",
+          "subtype": "LargeBlockLargeContainer",
+          "paletteSlot": 3,
           "subsystem": "conveyor",
-          "name": "MUL-01 Large Cargo Core & V [-2, 2, -3]"
-        },
-        {
-          "pos": [
-            -1,
-            2,
-            -3
-          ],
-          "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
-          "subsystem": "conveyor",
-          "name": "MUL-01 Large Cargo Core & V [-1, 2, -3]"
+          "name": "MUL Cargo Hold",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 3 Step 3.1 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
             0,
-            2,
-            -3
+            -1,
+            0
           ],
-          "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
+          "shape": "cube",
+          "subtype": "LargeBlockConnector",
+          "paletteSlot": 0,
           "subsystem": "conveyor",
-          "name": "MUL-01 Large Cargo Core & V [0, 2, -3]"
+          "name": "MUL Dock Belly",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 3.1 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 3 Step 3.1 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
-            1,
-            2,
-            -3
+            0,
+            -1,
+            1
           ],
-          "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
-          "subsystem": "conveyor",
-          "name": "MUL-01 Large Cargo Core & V [1, 2, -3]"
-        },
-        {
-          "pos": [
-            2,
-            2,
-            -3
-          ],
-          "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
-          "subsystem": "conveyor",
-          "name": "MUL-01 Large Cargo Core & V [2, 2, -3]"
+          "shape": "cube",
+          "subtype": "CameraBlock",
+          "paletteSlot": 3,
+          "subsystem": "avionics",
+          "name": "MUL Cam Belly",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 3.1 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 3 Step 3.1 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         }
       ]
     },
@@ -235,81 +237,146 @@
       "subsystem": "structure",
       "partsTray": [
         {
-          "type": "Armor Full Block",
-          "qty": 5,
+          "type": "Preview placement: HeavyArmorSlope",
+          "qty": 4,
           "slot": 0,
-          "mass": 1.2,
-          "note": "Primary section module"
+          "note": "Authored placements only; not a complete BOM."
+        },
+        {
+          "type": "Preview placement: LargeHeavyBlockArmorBlock",
+          "qty": 4,
+          "slot": 0,
+          "note": "Authored placements only; not a complete BOM."
         }
       ],
       "instructions": [
-        "Construct 4 corner landing skids at [X \u00b13, Z \u00b13] on Level L1.",
-        "Shape each skid using 2\u00d71 Heavy Armor Slopes angled outward to form a broad 17.5 \u00d7 17.5 m stance.",
+        "Construct 4 corner landing skids at [X ±3, Z ±3] on Level L1.",
+        "Shape each skid using 2×1 Heavy Armor Slopes angled outward to form a broad 17.5 × 17.5 m stance.",
         "Tie the skids to the central cargo hold using under-chassis Heavy Armor beams spanning along Z = 0 and X = 0."
       ],
       "checks": [
-        "Verify physical clearances and continuous conveyor flow."
+        "Check that all four corner skids support the hull evenly and the center docking interface remains unobstructed."
       ],
       "blocks": [
         {
           "pos": [
-            -2,
-            3,
-            -2
+            -3,
+            -1,
+            -3
           ],
-          "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
+          "shape": "slope2x1",
+          "subtype": "HeavyArmorSlope",
           "paletteSlot": 0,
           "subsystem": "structure",
-          "name": "MUL-01 Belly Landing Skids  [-2, 3, -2]"
+          "name": "MUL Corner Skid 1",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 3.2 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 3 Step 3.2 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -3,
+            -1,
+            3
+          ],
+          "shape": "slope2x1",
+          "subtype": "HeavyArmorSlope",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "MUL Corner Skid 2",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 3.2 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 3 Step 3.2 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            3,
+            -1,
+            -3
+          ],
+          "shape": "slope2x1",
+          "subtype": "HeavyArmorSlope",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "MUL Corner Skid 3",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 3.2 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 3 Step 3.2 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            3,
+            -1,
+            3
+          ],
+          "shape": "slope2x1",
+          "subtype": "HeavyArmorSlope",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "MUL Corner Skid 4",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 3.2 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 3 Step 3.2 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
             -1,
-            3,
+            -1,
             -2
           ],
           "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
+          "subtype": "LargeHeavyBlockArmorBlock",
           "paletteSlot": 0,
           "subsystem": "structure",
-          "name": "MUL-01 Belly Landing Skids  [-1, 3, -2]"
+          "name": "MUL Keel Tie Z -2",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 3 Step 3.2 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
-            0,
-            3,
-            -2
+            -1,
+            -1,
+            2
           ],
           "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
+          "subtype": "LargeHeavyBlockArmorBlock",
           "paletteSlot": 0,
           "subsystem": "structure",
-          "name": "MUL-01 Belly Landing Skids  [0, 3, -2]"
+          "name": "MUL Keel Tie Z 2",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 3 Step 3.2 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -1,
+            -1,
+            0
+          ],
+          "shape": "cube",
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "MUL Keel Tie Port",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 3 Step 3.2 describes under-chassis cross-ties; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
             1,
-            3,
-            -2
+            -1,
+            0
           ],
           "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
+          "subtype": "LargeHeavyBlockArmorBlock",
           "paletteSlot": 0,
           "subsystem": "structure",
-          "name": "MUL-01 Belly Landing Skids  [1, 3, -2]"
-        },
-        {
-          "pos": [
-            2,
-            3,
-            -2
-          ],
-          "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 0,
-          "subsystem": "structure",
-          "name": "MUL-01 Belly Landing Skids  [2, 3, -2]"
+          "name": "MUL Keel Tie Starboard",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 3 Step 3.2 describes under-chassis cross-ties; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         }
       ]
     },
@@ -321,83 +388,86 @@
       "subsystem": "power",
       "partsTray": [
         {
-          "type": "Armor Full Block",
-          "qty": 5,
-          "slot": 0,
-          "mass": 1.2,
-          "note": "Primary section module"
+          "type": "Preview placement: LargeBlockLargeAtmosphericThrust",
+          "qty": 4,
+          "slot": 4,
+          "note": "Authored placements only; not a complete BOM."
         }
       ],
       "instructions": [
-        "`MUL Lift Fwd` : Mounted on Bow face [Z +2 to +3, X \u22121 to +1, L1-L2].",
-        "`MUL Lift Aft` : Mounted on Stern face [Z \u22122 to \u22123, X \u22121 to +1, L1-L2].",
-        "`MUL Lift Port` : Mounted on Port face [X \u22122 to \u22123, Z \u22121 to +1, L1-L2].",
-        "`MUL Lift Stbd` : Mounted on Starboard face [X +2 to +3, Z \u22121 to +1, L1-L2].",
+        "`MUL Lift Fwd` : Mounted on Bow face [Z +2 to +3, X −1 to +1, L1-L2].",
+        "`MUL Lift Aft` : Mounted on Stern face [Z −2 to −3, X −1 to +1, L1-L2].",
+        "`MUL Lift Port` : Mounted on Port face [X −2 to −3, Z −1 to +1, L1-L2].",
+        "`MUL Lift Stbd` : Mounted on Starboard face [X +2 to +3, Z −1 to +1, L1-L2].",
         "Assign all 4 thrusters to terminal group `MUL Lift`."
       ],
       "checks": [
-        "Verify physical clearances and continuous conveyor flow."
+        "Confirm the four lift thrusters occupy the cardinal faces and have clear downward exhaust paths."
       ],
       "blocks": [
         {
           "pos": [
-            -2,
-            4,
-            -1
-          ],
-          "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 8,
-          "subsystem": "power",
-          "name": "MUL-01 Cardinal Lift Thrust [-2, 4, -1]"
-        },
-        {
-          "pos": [
+            0,
             -1,
-            4,
-            -1
+            2
           ],
-          "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 8,
-          "subsystem": "power",
-          "name": "MUL-01 Cardinal Lift Thrust [-1, 4, -1]"
+          "shape": "engine",
+          "subtype": "LargeBlockLargeAtmosphericThrust",
+          "paletteSlot": 4,
+          "subsystem": "propulsion",
+          "name": "MUL Lift Fwd",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 3.3 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 3 Step 3.3 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
             0,
-            4,
-            -1
+            -1,
+            -2
           ],
-          "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 8,
-          "subsystem": "power",
-          "name": "MUL-01 Cardinal Lift Thrust [0, 4, -1]"
+          "shape": "engine",
+          "subtype": "LargeBlockLargeAtmosphericThrust",
+          "paletteSlot": 4,
+          "subsystem": "propulsion",
+          "name": "MUL Lift Aft",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 3.3 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 3 Step 3.3 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
-            1,
-            4,
-            -1
+            -2,
+            -1,
+            0
           ],
-          "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 8,
-          "subsystem": "power",
-          "name": "MUL-01 Cardinal Lift Thrust [1, 4, -1]"
+          "shape": "engine",
+          "subtype": "LargeBlockLargeAtmosphericThrust",
+          "paletteSlot": 4,
+          "subsystem": "propulsion",
+          "name": "MUL Lift Port",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 3.3 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 3 Step 3.3 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
             2,
-            4,
-            -1
+            -1,
+            0
           ],
-          "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 8,
-          "subsystem": "power",
-          "name": "MUL-01 Cardinal Lift Thrust [2, 4, -1]"
+          "shape": "engine",
+          "subtype": "LargeBlockLargeAtmosphericThrust",
+          "paletteSlot": 4,
+          "subsystem": "propulsion",
+          "name": "MUL Lift Stbd",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 3.3 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 3 Step 3.3 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         }
       ]
     },
@@ -409,83 +479,140 @@
       "subsystem": "power",
       "partsTray": [
         {
-          "type": "Armor Full Block",
-          "qty": 5,
+          "type": "Preview placement: LargeBlockBatteryBlock",
+          "qty": 4,
+          "slot": 2,
+          "note": "Authored placements only; not a complete BOM."
+        },
+        {
+          "type": "Preview placement: LargeHeavyBlockArmorBlock",
+          "qty": 4,
           "slot": 0,
-          "mass": 1.2,
-          "note": "Primary section module"
+          "note": "Authored placements only; not a complete BOM."
         }
       ],
       "instructions": [
-        "`MUL Battery NW` : Forward-Port corner [X \u22122 to \u22123, Z +2 to +3, L2].",
+        "`MUL Battery NW` : Forward-Port corner [X −2 to −3, Z +2 to +3, L2].",
         "`MUL Battery NE` : Forward-Starboard corner [X +2 to +3, Z +2 to +3, L2].",
-        "`MUL Battery SW` : Aft-Port corner [X \u22122 to \u22123, Z \u22122 to \u22123, L2].",
-        "`MUL Battery SE` : Aft-Starboard corner [X +2 to +3, Z \u22122 to \u22123, L2].",
+        "`MUL Battery SW` : Aft-Port corner [X −2 to −3, Z −2 to −3, L2].",
+        "`MUL Battery SE` : Aft-Starboard corner [X +2 to +3, Z −2 to −3, L2].",
         "Assign all 4 to terminal group `MUL Batteries` (12.0 MWh aggregate capacity, 48.0 MW peak discharge)."
       ],
       "checks": [
-        "Verify physical clearances and continuous conveyor flow."
+        "Verify the four battery positions are connected to the cargo conveyor network and remain within the hull envelope."
       ],
       "blocks": [
         {
           "pos": [
             -2,
-            2,
-            0
+            0,
+            2
           ],
-          "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 8,
+          "shape": "battery",
+          "subtype": "LargeBlockBatteryBlock",
+          "paletteSlot": 2,
           "subsystem": "power",
-          "name": "MUL-01 4-Quadrant Large Bat [-2, 2, 0]"
+          "name": "MUL Battery NW",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 3 Step 3.4 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
-            -1,
             2,
-            0
+            0,
+            2
           ],
-          "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 8,
+          "shape": "battery",
+          "subtype": "LargeBlockBatteryBlock",
+          "paletteSlot": 2,
           "subsystem": "power",
-          "name": "MUL-01 4-Quadrant Large Bat [-1, 2, 0]"
+          "name": "MUL Battery NE",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 3 Step 3.4 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -2,
+            0,
+            -2
+          ],
+          "shape": "battery",
+          "subtype": "LargeBlockBatteryBlock",
+          "paletteSlot": 2,
+          "subsystem": "power",
+          "name": "MUL Battery SW",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 3 Step 3.4 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            2,
+            0,
+            -2
+          ],
+          "shape": "battery",
+          "subtype": "LargeBlockBatteryBlock",
+          "paletteSlot": 2,
+          "subsystem": "power",
+          "name": "MUL Battery SE",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 3 Step 3.4 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
             0,
-            2,
-            0
+            0,
+            2
           ],
           "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 8,
-          "subsystem": "power",
-          "name": "MUL-01 4-Quadrant Large Bat [0, 2, 0]"
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "MUL Forward Battery Crossbeam",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 3 Step 3.4 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
-            1,
-            2,
+            0,
+            0,
+            -2
+          ],
+          "shape": "cube",
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "MUL Aft Battery Crossbeam",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 3 Step 3.4 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -2,
+            0,
             0
           ],
           "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 8,
-          "subsystem": "power",
-          "name": "MUL-01 4-Quadrant Large Bat [1, 2, 0]"
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "MUL Port Battery Rail",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 3 Step 3.4 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
             2,
-            2,
+            0,
             0
           ],
           "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 8,
-          "subsystem": "power",
-          "name": "MUL-01 4-Quadrant Large Bat [2, 2, 0]"
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 0,
+          "subsystem": "structure",
+          "name": "MUL Stbd Battery Rail",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 3 Step 3.4 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         }
       ]
     },
@@ -497,81 +624,82 @@
       "subsystem": "structure",
       "partsTray": [
         {
-          "type": "Armor Full Block",
-          "qty": 5,
-          "slot": 0,
-          "mass": 1.2,
-          "note": "Primary section module"
+          "type": "Preview placement: LargeBlockGyro",
+          "qty": 2,
+          "slot": 8,
+          "note": "Authored placements only; not a complete BOM."
+        },
+        {
+          "type": "Preview placement: LargeHeavyBlockArmorBlock",
+          "qty": 2,
+          "slot": 8,
+          "note": "Authored placements only; not a complete BOM."
         }
       ],
       "instructions": [
-        "Install 1\u00d7 Large Gyroscope `MUL Gyro Port` at [X \u22122, Z +2, L2] immediately aft of `BAT NW`.",
-        "Install 1\u00d7 Large Gyroscope `MUL Gyro Stbd` at [X +2, Z +2, L2] immediately aft of `BAT NE`.",
-        "Assign both to group `MUL Gyros` (67.2 MN\u00b7m aggregate torque)."
+        "Install 1× Large Gyroscope `MUL Gyro Port` at [X −2, Z +2, L2] immediately aft of `BAT NW`.",
+        "Install 1× Large Gyroscope `MUL Gyro Stbd` at [X +2, Z +2, L2] immediately aft of `BAT NE`.",
+        "Assign both to group `MUL Gyros` (67.2 MN·m aggregate torque)."
       ],
       "checks": [
-        "Verify physical clearances and continuous conveyor flow."
+        "Confirm both gyroscopes are accessible in their aft battery pockets and have room for service access."
       ],
       "blocks": [
         {
           "pos": [
             -2,
-            3,
-            0
-          ],
-          "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 0,
-          "subsystem": "structure",
-          "name": "MUL-01 Flight Stabilization [-2, 3, 0]"
-        },
-        {
-          "pos": [
-            -1,
-            3,
-            0
-          ],
-          "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 0,
-          "subsystem": "structure",
-          "name": "MUL-01 Flight Stabilization [-1, 3, 0]"
-        },
-        {
-          "pos": [
             0,
-            3,
-            0
+            1
           ],
           "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 0,
-          "subsystem": "structure",
-          "name": "MUL-01 Flight Stabilization [0, 3, 0]"
-        },
-        {
-          "pos": [
-            1,
-            3,
-            0
-          ],
-          "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 0,
-          "subsystem": "structure",
-          "name": "MUL-01 Flight Stabilization [1, 3, 0]"
+          "subtype": "LargeBlockGyro",
+          "paletteSlot": 8,
+          "subsystem": "propulsion",
+          "name": "MUL Gyro Port",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 3 Step 3.5 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
             2,
-            3,
+            0,
+            1
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockGyro",
+          "paletteSlot": 8,
+          "subsystem": "propulsion",
+          "name": "MUL Gyro Stbd",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 3 Step 3.5 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -1,
+            0,
             0
           ],
           "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 0,
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 8,
           "subsystem": "structure",
-          "name": "MUL-01 Flight Stabilization [2, 3, 0]"
+          "name": "MUL Port Gyro Mount",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 3 Step 3.5 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            1,
+            0,
+            0
+          ],
+          "shape": "cube",
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 8,
+          "subsystem": "structure",
+          "name": "MUL Stbd Gyro Mount",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 3 Step 3.5 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         }
       ]
     },
@@ -583,81 +711,160 @@
       "subsystem": "conveyor",
       "partsTray": [
         {
-          "type": "Armor Full Block",
-          "qty": 5,
-          "slot": 0,
-          "mass": 1.2,
-          "note": "Primary section module"
+          "type": "Preview placement: LargeHeavyBlockArmorBlock",
+          "qty": 10,
+          "slot": 5,
+          "note": "Authored placements only; not a complete BOM."
         }
       ],
       "instructions": [
-        "Mount a 3-block continuous span of Heavy Armor Full Blocks along the Port flank at [X \u22123, Z \u22121 to +1, L2].",
-        "Mount a 3-block continuous span of Heavy Armor Full Blocks along the Starboard flank at [X +3, Z \u22121 to +1, L2].",
+        "Mount a 3-block continuous span of Heavy Armor Full Blocks along the Port flank at [X −3, Z −1 to +1, L2].",
+        "Mount a 3-block continuous span of Heavy Armor Full Blocks along the Starboard flank at [X +3, Z −1 to +1, L2].",
         "Paint both spans in Palette Slot 5 (Hazard Yellow with chevron striping)."
       ],
       "checks": [
-        "Verify physical clearances and continuous conveyor flow."
+        "Check both three-block strike rails run continuously along the port and starboard cradle contact lines."
       ],
       "blocks": [
         {
           "pos": [
-            -2,
-            4,
-            1
-          ],
-          "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
-          "subsystem": "conveyor",
-          "name": "MUL-01 Heavy Armor Gantry C [-2, 4, 1]"
-        },
-        {
-          "pos": [
-            -1,
-            4,
-            1
-          ],
-          "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
-          "subsystem": "conveyor",
-          "name": "MUL-01 Heavy Armor Gantry C [-1, 4, 1]"
-        },
-        {
-          "pos": [
+            -3,
             0,
-            4,
-            1
+            -1
           ],
-          "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
-          "subsystem": "conveyor",
-          "name": "MUL-01 Heavy Armor Gantry C [0, 4, 1]"
+          "shape": "cube",
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 5,
+          "subsystem": "structure",
+          "name": "MUL Strike Rail Port -1",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 3 Step 3.6 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
-            1,
-            4,
-            1
+            -3,
+            0,
+            0
           ],
-          "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
-          "subsystem": "conveyor",
-          "name": "MUL-01 Heavy Armor Gantry C [1, 4, 1]"
+          "shape": "cube",
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 5,
+          "subsystem": "structure",
+          "name": "MUL Strike Rail Port 0",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 3 Step 3.6 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
-            2,
-            4,
+            -3,
+            0,
             1
           ],
-          "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
-          "subsystem": "conveyor",
-          "name": "MUL-01 Heavy Armor Gantry C [2, 4, 1]"
+          "shape": "cube",
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 5,
+          "subsystem": "structure",
+          "name": "MUL Strike Rail Port 1",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 3 Step 3.6 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            3,
+            0,
+            -1
+          ],
+          "shape": "cube",
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 5,
+          "subsystem": "structure",
+          "name": "MUL Strike Rail Stbd -1",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 3 Step 3.6 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            3,
+            0,
+            0
+          ],
+          "shape": "cube",
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 5,
+          "subsystem": "structure",
+          "name": "MUL Strike Rail Stbd 0",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 3 Step 3.6 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            3,
+            0,
+            1
+          ],
+          "shape": "cube",
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 5,
+          "subsystem": "structure",
+          "name": "MUL Strike Rail Stbd 1",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 3 Step 3.6 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -3,
+            0,
+            -2
+          ],
+          "shape": "cube",
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 5,
+          "subsystem": "structure",
+          "name": "MUL Port Rail Aft Anchor",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 3 Step 3.6 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -3,
+            0,
+            2
+          ],
+          "shape": "cube",
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 5,
+          "subsystem": "structure",
+          "name": "MUL Port Rail Forward Anchor",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 3 Step 3.6 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            3,
+            0,
+            -2
+          ],
+          "shape": "cube",
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 5,
+          "subsystem": "structure",
+          "name": "MUL Stbd Rail Aft Anchor",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 3 Step 3.6 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            3,
+            0,
+            2
+          ],
+          "shape": "cube",
+          "subtype": "LargeHeavyBlockArmorBlock",
+          "paletteSlot": 5,
+          "subsystem": "structure",
+          "name": "MUL Stbd Rail Forward Anchor",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 3 Step 3.6 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         }
       ]
     },
@@ -669,84 +876,183 @@
       "subsystem": "propulsion",
       "partsTray": [
         {
-          "type": "Armor Full Block",
-          "qty": 5,
-          "slot": 0,
-          "mass": 1.2,
-          "note": "Primary section module"
+          "type": "Preview placement: LargeBlockSmallAtmosphericThrust",
+          "qty": 10,
+          "slot": 4,
+          "note": "Authored placements only; not a complete BOM."
         }
       ],
       "instructions": [
-        "**Bow (+Z):** Mount 2\u00d7 Small Atmo `MUL Lat Fwd 1, 2` facing Forward (exhausts +Z to push Aft) at [X \u00b11, Z +3, L3].",
-        "**Stern (\u2212Z):** Mount 2\u00d7 Small Atmo `MUL Lat Aft 1, 2` facing Aft (exhausts \u2212Z to push Fwd) at [X \u00b11, Z \u22123, L3].",
-        "**Port (\u2212X):** Mount 2\u00d7 Small Atmo `MUL Lat Port 1, 2` facing Port (exhausts \u2212X to push Stbd) at [X \u22123, Z \u00b11, L3].",
-        "**Starboard (+X):** Mount 2\u00d7 Small Atmo `MUL Lat Stbd 1, 2` facing Starboard (exhausts +X to push Port) at [X +3, Z \u00b11, L3].",
-        "**Dorsal Roof (+Y):** Mount 2\u00d7 Small Atmo `MUL Thrust Down 1, 2` facing UP (exhausts +Y to push straight DOWN) at [X \u00b11, Z 0, L3].",
+        "**Bow (+Z):** Mount 2× Small Atmo `MUL Lat Fwd 1, 2` facing Forward (exhausts +Z to push Aft) at [X ±1, Z +3, L3].",
+        "**Stern (−Z):** Mount 2× Small Atmo `MUL Lat Aft 1, 2` facing Aft (exhausts −Z to push Fwd) at [X ±1, Z −3, L3].",
+        "**Port (−X):** Mount 2× Small Atmo `MUL Lat Port 1, 2` facing Port (exhausts −X to push Stbd) at [X −3, Z ±1, L3].",
+        "**Starboard (+X):** Mount 2× Small Atmo `MUL Lat Stbd 1, 2` facing Starboard (exhausts +X to push Port) at [X +3, Z ±1, L3].",
+        "**Dorsal Roof (+Y):** Mount 2× Small Atmo `MUL Thrust Down 1, 2` facing UP (exhausts +Y to push straight DOWN) at [X ±1, Z 0, L3].",
         "Assign all 10 to terminal group `MUL Maneuver`."
       ],
       "checks": [
-        "Verify physical clearances and continuous conveyor flow."
+        "Verify the perimeter maneuvering thrusters face outward as specified and are clear of the skid frame."
       ],
       "blocks": [
         {
           "pos": [
-            -2,
-            2,
-            2
-          ],
-          "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 8,
-          "subsystem": "propulsion",
-          "name": "MUL-01 6-Axis Small Atmosph [-2, 2, 2]"
-        },
-        {
-          "pos": [
             -1,
-            2,
-            2
+            1,
+            3
           ],
-          "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 8,
+          "shape": "engine",
+          "subtype": "LargeBlockSmallAtmosphericThrust",
+          "paletteSlot": 4,
           "subsystem": "propulsion",
-          "name": "MUL-01 6-Axis Small Atmosph [-1, 2, 2]"
-        },
-        {
-          "pos": [
-            0,
-            2,
-            2
-          ],
-          "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 8,
-          "subsystem": "propulsion",
-          "name": "MUL-01 6-Axis Small Atmosph [0, 2, 2]"
+          "name": "MUL Lat Fwd 1",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 3.7 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 3 Step 3.7 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
             1,
-            2,
-            2
+            1,
+            3
           ],
-          "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 8,
+          "shape": "engine",
+          "subtype": "LargeBlockSmallAtmosphericThrust",
+          "paletteSlot": 4,
           "subsystem": "propulsion",
-          "name": "MUL-01 6-Axis Small Atmosph [1, 2, 2]"
+          "name": "MUL Lat Fwd 2",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 3.7 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 3 Step 3.7 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
-            2,
-            2,
-            2
+            -1,
+            1,
+            -3
           ],
-          "shape": "cube",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 8,
+          "shape": "engine",
+          "subtype": "LargeBlockSmallAtmosphericThrust",
+          "paletteSlot": 4,
           "subsystem": "propulsion",
-          "name": "MUL-01 6-Axis Small Atmosph [2, 2, 2]"
+          "name": "MUL Lat Aft 1",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 3.7 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 3 Step 3.7 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            1,
+            1,
+            -3
+          ],
+          "shape": "engine",
+          "subtype": "LargeBlockSmallAtmosphericThrust",
+          "paletteSlot": 4,
+          "subsystem": "propulsion",
+          "name": "MUL Lat Aft 2",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 3.7 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 3 Step 3.7 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -3,
+            1,
+            -1
+          ],
+          "shape": "engine",
+          "subtype": "LargeBlockSmallAtmosphericThrust",
+          "paletteSlot": 4,
+          "subsystem": "propulsion",
+          "name": "MUL Lat Port 1",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 3.7 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 3 Step 3.7 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -3,
+            1,
+            1
+          ],
+          "shape": "engine",
+          "subtype": "LargeBlockSmallAtmosphericThrust",
+          "paletteSlot": 4,
+          "subsystem": "propulsion",
+          "name": "MUL Lat Port 2",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 3.7 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 3 Step 3.7 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            3,
+            1,
+            -1
+          ],
+          "shape": "engine",
+          "subtype": "LargeBlockSmallAtmosphericThrust",
+          "paletteSlot": 4,
+          "subsystem": "propulsion",
+          "name": "MUL Lat Stbd 1",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 3.7 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 3 Step 3.7 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            3,
+            1,
+            1
+          ],
+          "shape": "engine",
+          "subtype": "LargeBlockSmallAtmosphericThrust",
+          "paletteSlot": 4,
+          "subsystem": "propulsion",
+          "name": "MUL Lat Stbd 2",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 3.7 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 3 Step 3.7 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -1,
+            1,
+            0
+          ],
+          "shape": "engine",
+          "subtype": "LargeBlockSmallAtmosphericThrust",
+          "paletteSlot": 4,
+          "subsystem": "propulsion",
+          "name": "MUL Thrust Down 1",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 3.7 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 3 Step 3.7 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            1,
+            1,
+            0
+          ],
+          "shape": "engine",
+          "subtype": "LargeBlockSmallAtmosphericThrust",
+          "paletteSlot": 4,
+          "subsystem": "propulsion",
+          "name": "MUL Thrust Down 2",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 3.7 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 3 Step 3.7 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         }
       ]
     },
@@ -758,107 +1064,185 @@
       "subsystem": "conveyor",
       "partsTray": [
         {
-          "type": "Armor Full Block",
-          "qty": 5,
-          "slot": 0,
-          "mass": 1.2,
-          "note": "Primary section module"
+          "type": "Preview placement: CameraBlock",
+          "qty": 1,
+          "slot": 3,
+          "note": "Authored placements only; not a complete BOM."
+        },
+        {
+          "type": "Preview placement: LargeBlockRadioAntenna",
+          "qty": 1,
+          "slot": 3,
+          "note": "Authored placements only; not a complete BOM."
+        },
+        {
+          "type": "Preview placement: ProgrammableBlock",
+          "qty": 1,
+          "slot": 3,
+          "note": "Authored placements only; not a complete BOM."
+        },
+        {
+          "type": "Preview placement: RemoteControl",
+          "qty": 1,
+          "slot": 3,
+          "note": "Authored placements only; not a complete BOM."
+        },
+        {
+          "type": "Preview placement: TimerBlock",
+          "qty": 4,
+          "slot": 2,
+          "note": "Authored placements only; not a complete BOM."
         }
       ],
       "instructions": [
-        "Mount 1\u00d7 Remote Control `MUL RC` at [X 0, Z \u22122, L3]. Ensure Forward points Bow (+Z) and Up points Roof (+Y).",
-        "Mount 1\u00d7 Programmable Block `[MUL] PB Shuttle` at [X \u22121, Z \u22122, L3].",
-        "Mount 1\u00d7 Radio Antenna `MUL Antenna` at [X +1, Z \u22122, L3]. Set broadcast range to `5,000 m`\u2020.",
-        "Mount 1\u00d7 Camera `MUL Cam Fwd` at [X 0, Z +3, L3] facing Bow (+Z).",
+        "Mount 1× Remote Control `MUL RC` at [X 0, Z −2, L3]. Ensure Forward points Bow (+Z) and Up points Roof (+Y).",
+        "Mount 1× Programmable Block `[MUL] PB Shuttle` at [X −1, Z −2, L3].",
+        "Mount 1× Radio Antenna `MUL Antenna` at [X +1, Z −2, L3]. Set broadcast range to `5,000 m`†.",
+        "Mount 1× Camera `MUL Cam Fwd` at [X 0, Z +3, L3] facing Bow (+Z).",
         "Mount logic block array along the northern equipment bulkhead:",
         "`MUL TMR Heartbeat` (5.0 s loop) fails to receive a PB reset pulse and expires.",
         "Immediate hardwired failsafe actions triggered by timer:",
         "If docked at a Gantry Cradle when failure occurs:"
       ],
       "checks": [
-        "**Dry Mass Verification:** Spawn MULE-01 in creative; terminal reports dry mass `\u2248 150-160 t`.",
-        "**Zero-Torque Hover:** Lift off to 50 m altitude in Earth 1.0 g; release dampeners; confirm pitch and roll remain `0.00\u00b0` (CoM perfectly aligned with center of lift).",
-        "**Empty Hover Power:** Verify 4\u00d7 Flat Atmo thrusters operate at `14-16%` load (`\u2248 3.6-4.2 MW` draw).",
-        "**Full Ore Spawn:** Load exactly 650 t of iron ore into `MUL Cargo Hold` (Gross mass `\u2248 807 t`).",
-        "**Laden Hover Power:** Verify 4\u00d7 Flat Atmo thrusters hover cleanly at `76-78%` load (`\u2248 20.0-20.5 MW` draw). Confirm T/W margin `\u2265 1.30`.",
-        "**Vertical Climb Rate:** Apply full upward collective; verify vertical climb rate reaches `\u2265 12.0 m/s` within 3.0 seconds.",
-        "**Vertical Descent Acceleration:** From 300 m altitude, apply downward thruster override (`MUL Thrust Down 1, 2`); verify descent acceleration reaches `13.5 m/s\u00b2`.",
-        "**Terminal Touchdown Flare:** At 50 m altitude, cut push-down thrusters and engage full lift collective; verify descent arrests safely before ground impact.",
-        "**Approach Alignment:** Guide Mule over Orca carrier roof pad (`ORC MP Conn`); verify `MUL Cam Belly` view aligns center marker.",
-        "**Touchdown & Lock:** Touch down on pad; verify `MUL Dock Belly` locks cleanly with corner skids resting flat on blast deck.",
-        "**Connector Recess Verification:** Confirm belly connector experiences zero mechanical bounce or compression damage.",
-        "**Cradle Swing:** Trigger host Gantry Cradle hinges (swinging inward 30\u00b0); verify magnetic plates strike flush against `[WAIST RUB RAIL PORT/STBD]` at Level L2.",
-        "**Magnetic Latch:** Lock magnetic plates; turn `MUL Lift` OFF; confirm Mule is clamped rigidly to carrier deck during 50 m/s carrier evasive maneuvers.",
-        "**Rapid Drain Test:** Engage host pad intake sorters (`ORC MP Sorter` / `GND PAD Sorter`); verify 650 t ore evacuates through `MUL Dock Belly` in $< 45\\text{ seconds}$\u2020 without conveyor back-pressure.",
-        "**Departure Sequence:** On empty signal (`MUL EC Cargo`), verify Gantry Cradle unclutches, `MUL Lift` engages, and shuttle executes clean vertical ascent.",
-        "**Waypoint Cruise:** Fly 5 km transit corridor between Orca and Ground Base at 100 m/s; verify 10\u00d7 Small Atmo array maintains course heading with zero lateral slip.",
-        "**Battery Consumption:** Verify total energy consumed over 5 km laden flight is $< 1.8\\text{ MWh}$ ($< 15\\%$ battery capacity).",
-        "**Base Terminal Capture:** Approach `GND PAD`; auto-engage gantry clamping arms; lock `GND PAD Conn`.",
-        "**Fast Shore Recharge:** Verify 4\u00d7 Large Batteries switch to `Recharge` and pull full 48.0 MW shore power, reaching 100% state of charge in $< 15\\text{ minutes}$.",
-        "**Simulated PB Crash:** Recompile `[MUL] PB Shuttle` with a crash script during transit; verify `MUL TMR Heartbeat` times out at 5.0 s, disengages overrides, activates dampeners, and arrests flight into a stable altitude hold."
+        "Confirm the remote control faces bow-up and the antenna, timers, and control blocks remain accessible."
       ],
       "blocks": [
         {
           "pos": [
-            -2,
-            3,
-            3
+            0,
+            1,
+            -2
           ],
-          "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
-          "subsystem": "conveyor",
-          "name": "MUL-01 Aft Avionics Vault & [-2, 3, 3]"
+          "shape": "cube",
+          "subtype": "RemoteControl",
+          "paletteSlot": 3,
+          "subsystem": "avionics",
+          "name": "MUL RC",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 3.8 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 3 Step 3.8 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
             -1,
-            3,
-            3
+            1,
+            -2
           ],
-          "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
-          "subsystem": "conveyor",
-          "name": "MUL-01 Aft Avionics Vault & [-1, 3, 3]"
-        },
-        {
-          "pos": [
-            0,
-            3,
-            3
-          ],
-          "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
-          "subsystem": "conveyor",
-          "name": "MUL-01 Aft Avionics Vault & [0, 3, 3]"
+          "shape": "cube",
+          "subtype": "ProgrammableBlock",
+          "paletteSlot": 3,
+          "subsystem": "avionics",
+          "name": "[MUL] PB Shuttle",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 3.8 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 3 Step 3.8 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
             1,
-            3,
+            1,
+            -2
+          ],
+          "shape": "cube",
+          "subtype": "LargeBlockRadioAntenna",
+          "paletteSlot": 3,
+          "subsystem": "avionics",
+          "name": "MUL Antenna",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 3.8 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 3 Step 3.8 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            0,
+            1,
             3
           ],
-          "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
-          "subsystem": "conveyor",
-          "name": "MUL-01 Aft Avionics Vault & [1, 3, 3]"
+          "shape": "cube",
+          "subtype": "CameraBlock",
+          "paletteSlot": 3,
+          "subsystem": "avionics",
+          "name": "MUL Cam Fwd",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 3.8 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 3 Step 3.8 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -2,
+            1,
+            -2
+          ],
+          "shape": "cube",
+          "subtype": "TimerBlock",
+          "paletteSlot": 2,
+          "subsystem": "avionics",
+          "name": "MUL TMR Heartbeat",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 3.8 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 3 Step 3.8 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         },
         {
           "pos": [
             2,
-            3,
-            3
+            1,
+            -2
           ],
-          "shape": "conveyor",
-          "subtype": "LargeBlockArmorBlock",
-          "paletteSlot": 4,
-          "subsystem": "conveyor",
-          "name": "MUL-01 Aft Avionics Vault & [2, 3, 3]"
+          "shape": "cube",
+          "subtype": "TimerBlock",
+          "paletteSlot": 2,
+          "subsystem": "avionics",
+          "name": "MUL TMR Dock",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 3.8 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 3 Step 3.8 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            -2,
+            1,
+            -1
+          ],
+          "shape": "cube",
+          "subtype": "TimerBlock",
+          "paletteSlot": 2,
+          "subsystem": "avionics",
+          "name": "MUL TMR Undock",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 3.8 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 3 Step 3.8 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
+        },
+        {
+          "pos": [
+            2,
+            1,
+            -1
+          ],
+          "shape": "cube",
+          "subtype": "TimerBlock",
+          "paletteSlot": 2,
+          "subsystem": "avionics",
+          "name": "MUL TMR Failsafe",
+          "orientationStatus": "needs-review",
+          "orientationEvidence": "Manual Step 3.8 describes this directional, face-oriented, or joint component, but no trusted blueprint or in-game build verifies the Studio orientation.",
+          "placementEvidenceStatus": "needs-review",
+          "placementEvidence": "Chapter 3 Step 3.8 supplies design intent; this Studio voxel cell requires trusted-blueprint or in-game placement review."
         }
       ]
     }
-  ]
+  ],
+  "designFigureStatus": {
+    "status": "unverified",
+    "label": "Manual-derived design figures and placements are provisional; verify before build or load planning.",
+    "source": "Chapter 3 provisional design envelope and build steps"
+  },
+  "placementEvidenceNote": "Manual-derived major-component placements only, not a complete block blueprint. X/Z anchors follow Chapter 3. Y is centered on the cargo-hold origin (L1=-1, L2=0, L3=+1). Direction-sensitive block orientations remain needs-review until checked against a trusted blueprint or in-game build. Every authored voxel placement has placementEvidenceStatus needs-review because no trusted blueprint or in-game build verifies its model cell."
 }

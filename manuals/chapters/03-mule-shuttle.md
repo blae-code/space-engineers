@@ -16,6 +16,9 @@ Each step features: an exact ASCII schematic, Spatial Locator HUD, in-game paint
 * **Mass:** Dry Mass `≈ 142.8 t` · Maximum Payload Ore `650.0 t` · Gross Laden Mass `≈ 792.8 t`.
 * **Propulsion:** Pure Electric Atmospheric (10.4 MN Downward Lift + 6.48 MN 6-Axis Maneuvering Array).
 
+> [!NOTE]
+> Dimensions and placements are provisional design intent, not a validated blueprint. The 7 × 7 × 3 B envelope is used for the model. Mass and BOM figures remain unresolved: this directive gives 142.8 t dry, a later summary gives 157.0 t, and the Studio registry reports 128.0 t with 142 blocks. Verify against a trusted blueprint or in-game build before use.
+
 ---
 
 ## 0 · Reference Grid, Coordinate System & Design Envelope

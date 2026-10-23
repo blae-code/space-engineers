@@ -20,18 +20,21 @@ Each step features: an exact ASCII schematic, Spatial Locator HUD, in-game paint
 * **Mass:** Facility Structural Mass `≈ 948.5 t` · Installed Power Capacity: 30 MW Continuous Nuclear + 72 MW Battery Surge.
 * **Operating Environment:** Earth 1 g baseline, planetary surface level, quarry bench connection.
 
+> [!NOTE]
+> Dimensions, mass, BOM and placements are provisional design intent, not a validated blueprint. The 24 × 28 × 9 B envelope governs the model. Foundation coordinates use X −12..+11 and Z −14..+13 so each inclusive integer range contains exactly 24 × 28 positions. Because both footprint dimensions are even, these integer block-center bounds have a centroid at X −0.5, Z −0.5 relative to the stated X0/Z0 datum; confirm the final coordinate origin and centering against a trusted blueprint or in-game build. Verify all figures and placement geometry before use.
+
 ---
 
 ## 0 · Reference Grid, In-Game Paint Palette & Master Facility Layout
 
 ### 0.1 Coordinate Triad & Axis Conventions
 * **Origin (X0, Y0, Z0):** Geometric center of the foundation deck surface at Level L1 along centerline X0.
-* **X (Beam / Transverse):** West is negative (−), East is positive (+), Centerline is 0. Spans X −12 to +12 (24 blocks wide = 60.0 m).
+* **X (Beam / Transverse):** West is negative (−), East is positive (+), Centerline is 0. Spans X −12 to +11 (24 blocks wide = 60.0 m).
   * West Flank (C2 Tower): X −11 to −7 (5 blocks wide = 12.5 m).
   * Centerline Logistics & Process Core: X −6 to +6 (13 blocks wide = 32.5 m).
   * East Retaining Wall & Expansion Apron: X +7 to +11 (5 blocks wide = 12.5 m).
 * **Y (Elevation):** Sub-surface bedrock anchor and trench raceways are Level L0 (Y = −2.5 m); tarmac foundation surface is Level L1 (Y = 0); industrial deck midline is Level L2; C2 Bridge observation deck is Level L3; bridge ceiling is Level L4; comms spire tip is Level L9 (Y = +22.5 m).
-* **Z (Length / Longitudinal):** South (toward Extruder Ring) is negative (−), North (toward Logistics Approach) is positive (+). Spans Z −14 to +14 (28 blocks long = 70.0 m).
+* **Z (Length / Longitudinal):** South (toward Extruder Ring) is negative (−), North (toward Logistics Approach) is positive (+). Spans Z −14 to +13 (28 blocks long = 70.0 m).
   * North Logistics Apron (Mule Pad & Cat Dock): Z +6 to +13 (8 blocks length = 20.0 m).
   * Central Industrial Core (Refineries & Assemblers): Z −6 to +5 (12 blocks length = 30.0 m).
   * South Power Vault & Buffer Storage: Z −13 to −7 (7 blocks length = 17.5 m).
@@ -391,7 +394,7 @@ To ensure complete physical ergonomics and survivability for engineering personn
        [PHASE 4-1 SPATIAL LOCATOR HUD]
        Facility: Ground Base Foundation (GND-01)
        Envelope: 24 W × 28 L × 2 H B (60.0 × 70.0 × 5.0 m)
-       Coordinate Range: X −12 to +12, Z −14 to +14, Level L0 to L1
+       Coordinate Range: X −12 to +11, Z −14 to +13, Level L0 to L1
        Key Datums:
        · Foundation Surface Deck: Level L1 (Y = 0)
        · Sub-Surface Bedrock Trench Depth: Level L0 (Y = −2.5 m)
@@ -411,7 +414,7 @@ To ensure complete physical ergonomics and survivability for engineering personn
 
 ### Step 4.1 · Bedrock Plateau Excavation & Perimeter Retaining Walls (L0-L1)
 Excavate a level 60 × 70 m plateau into bedrock:
-1. Lay the perimeter retaining wall using Heavy Armor Blocks along X = ±12 (Z −14 to +14) and Z = ±14 (X −12 to +12) at Level L1.
+1. Lay the perimeter retaining wall using Heavy Armor Blocks along X = −12 and +11 (Z −14 to +13) and Z = −14 and +13 (X −12 to +11) at Level L1.
 2. Anchor corner footings 2 blocks deep into terrain (Level L0) to prevent voxel clipping or structural floating.
 3. Bevel the exterior tarmac perimeter with Heavy Armor Slopes angled 45° to provide smooth ramp transitions for ground vehicles.
 
@@ -427,7 +430,7 @@ Recess two longitudinal conveyor raceways beneath the tarmac deck to keep all ra
 
 ### Step 4.3 · Foundation Blast Slabs & Tarmac Deck Plating (L1)
 1. Lay reinforced Heavy Armor Blocks across the entire 24 × 28 B surface deck at Level L1, enclosing the sub-surface raceways.
-2. Leave open intake collar sockets at [X +3, Z +9] (for the Mule pad connector) and along X −4, Z +8 to +10 (for the 5× Caterpillar collectors).
+2. Leave open intake collar sockets at [X +3, Z +9] (for the Mule pad connector) and around the 5-collector cluster at [X −5, Z +8], [X −5 and −3, Z +9], and [X −5 and −3, Z +10].
 3. Paint the entire tarmac foundation Palette Slot 0 (Industrial Slate).
 
 > [!CAUTION]
@@ -494,7 +497,7 @@ Assemble the active landing cradle mechanism per **Decision 45**:
 1. Mount 1× Motor Hinge `GND PAD Cradle Hinge Port` at [X +1, Z +10, Level L1] with hinge pin longitudinal (Z-axis) and base facing East (+X).
 2. Mount 1× Motor Hinge `GND PAD Cradle Hinge Stbd` at [X +5, Z +10, Level L1] with hinge pin longitudinal (Z-axis) and base facing West (−X).
 3. Weld Large Magnetic Plates `GND PAD Cradle Clamp Port/Stbd` onto the hinge heads, set to `Auto-Lock = ON`.
-4. Install Sensor Block `GND PAD Sensor` at [X +3, Z +12, Level L1]. Configure detection field: 15 m radius centered 5 m above pad.
+4. Install Sensor Block `GND PAD Sensor` at [X +3, Z +12, Level L2], above the deck trench route. Configure detection field: 15 m radius centered 5 m above pad.
 
 #### Joint Tuning Sliders:
 * **Share Inertia Tensor = `ON`** on both cradle hinges.
@@ -515,7 +518,7 @@ Assemble the active landing cradle mechanism per **Decision 45**:
 1. Mount 5× Large Grid Collectors `GND CAT Hopper Coll 1..5` flush in the deck at Level L1, facing straight UP (+Y):
    * `COLL 1, 2`: [X −5, Z +10] and [X −3, Z +10]
    * `COLL 3, 4`: [X −5, Z +9] and [X −3, Z +9]
-   * `COLL 5`: [X −4, Z +8]
+   * `COLL 5`: [X −5, Z +8]
 2. Plumb all 5 collectors into sub-surface Trench A.
 3. Install Large Conveyor Sorter `GND CAT Sorter Bulk` downstream of the collectors at [X −4, Z +5, Level L0] with flow arrow South (−Z). Whitelist: `Iron`, `Nickel`, `Silicon`, `Cobalt`, `Stone`. Set `Drain All = ON`.
 
