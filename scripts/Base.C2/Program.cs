@@ -272,15 +272,30 @@ namespace IngameScript
         void HandleIgcPacket(string tag, string payload)
         {
             if (payload == null) return;
+
+            if (tag == TmsProtocol.HandoverTag)
+            {
+                string targetNode;
+                string timestamp;
+                if (TmsProtocol.TryReadHandover(payload, out targetNode, out timestamp))
+                {
+                    if (targetNode == "GND-01")
+                    {
+                        _isC2Master = true;
+                        _watchdog.Ping();
+                    }
+                    else if (targetNode == "MAS-01")
+                    {
+                        _isC2Master = false;
+                    }
+                }
+                return;
+            }
+
             IgcProtocol.Split(payload, _args);
             if (_args.Count == 0) return;
 
-            if (tag == "TMS.C2.HANDOVER")
-            {
-                _isC2Master = true;
-                _watchdog.Ping();
-            }
-            else if (tag == "TMS.MULE.STATUS")
+            if (tag == "TMS.MULE.STATUS")
             {
                 if (_args.Count > 2) _lastMulePayload = _args[2];
                 _watchdog.Ping();
@@ -390,7 +405,7 @@ namespace IngameScript
             _handoverListener = IGC.RegisterBroadcastListener("TMS.C2.HANDOVER");
             _muleStatusListener = IGC.RegisterBroadcastListener("TMS.MULE.STATUS");
             _catStatusListener = IGC.RegisterBroadcastListener("TMS.CAT.STATUS");
-            _mastStatusListener = IGC.RegisterBroadcastListener("TMS.MAST.STATUS");
+            _mastStatusListener = IGC.RegisterBroadcastListener("TMS.MAS.STATUS");
             _orcaStatusListener = IGC.RegisterBroadcastListener("TMS.ORCA.STATUS");
         }
 

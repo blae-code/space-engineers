@@ -84,12 +84,18 @@ namespace IngameScript
         readonly List<IMyLargeTurretBase> _ciwsTurrets = new List<IMyLargeTurretBase>(4);
         IMyRadioAntenna _commAntenna;
         IMyFunctionalBlock _alarmMeteor;
+        IMyBroadcastListener _catStatusListener;
+        IMyBroadcastListener _muleStatusListener;
+        IMyBroadcastListener _mastodonStatusListener;
+        IMyBroadcastListener _baseDemandListener;
+        IMyBroadcastListener _handoverListener;
         #endregion
 
         #region Internal Telemetry & Buffers
         readonly MyIni _ini = new MyIni();
         readonly StringBuilder _sbEcho = new StringBuilder(512);
         readonly StringBuilder _sbIgc = new StringBuilder(256);
+        readonly StringBuilder _sbTimestamp = new StringBuilder(16);
         readonly StringBuilder _sbLcd = new StringBuilder(1024);
         readonly List<string> _args = new List<string>(8);
         readonly HeartbeatWatchdog _c2Watchdog = new HeartbeatWatchdog(10.0);
@@ -165,7 +171,7 @@ namespace IngameScript
             CheckJitDispatchThresholds();
 
             // 4. Genesis Root Heartbeat Broadcast
-            if ((_tickCounter % 30) == 0 && _currentRole == ROLE_MOTHERSHIP)
+            if ((_tickCounter % 6) == 0 && _currentRole == ROLE_MOTHERSHIP)
             {
                 BroadcastFleetHeartbeat();
             }
@@ -378,10 +384,25 @@ namespace IngameScript
         #region Inbound IGC Protocol Listener
         void ProcessInboundIgcMessages()
         {
-            // Process IGC uncast messages
             while (IGC.UnicastListener.HasPendingMessage)
             {
                 MyIGCMessage msg = IGC.UnicastListener.AcceptMessage();
+                HandleIgcPacket(msg.Tag, msg.Data as string);
+            }
+
+            ProcessListener(_catStatusListener);
+            ProcessListener(_muleStatusListener);
+            ProcessListener(_mastodonStatusListener);
+            ProcessListener(_baseDemandListener);
+            ProcessListener(_handoverListener);
+        }
+
+        void ProcessListener(IMyBroadcastListener listener)
+        {
+            if (listener == null) return;
+            while (listener.HasPendingMessage)
+            {
+                MyIGCMessage msg = listener.AcceptMessage();
                 HandleIgcPacket(msg.Tag, msg.Data as string);
             }
         }
@@ -389,29 +410,40 @@ namespace IngameScript
         void HandleIgcPacket(string tag, string payload)
         {
             if (payload == null) return;
+
+            if (tag == TmsProtocol.HandoverTag)
+            {
+                string targetNode;
+                string timestamp;
+                if (TmsProtocol.TryReadHandover(payload, out targetNode, out timestamp))
+                {
+                    if (targetNode == "GND-01")
+                        _currentRole = ROLE_WORKER;
+                    else if (targetNode == "MAS-01")
+                        _currentRole = ROLE_MOTHERSHIP;
+                }
+                return;
+            }
+
             IgcProtocol.Split(payload, _args);
             if (_args.Count == 0) return;
 
             if (tag == "TMS.CAT.STATUS")
             {
-                // CAT-01;gross_t;payload_t;speed_kmh;status
-                RegisterOrUpdateAsset("CAT-01", ASSET_TRAIN, (_args.Count > 4) ? _args[4] : "EN_ROUTE");
+                if (_args.Count >= 5)
+                    RegisterOrUpdateAsset(_args[0], ASSET_TRAIN, _args[1]);
             }
             else if (tag == "TMS.MULE.STATUS")
             {
-                // MUL-01;gross_t;payload_t;altitude_m;status
-                RegisterOrUpdateAsset("MUL-01", ASSET_SHUTTLE, (_args.Count > 4) ? _args[4] : "AIRBORNE");
+                if (_args.Count >= 5)
+                    RegisterOrUpdateAsset(_args[0], ASSET_SHUTTLE, _args[1]);
             }
             else if (tag == "TMS.MAS.STATUS")
             {
-                // KINEMATICS;state;macro;outriggers;hitch;dpu;speed
-                if (_args.Count > 2)
+                if (_args.Count >= 7 && _args[0] == "MAS-01")
                 {
                     _kinematicsState = _args[1];
                     _kinematicsMacro = _args[2];
-                }
-                if (_args.Count > 6)
-                {
                     float.TryParse(_args[6], out _vehicleSpeedKmh);
                 }
             }
@@ -419,17 +451,6 @@ namespace IngameScript
             {
                 // DEMAND;ORE=URANIUM;DEFICIT=15000
                 // Vector scout drones to search for deficit mineral
-            }
-            else if (tag == "RIG.C2.HANDOVER")
-            {
-                // Yield C2 root to Ground Base
-                if (_currentRole == ROLE_MOTHERSHIP)
-                {
-                    _currentRole = ROLE_WORKER;
-                    _sbIgc.Clear();
-                    _sbIgc.Append("MAS-01;GND-01;ACK");
-                    IGC.SendBroadcastMessage("RIG.C2.HANDOVER", _sbIgc.ToString());
-                }
             }
         }
 
@@ -493,10 +514,13 @@ namespace IngameScript
 
             if (string.Compare(cmd, "HANDOVER", StringComparison.OrdinalIgnoreCase) == 0)
             {
-                _currentRole = ROLE_WORKER;
-                _sbIgc.Clear();
-                _sbIgc.Append("MAS-01;GND-01;HANDOVER_EXEC");
-                IGC.SendBroadcastMessage("RIG.C2.HANDOVER", _sbIgc.ToString());
+                _sbTimestamp.Clear();
+                SbFormat.AppendInt(_sbTimestamp, _tickCounter);
+                if (TmsProtocol.TryWriteHandover(_sbIgc, "GND-01", _sbTimestamp.ToString()))
+                {
+                    IGC.SendBroadcastMessage(TmsProtocol.HandoverTag, _sbIgc.ToString());
+                    _currentRole = ROLE_WORKER;
+                }
             }
             else if (string.Compare(cmd, "JIT", StringComparison.OrdinalIgnoreCase) == 0)
             {
@@ -550,11 +574,16 @@ namespace IngameScript
         void InitHardware()
         {
             _lcdHelm = GridTerminalSystem.GetBlockWithName("MAS LCD Helm") as IMyTextPanel;
+            if (_lcdHelm != null && _lcdHelm.CubeGrid != Me.CubeGrid) _lcdHelm = null;
             _lcdBoom = GridTerminalSystem.GetBlockWithName("MAS LCD Boom") as IMyTextPanel;
+            if (_lcdBoom != null && _lcdBoom.CubeGrid != Me.CubeGrid) _lcdBoom = null;
             _lcdFleet = GridTerminalSystem.GetBlockWithName("MAS LCD Fleet") as IMyTextPanel;
+            if (_lcdFleet != null && _lcdFleet.CubeGrid != Me.CubeGrid) _lcdFleet = null;
 
             _commAntenna = GridTerminalSystem.GetBlockWithName("MAS Antenna Laser") as IMyRadioAntenna;
-            _alarmMeteor = GridTerminalSystem.GetBlockWithName("MAS Alarm Meteor");
+            if (_commAntenna != null && _commAntenna.CubeGrid != Me.CubeGrid) _commAntenna = null;
+            _alarmMeteor = GridTerminalSystem.GetBlockWithName("MAS Alarm Meteor") as IMyFunctionalBlock;
+            if (_alarmMeteor != null && _alarmMeteor.CubeGrid != Me.CubeGrid) _alarmMeteor = null;
 
             _cargoHolds.Clear();
             GridTerminalSystem.GetBlocksOfType(_cargoHolds, b => b.CubeGrid == Me.CubeGrid && b.CustomName.StartsWith("MAS Hold"));
@@ -563,11 +592,11 @@ namespace IngameScript
             GridTerminalSystem.GetBlocksOfType(_ciwsTurrets, b => b.CubeGrid == Me.CubeGrid && b.CustomName.Contains("Turret"));
 
             // Subscribe to regional broadcast channels
-            IGC.RegisterBroadcastListener("TMS.CAT.STATUS");
-            IGC.RegisterBroadcastListener("TMS.MULE.STATUS");
-            IGC.RegisterBroadcastListener("TMS.MAS.STATUS");
-            IGC.RegisterBroadcastListener("TMS.BASE.DEMAND");
-            IGC.RegisterBroadcastListener("RIG.C2.HANDOVER");
+            _catStatusListener = IGC.RegisterBroadcastListener("TMS.CAT.STATUS");
+            _muleStatusListener = IGC.RegisterBroadcastListener("TMS.MULE.STATUS");
+            _mastodonStatusListener = IGC.RegisterBroadcastListener("TMS.MAS.STATUS");
+            _baseDemandListener = IGC.RegisterBroadcastListener("TMS.BASE.DEMAND");
+            _handoverListener = IGC.RegisterBroadcastListener(TmsProtocol.HandoverTag);
         }
         #endregion
     }

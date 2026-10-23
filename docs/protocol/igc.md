@@ -46,8 +46,11 @@ Autonomous operations across moving atmospheric carriers (Orca), vertical miners
 | Channel Tag | Direction | Payload Schema | Description |
 |---|---|---|---|
 | `TMS.ORCA.STATUS` | Orca -> Base / Fleet | `<hold_cap_pct>;<battery_pct>;<h2_pct>;<active_bays>;<ore_mass_kg>` | Broadcasts Orca carrier hold capacity and operational readiness every 1.0 s. |
-| `TMS.MULE.STATUS` | Mule -> Base / Orca | `<state>;<cargo_kg>;<battery_pct>;<eta_sec>;<target_pad>` | Real-time shuttle flight state (`IDLE`, `ENROUTE`, `DOCKING`, `TRANSFER`). |
-| `TMS.MULE.CALL` | Orca / Base -> Mule | `CALL;<requesting_grid>;<target_pad>;<priority>;<payload_type>` | Dispatches an available Mule shuttle to a specific touchdown gantry pad. |
+| `TMS.C2.HANDOVER` | Current C2 root -> Fleet roots | `HANDOVER;<target_node>;<timestamp>` | Transfers root authority to the named commissioned node. All participating roots apply the same target; the old root becomes a worker. |
+| `TMS.MULE.STATUS` | Mule -> Base / Orca / Mastodon | `<mule_id>;<state>;<cargo_t>;<battery_pct>;<destination_gps>` | Shuttle state, payload mass in tonnes, battery percentage, and active destination. |
+| `TMS.MULE.CALL` | Mastodon / Base / Orca -> logistics dispatcher | `CALL;<requesting_grid>;<target_pad>;<priority>;<payload_type>` | Requests a Mule sortie; this is not the Mule's dispatch command. |
+| `TMS.MULE.DISPATCH` | Current C2 root -> assigned Mule | `DISPATCH;<mule_id>;<pickup_pad>;<destination_gps>;<payload_type>;<request_id>` | Assigns a specific Mule and route after a request is accepted. |
+| `TMS.CAT.DISPATCH` | Current C2 root -> assigned Caterpillar | `DISPATCH;<cat_id>;<destination_id>;<ore_type>;<request_id>` | Assigns a bulk-haul destination after a ground-tier logistics request. |
 | `TMS.SCOUT.VEIN` | Kestrel -> Base / C2 | `VEIN;<ore_type>;<gps_x>;<gps_y>;<gps_z>;<est_depth_m>` | Broadcasts verified ore vein coordinates discovered by prospector drones. |
 | `TMS.SCOUT.STATUS` | Kestrel -> Base / Orca | `<state>;<battery_pct>;<scan_radius_m>;<current_waypoint>` | Prospector operational telemetry during geological survey passes. |
 | `TMS.SCOUT.TASK` | Mastodon / Base -> Kestrel | `TASK;<drone_id>;<pattern:GRID\|CONE>;<gps_center>;<radius_m>;<priority_ore>` | Vectors prospector scout to high-probability geological survey sectors. |
@@ -55,10 +58,10 @@ Autonomous operations across moving atmospheric carriers (Orca), vertical miners
 | `TMS.REPAIR.CALL` | Any Craft -> Albatross | `REPAIR;<grid_name>;<gps_x>;<gps_y>;<gps_z>;<damage_pct>;<severity>` | Emergency SOS call requesting automated field repair and welding dispatch. |
 | `TMS.REPAIR.STATUS` | Albatross -> Base / C2 | `<state>;<target_grid>;<parts_hold_pct>;<eta_sec>` | Field repair craft task status (`DISPATCHED`, `WELDING`, `RETURNING`). |
 | `TMS.BASE.QUOTAS` | Base C2 -> Yard / Fleet | `QUOTA;<steel_plates>;<motors>;<tubes>;<computers>;<h2_liters>` | Ground Base component manufacturing thresholds and material reserves. |
-| `TMS.BASE.DEMAND` | Base C2 -> Fleet | `DEMAND;<ore_type>;<priority:1..5>;<deficit_kg>;<target_stock_kg>` | Drives pull-economy quarry tasking based on live refinery consumption. |
-| `TMS.LOGISTICS.JIT` | Mastodon -> Mule / Cat | `JIT;<requesting_grid>;<tier:AIR\|GND>;<eta_target_sec>;<ore_type>;<est_mass_kg>` | Pre-dispatches transport in advance of buffer saturation (zero excavator idle). |
-| `TMS.MAS.STATUS` | Mastodon -> Base / Fleet | `<state>;<cargo_kg>;<active_macro>;<rate_kg_s>;<power_mode>` | Heavy excavator payload, extraction rate, macro, and power state telemetry. |
-| `TMS.CAT.STATUS` | Caterpillar -> Base / C2 | `<state>;<cargo_kg>;<consist_length_b>;<dump_ready_bool>` | Land train consist status, drawbar articulation, and dump queue readiness. |
+| `TMS.BASE.DEMAND` | Base C2 -> Mastodon / Orca | `DEMAND;<ore_type>;<priority:1..5>;<deficit_kg>;<target_stock_kg>` | Drives pull-economy quarry tasking from refinery and component demand. |
+| `TMS.LOGISTICS.JIT` | Mastodon / Base -> logistics dispatcher | `JIT;<requester_id>;<tier:AIR\|GND>;<eta_target_sec>;<ore_type>;<est_mass_kg>` | Requests transport before a source hold saturates; the dispatcher emits a separate assignment. |
+| `TMS.MAS.STATUS` | Mastodon -> Base / Fleet | `<mastodon_id>;<state>;<active_macro>;<cargo_kg>;<rate_kg_s>;<power_mode>;<speed_kmh>` | Excavator state, cargo, extraction rate, power mode, and vehicle speed telemetry. |
+| `TMS.CAT.STATUS` | Caterpillar -> Base / C2 / Mastodon | `<cat_id>;<state>;<cargo_kg>;<consist_length_b>;<dump_ready_bool>` | Land-train state, payload, consist length, and terminal unload readiness. |
 | `TMS.CONVOY.SYNC` | Mastodon -> Caterpillar | `CONVOY;<lead_id>;<speed_ms>;<heading_deg>;<ejector_active_bool>` | Synchronizes Caterpillar trailing speed behind Mastodon roadbed spreader. |
 | `TMS.ZONE.CLAIM` | Mastodon -> Peer Mastodons | `ZONE;<grid_id>;<state>;<gps_bounding_min>;<gps_bounding_max>;<macro_mode>` | Deconflicts heavy excavation envelopes in multi-rig quarry operations. |
 | `TMS.DEFENSE.TARGET` | Tactical Lead -> Fleet CIWS | `ENGAGE;<target_entity_id>;<target_gps>;<threat_level:LOW\|MED\|HIGH>;<assigned_grid>` | Distributes anti-air and counter-missile defense targets across consist turrets. |
@@ -73,6 +76,10 @@ Autonomous operations across moving atmospheric carriers (Orca), vertical miners
 | `TMS.AIRLOCK.CYCLE` | Control Panel -> Airlock | `CYCLE;<airlock:PORT\|ROOF\|STERN\|GANGWAY>;<dir:IN\|OUT>;<decon_bool>` | Initiates automated gas reclamation and UV decontamination cycle. |
 | `TMS.METEOR.ALERT` | Mastodon CIWS -> Fleet / Consist | `METEOR;<intensity:LIGHT\|MED\|HEAVY>;<azimuth_deg>;<elevation_deg>;<impact_eta_sec>` | Early warning meteor swarm detection, CIWS dome lock, and consist lockdown trigger. |
 | `TMS.AMMO.STATUS` | Mastodon Ammo EC -> Consist / Logistics | `AMMO;<gatling_box_count>;<interior_mag_count>;<mg_ingot_kg>;<deficit_box_count>` | Consist munitions telemetry, magazine capacity, and automated resupply trigger. |
+
+`TMS.MULE.DISPATCH`, `TMS.CAT.DISPATCH`, and `TMS.BASE.DEMAND` use the exact
+field counts in the table. Empty fields and extra fields are invalid. Dispatches include a request ID;
+the assigned vehicle accepts only its own ID and must not interpret a JIT request as an assignment.
 
 
 ---
@@ -136,4 +143,3 @@ namespace IngameScript
     }
 }
 ```
-

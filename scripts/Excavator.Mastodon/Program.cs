@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Sandbox.ModAPI.Ingame;
+using SpaceEngineers.Game.ModAPI.Ingame;
 using VRage.Game.ModAPI.Ingame.Utilities;
 using VRageMath;
 
@@ -653,33 +654,33 @@ namespace IngameScript
 
         void InitHardware()
         {
-            _helm = GridTerminalSystem.GetBlockWithName("MAS Helm") as IMyShipController;
-            _turretAzimuth = GridTerminalSystem.GetBlockWithName("MAS Turret Azimuth") as IMyMotorAdvancedStator;
-            _boomShoulder = GridTerminalSystem.GetBlockWithName("MAS Boom Shoulder") as IMyMotorAdvancedStator;
-            _boomElbow = GridTerminalSystem.GetBlockWithName("MAS Boom Elbow") as IMyMotorAdvancedStator;
-            _wristPitch = GridTerminalSystem.GetBlockWithName("MAS Tool Wrist Pitch") as IMyMotorAdvancedStator;
-            _wristRoll = GridTerminalSystem.GetBlockWithName("MAS Wrist Roll") as IMyMotorAdvancedStator;
-            _clampBoomStow = GridTerminalSystem.GetBlockWithName("MAS Clamp Boom Stow");
+            _helm = GetBlockOnGrid<IMyShipController>("MAS Helm");
+            _turretAzimuth = GetBlockOnGrid<IMyMotorAdvancedStator>("MAS Turret Azimuth");
+            _boomShoulder = GetBlockOnGrid<IMyMotorAdvancedStator>("MAS Boom Shoulder");
+            _boomElbow = GetBlockOnGrid<IMyMotorAdvancedStator>("MAS Boom Elbow");
+            _wristPitch = GetBlockOnGrid<IMyMotorAdvancedStator>("MAS Tool Wrist Pitch");
+            _wristRoll = GetBlockOnGrid<IMyMotorAdvancedStator>("MAS Wrist Roll");
+            _clampBoomStow = GetBlockOnGrid<IMyFunctionalBlock>("MAS Clamp Boom Stow");
 
             // Outriggers
             _outriggersFwd.Clear();
             _outriggersAft.Clear();
-            IMyPistonBase pFwdPort = GridTerminalSystem.GetBlockWithName("MAS Outrigger Fwd Port") as IMyPistonBase;
-            IMyPistonBase pFwdStbd = GridTerminalSystem.GetBlockWithName("MAS Outrigger Fwd Stbd") as IMyPistonBase;
-            IMyPistonBase pAftPort = GridTerminalSystem.GetBlockWithName("MAS Outrigger Aft Port") as IMyPistonBase;
-            IMyPistonBase pAftStbd = GridTerminalSystem.GetBlockWithName("MAS Outrigger Aft Stbd") as IMyPistonBase;
+            IMyPistonBase pFwdPort = GetBlockOnGrid<IMyPistonBase>("MAS Outrigger Fwd Port");
+            IMyPistonBase pFwdStbd = GetBlockOnGrid<IMyPistonBase>("MAS Outrigger Fwd Stbd");
+            IMyPistonBase pAftPort = GetBlockOnGrid<IMyPistonBase>("MAS Outrigger Aft Port");
+            IMyPistonBase pAftStbd = GetBlockOnGrid<IMyPistonBase>("MAS Outrigger Aft Stbd");
             if (pFwdPort != null) _outriggersFwd.Add(pFwdPort);
             if (pFwdStbd != null) _outriggersFwd.Add(pFwdStbd);
             if (pAftPort != null) _outriggersAft.Add(pAftPort);
             if (pAftStbd != null) _outriggersAft.Add(pAftStbd);
 
             // Hitch & Stabilizers
-            _hitchYaw = GridTerminalSystem.GetBlockWithName("MAS Hitch Rotor Yaw") as IMyMotorAdvancedStator;
-            _hitchPitch = GridTerminalSystem.GetBlockWithName("MAS Hitch Hinge Pitch") as IMyMotorAdvancedStator;
-            _hitchRoll = GridTerminalSystem.GetBlockWithName("MAS Hitch Rotor Roll") as IMyMotorAdvancedStator;
+            _hitchYaw = GetBlockOnGrid<IMyMotorAdvancedStator>("MAS Hitch Rotor Yaw");
+            _hitchPitch = GetBlockOnGrid<IMyMotorAdvancedStator>("MAS Hitch Hinge Pitch");
+            _hitchRoll = GetBlockOnGrid<IMyMotorAdvancedStator>("MAS Hitch Rotor Roll");
             _hitchClamps.Clear();
-            IMyFunctionalBlock hcPort = GridTerminalSystem.GetBlockWithName("MAS Hitch Clamp Port");
-            IMyFunctionalBlock hcStbd = GridTerminalSystem.GetBlockWithName("MAS Hitch Clamp Stbd");
+            IMyFunctionalBlock hcPort = GetBlockOnGrid<IMyFunctionalBlock>("MAS Hitch Clamp Port");
+            IMyFunctionalBlock hcStbd = GetBlockOnGrid<IMyFunctionalBlock>("MAS Hitch Clamp Stbd");
             if (hcPort != null) _hitchClamps.Add(hcPort);
             if (hcStbd != null) _hitchClamps.Add(hcStbd);
 
@@ -697,6 +698,13 @@ namespace IngameScript
             GridTerminalSystem.GetBlocksOfType(_airlockVents, b => b.CubeGrid == Me.CubeGrid && b.CustomName.Contains("Airlock"));
             _deconLights.Clear();
             GridTerminalSystem.GetBlocksOfType(_deconLights, b => b.CubeGrid == Me.CubeGrid && b.CustomName.Contains("Decon"));
+        }
+
+        T GetBlockOnGrid<T>(string name) where T : class
+        {
+            IMyTerminalBlock block = GridTerminalSystem.GetBlockWithName(name);
+            if (block == null || block.CubeGrid != Me.CubeGrid) return null;
+            return block as T;
         }
 
         void RenderKinematicsEcho()

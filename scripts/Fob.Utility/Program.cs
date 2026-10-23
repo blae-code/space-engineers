@@ -9,8 +9,11 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Sandbox.ModAPI.Ingame;
+using SpaceEngineers.Game.ModAPI.Ingame;
 using VRage.Game.ModAPI.Ingame.Utilities;
 using VRage.Game;
+using VRage.Game.ModAPI.Ingame;
+using VRage;
 using VRageMath;
 
 namespace IngameScript
@@ -408,16 +411,16 @@ namespace IngameScript
 
         void InitHardware()
         {
-            _remoteFob = GridTerminalSystem.GetBlockWithName("MAS-U Remote FOB") as IMyRemoteControl;
-            _utilityAssembler = GridTerminalSystem.GetBlockWithName("MAS Utility Assembler") as IMyAssembler;
-            _fieldRefinery = GridTerminalSystem.GetBlockWithName("MAS Field Refinery") as IMyRefinery;
-            _holdComponents = GridTerminalSystem.GetBlockWithName("MAS Hold Components") as IMyCargoContainer;
-            _holdResupplyExport = GridTerminalSystem.GetBlockWithName("MAS Hold Resupply Export") as IMyCargoContainer;
-            _sorterResupplyExport = GridTerminalSystem.GetBlockWithName("MAS Sorter Resupply Export") as IMyConveyorSorter;
+            _remoteFob = GetBlockOnGrid<IMyRemoteControl>("MAS-U Remote FOB");
+            _utilityAssembler = GetBlockOnGrid<IMyAssembler>("MAS Utility Assembler");
+            _fieldRefinery = GetBlockOnGrid<IMyRefinery>("MAS Field Refinery");
+            _holdComponents = GetBlockOnGrid<IMyCargoContainer>("MAS Hold Components");
+            _holdResupplyExport = GetBlockOnGrid<IMyCargoContainer>("MAS Hold Resupply Export");
+            _sorterResupplyExport = GetBlockOnGrid<IMyConveyorSorter>("MAS Sorter Resupply Export");
 
-            _pistonSternDock = GridTerminalSystem.GetBlockWithName("MAS Piston Stern Dock") as IMyPistonBase;
-            _connSternDump = GridTerminalSystem.GetBlockWithName("MAS Stern Conn") as IMyShipConnector;
-            _sorterSternDump = GridTerminalSystem.GetBlockWithName("MAS Sorter Stern Dump") as IMyConveyorSorter;
+            _pistonSternDock = GetBlockOnGrid<IMyPistonBase>("MAS Piston Stern Dock");
+            _connSternDump = GetBlockOnGrid<IMyShipConnector>("MAS Stern Conn");
+            _sorterSternDump = GetBlockOnGrid<IMyConveyorSorter>("MAS Sorter Stern Dump");
 
             _dpuWheels.Clear();
             GridTerminalSystem.GetBlocksOfType(_dpuWheels, b => b.CubeGrid == Me.CubeGrid && b.CustomName.Contains("Axle"));
@@ -429,6 +432,13 @@ namespace IngameScript
             IGC.RegisterBroadcastListener("TMS.CONSIST.TRACTION");
             IGC.RegisterBroadcastListener("TMS.CONSIST.SEVER");
             IGC.RegisterBroadcastListener("TMS.RESUPPLY.REQUEST");
+        }
+
+        T GetBlockOnGrid<T>(string name) where T : class
+        {
+            IMyTerminalBlock block = GridTerminalSystem.GetBlockWithName(name);
+            if (block == null || block.CubeGrid != Me.CubeGrid) return null;
+            return block as T;
         }
 
         void RenderFobEcho()

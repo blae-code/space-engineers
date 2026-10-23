@@ -1,0 +1,15 @@
+<Project>
+  <ItemGroup Condition="'$(MSBuildProjectName)' == 'Rig.OS.Lite' Or
+                        '$(MSBuildProjectName)' == 'Excavator.Mastodon' Or
+                        '$(MSBuildProjectName)' == 'Fob.Utility' Or
+                        '$(MSBuildProjectName)' == 'Drone.Mule' Or
+                        '$(MSBuildProjectName)' == 'Train.Caterpillar' Or
+                        '$(MSBuildProjectName)' == 'Base.C2' Or
+                        '$(MSBuildProjectName)' == 'Drone.Kestrel' Or
+                        '$(MSBuildProjectName)' == 'Drone.Albatross'">
+    <Compile Include="$(MSBuildThisFileDirectory)$(MSBuildProjectName)/Program.cs" />
+    <AdditionalFiles Remove="@(AdditionalFiles)" />
+    <AdditionalFiles Include="$(MSBuildThisFileDirectory)$(MSBuildProjectName)/mdk.ini" />
+    <AdditionalFiles Include="$(MSBuildThisFileDirectory)$(MSBuildProjectName)/Instructions.readme" />
+  </ItemGroup>
+</Project>

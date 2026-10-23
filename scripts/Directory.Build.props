@@ -1,0 +1,14 @@
+<Project>
+  <PropertyGroup Condition="'$(MSBuildProjectName)' == 'Rig.OS.Lite' Or
+                            '$(MSBuildProjectName)' == 'Excavator.Mastodon' Or
+                            '$(MSBuildProjectName)' == 'Fob.Utility' Or
+                            '$(MSBuildProjectName)' == 'Drone.Mule' Or
+                            '$(MSBuildProjectName)' == 'Train.Caterpillar' Or
+                            '$(MSBuildProjectName)' == 'Base.C2' Or
+                            '$(MSBuildProjectName)' == 'Drone.Kestrel' Or
+                            '$(MSBuildProjectName)' == 'Drone.Albatross'">
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <EnableDefaultEmbeddedResourceItems>false</EnableDefaultEmbeddedResourceItems>
+    <EnableDefaultNoneItems>false</EnableDefaultNoneItems>
+  </PropertyGroup>
+</Project>
