@@ -101,6 +101,7 @@ namespace IngameScript
         readonly StringBuilder _sbLcd = new StringBuilder(1024);
         readonly List<string> _args = new List<string>(8);
         readonly HeartbeatWatchdog _c2Watchdog = new HeartbeatWatchdog(10.0);
+        readonly TmsDemandLedger _baseDemand = new TmsDemandLedger();
 
         int _currentRole = ROLE_MOTHERSHIP; // Starts as Genesis Seed root
         int _tickCounter;
@@ -110,6 +111,7 @@ namespace IngameScript
         string _kinematicsMacro = "TRAVEL_STOW";
         float _vehicleSpeedKmh;
         string _jitStatus = "ROUTES READY";
+        string _baseDemandStatus = "WAITING";
         #endregion
 
         public Program()
@@ -153,6 +155,9 @@ namespace IngameScript
         {
             _tickCounter++;
             _c2Watchdog.Tick(0.166);
+            _baseDemand.Tick();
+            if (_baseDemand.FreshCount == 0 && _baseDemandStatus == "LIVE")
+                _baseDemandStatus = "STALE";
 
             // 1. Update Asset Liveness & Stale Flagging
             for (int i = 0; i < MAX_ASSETS; i++)
@@ -333,6 +338,11 @@ namespace IngameScript
             _sbEcho.Append(" s\nTracked Drones: ");
             SbFormat.AppendInt(_sbEcho, _assetCount);
             _sbEcho.Append(" · CIWS: ").Append(_defenseLockActive ? "ENGAGING" : "STANDBY");
+            _sbEcho.Append("\nBase demand: ").Append(_baseDemandStatus).Append(" · ");
+            SbFormat.AppendInt(_sbEcho, _baseDemand.DeficitCount);
+            _sbEcho.Append('/');
+            SbFormat.AppendInt(_sbEcho, _baseDemand.FreshCount);
+            _sbEcho.Append(" deficits/fresh");
             Echo(_sbEcho.ToString());
         }
 
@@ -357,7 +367,7 @@ namespace IngameScript
             _lcdHelm.WriteText(_sbLcd);
         }
 
-        void RenderBoomScreen()
+        private void RenderBoomScreen()
         {
             if (_lcdBoom == null) return;
 
@@ -379,6 +389,28 @@ namespace IngameScript
             _sbLcd.Append("║ Air Pre-Call: ").Append(_jitAirDispatched ? "DISPATCHED" : "READY").Append('\n');
             _sbLcd.Append("║ Gnd Pre-Call: ").Append(_jitGndDispatched ? "DISPATCHED" : "READY").Append('\n');
             _sbLcd.Append("║ Routes: ").Append(_jitStatus).Append('\n');
+            _sbLcd.Append("║ Base demand: ").Append(_baseDemandStatus).Append(' ');
+            SbFormat.AppendInt(_sbLcd, _baseDemand.DeficitCount);
+            _sbLcd.Append('/');
+            SbFormat.AppendInt(_sbLcd, _baseDemand.FreshCount);
+            _sbLcd.Append(" deficits/fresh\n");
+            for (int i = 0; i < TmsDemandLedger.OreCount; i++)
+            {
+                TmsDemandLedger.DemandRecord demand;
+                if (!_baseDemand.TryGetAt(i, out demand)) continue;
+
+                _sbLcd.Append("║ ").Append(demand.OreType).Append(": ");
+                if (!demand.Fresh)
+                {
+                    _sbLcd.Append("NO DATA\n");
+                    continue;
+                }
+
+                SbFormat.AppendInt(_sbLcd, demand.DeficitKg);
+                _sbLcd.Append(" kg P");
+                SbFormat.AppendInt(_sbLcd, demand.Priority);
+                _sbLcd.Append('\n');
+            }
             _sbLcd.Append("╚══════════════════════════════════════════╝");
 
             _lcdBoom.WriteText(_sbLcd);
@@ -479,10 +511,9 @@ namespace IngameScript
                     float.TryParse(_args[6], out _vehicleSpeedKmh);
                 }
             }
-            else if (tag == "TMS.BASE.DEMAND")
+            else if (tag == TmsProtocol.BaseDemandTag)
             {
-                // DEMAND;ORE=URANIUM;DEFICIT=15000
-                // Vector scout drones to search for deficit mineral
+                _baseDemandStatus = _baseDemand.TryUpdatePayload(payload, _args) ? "LIVE" : "INVALID";
             }
         }
 

@@ -22,7 +22,7 @@ Implements the expeditionary operating system `RIG//OS-Lite` for the Mastodon MK
    * Real-time extraction rate tracking ($dM/dt$ kg/s) and buffer fill time estimation.
    * Emits validated JIT requests at 75-80% capacity; the active Ground Base C2 root converts them into separate Mule or Caterpillar assignments.
    * Dual-tier triage: rare minerals (U, Pt, Au, Mg) route to `MUL-01` from `MAS MP Conn`; bulk ores (Fe, Ni, Si, stone) route toward `CAT-01` using a coarse Mastodon-grid rendezvous. Final vehicle movement and docking remain under their later control slices.
-4. **Demand-Driven Pull Mining:** Integrates Ground Base refinery deficit broadcasts (`TMS.BASE.DEMAND`) and tasks scout drones (`TMS.SCOUT.TASK`) to seek missing ores.
+4. **Demand-Driven Pull Mining:** Receives and displays fresh Ground Base ingot deficits (`TMS.BASE.DEMAND`), including per-mineral priority and timeout status. Automatic quarry selection remains a separate control slice; this receiver never actuates the excavator.
 5. **Tactical CIWS & Meteor Defense:** Coordinates shared anti-air/missile targeting mesh (`TMS.DEFENSE.TARGET`) and triggers early warning alarms upon incoming meteors.
 6. **Bridge Monospace LCD Viewports:** Monospace text ASCII HUD telemetry rendered across 3 bridge consoles (`MAS LCD Helm`, `MAS LCD Boom`, `MAS LCD Fleet`).
 

@@ -88,7 +88,9 @@ The active Base C2 broadcasts one `TMS.BASE.DEMAND` message for each configured 
 Update100, including zero deficits. `deficit_kg` is `max(0, ceil(target_stock_kg - current_stock_kg))`.
 Current stock sums the matching ingot subtype across inventories on the Base PB's grid only. The
 configured `IronTons` reserve is converted to kg. Current priorities are 5 for Uranium, Platinum,
-Gold, and Magnesium, and 3 for Iron. Demand reception does not itself actuate a miner.
+Gold, and Magnesium, and 3 for Iron. RIG//OS-Lite retains each valid entry for at most 30 Update10
+calls without refresh and displays the fresh deficits. Demand reception does not itself actuate a
+miner.
 
 
 ---
