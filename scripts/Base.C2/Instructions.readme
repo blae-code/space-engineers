@@ -3,14 +3,14 @@
 ## Subsystem: Ground Base & Central Fleet Command (C2) Subsystem
 * **Target Block:** `[GND] PB FleetOps`
 * **Grid Size:** Large Grid (24 × 28 B Surface Station)
-* **Update Frequency:** `Update10` (Fast status/watchdog) + `Update100` (JIT dispatch/quotas)
+* **Update Frequency:** `Update10` (Fast status/watchdog) + `Update100` (JIT dispatch/measured demand)
 * **Managed Subsystem Groups:** `GND PAD, GND CAT, GND REF, GND ASM, GND C2, GND Power Batteries`
 * **IGC Network Channels:**
   * Outgoing: `TMS.BASE.DEMAND`, `TMS.LOGISTICS.JIT`, `RIG.C2.STATUS`, `TMS.MULE.CALL`
   * Incoming: `TMS.C2.HANDOVER`, `TMS.MULE.STATUS`, `TMS.CAT.STATUS`, `TMS.MAST.STATUS`, `TMS.ORCA.STATUS`
 
 ## System Description
-Operates as the central planetary Command & Control (C2) fleet coordinator, receiving dynamic C2 authority handover from Mastodon MKI (`TMS.C2.HANDOVER`), monitoring dual-tier terrestrial intake (Air Mule Pad + Ground Cat Dock), computing JIT transport dispatch schedules based on industrial consumption rates, and broadcasting demand quotas to active fleet logistics assets.
+Operates as the central planetary Command & Control (C2) fleet coordinator, receiving dynamic C2 authority handover from Mastodon MKI (`TMS.C2.HANDOVER`), monitoring dual-tier terrestrial intake (Air Mule Pad + Ground Cat Dock), routing validated JIT requests, and broadcasting measured refinery ingot deficits. Demand stock includes matching ingots in all inventories on the Base PB's grid; reserve targets are configured in `[Demand]`. Uranium, Platinum, Gold, and Magnesium priority is 5; Iron priority is 3. `IronTons` is converted to kg for the IGC contract.
 
 ## Terminal Commands
 * `PING`: Heartbeat ping to reset software watchdog.
@@ -18,7 +18,7 @@ Operates as the central planetary Command & Control (C2) fleet coordinator, rece
 * `HANDOVER`: Manually force C2 authority assumption from Mastodon MKI.
 * `DISPATCH_MULE`: Trigger JIT priority dispatch request for MULE-01 high-value ore transfer.
 * `DISPATCH_CAT`: Trigger JIT bulk dispatch request for CATERPILLAR-01 consist.
-* `DEMAND_SYNC`: Force recalculation and broadcast of `TMS.BASE.DEMAND` pull quotas.
+* `DEMAND_SYNC`: Recalculate and broadcast measured `TMS.BASE.DEMAND` deficits when this PB is C2 master.
 
 ## Zero-GC PB Rules
 1. C# 6 only, nested in Program, namespace `IngameScript`.

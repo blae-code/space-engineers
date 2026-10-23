@@ -12,5 +12,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="../scripts/Shared/Net/TmsProtocol.cs" Link="Shared/TmsProtocol.cs" />
+    <Compile Include="../scripts/Shared/Net/TmsDemandMath.cs" Link="Shared/TmsDemandMath.cs" />
   </ItemGroup>
 </Project>

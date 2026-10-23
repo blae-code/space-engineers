@@ -10,6 +10,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Sandbox.ModAPI.Ingame;
+using VRage.Game;
+using VRage.Game.ModAPI.Ingame;
 using VRage.Game.ModAPI.Ingame.Utilities;
 using VRageMath;
 
@@ -38,7 +40,21 @@ namespace IngameScript
         readonly List<IMyBatteryBlock> _substationBatteries = new List<IMyBatteryBlock>(8);
         readonly List<IMyRefinery> _refineries = new List<IMyRefinery>(4);
         readonly List<IMyAssembler> _assemblers = new List<IMyAssembler>(4);
+        readonly List<IMyTerminalBlock> _demandInventoryBlocks = new List<IMyTerminalBlock>(128);
+        readonly List<MyInventoryItem> _demandInventoryItems = new List<MyInventoryItem>(512);
         readonly List<IMyTextPanel> _videoWallLcds = new List<IMyTextPanel>(6);
+        readonly MyItemType[] _demandIngotTypes = new MyItemType[]
+        {
+            MyItemType.Parse("MyObjectBuilder_Ingot/Uranium"),
+            MyItemType.Parse("MyObjectBuilder_Ingot/Platinum"),
+            MyItemType.Parse("MyObjectBuilder_Ingot/Gold"),
+            MyItemType.Parse("MyObjectBuilder_Ingot/Magnesium"),
+            MyItemType.Parse("MyObjectBuilder_Ingot/Iron")
+        };
+        readonly double[] _demandStockKg = new double[5];
+        readonly int[] _demandTargetsKg = new int[5];
+        readonly int[] _demandDeficitsKg = new int[5];
+        readonly int[] _demandPriorities = new int[5];
         IMyLaserAntenna _laserRelay;
         IMyRadioAntenna _fleetAntenna;
 
@@ -68,6 +84,17 @@ namespace IngameScript
         int _demandGoldKg = 3000;
         int _demandMagnesiumKg = 5000;
         int _demandIronTons = 2500;
+        bool _demandSettingsValid = true;
+        string _demandStatus = "READY";
+
+        static readonly string[] DemandOreTypes = new string[]
+        {
+            "URANIUM",
+            "PLATINUM",
+            "GOLD",
+            "MAGNESIUM",
+            "IRON"
+        };
         #endregion
 
         public Program()
@@ -209,19 +236,85 @@ namespace IngameScript
 
         void BroadcastBaseDemand()
         {
-            _sbIgc.Clear();
-            _sbIgc.Append("DEMAND;U=");
-            SbFormat.AppendInt(_sbIgc, _demandUraniumKg);
-            _sbIgc.Append(";PT=");
-            SbFormat.AppendInt(_sbIgc, _demandPlatinumKg);
-            _sbIgc.Append(";AU=");
-            SbFormat.AppendInt(_sbIgc, _demandGoldKg);
-            _sbIgc.Append(";MG=");
-            SbFormat.AppendInt(_sbIgc, _demandMagnesiumKg);
-            _sbIgc.Append(";FE=");
-            SbFormat.AppendInt(_sbIgc, _demandIronTons);
+            if (!_isC2Master) return;
+            if (!_demandSettingsValid)
+            {
+                _demandStatus = "CONFIG INVALID";
+                return;
+            }
+            if (_refineries.Count == 0 || !MeasureDemandStock())
+            {
+                _demandStatus = "INVENTORY UNAVAILABLE";
+                return;
+            }
 
-            IGC.SendBroadcastMessage("TMS.BASE.DEMAND", _sbIgc.ToString());
+            _demandTargetsKg[0] = _demandUraniumKg;
+            _demandTargetsKg[1] = _demandPlatinumKg;
+            _demandTargetsKg[2] = _demandGoldKg;
+            _demandTargetsKg[3] = _demandMagnesiumKg;
+            _demandTargetsKg[4] = _demandIronTons * 1000;
+
+            for (int i = 0; i < DemandOreTypes.Length; i++)
+            {
+                if (!TmsDemandMath.TryGetPriority(DemandOreTypes[i], out _demandPriorities[i]) ||
+                    !TmsDemandMath.TryCalculateDeficitKg(
+                        _demandTargetsKg[i], _demandStockKg[i], out _demandDeficitsKg[i]))
+                {
+                    _demandStatus = "DEMAND DATA INVALID";
+                    return;
+                }
+            }
+
+            for (int i = 0; i < DemandOreTypes.Length; i++)
+            {
+                if (!TmsProtocol.TryWriteBaseDemand(
+                    _sbIgc, DemandOreTypes[i], _demandPriorities[i],
+                    _demandDeficitsKg[i], _demandTargetsKg[i]))
+                {
+                    _demandStatus = "DEMAND FORMAT ERROR";
+                    return;
+                }
+
+                IGC.SendBroadcastMessage(TmsProtocol.BaseDemandTag, _sbIgc.ToString());
+            }
+            _demandStatus = "BROADCASTING";
+        }
+
+        private bool MeasureDemandStock()
+        {
+            for (int i = 0; i < _demandStockKg.Length; i++)
+                _demandStockKg[i] = 0.0;
+
+            int inventoryCount = 0;
+            for (int i = 0; i < _demandInventoryBlocks.Count; i++)
+            {
+                IMyTerminalBlock block = _demandInventoryBlocks[i];
+                if (block == null || block.CubeGrid != Me.CubeGrid) continue;
+
+                for (int inventoryIndex = 0; inventoryIndex < block.InventoryCount; inventoryIndex++)
+                {
+                    IMyInventory inventory = block.GetInventory(inventoryIndex);
+                    if (inventory == null) continue;
+                    inventoryCount++;
+                    _demandInventoryItems.Clear();
+                    inventory.GetItems(_demandInventoryItems);
+
+                    for (int itemIndex = 0; itemIndex < _demandInventoryItems.Count; itemIndex++)
+                    {
+                        MyInventoryItem item = _demandInventoryItems[itemIndex];
+                        for (int oreIndex = 0; oreIndex < _demandIngotTypes.Length; oreIndex++)
+                        {
+                            if (item.Type.Equals(_demandIngotTypes[oreIndex]))
+                            {
+                                _demandStockKg[oreIndex] += (double)item.Amount;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
+            return inventoryCount > 0;
         }
 
         void ProcessInboundIgc()
@@ -431,14 +524,32 @@ namespace IngameScript
 
             _ini.Clear();
             MyIniParseResult result;
-            if (_ini.TryParse(Me.CustomData, out result))
+            _demandSettingsValid = _ini.TryParse(Me.CustomData, out result);
+            if (_demandSettingsValid)
             {
-                _demandUraniumKg = _ini.Get("Demand", "UraniumKg").ToInt32(_demandUraniumKg);
-                _demandPlatinumKg = _ini.Get("Demand", "PlatinumKg").ToInt32(_demandPlatinumKg);
-                _demandGoldKg = _ini.Get("Demand", "GoldKg").ToInt32(_demandGoldKg);
-                _demandMagnesiumKg = _ini.Get("Demand", "MagnesiumKg").ToInt32(_demandMagnesiumKg);
-                _demandIronTons = _ini.Get("Demand", "IronTons").ToInt32(_demandIronTons);
+                _demandSettingsValid =
+                    TryReadDemandSetting("UraniumKg", _demandUraniumKg, out _demandUraniumKg) &&
+                    TryReadDemandSetting("PlatinumKg", _demandPlatinumKg, out _demandPlatinumKg) &&
+                    TryReadDemandSetting("GoldKg", _demandGoldKg, out _demandGoldKg) &&
+                    TryReadDemandSetting("MagnesiumKg", _demandMagnesiumKg, out _demandMagnesiumKg) &&
+                    TryReadDemandSetting("IronTons", _demandIronTons, out _demandIronTons) &&
+                    _demandIronTons <= int.MaxValue / 1000;
             }
+            _demandStatus = _demandSettingsValid ? "READY" : "CONFIG INVALID";
+        }
+
+        bool TryReadDemandSetting(string key, int currentValue, out int value)
+        {
+            string text = _ini.Get("Demand", key).ToString();
+            if (string.IsNullOrEmpty(text))
+            {
+                value = currentValue;
+                return true;
+            }
+
+            if (int.TryParse(text, out value) && value >= 0) return true;
+            value = currentValue;
+            return false;
         }
 
         void InitHardware()
@@ -470,6 +581,9 @@ namespace IngameScript
 
             _assemblers.Clear();
             GridTerminalSystem.GetBlocksOfType(_assemblers, b => b.CubeGrid == Me.CubeGrid && b.CustomName.Contains("GND ASM"));
+
+            _demandInventoryBlocks.Clear();
+            GridTerminalSystem.GetBlocksOfType(_demandInventoryBlocks, b => b.CubeGrid == Me.CubeGrid);
 
             _videoWallLcds.Clear();
             GridTerminalSystem.GetBlocksOfType(_videoWallLcds, b => b.CubeGrid == Me.CubeGrid && b.CustomName.Contains("GND LCD Video Wall"));
@@ -511,6 +625,8 @@ namespace IngameScript
             SbFormat.AppendInt(_sbEcho, _activeAssemblers);
             _sbEcho.Append(" Assemblers Active\nDispatch: ");
             _sbEcho.Append(_dispatchStatus);
+            _sbEcho.Append("\nDemand: ");
+            _sbEcho.Append(_demandStatus);
             Echo(_sbEcho.ToString());
         }
     }

@@ -72,6 +72,6 @@ Format matches the build guide's Log, for syncing back to the claude.ai guide.
 | 2026-10-22 | Terrestrial C2 protocol alignment: `TMS.C2.HANDOVER` is the canonical root-transfer tag and payload is `HANDOVER;<target_node>;<timestamp>`; separate Mule/Caterpillar dispatch channels distinguish requests from assignments, and status fields are aligned to the terrestrial PB interfaces |
 | 2026-10-22 | TMS dispatch contract: add strict codecs/tests for JIT requests, Mule/Caterpillar assignments, and refinery demand; reject malformed field counts and empty fields |
 | 2026-10-22 | TMS routed dispatch: JIT includes tier-specific source GPS; AIR uses existing grid-scoped `MAS MP Conn`, GND uses the Mastodon PB/grid position as a coarse rendezvous waypoint because `MAS Stern Dump Conn` is on a piston subgrid. Ground Base dispatches only validated Mastodon requests while vehicles stage only assignments addressed to their ID; movement and final Cat docking remain separate control work |
-
+| 2026-10-22 | Base refinery demand: C2 measures configured ingot reserve deficits across Base-grid inventories, converts the `IronTons` target to kg, and broadcasts canonical per-mineral messages including zero deficits. Priority is 5 for Uranium/Platinum/Gold/Magnesium and 3 for Iron; no mining actuation is added |
 
 

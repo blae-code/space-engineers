@@ -58,7 +58,7 @@ Autonomous operations across moving atmospheric carriers (Orca), vertical miners
 | `TMS.REPAIR.CALL` | Any Craft -> Albatross | `REPAIR;<grid_name>;<gps_x>;<gps_y>;<gps_z>;<damage_pct>;<severity>` | Emergency SOS call requesting automated field repair and welding dispatch. |
 | `TMS.REPAIR.STATUS` | Albatross -> Base / C2 | `<state>;<target_grid>;<parts_hold_pct>;<eta_sec>` | Field repair craft task status (`DISPATCHED`, `WELDING`, `RETURNING`). |
 | `TMS.BASE.QUOTAS` | Base C2 -> Yard / Fleet | `QUOTA;<steel_plates>;<motors>;<tubes>;<computers>;<h2_liters>` | Ground Base component manufacturing thresholds and material reserves. |
-| `TMS.BASE.DEMAND` | Base C2 -> Mastodon / Orca | `DEMAND;<ore_type>;<priority:1..5>;<deficit_kg>;<target_stock_kg>` | Drives pull-economy quarry tasking from refinery and component demand. |
+| `TMS.BASE.DEMAND` | Base C2 -> Mastodon / Orca | `DEMAND;<ore_type>;<priority:1..5>;<deficit_kg>;<target_stock_kg>` | Measured ingot reserve deficit for pull-economy planning. |
 | `TMS.LOGISTICS.JIT` | Mastodon / Base -> logistics dispatcher | `JIT;<requester_id>;<tier:AIR\|GND>;<eta_target_sec>;<ore_type>;<est_mass_kg>;<source_gps>` | Requests transport before a source hold saturates; the dispatcher emits a separate assignment with route coordinates. |
 | `TMS.MAS.STATUS` | Mastodon -> Base / Fleet | `<mastodon_id>;<state>;<active_macro>;<cargo_kg>;<rate_kg_s>;<power_mode>;<speed_kmh>` | Excavator state, cargo, extraction rate, power mode, and vehicle speed telemetry. |
 | `TMS.CAT.STATUS` | Caterpillar -> Base / C2 / Mastodon | `<cat_id>;<state>;<cargo_kg>;<consist_length_b>;<dump_ready_bool>` | Land-train state, payload, consist length, and terminal unload readiness. |
@@ -83,6 +83,12 @@ the assigned vehicle accepts only its own ID and must not interpret a JIT reques
 For JIT, `source_gps` is tier-specific: `AIR` uses the grid-scoped `MAS MP Conn` position; `GND`
 uses the Mastodon PB/grid position as a coarse rendezvous waypoint. The GND coordinate is not a
 docking target; final Caterpillar-to-Mastodon alignment requires relative control.
+
+The active Base C2 broadcasts one `TMS.BASE.DEMAND` message for each configured mineral every
+Update100, including zero deficits. `deficit_kg` is `max(0, ceil(target_stock_kg - current_stock_kg))`.
+Current stock sums the matching ingot subtype across inventories on the Base PB's grid only. The
+configured `IronTons` reserve is converted to kg. Current priorities are 5 for Uranium, Platinum,
+Gold, and Magnesium, and 3 for Iron. Demand reception does not itself actuate a miner.
 
 
 ---

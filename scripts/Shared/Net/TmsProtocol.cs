@@ -270,6 +270,22 @@ namespace IngameScript
             return true;
         }
 
+        public static bool TryWriteBaseDemand(StringBuilder buffer, string oreType, int priority,
+            int deficitKg, int targetStockKg)
+        {
+            if (buffer == null || !IsValidField(oreType) || priority < 1 || priority > 5 ||
+                deficitKg < 0 || targetStockKg < 0)
+                return false;
+
+            buffer.Clear().Append("DEMAND;").Append(oreType).Append(';');
+            AppendNonNegativeInt(buffer, priority);
+            buffer.Append(';');
+            AppendNonNegativeInt(buffer, deficitKg);
+            buffer.Append(';');
+            AppendNonNegativeInt(buffer, targetStockKg);
+            return true;
+        }
+
         static bool TryReadFields(string payload, List<string> fields, int count, string verb)
         {
             if (fields == null) return false;
